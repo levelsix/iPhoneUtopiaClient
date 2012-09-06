@@ -73,6 +73,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCCollectForgeEquips:
     case EventProtocolRequestCCharacterModEvent:
     case EventProtocolRequestCRetrieveLeaderboardEvent:
+    case EventProtocolRequestCSendGroupChatEvent:
+    case EventProtocolRequestCPurchaseGroupChatEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
@@ -133,10 +135,13 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSCollectForgeEquips:
     case EventProtocolResponseSCharacterModEvent:
     case EventProtocolResponseSRetrieveLeaderboardEvent:
+    case EventProtocolResponseSSendGroupChatEvent:
+    case EventProtocolResponseSPurchaseGroupChatEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:
+    case EventProtocolResponseSReceivedGroupChatEvent:
       return YES;
     default:
       return NO;

@@ -71,6 +71,14 @@
 @class UpgradeStructJobProto;
 @class UpgradeStructJobProto_Builder;
 typedef enum {
+  GroupChatScopeGlobal = 0,
+  GroupChatScopeAlliance = 1,
+  GroupChatScopeLegion = 2,
+} GroupChatScope;
+
+BOOL GroupChatScopeIsValidValue(GroupChatScope value);
+
+typedef enum {
   LeaderboardTypeMostBattlesWon = 2,
   LeaderboardTypeMostCoins = 3,
   LeaderboardTypeMostExp = 4,
@@ -473,14 +481,15 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasLastLoginTime_:1;
   BOOL hasLastEnergyRefillTime_:1;
   BOOL hasLastLogoutTime_:1;
-  BOOL hasLastLongLicensePurchaseTime_:1;
   BOOL hasLastShortLicensePurchaseTime_:1;
+  BOOL hasLastLongLicensePurchaseTime_:1;
   BOOL hasFlees_:1;
   BOOL hasNumReferrals_:1;
   BOOL hasNumPostsInMarketplace_:1;
   BOOL hasNumMarketplaceSalesUnredeemed_:1;
   BOOL hasNumCoinsRetrievedFromStructs_:1;
   BOOL hasNumAdColonyVideosWatched_:1;
+  BOOL hasNumGroupChatsRemaining_:1;
   BOOL hasNumBadges_:1;
   BOOL hasApsalarId_:1;
   BOOL hasNumTimesKiipRewarded_:1;
@@ -521,14 +530,15 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int64_t lastLoginTime;
   int64_t lastEnergyRefillTime;
   int64_t lastLogoutTime;
-  int64_t lastLongLicensePurchaseTime;
   int64_t lastShortLicensePurchaseTime;
+  int64_t lastLongLicensePurchaseTime;
   int32_t flees;
   int32_t numReferrals;
   int32_t numPostsInMarketplace;
   int32_t numMarketplaceSalesUnredeemed;
   int32_t numCoinsRetrievedFromStructs;
   int32_t numAdColonyVideosWatched;
+  int32_t numGroupChatsRemaining;
   int32_t numBadges;
   int32_t apsalarId;
   int32_t numTimesKiipRewarded;
@@ -600,6 +610,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasIsAdmin;
 - (BOOL) hasNumCoinsRetrievedFromStructs;
 - (BOOL) hasNumAdColonyVideosWatched;
+- (BOOL) hasNumGroupChatsRemaining;
 - (BOOL) hasUdid;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasLastBattleNotificationTime;
@@ -648,6 +659,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) isAdmin;
 @property (readonly) int32_t numCoinsRetrievedFromStructs;
 @property (readonly) int32_t numAdColonyVideosWatched;
+@property (readonly) int32_t numGroupChatsRemaining;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* deviceToken;
 @property (readonly) int64_t lastBattleNotificationTime;
@@ -894,6 +906,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) numAdColonyVideosWatched;
 - (FullUserProto_Builder*) setNumAdColonyVideosWatched:(int32_t) value;
 - (FullUserProto_Builder*) clearNumAdColonyVideosWatched;
+
+- (BOOL) hasNumGroupChatsRemaining;
+- (int32_t) numGroupChatsRemaining;
+- (FullUserProto_Builder*) setNumGroupChatsRemaining:(int32_t) value;
+- (FullUserProto_Builder*) clearNumGroupChatsRemaining;
 
 - (BOOL) hasUdid;
 - (NSString*) udid;

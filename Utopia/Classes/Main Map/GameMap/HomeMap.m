@@ -18,6 +18,7 @@
 #import "BuildUpgradePopupController.h"
 #import "GenericPopupController.h"
 #import "SoundEngine.h"
+#import "TopBar.h"
 
 #define HOME_BUILDING_TAG_OFFSET 123456
 
@@ -162,7 +163,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     
     [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     
-    hbMenu.center = CGPointMake(hbMenu.frame.size.width/2+5.f, hbMenu.superview.frame.size.height-hbMenu.frame.size.height/2-2.f);
     hbMenu.alpha = 0.f;
     collectMenu.alpha = 0.f;
     moveMenu.hidden = YES;
@@ -416,13 +416,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) doMenuAnimations {
-  hbMenu.alpha = 0.f;
+  [[TopBar sharedTopBar] fadeInMenuOverChatView:hbMenu];
   
   // Do 0.01f because timer gets deallocated when alpha is 0.f
   collectMenu.alpha = 0.01f;
   
   [UIView animateWithDuration:0.3f animations:^{
-    hbMenu.alpha = 1.f;
     collectMenu.alpha = 1.f;
   }];
 }
@@ -436,11 +435,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) closeMenus {
+  [[TopBar sharedTopBar] fadeOutMenuOverChatView:hbMenu];
   collectMenu.alpha = 0.f;
   moveMenu.hidden = YES;
-  [UIView animateWithDuration:0.3f animations:^{
-    hbMenu.alpha = 0.f;
-  }];
 }
 
 - (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node

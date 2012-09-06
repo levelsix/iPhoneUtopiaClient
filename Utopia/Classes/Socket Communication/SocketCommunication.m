@@ -669,6 +669,7 @@ static NSString *udid = nil;
                                          setWallOwnerId:playerId]
                                         setContent:content]
                                        build];
+  NSLog(@"%@", content);
   
   return [self sendData:req withMessageType:EventProtocolRequestCPostOnPlayerWallEvent];
 }
@@ -767,6 +768,24 @@ static NSString *udid = nil;
                                           build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveLeaderboardEvent];
+}
+
+- (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg {
+  SendGroupChatRequestProto *req = [[[[[SendGroupChatRequestProto builder]
+                                       setScope:scope]
+                                      setChatMessage:msg]
+                                     setSender:_sender]
+                                    build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCSendGroupChatEvent];
+}
+
+- (int) sendPurchaseGroupChatMessage {
+  SendGroupChatRequestProto *req = [[[SendGroupChatRequestProto builder]
+                                     setSender:_sender]
+                                    build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCPurchaseGroupChatEvent];
 }
 
 - (void) closeDownConnection {

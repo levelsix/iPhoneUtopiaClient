@@ -76,6 +76,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize diamondCostToChangeName, diamondCostToResetCharacter, diamondCostToResetSkillPoints, diamondCostToChangeCharacterType;
 @synthesize maxNumTimesAttackedByOneInProtectionPeriod, hoursInAttackedByOneProtectionPeriod;
 @synthesize minBattlesRequiredForKDRConsideration;
+@synthesize maxLengthOfChatString, diamondPriceForGroupChatPurchasePackage, numChatsGivenPerGroupChatPurchasePackage;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -158,6 +159,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxNumTimesAttackedByOneInProtectionPeriod = constants.maxNumTimesAttackedByOneInProtectionPeriod;
   self.hoursInAttackedByOneProtectionPeriod = constants.hoursInAttackedByOneProtectionPeriod;
   self.minBattlesRequiredForKDRConsideration = constants.minBattlesRequiredForKdrconsideration;
+  self.maxLengthOfChatString = constants.maxLengthOfChatString;
+  self.diamondPriceForGroupChatPurchasePackage = constants.diamondPriceForGroupChatPurchasePackage;
+  self.numChatsGivenPerGroupChatPurchasePackage = constants.numChatsGivenPerGroupChatPurchasePackage;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;

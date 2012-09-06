@@ -213,7 +213,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCCallFunc actionWithTarget:self selector:@selector(displayHomeMap)], nil]];
   }
   
-  [self performSelectorOnMainThread:@selector(checkHomeMapExists) withObject:nil waitUntilDone:NO];
+  [self checkHomeMapExists];
 }
 
 - (void) displayHomeMap {
@@ -285,7 +285,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCCallFunc actionWithTarget:self selector:@selector(displayBazaarMap)], nil]];
   }
   
-  [self performSelectorOnMainThread:@selector(checkBazaarMapExists) withObject:nil waitUntilDone:NO];
+  [self checkBazaarMapExists];
 }
 
 - (void) displayBazaarMap {

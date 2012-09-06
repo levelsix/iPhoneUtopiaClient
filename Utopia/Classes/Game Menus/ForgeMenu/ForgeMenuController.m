@@ -198,6 +198,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   
   // Sort the forge items
   int total = items.count;
+  int maxLevel = gl.forgeMaxEquipLevel;
   self.forgeItems = [NSMutableArray arrayWithCapacity:total];
   for (int i = 0; i < total; i++) {
     ForgeItem *best = nil;
@@ -207,9 +208,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
       }
       
       // All level 10's go at the end
-      else if (best.level >= 10 && item.level < 10) {
+      else if (best.level >= maxLevel && item.level < maxLevel) {
         best = item;
-      } else if (item.level >= 10 && best.level < 10) {
+      } else if (item.level >= maxLevel && best.level < maxLevel) {
         // Keep old best
       } 
       
@@ -611,8 +612,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
                                                         selector:@selector(finishNow)];
     }
   } else if ([gs quantityOfEquip:self.curItem.equipId level:self.curItem.level] >= 2) {
-    if (self.curItem.level >= 10) {
-      [Globals popupMessage:@"The forge is unable to create weapons above level 10."];
+    if (self.curItem.level >= gl.forgeMaxEquipLevel) {
+      [Globals popupMessage:[NSString stringWithFormat:@"The forge is unable to create weapons above level %d.", gl.forgeMaxEquipLevel]];
     } else {
       
       int gold = [gl calculateGoldCostToGuaranteeForgingSuccess:self.curItem.equipId level:self.curItem.level];

@@ -338,8 +338,7 @@
     int price = ([Globals sellsForGoldInMarketplace:mktPost.postedEquip]) ? mktPost.diamondCost : mktPost.coinCost;
     CGPoint startLoc = ccp(80, self.superview.center.y);;
     UIView *testView = [EquipDeltaView 
-                        createForUpperString:[NSString stringWithFormat:@"- %d", 
-                                              price] 
+                        createForUpperString:[NSString stringWithFormat:@"- %d", price] 
                         andLowerString:[NSString stringWithFormat:@"+1 %@", mktPost.postedEquip.name] 
                         andCenter:startLoc
                         topColor:[Globals redColor]

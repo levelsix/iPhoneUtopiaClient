@@ -11,6 +11,7 @@
 #import "ProfilePicture.h"
 #import "DailyBonusMenuController.h"
 #import "InGameNotification.h"
+#import "ChatBottomView.h"
 
 typedef enum {
   kNotShowing = 1,
@@ -81,6 +82,8 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet InGameNotification *inGameNotification;
 
+@property (nonatomic, retain) IBOutlet ChatBottomView *chatBottomView;
+
 @property (nonatomic, retain) ProfilePicture *profilePic;
 
 @property (nonatomic, retain) NSTimer *energyTimer;
@@ -119,6 +122,9 @@ typedef enum {
 - (void) stopProgressArrow;
 - (void) stopQuestArrow;
 - (void) setQuestBadgeAnimated:(BOOL)animated;
+
+- (void) fadeInMenuOverChatView:(UIView *)view;
+- (void) fadeOutMenuOverChatView:(UIView *)view;
 
 + (TopBar *) sharedTopBar;
 + (void) purgeSingleton;

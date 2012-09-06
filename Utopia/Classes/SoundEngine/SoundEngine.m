@@ -15,7 +15,9 @@
 SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 - (void) playBackgroundMusic:(NSString *)music loop:(BOOL)loop {
+#ifndef TARGET_IPHONE_SIMULATOR
   [[SimpleAudioEngine sharedEngine] playBackgroundMusic:music loop:loop];
+#endif
 }
 
 - (int) playEffect:(NSString *)effect {

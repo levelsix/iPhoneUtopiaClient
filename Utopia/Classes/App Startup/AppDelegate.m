@@ -223,7 +223,9 @@
   
   [self removeLocalNotifications];
   
+#ifndef DEBUG
   [self setUpCrittercism];
+#endif
 
   return YES;
 }

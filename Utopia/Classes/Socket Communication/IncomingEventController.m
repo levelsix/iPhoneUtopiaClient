@@ -211,6 +211,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRetrieveLeaderboardEvent:
       responseClass = [RetrieveLeaderboardResponseProto class];
       break;
+    case EventProtocolResponseSSendGroupChatEvent:
+      responseClass = [SendGroupChatResponseProto class];
+      break;
+    case EventProtocolResponseSPurchaseGroupChatEvent:
+      responseClass = [PurchaseGroupChatResponseProto class];
+      break;
+    case EventProtocolResponseSReceivedGroupChatEvent:
+      responseClass = [ReceivedGroupChatResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -462,7 +471,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [[GameViewController sharedGameViewController] loadGame:YES];
     
-    [gs setConnected:YES];
     gs.connected = YES;
     gs.expRequiredForCurrentLevel = 0;
     gs.expRequiredForNextLevel = tc.expRequiredForLevelTwo;
@@ -1001,13 +1009,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [[GameViewController sharedGameViewController] loadPlayerCityComplete];
   
   if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess) {
+    gs.connected = YES;
+    
     [gs.myStructs removeAllObjects];
     [gs addToMyStructs:proto.ownerNormStructsList];
     
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     
     [[HomeMap sharedHomeMap] refresh];
-    gs.connected = YES;
     [[GameViewController sharedGameViewController] startGame];
     [gs removeNonFullUserUpdatesForTag:tag];
     
@@ -1523,6 +1532,40 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [gs removeFullUserUpdatesForTag:tag];
   }
+}
+
+- (void) handleSendGroupChatResponseProto:(FullEvent *)fe {
+  SendGroupChatResponseProto *proto = (SendGroupChatResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Send group chat response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == SendGroupChatResponseProto_SendGroupChatStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+}
+
+- (void) handlePurchaseGroupChatResponseProto:(FullEvent *)fe {
+  SendGroupChatResponseProto *proto = (SendGroupChatResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purchase group chat response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == PurchaseGroupChatResponseProto_PurchaseGroupChatStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+}
+
+- (void) handleReceivedGroupChatResponseProto:(FullEvent *)fe {
+  ReceivedGroupChatResponseProto *proto = (ReceivedGroupChatResponseProto *)fe.event;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Received group chat response received.");
+  
+  GameState *gs = [GameState sharedGameState];
+  [gs addChatMessage:proto.sender message:proto.chatMessage];
 }
 
 @end

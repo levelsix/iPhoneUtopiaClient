@@ -19,6 +19,16 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
+BOOL GroupChatScopeIsValidValue(GroupChatScope value) {
+  switch (value) {
+    case GroupChatScopeGlobal:
+    case GroupChatScopeAlliance:
+    case GroupChatScopeLegion:
+      return YES;
+    default:
+      return NO;
+  }
+}
 BOOL LeaderboardTypeIsValidValue(LeaderboardType value) {
   switch (value) {
     case LeaderboardTypeMostBattlesWon:
@@ -1037,6 +1047,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 @property BOOL isAdmin;
 @property int32_t numCoinsRetrievedFromStructs;
 @property int32_t numAdColonyVideosWatched;
+@property int32_t numGroupChatsRemaining;
 @property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -1333,6 +1344,13 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   hasNumAdColonyVideosWatched_ = !!value;
 }
 @synthesize numAdColonyVideosWatched;
+- (BOOL) hasNumGroupChatsRemaining {
+  return !!hasNumGroupChatsRemaining_;
+}
+- (void) setHasNumGroupChatsRemaining:(BOOL) value {
+  hasNumGroupChatsRemaining_ = !!value;
+}
+@synthesize numGroupChatsRemaining;
 - (BOOL) hasUdid {
   return !!hasUdid_;
 }
@@ -1448,6 +1466,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
     self.isAdmin = NO;
     self.numCoinsRetrievedFromStructs = 0;
     self.numAdColonyVideosWatched = 0;
+    self.numGroupChatsRemaining = 0;
     self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -1620,6 +1639,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumConsecutiveDaysPlayed) {
     [output writeInt32:53 value:self.numConsecutiveDaysPlayed];
   }
+  if (self.hasNumGroupChatsRemaining) {
+    [output writeInt32:54 value:self.numGroupChatsRemaining];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1772,6 +1794,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasNumConsecutiveDaysPlayed) {
     size += computeInt32Size(53, self.numConsecutiveDaysPlayed);
+  }
+  if (self.hasNumGroupChatsRemaining) {
+    size += computeInt32Size(54, self.numGroupChatsRemaining);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1964,6 +1989,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasNumAdColonyVideosWatched) {
     [self setNumAdColonyVideosWatched:other.numAdColonyVideosWatched];
+  }
+  if (other.hasNumGroupChatsRemaining) {
+    [self setNumGroupChatsRemaining:other.numGroupChatsRemaining];
   }
   if (other.hasUdid) {
     [self setUdid:other.udid];
@@ -2228,6 +2256,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 424: {
         [self setNumConsecutiveDaysPlayed:[input readInt32]];
+        break;
+      }
+      case 432: {
+        [self setNumGroupChatsRemaining:[input readInt32]];
         break;
       }
     }
@@ -2911,6 +2943,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearNumAdColonyVideosWatched {
   result.hasNumAdColonyVideosWatched = NO;
   result.numAdColonyVideosWatched = 0;
+  return self;
+}
+- (BOOL) hasNumGroupChatsRemaining {
+  return result.hasNumGroupChatsRemaining;
+}
+- (int32_t) numGroupChatsRemaining {
+  return result.numGroupChatsRemaining;
+}
+- (FullUserProto_Builder*) setNumGroupChatsRemaining:(int32_t) value {
+  result.hasNumGroupChatsRemaining = YES;
+  result.numGroupChatsRemaining = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumGroupChatsRemaining {
+  result.hasNumGroupChatsRemaining = NO;
+  result.numGroupChatsRemaining = 0;
   return self;
 }
 - (BOOL) hasUdid {

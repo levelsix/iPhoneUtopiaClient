@@ -47,8 +47,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize armoryPriceIcon, armoryPriceView, armoryPriceLabel, armoryPriceBottomSubview;
 @synthesize bottomBar;
 @synthesize topBarLabel;
-@synthesize amuIcon, amuButtonClicked, weapIcon,weapButtonClicked,armIcon,armButtonClicked, allButton, allButtonClicked;
 @synthesize filtered;
+@synthesize filterView, mainView;
 
 - (void) viewDidLoad {
   [super viewDidLoad];
@@ -58,14 +58,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   t.delegate = self;
   t.dataSource = self;
   t.backgroundColor = [UIColor clearColor];
-  t.frame = CGRectMake(0, topBar.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height-topBar.frame.origin.y);
+  t.frame = CGRectMake(0, topBar.frame.origin.y, self.mainView.frame.size.width, self.mainView.frame.size.height-topBar.frame.origin.y);
   t.showsVerticalScrollIndicator = NO;
   t.rowHeight = 55;
   t.delaysContentTouches = NO;
   self.postsTableView = t;
   [t release];
-  [self.view insertSubview:t belowSubview:topBar];
-  [self.view insertSubview:self.redeemView aboveSubview:self.topBar];
+  [self.mainView insertSubview:t belowSubview:topBar];
+  [self.mainView insertSubview:self.redeemView aboveSubview:self.topBar];
   
   [super addPullToRefreshHeader:self.postsTableView];
   [self.postsTableView addSubview:self.ropeView];
@@ -89,9 +89,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   shortLicenseLength.text = [NSString stringWithFormat:@"%d days", gl.numDaysShortMarketplaceLicenseLastsFor];
   longLicenseLength.text = [NSString stringWithFormat:@"%d days", gl.numDaysLongMarketplaceLicenseLastsFor];
   
-  self.purchLicenseView.center = self.view.center;
+  self.purchLicenseView.center = self.mainView.center;
   
-  UILabel *retractLabel = (UILabel *)[self.view viewWithTag:15];
+  UILabel *retractLabel = (UILabel *)[self.mainView viewWithTag:15];
   retractLabel.text = [NSString stringWithFormat:@"Removing items incurs a %d%% fee", (int)([[Globals sharedGlobals] retractPercentCut]*100)];
 }
 
@@ -225,7 +225,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
       self.armoryPriceView.alpha = 1.f;
     }];
   } else {
-    [self.view addSubview:self.purchLicenseView];
+    [self.mainView addSubview:self.purchLicenseView];
     [Globals bounceView:self.licenseMainView fadeInBgdView:self.licenseBgdView];
     
     [Analytics licensePopup];
@@ -791,6 +791,46 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.shouldReload = YES;
 }
 
+- (MarketplaceFilterView *) filterView {
+  if (!filterView) {
+    [[NSBundle mainBundle] loadNibNamed:@"MarketplaceFilterView" owner:self options:nil];
+  }
+  return filterView;
+}
+
+#define DRAG_VIEW_TAG 103
+
+- (IBAction) openFilterPage:(id)sender {
+  if (!self.filterView.superview) {
+    [self.filterView loadFilterSettings];
+    [self.view insertSubview:self.filterView atIndex:0];
+    
+    [UIView animateWithDuration:0.3f animations:^{
+      self.mainView.center = ccpAdd(self.mainView.center, ccp(self.filterView.frame.size.width, 0));
+    }];
+    
+    MarketplaceDragView *dragView = [[MarketplaceDragView alloc] initWithFrame:self.mainView.bounds];
+    [self.mainView addSubview:dragView];
+    dragView.tag = DRAG_VIEW_TAG;
+  }
+}
+
+- (IBAction) closeFilterPage:(id)sender {
+  if (self.filterView.superview) {
+    [self.filterView saveFilterSettings];
+    
+    CGRect r = self.mainView.frame;
+    float dist = r.origin.x;
+    r.origin.x = 0;
+    [UIView animateWithDuration:dist/1000.f animations:^{
+      self.mainView.frame = r;
+    } completion:^(BOOL finished) {
+      [self.filterView removeFromSuperview];
+      [[self.mainView viewWithTag:DRAG_VIEW_TAG] removeFromSuperview];
+    }];
+  }
+}
+
 - (void) viewDidUnload {
   [super viewDidUnload];
   self.navBar = nil;
@@ -824,243 +864,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.licenseBgdView = nil;
   self.licenseMainView = nil;
   self.bottomBar = nil;
-  self.weapIcon = nil;
-  self.armIcon = nil;
-  self.amuIcon = nil;
-  self.armButtonClicked = nil;
-  self.amuButtonClicked = nil;
-  self.weapButtonClicked = nil;
-  self.allButton = nil;
   self.filtered = nil;
+  self.filterView = nil;
+  self.mainView = nil;
 }
 
 #pragma mark FILTERMETHODS
-
--(void)awakeFromNib {
-  _clickedButtons = 0;
-  
-  [self clickButton:kAllButton];
-  allButtonClicked.hidden = NO;
-  [self unclickButton:kArmButton];
-  [self unclickButton:kAmuButton];
-  [self unclickButton:kWeapButton];
-}
--(void)clickButton:(MarketPlaceFilterButton)button{
-  switch (button) {
-    case kAllButton:
-      allButtonClicked.hidden = NO;
-      allButton.highlighted = NO;
-      _clickedButtons |= kAllButton;
-      currentFilter = kAllFilter;
-      break;
-      
-    case kArmButton:
-      armButtonClicked.hidden = NO;
-      armIcon.highlighted = YES;
-      _clickedButtons |= kArmButton;
-      currentFilter = kArmorFilter;
-      break;
-      
-    case kWeapButton:
-      weapButtonClicked.hidden = NO;
-      weapIcon.highlighted = YES;
-      _clickedButtons |= kWeapButton;
-      currentFilter = kWeaponFilter;
-      break;
-      
-    case kAmuButton:
-      amuButtonClicked.hidden = NO;
-      amuIcon.highlighted = YES;
-      _clickedButtons |= kAmuButton;
-      currentFilter = kAmuletFilter;
-      break;
-      
-    default:
-      break;
-  }
-  self.filtered = [self getCurrentFilterState];
-  [self.postsTableView reloadData];
-  [self.postsTableView setContentOffset:ccp(0,0) animated:YES];
-}
-
--(void)unclickButton:(MarketPlaceFilterButton)button{
-  switch (button) {
-    case kAllButton:
-      allButtonClicked.hidden = YES;
-      allButton.highlighted = YES;
-      _clickedButtons &= ~kAllButton;
-      break;
-      
-    case kArmButton:
-      armButtonClicked.hidden = YES;
-      armIcon.highlighted = NO;
-      _clickedButtons &= ~kArmButton;
-      break;
-      
-    case kWeapButton:
-      weapButtonClicked.hidden = YES;
-      weapIcon.highlighted = NO;
-      _clickedButtons &= ~kWeapButton;
-      break;
-      
-    case kAmuButton:
-      amuButtonClicked.hidden = YES;
-      amuIcon.highlighted = NO;
-      _clickedButtons &= ~kAmuButton;
-      break;
-      
-    default:
-      break;
-  }
-}
-
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  if (self.listing) {
-    [self disableEditing];
-  }
-  UITouch *touch = [touches anyObject];
-  CGPoint pt = [touch locationInView:allButton];
-  if (!(_clickedButtons & kAllButton) && [allButton pointInside:pt withEvent:nil]) {
-    _trackingAll = YES;
-    [self clickButton:kAllButton];
-  }
-  
-  pt = [touch locationInView:weapButtonClicked];
-  if (!(_clickedButtons & kWeapButton) && [weapButtonClicked pointInside:pt withEvent:nil]) {
-    _trackingWeapon = YES;
-    [self clickButton:kWeapButton];
-  }
-  
-  pt = [touch locationInView:armButtonClicked];
-  if (!(_clickedButtons & kArmButton) && [armButtonClicked pointInside:pt withEvent:nil]) {
-    _trackingArmor = YES;
-    [self clickButton:kArmButton];
-  }
-  
-  pt = [touch locationInView:amuButtonClicked];
-  if (!(_clickedButtons & kAmuButton) && [amuButtonClicked pointInside:pt withEvent:nil]) {
-    _trackingAmulet = YES;
-    [self clickButton:kAmuButton];
-  }
-}
-
-- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-  UITouch *touch = [touches anyObject];
-  CGPoint pt = [touch locationInView:weapButtonClicked];
-  if (_trackingWeapon) {
-    if (CGRectContainsPoint(CGRectInset(weapButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kWeapButton];
-    } else {
-      [self unclickButton:kWeapButton];
-    }
-  }
-  
-  pt = [touch locationInView:armButtonClicked];
-  if (_trackingArmor) {
-    if (CGRectContainsPoint(CGRectInset(armButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kArmButton];
-    } else {
-      [self unclickButton:kArmButton];
-    }
-  }
-  
-  pt = [touch locationInView:amuButtonClicked];
-  if (_trackingAmulet) {
-    if (CGRectContainsPoint(CGRectInset(amuButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kAmuButton];
-    } else {
-      [self unclickButton:kAmuButton];
-    }
-  }
-  
-  pt = [touch locationInView:allButton];
-  if (_trackingAll) {
-    if (CGRectContainsPoint(CGRectInset(allButton.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kAllButton];
-    } else {
-      [self unclickButton:kAllButton];
-    }
-  }
-}
-
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-  UITouch *touch = [touches anyObject];
-  CGPoint pt = [touch locationInView:weapButtonClicked];
-  if(_trackingWeapon) {
-    if (CGRectContainsPoint(CGRectInset(weapButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kWeapButton];
-      [self unclickButton:kAmuButton];
-      [self unclickButton:kArmButton];
-      [self unclickButton:kAllButton];
-    } else {
-      [self clickButton:kWeapButton];
-      [self unclickButton:kAmuButton];
-      [self unclickButton:kArmButton];
-      [self unclickButton:kAllButton];
-    }
-  }
-  
-  pt = [touch locationInView:armButtonClicked];
-  if(_trackingArmor){
-    if (CGRectContainsPoint(CGRectInset(armButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kArmButton];
-      [self unclickButton:kAmuButton];
-      [self unclickButton:kWeapButton];
-      [self unclickButton:kAllButton];
-    } else {
-      [self clickButton:kArmButton];
-      [self unclickButton:kAmuButton];
-      [self unclickButton:kWeapButton];
-      [self unclickButton:kAllButton];
-    } 
-  }
-  
-  pt = [touch locationInView:amuButtonClicked];
-  if(_trackingAmulet){
-    if (CGRectContainsPoint(CGRectInset(amuButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kAmuButton];
-      [self unclickButton:kArmButton];
-      [self unclickButton:kWeapButton];
-      [self unclickButton:kAllButton];
-    } else {
-      [self clickButton:kAmuButton];
-      [self unclickButton:kArmButton];
-      [self unclickButton:kWeapButton];
-      [self unclickButton:kAllButton];
-    } 
-  }
-  
-  pt = [touch locationInView:allButton];
-  if(_trackingAll){
-    if (CGRectContainsPoint(CGRectInset(allButton.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kAllButton];
-      [self unclickButton:kAmuButton];
-      [self unclickButton:kWeapButton];
-      [self unclickButton:kArmButton];
-    } else {
-      [self clickButton:kAllButton];
-      [self unclickButton:kAmuButton];
-      [self unclickButton:kWeapButton];
-      [self unclickButton:kArmButton];
-    } 
-  }
-  _trackingAll = NO;
-  _trackingArmor = NO;
-  _trackingAmulet = NO;
-  _trackingWeapon = NO;
-  
-}
-
--(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
-  [self unclickButton:kWeapButton];
-  [self unclickButton:kArmButton];
-  [self unclickButton:kAmuButton];
-  [self unclickButton:kAllButton];
-  _trackingAll = NO;
-  _trackingArmor = NO;
-  _trackingAmulet = NO;
-  _trackingWeapon = NO;
-}
 
 - (NSMutableArray *) getCurrentFilterState {
   if (state == kEquipBuyingState) {

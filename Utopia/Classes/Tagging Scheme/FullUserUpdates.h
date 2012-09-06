@@ -58,6 +58,9 @@
 @interface ExperienceUpdate : FullUserUpdate
 @end
 
+@interface ChatUpdate : FullUserUpdate
+@end
+
 @interface LastEnergyRefillUpdate : FullUserUpdate
 
 @property (nonatomic, retain) NSDate *previousDate;

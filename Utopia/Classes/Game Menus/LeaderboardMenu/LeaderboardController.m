@@ -325,7 +325,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LeaderboardController);
 @synthesize kdrList, winsList, levelList, silverList;
 @synthesize kdrMup, winsMup, levelMup, silverMup;
 @synthesize topBar;
-@synthesize leaderboardCell;
+@synthesize leaderboardCell, loadingCell;
 @synthesize leaderboardTable;
 @synthesize mainView, bgdView;
 @synthesize spinner;
@@ -343,6 +343,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LeaderboardController);
   [super addPullToRefreshHeader:self.leaderboardTable];
   [self.leaderboardTable addSubview:self.refreshHeaderView];
   self.refreshHeaderView.center = ccp(self.leaderboardTable.frame.size.width/2, -self.refreshHeaderView.frame.size.height/2);
+  
+  [(UIActivityIndicatorView *)[self.loadingCell viewWithTag:31] startAnimating];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -482,7 +484,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LeaderboardController);
     if (section == 0) {
       return 1;
     } else if (section == 1) {
-      return arr.count;
+      return arr.count+1;
     }
   }
   return 0;
@@ -501,6 +503,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LeaderboardController);
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+  NSMutableArray *arr = [self arrayForCurrentState];
+  if (indexPath.section == 1 && indexPath.row >= arr.count) {
+    return self.loadingCell;
+  }
+  
   LeaderboardCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LeaderboardCell"];
   
   if (!cell) {
@@ -520,7 +528,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LeaderboardController);
       u = levelMup;
     }
   } else if (indexPath.section == 1) {
-    NSMutableArray *arr = [self arrayForCurrentState];
     u = [arr objectAtIndex:indexPath.row];
   }
   [cell updateForUser:u forState:self.state];
@@ -574,6 +581,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LeaderboardController);
   self.refreshHeaderView = nil;
   self.refreshLabel = nil;
   self.refreshSpinner = nil;
+  self.loadingCell = nil;
 }
 
 @end

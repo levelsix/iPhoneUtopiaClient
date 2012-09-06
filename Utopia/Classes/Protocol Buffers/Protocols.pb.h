@@ -170,6 +170,10 @@
 @class PurchaseFromMarketplaceRequestProto_Builder;
 @class PurchaseFromMarketplaceResponseProto;
 @class PurchaseFromMarketplaceResponseProto_Builder;
+@class PurchaseGroupChatRequestProto;
+@class PurchaseGroupChatRequestProto_Builder;
+@class PurchaseGroupChatResponseProto;
+@class PurchaseGroupChatResponseProto_Builder;
 @class PurchaseMarketplaceLicenseRequestProto;
 @class PurchaseMarketplaceLicenseRequestProto_Builder;
 @class PurchaseMarketplaceLicenseResponseProto;
@@ -190,6 +194,8 @@
 @class QuestRedeemRequestProto_Builder;
 @class QuestRedeemResponseProto;
 @class QuestRedeemResponseProto_Builder;
+@class ReceivedGroupChatResponseProto;
+@class ReceivedGroupChatResponseProto_Builder;
 @class ReconnectRequestProto;
 @class ReconnectRequestProto_Builder;
 @class ReconnectResponseProto;
@@ -252,6 +258,10 @@
 @class SellNormStructureRequestProto_Builder;
 @class SellNormStructureResponseProto;
 @class SellNormStructureResponseProto_Builder;
+@class SendGroupChatRequestProto;
+@class SendGroupChatRequestProto_Builder;
+@class SendGroupChatResponseProto;
+@class SendGroupChatResponseProto_Builder;
 @class StartupRequestProto;
 @class StartupRequestProto_Builder;
 @class StartupResponseProto;
@@ -368,6 +378,8 @@ typedef enum {
   EventProtocolRequestCCollectForgeEquips = 51,
   EventProtocolRequestCCharacterModEvent = 52,
   EventProtocolRequestCRetrieveLeaderboardEvent = 53,
+  EventProtocolRequestCSendGroupChatEvent = 54,
+  EventProtocolRequestCPurchaseGroupChatEvent = 55,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -426,10 +438,13 @@ typedef enum {
   EventProtocolResponseSCollectForgeEquips = 51,
   EventProtocolResponseSCharacterModEvent = 52,
   EventProtocolResponseSRetrieveLeaderboardEvent = 53,
+  EventProtocolResponseSSendGroupChatEvent = 54,
+  EventProtocolResponseSPurchaseGroupChatEvent = 55,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,
   EventProtocolResponseSPurgeStaticDataEvent = 104,
+  EventProtocolResponseSReceivedGroupChatEvent = 105,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

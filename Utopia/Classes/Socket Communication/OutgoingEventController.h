@@ -111,4 +111,7 @@
 - (void) retrieveLeaderboardForType:(LeaderboardType)type;
 - (void) retrieveLeaderboardForType:(LeaderboardType)type afterRank:(int)afterRank;
 
+- (void) sendGroupChat:(GroupChatScope)scope message:(NSString *)msg;
+- (void) purchaseGroupChats;
+
 @end

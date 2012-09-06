@@ -12,8 +12,9 @@
 #import "OutgoingEventController.h"
 #import "LNSynthesizeSingleton.h"
 #import "GoldShoppeViewController.h"
-#import "QuestLogController.h"
+#import "VaultMenuController.h"
 #import "EquipDeltaView.h"
+#import "ChatMenuController.h"
 
 #define REQUIRES_EQUIP_VIEW_OFFSET 5.f
 #define EQUIPS_VIEW_SPACING 5.f
@@ -39,12 +40,14 @@
 
 @implementation RefillMenuController
 
-@synthesize goldView, silverView, itemsView, enstView;
+@synthesize goldView, silverView, itemsView, enstView, spkrView;
 @synthesize curGoldLabel, needGoldLabel;
 @synthesize enstTitleLabel, enstImageView, enstGoldCostLabel, fillEnstLabel, enstHintLabel;
 @synthesize itemsCostView, itemsSilverLabel;
+@synthesize silverDescLabel;
 @synthesize itemsScrollView, itemsContainerView;
 @synthesize bgdView, rev, loadingView;
+@synthesize spkrPkgLabel, spkrDescLabel, spkrGoldCostLabel;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 
@@ -56,13 +59,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   itemsView.frame = goldView.frame;
   enstView.frame = goldView.frame;
   silverView.frame = goldView.frame;
+  spkrView.frame = goldView.frame;
   [self.view addSubview:itemsView];
   [self.view addSubview:enstView];
   [self.view addSubview:silverView];
+  [self.view addSubview:spkrView];
   itemsView.hidden = YES;
   enstView.hidden = YES;
   goldView.hidden = YES;
   silverView.hidden = YES;
+  spkrView.hidden = YES;
 }
 
 - (void) viewDidUnload {
@@ -85,6 +91,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   self.bgdView = nil;
   self.rev = nil;
   self.loadingView = nil;
+  self.silverDescLabel = nil;
+  self.spkrPkgLabel = nil;
+  self.spkrGoldCostLabel = nil;
+  self.spkrDescLabel = nil;
+  self.spkrView = nil;
 }
 
 - (void) displayEnstView:(BOOL)isEnergy {
@@ -119,7 +130,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 }
 
 - (void) displayBuySilverView {
+  GameState *gs = [GameState sharedGameState];
+  silverDescLabel.text = [NSString stringWithFormat:@"You have %@ silver in the vault.", [Globals commafyNumber:gs.vaultBalance]];
+  
   [self openView:silverView];
+}
+
+- (void) displayBuySpeakersView {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  spkrDescLabel.text = [NSString stringWithFormat:@"You have %d speakers left.", gs.numGroupChatsRemaining];
+  spkrGoldCostLabel.text = [NSString stringWithFormat:@"%d", gl.diamondPriceForGroupChatPurchasePackage];
+  spkrPkgLabel.text = [NSString stringWithFormat:@"%d SPEAKERS", gl.numChatsGivenPerGroupChatPurchasePackage];
+  
+  [self openView:spkrView];
 }
 
 - (void) displayEquipsView:(NSArray *)equipIds {
@@ -206,10 +230,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   }
 }
 
-- (void) viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
-}
-
 - (void) closeView:(UIView *)view {
   if (!view) {
     return;
@@ -264,6 +284,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   [self closeView:goldView];
   [GoldShoppeViewController displayView];
   [Analytics clickedGetMoreGold:[[needGoldLabel.text stringByReplacingOccurrencesOfString:@"," withString:@""] intValue]];
+}
+
+- (IBAction) buySpeakersClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (gs.gold < gl.diamondPriceForGroupChatPurchasePackage) {
+    [self displayBuyGoldView:gl.diamondPriceForGroupChatPurchasePackage];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] purchaseGroupChats];
+    [[ChatMenuController sharedChatMenuController] updateNumChatsLabel];
+    [self closeView:spkrView];
+  }
 }
 
 - (IBAction) buyItemsClicked:(id)sender {
@@ -322,7 +354,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 - (IBAction) goToAviaryClicked:(id)sender {
   [self closeView:silverView];
   [self closeView:itemsView];
-  [[QuestLogController sharedQuestLogController] loadQuestLog];
+  [VaultMenuController displayView];
   [Analytics clickedGetMoreSilver];
 }
 
@@ -338,6 +370,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
     view = itemsView;
   } else if (tag == 4) {
     view = silverView;
+  } else if (tag == 5) {
+    view = spkrView;
   }
   [self closeView:view];
 }

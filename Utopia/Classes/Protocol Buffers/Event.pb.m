@@ -4859,6 +4859,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t maxNumTimesAttackedByOneInProtectionPeriod;
 @property int32_t hoursInAttackedByOneProtectionPeriod;
 @property int32_t minBattlesRequiredForKdrconsideration;
+@property int32_t numChatsGivenPerGroupChatPurchasePackage;
+@property int32_t diamondPriceForGroupChatPurchasePackage;
+@property int32_t maxLengthOfChatString;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5293,6 +5296,27 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMinBattlesRequiredForKdrconsideration_ = !!value;
 }
 @synthesize minBattlesRequiredForKdrconsideration;
+- (BOOL) hasNumChatsGivenPerGroupChatPurchasePackage {
+  return !!hasNumChatsGivenPerGroupChatPurchasePackage_;
+}
+- (void) setHasNumChatsGivenPerGroupChatPurchasePackage:(BOOL) value {
+  hasNumChatsGivenPerGroupChatPurchasePackage_ = !!value;
+}
+@synthesize numChatsGivenPerGroupChatPurchasePackage;
+- (BOOL) hasDiamondPriceForGroupChatPurchasePackage {
+  return !!hasDiamondPriceForGroupChatPurchasePackage_;
+}
+- (void) setHasDiamondPriceForGroupChatPurchasePackage:(BOOL) value {
+  hasDiamondPriceForGroupChatPurchasePackage_ = !!value;
+}
+@synthesize diamondPriceForGroupChatPurchasePackage;
+- (BOOL) hasMaxLengthOfChatString {
+  return !!hasMaxLengthOfChatString_;
+}
+- (void) setHasMaxLengthOfChatString:(BOOL) value {
+  hasMaxLengthOfChatString_ = !!value;
+}
+@synthesize maxLengthOfChatString;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5367,6 +5391,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.maxNumTimesAttackedByOneInProtectionPeriod = 0;
     self.hoursInAttackedByOneProtectionPeriod = 0;
     self.minBattlesRequiredForKdrconsideration = 0;
+    self.numChatsGivenPerGroupChatPurchasePackage = 0;
+    self.diamondPriceForGroupChatPurchasePackage = 0;
+    self.maxLengthOfChatString = 0;
   }
   return self;
 }
@@ -5599,6 +5626,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMinBattlesRequiredForKdrconsideration) {
     [output writeInt32:74 value:self.minBattlesRequiredForKdrconsideration];
   }
+  if (self.hasNumChatsGivenPerGroupChatPurchasePackage) {
+    [output writeInt32:75 value:self.numChatsGivenPerGroupChatPurchasePackage];
+  }
+  if (self.hasDiamondPriceForGroupChatPurchasePackage) {
+    [output writeInt32:76 value:self.diamondPriceForGroupChatPurchasePackage];
+  }
+  if (self.hasMaxLengthOfChatString) {
+    [output writeInt32:77 value:self.maxLengthOfChatString];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5809,6 +5845,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasMinBattlesRequiredForKdrconsideration) {
     size += computeInt32Size(74, self.minBattlesRequiredForKdrconsideration);
+  }
+  if (self.hasNumChatsGivenPerGroupChatPurchasePackage) {
+    size += computeInt32Size(75, self.numChatsGivenPerGroupChatPurchasePackage);
+  }
+  if (self.hasDiamondPriceForGroupChatPurchasePackage) {
+    size += computeInt32Size(76, self.diamondPriceForGroupChatPurchasePackage);
+  }
+  if (self.hasMaxLengthOfChatString) {
+    size += computeInt32Size(77, self.maxLengthOfChatString);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -8661,6 +8706,15 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasMinBattlesRequiredForKdrconsideration) {
     [self setMinBattlesRequiredForKdrconsideration:other.minBattlesRequiredForKdrconsideration];
   }
+  if (other.hasNumChatsGivenPerGroupChatPurchasePackage) {
+    [self setNumChatsGivenPerGroupChatPurchasePackage:other.numChatsGivenPerGroupChatPurchasePackage];
+  }
+  if (other.hasDiamondPriceForGroupChatPurchasePackage) {
+    [self setDiamondPriceForGroupChatPurchasePackage:other.diamondPriceForGroupChatPurchasePackage];
+  }
+  if (other.hasMaxLengthOfChatString) {
+    [self setMaxLengthOfChatString:other.maxLengthOfChatString];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8963,6 +9017,18 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 592: {
         [self setMinBattlesRequiredForKdrconsideration:[input readInt32]];
+        break;
+      }
+      case 600: {
+        [self setNumChatsGivenPerGroupChatPurchasePackage:[input readInt32]];
+        break;
+      }
+      case 608: {
+        [self setDiamondPriceForGroupChatPurchasePackage:[input readInt32]];
+        break;
+      }
+      case 616: {
+        [self setMaxLengthOfChatString:[input readInt32]];
         break;
       }
     }
@@ -10103,6 +10169,54 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearMinBattlesRequiredForKdrconsideration {
   result.hasMinBattlesRequiredForKdrconsideration = NO;
   result.minBattlesRequiredForKdrconsideration = 0;
+  return self;
+}
+- (BOOL) hasNumChatsGivenPerGroupChatPurchasePackage {
+  return result.hasNumChatsGivenPerGroupChatPurchasePackage;
+}
+- (int32_t) numChatsGivenPerGroupChatPurchasePackage {
+  return result.numChatsGivenPerGroupChatPurchasePackage;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setNumChatsGivenPerGroupChatPurchasePackage:(int32_t) value {
+  result.hasNumChatsGivenPerGroupChatPurchasePackage = YES;
+  result.numChatsGivenPerGroupChatPurchasePackage = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearNumChatsGivenPerGroupChatPurchasePackage {
+  result.hasNumChatsGivenPerGroupChatPurchasePackage = NO;
+  result.numChatsGivenPerGroupChatPurchasePackage = 0;
+  return self;
+}
+- (BOOL) hasDiamondPriceForGroupChatPurchasePackage {
+  return result.hasDiamondPriceForGroupChatPurchasePackage;
+}
+- (int32_t) diamondPriceForGroupChatPurchasePackage {
+  return result.diamondPriceForGroupChatPurchasePackage;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondPriceForGroupChatPurchasePackage:(int32_t) value {
+  result.hasDiamondPriceForGroupChatPurchasePackage = YES;
+  result.diamondPriceForGroupChatPurchasePackage = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondPriceForGroupChatPurchasePackage {
+  result.hasDiamondPriceForGroupChatPurchasePackage = NO;
+  result.diamondPriceForGroupChatPurchasePackage = 0;
+  return self;
+}
+- (BOOL) hasMaxLengthOfChatString {
+  return result.hasMaxLengthOfChatString;
+}
+- (int32_t) maxLengthOfChatString {
+  return result.maxLengthOfChatString;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxLengthOfChatString:(int32_t) value {
+  result.hasMaxLengthOfChatString = YES;
+  result.maxLengthOfChatString = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxLengthOfChatString {
+  result.hasMaxLengthOfChatString = NO;
+  result.maxLengthOfChatString = 0;
   return self;
 }
 @end
@@ -44290,6 +44404,1263 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
     result.mutableResultPlayersList = [NSMutableArray array];
   }
   [result.mutableResultPlayersList addObject:value];
+  return self;
+}
+@end
+
+@interface SendGroupChatRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property GroupChatScope scope;
+@property (retain) NSString* chatMessage;
+@end
+
+@implementation SendGroupChatRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasScope {
+  return !!hasScope_;
+}
+- (void) setHasScope:(BOOL) value {
+  hasScope_ = !!value;
+}
+@synthesize scope;
+- (BOOL) hasChatMessage {
+  return !!hasChatMessage_;
+}
+- (void) setHasChatMessage:(BOOL) value {
+  hasChatMessage_ = !!value;
+}
+@synthesize chatMessage;
+- (void) dealloc {
+  self.sender = nil;
+  self.chatMessage = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.scope = GroupChatScopeGlobal;
+    self.chatMessage = @"";
+  }
+  return self;
+}
+static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [SendGroupChatRequestProto class]) {
+    defaultSendGroupChatRequestProtoInstance = [[SendGroupChatRequestProto alloc] init];
+  }
+}
++ (SendGroupChatRequestProto*) defaultInstance {
+  return defaultSendGroupChatRequestProtoInstance;
+}
+- (SendGroupChatRequestProto*) defaultInstance {
+  return defaultSendGroupChatRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasScope) {
+    [output writeEnum:2 value:self.scope];
+  }
+  if (self.hasChatMessage) {
+    [output writeString:3 value:self.chatMessage];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasScope) {
+    size += computeEnumSize(2, self.scope);
+  }
+  if (self.hasChatMessage) {
+    size += computeStringSize(3, self.chatMessage);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SendGroupChatRequestProto*) parseFromData:(NSData*) data {
+  return (SendGroupChatRequestProto*)[[[SendGroupChatRequestProto builder] mergeFromData:data] build];
+}
++ (SendGroupChatRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SendGroupChatRequestProto*)[[[SendGroupChatRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SendGroupChatRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SendGroupChatRequestProto*)[[[SendGroupChatRequestProto builder] mergeFromInputStream:input] build];
+}
++ (SendGroupChatRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SendGroupChatRequestProto*)[[[SendGroupChatRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SendGroupChatRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SendGroupChatRequestProto*)[[[SendGroupChatRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SendGroupChatRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SendGroupChatRequestProto*)[[[SendGroupChatRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SendGroupChatRequestProto_Builder*) builder {
+  return [[[SendGroupChatRequestProto_Builder alloc] init] autorelease];
+}
++ (SendGroupChatRequestProto_Builder*) builderWithPrototype:(SendGroupChatRequestProto*) prototype {
+  return [[SendGroupChatRequestProto builder] mergeFrom:prototype];
+}
+- (SendGroupChatRequestProto_Builder*) builder {
+  return [SendGroupChatRequestProto builder];
+}
+@end
+
+@interface SendGroupChatRequestProto_Builder()
+@property (retain) SendGroupChatRequestProto* result;
+@end
+
+@implementation SendGroupChatRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SendGroupChatRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SendGroupChatRequestProto_Builder*) clear {
+  self.result = [[[SendGroupChatRequestProto alloc] init] autorelease];
+  return self;
+}
+- (SendGroupChatRequestProto_Builder*) clone {
+  return [SendGroupChatRequestProto builderWithPrototype:result];
+}
+- (SendGroupChatRequestProto*) defaultInstance {
+  return [SendGroupChatRequestProto defaultInstance];
+}
+- (SendGroupChatRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SendGroupChatRequestProto*) buildPartial {
+  SendGroupChatRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SendGroupChatRequestProto_Builder*) mergeFrom:(SendGroupChatRequestProto*) other {
+  if (other == [SendGroupChatRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasScope) {
+    [self setScope:other.scope];
+  }
+  if (other.hasChatMessage) {
+    [self setChatMessage:other.chatMessage];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SendGroupChatRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SendGroupChatRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (GroupChatScopeIsValidValue(value)) {
+          [self setScope:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        [self setChatMessage:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SendGroupChatRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SendGroupChatRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SendGroupChatRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SendGroupChatRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasScope {
+  return result.hasScope;
+}
+- (GroupChatScope) scope {
+  return result.scope;
+}
+- (SendGroupChatRequestProto_Builder*) setScope:(GroupChatScope) value {
+  result.hasScope = YES;
+  result.scope = value;
+  return self;
+}
+- (SendGroupChatRequestProto_Builder*) clearScope {
+  result.hasScope = NO;
+  result.scope = GroupChatScopeGlobal;
+  return self;
+}
+- (BOOL) hasChatMessage {
+  return result.hasChatMessage;
+}
+- (NSString*) chatMessage {
+  return result.chatMessage;
+}
+- (SendGroupChatRequestProto_Builder*) setChatMessage:(NSString*) value {
+  result.hasChatMessage = YES;
+  result.chatMessage = value;
+  return self;
+}
+- (SendGroupChatRequestProto_Builder*) clearChatMessage {
+  result.hasChatMessage = NO;
+  result.chatMessage = @"";
+  return self;
+}
+@end
+
+@interface SendGroupChatResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property SendGroupChatResponseProto_SendGroupChatStatus status;
+@end
+
+@implementation SendGroupChatResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = SendGroupChatResponseProto_SendGroupChatStatusSuccess;
+  }
+  return self;
+}
+static SendGroupChatResponseProto* defaultSendGroupChatResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [SendGroupChatResponseProto class]) {
+    defaultSendGroupChatResponseProtoInstance = [[SendGroupChatResponseProto alloc] init];
+  }
+}
++ (SendGroupChatResponseProto*) defaultInstance {
+  return defaultSendGroupChatResponseProtoInstance;
+}
+- (SendGroupChatResponseProto*) defaultInstance {
+  return defaultSendGroupChatResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SendGroupChatResponseProto*) parseFromData:(NSData*) data {
+  return (SendGroupChatResponseProto*)[[[SendGroupChatResponseProto builder] mergeFromData:data] build];
+}
++ (SendGroupChatResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SendGroupChatResponseProto*)[[[SendGroupChatResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SendGroupChatResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SendGroupChatResponseProto*)[[[SendGroupChatResponseProto builder] mergeFromInputStream:input] build];
+}
++ (SendGroupChatResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SendGroupChatResponseProto*)[[[SendGroupChatResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SendGroupChatResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SendGroupChatResponseProto*)[[[SendGroupChatResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SendGroupChatResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SendGroupChatResponseProto*)[[[SendGroupChatResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SendGroupChatResponseProto_Builder*) builder {
+  return [[[SendGroupChatResponseProto_Builder alloc] init] autorelease];
+}
++ (SendGroupChatResponseProto_Builder*) builderWithPrototype:(SendGroupChatResponseProto*) prototype {
+  return [[SendGroupChatResponseProto builder] mergeFrom:prototype];
+}
+- (SendGroupChatResponseProto_Builder*) builder {
+  return [SendGroupChatResponseProto builder];
+}
+@end
+
+BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatResponseProto_SendGroupChatStatus value) {
+  switch (value) {
+    case SendGroupChatResponseProto_SendGroupChatStatusSuccess:
+    case SendGroupChatResponseProto_SendGroupChatStatusWrongSide:
+    case SendGroupChatResponseProto_SendGroupChatStatusNotEnoughGroupChats:
+    case SendGroupChatResponseProto_SendGroupChatStatusTooLong:
+    case SendGroupChatResponseProto_SendGroupChatStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface SendGroupChatResponseProto_Builder()
+@property (retain) SendGroupChatResponseProto* result;
+@end
+
+@implementation SendGroupChatResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SendGroupChatResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SendGroupChatResponseProto_Builder*) clear {
+  self.result = [[[SendGroupChatResponseProto alloc] init] autorelease];
+  return self;
+}
+- (SendGroupChatResponseProto_Builder*) clone {
+  return [SendGroupChatResponseProto builderWithPrototype:result];
+}
+- (SendGroupChatResponseProto*) defaultInstance {
+  return [SendGroupChatResponseProto defaultInstance];
+}
+- (SendGroupChatResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SendGroupChatResponseProto*) buildPartial {
+  SendGroupChatResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SendGroupChatResponseProto_Builder*) mergeFrom:(SendGroupChatResponseProto*) other {
+  if (other == [SendGroupChatResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SendGroupChatResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SendGroupChatResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SendGroupChatResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SendGroupChatResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SendGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SendGroupChatResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (SendGroupChatResponseProto_SendGroupChatStatus) status {
+  return result.status;
+}
+- (SendGroupChatResponseProto_Builder*) setStatus:(SendGroupChatResponseProto_SendGroupChatStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (SendGroupChatResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = SendGroupChatResponseProto_SendGroupChatStatusSuccess;
+  return self;
+}
+@end
+
+@interface ReceivedGroupChatResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSString* chatMessage;
+@property GroupChatScope scope;
+@end
+
+@implementation ReceivedGroupChatResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasChatMessage {
+  return !!hasChatMessage_;
+}
+- (void) setHasChatMessage:(BOOL) value {
+  hasChatMessage_ = !!value;
+}
+@synthesize chatMessage;
+- (BOOL) hasScope {
+  return !!hasScope_;
+}
+- (void) setHasScope:(BOOL) value {
+  hasScope_ = !!value;
+}
+@synthesize scope;
+- (void) dealloc {
+  self.sender = nil;
+  self.chatMessage = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.chatMessage = @"";
+    self.scope = GroupChatScopeGlobal;
+  }
+  return self;
+}
+static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ReceivedGroupChatResponseProto class]) {
+    defaultReceivedGroupChatResponseProtoInstance = [[ReceivedGroupChatResponseProto alloc] init];
+  }
+}
++ (ReceivedGroupChatResponseProto*) defaultInstance {
+  return defaultReceivedGroupChatResponseProtoInstance;
+}
+- (ReceivedGroupChatResponseProto*) defaultInstance {
+  return defaultReceivedGroupChatResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasChatMessage) {
+    [output writeString:2 value:self.chatMessage];
+  }
+  if (self.hasScope) {
+    [output writeEnum:3 value:self.scope];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasChatMessage) {
+    size += computeStringSize(2, self.chatMessage);
+  }
+  if (self.hasScope) {
+    size += computeEnumSize(3, self.scope);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ReceivedGroupChatResponseProto*) parseFromData:(NSData*) data {
+  return (ReceivedGroupChatResponseProto*)[[[ReceivedGroupChatResponseProto builder] mergeFromData:data] build];
+}
++ (ReceivedGroupChatResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReceivedGroupChatResponseProto*)[[[ReceivedGroupChatResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ReceivedGroupChatResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ReceivedGroupChatResponseProto*)[[[ReceivedGroupChatResponseProto builder] mergeFromInputStream:input] build];
+}
++ (ReceivedGroupChatResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReceivedGroupChatResponseProto*)[[[ReceivedGroupChatResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReceivedGroupChatResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ReceivedGroupChatResponseProto*)[[[ReceivedGroupChatResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ReceivedGroupChatResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReceivedGroupChatResponseProto*)[[[ReceivedGroupChatResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReceivedGroupChatResponseProto_Builder*) builder {
+  return [[[ReceivedGroupChatResponseProto_Builder alloc] init] autorelease];
+}
++ (ReceivedGroupChatResponseProto_Builder*) builderWithPrototype:(ReceivedGroupChatResponseProto*) prototype {
+  return [[ReceivedGroupChatResponseProto builder] mergeFrom:prototype];
+}
+- (ReceivedGroupChatResponseProto_Builder*) builder {
+  return [ReceivedGroupChatResponseProto builder];
+}
+@end
+
+@interface ReceivedGroupChatResponseProto_Builder()
+@property (retain) ReceivedGroupChatResponseProto* result;
+@end
+
+@implementation ReceivedGroupChatResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ReceivedGroupChatResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ReceivedGroupChatResponseProto_Builder*) clear {
+  self.result = [[[ReceivedGroupChatResponseProto alloc] init] autorelease];
+  return self;
+}
+- (ReceivedGroupChatResponseProto_Builder*) clone {
+  return [ReceivedGroupChatResponseProto builderWithPrototype:result];
+}
+- (ReceivedGroupChatResponseProto*) defaultInstance {
+  return [ReceivedGroupChatResponseProto defaultInstance];
+}
+- (ReceivedGroupChatResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ReceivedGroupChatResponseProto*) buildPartial {
+  ReceivedGroupChatResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ReceivedGroupChatResponseProto_Builder*) mergeFrom:(ReceivedGroupChatResponseProto*) other {
+  if (other == [ReceivedGroupChatResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasChatMessage) {
+    [self setChatMessage:other.chatMessage];
+  }
+  if (other.hasScope) {
+    [self setScope:other.scope];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ReceivedGroupChatResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ReceivedGroupChatResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self setChatMessage:[input readString]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (GroupChatScopeIsValidValue(value)) {
+          [self setScope:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ReceivedGroupChatResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ReceivedGroupChatResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ReceivedGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ReceivedGroupChatResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasChatMessage {
+  return result.hasChatMessage;
+}
+- (NSString*) chatMessage {
+  return result.chatMessage;
+}
+- (ReceivedGroupChatResponseProto_Builder*) setChatMessage:(NSString*) value {
+  result.hasChatMessage = YES;
+  result.chatMessage = value;
+  return self;
+}
+- (ReceivedGroupChatResponseProto_Builder*) clearChatMessage {
+  result.hasChatMessage = NO;
+  result.chatMessage = @"";
+  return self;
+}
+- (BOOL) hasScope {
+  return result.hasScope;
+}
+- (GroupChatScope) scope {
+  return result.scope;
+}
+- (ReceivedGroupChatResponseProto_Builder*) setScope:(GroupChatScope) value {
+  result.hasScope = YES;
+  result.scope = value;
+  return self;
+}
+- (ReceivedGroupChatResponseProto_Builder*) clearScope {
+  result.hasScope = NO;
+  result.scope = GroupChatScopeGlobal;
+  return self;
+}
+@end
+
+@interface PurchaseGroupChatRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@end
+
+@implementation PurchaseGroupChatRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static PurchaseGroupChatRequestProto* defaultPurchaseGroupChatRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [PurchaseGroupChatRequestProto class]) {
+    defaultPurchaseGroupChatRequestProtoInstance = [[PurchaseGroupChatRequestProto alloc] init];
+  }
+}
++ (PurchaseGroupChatRequestProto*) defaultInstance {
+  return defaultPurchaseGroupChatRequestProtoInstance;
+}
+- (PurchaseGroupChatRequestProto*) defaultInstance {
+  return defaultPurchaseGroupChatRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PurchaseGroupChatRequestProto*) parseFromData:(NSData*) data {
+  return (PurchaseGroupChatRequestProto*)[[[PurchaseGroupChatRequestProto builder] mergeFromData:data] build];
+}
++ (PurchaseGroupChatRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseGroupChatRequestProto*)[[[PurchaseGroupChatRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseGroupChatRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PurchaseGroupChatRequestProto*)[[[PurchaseGroupChatRequestProto builder] mergeFromInputStream:input] build];
+}
++ (PurchaseGroupChatRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseGroupChatRequestProto*)[[[PurchaseGroupChatRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseGroupChatRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PurchaseGroupChatRequestProto*)[[[PurchaseGroupChatRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PurchaseGroupChatRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseGroupChatRequestProto*)[[[PurchaseGroupChatRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseGroupChatRequestProto_Builder*) builder {
+  return [[[PurchaseGroupChatRequestProto_Builder alloc] init] autorelease];
+}
++ (PurchaseGroupChatRequestProto_Builder*) builderWithPrototype:(PurchaseGroupChatRequestProto*) prototype {
+  return [[PurchaseGroupChatRequestProto builder] mergeFrom:prototype];
+}
+- (PurchaseGroupChatRequestProto_Builder*) builder {
+  return [PurchaseGroupChatRequestProto builder];
+}
+@end
+
+@interface PurchaseGroupChatRequestProto_Builder()
+@property (retain) PurchaseGroupChatRequestProto* result;
+@end
+
+@implementation PurchaseGroupChatRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PurchaseGroupChatRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PurchaseGroupChatRequestProto_Builder*) clear {
+  self.result = [[[PurchaseGroupChatRequestProto alloc] init] autorelease];
+  return self;
+}
+- (PurchaseGroupChatRequestProto_Builder*) clone {
+  return [PurchaseGroupChatRequestProto builderWithPrototype:result];
+}
+- (PurchaseGroupChatRequestProto*) defaultInstance {
+  return [PurchaseGroupChatRequestProto defaultInstance];
+}
+- (PurchaseGroupChatRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PurchaseGroupChatRequestProto*) buildPartial {
+  PurchaseGroupChatRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PurchaseGroupChatRequestProto_Builder*) mergeFrom:(PurchaseGroupChatRequestProto*) other {
+  if (other == [PurchaseGroupChatRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PurchaseGroupChatRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PurchaseGroupChatRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (PurchaseGroupChatRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (PurchaseGroupChatRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (PurchaseGroupChatRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (PurchaseGroupChatRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+@end
+
+@interface PurchaseGroupChatResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property PurchaseGroupChatResponseProto_PurchaseGroupChatStatus status;
+@end
+
+@implementation PurchaseGroupChatResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = PurchaseGroupChatResponseProto_PurchaseGroupChatStatusSuccess;
+  }
+  return self;
+}
+static PurchaseGroupChatResponseProto* defaultPurchaseGroupChatResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [PurchaseGroupChatResponseProto class]) {
+    defaultPurchaseGroupChatResponseProtoInstance = [[PurchaseGroupChatResponseProto alloc] init];
+  }
+}
++ (PurchaseGroupChatResponseProto*) defaultInstance {
+  return defaultPurchaseGroupChatResponseProtoInstance;
+}
+- (PurchaseGroupChatResponseProto*) defaultInstance {
+  return defaultPurchaseGroupChatResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PurchaseGroupChatResponseProto*) parseFromData:(NSData*) data {
+  return (PurchaseGroupChatResponseProto*)[[[PurchaseGroupChatResponseProto builder] mergeFromData:data] build];
+}
++ (PurchaseGroupChatResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseGroupChatResponseProto*)[[[PurchaseGroupChatResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseGroupChatResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PurchaseGroupChatResponseProto*)[[[PurchaseGroupChatResponseProto builder] mergeFromInputStream:input] build];
+}
++ (PurchaseGroupChatResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseGroupChatResponseProto*)[[[PurchaseGroupChatResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseGroupChatResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PurchaseGroupChatResponseProto*)[[[PurchaseGroupChatResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PurchaseGroupChatResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseGroupChatResponseProto*)[[[PurchaseGroupChatResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseGroupChatResponseProto_Builder*) builder {
+  return [[[PurchaseGroupChatResponseProto_Builder alloc] init] autorelease];
+}
++ (PurchaseGroupChatResponseProto_Builder*) builderWithPrototype:(PurchaseGroupChatResponseProto*) prototype {
+  return [[PurchaseGroupChatResponseProto builder] mergeFrom:prototype];
+}
+- (PurchaseGroupChatResponseProto_Builder*) builder {
+  return [PurchaseGroupChatResponseProto builder];
+}
+@end
+
+BOOL PurchaseGroupChatResponseProto_PurchaseGroupChatStatusIsValidValue(PurchaseGroupChatResponseProto_PurchaseGroupChatStatus value) {
+  switch (value) {
+    case PurchaseGroupChatResponseProto_PurchaseGroupChatStatusSuccess:
+    case PurchaseGroupChatResponseProto_PurchaseGroupChatStatusNotEnoughDiamonds:
+    case PurchaseGroupChatResponseProto_PurchaseGroupChatStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface PurchaseGroupChatResponseProto_Builder()
+@property (retain) PurchaseGroupChatResponseProto* result;
+@end
+
+@implementation PurchaseGroupChatResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PurchaseGroupChatResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PurchaseGroupChatResponseProto_Builder*) clear {
+  self.result = [[[PurchaseGroupChatResponseProto alloc] init] autorelease];
+  return self;
+}
+- (PurchaseGroupChatResponseProto_Builder*) clone {
+  return [PurchaseGroupChatResponseProto builderWithPrototype:result];
+}
+- (PurchaseGroupChatResponseProto*) defaultInstance {
+  return [PurchaseGroupChatResponseProto defaultInstance];
+}
+- (PurchaseGroupChatResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PurchaseGroupChatResponseProto*) buildPartial {
+  PurchaseGroupChatResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PurchaseGroupChatResponseProto_Builder*) mergeFrom:(PurchaseGroupChatResponseProto*) other {
+  if (other == [PurchaseGroupChatResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PurchaseGroupChatResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PurchaseGroupChatResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (PurchaseGroupChatResponseProto_PurchaseGroupChatStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (PurchaseGroupChatResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (PurchaseGroupChatResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (PurchaseGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (PurchaseGroupChatResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (PurchaseGroupChatResponseProto_PurchaseGroupChatStatus) status {
+  return result.status;
+}
+- (PurchaseGroupChatResponseProto_Builder*) setStatus:(PurchaseGroupChatResponseProto_PurchaseGroupChatStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (PurchaseGroupChatResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = PurchaseGroupChatResponseProto_PurchaseGroupChatStatusSuccess;
   return self;
 }
 @end

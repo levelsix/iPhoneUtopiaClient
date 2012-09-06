@@ -19,7 +19,7 @@
 
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
 
-#define SUMMARY_MENU_ANIMATION_DURATION 0.15f
+#define SUMMARY_MENU_ANIMATION_DURATION 0.3f
 
 #define TASK_BAR_DURATION 2.f
 #define EXP_LABEL_DURATION 3.f
@@ -221,7 +221,6 @@
     obMenu.hidden = YES;
     [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     
-    summaryMenu.center = CGPointMake(summaryMenu.frame.size.width/2+5.f, summaryMenu.superview.frame.size.height-summaryMenu.frame.size.height/2-2.f);
     summaryMenu.alpha = 0.f;
     
     _taskProgBar = [TaskProgressBar node];
@@ -479,20 +478,19 @@
 }
 
 - (void) doMenuAnimations {
-  summaryMenu.alpha = 0.f;
-  
   [self updateMissionBuildingMenu];
   obMenu.alpha = 0.f;
   
+  [[TopBar sharedTopBar] fadeInMenuOverChatView:summaryMenu];
+  
   [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
-    summaryMenu.alpha = 1.f;
     obMenu.alpha = 1.f;
   }];
 }
 
 - (void) closeMenus {
+  [[TopBar sharedTopBar] fadeOutMenuOverChatView:summaryMenu];
   [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
-    summaryMenu.alpha = 0.f;
     obMenu.alpha = 0.f;
   } completion:^(BOOL finished) {
     if (finished) {

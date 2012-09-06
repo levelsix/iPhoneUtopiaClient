@@ -25,6 +25,7 @@
 #import "Crittercism.h"
 #import "LeaderboardController.h"
 #import "TutorialQuestLogController.h"
+#import "ChatMenuController.h"
 
 #define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
 #define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
@@ -69,7 +70,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 @synthesize staminaTimer = _staminaTimer;
 @synthesize isStarted;
 @synthesize dbmc;
-@synthesize inGameNotification;
+@synthesize inGameNotification, chatBottomView;
 
 - (id) init {
   if ((self = [super init])) {
@@ -256,6 +257,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     self.isStarted = NO;
     
     _notificationsToDisplay = [[NSMutableArray alloc] init];
+    
+    [[NSBundle mainBundle] loadNibNamed:@"ChatBottomView" owner:self options:nil];
+    // Put chatBottomView right above openGlView
+    [[[[CCDirector sharedDirector] openGLView] superview] insertSubview:self.chatBottomView atIndex:1];
+    chatBottomView.center = CGPointMake(chatBottomView.frame.size.width/2+5.f, chatBottomView.superview.frame.size.height-chatBottomView.frame.size.height/2-2.f);
+    chatBottomView.hidden = YES;
   }
   return self;
 }
@@ -329,6 +336,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   [Crittercism setUsername:gs.name];
   [Crittercism setValue:gs.referralCode forKey:@"Referral Code"];
+  
+  chatBottomView.hidden = NO;
   
   if (gs.availableQuests.count > 0) {
     [self displayNewQuestArrow];
@@ -865,6 +874,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   }
 }
 
+- (void) fadeInMenuOverChatView:(UIView *)view {
+  view.alpha = 0.f;
+  view.center = self.chatBottomView.center;
+  
+  [UIView animateWithDuration:0.3f animations:^{
+    view.alpha = 1.f;
+    chatBottomView.alpha = 0.f;
+  }];
+}
+
+- (void) fadeOutMenuOverChatView:(UIView *)view {
+  [UIView animateWithDuration:0.3f animations:^{
+    view.alpha = 0.f;
+    chatBottomView.alpha = 1.f;
+  }];
+}
+
 - (void) dealloc {
   // These were the only things actually retained
   [self invalidateTimers];
@@ -874,6 +900,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   self.profilePic = nil;
   self.dbmc = nil;
   self.inGameNotification = nil;
+  self.chatBottomView = nil;
   [_notificationsToDisplay release];
   [super dealloc];
 }

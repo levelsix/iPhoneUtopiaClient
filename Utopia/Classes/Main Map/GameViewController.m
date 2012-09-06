@@ -48,6 +48,7 @@
 #import "ForgeMenuController.h"
 #import "AttackMenuController.h"
 #import "LeaderboardController.h"
+#import "ChatMenuController.h"
 
 #define DOOR_CLOSE_DURATION 1.5f
 #define DOOR_OPEN_DURATION 1.f
@@ -98,6 +99,8 @@
   [AttackMenuController purgeSingleton];
   [CarpenterMenuController removeView];
   [CarpenterMenuController purgeSingleton];
+  [ChatMenuController removeView];
+  [ChatMenuController purgeSingleton];
   [ConvoMenuController removeView];
   [ConvoMenuController purgeSingleton];
   [ArmoryViewController removeView];

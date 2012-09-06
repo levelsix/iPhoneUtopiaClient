@@ -194,6 +194,20 @@
 
 @end
 
+@implementation ChatUpdate
+
+- (void) update {
+  GameState *gs = [GameState sharedGameState];
+  gs.numGroupChatsRemaining += _change;
+}
+
+- (void) undo {
+  GameState *gs = [GameState sharedGameState];
+  gs.numGroupChatsRemaining -= _change;
+}
+
+@end
+
 @implementation ExperienceUpdate
 
 - (void) update {

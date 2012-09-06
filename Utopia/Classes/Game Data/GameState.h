@@ -50,6 +50,7 @@
   NSDate *_lastLongLicensePurchaseTime;
   
   int _numAdColonyVideosWatched;
+  int _numGroupChatsRemaining;
   
   NSString *_deviceToken;
   
@@ -87,6 +88,7 @@
   NSMutableArray *_attackMapList;
   NSMutableArray *_notifications;
   NSMutableArray *_wallPosts;
+  NSMutableArray *_chatMessages;
   
   NSDate *_lastLogoutTime;
   
@@ -137,6 +139,7 @@
 @property (retain) NSDate *lastEnergyRefill;
 @property (retain) NSDate *lastStaminaRefill;
 @property (assign) int numAdColonyVideosWatched;
+@property (assign) int numGroupChatsRemaining;
 
 @property (retain) NSString *deviceToken;
 
@@ -177,6 +180,7 @@
 @property (retain) NSMutableArray *attackMapList;
 @property (retain) NSMutableArray *notifications;
 @property (retain) NSMutableArray *wallPosts;
+@property (retain) NSMutableArray *chatMessages;
 
 @property (retain) NSMutableArray *unrespondedUpdates;
 
@@ -189,6 +193,7 @@
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
 
+- (MinimumUserProto *) minUser;
 - (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time;
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId;
@@ -210,6 +215,7 @@
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests;
 - (void) addNotification:(UserNotification *)un;
 - (void) addWallPost:(PlayerWallPostProto *)wallPost;
+- (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg;
 
 - (UserEquip *) myEquipWithId:(int)equipId level:(int)level;
 - (NSArray *) myEquipsWithId:(int)equipId level:(int)level;

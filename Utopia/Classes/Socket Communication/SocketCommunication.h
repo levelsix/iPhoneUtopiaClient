@@ -102,4 +102,7 @@
 
 - (int) sendRetrieveLeaderboardMessage:(LeaderboardType)type afterRank:(int)rank;
 
+- (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg;
+- (int) sendPurchaseGroupChatMessage;
+
 @end

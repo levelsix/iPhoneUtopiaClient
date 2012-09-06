@@ -13,6 +13,7 @@
 #import "NibUtils.h"
 #import "CoinBar.h"
 #import "MarketplaceMenus.h"
+#import "MarketplaceFilterView.h"
 
 typedef enum {
   kEquipBuyingState = 1,
@@ -20,29 +21,17 @@ typedef enum {
 } MarketplaceState;
 
 typedef enum {
-  kWeapButton = 1,
-  kArmButton = 1 << 1,
-  kAmuButton = 1 << 2,
-  kAllButton = 1 << 3
-} MarketPlaceFilterButton;
-
-typedef enum {
-  kAllFilter = 20,
-  kWeaponFilter,
-  kArmorFilter,
-  kAmuletFilter,
-  kNoneFilterSelected
-} Filters;
+  kAllFilter2 = 20,
+  kWeaponFilter2,
+  kArmorFilter2,
+  kAmuletFilter2,
+  kNoneFilter2Selected
+} Filters2;
 
 @interface MarketplaceViewController : PullRefreshTableViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
   BOOL _refreshing;
   BOOL _isDisplayingLoadingView;
-  BOOL _trackingAll;
-  BOOL _trackingWeapon;
-  BOOL _trackingArmor;
-  BOOL _trackingAmulet;
-  int _clickedButtons;
-  Filters currentFilter;
+  Filters2 currentFilter;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *navBar;
@@ -94,17 +83,10 @@ typedef enum {
 @property (nonatomic, retain) UIView *leftRopeFirstRow;
 @property (nonatomic, retain) UIView *rightRopeFirstRow;
 
-@property (nonatomic, retain) IBOutlet UILabel *allButton;
-@property (nonatomic, retain) IBOutlet UIImageView *weapIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *armIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *amuIcon;
-
-@property (nonatomic, retain) IBOutlet UIImageView *weapButtonClicked;
-@property (nonatomic, retain) IBOutlet UIImageView *armButtonClicked;
-@property (nonatomic, retain) IBOutlet UIImageView *amuButtonClicked;
-@property (nonatomic, retain) IBOutlet UIImageView *allButtonClicked;
-
 @property (nonatomic, retain) NSMutableArray *filtered;
+
+@property (nonatomic, retain) IBOutlet MarketplaceFilterView *filterView;
+@property (nonatomic, retain) IBOutlet UIView *mainView;
 
 + (MarketplaceViewController *) sharedMarketplaceViewController;
 + (void) displayView;
@@ -124,6 +106,8 @@ typedef enum {
 - (IBAction)shortLicenseClicked:(id)sender;
 - (IBAction)longLicenseClicked:(id)sender;
 - (IBAction)backClicked:(id)sender;
+
+- (IBAction) closeFilterPage:(id)sender;
 
 - (void) close;
 

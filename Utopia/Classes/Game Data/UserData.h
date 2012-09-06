@@ -158,3 +158,11 @@ typedef enum {
 + (id) forgeAttemptWithUnhandledBlacksmithAttemptProto:(UnhandledBlacksmithAttemptProto *)attempt;
 
 @end
+
+@interface ChatMessage : NSObject
+
+@property (nonatomic, retain) MinimumUserProto *sender;
+@property (nonatomic, retain) NSString *message;
+@property (nonatomic, retain) NSDate *date;
+
+@end

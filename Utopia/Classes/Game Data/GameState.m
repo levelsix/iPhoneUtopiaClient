@@ -14,6 +14,7 @@
 #import "ActivityFeedController.h"
 #import "ProfileViewController.h"
 #import "ForgeMenuController.h"
+#import "ChatMenuController.h"
 
 #define TagLog(...) ContextLogInfo(LN_CONTEXT_TAGS, __VA_ARGS__)
 
@@ -56,6 +57,7 @@
 @synthesize lastShortLicensePurchaseTime = _lastShortLicensePurchaseTime;
 @synthesize lastLongLicensePurchaseTime = _lastLongLicensePurchaseTime;
 @synthesize numAdColonyVideosWatched = _numAdColonyVideosWatched;
+@synthesize numGroupChatsRemaining = _numGroupChatsRemaining;
 
 @synthesize deviceToken = _deviceToken;
 
@@ -93,6 +95,7 @@
 @synthesize attackMapList = _attackMapList;
 @synthesize notifications = _notifications;
 @synthesize wallPosts = _wallPosts;
+@synthesize chatMessages = _chatMessages;
 
 @synthesize lastLogoutTime = _lastLogoutTime;
 
@@ -125,6 +128,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _myStructs = [[NSMutableArray alloc] init];
     _myCities = [[NSMutableDictionary alloc] init];
     _wallPosts = [[NSMutableArray alloc] init];
+    _chatMessages = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -196,6 +200,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastShortLicensePurchaseTime/1000.0];
   self.lastLongLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastLongLicensePurchaseTime/1000.0];
   self.numAdColonyVideosWatched = user.numAdColonyVideosWatched;
+  self.numGroupChatsRemaining = user.numGroupChatsRemaining;
   
   self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   
@@ -207,6 +212,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [[TopBar sharedTopBar] setUpEnergyTimer];
   [[TopBar sharedTopBar] setUpStaminaTimer];
+}
+
+- (MinimumUserProto *) minUser {
+  return [[[[[MinimumUserProto builder] setName:_name] setUserId:_userId] setUserType:_type] build];
 }
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId {
@@ -396,6 +405,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       ProfileViewController *pvc = [ProfileViewController sharedProfileViewController];
       [pvc.wallTabView displayNewWallPost];
     }
+  }
+}
+
+- (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg {
+  ChatMessage *cm = [[ChatMessage alloc] init];
+  cm.sender = sender;
+  cm.message = msg;
+  cm.date = [NSDate date];
+  [self.chatMessages addObject:cm];
+  [cm release];
+  
+  [[[TopBar sharedTopBar] chatBottomView] addChat:cm];
+  
+  if ([ChatMenuController isInitialized] && [ChatMenuController sharedChatMenuController].view.superview) {
+    ChatMenuController *cmc = [ChatMenuController sharedChatMenuController];
+    NSIndexPath *path = [NSIndexPath indexPathForRow:self.chatMessages.count-1 inSection:0];
+    [cmc.chatTable insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
+    [cmc.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:YES];
   }
 }
 
@@ -690,6 +717,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.myStructs = [[[NSMutableArray alloc] init] autorelease];
   self.myCities = [[[NSMutableDictionary alloc] init] autorelease];
   self.wallPosts = [[[NSMutableArray alloc] init] autorelease];
+  self.chatMessages = [[[NSMutableArray alloc] init] autorelease];
   
   self.availableQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressCompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
@@ -733,6 +761,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.attackMapList = nil;
   self.notifications = nil;
   self.wallPosts = nil;
+  self.chatMessages = nil;
   self.lastLogoutTime = nil;
   self.unrespondedUpdates = nil;
   self.deviceToken = nil;

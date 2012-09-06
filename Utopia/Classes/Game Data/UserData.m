@@ -90,6 +90,11 @@
   return kWaitingForIncome;
 }
 
+- (NSString *) description {
+  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:self.structId];
+  return [NSString stringWithFormat:@"%p: %@, %@", self, fsp.name, NSStringFromCGPoint(coordinates)];
+}
+
 - (void) dealloc {
   self.lastRetrieved = nil;
   self.lastUpgradeTime = nil;
@@ -514,6 +519,19 @@
 - (void) dealloc {
   self.startTime = nil;
   self.speedupTime = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation ChatMessage
+
+@synthesize message, sender, date;
+
+- (void) dealloc {
+  self.message = nil;
+  self.sender = nil;
+  self.date = nil;
   [super dealloc];
 }
 

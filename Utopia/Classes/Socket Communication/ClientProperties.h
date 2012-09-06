@@ -5,6 +5,7 @@
 //  Created by Ashwin Kamath on 5/22/12.
 //  Copyright (c) 2012 LVL6. All rights reserved.
 //
+
 #include "OpenUDID.h"
 
 #ifndef DEBUG
@@ -16,7 +17,7 @@
 
 #else
 
-#define HOST_NAME @"robot.lvl6.com"//@"184.169.148.243"
+#define HOST_NAME @"stage-20120906-0309.elasticbeanstalk.com"//@"184.169.148.243"
 #define HOST_PORT 10001
 
 

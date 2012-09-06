@@ -1623,7 +1623,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   int cost = gl.diamondCostToResetCharacter;
   if (gs.gold >= cost) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendCharacterModWithType:CharacterModTypeNewPlayer newType:0 newName:nil];;
+    int tag = [[SocketCommunication sharedSocketCommunication] sendCharacterModWithType:CharacterModTypeNewPlayer newType:0 newName:nil];
     GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-cost];
     [gs addUnrespondedUpdate:gu];
   } else {
@@ -1637,6 +1637,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) retrieveLeaderboardForType:(LeaderboardType)type afterRank:(int)afterRank {
   [[SocketCommunication sharedSocketCommunication] sendRetrieveLeaderboardMessage:type afterRank:afterRank];
+}
+
+- (void) sendGroupChat:(GroupChatScope)scope message:(NSString *)msg {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (gs.numGroupChatsRemaining > 0) {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendGroupChatMessage:scope message:msg];
+    [gs addUnrespondedUpdate:[ChatUpdate updateWithTag:tag change:-1]];
+  } else {
+    [Globals popupMessage:@"Attempting to send chat without any speakers"];
+  }
+}
+
+- (void) purchaseGroupChats {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (gs.gold >= gl.diamondPriceForGroupChatPurchasePackage) {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseGroupChatMessage];
+    ChatUpdate *cu = [ChatUpdate updateWithTag:tag change:gl.numChatsGivenPerGroupChatPurchasePackage];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gl.diamondPriceForGroupChatPurchasePackage];
+    [gs addUnrespondedUpdates:cu, gu, nil];
+  } else {
+    [Globals popupMessage:@"Attempting to purchase chat without enough gold."];
+  }
 }
 
 @end

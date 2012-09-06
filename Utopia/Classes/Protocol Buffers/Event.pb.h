@@ -170,6 +170,10 @@
 @class PurchaseFromMarketplaceRequestProto_Builder;
 @class PurchaseFromMarketplaceResponseProto;
 @class PurchaseFromMarketplaceResponseProto_Builder;
+@class PurchaseGroupChatRequestProto;
+@class PurchaseGroupChatRequestProto_Builder;
+@class PurchaseGroupChatResponseProto;
+@class PurchaseGroupChatResponseProto_Builder;
 @class PurchaseMarketplaceLicenseRequestProto;
 @class PurchaseMarketplaceLicenseRequestProto_Builder;
 @class PurchaseMarketplaceLicenseResponseProto;
@@ -190,6 +194,8 @@
 @class QuestRedeemRequestProto_Builder;
 @class QuestRedeemResponseProto;
 @class QuestRedeemResponseProto_Builder;
+@class ReceivedGroupChatResponseProto;
+@class ReceivedGroupChatResponseProto_Builder;
 @class ReconnectRequestProto;
 @class ReconnectRequestProto_Builder;
 @class ReconnectResponseProto;
@@ -252,6 +258,10 @@
 @class SellNormStructureRequestProto_Builder;
 @class SellNormStructureResponseProto;
 @class SellNormStructureResponseProto_Builder;
+@class SendGroupChatRequestProto;
+@class SendGroupChatRequestProto_Builder;
+@class SendGroupChatResponseProto;
+@class SendGroupChatResponseProto_Builder;
 @class StartupRequestProto;
 @class StartupRequestProto_Builder;
 @class StartupResponseProto;
@@ -829,6 +839,24 @@ typedef enum {
 } RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatus;
 
 BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatus value);
+
+typedef enum {
+  SendGroupChatResponseProto_SendGroupChatStatusSuccess = 0,
+  SendGroupChatResponseProto_SendGroupChatStatusWrongSide = 1,
+  SendGroupChatResponseProto_SendGroupChatStatusNotEnoughGroupChats = 2,
+  SendGroupChatResponseProto_SendGroupChatStatusTooLong = 3,
+  SendGroupChatResponseProto_SendGroupChatStatusOtherFail = 4,
+} SendGroupChatResponseProto_SendGroupChatStatus;
+
+BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatResponseProto_SendGroupChatStatus value);
+
+typedef enum {
+  PurchaseGroupChatResponseProto_PurchaseGroupChatStatusSuccess = 0,
+  PurchaseGroupChatResponseProto_PurchaseGroupChatStatusNotEnoughDiamonds = 1,
+  PurchaseGroupChatResponseProto_PurchaseGroupChatStatusOtherFail = 2,
+} PurchaseGroupChatResponseProto_PurchaseGroupChatStatus;
+
+BOOL PurchaseGroupChatResponseProto_PurchaseGroupChatStatusIsValidValue(PurchaseGroupChatResponseProto_PurchaseGroupChatStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -1961,14 +1989,12 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
-  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
+  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
+  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasHealthFormulaExponentBase_:1;
-  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasDiamondCostForFullEnergyRefill_:1;
-  BOOL hasMaxNumberOfMarketplacePosts_:1;
   BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
   BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
@@ -1990,46 +2016,49 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
   BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
   BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
   BOOL hasMinBattlesRequiredForKdrconsideration_:1;
+  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
+  BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
+  BOOL hasMaxLengthOfChatString_:1;
+  BOOL hasMaxLevelDifferenceForBattle_:1;
+  BOOL hasMaxLevelForUser_:1;
+  BOOL hasArmoryXlength_:1;
+  BOOL hasArmoryYlength_:1;
   BOOL hasVaultXlength_:1;
   BOOL hasVaultYlength_:1;
   BOOL hasMarketplaceXlength_:1;
   BOOL hasMarketplaceYlength_:1;
-  BOOL hasArmoryYlength_:1;
-  BOOL hasArmoryXlength_:1;
   BOOL hasCarpenterXlength_:1;
   BOOL hasCarpenterYlength_:1;
-  BOOL hasMaxLevelForUser_:1;
-  BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasAviaryXlength_:1;
   BOOL hasAviaryYlength_:1;
   BOOL hasAttackBaseGain_:1;
   BOOL hasDefenseBaseGain_:1;
-  BOOL hasEnergyBaseGain_:1;
-  BOOL hasStaminaBaseGain_:1;
-  BOOL hasAttackBaseCost_:1;
-  BOOL hasDefenseBaseCost_:1;
-  BOOL hasEnergyBaseCost_:1;
-  BOOL hasStaminaBaseCost_:1;
-  BOOL hasSkillPointsGainedOnLevelup_:1;
-  BOOL hasMaxLevelForStruct_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
-  BOOL hasMinutesToRefillAenergy_:1;
-  BOOL hasMinutesToRefillAstamina_:1;
+  BOOL hasMaxNumberOfMarketplacePosts_:1;
+  BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
-  BOOL hasCharModConstants_:1;
+  BOOL hasMinutesToRefillAstamina_:1;
+  BOOL hasMinutesToRefillAenergy_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasMaxLevelForStruct_:1;
+  BOOL hasSkillPointsGainedOnLevelup_:1;
+  BOOL hasStaminaBaseCost_:1;
+  BOOL hasEnergyBaseCost_:1;
+  BOOL hasDefenseBaseCost_:1;
+  BOOL hasAttackBaseCost_:1;
+  BOOL hasStaminaBaseGain_:1;
+  BOOL hasEnergyBaseGain_:1;
   BOOL hasForgeConstants_:1;
+  BOOL hasCharModConstants_:1;
   BOOL hasKiipRewardConditions_:1;
   BOOL hasBattleConstants_:1;
   BOOL hasFormulaConstants_:1;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  Float64 percentReturnedToUserForSellingNormStructure;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+  Float64 percentReturnedToUserForSellingNormStructure;
   Float64 cutOfVaultDepositTaken;
+  Float64 percentReturnedToUserForSellingEquipInArmory;
   Float64 levelEquipBoostExponentBase;
   Float64 healthFormulaExponentBase;
-  Float64 percentReturnedToUserForSellingEquipInArmory;
-  int32_t diamondCostForFullEnergyRefill;
-  int32_t maxNumberOfMarketplacePosts;
   int32_t numDaysLongMarketplaceLicenseLastsFor;
   int32_t numDaysShortMarketplaceLicenseLastsFor;
   int32_t diamondCostOfLongMarketplaceLicense;
@@ -2051,34 +2080,39 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
   int32_t maxNumTimesAttackedByOneInProtectionPeriod;
   int32_t hoursInAttackedByOneProtectionPeriod;
   int32_t minBattlesRequiredForKdrconsideration;
+  int32_t numChatsGivenPerGroupChatPurchasePackage;
+  int32_t diamondPriceForGroupChatPurchasePackage;
+  int32_t maxLengthOfChatString;
+  int32_t maxLevelDifferenceForBattle;
+  int32_t maxLevelForUser;
+  int32_t armoryXlength;
+  int32_t armoryYlength;
   int32_t vaultXlength;
   int32_t vaultYlength;
   int32_t marketplaceXlength;
   int32_t marketplaceYlength;
-  int32_t armoryYlength;
-  int32_t armoryXlength;
   int32_t carpenterXlength;
   int32_t carpenterYlength;
-  int32_t maxLevelForUser;
-  int32_t maxLevelDifferenceForBattle;
   int32_t aviaryXlength;
   int32_t aviaryYlength;
   int32_t attackBaseGain;
   int32_t defenseBaseGain;
-  int32_t energyBaseGain;
-  int32_t staminaBaseGain;
-  int32_t attackBaseCost;
-  int32_t defenseBaseCost;
-  int32_t energyBaseCost;
-  int32_t staminaBaseCost;
-  int32_t skillPointsGainedOnLevelup;
-  int32_t maxLevelForStruct;
-  int32_t maxNumOfSingleStruct;
-  int32_t minutesToRefillAenergy;
-  int32_t minutesToRefillAstamina;
+  int32_t maxNumberOfMarketplacePosts;
+  int32_t diamondCostForFullEnergyRefill;
   int32_t diamondCostForFullStaminaRefill;
-  StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
+  int32_t minutesToRefillAstamina;
+  int32_t minutesToRefillAenergy;
+  int32_t maxNumOfSingleStruct;
+  int32_t maxLevelForStruct;
+  int32_t skillPointsGainedOnLevelup;
+  int32_t staminaBaseCost;
+  int32_t energyBaseCost;
+  int32_t defenseBaseCost;
+  int32_t attackBaseCost;
+  int32_t staminaBaseGain;
+  int32_t energyBaseGain;
   StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
+  StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
   StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
   StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
@@ -2147,6 +2181,9 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
 - (BOOL) hasMaxNumTimesAttackedByOneInProtectionPeriod;
 - (BOOL) hasHoursInAttackedByOneProtectionPeriod;
 - (BOOL) hasMinBattlesRequiredForKdrconsideration;
+- (BOOL) hasNumChatsGivenPerGroupChatPurchasePackage;
+- (BOOL) hasDiamondPriceForGroupChatPurchasePackage;
+- (BOOL) hasMaxLengthOfChatString;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2208,6 +2245,9 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
 @property (readonly) int32_t maxNumTimesAttackedByOneInProtectionPeriod;
 @property (readonly) int32_t hoursInAttackedByOneProtectionPeriod;
 @property (readonly) int32_t minBattlesRequiredForKdrconsideration;
+@property (readonly) int32_t numChatsGivenPerGroupChatPurchasePackage;
+@property (readonly) int32_t diamondPriceForGroupChatPurchasePackage;
+@property (readonly) int32_t maxLengthOfChatString;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -3218,6 +3258,21 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
 - (int32_t) minBattlesRequiredForKdrconsideration;
 - (StartupResponseProto_StartupConstants_Builder*) setMinBattlesRequiredForKdrconsideration:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMinBattlesRequiredForKdrconsideration;
+
+- (BOOL) hasNumChatsGivenPerGroupChatPurchasePackage;
+- (int32_t) numChatsGivenPerGroupChatPurchasePackage;
+- (StartupResponseProto_StartupConstants_Builder*) setNumChatsGivenPerGroupChatPurchasePackage:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearNumChatsGivenPerGroupChatPurchasePackage;
+
+- (BOOL) hasDiamondPriceForGroupChatPurchasePackage;
+- (int32_t) diamondPriceForGroupChatPurchasePackage;
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondPriceForGroupChatPurchasePackage:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondPriceForGroupChatPurchasePackage;
+
+- (BOOL) hasMaxLengthOfChatString;
+- (int32_t) maxLengthOfChatString;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxLengthOfChatString:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxLengthOfChatString;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -11100,5 +11155,309 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
 - (RetrieveLeaderboardResponseProto_Builder*) addResultPlayers:(MinimumUserProtoWithLevelForLeaderboard*) value;
 - (RetrieveLeaderboardResponseProto_Builder*) addAllResultPlayers:(NSArray*) values;
 - (RetrieveLeaderboardResponseProto_Builder*) clearResultPlayersList;
+@end
+
+@interface SendGroupChatRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasChatMessage_:1;
+  BOOL hasSender_:1;
+  BOOL hasScope_:1;
+  NSString* chatMessage;
+  MinimumUserProto* sender;
+  GroupChatScope scope;
+}
+- (BOOL) hasSender;
+- (BOOL) hasScope;
+- (BOOL) hasChatMessage;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) GroupChatScope scope;
+@property (readonly, retain) NSString* chatMessage;
+
++ (SendGroupChatRequestProto*) defaultInstance;
+- (SendGroupChatRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SendGroupChatRequestProto_Builder*) builder;
++ (SendGroupChatRequestProto_Builder*) builder;
++ (SendGroupChatRequestProto_Builder*) builderWithPrototype:(SendGroupChatRequestProto*) prototype;
+
++ (SendGroupChatRequestProto*) parseFromData:(NSData*) data;
++ (SendGroupChatRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SendGroupChatRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (SendGroupChatRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SendGroupChatRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SendGroupChatRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SendGroupChatRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SendGroupChatRequestProto* result;
+}
+
+- (SendGroupChatRequestProto*) defaultInstance;
+
+- (SendGroupChatRequestProto_Builder*) clear;
+- (SendGroupChatRequestProto_Builder*) clone;
+
+- (SendGroupChatRequestProto*) build;
+- (SendGroupChatRequestProto*) buildPartial;
+
+- (SendGroupChatRequestProto_Builder*) mergeFrom:(SendGroupChatRequestProto*) other;
+- (SendGroupChatRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SendGroupChatRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SendGroupChatRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SendGroupChatRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SendGroupChatRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SendGroupChatRequestProto_Builder*) clearSender;
+
+- (BOOL) hasScope;
+- (GroupChatScope) scope;
+- (SendGroupChatRequestProto_Builder*) setScope:(GroupChatScope) value;
+- (SendGroupChatRequestProto_Builder*) clearScope;
+
+- (BOOL) hasChatMessage;
+- (NSString*) chatMessage;
+- (SendGroupChatRequestProto_Builder*) setChatMessage:(NSString*) value;
+- (SendGroupChatRequestProto_Builder*) clearChatMessage;
+@end
+
+@interface SendGroupChatResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  SendGroupChatResponseProto_SendGroupChatStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) SendGroupChatResponseProto_SendGroupChatStatus status;
+
++ (SendGroupChatResponseProto*) defaultInstance;
+- (SendGroupChatResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SendGroupChatResponseProto_Builder*) builder;
++ (SendGroupChatResponseProto_Builder*) builder;
++ (SendGroupChatResponseProto_Builder*) builderWithPrototype:(SendGroupChatResponseProto*) prototype;
+
++ (SendGroupChatResponseProto*) parseFromData:(NSData*) data;
++ (SendGroupChatResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SendGroupChatResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (SendGroupChatResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SendGroupChatResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SendGroupChatResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SendGroupChatResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SendGroupChatResponseProto* result;
+}
+
+- (SendGroupChatResponseProto*) defaultInstance;
+
+- (SendGroupChatResponseProto_Builder*) clear;
+- (SendGroupChatResponseProto_Builder*) clone;
+
+- (SendGroupChatResponseProto*) build;
+- (SendGroupChatResponseProto*) buildPartial;
+
+- (SendGroupChatResponseProto_Builder*) mergeFrom:(SendGroupChatResponseProto*) other;
+- (SendGroupChatResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SendGroupChatResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SendGroupChatResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SendGroupChatResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SendGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SendGroupChatResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (SendGroupChatResponseProto_SendGroupChatStatus) status;
+- (SendGroupChatResponseProto_Builder*) setStatus:(SendGroupChatResponseProto_SendGroupChatStatus) value;
+- (SendGroupChatResponseProto_Builder*) clearStatus;
+@end
+
+@interface ReceivedGroupChatResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasChatMessage_:1;
+  BOOL hasSender_:1;
+  BOOL hasScope_:1;
+  NSString* chatMessage;
+  MinimumUserProto* sender;
+  GroupChatScope scope;
+}
+- (BOOL) hasSender;
+- (BOOL) hasChatMessage;
+- (BOOL) hasScope;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) NSString* chatMessage;
+@property (readonly) GroupChatScope scope;
+
++ (ReceivedGroupChatResponseProto*) defaultInstance;
+- (ReceivedGroupChatResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ReceivedGroupChatResponseProto_Builder*) builder;
++ (ReceivedGroupChatResponseProto_Builder*) builder;
++ (ReceivedGroupChatResponseProto_Builder*) builderWithPrototype:(ReceivedGroupChatResponseProto*) prototype;
+
++ (ReceivedGroupChatResponseProto*) parseFromData:(NSData*) data;
++ (ReceivedGroupChatResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReceivedGroupChatResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ReceivedGroupChatResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReceivedGroupChatResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ReceivedGroupChatResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ReceivedGroupChatResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ReceivedGroupChatResponseProto* result;
+}
+
+- (ReceivedGroupChatResponseProto*) defaultInstance;
+
+- (ReceivedGroupChatResponseProto_Builder*) clear;
+- (ReceivedGroupChatResponseProto_Builder*) clone;
+
+- (ReceivedGroupChatResponseProto*) build;
+- (ReceivedGroupChatResponseProto*) buildPartial;
+
+- (ReceivedGroupChatResponseProto_Builder*) mergeFrom:(ReceivedGroupChatResponseProto*) other;
+- (ReceivedGroupChatResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ReceivedGroupChatResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ReceivedGroupChatResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ReceivedGroupChatResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ReceivedGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ReceivedGroupChatResponseProto_Builder*) clearSender;
+
+- (BOOL) hasChatMessage;
+- (NSString*) chatMessage;
+- (ReceivedGroupChatResponseProto_Builder*) setChatMessage:(NSString*) value;
+- (ReceivedGroupChatResponseProto_Builder*) clearChatMessage;
+
+- (BOOL) hasScope;
+- (GroupChatScope) scope;
+- (ReceivedGroupChatResponseProto_Builder*) setScope:(GroupChatScope) value;
+- (ReceivedGroupChatResponseProto_Builder*) clearScope;
+@end
+
+@interface PurchaseGroupChatRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+
++ (PurchaseGroupChatRequestProto*) defaultInstance;
+- (PurchaseGroupChatRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PurchaseGroupChatRequestProto_Builder*) builder;
++ (PurchaseGroupChatRequestProto_Builder*) builder;
++ (PurchaseGroupChatRequestProto_Builder*) builderWithPrototype:(PurchaseGroupChatRequestProto*) prototype;
+
++ (PurchaseGroupChatRequestProto*) parseFromData:(NSData*) data;
++ (PurchaseGroupChatRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseGroupChatRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (PurchaseGroupChatRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseGroupChatRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PurchaseGroupChatRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PurchaseGroupChatRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PurchaseGroupChatRequestProto* result;
+}
+
+- (PurchaseGroupChatRequestProto*) defaultInstance;
+
+- (PurchaseGroupChatRequestProto_Builder*) clear;
+- (PurchaseGroupChatRequestProto_Builder*) clone;
+
+- (PurchaseGroupChatRequestProto*) build;
+- (PurchaseGroupChatRequestProto*) buildPartial;
+
+- (PurchaseGroupChatRequestProto_Builder*) mergeFrom:(PurchaseGroupChatRequestProto*) other;
+- (PurchaseGroupChatRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PurchaseGroupChatRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PurchaseGroupChatRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PurchaseGroupChatRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseGroupChatRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PurchaseGroupChatRequestProto_Builder*) clearSender;
+@end
+
+@interface PurchaseGroupChatResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  PurchaseGroupChatResponseProto_PurchaseGroupChatStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) PurchaseGroupChatResponseProto_PurchaseGroupChatStatus status;
+
++ (PurchaseGroupChatResponseProto*) defaultInstance;
+- (PurchaseGroupChatResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PurchaseGroupChatResponseProto_Builder*) builder;
++ (PurchaseGroupChatResponseProto_Builder*) builder;
++ (PurchaseGroupChatResponseProto_Builder*) builderWithPrototype:(PurchaseGroupChatResponseProto*) prototype;
+
++ (PurchaseGroupChatResponseProto*) parseFromData:(NSData*) data;
++ (PurchaseGroupChatResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseGroupChatResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (PurchaseGroupChatResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseGroupChatResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PurchaseGroupChatResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PurchaseGroupChatResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PurchaseGroupChatResponseProto* result;
+}
+
+- (PurchaseGroupChatResponseProto*) defaultInstance;
+
+- (PurchaseGroupChatResponseProto_Builder*) clear;
+- (PurchaseGroupChatResponseProto_Builder*) clone;
+
+- (PurchaseGroupChatResponseProto*) build;
+- (PurchaseGroupChatResponseProto*) buildPartial;
+
+- (PurchaseGroupChatResponseProto_Builder*) mergeFrom:(PurchaseGroupChatResponseProto*) other;
+- (PurchaseGroupChatResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PurchaseGroupChatResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PurchaseGroupChatResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PurchaseGroupChatResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PurchaseGroupChatResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (PurchaseGroupChatResponseProto_PurchaseGroupChatStatus) status;
+- (PurchaseGroupChatResponseProto_Builder*) setStatus:(PurchaseGroupChatResponseProto_PurchaseGroupChatStatus) value;
+- (PurchaseGroupChatResponseProto_Builder*) clearStatus;
 @end
 

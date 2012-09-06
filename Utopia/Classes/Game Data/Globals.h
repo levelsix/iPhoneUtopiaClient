@@ -91,6 +91,17 @@
 
 @property (nonatomic, assign) int adColonyVideosRequiredToRedeemGold;
 
+@property (nonatomic, assign) float maxLevelForUser;
+
+@property (nonatomic, assign) int maxNumTimesAttackedByOneInProtectionPeriod;
+@property (nonatomic, assign) int hoursInAttackedByOneProtectionPeriod;
+
+@property (nonatomic, assign) int minBattlesRequiredForKDRConsideration;
+
+@property (nonatomic, assign) int numChatsGivenPerGroupChatPurchasePackage;
+@property (nonatomic, assign) int diamondPriceForGroupChatPurchasePackage;
+@property (nonatomic, assign) int maxLengthOfChatString;
+
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
 @property (nonatomic, assign) float forgeMinDiamondCostForGuarantee;
@@ -101,13 +112,6 @@
 
 @property (nonatomic, assign) float averageSizeOfLevelBracket;
 @property (nonatomic, assign) float healthFormulaExponentBase;
-
-@property (nonatomic, assign) float maxLevelForUser;
-
-@property (nonatomic, assign) int maxNumTimesAttackedByOneInProtectionPeriod;
-@property (nonatomic, assign) int hoursInAttackedByOneProtectionPeriod;
-
-@property (nonatomic, assign) int minBattlesRequiredForKDRConsideration;
 
 // Char mod constants
 @property (nonatomic, assign) int diamondCostToChangeCharacterType;

@@ -1404,19 +1404,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) closeScene {
-  self.enemyEquips = nil;
-  [_fup release];
-  _fup = nil;
-  _isRunning = NO;
-  
-  [[GameLayer sharedGameLayer] startHomeMapTimersIfOkay];
-  
-  if (_cameFromAviary) {
-    [AttackMenuController displayView];
-    [[CCDirector sharedDirector] popScene];
-  } else {
-    // This will cause the scene to be deallocated since there are no more references to it.
-    [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:TRANSITION_DURATION];
+  if (_isRunning) {
+    self.enemyEquips = nil;
+    [_fup release];
+    _fup = nil;
+    _isRunning = NO;
+    
+    [[GameLayer sharedGameLayer] startHomeMapTimersIfOkay];
+    
+    if (_cameFromAviary) {
+      [AttackMenuController displayView];
+      [[CCDirector sharedDirector] popScene];
+    } else {
+      // This will cause the scene to be deallocated since there are no more references to it.
+      [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:TRANSITION_DURATION];
+    }
   }
 }
 
