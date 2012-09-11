@@ -93,6 +93,11 @@ static NSString *udid = nil;
 }
 
 - (void) socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
+  if (sock != _asyncSocket) {
+    ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Found data with different socket..");
+    return;
+  }
+  
   if (tag == READING_HEADER_TAG) {
     uint8_t *header = (uint8_t *)[data bytes];
     // Get the next 4 bytes for the payload size
@@ -109,15 +114,17 @@ static NSString *udid = nil;
 {
 	ContextLogError(LN_CONTEXT_COMMUNICATION, @"socketDidDisconnect:withError: \"%@\"", err);
   
-  if (_shouldReconnect) {
-    _numDisconnects++;
-    if (_numDisconnects > NUM_SILENT_RECONNECTS) {
-      ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Asking to reconnect..");
-      [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(tryReconnect)];
-      _numDisconnects = 0;
-    } else {
-      ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Silently reconnecting..");
-      [self tryReconnect];
+  if (err != nil) {
+    if (_shouldReconnect) {
+      _numDisconnects++;
+      if (_numDisconnects > NUM_SILENT_RECONNECTS) {
+        ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Asking to reconnect..");
+        [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(tryReconnect)];
+        _numDisconnects = 0;
+      } else {
+        ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Silently reconnecting..");
+        [self tryReconnect];
+      }
     }
   }
 }

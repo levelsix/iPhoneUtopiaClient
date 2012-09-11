@@ -112,6 +112,10 @@
   //	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	
 	CCDirector *director = [CCDirector sharedDirector];
+  
+#ifndef DEBUG
+  [self setUpCrittercism];
+#endif
 	
   /*
    // Init the View Controller
@@ -174,7 +178,9 @@
   //  if (![[LocationManager alloc] initWithDelegate:self]) {
   //    // Inform of location services off
   //  }
+#ifndef DEBUG
   [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
+#endif
   [Analytics beganApp];
   [Analytics openedApp];
   
@@ -222,10 +228,6 @@
   kiipDelegate = [[KiipDelegate create] retain];
   
   [self removeLocalNotifications];
-  
-#ifndef DEBUG
-  [self setUpCrittercism];
-#endif
 
   return YES;
 }
@@ -264,14 +266,18 @@
     [GameViewController releaseAllViews];
   }
   [Analytics suspendedApp];
+#ifndef DEBUG
   [Apsalar endSession];
+#endif
 }
 
 -(void) applicationWillEnterForeground:(UIApplication*)application {
   DDLogVerbose(@"will enter foreground");
   [self removeLocalNotifications];
   
-  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];;
+#ifndef DEBUG
+  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];
+#endif
   [Analytics beganApp];
   [Analytics resumedApp];
   
@@ -301,7 +307,9 @@
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
   
   [Analytics terminatedApp];
+#ifndef DEBUG
   [Apsalar endSession];
+#endif
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application {

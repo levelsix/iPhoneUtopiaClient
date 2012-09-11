@@ -102,12 +102,12 @@ typedef enum {
 - (void) displayRedeemView;
 - (void) doneRefreshing;
 
-- (IBAction)closePurchLicenseView:(id)sender;
-- (IBAction)shortLicenseClicked:(id)sender;
-- (IBAction)longLicenseClicked:(id)sender;
-- (IBAction)backClicked:(id)sender;
+- (IBAction) closePurchLicenseView:(id)sender;
+- (IBAction) shortLicenseClicked:(id)sender;
+- (IBAction) longLicenseClicked:(id)sender;
+- (IBAction) backClicked:(id)sender;
 
-- (IBAction) closeFilterPage:(id)sender;
+//- (IBAction) closeFilterPage:(id)sender;
 
 - (void) close;
 

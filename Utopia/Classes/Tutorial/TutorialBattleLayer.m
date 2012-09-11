@@ -99,6 +99,8 @@
   
   // Battle will be started when transition completes..
   [Analytics tutorialBattleStart];
+  
+  _isRunning = YES;
 }
 
 - (void) startMyTurn {

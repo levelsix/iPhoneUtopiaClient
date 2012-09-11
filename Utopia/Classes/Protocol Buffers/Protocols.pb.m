@@ -75,6 +75,13 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRetrieveLeaderboardEvent:
     case EventProtocolRequestCSendGroupChatEvent:
     case EventProtocolRequestCPurchaseGroupChatEvent:
+    case EventProtocolRequestCCreateClanEvent:
+    case EventProtocolRequestCLeaveClanEvent:
+    case EventProtocolRequestCRequestJoinClanEvent:
+    case EventProtocolRequestCRetractRequestJoinClanEvent:
+    case EventProtocolRequestCApproveRequestToJoinClanEvent:
+    case EventProtocolRequestCDeleteClanEvent:
+    case EventProtocolRequestCRetrieveClanInfoEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
@@ -137,6 +144,13 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSRetrieveLeaderboardEvent:
     case EventProtocolResponseSSendGroupChatEvent:
     case EventProtocolResponseSPurchaseGroupChatEvent:
+    case EventProtocolResponseSCreateClanEvent:
+    case EventProtocolResponseSLeaveClanEvent:
+    case EventProtocolResponseSRequestJoinClanEvent:
+    case EventProtocolResponseSRetractRequestJoinClanEvent:
+    case EventProtocolResponseSApproveRequestToJoinClanEvent:
+    case EventProtocolResponseSDeleteClanEvent:
+    case EventProtocolResponseSRetrieveClanInfoEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

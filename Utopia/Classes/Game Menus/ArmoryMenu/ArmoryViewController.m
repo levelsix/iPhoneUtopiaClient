@@ -384,9 +384,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   equipDescriptionLabel.adjustsFontSizeToFitWidth = YES;
   
-  self.state = kWeaponState;
-  
   _clickedAl = nil;
+  
+  self.state = kWeaponState;
   
   // Add rope to the very top
   UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]];

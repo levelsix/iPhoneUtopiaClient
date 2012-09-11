@@ -422,7 +422,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     ChatMenuController *cmc = [ChatMenuController sharedChatMenuController];
     NSIndexPath *path = [NSIndexPath indexPathForRow:self.chatMessages.count-1 inSection:0];
     [cmc.chatTable insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
-    [cmc.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    
+    // Give 100 pixels of leniency
+//    if (cmc.chatTable.contentOffset.y > cmc.chatTable.contentSize.height-cmc.chatTable.frame.size.height-100) {
+      [cmc.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+//    }
   }
 }
 

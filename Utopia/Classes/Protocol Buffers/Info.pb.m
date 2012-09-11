@@ -159,6 +159,337 @@ BOOL ExpansionDirectionIsValidValue(ExpansionDirection value) {
       return NO;
   }
 }
+@interface FullClanProto ()
+@property int32_t clanId;
+@property (retain) NSString* name;
+@property int32_t ownerId;
+@property int64_t createTime;
+@property (retain) NSString* description;
+@end
+
+@implementation FullClanProto
+
+- (BOOL) hasClanId {
+  return !!hasClanId_;
+}
+- (void) setHasClanId:(BOOL) value {
+  hasClanId_ = !!value;
+}
+@synthesize clanId;
+- (BOOL) hasName {
+  return !!hasName_;
+}
+- (void) setHasName:(BOOL) value {
+  hasName_ = !!value;
+}
+@synthesize name;
+- (BOOL) hasOwnerId {
+  return !!hasOwnerId_;
+}
+- (void) setHasOwnerId:(BOOL) value {
+  hasOwnerId_ = !!value;
+}
+@synthesize ownerId;
+- (BOOL) hasCreateTime {
+  return !!hasCreateTime_;
+}
+- (void) setHasCreateTime:(BOOL) value {
+  hasCreateTime_ = !!value;
+}
+@synthesize createTime;
+- (BOOL) hasDescription {
+  return !!hasDescription_;
+}
+- (void) setHasDescription:(BOOL) value {
+  hasDescription_ = !!value;
+}
+@synthesize description;
+- (void) dealloc {
+  self.name = nil;
+  self.description = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.clanId = 0;
+    self.name = @"";
+    self.ownerId = 0;
+    self.createTime = 0L;
+    self.description = @"";
+  }
+  return self;
+}
+static FullClanProto* defaultFullClanProtoInstance = nil;
++ (void) initialize {
+  if (self == [FullClanProto class]) {
+    defaultFullClanProtoInstance = [[FullClanProto alloc] init];
+  }
+}
++ (FullClanProto*) defaultInstance {
+  return defaultFullClanProtoInstance;
+}
+- (FullClanProto*) defaultInstance {
+  return defaultFullClanProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasClanId) {
+    [output writeInt32:1 value:self.clanId];
+  }
+  if (self.hasName) {
+    [output writeString:2 value:self.name];
+  }
+  if (self.hasOwnerId) {
+    [output writeInt32:3 value:self.ownerId];
+  }
+  if (self.hasCreateTime) {
+    [output writeInt64:4 value:self.createTime];
+  }
+  if (self.hasDescription) {
+    [output writeString:5 value:self.description];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasClanId) {
+    size += computeInt32Size(1, self.clanId);
+  }
+  if (self.hasName) {
+    size += computeStringSize(2, self.name);
+  }
+  if (self.hasOwnerId) {
+    size += computeInt32Size(3, self.ownerId);
+  }
+  if (self.hasCreateTime) {
+    size += computeInt64Size(4, self.createTime);
+  }
+  if (self.hasDescription) {
+    size += computeStringSize(5, self.description);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (FullClanProto*) parseFromData:(NSData*) data {
+  return (FullClanProto*)[[[FullClanProto builder] mergeFromData:data] build];
+}
++ (FullClanProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullClanProto*)[[[FullClanProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (FullClanProto*) parseFromInputStream:(NSInputStream*) input {
+  return (FullClanProto*)[[[FullClanProto builder] mergeFromInputStream:input] build];
+}
++ (FullClanProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullClanProto*)[[[FullClanProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullClanProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (FullClanProto*)[[[FullClanProto builder] mergeFromCodedInputStream:input] build];
+}
++ (FullClanProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullClanProto*)[[[FullClanProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullClanProto_Builder*) builder {
+  return [[[FullClanProto_Builder alloc] init] autorelease];
+}
++ (FullClanProto_Builder*) builderWithPrototype:(FullClanProto*) prototype {
+  return [[FullClanProto builder] mergeFrom:prototype];
+}
+- (FullClanProto_Builder*) builder {
+  return [FullClanProto builder];
+}
+@end
+
+@interface FullClanProto_Builder()
+@property (retain) FullClanProto* result;
+@end
+
+@implementation FullClanProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[FullClanProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (FullClanProto_Builder*) clear {
+  self.result = [[[FullClanProto alloc] init] autorelease];
+  return self;
+}
+- (FullClanProto_Builder*) clone {
+  return [FullClanProto builderWithPrototype:result];
+}
+- (FullClanProto*) defaultInstance {
+  return [FullClanProto defaultInstance];
+}
+- (FullClanProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (FullClanProto*) buildPartial {
+  FullClanProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (FullClanProto_Builder*) mergeFrom:(FullClanProto*) other {
+  if (other == [FullClanProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasClanId) {
+    [self setClanId:other.clanId];
+  }
+  if (other.hasName) {
+    [self setName:other.name];
+  }
+  if (other.hasOwnerId) {
+    [self setOwnerId:other.ownerId];
+  }
+  if (other.hasCreateTime) {
+    [self setCreateTime:other.createTime];
+  }
+  if (other.hasDescription) {
+    [self setDescription:other.description];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (FullClanProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (FullClanProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setClanId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        [self setName:[input readString]];
+        break;
+      }
+      case 24: {
+        [self setOwnerId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setCreateTime:[input readInt64]];
+        break;
+      }
+      case 42: {
+        [self setDescription:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasClanId {
+  return result.hasClanId;
+}
+- (int32_t) clanId {
+  return result.clanId;
+}
+- (FullClanProto_Builder*) setClanId:(int32_t) value {
+  result.hasClanId = YES;
+  result.clanId = value;
+  return self;
+}
+- (FullClanProto_Builder*) clearClanId {
+  result.hasClanId = NO;
+  result.clanId = 0;
+  return self;
+}
+- (BOOL) hasName {
+  return result.hasName;
+}
+- (NSString*) name {
+  return result.name;
+}
+- (FullClanProto_Builder*) setName:(NSString*) value {
+  result.hasName = YES;
+  result.name = value;
+  return self;
+}
+- (FullClanProto_Builder*) clearName {
+  result.hasName = NO;
+  result.name = @"";
+  return self;
+}
+- (BOOL) hasOwnerId {
+  return result.hasOwnerId;
+}
+- (int32_t) ownerId {
+  return result.ownerId;
+}
+- (FullClanProto_Builder*) setOwnerId:(int32_t) value {
+  result.hasOwnerId = YES;
+  result.ownerId = value;
+  return self;
+}
+- (FullClanProto_Builder*) clearOwnerId {
+  result.hasOwnerId = NO;
+  result.ownerId = 0;
+  return self;
+}
+- (BOOL) hasCreateTime {
+  return result.hasCreateTime;
+}
+- (int64_t) createTime {
+  return result.createTime;
+}
+- (FullClanProto_Builder*) setCreateTime:(int64_t) value {
+  result.hasCreateTime = YES;
+  result.createTime = value;
+  return self;
+}
+- (FullClanProto_Builder*) clearCreateTime {
+  result.hasCreateTime = NO;
+  result.createTime = 0L;
+  return self;
+}
+- (BOOL) hasDescription {
+  return result.hasDescription;
+}
+- (NSString*) description {
+  return result.description;
+}
+- (FullClanProto_Builder*) setDescription:(NSString*) value {
+  result.hasDescription = YES;
+  result.description = value;
+  return self;
+}
+- (FullClanProto_Builder*) clearDescription {
+  result.hasDescription = NO;
+  result.description = @"";
+  return self;
+}
+@end
+
 @interface MinimumUserProto ()
 @property int32_t userId;
 @property (retain) NSString* name;
@@ -1048,6 +1379,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 @property int32_t numCoinsRetrievedFromStructs;
 @property int32_t numAdColonyVideosWatched;
 @property int32_t numGroupChatsRemaining;
+@property int32_t clanId;
 @property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -1351,6 +1683,13 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   hasNumGroupChatsRemaining_ = !!value;
 }
 @synthesize numGroupChatsRemaining;
+- (BOOL) hasClanId {
+  return !!hasClanId_;
+}
+- (void) setHasClanId:(BOOL) value {
+  hasClanId_ = !!value;
+}
+@synthesize clanId;
 - (BOOL) hasUdid {
   return !!hasUdid_;
 }
@@ -1467,6 +1806,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
     self.numCoinsRetrievedFromStructs = 0;
     self.numAdColonyVideosWatched = 0;
     self.numGroupChatsRemaining = 0;
+    self.clanId = 0;
     self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -1642,6 +1982,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumGroupChatsRemaining) {
     [output writeInt32:54 value:self.numGroupChatsRemaining];
   }
+  if (self.hasClanId) {
+    [output writeInt32:55 value:self.clanId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1797,6 +2140,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasNumGroupChatsRemaining) {
     size += computeInt32Size(54, self.numGroupChatsRemaining);
+  }
+  if (self.hasClanId) {
+    size += computeInt32Size(55, self.clanId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1992,6 +2338,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasNumGroupChatsRemaining) {
     [self setNumGroupChatsRemaining:other.numGroupChatsRemaining];
+  }
+  if (other.hasClanId) {
+    [self setClanId:other.clanId];
   }
   if (other.hasUdid) {
     [self setUdid:other.udid];
@@ -2260,6 +2609,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 432: {
         [self setNumGroupChatsRemaining:[input readInt32]];
+        break;
+      }
+      case 440: {
+        [self setClanId:[input readInt32]];
         break;
       }
     }
@@ -2959,6 +3312,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearNumGroupChatsRemaining {
   result.hasNumGroupChatsRemaining = NO;
   result.numGroupChatsRemaining = 0;
+  return self;
+}
+- (BOOL) hasClanId {
+  return result.hasClanId;
+}
+- (int32_t) clanId {
+  return result.clanId;
+}
+- (FullUserProto_Builder*) setClanId:(int32_t) value {
+  result.hasClanId = YES;
+  result.clanId = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearClanId {
+  result.hasClanId = NO;
+  result.clanId = 0;
   return self;
 }
 - (BOOL) hasUdid {

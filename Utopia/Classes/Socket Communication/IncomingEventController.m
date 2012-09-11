@@ -1543,6 +1543,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == SendGroupChatResponseProto_SendGroupChatStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
+    [Globals popupMessage:@"Server failed to send group chat."];
+    
     [gs removeFullUserUpdatesForTag:tag];
   }
 }
@@ -1556,6 +1558,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == PurchaseGroupChatResponseProto_PurchaseGroupChatStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
+    [Globals popupMessage:@"Server failed to purchase group chat."];
+    
     [gs removeFullUserUpdatesForTag:tag];
   }
 }
@@ -1564,8 +1568,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ReceivedGroupChatResponseProto *proto = (ReceivedGroupChatResponseProto *)fe.event;
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Received group chat response received.");
   
+  // Chats sent from this user will be faked.
   GameState *gs = [GameState sharedGameState];
-  [gs addChatMessage:proto.sender message:proto.chatMessage];
+  if (proto.sender.userId != gs.userId) {
+    [gs addChatMessage:proto.sender message:proto.chatMessage];
+  }
 }
 
 @end

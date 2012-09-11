@@ -143,7 +143,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   int tag = [[SocketCommunication sharedSocketCommunication] sendTaskActionMessage:taskId curTime:[self getCurrentMilliseconds]];
-  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+  [gs addUnrespondedUpdate:[EnergyUpdate updateWithTag:tag change:-ftp.energyCost]];
   return YES;
 }
 
@@ -602,6 +602,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int change = tInt/(gl.energyRefillWaitMinutes*60);
     int realChange = MIN(maxChange, change);
     NSDate *nextDate = [gs.lastEnergyRefill dateByAddingTimeInterval:realChange*gl.energyRefillWaitMinutes*60.f];
+    NSLog(@"Sending refill energy. Last time: %@, Next time: %@", gs.lastEnergyRefill, nextDate);
     EnergyUpdate *eu = [EnergyUpdate updateWithTag:tag change:realChange];
     LastEnergyRefillUpdate *leru = [LastEnergyRefillUpdate updateWithTag:tag prevDate:gs.lastEnergyRefill nextDate:nextDate];
     [gs addUnrespondedUpdates:eu, leru, nil];
@@ -1645,6 +1646,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (gs.numGroupChatsRemaining > 0) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendGroupChatMessage:scope message:msg];
     [gs addUnrespondedUpdate:[ChatUpdate updateWithTag:tag change:-1]];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+      [gs addChatMessage:gs.minUser message:msg];
+    });
   } else {
     [Globals popupMessage:@"Attempting to send chat without any speakers"];
   }

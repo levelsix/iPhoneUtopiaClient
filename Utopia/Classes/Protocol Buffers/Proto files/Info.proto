@@ -12,6 +12,16 @@ enum GroupChatScope {
 
 //------------------------------------------------------------------------------------------
 
+message FullClanProto {
+	optional int32 clanId = 1;
+	optional string name = 2;
+	optional int32 ownerId = 3;
+	optional int64 createTime = 4;
+	optional string description = 5;
+}
+
+//------------------------------------------------------------------------------------------
+
 enum LeaderboardType {
 	MOST_BATTLES_WON = 2;
 	MOST_COINS = 3;
@@ -129,6 +139,7 @@ message FullUserProto {
 	optional int32 numCoinsRetrievedFromStructs = 50;
 	optional int32 numAdColonyVideosWatched = 51;
 	optional int32 numGroupChatsRemaining = 54;
+	optional int32 clanId = 55;
 
 	//CreateInfoProtoUtils.java doesn't set these (I can't think of a time the client would need this
 	//consider making other fields like this

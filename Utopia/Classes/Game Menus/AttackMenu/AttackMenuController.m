@@ -265,6 +265,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   
+  self.mapView.delegate = nil;
   self.mapView = nil;
   self.mapSpinner = nil;
   self.listSpinner = nil;

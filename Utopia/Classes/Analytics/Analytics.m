@@ -155,15 +155,15 @@
 + (void) event:(NSString *)event {
 #ifndef DEBUG
   [Apsalar event:event];
-#endif
   [Crittercism leaveBreadcrumb:event];
+#endif
 }
 
 + (void) event:(NSString *)event withArgs:(NSDictionary *)args {
 #ifndef DEBUG
   [Apsalar event:event withArgs:args];
-#endif
   [Crittercism leaveBreadcrumb:event];
+#endif
 }
 
 + (void) openedApp {

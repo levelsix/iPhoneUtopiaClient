@@ -311,6 +311,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   if (![[GameState sharedGameState] isTutorial]) {
     [[HomeMap sharedHomeMap] beginTimers];
+    chatBottomView.hidden = NO;
   }
   
   if (dbmc) {
@@ -334,10 +335,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   GameState *gs = [GameState sharedGameState];
   
+#ifndef DEBUG
   [Crittercism setUsername:gs.name];
   [Crittercism setValue:gs.referralCode forKey:@"Referral Code"];
-  
-  chatBottomView.hidden = NO;
+#endif
   
   if (gs.availableQuests.count > 0) {
     [self displayNewQuestArrow];
@@ -350,7 +351,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     cb.appId = CHART_BOOST_APP_ID;
     cb.appSignature = CHART_BOOST_APP_SIGNATURE;
     
-    // Notify the beginning of a user session
+    // Notify the beginnin g of a user session
     [cb startSession];
     // Show an interstitial
     [cb showInterstitial];
@@ -889,6 +890,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     view.alpha = 0.f;
     chatBottomView.alpha = 1.f;
   }];
+}
+
+- (void) onEnterTransitionDidFinish {
+  // Battle layer will have to hide it on the fade out
+  [super onEnterTransitionDidFinish];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (!gs.isTutorial) {
+    self.chatBottomView.hidden = NO;
+  }
 }
 
 - (void) dealloc {

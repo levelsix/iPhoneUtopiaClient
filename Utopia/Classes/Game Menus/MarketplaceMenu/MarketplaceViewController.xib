@@ -970,7 +970,6 @@
 										<string key="NSFrame">{{460, 7}, {20, 21}}</string>
 										<reference key="NSSuperview" ref="617683871"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -1034,7 +1033,6 @@
 				<string key="NSFrameSize">{480, 320}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="281987876"/>
 				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
@@ -1223,7 +1221,6 @@
 						<string key="NSFrame">{{142, 29}, {78, 21}}</string>
 						<reference key="NSSuperview" ref="1027003871"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:328</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -1376,7 +1373,6 @@
 						<string key="NSFrame">{{206, 86}, {86, 27}}</string>
 						<reference key="NSSuperview" ref="317408690"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:225</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -1589,7 +1585,6 @@
 						<string key="NSFrame">{{463, -317}, {3, 360}}</string>
 						<reference key="NSSuperview" ref="55723041"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:196</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="926516128">
 							<int key="NSColorSpace">1</int>
@@ -1841,7 +1836,6 @@
 								<string key="NSFrame">{{285, 168}, {55, 21}}</string>
 								<reference key="NSSuperview" ref="617833109"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -1899,7 +1893,6 @@
 								<string key="NSFrame">{{28, 30}, {37, 37}}</string>
 								<reference key="NSSuperview" ref="723985607"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -2548,7 +2541,6 @@
 								<string key="NSFrame">{{351, 235}, {46, 22}}</string>
 								<reference key="NSSuperview" ref="307259393"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -3012,12 +3004,12 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">openFilterPage:</string>
+						<string key="label">backClicked:</string>
 						<reference key="source" ref="757401876"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">503</int>
+					<int key="connectionID">576</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -4482,7 +4474,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">575</int>
+			<int key="maxID">576</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4833,6 +4825,7 @@
 					<string key="superclassName">PullRefreshTableViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="backClicked:">id</string>
+						<string key="closeFilterPage:">id</string>
 						<string key="closePurchLicenseView:">id</string>
 						<string key="longLicenseClicked:">id</string>
 						<string key="shortLicenseClicked:">id</string>
@@ -4840,6 +4833,10 @@
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="backClicked:">
 							<string key="name">backClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="closeFilterPage:">
+							<string key="name">closeFilterPage:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="closePurchLicenseView:">
@@ -4862,7 +4859,6 @@
 						<string key="armoryPriceView">UIView</string>
 						<string key="bottomBar">MarketplaceBottomBar</string>
 						<string key="coinBar">CoinBar</string>
-						<string key="containerView">UIView</string>
 						<string key="doneButton">UIButton</string>
 						<string key="filterView">MarketplaceFilterView</string>
 						<string key="itemView">UITableViewCell</string>
@@ -4915,10 +4911,6 @@
 						<object class="IBToOneOutletInfo" key="coinBar">
 							<string key="name">coinBar</string>
 							<string key="candidateClassName">CoinBar</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="containerView">
-							<string key="name">containerView</string>
-							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="doneButton">
 							<string key="name">doneButton</string>

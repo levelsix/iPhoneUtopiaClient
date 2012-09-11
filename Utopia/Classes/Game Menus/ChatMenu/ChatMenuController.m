@@ -185,6 +185,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   [self.chatTable reloadData];
   [self updateNumChatsLabel];
   
+  int numRows = [self.chatTable numberOfRowsInSection:0];
+  if (numRows > 0) {
+    [self.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:numRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+  }
+  
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
@@ -217,6 +222,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   CGSize size = [cm.message sizeWithFont:[UIFont fontWithName:@"SanvitoPro-Semibold" size:cellLabelFontSize] constrainedToSize:CGSizeMake(chatLabelWidth, 999) lineBreakMode:UILineBreakModeWordWrap];
   
   return cellHeight + (size.height-cellLabelHeight);
+}
+
+- (void) scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+  [self.postTextField resignFirstResponder];
 }
 
 - (void) updateNumChatsLabel {
@@ -275,7 +284,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     
     CGRect r = self.chatTable.frame;
     CGRect s = [chatTable.superview convertRect:self.bottomView.frame fromView:self.bottomView.superview];
-    r.size.height = s.origin.y-r.origin.y;
+    r.size.height = MIN(chatTable.contentSize.height, chatTable.superview.frame.size.height);
+    r.origin.y = s.origin.y-r.size.height;
     self.chatTable.frame = r;
   }];
   
@@ -283,6 +293,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   if (numRows > 0) {
     [self.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:numRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
   }
+}
+
+- (void) textFieldDidEndEditing:(UITextField *)textField {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.bottomView.center = ccpAdd(self.bottomView.center, ccp(0, 146));
+    
+    CGRect r = self.chatTable.frame;
+    r.origin.y = 0;
+    r.size.height = self.chatTable.superview.frame.size.height;
+    self.chatTable.frame = r;
+  }];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
@@ -297,18 +318,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     return NO;
   }
   return YES;
-}
-
-- (void) textFieldDidEndEditing:(UITextField *)textField {
-  [UIView animateWithDuration:0.3f animations:^{
-    self.bottomView.center = ccpAdd(self.bottomView.center, ccp(0, 146));
-    
-    CGRect r = self.chatTable.frame;
-    CGRect s = [chatTable.superview convertRect:self.bottomView.frame fromView:self.bottomView.superview];
-    r.size.height = s.origin.y-r.origin.y;
-    self.chatTable.frame = r;
-  }];
-  
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

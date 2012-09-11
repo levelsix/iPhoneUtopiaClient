@@ -4,6 +4,10 @@
 
 #import "Event.pb.h"
 
+@class ApproveRequestToJoinClanRequestProto;
+@class ApproveRequestToJoinClanRequestProto_Builder;
+@class ApproveRequestToJoinClanResponseProto;
+@class ApproveRequestToJoinClanResponseProto_Builder;
 @class ArmoryRequestProto;
 @class ArmoryRequestProto_Builder;
 @class ArmoryResponseProto;
@@ -32,12 +36,20 @@
 @class CollectForgeEquipsResponseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class CreateClanRequestProto;
+@class CreateClanRequestProto_Builder;
+@class CreateClanResponseProto;
+@class CreateClanResponseProto_Builder;
 @class CriticalStructureActionRequestProto;
 @class CriticalStructureActionRequestProto_Builder;
 @class CriticalStructureActionResponseProto;
 @class CriticalStructureActionResponseProto_Builder;
 @class DefeatTypeJobProto;
 @class DefeatTypeJobProto_Builder;
+@class DeleteClanRequestProto;
+@class DeleteClanRequestProto_Builder;
+@class DeleteClanResponseProto;
+@class DeleteClanResponseProto_Builder;
 @class DialogueProto;
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
@@ -72,6 +84,8 @@
 @class ForgeAttemptWaitCompleteResponseProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
+@class FullClanProto;
+@class FullClanProto_Builder;
 @class FullEquipProto;
 @class FullEquipProto_Builder;
 @class FullMarketplacePostProto;
@@ -106,6 +120,10 @@
 @class InAppPurchaseRequestProto_Builder;
 @class InAppPurchaseResponseProto;
 @class InAppPurchaseResponseProto_Builder;
+@class LeaveClanRequestProto;
+@class LeaveClanRequestProto_Builder;
+@class LeaveClanResponseProto;
+@class LeaveClanResponseProto_Builder;
 @class LevelUpRequestProto;
 @class LevelUpRequestProto_Builder;
 @class LevelUpResponseProto;
@@ -214,10 +232,22 @@
 @class RefillStatWithDiamondsRequestProto_Builder;
 @class RefillStatWithDiamondsResponseProto;
 @class RefillStatWithDiamondsResponseProto_Builder;
+@class RequestJoinClanRequestProto;
+@class RequestJoinClanRequestProto_Builder;
+@class RequestJoinClanResponseProto;
+@class RequestJoinClanResponseProto_Builder;
 @class RetractMarketplacePostRequestProto;
 @class RetractMarketplacePostRequestProto_Builder;
 @class RetractMarketplacePostResponseProto;
 @class RetractMarketplacePostResponseProto_Builder;
+@class RetractRequestJoinClanRequestProto;
+@class RetractRequestJoinClanRequestProto_Builder;
+@class RetractRequestJoinClanResponseProto;
+@class RetractRequestJoinClanResponseProto_Builder;
+@class RetrieveClanInfoRequestProto;
+@class RetrieveClanInfoRequestProto_Builder;
+@class RetrieveClanInfoResponseProto;
+@class RetrieveClanInfoResponseProto_Builder;
 @class RetrieveCurrencyFromNormStructureRequestProto;
 @class RetrieveCurrencyFromNormStructureRequestProto_Builder;
 @class RetrieveCurrencyFromNormStructureResponseProto;
@@ -282,6 +312,8 @@
 @class StartupResponseProto_StartupConstants_Builder;
 @class StartupResponseProto_StartupConstants_CharacterModConstants;
 @class StartupResponseProto_StartupConstants_CharacterModConstants_Builder;
+@class StartupResponseProto_StartupConstants_ClanConstants;
+@class StartupResponseProto_StartupConstants_ClanConstants_Builder;
 @class StartupResponseProto_StartupConstants_ForgeConstants;
 @class StartupResponseProto_StartupConstants_ForgeConstants_Builder;
 @class StartupResponseProto_StartupConstants_FormulaConstants;
@@ -380,6 +412,13 @@ typedef enum {
   EventProtocolRequestCRetrieveLeaderboardEvent = 53,
   EventProtocolRequestCSendGroupChatEvent = 54,
   EventProtocolRequestCPurchaseGroupChatEvent = 55,
+  EventProtocolRequestCCreateClanEvent = 56,
+  EventProtocolRequestCLeaveClanEvent = 57,
+  EventProtocolRequestCRequestJoinClanEvent = 58,
+  EventProtocolRequestCRetractRequestJoinClanEvent = 59,
+  EventProtocolRequestCApproveRequestToJoinClanEvent = 60,
+  EventProtocolRequestCDeleteClanEvent = 61,
+  EventProtocolRequestCRetrieveClanInfoEvent = 62,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -440,6 +479,13 @@ typedef enum {
   EventProtocolResponseSRetrieveLeaderboardEvent = 53,
   EventProtocolResponseSSendGroupChatEvent = 54,
   EventProtocolResponseSPurchaseGroupChatEvent = 55,
+  EventProtocolResponseSCreateClanEvent = 56,
+  EventProtocolResponseSLeaveClanEvent = 57,
+  EventProtocolResponseSRequestJoinClanEvent = 58,
+  EventProtocolResponseSRetractRequestJoinClanEvent = 59,
+  EventProtocolResponseSApproveRequestToJoinClanEvent = 60,
+  EventProtocolResponseSDeleteClanEvent = 61,
+  EventProtocolResponseSRetrieveClanInfoEvent = 62,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

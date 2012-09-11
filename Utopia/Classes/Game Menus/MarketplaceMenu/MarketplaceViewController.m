@@ -791,45 +791,45 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.shouldReload = YES;
 }
 
-- (MarketplaceFilterView *) filterView {
-  if (!filterView) {
-    [[NSBundle mainBundle] loadNibNamed:@"MarketplaceFilterView" owner:self options:nil];
-  }
-  return filterView;
-}
-
-#define DRAG_VIEW_TAG 103
-
-- (IBAction) openFilterPage:(id)sender {
-  if (!self.filterView.superview) {
-    [self.filterView loadFilterSettings];
-    [self.view insertSubview:self.filterView atIndex:0];
-    
-    [UIView animateWithDuration:0.3f animations:^{
-      self.mainView.center = ccpAdd(self.mainView.center, ccp(self.filterView.frame.size.width, 0));
-    }];
-    
-    MarketplaceDragView *dragView = [[MarketplaceDragView alloc] initWithFrame:self.mainView.bounds];
-    [self.mainView addSubview:dragView];
-    dragView.tag = DRAG_VIEW_TAG;
-  }
-}
-
-- (IBAction) closeFilterPage:(id)sender {
-  if (self.filterView.superview) {
-    [self.filterView saveFilterSettings];
-    
-    CGRect r = self.mainView.frame;
-    float dist = r.origin.x;
-    r.origin.x = 0;
-    [UIView animateWithDuration:dist/1000.f animations:^{
-      self.mainView.frame = r;
-    } completion:^(BOOL finished) {
-      [self.filterView removeFromSuperview];
-      [[self.mainView viewWithTag:DRAG_VIEW_TAG] removeFromSuperview];
-    }];
-  }
-}
+//- (MarketplaceFilterView *) filterView {
+//  if (!filterView) {
+//    [[NSBundle mainBundle] loadNibNamed:@"MarketplaceFilterView" owner:self options:nil];
+//  }
+//  return filterView;
+//}
+//
+//#define DRAG_VIEW_TAG 103
+//
+//- (IBAction) openFilterPage:(id)sender {
+//  if (!self.filterView.superview) {
+//    [self.filterView loadFilterSettings];
+//    [self.view insertSubview:self.filterView atIndex:0];
+//    
+//    [UIView animateWithDuration:0.3f animations:^{
+//      self.mainView.center = ccpAdd(self.mainView.center, ccp(self.filterView.frame.size.width, 0));
+//    }];
+//    
+//    MarketplaceDragView *dragView = [[MarketplaceDragView alloc] initWithFrame:self.mainView.bounds];
+//    [self.mainView addSubview:dragView];
+//    dragView.tag = DRAG_VIEW_TAG;
+//  }
+//}
+//
+//- (IBAction) closeFilterPage:(id)sender {
+//  if (self.filterView.superview) {
+//    [self.filterView saveFilterSettings];
+//    
+//    CGRect r = self.mainView.frame;
+//    float dist = r.origin.x;
+//    r.origin.x = 0;
+//    [UIView animateWithDuration:dist/1000.f animations:^{
+//      self.mainView.frame = r;
+//    } completion:^(BOOL finished) {
+//      [self.filterView removeFromSuperview];
+//      [[self.mainView viewWithTag:DRAG_VIEW_TAG] removeFromSuperview];
+//    }];
+//  }
+//}
 
 - (void) viewDidUnload {
   [super viewDidUnload];

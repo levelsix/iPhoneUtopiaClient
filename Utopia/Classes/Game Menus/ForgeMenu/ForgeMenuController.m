@@ -351,7 +351,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (void) loadRightViewForNotEnoughQuantity:(ForgeItem *)fi fromItemView:(ForgeItemView *)fiv {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  FullEquipProto *fep = [gs equipWithId:fi.equipId];
+//  FullEquipProto *fep = [gs equipWithId:fi.equipId];
   
   int oldAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level];
   int oldDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level];
@@ -394,7 +394,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   self.collectButton.hidden = YES;
   self.finishNowButton.hidden = YES;
   
-  if (fep.diamondPrice > 0 || fi.level == 1) {
+  // Removing forge penalty
+  //  if (fep.diamondPrice > 0 || fi.level == 1) {
+  if (true) {
     self.bottomLabel.text = @"Equips will be returned if forge fails.";
     self.bottomLabel.textColor = [Globals creamColor];
   } else {
@@ -456,7 +458,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (void) loadRightViewForForgeItem:(ForgeItem *)fi fromItemView:(ForgeItemView *)fiv {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  FullEquipProto *fep = [gs equipWithId:fi.equipId];
+//  FullEquipProto *fep = [gs equipWithId:fi.equipId];
   if (self.curItem != fi) {
     self.curItem = fi;
     
@@ -522,7 +524,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     
     self.twinkleIcon.hidden = YES;
     
-    if (fep.diamondPrice > 0 || fi.level == 1) {
+    // Removing forge penalty
+    if (true) {
       self.bottomLabel.text = @"Equips will be returned if forge fails.";
       self.bottomLabel.textColor = [Globals creamColor];
     } else {

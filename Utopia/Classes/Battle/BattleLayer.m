@@ -20,6 +20,8 @@
 #import "MarketplaceViewController.h"
 #import "Downloader.h"
 #import "LeaderboardController.h"
+#import "TopBar.h"
+#import "GenericPopupController.h"
 
 #define FAKE_PLAYER_RAND 6
 #define NAME_LABEL_FONT_SIZE 11.f
@@ -603,6 +605,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _isRunning = YES;
     CCScene *scene = [BattleLayer scene];
     [dir pushScene:[CCTransitionFade transitionWithDuration:TRANSITION_DURATION scene:scene]];
+    [[[TopBar sharedTopBar] chatBottomView] setHidden:YES];
     
     // Remove mapviewcontroller in case we were called from there
     // but record whether we came from there or not
@@ -1208,6 +1211,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) fleeClicked {
+  [self pauseClicked];
+  [GenericPopupController displayConfirmationWithDescription:@"Are you sure you would like to flee from this battle?" title:@"Flee?" okayButton:@"Flee" cancelButton:@"Cancel" target:self selector:@selector(flee)];
+}
+
+- (void) flee {
   [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerFlee city:-1 equips:nil];
   [_attackProgressTimer stopAllActions];
   _attackButton.visible = NO;
