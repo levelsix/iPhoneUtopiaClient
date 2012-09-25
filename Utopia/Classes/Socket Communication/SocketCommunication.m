@@ -898,6 +898,12 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveClanWallPostsEvent];
 }
 
+- (int) sendRetrieveThreeCardMonteMessage {
+  RetrieveThreeCardMonteRequestProto *req = [[[RetrieveThreeCardMonteRequestProto builder] setSender:_sender] build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveThreeCardMonteEvent];
+}
+
 - (void) closeDownConnection {
   if (_asyncSocket) {
     _shouldReconnect = NO;

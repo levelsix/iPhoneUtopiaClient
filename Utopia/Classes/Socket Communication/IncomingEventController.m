@@ -255,6 +255,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRetrieveClanWallPostsEvent:
       responseClass = [RetrieveClanWallPostsResponseProto class];
       break;
+    case EventProtocolResponseSRetrieveThreeCardMonteEvent:
+      responseClass = [RetrieveThreeCardMonteResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -1846,6 +1849,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to retrieve clan wall posts."];
+    
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRetrieveThreeCardMonteResponseProto:(FullEvent *)fe {
+  RetrieveThreeCardMonteResponseProto *proto = (RetrieveThreeCardMonteResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to retrieve three card monte response."];
     
     [gs removeFullUserUpdatesForTag:tag];
   }
