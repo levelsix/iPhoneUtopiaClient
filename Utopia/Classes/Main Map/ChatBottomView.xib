@@ -11,6 +11,7 @@
 			<string key="NS.object.0">1179</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
+			<string>IBUIButton</string>
 			<string>IBUIImageView</string>
 			<string>IBUIView</string>
 			<string>IBUILabel</string>
@@ -64,7 +65,7 @@
 									<object class="IBUILabel" id="279184948">
 										<reference key="NSNextResponder" ref="376945506"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrameSize">{22, 21}</string>
+										<string key="NSFrameSize">{301, 21}</string>
 										<reference key="NSSuperview" ref="376945506"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="247649275"/>
@@ -140,7 +141,7 @@
 									<object class="IBUILabel" id="1039685809">
 										<reference key="NSNextResponder" ref="816805650"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrameSize">{22, 21}</string>
+										<string key="NSFrameSize">{301, 21}</string>
 										<reference key="NSSuperview" ref="816805650"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="253088433"/>
@@ -169,7 +170,7 @@
 										<string key="NSFrame">{{25, 0}, {282, 21}}</string>
 										<reference key="NSSuperview" ref="816805650"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="712748824"/>
+										<reference key="NSNextKeyView" ref="364667190"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -207,21 +208,76 @@
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
-					<object class="IBUIImageView" id="712748824">
+					<object class="IBUIButton" id="364667190">
+						<reference key="NSNextResponder" ref="1064223957"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{317, 4}, {40, 40}}</string>
+						<reference key="NSSuperview" ref="1064223957"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="838193523"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<bool key="IBUIOpaque">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<int key="IBUIContentHorizontalAlignment">0</int>
+						<int key="IBUIContentVerticalAlignment">0</int>
+						<object class="NSColor" key="IBUIHighlightedTitleColor">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MQA</bytes>
+						</object>
+						<object class="NSColor" key="IBUINormalTitleColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+						</object>
+						<object class="NSColor" key="IBUINormalTitleShadowColor">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MC41AA</bytes>
+						</object>
+						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">togglechatbutton.png</string>
+						</object>
+						<object class="IBUIFontDescription" key="IBUIFontDescription">
+							<int key="type">2</int>
+							<double key="pointSize">15</double>
+						</object>
+						<object class="NSFont" key="IBUIFont">
+							<string key="NSName">Helvetica-Bold</string>
+							<double key="NSSize">15</double>
+							<int key="NSfFlags">16</int>
+						</object>
+					</object>
+					<object class="IBUIImageView" id="198967329">
 						<reference key="NSNextResponder" ref="1064223957"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{318, 6}, {39, 39}}</string>
+						<string key="NSFrame">{{325, 12}, {25, 25}}</string>
 						<reference key="NSSuperview" ref="1064223957"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">4</int>
-						<bool key="IBUIMultipleTouchEnabled">YES</bool>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">chaticon.png</string>
+							<string key="NSResourceName">globalchat.png</string>
+						</object>
+					</object>
+					<object class="IBUIImageView" id="838193523">
+						<reference key="NSNextResponder" ref="1064223957"/>
+						<int key="NSvFlags">256</int>
+						<string key="NSFrame">{{323, 17}, {29, 15}}</string>
+						<reference key="NSSuperview" ref="1064223957"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="198967329"/>
+						<bool key="IBUIOpaque">NO</bool>
+						<bool key="IBUIClipsSubviews">YES</bool>
+						<int key="IBUIContentMode">4</int>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">clanmyclan.png</string>
 						</object>
 					</object>
 				</array>
@@ -244,7 +300,7 @@
 					<object class="IBUILabel" id="809891189">
 						<reference key="NSNextResponder" ref="19846190"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrameSize">{22, 21}</string>
+						<string key="NSFrameSize">{301, 21}</string>
 						<reference key="NSSuperview" ref="19846190"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="381540963"/>
@@ -346,6 +402,22 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">globalIcon</string>
+						<reference key="source" ref="1064223957"/>
+						<reference key="destination" ref="198967329"/>
+					</object>
+					<int key="connectionID">65</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">clanIcon</string>
+						<reference key="source" ref="1064223957"/>
+						<reference key="destination" ref="838193523"/>
+					</object>
+					<int key="connectionID">66</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">factionLabel</string>
 						<reference key="source" ref="376945506"/>
 						<reference key="destination" ref="279184948"/>
@@ -392,6 +464,15 @@
 					</object>
 					<int key="connectionID">50</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">toggleChatMode:</string>
+						<reference key="source" ref="364667190"/>
+						<reference key="destination" ref="1064223957"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">64</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -418,7 +499,9 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="205790748"/>
 							<reference ref="21870183"/>
-							<reference ref="712748824"/>
+							<reference ref="364667190"/>
+							<reference ref="198967329"/>
+							<reference ref="838193523"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -494,8 +577,18 @@
 						<reference key="parent" ref="19846190"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">59</int>
-						<reference key="object" ref="712748824"/>
+						<int key="objectID">61</int>
+						<reference key="object" ref="364667190"/>
+						<reference key="parent" ref="1064223957"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">62</int>
+						<reference key="object" ref="198967329"/>
+						<reference key="parent" ref="1064223957"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">63</int>
+						<reference key="object" ref="838193523"/>
 						<reference key="parent" ref="1064223957"/>
 					</object>
 				</array>
@@ -527,13 +620,15 @@
 				<string key="47.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="48.CustomClassName">NiceFontLabel</string>
 				<string key="48.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="59.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="61.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="62.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="63.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">59</int>
+			<int key="maxID">66</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -560,6 +655,8 @@
 						<string key="chatView1">ChatLineView</string>
 						<string key="chatView2">ChatLineView</string>
 						<string key="chatView3">ChatLineView</string>
+						<string key="clanIcon">UIImageView</string>
+						<string key="globalIcon">UIImageView</string>
 						<string key="mainView">UIView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -574,6 +671,14 @@
 						<object class="IBToOneOutletInfo" key="chatView3">
 							<string key="name">chatView3</string>
 							<string key="candidateClassName">ChatLineView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="clanIcon">
+							<string key="name">clanIcon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="globalIcon">
+							<string key="name">globalIcon</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="mainView">
 							<string key="name">mainView</string>
@@ -698,8 +803,10 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="chaticon.png">{39, 39}</string>
+			<string key="clanmyclan.png">{29, 18}</string>
+			<string key="globalchat.png">{25, 25}</string>
 			<string key="greytransparentbar.png">{363, 50}</string>
+			<string key="togglechatbutton.png">{40, 40}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1179</string>
 	</data>

@@ -16,7 +16,6 @@
   CGRect frontOldFrame;
   CGRect upgrFrame;
   
-  BOOL _isDisplayingLoadingView;
   BOOL _collectingEquips;
   BOOL _shouldShake;
   

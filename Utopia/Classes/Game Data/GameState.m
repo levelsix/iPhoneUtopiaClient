@@ -15,6 +15,7 @@
 #import "ProfileViewController.h"
 #import "ForgeMenuController.h"
 #import "ChatMenuController.h"
+#import "AppDelegate.h"
 
 #define TagLog(...) ContextLogInfo(LN_CONTEXT_TAGS, __VA_ARGS__)
 
@@ -95,7 +96,8 @@
 @synthesize attackMapList = _attackMapList;
 @synthesize notifications = _notifications;
 @synthesize wallPosts = _wallPosts;
-@synthesize chatMessages = _chatMessages;
+@synthesize globalChatMessages = _globalChatMessages;
+@synthesize clanChatMessages = _clanChatMessages;
 
 @synthesize lastLogoutTime = _lastLogoutTime;
 
@@ -104,6 +106,10 @@
 @synthesize unrespondedUpdates = _unrespondedUpdates;
 
 @synthesize forgeAttempt = _forgeAttempt;
+
+@synthesize clan = _clan;
+
+@synthesize requestedClans = _requestedClans;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
@@ -128,13 +134,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _myStructs = [[NSMutableArray alloc] init];
     _myCities = [[NSMutableDictionary alloc] init];
     _wallPosts = [[NSMutableArray alloc] init];
-    _chatMessages = [[NSMutableArray alloc] init];
+    _globalChatMessages = [[NSMutableArray alloc] init];
+    _clanChatMessages = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
     _inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
     
     _unrespondedUpdates = [[NSMutableArray alloc] init];
+    
+    _requestedClans = [[NSMutableArray alloc] init];
     
     _silver = 10000;
     _gold = 50;
@@ -161,10 +170,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   // Copy over data from full user proto
-  if (_userId != user.userId || ![_name isEqualToString:user.name] || _type != user.userType) {
+  if (_userId != user.userId || ![_name isEqualToString:user.name] || _type != user.userType || (user.hasClan && ![self.clan.data isEqualToData:user.clan.data]) || (!user.hasClan && self.clan)) {
     self.userId = user.userId;
     self.name = user.name;
     self.type = user.userType;
+    if (user.hasClan) {
+      self.clan = user.clan;
+    } else {
+      self.clan = nil;
+    }
     [[SocketCommunication sharedSocketCommunication] rebuildSender];
   }
   self.level = user.level;
@@ -215,10 +229,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (MinimumUserProto *) minUser {
-  return [[[[[MinimumUserProto builder] setName:_name] setUserId:_userId] setUserType:_type] build];
+  return [[[[[[MinimumUserProto builder] setName:_name] setUserId:_userId] setUserType:_type] setClan:_clan] build];
 }
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId {
+  AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   if (itemId == 0) {
     [Globals popupMessage:@"Attempted to access static item 0"];
     return nil;
@@ -255,7 +270,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       } else if (dict == _staticUpgradeStructJobs) {
         [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:arr];
       }
-    } else if (!self.connected || numTimes > 10000) {
+    } else if (!ad.isActive || numTimes > 10000) {
       return nil;
     }
     //    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
@@ -404,29 +419,54 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       
       ProfileViewController *pvc = [ProfileViewController sharedProfileViewController];
       [pvc.wallTabView displayNewWallPost];
+      
+      TopBar *tb = [TopBar sharedTopBar];
+      if (tb.isStarted && (!pvc.view.superview || pvc.profileBar.state != kMyProfile)) {
+        UserNotification *un = [[[UserNotification alloc] initWithWallPost:wallPost] autorelease];
+        [tb addNotificationToDisplayQueue:un];
+      }
+      
     }
   }
 }
 
-- (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg {
+- (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(GroupChatScope)scope {
+  int arrCount = 0;
+  
+  ChatBottomView *btm = [[TopBar sharedTopBar] chatBottomView];
   ChatMessage *cm = [[ChatMessage alloc] init];
   cm.sender = sender;
   cm.message = msg;
   cm.date = [NSDate date];
-  [self.chatMessages addObject:cm];
+  if (scope == GroupChatScopeGlobal) {
+    [self.globalChatMessages addObject:cm];
+    
+    if (btm.isGlobal) {
+      [btm addChat:cm];
+    }
+    arrCount = self.globalChatMessages.count;
+  } else if (scope == GroupChatScopeClan) {
+    [self.clanChatMessages addObject:cm];
+    
+    if (!btm.isGlobal) {
+      [btm addChat:cm];
+    }
+    arrCount = self.clanChatMessages.count;
+  }
   [cm release];
   
-  [[[TopBar sharedTopBar] chatBottomView] addChat:cm];
   
   if ([ChatMenuController isInitialized] && [ChatMenuController sharedChatMenuController].view.superview) {
     ChatMenuController *cmc = [ChatMenuController sharedChatMenuController];
-    NSIndexPath *path = [NSIndexPath indexPathForRow:self.chatMessages.count-1 inSection:0];
-    [cmc.chatTable insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
-    
-    // Give 100 pixels of leniency
-//    if (cmc.chatTable.contentOffset.y > cmc.chatTable.contentSize.height-cmc.chatTable.frame.size.height-100) {
-      [cmc.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-//    }
+    if ((cmc.isGlobal && scope == GroupChatScopeGlobal) || (!cmc.isGlobal && scope == GroupChatScopeClan)) {
+      NSIndexPath *path = [NSIndexPath indexPathForRow:arrCount-1 inSection:0];
+      [cmc.chatTable insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
+      
+      // Give 100 pixels of leniency
+      if (cmc.chatTable.contentOffset.y > cmc.chatTable.contentSize.height-cmc.chatTable.frame.size.height-100) {
+        [cmc.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+      }
+    }
   }
 }
 
@@ -676,6 +716,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) addToRequestedClans:(NSArray *)arr {
+  for (FullUserClanProto *uc in arr) {
+    if (uc.status == UserClanStatusRequesting) {
+      [self.requestedClans addObject:[NSNumber numberWithInt:uc.clanId]];
+    }
+  }
+}
+
 - (void) purgeStaticData {
   [_staticQuests removeAllObjects];
   [_staticBuildStructJobs removeAllObjects];
@@ -721,13 +769,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.myStructs = [[[NSMutableArray alloc] init] autorelease];
   self.myCities = [[[NSMutableDictionary alloc] init] autorelease];
   self.wallPosts = [[[NSMutableArray alloc] init] autorelease];
-  self.chatMessages = [[[NSMutableArray alloc] init] autorelease];
+  self.clanChatMessages = [[[NSMutableArray alloc] init] autorelease];
+  self.globalChatMessages = [[[NSMutableArray alloc] init] autorelease];
   
   self.availableQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressCompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressIncompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
   
   self.unrespondedUpdates = [[[NSMutableArray alloc] init] autorelease];
+  
+  self.requestedClans = [[[NSMutableArray alloc] init] autorelease];
   
   [self stopForgeTimer];
   self.forgeAttempt = nil;
@@ -765,12 +816,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.attackMapList = nil;
   self.notifications = nil;
   self.wallPosts = nil;
-  self.chatMessages = nil;
+  self.globalChatMessages = nil;
+  self.clanChatMessages = nil;
   self.lastLogoutTime = nil;
   self.unrespondedUpdates = nil;
   self.deviceToken = nil;
   self.allies = nil;
   self.forgeAttempt = nil;
+  self.clan = nil;
+  self.requestedClans = nil;
+  [self stopForgeTimer];
   [super dealloc];
 }
 

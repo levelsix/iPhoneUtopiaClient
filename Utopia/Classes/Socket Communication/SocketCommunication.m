@@ -58,11 +58,7 @@ static NSString *udid = nil;
 - (void) rebuildSender {
   [_sender release];
   GameState *gs = [GameState sharedGameState];
-  _sender = [[[[[[MinimumUserProto builder] 
-                 setUserId:gs.userId] 
-                setName:gs.name] 
-               setUserType:gs.type] 
-              build] retain];
+  _sender = [gs.minUser retain];
 }
 
 - (void) initNetworkCommunication {
@@ -676,7 +672,6 @@ static NSString *udid = nil;
                                          setWallOwnerId:playerId]
                                         setContent:content]
                                        build];
-  NSLog(@"%@", content);
   
   return [self sendData:req withMessageType:EventProtocolRequestCPostOnPlayerWallEvent];
 }
@@ -793,6 +788,114 @@ static NSString *udid = nil;
                                     build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCPurchaseGroupChatEvent];
+}
+
+- (int) sendCreateClanMessage:(NSString *)clanName tag:(NSString *)tag {
+  CreateClanRequestProto *req = [[[[[CreateClanRequestProto builder]
+                                    setSender:_sender]
+                                   setName:clanName]
+                                  setTag:tag]
+                                 build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCCreateClanEvent];
+}
+
+- (int) sendLeaveClanMessage {
+  LeaveClanRequestProto *req = [[[LeaveClanRequestProto builder]
+                                 setSender:_sender]
+                                build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCLeaveClanEvent];
+}
+
+- (int) sendRequestJoinClanMessage:(int)clanId {
+  RequestJoinClanRequestProto *req = [[[[RequestJoinClanRequestProto builder]
+                                        setSender:_sender]
+                                       setClanId:clanId]
+                                      build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRequestJoinClanEvent];
+}
+
+- (int) sendRetractRequestJoinClanMessage:(int)clanId {
+  RetractRequestJoinClanRequestProto *req = [[[[RetractRequestJoinClanRequestProto builder]
+                                               setSender:_sender]
+                                              setClanId:clanId]
+                                             build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRetractRequestJoinClanEvent];
+}
+
+- (int) sendApproveOrRejectRequestToJoinClan:(int)requesterId accept:(BOOL)accept {
+  ApproveOrRejectRequestToJoinClanRequestProto *req = [[[[[ApproveOrRejectRequestToJoinClanRequestProto builder]
+                                                          setSender:_sender]
+                                                         setRequesterId:requesterId]
+                                                        setAccept:accept]
+                                                       build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCApproveOrRejectRequestToJoinClanEvent];
+}
+
+- (int) sendTransferClanOwnership:(int)newClanOwnerId {
+  TransferClanOwnershipRequestProto *req = [[[[TransferClanOwnershipRequestProto builder]
+                                              setSender:_sender]
+                                             setNewClanOwnerId:newClanOwnerId]
+                                            build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCTransferClanOwnership];
+}
+
+- (int) sendChangeClanDescription:(NSString *)description {
+  ChangeClanDescriptionRequestProto *req = [[[[ChangeClanDescriptionRequestProto builder]
+                                              setSender:_sender]
+                                             setDescription:description]
+                                            build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCChangeClanDescriptionEvent];
+}
+
+- (int) sendRetrieveClanInfoMessage:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId {
+  RetrieveClanInfoRequestProto_Builder *bldr = [[[[RetrieveClanInfoRequestProto builder]
+                                                  setSender:_sender]
+                                                 setGrabType:grabType]
+                                                setIsForBrowsingList:isForBrowsingList];
+  
+  if (clanName) bldr.clanName = clanName;
+  if (clanId) bldr.clanId = clanId;
+  if (beforeClanId) bldr.beforeThisClanId = beforeClanId;
+  
+  RetrieveClanInfoRequestProto *req = [bldr build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveClanInfoEvent];
+}
+
+- (int) sendBootPlayerFromClan:(int)playerId {
+  BootPlayerFromClanRequestProto *req = [[[[BootPlayerFromClanRequestProto builder]
+                                           setSender:_sender]
+                                          setPlayerToBoot:playerId]
+                                         build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCBootPlayerFromClanEvent];
+}
+
+- (int) sendPostOnClanWallMessage:(NSString *)content {
+  PostOnClanWallRequestProto *req = [[[[PostOnClanWallRequestProto builder]
+                                       setSender:_sender]
+                                      setContent:content]
+                                     build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCPostOnClanWallEvent];
+}
+
+- (int) sendRetrieveClanWallPostsMessage:(int)beforeThisClanId {
+  RetrieveClanInfoRequestProto_Builder *bldr = [[RetrieveClanInfoRequestProto builder] setSender:_sender];
+  
+  if (beforeThisClanId > 0) {
+    [bldr setBeforeThisClanId:beforeThisClanId];
+  }
+  
+  RetrieveClanInfoRequestProto *req = [bldr build];
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveClanWallPostsEvent];
 }
 
 - (void) closeDownConnection {

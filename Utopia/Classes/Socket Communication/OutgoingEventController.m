@@ -183,9 +183,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (!fep.isBuyableInArmory) {
     [Globals popupMessage:@"Attempting to buy equip that is not in the armory.."];
-  }
-  
-  if (gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
+  } else if (gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeBuy quantity:1 equipId:equipId];
     
     SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-fep.coinPrice];
@@ -1363,12 +1361,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (PlayerWallPostProto *) postToPlayerWall:(int)playerId withContent:(NSString *)content {
-  if (content.length <= 0) {
-    [Globals popupMessage:@"Attempting to post on player wall with no content"];
+  Globals *gl = [Globals sharedGlobals];
+  if (content.length <= 0 || content.length > gl.maxCharLengthForWallPost) {
+    [Globals popupMessage:@"Attempting to post on player wall with incorrect content length."];
     return nil;
   }
   if (playerId <= 0) {
-    [Globals popupMessage:@"Attempting to post on player 0's wall"];
+    [Globals popupMessage:@"Attempting to post on player 0's wall."];
     return nil;
   }
   
@@ -1377,7 +1376,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   PlayerWallPostProto_Builder *bldr = [PlayerWallPostProto builder];
   bldr.playerWallPostId = 0;
-  bldr.poster = [[[[[MinimumUserProto builder] setUserId:gs.userId] setUserType:gs.type] setName:gs.name] build];
+  bldr.poster = gs.minUser;
   bldr.wallOwnerId = playerId;
   bldr.content = content;
   bldr.timeOfPost = [[NSDate date] timeIntervalSince1970]*1000;
@@ -1645,10 +1644,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (gs.numGroupChatsRemaining > 0) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendGroupChatMessage:scope message:msg];
-    [gs addUnrespondedUpdate:[ChatUpdate updateWithTag:tag change:-1]];
+    
+    if (scope == GroupChatScopeGlobal) {
+      [gs addUnrespondedUpdate:[ChatUpdate updateWithTag:tag change:-1]];
+    }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-      [gs addChatMessage:gs.minUser message:msg];
+      [gs addChatMessage:gs.minUser message:msg scope:scope];
     });
   } else {
     [Globals popupMessage:@"Attempting to send chat without any speakers"];
@@ -1667,6 +1669,147 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     [Globals popupMessage:@"Attempting to purchase chat without enough gold."];
   }
+}
+
+- (int) createClan:(NSString *)clanName tag:(NSString *)clanTag {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
+  if (clanName.length <= 0 || clanName.length > gl.maxCharLengthForClanName) {
+    [Globals popupMessage:@"Attempting to create clan with inappropriate clan name length."];
+  } else if (clanTag.length <= 0 || clanTag.length > gl.maxCharLengthForClanTag) {
+    [Globals popupMessage:@"Attempting to create clan with inappropriate clan tag length."];
+  } else if (gs.gold < gl.diamondPriceToCreateClan) {
+    [Globals popupMessage:@"Attempting to create clan without enough gold."];
+  } else {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendCreateClanMessage:clanName tag:clanTag];
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gl.diamondPriceToCreateClan]];
+    return tag;
+  }
+  return 0;
+}
+
+- (int) leaveClan {
+  GameState *gs = [GameState sharedGameState];
+  
+  // Make sure clan controller checks member size and clan leader
+  if (gs.clan) {
+    return [[SocketCommunication sharedSocketCommunication] sendLeaveClanMessage];
+  } else {
+    [Globals popupMessage:@"Attempting to leave clan without being in clan."];
+  }
+  return 0;
+}
+
+- (int) requestJoinClan:(int)clanId {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (gs.clan) {
+    [Globals popupMessage:@"Attempting to request to join clan while in a clan."];
+  } else if ([gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
+    [Globals popupMessage:@"Attempting to send multiple requests to join clan."];
+  } else {
+    return [[SocketCommunication sharedSocketCommunication] sendRequestJoinClanMessage:clanId];
+  }
+  return 0;
+}
+
+- (int) retractRequestToJoinClan:(int)clanId {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (gs.clan) {
+    [Globals popupMessage:@"Attempting to retract clan request while in a clan."];
+  } else if (![gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
+    [Globals popupMessage:@"Attempting to retract invalid clan request."];
+  } else {
+    return [[SocketCommunication sharedSocketCommunication] sendRetractRequestJoinClanMessage:clanId];
+  }
+  return 0;
+}
+
+- (int) approveOrRejectRequestToJoinClan:(int)requesterId accept:(BOOL)accept {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (!gs.clan || gs.clan.ownerId != gs.userId) {
+    [Globals popupMessage:@"Attempting to respond to clan request while not clan leader."];
+  } else {
+    return [[SocketCommunication sharedSocketCommunication] sendApproveOrRejectRequestToJoinClan:requesterId accept:accept];
+  }
+  return 0;
+}
+
+- (int) transferClanOwnership:(int)newClanOwnerId {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (!gs.clan || gs.clan.ownerId != gs.userId) {
+    [Globals popupMessage:@"Attempting to transfer clan ownership while not clan leader."];
+  } else {
+    return [[SocketCommunication sharedSocketCommunication] sendTransferClanOwnership:newClanOwnerId];
+  }
+  return 0;
+}
+
+- (int) changeClanDescription:(NSString *)description {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (!gs.clan || gs.clan.ownerId != gs.userId) {
+    [Globals popupMessage:@"Attempting to change clan description while not clan leader."];
+  } else if (description.length <= 0 || description.length > gl.maxCharLengthForClanDescription) {
+    [Globals popupMessage:@"Attempting to change clan description with inappropriate length"];
+  } else {
+    return [[SocketCommunication sharedSocketCommunication] sendChangeClanDescription:description];
+  }
+  return 0;
+}
+
+- (int) bootPlayerFromClan:(int)playerId {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (!gs.clan || gs.clan.ownerId != gs.userId) {
+    [Globals popupMessage:@"Attempting to boot player while not clan leader."];
+  } else {
+    return [[SocketCommunication sharedSocketCommunication] sendBootPlayerFromClan:playerId];
+  }
+  return 0;
+}
+
+- (void) retrieveClanInfo:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList  beforeClanId:(int)beforeClanId {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveClanInfoMessage:clanName clanId:clanId grabType:grabType isForBrowsingList:isForBrowsingList beforeClanId:beforeClanId];
+  
+  GameState *gs = [GameState sharedGameState];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+}
+
+- (ClanWallPostProto *) postOnClanWall:(NSString *)content {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (content.length <= 0 || content.length > gl.maxCharLengthForWallPost) {
+    [Globals popupMessage:@"Attempting to post on clan wall with no content."];
+    return nil;
+  }
+  if (!gs.clan) {
+    [Globals popupMessage:@"Attempting to post on clan wall while not in a clan."];
+    return nil;
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendPostOnClanWallMessage:content];
+  
+  ClanWallPostProto_Builder *bldr = [ClanWallPostProto builder];
+  bldr.clanWallPostId = 0;
+  bldr.poster = gs.minUser;
+  bldr.content = content;
+  bldr.timeOfPost = [[NSDate date] timeIntervalSince1970]*1000;
+  
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+  
+  return [bldr build];
+}
+
+- (void) retrieveClanWallPosts:(int)beforeThisPostId {
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveClanWallPostsMessage:beforeThisPostId];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 @end

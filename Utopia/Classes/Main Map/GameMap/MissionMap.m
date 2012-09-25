@@ -423,7 +423,7 @@
                         [CCMoveBy actionWithDuration:EXP_LABEL_DURATION position:ccp(0,40)],nil],
                        [CCCallBlock actionWithBlock:^{[expLabel removeFromParentAndCleanup:YES];}], nil]];
   
-  CCLabelTTF *successLabel =  [CCLabelFX labelWithString:[NSString stringWithFormat:@"Success!", ftp.expGained] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+  CCLabelTTF *successLabel =  [CCLabelFX labelWithString:[NSString stringWithFormat:@"Success!"] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
   [self addChild:successLabel z:1003];
   successLabel.position = ccp(expLabel.position.x, expLabel.position.y+expLabel.contentSize.height/2+successLabel.contentSize.height/2);
   successLabel.color = ccc3(255,255,255);

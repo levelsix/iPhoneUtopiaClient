@@ -347,12 +347,12 @@
 @synthesize critStruct;
 
 - (id) initWithCritStruct:(CritStruct *)cs location:(CGRect)loc map:(GameMap *)map {
-  NSString *fileName = [cs.name stringByAppendingString:@".png"];
+  NSString *fileName = [[cs.name stringByReplacingOccurrencesOfString:@" " withString:@""] stringByAppendingString:@".png"];
   if ((self = [super initWithFile:fileName location:loc map:map])) {
     self.critStruct = cs;
     
     CCSprite *label = [CCSprite spriteWithFile:[@"The" stringByAppendingString:fileName]];
-    [self addChild:label];
+    [self addChild:label z:1];
     label.position = ccp(self.contentSize.width/2, 45);
   }
   return self;

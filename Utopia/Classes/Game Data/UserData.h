@@ -67,6 +67,7 @@ typedef enum {
   BazaarStructTypeMarketplace,
   BazaarStructTypeBlacksmith,
   BazaarStructTypeLeaderboard,
+  BazaarStructTypeClanHouse
 } BazaarStructType;
 
 @interface CritStruct : NSObject 
@@ -83,7 +84,8 @@ typedef enum {
   kNotificationBattle = 1,
   kNotificationMarketplace,
   kNotificationReferral,
-  kNotificationForge
+  kNotificationForge,
+  kNotificationWallPost
 } NotificationType;
 
 @interface UserNotification : NSObject
@@ -98,6 +100,7 @@ typedef enum {
 @property (nonatomic, assign) int stolenEquipLevel;
 @property (nonatomic, assign) int forgeEquipId;
 @property (nonatomic, assign) BOOL hasBeenViewed;
+@property (nonatomic, retain) NSString *wallPost;
 
 - (id) initBattleNotificationAtStartup:(StartupResponseProto_AttackedNotificationProto *)proto;
 - (id) initMarketplaceNotificationAtStartup:(StartupResponseProto_MarketplacePostPurchasedNotificationProto *)proto;
@@ -106,6 +109,7 @@ typedef enum {
 - (id) initWithMarketplaceResponse:(PurchaseFromMarketplaceResponseProto *)proto;
 - (id) initWithReferralResponse:(ReferralCodeUsedResponseProto *)proto;
 - (id) initWithForgeAttempt:(ForgeAttempt *)fa;
+- (id) initWithWallPost:(PlayerWallPostProto *)proto;
 
 @end
 

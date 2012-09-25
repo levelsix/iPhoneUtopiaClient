@@ -8,12 +8,19 @@
 
 #import "InGameNotification.h"
 #import "ActivityFeedController.h"
+#import "ProfileViewController.h"
 
 @implementation InGameNotification
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   self.hidden = YES;
-  [ActivityFeedController displayView];
+  if (self.notification.type != kNotificationWallPost) {
+    [ActivityFeedController displayView];
+  } else {
+    [[ProfileViewController sharedProfileViewController] loadMyProfile];
+    [[ProfileViewController sharedProfileViewController] setState:kProfileState];
+    [ProfileViewController displayView];
+  }
 }
 
 @end

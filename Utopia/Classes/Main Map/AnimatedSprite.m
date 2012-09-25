@@ -15,6 +15,7 @@
 #import "GameState.h"
 #import "CarpenterMenuController.h"
 #import "ProfileViewController.h"
+#import "Globals.h"
 
 @implementation CCSpriteFrameCache (FrameCheck)
 
@@ -323,7 +324,7 @@
   if (user != u) {
     [user release];
     user = [u retain];
-    _nameLabel.string = u.name;
+    _nameLabel.string = [Globals fullNameWithName:u.name clanTag:u.clan.tag];
   }
 }
 
@@ -363,7 +364,7 @@
   if (user != u) {
     [user release];
     user = [u retain];
-    _nameLabel.string = u.minUserProto.name;
+    _nameLabel.string = [Globals fullNameWithName:u.minUserProto.name clanTag:u.minUserProto.clan.tag];
   }
 }
 

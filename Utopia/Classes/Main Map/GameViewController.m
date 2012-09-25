@@ -49,6 +49,7 @@
 #import "AttackMenuController.h"
 #import "LeaderboardController.h"
 #import "ChatMenuController.h"
+#import "ClanMenuController.h"
 
 #define DOOR_CLOSE_DURATION 1.5f
 #define DOOR_OPEN_DURATION 1.f
@@ -101,6 +102,8 @@
   [CarpenterMenuController purgeSingleton];
   [ChatMenuController removeView];
   [ChatMenuController purgeSingleton];
+  [ClanMenuController removeView];
+  [ClanMenuController purgeSingleton];
   [ConvoMenuController removeView];
   [ConvoMenuController purgeSingleton];
   [ArmoryViewController removeView];
@@ -289,8 +292,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
 - (void) loadView {
   CGRect rect = [[UIScreen mainScreen] bounds];
-  rect.size = CGSizeMake( rect.size.height, rect.size.width );
+  CGSize size = rect.size;
+  rect.size = CGSizeMake(480, 320);
+  rect.origin = CGPointMake((size.height-rect.size.width)/2, (size.width-rect.size.height)/2);
   GameView *v = [[GameView alloc] initWithFrame:rect];
+  v.backgroundColor = [UIColor blackColor];
   
   self.view = v;
   [v release];
@@ -331,7 +337,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 - (void)dealloc {
   [super dealloc];
 }
-
 
 @end
 

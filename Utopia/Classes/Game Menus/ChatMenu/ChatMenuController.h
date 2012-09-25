@@ -8,6 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "UserData.h"
+#import "LeaderboardController.h"
+
+typedef LeaderboardBarButton ChatBarButton;
+
+@interface ChatTopBar : UIView {
+  BOOL _trackingButton1;
+  BOOL _trackingButton2;
+  
+  int _clickedButtons;
+}
+
+@property (nonatomic, retain) IBOutlet UIImageView *button1;
+@property (nonatomic, retain) IBOutlet UIImageView *button2;
+
+@end
 
 @interface ChatCell : UITableViewCell
 
@@ -34,6 +49,8 @@
 
 @interface ChatMenuController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
+@property (nonatomic, assign) BOOL isGlobal;
+
 @property (nonatomic, retain) IBOutlet ChatCell *chatCell;
 
 @property (nonatomic, retain) IBOutlet UITableView *chatTable;
@@ -41,6 +58,8 @@
 
 @property (nonatomic, retain) IBOutlet UIView *bottomView;
 @property (nonatomic, retain) IBOutlet UITextField *postTextField;
+
+@property (nonatomic, retain) IBOutlet ChatTopBar *topBar;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;

@@ -20,7 +20,6 @@
 #import "Apsalar.h"
 #import "LoggingContextFilter.h"
 #import "SoundEngine.h"
-#import "DownloadTracker.h"
 #import "Crittercism.h"
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
@@ -36,6 +35,7 @@
 @implementation AppDelegate
 
 @synthesize window;
+@synthesize isActive;
 //@synthesize facebookDelegate;
 
 //- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
@@ -110,6 +110,8 @@
   
 	// Init the window
   //	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  
+  self.isActive = YES;
 	
 	CCDirector *director = [CCDirector sharedDirector];
   
@@ -200,10 +202,10 @@
   [self setUpDelightio];
   
   // AdColony
-  adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];
+//  adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];
 
   // TapJoy
-  tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
+//  tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
   /*
    * Disabled Sponsored offers:(Short Term)
    *  
@@ -217,9 +219,6 @@
   [self setUpFlurryAnalytics];
  *
  */
-  
-  // Burstley DownloadTracker
-  [DownloadTracker track];
   
   // TestFlight SDK
 //  [TestFlight takeOff:TEST_FLIGHT_API_KEY];  
@@ -257,6 +256,8 @@
 	[[CCDirector sharedDirector] stopAnimation];
   [self registerLocalNotifications];
   
+  self.isActive = NO;
+  
   [[OutgoingEventController sharedOutgoingEventController] logout];
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
   
@@ -274,6 +275,8 @@
 -(void) applicationWillEnterForeground:(UIApplication*)application {
   DDLogVerbose(@"will enter foreground");
   [self removeLocalNotifications];
+  
+  self.isActive = YES;
   
 #ifndef DEBUG
   [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];
@@ -409,8 +412,8 @@
 
 - (void)dealloc {
 	[[CCDirector sharedDirector] end];
-  [adColonyDelegate release];
-  [tapJoyDelegate      release];
+//  [adColonyDelegate release];
+//  [tapJoyDelegate      release];
 //  [flurryClipsDelegate release];
 //  [facebookDelegate    release];
   [kiipDelegate        release];

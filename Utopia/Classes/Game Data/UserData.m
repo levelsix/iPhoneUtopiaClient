@@ -17,6 +17,7 @@
 #import "CarpenterMenuController.h"
 #import "ForgeMenuController.h"
 #import "LeaderboardController.h"
+#import "ClanMenuController.h"
 
 @implementation UserEquip
 
@@ -165,6 +166,9 @@
       name = @"Leaderboard";
       break;
       
+    case BazaarStructTypeClanHouse:
+      name = @"Clan House";
+      
     default:
       break;
   }
@@ -200,6 +204,9 @@
       [LeaderboardController displayView];
       break;
       
+    case BazaarStructTypeClanHouse:
+      [ClanMenuController displayView];
+      
     default:
       break;
   }
@@ -218,6 +225,7 @@
 @synthesize marketPost;
 @synthesize battleResult, coinsStolen, stolenEquipId, stolenEquipLevel;
 @synthesize forgeEquipId;
+@synthesize wallPost;
 @synthesize hasBeenViewed;
 
 - (id) initBattleNotificationAtStartup:(StartupResponseProto_AttackedNotificationProto *)proto {
@@ -299,6 +307,16 @@
   return self;
 }
 
+- (id) initWithWallPost:(PlayerWallPostProto *)proto {
+  if ((self = [super init])) {
+    self.otherPlayer = proto.poster;
+    self.time = [NSDate date];
+    self.type = kNotificationWallPost;
+    self.wallPost = proto.content;
+  }
+  return self;
+}
+
 - (NSString *) description {
   return [NSString stringWithFormat:@"<UserNotification> Type: %d", self.type];
 }
@@ -307,6 +325,7 @@
   self.time = nil;
   self.otherPlayer = nil;
   self.marketPost = nil;
+  self.wallPost = nil;
   [super dealloc];
 }
 

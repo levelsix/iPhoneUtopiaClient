@@ -15,6 +15,136 @@
 #import "RefillMenuController.h"
 #import "OutgoingEventController.h"
 
+@implementation ChatTopBar
+
+@synthesize button1, button2;
+
+- (void) awakeFromNib {
+  [self clickButton:kButton1];
+  [self unclickButton:kButton2];
+}
+
+- (void) loadForIsGlobal:(BOOL)isGlobal {
+  [self unclickButton:kButton1];
+  [self unclickButton:kButton2];
+  [self clickButton:isGlobal ? kButton1 : kButton2];
+}
+
+- (void) clickButton:(LeaderboardBarButton)button {
+  switch (button) {
+    case kButton1:
+      button1.hidden = NO;
+      _clickedButtons |= kButton1;
+      break;
+      
+    case kButton2:
+      button2.hidden = NO;
+      _clickedButtons |= kButton2;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) unclickButton:(LeaderboardBarButton)button {
+  switch (button) {
+    case kButton1:
+      button1.hidden = YES;
+      _clickedButtons &= ~kButton1;
+      break;
+      
+    case kButton2:
+      button2.hidden = YES;
+      _clickedButtons &= ~kButton2;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (!(_clickedButtons & kButton1) && [button1 pointInside:pt withEvent:nil]) {
+    _trackingButton1 = YES;
+    [self clickButton:kButton1];
+  }
+  
+  pt = [touch locationInView:button2];
+  if (!(_clickedButtons & kButton2) && [button2 pointInside:pt withEvent:nil]) {
+    _trackingButton2 = YES;
+    [self clickButton:kButton2];
+  }
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (_trackingButton1) {
+    if (CGRectContainsPoint(CGRectInset(button1.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton1];
+    } else {
+      [self unclickButton:kButton1];
+    }
+  }
+  
+  pt = [touch locationInView:button2];
+  if (_trackingButton2) {
+    if (CGRectContainsPoint(CGRectInset(button2.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton2];
+    } else {
+      [self unclickButton:kButton2];
+    }
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (_trackingButton1) {
+    if (CGRectContainsPoint(CGRectInset(button1.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton1];
+      [self unclickButton:kButton2];
+      
+      [[ChatMenuController sharedChatMenuController] setIsGlobal:YES];
+    } else {
+      [self unclickButton:kButton1];
+    }
+  }
+  
+  pt = [touch locationInView:button2];
+  if (_trackingButton2) {
+    if (CGRectContainsPoint(CGRectInset(button2.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton2];
+      [self unclickButton:kButton1];
+      
+      [[ChatMenuController sharedChatMenuController] setIsGlobal:NO];
+    } else {
+      [self unclickButton:kButton2];
+    }
+  }
+  
+  _trackingButton1 = NO;
+  _trackingButton2 = NO;
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self unclickButton:kButton1];
+  [self unclickButton:kButton2];
+  _trackingButton1 = NO;
+  _trackingButton2 = NO;
+}
+
+- (void) dealloc {
+  self.button2 = nil;
+  self.button1 = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation ChatCell
 
 @synthesize bubbleView;
@@ -46,7 +176,7 @@ static float cellLabelFontSize = 14.f;
   self.textLabel.text = msg.message;
   CGSize size = [msg.message sizeWithFont:self.textLabel.font constrainedToSize:CGSizeMake(chatLabelWidth, 999) lineBreakMode:self.textLabel.lineBreakMode];
   
-  NSString *buttonText = msg.sender.name;
+  NSString *buttonText = [Globals fullNameWithName:msg.sender.name clanTag:msg.sender.clan.tag];
   [self.nameButton setTitle:buttonText forState:UIControlStateNormal];
   CGSize buttonSize = [buttonText sizeWithFont:self.nameButton.titleLabel.font constrainedToSize:CGSizeMake(self.nameButton.frame.size.width, 999) lineBreakMode:self.nameButton.titleLabel.lineBreakMode];
   size.width = MAX(size.width, buttonSize.width+2*self.nameButton.frame.origin.x);
@@ -173,12 +303,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 
 @synthesize chatCell, chatTable, numChatsLabel;
 @synthesize bottomView, postTextField;
+@synthesize topBar;
 @synthesize mainView, bgdView;
+@synthesize isGlobal;
 
 - (void)viewDidLoad
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
+  self.isGlobal = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -193,13 +326,34 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
+- (void) setIsGlobal:(BOOL)i {
+  GameState *gs = [GameState sharedGameState];
+  if (i == NO && !gs.clan) {
+    [Globals popupMessage:@"You must be in a clan first!"];
+    isGlobal = YES;
+  } else {
+    isGlobal = i;
+  }
+  [self.chatTable reloadData];
+  [self.topBar loadForIsGlobal:isGlobal];
+  [self updateNumChatsLabel];
+}
+
+- (NSArray *) arrayForState {
+  GameState *gs = [GameState sharedGameState];
+  if (isGlobal) {
+    return gs.globalChatMessages;
+  } else {
+    return gs.clanChatMessages;
+  }
+}
+
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
   return 1;
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  GameState *gs = [GameState sharedGameState];
-  return gs.chatMessages.count;
+  return self.arrayForState.count;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -210,15 +364,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     cell = self.chatCell;
   }
   
-  GameState *gs = [GameState sharedGameState];
-  [cell updateForChat:[gs.chatMessages objectAtIndex:indexPath.row]];
+  [cell updateForChat:[[self arrayForState] objectAtIndex:indexPath.row]];
   
   return cell;
 }
 
 - (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  GameState *gs = [GameState sharedGameState];
-  ChatMessage *cm = [gs.chatMessages objectAtIndex:indexPath.row];
+  ChatMessage *cm = [[self arrayForState] objectAtIndex:indexPath.row];
   CGSize size = [cm.message sizeWithFont:[UIFont fontWithName:@"SanvitoPro-Semibold" size:cellLabelFontSize] constrainedToSize:CGSizeMake(chatLabelWidth, 999) lineBreakMode:UILineBreakModeWordWrap];
   
   return cellHeight + (size.height-cellLabelHeight);
@@ -230,7 +382,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 
 - (void) updateNumChatsLabel {
   GameState *gs = [GameState sharedGameState];
-  self.numChatsLabel.text = [Globals commafyNumber:gs.numGroupChatsRemaining];
+  self.numChatsLabel.text = isGlobal ? [Globals commafyNumber:gs.numGroupChatsRemaining] : @"N/A";
 }
 
 - (void) close {
@@ -247,15 +399,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 }
 
 - (IBAction)addChatsClicked:(id)sender {
-  if (![self.postTextField isFirstResponder]) {
+  if (isGlobal) {
     [[RefillMenuController sharedRefillMenuController] displayBuySpeakersView];
+  } else {
+    [Globals popupMessage:@"You don't need speakers to chat with your clan."];
   }
+  [self.postTextField resignFirstResponder];
 }
 
 - (IBAction)chatRulesClicked:(id)sender {
-  if (![self.postTextField isFirstResponder]) {
-    [Globals popupMessage:@"No Swearing. No Bashing. No Advertising. No Spamming."];
-  }
+  [Globals popupMessage:@"No Swearing. No Bashing. No Advertising. No Spamming."];
+  [self.postTextField resignFirstResponder];
 }
 
 - (IBAction)sendClicked:(id)sender {
@@ -266,9 +420,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSString *msg = self.postTextField.text;
-  if (gs.numGroupChatsRemaining > 0) {
+  if ((isGlobal && gs.numGroupChatsRemaining > 0) || !isGlobal) {
     if (msg.length > 0 && msg.length < gl.maxLengthOfChatString) {
-      [[OutgoingEventController sharedOutgoingEventController] sendGroupChat:GroupChatScopeGlobal message:msg];
+      GroupChatScope scope = self.isGlobal ? GroupChatScopeGlobal : GroupChatScopeClan;
+      [[OutgoingEventController sharedOutgoingEventController] sendGroupChat:scope message:msg];
       [self updateNumChatsLabel]; 
     }
     self.postTextField.text = nil;
@@ -336,6 +491,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   self.postTextField = nil;
   self.bgdView = nil;
   self.mainView = nil;
+  self.topBar = nil;
 }
 
 @end

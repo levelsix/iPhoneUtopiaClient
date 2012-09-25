@@ -1,5 +1,9 @@
 ## Kiip SDK Changelog
 
+Version 1.0.18
+
+* Added support for armv7s for iOS 6
+
 Version 1.0.17
 
 * Critical bug fix: Crashed if notification image load failed.

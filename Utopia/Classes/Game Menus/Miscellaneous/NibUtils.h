@@ -32,6 +32,9 @@
 @interface NiceFontButton : UIButton
 @end
 
+@interface NiceFontButton2 : UIButton
+@end
+
 @interface LabelButton : UIButton {
   UILabel *_label;
   NSString *_text;
@@ -52,6 +55,10 @@
 
 @property (nonatomic, retain) UILabel *label;
 @property (nonatomic, retain) NiceFontTextFieldDelegate *nfDelegate;
+
+@end
+
+@interface NiceFontTextView : UITextView
 
 @end
 

@@ -76,6 +76,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     [cs release];
     [csb release];
     
+    cs = [[CritStruct alloc] initWithType:BazaarStructTypeClanHouse];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(42, 46, 3, 3) map:self];
+    [self addChild:csb z:100];
+    [cs release];
+    [csb release];
+    
     CGRect r = CGRectZero;
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);

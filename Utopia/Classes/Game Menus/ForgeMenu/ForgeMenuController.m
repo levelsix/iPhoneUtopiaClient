@@ -437,11 +437,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     self.backOldEquipIcon.alpha = 1.f;
   }
   
-  if (fi.level == 1) {
+  FullEquipProto *fep = [gs equipWithId:fi.equipId];
+  if (fi.level == 1 && fep.isBuyableInArmory) {
     self.buyOneView.hidden = NO;
     self.goToMarketplaceButton.hidden = YES;
     
-    FullEquipProto *fep = [gs equipWithId:fi.equipId];
     if (fep.hasCoinPrice) {
       self.buyOneCoinIcon.highlighted = NO;
       self.buyOneLabel.text = [Globals commafyNumber:fep.coinPrice];

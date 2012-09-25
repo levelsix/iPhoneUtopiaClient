@@ -80,6 +80,15 @@
 
 @end
 
+@implementation NiceFontButton2
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
+  self.titleLabel.font = [UIFont fontWithName:@"Trajan Pro" size:self.titleLabel.font.pointSize];
+}
+
+@end
+
 @implementation LabelButton
 
 @synthesize label = _label;
@@ -203,6 +212,14 @@
   self.label = nil;
   self.nfDelegate = nil;
   [super dealloc];
+}
+
+@end
+
+@implementation NiceFontTextView
+
+- (void) awakeFromNib {
+  self.font =  [UIFont fontWithName:[Globals font] size:self.font.pointSize];
 }
 
 @end

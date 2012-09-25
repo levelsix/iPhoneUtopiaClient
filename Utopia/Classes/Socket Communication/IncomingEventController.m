@@ -43,6 +43,8 @@
 #import "AttackMenuController.h"
 #import "LeaderboardController.h"
 #import "Crittercism.h"
+#import "ClanMenuController.h"
+#import "SocketCommunication.h"
 
 @implementation IncomingEventController
 
@@ -220,6 +222,40 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSReceivedGroupChatEvent:
       responseClass = [ReceivedGroupChatResponseProto class];
       break;
+    case EventProtocolResponseSCreateClanEvent:
+      responseClass = [CreateClanResponseProto class];
+      break;
+    case EventProtocolResponseSApproveOrRejectRequestToJoinClanEvent:
+      responseClass = [ApproveOrRejectRequestToJoinClanResponseProto class];
+      break;
+    case EventProtocolResponseSLeaveClanEvent:
+      responseClass = [LeaveClanResponseProto class];
+      break;
+    case EventProtocolResponseSRequestJoinClanEvent:
+      responseClass = [RequestJoinClanResponseProto class];
+      break;
+    case EventProtocolResponseSRetractRequestJoinClanEvent:
+      responseClass = [RetractRequestJoinClanResponseProto class];
+      break;
+    case EventProtocolResponseSRetrieveClanInfoEvent:
+      responseClass = [RetrieveClanInfoResponseProto class];
+      break;
+    case EventProtocolResponseSTransferClanOwnership:
+      responseClass = [TransferClanOwnershipResponseProto class];
+      break;
+    case EventProtocolResponseSChangeClanDescriptionEvent:
+      responseClass = [ChangeClanDescriptionResponseProto class];
+      break;
+    case EventProtocolResponseSBootPlayerFromClanEvent:
+      responseClass = [BootPlayerFromClanResponseProto class];
+      break;
+    case EventProtocolResponseSPostOnClanWallEvent:
+      responseClass = [PostOnClanWallResponseProto class];
+      break;
+    case EventProtocolResponseSRetrieveClanWallPostsEvent:
+      responseClass = [RetrieveClanWallPostsResponseProto class];
+      break;
+      
     default:
       responseClass = nil;
       break;
@@ -387,6 +423,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToInProgressIncompleteQuests:proto.inProgressIncompleteQuestsList];
     [oec loadPlayerCity:gs.userId];
     [oec retrieveAllStaticData];
+    
+    [gs addToRequestedClans:proto.userClanInfoList];
     
     [gs setAllies:proto.alliesList];
     
@@ -1571,7 +1609,245 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   // Chats sent from this user will be faked.
   GameState *gs = [GameState sharedGameState];
   if (proto.sender.userId != gs.userId) {
-    [gs addChatMessage:proto.sender message:proto.chatMessage];
+    [gs addChatMessage:proto.sender message:proto.chatMessage scope:proto.scope];
+  }
+}
+
+- (void) handleCreateClanResponseProto:(FullEvent *)fe {
+  CreateClanResponseProto *proto = (CreateClanResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Create clan response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  
+  if (proto.status == CreateClanResponseProto_CreateClanStatusSuccess) {
+    if (proto.hasClanInfo) {
+      gs.clan = proto.clanInfo;
+      [[SocketCommunication sharedSocketCommunication] rebuildSender];
+    }
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to create clan."];
+    
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+  
+  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  [[ClanMenuController sharedClanMenuController] receivedClanCreateResponse:proto];
+}
+
+- (void) handleRetrieveClanInfoResponseProto:(FullEvent *)fe {
+  RetrieveClanInfoResponseProto *proto = (RetrieveClanInfoResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve clan response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RetrieveClanInfoResponseProto_RetrieveClanInfoStatusSuccess) {
+    [[ClanMenuController sharedClanMenuController] receivedRetrieveClanInfoResponse:proto];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to retrieve clan information."];
+    
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+}
+
+- (void) handleApproveOrRejectRequestToJoinClanResponseProto:(FullEvent *)fe {
+  ApproveOrRejectRequestToJoinClanResponseProto *proto = (ApproveOrRejectRequestToJoinClanResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Approve or reject request to join clan response received with status %d.", proto.status);
+  
+  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
+    if (proto.requesterId == gs.userId) {
+      [gs.requestedClans removeObject:[NSNumber numberWithInt:proto.minClan.clanId]];
+      if (proto.accept) {
+        gs.clan = proto.minClan;
+        [[SocketCommunication sharedSocketCommunication] rebuildSender];
+      }
+    }
+    [[ClanMenuController sharedClanMenuController] receivedRejectOrAcceptResponse:proto];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to respond to clan request."];
+    
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+}
+
+- (void) handleLeaveClanResponseProto:(FullEvent *)fe {
+  LeaveClanResponseProto *proto = (LeaveClanResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Leave clan response received with status %d.", proto.status);
+  
+  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
+    if (proto.sender.userId == gs.userId) {
+      gs.clan = nil;
+      [[SocketCommunication sharedSocketCommunication] rebuildSender];
+    }
+    
+    [[ClanMenuController sharedClanMenuController] receivedLeaveResponse:proto];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to leave clan."];
+    
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRequestJoinClanResponseProto:(FullEvent *)fe {
+  RequestJoinClanResponseProto *proto = (RequestJoinClanResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Request join clan response received with status %d.", proto.status);
+  
+  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccess) {
+    if (proto.sender.userId == gs.userId) {
+      [gs.requestedClans addObject:[NSNumber numberWithInt:proto.clanId]];
+    }
+    [[ClanMenuController sharedClanMenuController] receivedRequestJoinClanResponse:proto];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to request to join clan request."];
+    
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRetractRequestJoinClanResponseProto:(FullEvent *)fe {
+  RetractRequestJoinClanResponseProto *proto = (RetractRequestJoinClanResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retract request to join clan response received with status %d.", proto.status);
+  
+  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess) {
+    if (proto.sender.userId == gs.userId) {
+      [gs.requestedClans removeObject:[NSNumber numberWithInt:proto.clanId]];
+    }
+    [[ClanMenuController sharedClanMenuController] receivedRetractRequestJoinClanResponse:proto];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to retract clan request."];
+    
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+}
+
+- (void) handleTransferClanOwnershipResponseProto:(FullEvent *)fe {
+  TransferClanOwnershipResponseProto *proto = (TransferClanOwnershipResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Transfer clan ownership response received with status %d.", proto.status);
+  
+  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == TransferClanOwnershipResponseProto_TransferClanOwnershipStatusSuccess) {
+    if (proto.hasMinClan) {
+      gs.clan = proto.minClan;
+      [[SocketCommunication sharedSocketCommunication] rebuildSender];
+    }
+    [[ClanMenuController sharedClanMenuController] receivedTransferOwnershipResponse:proto];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to transfer clan ownership."];
+    
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+}
+
+- (void) handleChangeClanDescriptionResponseProto:(FullEvent *)fe {
+  ChangeClanDescriptionResponseProto *proto = (ChangeClanDescriptionResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Change clan description response received with status %d.", proto.status);
+  
+  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == ChangeClanDescriptionResponseProto_ChangeClanDescriptionStatusSuccess) {
+    if (proto.hasMinClan) {
+      gs.clan = proto.minClan;
+      [[SocketCommunication sharedSocketCommunication] rebuildSender];
+    }
+    [[ClanMenuController sharedClanMenuController] receivedChangeDescriptionResponse:proto];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to change clan description."];
+    
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+}
+
+- (void) handleBootPlayerFromClanResponseProto:(FullEvent *)fe {
+  BootPlayerFromClanResponseProto *proto = (BootPlayerFromClanResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Boot player from clan response received with status %d.", proto.status);
+  
+  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == PostOnClanWallResponseProto_PostOnClanWallStatusSuccess) {
+    if (proto.playerToBoot == gs.userId) {
+      gs.clan = nil;
+      [[SocketCommunication sharedSocketCommunication] rebuildSender];
+    }
+    [[ClanMenuController sharedClanMenuController] receivedBootPlayerResponse:proto];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to post on clan wall."];
+    
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+}
+
+- (void) handlePostOnClanWallResponseProto:(FullEvent *)fe {
+  PostOnClanWallResponseProto *proto = (PostOnClanWallResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Post on clan wall response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == PostOnClanWallResponseProto_PostOnClanWallStatusSuccess) {
+    [[ClanMenuController sharedClanMenuController] receivedPostOnWall:proto];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to post on clan wall."];
+    
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRetrieveClanWallPostsResponseProto:(FullEvent *)fe {
+  RetrieveClanWallPostsResponseProto *proto = (RetrieveClanWallPostsResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve clan wall posts response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == PostOnClanWallResponseProto_PostOnClanWallStatusSuccess) {
+    [[ClanMenuController sharedClanMenuController] receivedWallPosts:proto];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to retrieve clan wall posts."];
+    
+    [gs removeFullUserUpdatesForTag:tag];
   }
 }
 

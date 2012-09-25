@@ -178,6 +178,8 @@
       [self unclickButton:kAmuButton];
       [self unclickButton:kArmButton];
       [self unclickButton:kAllButton];
+      
+      [[MarketplaceViewController sharedMarketplaceViewController] setCurrentFilter:kWeaponFilter2];
     } else {
       [self unclickButton:kWeapButton];
     }
@@ -190,6 +192,8 @@
       [self unclickButton:kAmuButton];
       [self unclickButton:kWeapButton];
       [self unclickButton:kAllButton];
+      
+      [[MarketplaceViewController sharedMarketplaceViewController] setCurrentFilter:kArmorFilter2];
     } else {
       [self unclickButton:kArmButton];
     } 
@@ -202,6 +206,8 @@
       [self unclickButton:kArmButton];
       [self unclickButton:kWeapButton];
       [self unclickButton:kAllButton];
+      
+      [[MarketplaceViewController sharedMarketplaceViewController] setCurrentFilter:kAmuletFilter2];
     } else {
       [self unclickButton:kAmuButton];
     } 
@@ -214,6 +220,8 @@
       [self unclickButton:kAmuButton];
       [self unclickButton:kWeapButton];
       [self unclickButton:kArmButton];
+      
+      [[MarketplaceViewController sharedMarketplaceViewController] setCurrentFilter:kAllFilter2];
     } else {
       [self unclickButton:kAllButton];
     } 
@@ -704,7 +712,7 @@
   CGPoint pt = [touch locationInView:view.superview];
   
   if (!_passedThreshold || pt.x < _initialX/2) {
-    [[MarketplaceViewController sharedMarketplaceViewController] closeFilterPage:nil];
+//    [[MarketplaceViewController sharedMarketplaceViewController] closeFilterPage:nil];
   } else {
     CGRect r = view.frame;
     float dist = r.origin.x;

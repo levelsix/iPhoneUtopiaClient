@@ -289,7 +289,7 @@
 							<object class="IBUIButton" id="375775578">
 								<reference key="NSNextResponder" ref="677857229"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{11, 27}, {27, 27}}</string>
+								<string key="NSFrame">{{11, 26}, {27, 27}}</string>
 								<reference key="NSSuperview" ref="677857229"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="944736344"/>
@@ -740,13 +740,19 @@
 					<string key="className">ChatMenuController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="bgdView">UIView</string>
 						<string key="bottomView">UIView</string>
 						<string key="chatCell">ChatCell</string>
 						<string key="chatTable">UITableView</string>
+						<string key="mainView">UIView</string>
 						<string key="numChatsLabel">UILabel</string>
 						<string key="postTextField">UITextField</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="bgdView">
+							<string key="name">bgdView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="bottomView">
 							<string key="name">bottomView</string>
 							<string key="candidateClassName">UIView</string>
@@ -758,6 +764,10 @@
 						<object class="IBToOneOutletInfo" key="chatTable">
 							<string key="name">chatTable</string>
 							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="mainView">
+							<string key="name">mainView</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="numChatsLabel">
 							<string key="name">numChatsLabel</string>

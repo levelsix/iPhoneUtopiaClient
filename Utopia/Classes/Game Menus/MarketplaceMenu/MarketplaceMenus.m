@@ -200,7 +200,7 @@
   
   FullEquipProto *fep = mktPost.postedEquip;
   
-  titleLabel.text = fep.name;
+  titleLabel.text = [Globals fullNameWithName:m.poster.name clanTag:m.poster.clan.tag];
   titleLabel.textColor = [Globals colorForRarity:fep.rarity];
   classLabel.text = [Globals stringForEquipClassType:fep.classType];
   typeLabel.text = [Globals stringForEquipType:fep.equipType];

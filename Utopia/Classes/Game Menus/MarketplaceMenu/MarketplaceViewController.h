@@ -85,6 +85,8 @@ typedef enum {
 
 @property (nonatomic, retain) NSMutableArray *filtered;
 
+@property (nonatomic, assign) Filters2 currentFilter;
+
 @property (nonatomic, retain) IBOutlet MarketplaceFilterView *filterView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 

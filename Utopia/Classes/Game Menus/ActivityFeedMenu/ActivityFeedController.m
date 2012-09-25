@@ -43,7 +43,7 @@
   
   self.notification = n;
   
-  NSString *name = notification.otherPlayer.name;
+  NSString *name = [Globals fullNameWithName:notification.otherPlayer.name clanTag:notification.otherPlayer.clan.tag];
   [userIcon setImage:[Globals squareImageForUser:notification.otherPlayer.userType] forState:UIControlStateNormal];
   
   timeLabel.text = [Globals stringForTimeSinceNow:n.time];
@@ -97,6 +97,12 @@
     [userIcon setImage:[Globals imageNamed:@"blacksmithicon.png"] forState:UIControlStateNormal];
     
     buttonLabel.text = @"Visit";
+  } else if (notification.type == kNotificationWallPost) {
+    // This will only be used in the drop down notifications
+    titleLabel.text = [NSString stringWithFormat:@"%@ has posted on your wall.", name];
+    subtitleLabel.text = notification.wallPost;
+    
+    titleLabel.textColor = [Globals blueColor];
   }
   
   NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];

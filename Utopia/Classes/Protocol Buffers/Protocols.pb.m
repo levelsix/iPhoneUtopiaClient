@@ -79,9 +79,15 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCLeaveClanEvent:
     case EventProtocolRequestCRequestJoinClanEvent:
     case EventProtocolRequestCRetractRequestJoinClanEvent:
-    case EventProtocolRequestCApproveRequestToJoinClanEvent:
-    case EventProtocolRequestCDeleteClanEvent:
+    case EventProtocolRequestCApproveOrRejectRequestToJoinClanEvent:
+    case EventProtocolRequestCTransferClanOwnership:
     case EventProtocolRequestCRetrieveClanInfoEvent:
+    case EventProtocolRequestCChangeClanDescriptionEvent:
+    case EventProtocolRequestCPostOnClanWallEvent:
+    case EventProtocolRequestCRetrieveClanWallPostsEvent:
+    case EventProtocolRequestCBootPlayerFromClanEvent:
+    case EventProtocolRequestCRetrieveThreeCardMonteEvent:
+    case EventProtocolRequestCPlayThreeCardMonteEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
@@ -148,9 +154,15 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSLeaveClanEvent:
     case EventProtocolResponseSRequestJoinClanEvent:
     case EventProtocolResponseSRetractRequestJoinClanEvent:
-    case EventProtocolResponseSApproveRequestToJoinClanEvent:
-    case EventProtocolResponseSDeleteClanEvent:
+    case EventProtocolResponseSApproveOrRejectRequestToJoinClanEvent:
+    case EventProtocolResponseSTransferClanOwnership:
     case EventProtocolResponseSRetrieveClanInfoEvent:
+    case EventProtocolResponseSChangeClanDescriptionEvent:
+    case EventProtocolResponseSPostOnClanWallEvent:
+    case EventProtocolResponseSRetrieveClanWallPostsEvent:
+    case EventProtocolResponseSBootPlayerFromClanEvent:
+    case EventProtocolResponseSRetrieveThreeCardMonteEvent:
+    case EventProtocolResponseSPlayThreeCardMonteEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

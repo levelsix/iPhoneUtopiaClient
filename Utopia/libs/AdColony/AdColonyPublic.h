@@ -121,14 +121,18 @@ typedef enum {
 //This returns the unique device identifier used by AdColony
 //This identifier should remain constant across the lifetime of an iOS device
 //The identifier is a SHA1 hash of the lowercase MAC address of the device's WiFi interface
-//For server-side V4VC integrations, this is the value that will be sent in the URL parameter named 'uid'
+//For server-side V4VC integrations, this is the value that will be sent as the URL parameter named 'uid'
 +(NSString*)getUniqueDeviceID;
 
 //This returns the device's OpenUDID
-//For server-side V4VC integrations, this is the value taht will be sent in the URL parameter named 'open_udid'
 //You can link your own copy of the OpenUDID library if desired, and it should return the same OpenUDID value
 //For more details, please see the OpenUDID github page at: https://github.com/ylechelle/OpenUDID
 +(NSString*)getOpenUDID;
+
+//This returns the device's ODIN1 identifier
+//You can link your own copy of the ODIN1 source if desired, and it should return the same ODIN1 value
+//For more details, please see the Open Device Idenfiticaion Number Google code page at: http://code.google.com/p/odinmobile/
++(NSString*)getODIN1;
 
 //Check zone status to determine whether ads are ready to be played,
 //or will be ready

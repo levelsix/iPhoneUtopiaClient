@@ -114,4 +114,16 @@
 - (void) sendGroupChat:(GroupChatScope)scope message:(NSString *)msg;
 - (void) purchaseGroupChats;
 
+- (int) createClan:(NSString *)clanName tag:(NSString *)tag;
+- (int) leaveClan;
+- (int) requestJoinClan:(int)clanId;
+- (int) retractRequestToJoinClan:(int)clanId;
+- (int) approveOrRejectRequestToJoinClan:(int)requesterId accept:(BOOL)accept;
+- (int) transferClanOwnership:(int)newClanOwnerId;
+- (int) changeClanDescription:(NSString *)description;
+- (void) retrieveClanInfo:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId;
+- (int) bootPlayerFromClan:(int)playerId;
+- (ClanWallPostProto *) postOnClanWall:(NSString *)content;
+- (void) retrieveClanWallPosts:(int)beforeThisPostId;
+
 @end

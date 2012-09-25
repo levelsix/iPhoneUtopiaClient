@@ -223,7 +223,7 @@
   [self unclickButton:kButton1];
   [self unclickButton:kButton3];
   [self unclickButton:kButton2];
-  [self unclickButton:kButton1];
+  [self unclickButton:kButton4];
   _trackingButton1 = NO;
   _trackingButton3 = NO;
   _trackingButton2 = NO;
@@ -262,7 +262,7 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   self.user = u;
-  [self.nameLabel setTitle:user.minUserProto.name forState:UIControlStateNormal];
+  [self.nameLabel setTitle:[Globals fullNameWithName:user.minUserProto.name clanTag:user.minUserProto.clan.tag] forState:UIControlStateNormal];
   self.typeLabel.text = [NSString stringWithFormat:@"Level %d %@ %@", user.level, [Globals factionForUserType:user.minUserProto.userType], [Globals classForUserType:user.minUserProto.userType]];
   [userIcon setImage:[Globals squareImageForUser:user.minUserProto.userType] forState:UIControlStateNormal];
   self.rankLabel.text = [Globals commafyNumber:user.leaderboardRank];

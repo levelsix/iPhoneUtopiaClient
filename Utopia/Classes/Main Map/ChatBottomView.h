@@ -26,6 +26,12 @@
 @property (nonatomic, retain) IBOutlet ChatLineView *chatView2;
 @property (nonatomic, retain) IBOutlet ChatLineView *chatView3;
 
+@property (nonatomic, retain) IBOutlet UIImageView *globalIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *clanIcon;
+
+// Determines if we are on global or clan chat
+@property (nonatomic, assign) BOOL isGlobal;
+
 - (void) addChat:(ChatMessage *)chat;
 
 @end

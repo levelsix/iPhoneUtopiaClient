@@ -19,13 +19,13 @@
 #import "MapViewController.h"
 #import "QuestLogController.h"
 #import "ActivityFeedController.h"
-#import "Chartboost.h"
 #import "GameViewController.h"
 #import "AttackMenuController.h"
 #import "Crittercism.h"
 #import "LeaderboardController.h"
 #import "TutorialQuestLogController.h"
 #import "ChatMenuController.h"
+#import "ClanMenuController.h"
 
 #define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
 #define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
@@ -344,19 +344,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [self displayNewQuestArrow];
   }
   
-#ifndef DEBUG
-  if (!gs.playerHasBoughtInAppPurchase && !gs.isTutorial) {
-    // Configure Chartboost
-    Chartboost *cb = [Chartboost sharedChartboost];
-    cb.appId = CHART_BOOST_APP_ID;
-    cb.appSignature = CHART_BOOST_APP_SIGNATURE;
-    
-    // Notify the beginnin g of a user session
-    [cb startSession];
-    // Show an interstitial
-    [cb showInterstitial];
-  }
-#endif
+//#ifndef DEBUG
+//  if (!gs.playerHasBoughtInAppPurchase && !gs.isTutorial) {
+//    // Configure Chartboost
+//    Chartboost *cb = [Chartboost sharedChartboost];
+//    cb.appId = CHART_BOOST_APP_ID;
+//    cb.appSignature = CHART_BOOST_APP_SIGNATURE;
+//    
+//    // Notify the beginnin g of a user session
+//    [cb startSession];
+//    // Show an interstitial
+//    [cb showInterstitial];
+//  }
+//#endif
   
   _curSilver = 0;
   _curGold = 0;

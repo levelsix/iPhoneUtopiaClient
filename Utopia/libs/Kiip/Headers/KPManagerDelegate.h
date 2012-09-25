@@ -134,7 +134,7 @@
  * @abstract ￼Notifies the delegate that the manager has
  * successfully updated the leader board.
  * @param manager
- * @param rewardId
+ * @param resource
  */
 - (void) manager:(KPManager*)manager didUpdateLeaderboard:(NSDictionary*)resource;
 

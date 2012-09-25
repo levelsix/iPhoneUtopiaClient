@@ -19,6 +19,7 @@
 #import "RefillMenuController.h"
 #import "CharSelectionViewController.h"
 #import "ArmoryViewController.h"
+#import "ClanMenuController.h"
 
 #define EQUIPS_VERTICAL_SEPARATION 3.f
 #define EQUIPS_HORIZONTAL_SEPARATION 1.f
@@ -55,9 +56,7 @@
     
     switch (state) {
       case kMyProfile:
-        
         profileBadgeView.hidden = _profileBadgeNum <= 0;
-        
         break;
         
       case kOtherPlayerProfile:
@@ -91,11 +90,15 @@
 }
 
 - (void) setProfileState:(ProfileState)s {
-  if (s == kProfileButton) {
+  if (s == kProfileState) {
     [self clickButton:kProfileButton];
     [self unclickButton:kEquipButton];
     [self unclickButton:kSkillsState];
     [self unclickButton:kSpecialButton];
+    
+    if (_state == kMyProfile) {
+      [self clearProfileBadge];
+    }
   } else if (s == kEquipState) {
     [self clickButton:kEquipButton];
     [self unclickButton:kProfileButton];
@@ -111,10 +114,6 @@
     [self unclickButton:kProfileButton];
     [self unclickButton:kSkillsState];
     [self unclickButton:kEquipButton];
-    
-    if (_state == kMyProfile) {
-      [self clearProfileBadge];
-    }
   }
 }
 
@@ -742,7 +741,7 @@
 
 - (void) updateForWallPost:(PlayerWallPostProto *)wallPost {
   [playerIcon setImage:[Globals squareImageForUser:wallPost.poster.userType] forState:UIControlStateNormal];
-  [nameLabel setTitle:wallPost.poster.name forState:UIControlStateNormal];
+  [nameLabel setTitle:[Globals fullNameWithName:wallPost.poster.name clanTag:wallPost.poster.clan.tag] forState:UIControlStateNormal];
   timeLabel.text = [Globals stringForTimeSinceNow:[NSDate dateWithTimeIntervalSince1970:wallPost.timeOfPost/1000.0]];
   postLabel.text = wallPost.content;
   
@@ -883,6 +882,15 @@
   }
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+  Globals *gl = [Globals sharedGlobals];
+  NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+  if ([str length] > gl.maxCharLengthForWallPost) {
+    return NO;
+  }
+  return YES;
+}
+
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
   [self postToWall:nil];
   return YES;
@@ -985,6 +993,7 @@
 @implementation ProfileViewController
 
 @synthesize state = _state, curScope = _curScope;
+@synthesize clanButton;
 @synthesize userNameLabel, typeLabel, levelLabel, attackLabel, defenseLabel, codeLabel;
 @synthesize winsLabel, lossesLabel, fleesLabel;
 @synthesize curArmorView, curAmuletView, curWeaponView;
@@ -1006,6 +1015,7 @@
 @synthesize nameChangeView, nameChangeTextField, equipHeaderLabel;
 @synthesize equipsTableDelegate;
 @synthesize noEquipLabel, noEquipMiddleView, noEquipButtonView;
+@synthesize clanView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
@@ -1069,47 +1079,44 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (void) setState:(ProfileState)state {
-  if (state != _state) {
-    
-    switch (state) {
-      case kProfileState:
-        profileTabView.hidden = NO;
-        equipTabView.hidden = YES;
-        skillTabView.hidden = YES;
-        specialTabView.hidden = YES;
-        [self.profileBar setProfileState:state];
-        break;
-        
-      case kEquipState:
-        profileTabView.hidden = YES;
-        equipTabView.hidden = NO;
-        skillTabView.hidden = YES;
-        specialTabView.hidden = YES;
-        [self.profileBar setProfileState:state];
-        break;
-        
-      case kSkillsState:
-        profileTabView.hidden = YES;
-        equipTabView.hidden = YES;
-        skillTabView.hidden = NO;
-        specialTabView.hidden = YES;
-        [self.profileBar setProfileState:state];
-        break;
-        
-      case kSpecialState:
-        profileTabView.hidden = YES;
-        equipTabView.hidden = YES;
-        skillTabView.hidden = YES;
-        specialTabView.hidden = NO;
-        [self.profileBar setProfileState:state];
-        break;
-        
-      default:
-        break;
-    }
-    _state = state;
-    [wallTabView endEditing];
+  switch (state) {
+    case kProfileState:
+      profileTabView.hidden = NO;
+      equipTabView.hidden = YES;
+      skillTabView.hidden = YES;
+      specialTabView.hidden = YES;
+      [self.profileBar setProfileState:state];
+      break;
+      
+    case kEquipState:
+      profileTabView.hidden = YES;
+      equipTabView.hidden = NO;
+      skillTabView.hidden = YES;
+      specialTabView.hidden = YES;
+      [self.profileBar setProfileState:state];
+      break;
+      
+    case kSkillsState:
+      profileTabView.hidden = YES;
+      equipTabView.hidden = YES;
+      skillTabView.hidden = NO;
+      specialTabView.hidden = YES;
+      [self.profileBar setProfileState:state];
+      break;
+      
+    case kSpecialState:
+      profileTabView.hidden = YES;
+      equipTabView.hidden = YES;
+      skillTabView.hidden = YES;
+      specialTabView.hidden = NO;
+      [self.profileBar setProfileState:state];
+      break;
+      
+    default:
+      break;
   }
+  _state = state;
+  [wallTabView endEditing];
 }
 
 - (void) setCurScope:(EquipScope)curScope {
@@ -1402,10 +1409,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   winsLabel.text = [NSString stringWithFormat:@"%d", fup.battlesWon];
   lossesLabel.text = [NSString stringWithFormat:@"%d", fup.battlesLost];
   fleesLabel.text = [NSString stringWithFormat:@"%d", fup.flees];
-  levelLabel.text = [NSString stringWithFormat:@"Level %d", fup.level];
+  levelLabel.text = [NSString stringWithFormat:@"%d", fup.level];
   typeLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:fup.userType], [Globals classForUserType:fup.userType]];
   attackLabel.text = @"?";
   defenseLabel.text = @"?";
+  
+  if (fup.hasClan) {
+    [self setClanName:fup.clan.name];
+    clanButton.enabled = YES;
+  } else {
+    [self setClanName:@"No Clan"];
+    clanButton.enabled = NO;
+  }
   
   _curScope = kEquipScopeWeapons;
   
@@ -1625,10 +1640,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   winsLabel.text = @"";
   lossesLabel.text = @"";
   fleesLabel.text = @"";
-  levelLabel.text = @"";
+  levelLabel.text = @"?";
   typeLabel.text = @"";
   attackLabel.text = @"";
   defenseLabel.text = @"";
+  
+  [self setClanName:@"Loading..."];
+  self.clanButton.enabled = NO;
   
   selfLeftView.hidden = YES;
   enemyLeftView.hidden = YES;
@@ -1673,9 +1691,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   winsLabel.text = [NSString stringWithFormat:@"%d", gs.battlesWon];
   lossesLabel.text = [NSString stringWithFormat:@"%d", gs.battlesLost];
   fleesLabel.text = [NSString stringWithFormat:@"%d", gs.flees];
-  levelLabel.text = [NSString stringWithFormat:@"Level %d", gs.level];
+  levelLabel.text = [NSString stringWithFormat:@"%d", gs.level];
   typeLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:gs.type], [Globals classForUserType:gs.type]];
   codeLabel.text = gs.referralCode;
+  
+  if (gs.clan) {
+    [self setClanName:gs.clan.name];
+    clanButton.enabled = YES;
+  } else {
+    [self setClanName:@"No Clan"];
+    clanButton.enabled = NO;
+  }
   
   [self displayMyCurrentStats];
   
@@ -1727,6 +1753,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
 }
 
+- (void) setClanName:(NSString *)name {
+  [self.clanButton setTitle:name forState:UIControlStateNormal];
+  
+  CGSize size = [name sizeWithFont:clanButton.titleLabel.font constrainedToSize:clanButton.frame.size lineBreakMode:clanButton.titleLabel.lineBreakMode];
+  CGRect r = clanView.frame;
+  r.size.width = clanButton.frame.origin.x+size.width;
+  clanView.frame = r;
+  
+  CGPoint pt = clanView.center;
+  pt.x = userNameLabel.center.x;
+  clanView.center = pt;
+}
+
 - (void) loadSkills {
   GameState *gs = [GameState sharedGameState];
   
@@ -1750,6 +1789,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [self setupSkillPointButton:defenseStatButton forCost:gl.defenseBaseCost];
   [self setupSkillPointButton:energyStatButton  forCost:gl.energyBaseCost];
   [self setupSkillPointButton:staminaStatButton forCost:gl.staminaBaseCost];
+}
+
+- (IBAction)clanClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  if (_fup.clan) {
+    [ClanMenuController displayView];
+    [[ClanMenuController sharedClanMenuController] loadForClan:_fup.clan];
+  } else if (profileBar.state == kMyProfile && gs.clan) {
+    [ClanMenuController displayView];
+    [[ClanMenuController sharedClanMenuController] loadForClan:gs.clan];
+  }
 }
 
 - (IBAction)skillButtonClicked:(id)sender {
@@ -1988,6 +2038,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.noEquipButtonView = nil;
   self.noEquipLabel = nil;
   self.noEquipMiddleView = nil;
+  self.clanButton = nil;
+  self.clanView = nil;
   [_queuedEquips release];
   _queuedEquips = nil;
 }

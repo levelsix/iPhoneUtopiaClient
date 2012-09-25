@@ -49,6 +49,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize topBarLabel;
 @synthesize filtered;
 @synthesize filterView, mainView;
+@synthesize currentFilter = currentFilter;
 
 - (void) viewDidLoad {
   [super viewDidLoad];
@@ -162,6 +163,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   rect.size.width = armoryPriceLabel.frame.origin.x + size.width;
   armoryPriceBottomSubview.frame = rect;
   armoryPriceBottomSubview.center = CGPointMake(armoryPriceBottomSubview.superview.frame.size.width/2, armoryPriceBottomSubview.center.y);
+}
+
+- (void) setCurrentFilter:(Filters2)c {
+  currentFilter = c;
+  [self.tableView reloadData];
 }
 
 - (IBAction)backClicked:(id)sender {

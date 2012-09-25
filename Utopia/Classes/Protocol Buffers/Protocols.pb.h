@@ -4,10 +4,10 @@
 
 #import "Event.pb.h"
 
-@class ApproveRequestToJoinClanRequestProto;
-@class ApproveRequestToJoinClanRequestProto_Builder;
-@class ApproveRequestToJoinClanResponseProto;
-@class ApproveRequestToJoinClanResponseProto_Builder;
+@class ApproveOrRejectRequestToJoinClanRequestProto;
+@class ApproveOrRejectRequestToJoinClanRequestProto_Builder;
+@class ApproveOrRejectRequestToJoinClanResponseProto;
+@class ApproveOrRejectRequestToJoinClanResponseProto_Builder;
 @class ArmoryRequestProto;
 @class ArmoryRequestProto_Builder;
 @class ArmoryResponseProto;
@@ -16,8 +16,16 @@
 @class BattleRequestProto_Builder;
 @class BattleResponseProto;
 @class BattleResponseProto_Builder;
+@class BootPlayerFromClanRequestProto;
+@class BootPlayerFromClanRequestProto_Builder;
+@class BootPlayerFromClanResponseProto;
+@class BootPlayerFromClanResponseProto_Builder;
 @class BuildStructJobProto;
 @class BuildStructJobProto_Builder;
+@class ChangeClanDescriptionRequestProto;
+@class ChangeClanDescriptionRequestProto_Builder;
+@class ChangeClanDescriptionResponseProto;
+@class ChangeClanDescriptionResponseProto_Builder;
 @class ChangeUserLocationRequestProto;
 @class ChangeUserLocationRequestProto_Builder;
 @class ChangeUserLocationResponseProto;
@@ -30,6 +38,8 @@
 @class ChatRequestProto_Builder;
 @class ChatResponseProto;
 @class ChatResponseProto_Builder;
+@class ClanWallPostProto;
+@class ClanWallPostProto_Builder;
 @class CollectForgeEquipsRequestProto;
 @class CollectForgeEquipsRequestProto_Builder;
 @class CollectForgeEquipsResponseProto;
@@ -46,10 +56,6 @@
 @class CriticalStructureActionResponseProto_Builder;
 @class DefeatTypeJobProto;
 @class DefeatTypeJobProto_Builder;
-@class DeleteClanRequestProto;
-@class DeleteClanRequestProto_Builder;
-@class DeleteClanResponseProto;
-@class DeleteClanResponseProto_Builder;
 @class DialogueProto;
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
@@ -85,6 +91,8 @@
 @class FullCityProto;
 @class FullCityProto_Builder;
 @class FullClanProto;
+@class FullClanProtoWithClanSize;
+@class FullClanProtoWithClanSize_Builder;
 @class FullClanProto_Builder;
 @class FullEquipProto;
 @class FullEquipProto_Builder;
@@ -102,6 +110,8 @@
 @class FullUserCityExpansionDataProto_Builder;
 @class FullUserCityProto;
 @class FullUserCityProto_Builder;
+@class FullUserClanProto;
+@class FullUserClanProto_Builder;
 @class FullUserCritstructProto;
 @class FullUserCritstructProto_Builder;
 @class FullUserEquipProto;
@@ -140,6 +150,8 @@
 @class LocationProto_Builder;
 @class LogoutRequestProto;
 @class LogoutRequestProto_Builder;
+@class MinimumClanProto;
+@class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
 @class MinimumUserBuildStructJobProto_Builder;
 @class MinimumUserDefeatTypeJobProto;
@@ -147,6 +159,10 @@
 @class MinimumUserPossessEquipJobProto;
 @class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
+@class MinimumUserProtoForClans;
+@class MinimumUserProtoForClans_Builder;
+@class MinimumUserProtoWithBattleHistory;
+@class MinimumUserProtoWithBattleHistory_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevelForLeaderboard;
 @class MinimumUserProtoWithLevelForLeaderboard_Builder;
@@ -168,10 +184,18 @@
 @class NormStructWaitCompleteRequestProto_Builder;
 @class NormStructWaitCompleteResponseProto;
 @class NormStructWaitCompleteResponseProto_Builder;
+@class PlayThreeCardMonteRequestProto;
+@class PlayThreeCardMonteRequestProto_Builder;
+@class PlayThreeCardMonteResponseProto;
+@class PlayThreeCardMonteResponseProto_Builder;
 @class PlayerWallPostProto;
 @class PlayerWallPostProto_Builder;
 @class PossessEquipJobProto;
 @class PossessEquipJobProto_Builder;
+@class PostOnClanWallRequestProto;
+@class PostOnClanWallRequestProto_Builder;
+@class PostOnClanWallResponseProto;
+@class PostOnClanWallResponseProto_Builder;
 @class PostOnPlayerWallRequestProto;
 @class PostOnPlayerWallRequestProto_Builder;
 @class PostOnPlayerWallResponseProto;
@@ -248,6 +272,10 @@
 @class RetrieveClanInfoRequestProto_Builder;
 @class RetrieveClanInfoResponseProto;
 @class RetrieveClanInfoResponseProto_Builder;
+@class RetrieveClanWallPostsRequestProto;
+@class RetrieveClanWallPostsRequestProto_Builder;
+@class RetrieveClanWallPostsResponseProto;
+@class RetrieveClanWallPostsResponseProto_Builder;
 @class RetrieveCurrencyFromNormStructureRequestProto;
 @class RetrieveCurrencyFromNormStructureRequestProto_Builder;
 @class RetrieveCurrencyFromNormStructureResponseProto;
@@ -276,6 +304,10 @@
 @class RetrieveTasksForCityRequestProto_Builder;
 @class RetrieveTasksForCityResponseProto;
 @class RetrieveTasksForCityResponseProto_Builder;
+@class RetrieveThreeCardMonteRequestProto;
+@class RetrieveThreeCardMonteRequestProto_Builder;
+@class RetrieveThreeCardMonteResponseProto;
+@class RetrieveThreeCardMonteResponseProto_Builder;
 @class RetrieveUserEquipForUserRequestProto;
 @class RetrieveUserEquipForUserRequestProto_Builder;
 @class RetrieveUserEquipForUserResponseProto;
@@ -332,6 +364,10 @@
 @class TaskActionRequestProto_Builder;
 @class TaskActionResponseProto;
 @class TaskActionResponseProto_Builder;
+@class TransferClanOwnershipRequestProto;
+@class TransferClanOwnershipRequestProto_Builder;
+@class TransferClanOwnershipResponseProto;
+@class TransferClanOwnershipResponseProto_Builder;
 @class UnhandledBlacksmithAttemptProto;
 @class UnhandledBlacksmithAttemptProto_Builder;
 @class UpdateClientUserResponseProto;
@@ -416,9 +452,15 @@ typedef enum {
   EventProtocolRequestCLeaveClanEvent = 57,
   EventProtocolRequestCRequestJoinClanEvent = 58,
   EventProtocolRequestCRetractRequestJoinClanEvent = 59,
-  EventProtocolRequestCApproveRequestToJoinClanEvent = 60,
-  EventProtocolRequestCDeleteClanEvent = 61,
+  EventProtocolRequestCApproveOrRejectRequestToJoinClanEvent = 60,
+  EventProtocolRequestCTransferClanOwnership = 61,
   EventProtocolRequestCRetrieveClanInfoEvent = 62,
+  EventProtocolRequestCChangeClanDescriptionEvent = 63,
+  EventProtocolRequestCPostOnClanWallEvent = 64,
+  EventProtocolRequestCRetrieveClanWallPostsEvent = 65,
+  EventProtocolRequestCBootPlayerFromClanEvent = 66,
+  EventProtocolRequestCRetrieveThreeCardMonteEvent = 67,
+  EventProtocolRequestCPlayThreeCardMonteEvent = 68,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -483,9 +525,15 @@ typedef enum {
   EventProtocolResponseSLeaveClanEvent = 57,
   EventProtocolResponseSRequestJoinClanEvent = 58,
   EventProtocolResponseSRetractRequestJoinClanEvent = 59,
-  EventProtocolResponseSApproveRequestToJoinClanEvent = 60,
-  EventProtocolResponseSDeleteClanEvent = 61,
+  EventProtocolResponseSApproveOrRejectRequestToJoinClanEvent = 60,
+  EventProtocolResponseSTransferClanOwnership = 61,
   EventProtocolResponseSRetrieveClanInfoEvent = 62,
+  EventProtocolResponseSChangeClanDescriptionEvent = 63,
+  EventProtocolResponseSPostOnClanWallEvent = 64,
+  EventProtocolResponseSRetrieveClanWallPostsEvent = 65,
+  EventProtocolResponseSBootPlayerFromClanEvent = 66,
+  EventProtocolResponseSRetrieveThreeCardMonteEvent = 67,
+  EventProtocolResponseSPlayThreeCardMonteEvent = 68,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

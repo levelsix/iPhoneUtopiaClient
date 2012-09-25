@@ -208,11 +208,14 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *lossesLabel;
 @property (nonatomic, retain) IBOutlet UILabel *fleesLabel;
 @property (nonatomic, retain) IBOutlet UILabel *levelLabel;
+@property (nonatomic, retain) IBOutlet UIButton *clanButton;
 @property (nonatomic, retain) IBOutlet UILabel *typeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
 @property (nonatomic, retain) IBOutlet UILabel *codeLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *profilePicture;
+
+@property (nonatomic, retain) IBOutlet UIView *clanView;
 
 @property (nonatomic, retain) IBOutlet CurrentEquipView *curWeaponView;
 @property (nonatomic, retain) IBOutlet CurrentEquipView *curArmorView;

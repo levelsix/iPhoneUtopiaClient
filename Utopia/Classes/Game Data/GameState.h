@@ -88,7 +88,8 @@
   NSMutableArray *_attackMapList;
   NSMutableArray *_notifications;
   NSMutableArray *_wallPosts;
-  NSMutableArray *_chatMessages;
+  NSMutableArray *_globalChatMessages;
+  NSMutableArray *_clanChatMessages;
   
   NSDate *_lastLogoutTime;
   
@@ -100,8 +101,10 @@
   NSMutableArray *_unrespondedUpdates;
   
   ForgeAttempt *_forgeAttempt;
-  
   NSTimer *_forgeTimer;
+  
+  MinimumClanProto *_clan;
+  NSMutableArray *_requestedClans;
 }
 
 @property (assign) BOOL isTutorial;
@@ -180,7 +183,8 @@
 @property (retain) NSMutableArray *attackMapList;
 @property (retain) NSMutableArray *notifications;
 @property (retain) NSMutableArray *wallPosts;
-@property (retain) NSMutableArray *chatMessages;
+@property (retain) NSMutableArray *globalChatMessages;
+@property (retain) NSMutableArray *clanChatMessages;
 
 @property (retain) NSMutableArray *unrespondedUpdates;
 
@@ -189,6 +193,9 @@
 @property (retain) NSArray *allies;
 
 @property (retain) ForgeAttempt *forgeAttempt;
+
+@property (retain) MinimumClanProto *clan;
+@property (retain) NSMutableArray *requestedClans;
 
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
@@ -215,7 +222,7 @@
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests;
 - (void) addNotification:(UserNotification *)un;
 - (void) addWallPost:(PlayerWallPostProto *)wallPost;
-- (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg;
+- (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(GroupChatScope)scope;
 
 - (UserEquip *) myEquipWithId:(int)equipId level:(int)level;
 - (NSArray *) myEquipsWithId:(int)equipId level:(int)level;
@@ -245,6 +252,8 @@
 
 - (void) beginForgeTimer;
 - (void) stopForgeTimer;
+
+- (void) addToRequestedClans:(NSArray *)arr;
 
 - (void) purgeStaticData;
 - (void) reretrieveStaticData;

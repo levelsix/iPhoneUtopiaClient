@@ -102,12 +102,14 @@
 @property (nonatomic, assign) int diamondPriceForGroupChatPurchasePackage;
 @property (nonatomic, assign) int maxLengthOfChatString;
 
+@property (nonatomic, assign) int maxCharLengthForWallPost;
+
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
 @property (nonatomic, assign) float forgeMinDiamondCostForGuarantee;
 @property (nonatomic, assign) float forgeDiamondCostForGuaranteeExponentialMultiplier;
 @property (nonatomic, assign) float forgeBaseMinutesToOneGold;
-@property (nonatomic, assign) float forgeMaxEquipLevel;
+@property (nonatomic, assign) int forgeMaxEquipLevel;
 @property (nonatomic, assign) float levelEquipBoostExponentBase;
 
 @property (nonatomic, assign) float averageSizeOfLevelBracket;
@@ -118,6 +120,12 @@
 @property (nonatomic, assign) int diamondCostToChangeName;
 @property (nonatomic, assign) int diamondCostToResetCharacter;
 @property (nonatomic, assign) int diamondCostToResetSkillPoints;
+
+// Clan constants
+@property (nonatomic, assign) int diamondPriceToCreateClan;
+@property (nonatomic, assign) int maxCharLengthForClanName;
+@property (nonatomic, assign) int maxCharLengthForClanDescription;
+@property (nonatomic, assign) int maxCharLengthForClanTag;
 
 @property (nonatomic, retain) NSDictionary *productIdentifiers;
 
@@ -226,6 +234,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (void) confirmWearEquip:(int)userEquipId;
 
 - (BOOL) validateUserName:(NSString *)name;
+
++ (NSString *) fullNameWithName:(NSString *)name clanTag:(NSString *)tag;
 
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;

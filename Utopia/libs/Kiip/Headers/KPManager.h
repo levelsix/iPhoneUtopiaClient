@@ -119,9 +119,9 @@ extern NSString* KPManagerVersion;
  * * alias - The alias will be used to make rewards more personal and to show
  * on leaderboard scores.
  * * email - The email will be used to pre-populate reward units.
- * @param info Dictionary of the user's information.
+ * @param userInfo Dictionary of the user's information.
  */
-- (void) updateUserInfo:(NSDictionary*)alias;
+- (void) updateUserInfo:(NSDictionary*)userInfo;
 
 /*!
  * @method unlockAchievement:
@@ -158,14 +158,14 @@ extern NSString* KPManagerVersion;
 /*!
  * @method presentReward:
  * @abstract Present a Kiip reward to the user ontop of the keyWindow.
- * @param reward The reward to present.
+ * @param resource The reward to present.
  */
 - (void) presentReward:(NSDictionary*)resource;
 
 /*!
  * @method presentReward:onView:
  * @abstract Presents a Kiip reward to the user.
- * @param reward The reward to present.
+ * @param resource The reward to present.
  * @param view The view to use as the superview of the notification. If
  * nil is passed, the keyWindow will be used.
  */

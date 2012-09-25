@@ -56,6 +56,11 @@ typedef enum {
 + (BOOL) processJSRequest:(UIWebView *)webView withURL:(NSURLRequest *)url;
 @property(nonatomic) int minSessionDuration;  // Default: 5
 + (void) setMinSessionDuration:(int)seconds;
+
+// REFERRAL
+// allow referral tracking via safari round trip
++ (void)setAllowSafariRoundTrip:(BOOL)boolean;
+
 @end
 
 @interface ApButton: UIButton {

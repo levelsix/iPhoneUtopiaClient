@@ -77,6 +77,9 @@ static NSMutableSet *_pulsingViews;
 @synthesize maxNumTimesAttackedByOneInProtectionPeriod, hoursInAttackedByOneProtectionPeriod;
 @synthesize minBattlesRequiredForKDRConsideration;
 @synthesize maxLengthOfChatString, diamondPriceForGroupChatPurchasePackage, numChatsGivenPerGroupChatPurchasePackage;
+@synthesize diamondPriceToCreateClan, maxCharLengthForClanName, maxCharLengthForClanDescription;
+@synthesize maxCharLengthForClanTag;
+@synthesize maxCharLengthForWallPost;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -162,6 +165,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxLengthOfChatString = constants.maxLengthOfChatString;
   self.diamondPriceForGroupChatPurchasePackage = constants.diamondPriceForGroupChatPurchasePackage;
   self.numChatsGivenPerGroupChatPurchasePackage = constants.numChatsGivenPerGroupChatPurchasePackage;
+  self.maxCharLengthForWallPost = constants.maxCharLengthForWallPost;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;
@@ -202,6 +206,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.diamondCostToChangeName = constants.charModConstants.diamondCostToChangeName;
   self.diamondCostToResetSkillPoints = constants.charModConstants.diamondCostToResetSkillPoints;
   self.diamondCostToChangeCharacterType = constants.charModConstants.diamondCostToChangeCharacterType;
+  
+  self.diamondPriceToCreateClan = constants.clanConstants.diamondPriceToCreateClan;
+  self.maxCharLengthForClanName = constants.clanConstants.maxCharLengthForClanName;
+  self.maxCharLengthForClanDescription = constants.clanConstants.maxCharLengthForClanDescription;
+  self.maxCharLengthForClanTag = constants.clanConstants.maxCharLengthForClanTag;
   
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
@@ -1717,7 +1726,13 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   return YES;
 }
 
-
++ (NSString *) fullNameWithName:(NSString *)name clanTag:(NSString *)tag {
+  if (tag.length > 0) {
+    return [NSString stringWithFormat:@"[%@] %@", tag, name];
+  } else {
+    return name;
+  }
+}
 
 - (void) dealloc {
   self.productIdentifiers = nil;
