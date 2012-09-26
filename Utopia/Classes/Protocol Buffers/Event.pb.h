@@ -16,6 +16,10 @@
 @class BattleRequestProto_Builder;
 @class BattleResponseProto;
 @class BattleResponseProto_Builder;
+@class BeginGoldmineTimerRequestProto;
+@class BeginGoldmineTimerRequestProto_Builder;
+@class BeginGoldmineTimerResponseProto;
+@class BeginGoldmineTimerResponseProto_Builder;
 @class BootPlayerFromClanRequestProto;
 @class BootPlayerFromClanRequestProto_Builder;
 @class BootPlayerFromClanResponseProto;
@@ -44,6 +48,10 @@
 @class CollectForgeEquipsRequestProto_Builder;
 @class CollectForgeEquipsResponseProto;
 @class CollectForgeEquipsResponseProto_Builder;
+@class CollectFromGoldmineRequestProto;
+@class CollectFromGoldmineRequestProto_Builder;
+@class CollectFromGoldmineResponseProto;
+@class CollectFromGoldmineResponseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class CreateClanRequestProto;
@@ -1050,6 +1058,26 @@ typedef enum {
 } PlayThreeCardMonteResponseProto_PlayThreeCardMonteStatus;
 
 BOOL PlayThreeCardMonteResponseProto_PlayThreeCardMonteStatusIsValidValue(PlayThreeCardMonteResponseProto_PlayThreeCardMonteStatus value);
+
+typedef enum {
+  BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusSuccess = 0,
+  BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusNotEnoughDiamonds = 1,
+  BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusStillCollecting = 2,
+  BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusOtherFail = 3,
+  BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusClientTooApartFromServerTime = 4,
+} BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatus;
+
+BOOL BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusIsValidValue(BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatus value);
+
+typedef enum {
+  CollectFromGoldmineResponseProto_CollectFromGoldmineStatusSuccess = 0,
+  CollectFromGoldmineResponseProto_CollectFromGoldmineStatusNotYetStarted = 1,
+  CollectFromGoldmineResponseProto_CollectFromGoldmineStatusStillCollecting = 2,
+  CollectFromGoldmineResponseProto_CollectFromGoldmineStatusOtherFail = 3,
+  CollectFromGoldmineResponseProto_CollectFromGoldmineStatusClientTooApartFromServerTime = 4,
+} CollectFromGoldmineResponseProto_CollectFromGoldmineStatus;
+
+BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(CollectFromGoldmineResponseProto_CollectFromGoldmineStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -13717,5 +13745,250 @@ BOOL PlayThreeCardMonteResponseProto_PlayThreeCardMonteStatusIsValidValue(PlayTh
 - (PlayThreeCardMonteResponseProto_PlayThreeCardMonteStatus) status;
 - (PlayThreeCardMonteResponseProto_Builder*) setStatus:(PlayThreeCardMonteResponseProto_PlayThreeCardMonteStatus) value;
 - (PlayThreeCardMonteResponseProto_Builder*) clearStatus;
+@end
+
+@interface BeginGoldmineTimerRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasReset_:1;
+  BOOL hasClientTime_:1;
+  BOOL hasSender_:1;
+  BOOL reset_:1;
+  int64_t clientTime;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasReset;
+- (BOOL) hasClientTime;
+@property (readonly, retain) MinimumUserProto* sender;
+- (BOOL) reset;
+@property (readonly) int64_t clientTime;
+
++ (BeginGoldmineTimerRequestProto*) defaultInstance;
+- (BeginGoldmineTimerRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BeginGoldmineTimerRequestProto_Builder*) builder;
++ (BeginGoldmineTimerRequestProto_Builder*) builder;
++ (BeginGoldmineTimerRequestProto_Builder*) builderWithPrototype:(BeginGoldmineTimerRequestProto*) prototype;
+
++ (BeginGoldmineTimerRequestProto*) parseFromData:(NSData*) data;
++ (BeginGoldmineTimerRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginGoldmineTimerRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (BeginGoldmineTimerRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginGoldmineTimerRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BeginGoldmineTimerRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BeginGoldmineTimerRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BeginGoldmineTimerRequestProto* result;
+}
+
+- (BeginGoldmineTimerRequestProto*) defaultInstance;
+
+- (BeginGoldmineTimerRequestProto_Builder*) clear;
+- (BeginGoldmineTimerRequestProto_Builder*) clone;
+
+- (BeginGoldmineTimerRequestProto*) build;
+- (BeginGoldmineTimerRequestProto*) buildPartial;
+
+- (BeginGoldmineTimerRequestProto_Builder*) mergeFrom:(BeginGoldmineTimerRequestProto*) other;
+- (BeginGoldmineTimerRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BeginGoldmineTimerRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BeginGoldmineTimerRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BeginGoldmineTimerRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginGoldmineTimerRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BeginGoldmineTimerRequestProto_Builder*) clearSender;
+
+- (BOOL) hasReset;
+- (BOOL) reset;
+- (BeginGoldmineTimerRequestProto_Builder*) setReset:(BOOL) value;
+- (BeginGoldmineTimerRequestProto_Builder*) clearReset;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (BeginGoldmineTimerRequestProto_Builder*) setClientTime:(int64_t) value;
+- (BeginGoldmineTimerRequestProto_Builder*) clearClientTime;
+@end
+
+@interface BeginGoldmineTimerResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatus status;
+
++ (BeginGoldmineTimerResponseProto*) defaultInstance;
+- (BeginGoldmineTimerResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BeginGoldmineTimerResponseProto_Builder*) builder;
++ (BeginGoldmineTimerResponseProto_Builder*) builder;
++ (BeginGoldmineTimerResponseProto_Builder*) builderWithPrototype:(BeginGoldmineTimerResponseProto*) prototype;
+
++ (BeginGoldmineTimerResponseProto*) parseFromData:(NSData*) data;
++ (BeginGoldmineTimerResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginGoldmineTimerResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (BeginGoldmineTimerResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginGoldmineTimerResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BeginGoldmineTimerResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BeginGoldmineTimerResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BeginGoldmineTimerResponseProto* result;
+}
+
+- (BeginGoldmineTimerResponseProto*) defaultInstance;
+
+- (BeginGoldmineTimerResponseProto_Builder*) clear;
+- (BeginGoldmineTimerResponseProto_Builder*) clone;
+
+- (BeginGoldmineTimerResponseProto*) build;
+- (BeginGoldmineTimerResponseProto*) buildPartial;
+
+- (BeginGoldmineTimerResponseProto_Builder*) mergeFrom:(BeginGoldmineTimerResponseProto*) other;
+- (BeginGoldmineTimerResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BeginGoldmineTimerResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BeginGoldmineTimerResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BeginGoldmineTimerResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginGoldmineTimerResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BeginGoldmineTimerResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatus) status;
+- (BeginGoldmineTimerResponseProto_Builder*) setStatus:(BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatus) value;
+- (BeginGoldmineTimerResponseProto_Builder*) clearStatus;
+@end
+
+@interface CollectFromGoldmineRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasSender_:1;
+  int64_t clientTime;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasClientTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int64_t clientTime;
+
++ (CollectFromGoldmineRequestProto*) defaultInstance;
+- (CollectFromGoldmineRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CollectFromGoldmineRequestProto_Builder*) builder;
++ (CollectFromGoldmineRequestProto_Builder*) builder;
++ (CollectFromGoldmineRequestProto_Builder*) builderWithPrototype:(CollectFromGoldmineRequestProto*) prototype;
+
++ (CollectFromGoldmineRequestProto*) parseFromData:(NSData*) data;
++ (CollectFromGoldmineRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectFromGoldmineRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (CollectFromGoldmineRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectFromGoldmineRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CollectFromGoldmineRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CollectFromGoldmineRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  CollectFromGoldmineRequestProto* result;
+}
+
+- (CollectFromGoldmineRequestProto*) defaultInstance;
+
+- (CollectFromGoldmineRequestProto_Builder*) clear;
+- (CollectFromGoldmineRequestProto_Builder*) clone;
+
+- (CollectFromGoldmineRequestProto*) build;
+- (CollectFromGoldmineRequestProto*) buildPartial;
+
+- (CollectFromGoldmineRequestProto_Builder*) mergeFrom:(CollectFromGoldmineRequestProto*) other;
+- (CollectFromGoldmineRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CollectFromGoldmineRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CollectFromGoldmineRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CollectFromGoldmineRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (CollectFromGoldmineRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CollectFromGoldmineRequestProto_Builder*) clearSender;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (CollectFromGoldmineRequestProto_Builder*) setClientTime:(int64_t) value;
+- (CollectFromGoldmineRequestProto_Builder*) clearClientTime;
+@end
+
+@interface CollectFromGoldmineResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  CollectFromGoldmineResponseProto_CollectFromGoldmineStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) CollectFromGoldmineResponseProto_CollectFromGoldmineStatus status;
+
++ (CollectFromGoldmineResponseProto*) defaultInstance;
+- (CollectFromGoldmineResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CollectFromGoldmineResponseProto_Builder*) builder;
++ (CollectFromGoldmineResponseProto_Builder*) builder;
++ (CollectFromGoldmineResponseProto_Builder*) builderWithPrototype:(CollectFromGoldmineResponseProto*) prototype;
+
++ (CollectFromGoldmineResponseProto*) parseFromData:(NSData*) data;
++ (CollectFromGoldmineResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectFromGoldmineResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (CollectFromGoldmineResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectFromGoldmineResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CollectFromGoldmineResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CollectFromGoldmineResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  CollectFromGoldmineResponseProto* result;
+}
+
+- (CollectFromGoldmineResponseProto*) defaultInstance;
+
+- (CollectFromGoldmineResponseProto_Builder*) clear;
+- (CollectFromGoldmineResponseProto_Builder*) clone;
+
+- (CollectFromGoldmineResponseProto*) build;
+- (CollectFromGoldmineResponseProto*) buildPartial;
+
+- (CollectFromGoldmineResponseProto_Builder*) mergeFrom:(CollectFromGoldmineResponseProto*) other;
+- (CollectFromGoldmineResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CollectFromGoldmineResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CollectFromGoldmineResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CollectFromGoldmineResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (CollectFromGoldmineResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CollectFromGoldmineResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (CollectFromGoldmineResponseProto_CollectFromGoldmineStatus) status;
+- (CollectFromGoldmineResponseProto_Builder*) setStatus:(CollectFromGoldmineResponseProto_CollectFromGoldmineStatus) value;
+- (CollectFromGoldmineResponseProto_Builder*) clearStatus;
 @end
 

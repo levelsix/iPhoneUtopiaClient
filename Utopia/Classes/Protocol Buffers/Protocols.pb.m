@@ -88,6 +88,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCBootPlayerFromClanEvent:
     case EventProtocolRequestCRetrieveThreeCardMonteEvent:
     case EventProtocolRequestCPlayThreeCardMonteEvent:
+    case EventProtocolRequestCBeginGoldmineTimerEvent:
+    case EventProtocolRequestCCollectFromGoldmineEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
@@ -163,6 +165,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSBootPlayerFromClanEvent:
     case EventProtocolResponseSRetrieveThreeCardMonteEvent:
     case EventProtocolResponseSPlayThreeCardMonteEvent:
+    case EventProtocolResponseSBeginGoldmineTimerEvent:
+    case EventProtocolResponseSCollectFromGoldmineEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

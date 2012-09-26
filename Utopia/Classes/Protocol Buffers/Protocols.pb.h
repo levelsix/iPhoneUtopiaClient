@@ -16,6 +16,10 @@
 @class BattleRequestProto_Builder;
 @class BattleResponseProto;
 @class BattleResponseProto_Builder;
+@class BeginGoldmineTimerRequestProto;
+@class BeginGoldmineTimerRequestProto_Builder;
+@class BeginGoldmineTimerResponseProto;
+@class BeginGoldmineTimerResponseProto_Builder;
 @class BootPlayerFromClanRequestProto;
 @class BootPlayerFromClanRequestProto_Builder;
 @class BootPlayerFromClanResponseProto;
@@ -44,6 +48,10 @@
 @class CollectForgeEquipsRequestProto_Builder;
 @class CollectForgeEquipsResponseProto;
 @class CollectForgeEquipsResponseProto_Builder;
+@class CollectFromGoldmineRequestProto;
+@class CollectFromGoldmineRequestProto_Builder;
+@class CollectFromGoldmineResponseProto;
+@class CollectFromGoldmineResponseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class CreateClanRequestProto;
@@ -461,6 +469,8 @@ typedef enum {
   EventProtocolRequestCBootPlayerFromClanEvent = 66,
   EventProtocolRequestCRetrieveThreeCardMonteEvent = 67,
   EventProtocolRequestCPlayThreeCardMonteEvent = 68,
+  EventProtocolRequestCBeginGoldmineTimerEvent = 69,
+  EventProtocolRequestCCollectFromGoldmineEvent = 70,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -534,6 +544,8 @@ typedef enum {
   EventProtocolResponseSBootPlayerFromClanEvent = 66,
   EventProtocolResponseSRetrieveThreeCardMonteEvent = 67,
   EventProtocolResponseSPlayThreeCardMonteEvent = 68,
+  EventProtocolResponseSBeginGoldmineTimerEvent = 69,
+  EventProtocolResponseSCollectFromGoldmineEvent = 70,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

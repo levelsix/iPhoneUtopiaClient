@@ -54486,3 +54486,1020 @@ BOOL PlayThreeCardMonteResponseProto_PlayThreeCardMonteStatusIsValidValue(PlayTh
 }
 @end
 
+@interface BeginGoldmineTimerRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property BOOL reset;
+@property int64_t clientTime;
+@end
+
+@implementation BeginGoldmineTimerRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasReset {
+  return !!hasReset_;
+}
+- (void) setHasReset:(BOOL) value {
+  hasReset_ = !!value;
+}
+- (BOOL) reset {
+  return !!reset_;
+}
+- (void) setReset:(BOOL) value {
+  reset_ = !!value;
+}
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.reset = NO;
+    self.clientTime = 0L;
+  }
+  return self;
+}
+static BeginGoldmineTimerRequestProto* defaultBeginGoldmineTimerRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [BeginGoldmineTimerRequestProto class]) {
+    defaultBeginGoldmineTimerRequestProtoInstance = [[BeginGoldmineTimerRequestProto alloc] init];
+  }
+}
++ (BeginGoldmineTimerRequestProto*) defaultInstance {
+  return defaultBeginGoldmineTimerRequestProtoInstance;
+}
+- (BeginGoldmineTimerRequestProto*) defaultInstance {
+  return defaultBeginGoldmineTimerRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasReset) {
+    [output writeBool:2 value:self.reset];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:3 value:self.clientTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasReset) {
+    size += computeBoolSize(2, self.reset);
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(3, self.clientTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (BeginGoldmineTimerRequestProto*) parseFromData:(NSData*) data {
+  return (BeginGoldmineTimerRequestProto*)[[[BeginGoldmineTimerRequestProto builder] mergeFromData:data] build];
+}
++ (BeginGoldmineTimerRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginGoldmineTimerRequestProto*)[[[BeginGoldmineTimerRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BeginGoldmineTimerRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BeginGoldmineTimerRequestProto*)[[[BeginGoldmineTimerRequestProto builder] mergeFromInputStream:input] build];
+}
++ (BeginGoldmineTimerRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginGoldmineTimerRequestProto*)[[[BeginGoldmineTimerRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginGoldmineTimerRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BeginGoldmineTimerRequestProto*)[[[BeginGoldmineTimerRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BeginGoldmineTimerRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginGoldmineTimerRequestProto*)[[[BeginGoldmineTimerRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginGoldmineTimerRequestProto_Builder*) builder {
+  return [[[BeginGoldmineTimerRequestProto_Builder alloc] init] autorelease];
+}
++ (BeginGoldmineTimerRequestProto_Builder*) builderWithPrototype:(BeginGoldmineTimerRequestProto*) prototype {
+  return [[BeginGoldmineTimerRequestProto builder] mergeFrom:prototype];
+}
+- (BeginGoldmineTimerRequestProto_Builder*) builder {
+  return [BeginGoldmineTimerRequestProto builder];
+}
+@end
+
+@interface BeginGoldmineTimerRequestProto_Builder()
+@property (retain) BeginGoldmineTimerRequestProto* result;
+@end
+
+@implementation BeginGoldmineTimerRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[BeginGoldmineTimerRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BeginGoldmineTimerRequestProto_Builder*) clear {
+  self.result = [[[BeginGoldmineTimerRequestProto alloc] init] autorelease];
+  return self;
+}
+- (BeginGoldmineTimerRequestProto_Builder*) clone {
+  return [BeginGoldmineTimerRequestProto builderWithPrototype:result];
+}
+- (BeginGoldmineTimerRequestProto*) defaultInstance {
+  return [BeginGoldmineTimerRequestProto defaultInstance];
+}
+- (BeginGoldmineTimerRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BeginGoldmineTimerRequestProto*) buildPartial {
+  BeginGoldmineTimerRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (BeginGoldmineTimerRequestProto_Builder*) mergeFrom:(BeginGoldmineTimerRequestProto*) other {
+  if (other == [BeginGoldmineTimerRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasReset) {
+    [self setReset:other.reset];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BeginGoldmineTimerRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BeginGoldmineTimerRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setReset:[input readBool]];
+        break;
+      }
+      case 24: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (BeginGoldmineTimerRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (BeginGoldmineTimerRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (BeginGoldmineTimerRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (BeginGoldmineTimerRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasReset {
+  return result.hasReset;
+}
+- (BOOL) reset {
+  return result.reset;
+}
+- (BeginGoldmineTimerRequestProto_Builder*) setReset:(BOOL) value {
+  result.hasReset = YES;
+  result.reset = value;
+  return self;
+}
+- (BeginGoldmineTimerRequestProto_Builder*) clearReset {
+  result.hasReset = NO;
+  result.reset = NO;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (BeginGoldmineTimerRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (BeginGoldmineTimerRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+@end
+
+@interface BeginGoldmineTimerResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatus status;
+@end
+
+@implementation BeginGoldmineTimerResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusSuccess;
+  }
+  return self;
+}
+static BeginGoldmineTimerResponseProto* defaultBeginGoldmineTimerResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [BeginGoldmineTimerResponseProto class]) {
+    defaultBeginGoldmineTimerResponseProtoInstance = [[BeginGoldmineTimerResponseProto alloc] init];
+  }
+}
++ (BeginGoldmineTimerResponseProto*) defaultInstance {
+  return defaultBeginGoldmineTimerResponseProtoInstance;
+}
+- (BeginGoldmineTimerResponseProto*) defaultInstance {
+  return defaultBeginGoldmineTimerResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (BeginGoldmineTimerResponseProto*) parseFromData:(NSData*) data {
+  return (BeginGoldmineTimerResponseProto*)[[[BeginGoldmineTimerResponseProto builder] mergeFromData:data] build];
+}
++ (BeginGoldmineTimerResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginGoldmineTimerResponseProto*)[[[BeginGoldmineTimerResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BeginGoldmineTimerResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BeginGoldmineTimerResponseProto*)[[[BeginGoldmineTimerResponseProto builder] mergeFromInputStream:input] build];
+}
++ (BeginGoldmineTimerResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginGoldmineTimerResponseProto*)[[[BeginGoldmineTimerResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginGoldmineTimerResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BeginGoldmineTimerResponseProto*)[[[BeginGoldmineTimerResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BeginGoldmineTimerResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginGoldmineTimerResponseProto*)[[[BeginGoldmineTimerResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginGoldmineTimerResponseProto_Builder*) builder {
+  return [[[BeginGoldmineTimerResponseProto_Builder alloc] init] autorelease];
+}
++ (BeginGoldmineTimerResponseProto_Builder*) builderWithPrototype:(BeginGoldmineTimerResponseProto*) prototype {
+  return [[BeginGoldmineTimerResponseProto builder] mergeFrom:prototype];
+}
+- (BeginGoldmineTimerResponseProto_Builder*) builder {
+  return [BeginGoldmineTimerResponseProto builder];
+}
+@end
+
+BOOL BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusIsValidValue(BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatus value) {
+  switch (value) {
+    case BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusSuccess:
+    case BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusNotEnoughDiamonds:
+    case BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusStillCollecting:
+    case BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusOtherFail:
+    case BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusClientTooApartFromServerTime:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface BeginGoldmineTimerResponseProto_Builder()
+@property (retain) BeginGoldmineTimerResponseProto* result;
+@end
+
+@implementation BeginGoldmineTimerResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[BeginGoldmineTimerResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BeginGoldmineTimerResponseProto_Builder*) clear {
+  self.result = [[[BeginGoldmineTimerResponseProto alloc] init] autorelease];
+  return self;
+}
+- (BeginGoldmineTimerResponseProto_Builder*) clone {
+  return [BeginGoldmineTimerResponseProto builderWithPrototype:result];
+}
+- (BeginGoldmineTimerResponseProto*) defaultInstance {
+  return [BeginGoldmineTimerResponseProto defaultInstance];
+}
+- (BeginGoldmineTimerResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BeginGoldmineTimerResponseProto*) buildPartial {
+  BeginGoldmineTimerResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (BeginGoldmineTimerResponseProto_Builder*) mergeFrom:(BeginGoldmineTimerResponseProto*) other {
+  if (other == [BeginGoldmineTimerResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BeginGoldmineTimerResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BeginGoldmineTimerResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (BeginGoldmineTimerResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (BeginGoldmineTimerResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (BeginGoldmineTimerResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (BeginGoldmineTimerResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatus) status {
+  return result.status;
+}
+- (BeginGoldmineTimerResponseProto_Builder*) setStatus:(BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (BeginGoldmineTimerResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusSuccess;
+  return self;
+}
+@end
+
+@interface CollectFromGoldmineRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int64_t clientTime;
+@end
+
+@implementation CollectFromGoldmineRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.clientTime = 0L;
+  }
+  return self;
+}
+static CollectFromGoldmineRequestProto* defaultCollectFromGoldmineRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [CollectFromGoldmineRequestProto class]) {
+    defaultCollectFromGoldmineRequestProtoInstance = [[CollectFromGoldmineRequestProto alloc] init];
+  }
+}
++ (CollectFromGoldmineRequestProto*) defaultInstance {
+  return defaultCollectFromGoldmineRequestProtoInstance;
+}
+- (CollectFromGoldmineRequestProto*) defaultInstance {
+  return defaultCollectFromGoldmineRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:2 value:self.clientTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(2, self.clientTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (CollectFromGoldmineRequestProto*) parseFromData:(NSData*) data {
+  return (CollectFromGoldmineRequestProto*)[[[CollectFromGoldmineRequestProto builder] mergeFromData:data] build];
+}
++ (CollectFromGoldmineRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectFromGoldmineRequestProto*)[[[CollectFromGoldmineRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CollectFromGoldmineRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CollectFromGoldmineRequestProto*)[[[CollectFromGoldmineRequestProto builder] mergeFromInputStream:input] build];
+}
++ (CollectFromGoldmineRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectFromGoldmineRequestProto*)[[[CollectFromGoldmineRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectFromGoldmineRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CollectFromGoldmineRequestProto*)[[[CollectFromGoldmineRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CollectFromGoldmineRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectFromGoldmineRequestProto*)[[[CollectFromGoldmineRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectFromGoldmineRequestProto_Builder*) builder {
+  return [[[CollectFromGoldmineRequestProto_Builder alloc] init] autorelease];
+}
++ (CollectFromGoldmineRequestProto_Builder*) builderWithPrototype:(CollectFromGoldmineRequestProto*) prototype {
+  return [[CollectFromGoldmineRequestProto builder] mergeFrom:prototype];
+}
+- (CollectFromGoldmineRequestProto_Builder*) builder {
+  return [CollectFromGoldmineRequestProto builder];
+}
+@end
+
+@interface CollectFromGoldmineRequestProto_Builder()
+@property (retain) CollectFromGoldmineRequestProto* result;
+@end
+
+@implementation CollectFromGoldmineRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[CollectFromGoldmineRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CollectFromGoldmineRequestProto_Builder*) clear {
+  self.result = [[[CollectFromGoldmineRequestProto alloc] init] autorelease];
+  return self;
+}
+- (CollectFromGoldmineRequestProto_Builder*) clone {
+  return [CollectFromGoldmineRequestProto builderWithPrototype:result];
+}
+- (CollectFromGoldmineRequestProto*) defaultInstance {
+  return [CollectFromGoldmineRequestProto defaultInstance];
+}
+- (CollectFromGoldmineRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CollectFromGoldmineRequestProto*) buildPartial {
+  CollectFromGoldmineRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (CollectFromGoldmineRequestProto_Builder*) mergeFrom:(CollectFromGoldmineRequestProto*) other {
+  if (other == [CollectFromGoldmineRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CollectFromGoldmineRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CollectFromGoldmineRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (CollectFromGoldmineRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CollectFromGoldmineRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CollectFromGoldmineRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CollectFromGoldmineRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (CollectFromGoldmineRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (CollectFromGoldmineRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+@end
+
+@interface CollectFromGoldmineResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property CollectFromGoldmineResponseProto_CollectFromGoldmineStatus status;
+@end
+
+@implementation CollectFromGoldmineResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = CollectFromGoldmineResponseProto_CollectFromGoldmineStatusSuccess;
+  }
+  return self;
+}
+static CollectFromGoldmineResponseProto* defaultCollectFromGoldmineResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [CollectFromGoldmineResponseProto class]) {
+    defaultCollectFromGoldmineResponseProtoInstance = [[CollectFromGoldmineResponseProto alloc] init];
+  }
+}
++ (CollectFromGoldmineResponseProto*) defaultInstance {
+  return defaultCollectFromGoldmineResponseProtoInstance;
+}
+- (CollectFromGoldmineResponseProto*) defaultInstance {
+  return defaultCollectFromGoldmineResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(3, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (CollectFromGoldmineResponseProto*) parseFromData:(NSData*) data {
+  return (CollectFromGoldmineResponseProto*)[[[CollectFromGoldmineResponseProto builder] mergeFromData:data] build];
+}
++ (CollectFromGoldmineResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectFromGoldmineResponseProto*)[[[CollectFromGoldmineResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CollectFromGoldmineResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CollectFromGoldmineResponseProto*)[[[CollectFromGoldmineResponseProto builder] mergeFromInputStream:input] build];
+}
++ (CollectFromGoldmineResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectFromGoldmineResponseProto*)[[[CollectFromGoldmineResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectFromGoldmineResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CollectFromGoldmineResponseProto*)[[[CollectFromGoldmineResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CollectFromGoldmineResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectFromGoldmineResponseProto*)[[[CollectFromGoldmineResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectFromGoldmineResponseProto_Builder*) builder {
+  return [[[CollectFromGoldmineResponseProto_Builder alloc] init] autorelease];
+}
++ (CollectFromGoldmineResponseProto_Builder*) builderWithPrototype:(CollectFromGoldmineResponseProto*) prototype {
+  return [[CollectFromGoldmineResponseProto builder] mergeFrom:prototype];
+}
+- (CollectFromGoldmineResponseProto_Builder*) builder {
+  return [CollectFromGoldmineResponseProto builder];
+}
+@end
+
+BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(CollectFromGoldmineResponseProto_CollectFromGoldmineStatus value) {
+  switch (value) {
+    case CollectFromGoldmineResponseProto_CollectFromGoldmineStatusSuccess:
+    case CollectFromGoldmineResponseProto_CollectFromGoldmineStatusNotYetStarted:
+    case CollectFromGoldmineResponseProto_CollectFromGoldmineStatusStillCollecting:
+    case CollectFromGoldmineResponseProto_CollectFromGoldmineStatusOtherFail:
+    case CollectFromGoldmineResponseProto_CollectFromGoldmineStatusClientTooApartFromServerTime:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface CollectFromGoldmineResponseProto_Builder()
+@property (retain) CollectFromGoldmineResponseProto* result;
+@end
+
+@implementation CollectFromGoldmineResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[CollectFromGoldmineResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CollectFromGoldmineResponseProto_Builder*) clear {
+  self.result = [[[CollectFromGoldmineResponseProto alloc] init] autorelease];
+  return self;
+}
+- (CollectFromGoldmineResponseProto_Builder*) clone {
+  return [CollectFromGoldmineResponseProto builderWithPrototype:result];
+}
+- (CollectFromGoldmineResponseProto*) defaultInstance {
+  return [CollectFromGoldmineResponseProto defaultInstance];
+}
+- (CollectFromGoldmineResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CollectFromGoldmineResponseProto*) buildPartial {
+  CollectFromGoldmineResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (CollectFromGoldmineResponseProto_Builder*) mergeFrom:(CollectFromGoldmineResponseProto*) other {
+  if (other == [CollectFromGoldmineResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CollectFromGoldmineResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CollectFromGoldmineResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (CollectFromGoldmineResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CollectFromGoldmineResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CollectFromGoldmineResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CollectFromGoldmineResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (CollectFromGoldmineResponseProto_CollectFromGoldmineStatus) status {
+  return result.status;
+}
+- (CollectFromGoldmineResponseProto_Builder*) setStatus:(CollectFromGoldmineResponseProto_CollectFromGoldmineStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (CollectFromGoldmineResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = CollectFromGoldmineResponseProto_CollectFromGoldmineStatusSuccess;
+  return self;
+}
+@end
+

@@ -200,7 +200,7 @@
   
   FullEquipProto *fep = mktPost.postedEquip;
   
-  titleLabel.text = [Globals fullNameWithName:m.poster.name clanTag:m.poster.clan.tag];
+  titleLabel.text = fep.name;
   titleLabel.textColor = [Globals colorForRarity:fep.rarity];
   classLabel.text = [Globals stringForEquipClassType:fep.classType];
   typeLabel.text = [Globals stringForEquipType:fep.equipType];
@@ -208,7 +208,7 @@
   defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:m.equipLevel]];
   levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
   levelIcon.level = m.equipLevel;
-  [playerNameButton setTitle:m.poster.name forState:UIControlStateNormal];
+  [playerNameButton setTitle:[Globals fullNameWithName:m.poster.name clanTag:m.poster.clan.tag] forState:UIControlStateNormal];
   
   if ([Globals sellsForGoldInMarketplace:fep]) {
     armoryPriceIcon.highlighted = YES;

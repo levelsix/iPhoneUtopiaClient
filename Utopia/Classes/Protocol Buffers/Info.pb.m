@@ -3405,6 +3405,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 @property int32_t numAdColonyVideosWatched;
 @property int32_t numGroupChatsRemaining;
 @property (retain) MinimumClanProto* clan;
+@property int64_t lastGoldmineRetrieval;
 @property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -3715,6 +3716,13 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   hasClan_ = !!value;
 }
 @synthesize clan;
+- (BOOL) hasLastGoldmineRetrieval {
+  return !!hasLastGoldmineRetrieval_;
+}
+- (void) setHasLastGoldmineRetrieval:(BOOL) value {
+  hasLastGoldmineRetrieval_ = !!value;
+}
+@synthesize lastGoldmineRetrieval;
 - (BOOL) hasUdid {
   return !!hasUdid_;
 }
@@ -3833,6 +3841,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
     self.numAdColonyVideosWatched = 0;
     self.numGroupChatsRemaining = 0;
     self.clan = [MinimumClanProto defaultInstance];
+    self.lastGoldmineRetrieval = 0L;
     self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -4011,6 +4020,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasClan) {
     [output writeMessage:55 value:self.clan];
   }
+  if (self.hasLastGoldmineRetrieval) {
+    [output writeInt64:56 value:self.lastGoldmineRetrieval];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -4169,6 +4181,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasClan) {
     size += computeMessageSize(55, self.clan);
+  }
+  if (self.hasLastGoldmineRetrieval) {
+    size += computeInt64Size(56, self.lastGoldmineRetrieval);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4367,6 +4382,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasClan) {
     [self mergeClan:other.clan];
+  }
+  if (other.hasLastGoldmineRetrieval) {
+    [self setLastGoldmineRetrieval:other.lastGoldmineRetrieval];
   }
   if (other.hasUdid) {
     [self setUdid:other.udid];
@@ -4644,6 +4662,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setClan:[subBuilder buildPartial]];
+        break;
+      }
+      case 448: {
+        [self setLastGoldmineRetrieval:[input readInt64]];
         break;
       }
     }
@@ -5373,6 +5395,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearClan {
   result.hasClan = NO;
   result.clan = [MinimumClanProto defaultInstance];
+  return self;
+}
+- (BOOL) hasLastGoldmineRetrieval {
+  return result.hasLastGoldmineRetrieval;
+}
+- (int64_t) lastGoldmineRetrieval {
+  return result.lastGoldmineRetrieval;
+}
+- (FullUserProto_Builder*) setLastGoldmineRetrieval:(int64_t) value {
+  result.hasLastGoldmineRetrieval = YES;
+  result.lastGoldmineRetrieval = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastGoldmineRetrieval {
+  result.hasLastGoldmineRetrieval = NO;
+  result.lastGoldmineRetrieval = 0L;
   return self;
 }
 - (BOOL) hasUdid {
