@@ -57,6 +57,7 @@
 @property (nonatomic, assign) CGSize tileSizeInPoints;
 
 @property (nonatomic, assign) int silverOnMap;
+@property (nonatomic, assign) int goldOnMap;
 
 + (id) tiledMapWithTMXFile:(NSString*)tmxFile;
 - (id) initWithTMXFile:(NSString *)tmxFile;
@@ -74,6 +75,8 @@
 
 - (void) addSilverDrop:(int)amount fromSprite:(MapSprite *)sprite;
 - (void) pickUpSilverDrop:(SilverStack *)ss;
+- (void) addGoldDrop:(int)amount fromSprite:(MapSprite *)sprite;
+- (void) pickUpGoldDrop:(GoldStack *)ss;
 - (void) addEquipDrop:(int)equipId fromSprite:(MapSprite *)sprite;
 - (void) pickUpEquipDrop:(EquipDrop *)ed;
 

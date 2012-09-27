@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Protocols.pb.h"
+#import "GoldMineView.h"
 
 @class ForgeAttempt;
 
@@ -60,20 +61,23 @@ typedef enum {
 @end
 
 typedef enum {
-  BazaarStructTypeAviary = 1,
+  BazaarStructTypeAviary = 994,
   BazaarStructTypeCarpenter,
   BazaarStructTypeVault,
   BazaarStructTypeArmory,
   BazaarStructTypeMarketplace,
   BazaarStructTypeBlacksmith,
   BazaarStructTypeLeaderboard,
-  BazaarStructTypeClanHouse
+  BazaarStructTypeClanHouse,
+  BazaarStructTypeGoldMine
 } BazaarStructType;
 
 @interface CritStruct : NSObject 
 
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, assign) BazaarStructType type;
+
+@property (nonatomic, retain) IBOutlet GoldMineView *goldMineView;
 
 - (id) initWithType:(BazaarStructType)t;
 - (void) openMenu;
@@ -85,7 +89,8 @@ typedef enum {
   kNotificationMarketplace,
   kNotificationReferral,
   kNotificationForge,
-  kNotificationWallPost
+  kNotificationWallPost,
+  kNotificationGoldmine
 } NotificationType;
 
 @interface UserNotification : NSObject
@@ -99,6 +104,7 @@ typedef enum {
 @property (nonatomic, assign) int stolenEquipId;
 @property (nonatomic, assign) int stolenEquipLevel;
 @property (nonatomic, assign) int forgeEquipId;
+@property (nonatomic, assign) BOOL goldmineCollect;
 @property (nonatomic, assign) BOOL hasBeenViewed;
 @property (nonatomic, retain) NSString *wallPost;
 
@@ -110,6 +116,7 @@ typedef enum {
 - (id) initWithReferralResponse:(ReferralCodeUsedResponseProto *)proto;
 - (id) initWithForgeAttempt:(ForgeAttempt *)fa;
 - (id) initWithWallPost:(PlayerWallPostProto *)proto;
+- (id) initWithGoldmineRetrieval:(NSDate *)goldmineStart;
 
 @end
 

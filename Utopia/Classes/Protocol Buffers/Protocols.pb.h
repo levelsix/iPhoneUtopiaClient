@@ -182,6 +182,8 @@
 @class MinimumUserTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
+@class MonteCardProto;
+@class MonteCardProto_Builder;
 @class MoveOrRotateNormStructureRequestProto;
 @class MoveOrRotateNormStructureRequestProto_Builder;
 @class MoveOrRotateNormStructureResponseProto;
@@ -358,6 +360,8 @@
 @class StartupResponseProto_StartupConstants_ForgeConstants_Builder;
 @class StartupResponseProto_StartupConstants_FormulaConstants;
 @class StartupResponseProto_StartupConstants_FormulaConstants_Builder;
+@class StartupResponseProto_StartupConstants_GoldmineConstants;
+@class StartupResponseProto_StartupConstants_GoldmineConstants_Builder;
 @class StartupResponseProto_StartupConstants_KiipRewardConditions;
 @class StartupResponseProto_StartupConstants_KiipRewardConditions_Builder;
 @class StartupResponseProto_TutorialConstants;

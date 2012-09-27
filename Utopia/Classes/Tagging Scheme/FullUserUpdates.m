@@ -291,3 +291,38 @@
 }
 
 @end
+
+@implementation GoldmineTimeUpdate
+
+@synthesize previousDate, nextDate;
+
++ (id) updateWithTag:(int)t prevDate:(NSDate *)pd nextDate:(NSDate *)nd {
+  return [[[self alloc] initWithTag:t prevDate:pd nextDate:nd] autorelease];
+}
+
+- (id) initWithTag:(int)t prevDate:(NSDate *)pd nextDate:(NSDate *)nd {
+  if ((self = [super init])) {
+    self.tag = t;
+    self.previousDate = pd;
+    self.nextDate = nd;
+  }
+  return self;
+}
+
+- (void) update {
+  GameState *gs = [GameState sharedGameState];
+  gs.lastGoldmineRetrieval = nextDate;
+}
+
+- (void) undo {
+  GameState *gs = [GameState sharedGameState];
+  gs.lastGoldmineRetrieval = previousDate;
+}
+
+- (void) dealloc {
+  self.previousDate = nil;
+  self.nextDate = nil;
+  [super dealloc];
+}
+
+@end

@@ -379,6 +379,21 @@
     [self scheduleNotificationWithText:text badge:1 date:[gs.forgeAttempt.startTime dateByAddingTimeInterval:minutes*60.f]];
   }
   
+  if (gs.lastGoldmineRetrieval) {
+    NSTimeInterval timeInterval = -[gs.lastGoldmineRetrieval timeIntervalSinceNow];
+    int timeToStartCollect = 3600.f*gl.numHoursBeforeGoldmineRetrieval;
+    int timeToEndCollect = 3600.f*(gl.numHoursBeforeGoldmineRetrieval+gl.numHoursForGoldminePickup);
+    
+    if (timeInterval < timeToStartCollect) {
+      NSString *text = [NSString stringWithFormat:@"The Gold Mine has finished producing %d gold. Hurry and pick it up before the workers go on strike!", gl.goldAmountFromGoldminePickup];
+      [self scheduleNotificationWithText:text badge:1 date:[gs.lastGoldmineRetrieval dateByAddingTimeInterval:timeToStartCollect]];
+    }
+    if (timeInterval < timeToEndCollect) {
+      NSString *text = @"The workers at the Gold Mine have gone on strike! Come back to settle them down!";
+      [self scheduleNotificationWithText:text badge:1 date:[gs.lastGoldmineRetrieval dateByAddingTimeInterval:timeToEndCollect]];
+    }
+  }
+  
   int curBadgeCount = 1;//shouldSendEnergyNotification + shouldSendStaminaNotification + 1;
   NSString *text = [NSString stringWithFormat:@"%@, come back and reclaim the world for the all powerful %@!", gs.name, [Globals factionForUserType:gs.type]];
   NSDate *date = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];

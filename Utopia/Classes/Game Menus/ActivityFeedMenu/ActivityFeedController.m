@@ -16,6 +16,7 @@
 #import "BattleLayer.h"
 #import "ProfileViewController.h"
 #import "ForgeMenuController.h"
+#import "GameLayer.h"
 
 @implementation ActivityFeedCell
 
@@ -97,6 +98,21 @@
     [userIcon setImage:[Globals imageNamed:@"blacksmithicon.png"] forState:UIControlStateNormal];
     
     buttonLabel.text = @"Visit";
+  } else if (notification.type == kNotificationGoldmine) {
+    if (notification.goldmineCollect) {
+      titleLabel.text = [NSString stringWithFormat:@"The Gold Mine has produced %d gold.", gl.goldAmountFromGoldminePickup];
+      subtitleLabel.text = @"Visit to pick up your gold!";
+      titleLabel.textColor = [Globals goldColor];
+    } else {
+      titleLabel.text = @"The Gold Mine workers have gone on strike.";
+      subtitleLabel.text = @"Visit to pay them off!";
+      titleLabel.textColor = [Globals redColor];
+    }
+    
+    [button setImage:[Globals imageNamed:@"afcollect.png"] forState:UIControlStateNormal];
+    [userIcon setImage:[Globals imageNamed:@"GoldMine.png"] forState:UIControlStateNormal];
+    
+    buttonLabel.text = @"Visit";
   } else if (notification.type == kNotificationWallPost) {
     // This will only be used in the drop down notifications
     titleLabel.text = [NSString stringWithFormat:@"%@ has posted on your wall.", name];
@@ -145,6 +161,10 @@
     [Analytics clickedRevenge];
   } else if (notification.type == kNotificationForge) {
     [ForgeMenuController displayView];
+    [[ActivityFeedController sharedActivityFeedController] close];
+  } else if (notification.type == kNotificationGoldmine) {
+    [[GameLayer sharedGameLayer] loadBazaarMap];
+    [[BazaarMap sharedBazaarMap] moveToCritStruct:BazaarStructTypeGoldMine];
     [[ActivityFeedController sharedActivityFeedController] close];
   }
 }

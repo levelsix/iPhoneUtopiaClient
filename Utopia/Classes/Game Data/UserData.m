@@ -18,6 +18,7 @@
 #import "ForgeMenuController.h"
 #import "LeaderboardController.h"
 #import "ClanMenuController.h"
+#import "BazaarMap.h"
 
 @implementation UserEquip
 
@@ -78,9 +79,9 @@
   
   if (!isComplete) {
     if (lastUpgradeTime) {
-        return kUpgrading;
+      return kUpgrading;
     } else {
-        return kBuilding;
+      return kBuilding;
     }
   }
   
@@ -126,7 +127,7 @@
 
 @implementation CritStruct
 
-@synthesize name, type;
+@synthesize name, type, goldMineView;
 
 - (id) initWithType:(BazaarStructType)t {
   if ((self = [super init])) {
@@ -168,10 +169,22 @@
       
     case BazaarStructTypeClanHouse:
       name = @"Clan House";
+      break;
+      
+    case BazaarStructTypeGoldMine:
+      name = @"Gold Mine";
+      break;
       
     default:
       break;
   }
+}
+
+- (GoldMineView *) goldMineView {
+  if (!goldMineView) {
+    [[NSBundle mainBundle] loadNibNamed:@"GoldMineView" owner:self options:nil];
+  }
+  return goldMineView;
 }
 
 - (void) openMenu {
@@ -206,9 +219,32 @@
       
     case BazaarStructTypeClanHouse:
       [ClanMenuController displayView];
+      break;
+      
+    case BazaarStructTypeGoldMine:
+      [self goldMineClicked];
+      break;
       
     default:
       break;
+  }
+}
+
+- (void) goldMineClicked {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  NSTimeInterval timeInterval = -[gs.lastGoldmineRetrieval timeIntervalSinceNow];
+  int timeToStartCollect = 3600.f*gl.numHoursBeforeGoldmineRetrieval;
+  int timeToEndCollect = 3600.f*(gl.numHoursBeforeGoldmineRetrieval+gl.numHoursForGoldminePickup);
+  
+  if (timeInterval > timeToStartCollect && timeInterval < timeToEndCollect) {
+    [[OutgoingEventController sharedOutgoingEventController] collectFromGoldmine];
+    BazaarMap *bm = [BazaarMap sharedBazaarMap];
+    CritStructBuilding *csb = (CritStructBuilding *)[bm getChildByTag:self.type];
+    [bm addGoldDrop:1 fromSprite:csb];
+  } else {
+    [self.goldMineView displayForCurrentState];
   }
 }
 
@@ -226,6 +262,7 @@
 @synthesize battleResult, coinsStolen, stolenEquipId, stolenEquipLevel;
 @synthesize forgeEquipId;
 @synthesize wallPost;
+@synthesize goldmineCollect;
 @synthesize hasBeenViewed;
 
 - (id) initBattleNotificationAtStartup:(StartupResponseProto_AttackedNotificationProto *)proto {
@@ -313,6 +350,30 @@
     self.time = [NSDate date];
     self.type = kNotificationWallPost;
     self.wallPost = proto.content;
+  }
+  return self;
+}
+
+- (id) initWithGoldmineRetrieval:(NSDate *)goldmineStart {
+  if ((self = [super init])) {
+    Globals *gl = [Globals sharedGlobals];
+    
+    self.type = kNotificationGoldmine;
+    
+    NSTimeInterval timeInterval = -[goldmineStart timeIntervalSinceNow];
+    int timeToStartCollect = 3600.f*gl.numHoursBeforeGoldmineRetrieval;
+    int timeToEndCollect = 3600.f*(gl.numHoursBeforeGoldmineRetrieval+gl.numHoursForGoldminePickup);
+    
+    if (timeInterval > timeToEndCollect) {
+      self.time = [goldmineStart dateByAddingTimeInterval:timeToEndCollect];
+      self.goldmineCollect = NO;
+    } else if (timeInterval > timeToStartCollect) {
+      self.time = [goldmineStart dateByAddingTimeInterval:timeToStartCollect];
+      self.goldmineCollect = YES;
+    } else {
+      [self release];
+      return nil;
+    }
   }
   return self;
 }

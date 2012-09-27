@@ -90,7 +90,7 @@
 @synthesize tileSizeInPoints;
 @synthesize enemyMenu;
 @synthesize mapSprites = _mapSprites;
-@synthesize silverOnMap;
+@synthesize silverOnMap, goldOnMap;
 @synthesize decLayer;
 @synthesize walkableData = _walkableData;
 
@@ -244,6 +244,70 @@
                  [CCSpawn actions:
                   [CCEaseSineIn actionWithAction:
                    [CCMoveToCustom actionWithDuration:0.5 position:ccp(ss.position.x,292)]],
+                  [CCEaseSineOut actionWithAction:
+                   [CCMoveToCustom actionWithDuration:0.5 position:ccp(352,ss.position.y)]],
+                  [CCScaleTo actionWithDuration:0.5 scale:0.5],
+                  nil],
+                 [CCCallBlock actionWithBlock:^{[ss removeFromParentAndCleanup:YES];}],
+                 nil]];
+  
+  [[SoundEngine sharedSoundEngine] coinPickup];
+}
+
+- (void) addGoldDrop:(int)amount fromSprite:(MapSprite *)sprite {
+  goldOnMap += amount;
+  
+  GoldStack *gs = [[GoldStack alloc] initWithAmount:amount];
+  [self addChild:gs z:1004];
+  [gs release];
+  gs.position = ccpAdd(sprite.position, ccp(0,sprite.contentSize.height/2));
+  gs.scale = 0.01;
+  gs.opacity = 5;
+  
+  // Need to fade in, scale to 1, bounce in y dir, move normal in x dir
+  float xPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60;
+  float yPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10;
+  [gs runAction:[CCSpawn actions:
+                 [CCFadeIn actionWithDuration:0.1],
+                 [CCScaleTo actionWithDuration:0.1 scale:1],
+                 [CCSequence actions:
+                  [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
+                  [CCEaseBounceOut actionWithAction:
+                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-85+yPos)]],
+                  nil],
+                 [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],
+                 nil]];
+  
+  [[SoundEngine sharedSoundEngine] coinDrop];
+}
+
+- (void) pickUpGoldDrop:(GoldStack *)ss {
+  goldOnMap -= ss.amount;
+  
+  [ss stopAllActions];
+  
+  CCLabelTTF *coinLabel = [CCLabelFX labelWithString:[NSString stringWithFormat:@"+%d Gold", ss.amount] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+  [self addChild:coinLabel z:1005];
+  coinLabel.position = ss.position;
+  coinLabel.color = ccc3(255, 200, 0);
+  [coinLabel runAction:[CCSequence actions:
+                        [CCSpawn actions:
+                         [CCFadeOut actionWithDuration:DROP_LABEL_DURATION],
+                         [CCMoveBy actionWithDuration:DROP_LABEL_DURATION position:ccp(0,40)],nil],
+                        [CCCallBlock actionWithBlock:^{[coinLabel removeFromParentAndCleanup:YES];}], nil]];
+  
+  TopBar *tb = [TopBar sharedTopBar];
+  CGPoint world = [ss.parent convertToWorldSpace:ss.position];
+  CGPoint pos = [tb convertToNodeSpace:world];
+  [ss removeFromParentAndCleanup:NO];
+  ss.position = pos;
+  ss.scale *= self.scale;
+  [tb addChild:ss z:-1];
+  
+  [ss runAction:[CCSequence actions:
+                 [CCSpawn actions:
+                  [CCEaseSineIn actionWithAction:
+                   [CCMoveToCustom actionWithDuration:0.5 position:ccp(ss.position.x,250)]],
                   [CCEaseSineOut actionWithAction:
                    [CCMoveToCustom actionWithDuration:0.5 position:ccp(352,ss.position.y)]],
                   [CCScaleTo actionWithDuration:0.5 scale:0.5],

@@ -44,9 +44,13 @@
 
 @end
 
-@interface CritStructBuilding : Building
+@interface CritStructBuilding : Building {
+  CCSprite *_retrieveBubble;
+  BOOL _retrievable;
+}
 
 @property (nonatomic, retain) CritStruct *critStruct;
+@property (nonatomic, assign) BOOL retrievable;
 
 - (id) initWithCritStruct:(CritStruct *)cs location:(CGRect)loc map:(GameMap *)map;
 

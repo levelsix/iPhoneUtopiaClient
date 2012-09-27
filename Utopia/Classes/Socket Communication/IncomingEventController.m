@@ -258,6 +258,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRetrieveThreeCardMonteEvent:
       responseClass = [RetrieveThreeCardMonteResponseProto class];
       break;
+    case EventProtocolResponseSBeginGoldmineTimerEvent:
+      responseClass = [BeginGoldmineTimerResponseProto class];
+      break;
+    case EventProtocolResponseSCollectFromGoldmineEvent:
+      responseClass = [CollectFromGoldmineResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -436,6 +442,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs beginForgeTimer];
     }
     
+    [gs goldmineTimeComplete];
+    [gs beginGoldmineTimer];
     
     gs.expRequiredForCurrentLevel = proto.experienceRequiredForCurrentLevel;
     gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;
@@ -1556,7 +1564,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     [Globals popupMessage:@"Server failed to modify character."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1571,7 +1579,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1586,7 +1594,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to send group chat."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1601,7 +1609,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to purchase group chat."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1633,7 +1641,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to create clan."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
   
   [[ClanMenuController sharedClanMenuController] stopLoading:tag];
@@ -1653,7 +1661,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to retrieve clan information."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1679,7 +1687,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to respond to clan request."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1703,7 +1711,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to leave clan."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1725,7 +1733,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to request to join clan request."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1747,7 +1755,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to retract clan request."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1770,7 +1778,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to transfer clan ownership."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1793,7 +1801,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to change clan description."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1816,7 +1824,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to post on clan wall."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1833,7 +1841,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to post on clan wall."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -1850,13 +1858,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to retrieve clan wall posts."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
 - (void) handleRetrieveThreeCardMonteResponseProto:(FullEvent *)fe {
   RetrieveThreeCardMonteResponseProto *proto = (RetrieveThreeCardMonteResponseProto *)fe.event;
   int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve three card monte response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo) {
@@ -1865,7 +1874,38 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to retrieve three card monte response."];
     
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleBeginGoldmineTimerResponseProto:(FullEvent *)fe {
+  BeginGoldmineTimerResponseProto *proto = (BeginGoldmineTimerResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Begin goldmine timer response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to retrieve begin goldmine timer."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleCollectFromGoldmineResponseProto:(FullEvent *)fe {
+  CollectFromGoldmineResponseProto *proto = (CollectFromGoldmineResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Collect from goldmine response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == CollectFromGoldmineResponseProto_CollectFromGoldmineStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to collect from goldmine."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 

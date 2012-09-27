@@ -80,6 +80,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize diamondPriceToCreateClan, maxCharLengthForClanName, maxCharLengthForClanDescription;
 @synthesize maxCharLengthForClanTag;
 @synthesize maxCharLengthForWallPost;
+@synthesize goldAmountFromGoldminePickup, goldCostForGoldmineRestart, numHoursBeforeGoldmineRetrieval, numHoursForGoldminePickup;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -211,6 +212,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxCharLengthForClanName = constants.clanConstants.maxCharLengthForClanName;
   self.maxCharLengthForClanDescription = constants.clanConstants.maxCharLengthForClanDescription;
   self.maxCharLengthForClanTag = constants.clanConstants.maxCharLengthForClanTag;
+  
+  self.goldCostForGoldmineRestart = constants.goldmineConstants.goldCostForGoldmineRestart;
+  self.goldAmountFromGoldminePickup = constants.goldmineConstants.goldAmountFromGoldminePickup;
+  self.numHoursForGoldminePickup = constants.goldmineConstants.numHoursForGoldminePickup;
+  self.numHoursBeforeGoldmineRetrieval = constants.goldmineConstants.numHoursBeforeGoldmineRetrieval;
   
   self.locationBarMax = constants.battleConstants.locationBarMax;
   

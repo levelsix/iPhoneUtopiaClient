@@ -127,6 +127,12 @@
 @property (nonatomic, assign) int maxCharLengthForClanDescription;
 @property (nonatomic, assign) int maxCharLengthForClanTag;
 
+// Goldmine constants
+@property (nonatomic, assign) int numHoursBeforeGoldmineRetrieval;
+@property (nonatomic, assign) int numHoursForGoldminePickup;
+@property (nonatomic, assign) int goldAmountFromGoldminePickup;
+@property (nonatomic, assign) int goldCostForGoldmineRestart;
+
 @property (nonatomic, retain) NSDictionary *productIdentifiers;
 
 @property (nonatomic, retain) NSMutableDictionary *imageCache;

@@ -103,6 +103,9 @@
   ForgeAttempt *_forgeAttempt;
   NSTimer *_forgeTimer;
   
+  NSDate *_lastGoldmineRetrieval;
+  NSTimer *_goldmineTimer;
+  
   MinimumClanProto *_clan;
   NSMutableArray *_requestedClans;
 }
@@ -194,6 +197,8 @@
 
 @property (retain) ForgeAttempt *forgeAttempt;
 
+@property (retain) NSDate *lastGoldmineRetrieval;
+
 @property (retain) MinimumClanProto *clan;
 @property (retain) NSMutableArray *requestedClans;
 
@@ -252,6 +257,10 @@
 
 - (void) beginForgeTimer;
 - (void) stopForgeTimer;
+
+- (void) beginGoldmineTimer;
+- (void) goldmineTimeComplete;
+- (void) stopGoldmineTimer;
 
 - (void) addToRequestedClans:(NSArray *)arr;
 

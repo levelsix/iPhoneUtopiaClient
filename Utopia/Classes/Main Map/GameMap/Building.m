@@ -239,7 +239,7 @@
     [self removeChild:_retrieveBubble cleanup:YES];
     [_retrieveBubble release];
   }
-  _retrieveBubble = [[CCSprite spriteWithFile:@"retrievebubble.png"] retain];
+  _retrieveBubble = [[CCSprite spriteWithFile:@"silverover.png"] retain];
   [self addChild:_retrieveBubble];
   _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET);
 }
@@ -344,7 +344,7 @@
 
 @implementation CritStructBuilding
 
-@synthesize critStruct;
+@synthesize critStruct, retrievable = _retrievable;
 
 - (id) initWithCritStruct:(CritStruct *)cs location:(CGRect)loc map:(GameMap *)map {
   NSString *fileName = [[cs.name stringByReplacingOccurrencesOfString:@" " withString:@""] stringByAppendingString:@".png"];
@@ -354,8 +354,36 @@
     CCSprite *label = [CCSprite spriteWithFile:[@"The" stringByAppendingString:fileName]];
     [self addChild:label z:1];
     label.position = ccp(self.contentSize.width/2, 45);
+    
+    self.tag = cs.type;
   }
   return self;
+}
+
+- (void) initializeRetrieveBubble {
+  if (_retrieveBubble) {
+    // Make sure to cleanup just in case
+    [self removeChild:_retrieveBubble cleanup:YES];
+    [_retrieveBubble release];
+  }
+  _retrieveBubble = [[CCSprite spriteWithFile:@"goldover.png"] retain];
+  [self addChild:_retrieveBubble];
+  _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET);
+}
+
+- (void) setRetrievable:(BOOL)retrievable {
+  if (retrievable != _retrievable) {
+    _retrievable = retrievable;
+    
+    if (retrievable) {
+      if (!_retrieveBubble) {
+        [self initializeRetrieveBubble];
+      }
+      _retrieveBubble.visible = YES;
+    } else {
+      _retrieveBubble.visible = NO;
+    }
+  }
 }
 
 - (void) dealloc {

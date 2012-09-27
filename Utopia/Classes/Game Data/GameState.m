@@ -16,8 +16,9 @@
 #import "ForgeMenuController.h"
 #import "ChatMenuController.h"
 #import "AppDelegate.h"
+#import "BazaarMap.h"
 
-#define TagLog(...) ContextLogInfo(LN_CONTEXT_TAGS, __VA_ARGS__)
+#define TagLog(...) LNLog(__VA_ARGS__)
 
 @implementation GameState
 
@@ -106,6 +107,8 @@
 @synthesize unrespondedUpdates = _unrespondedUpdates;
 
 @synthesize forgeAttempt = _forgeAttempt;
+
+@synthesize lastGoldmineRetrieval = _lastGoldmineRetrieval;
 
 @synthesize clan = _clan;
 
@@ -217,6 +220,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.numGroupChatsRemaining = user.numGroupChatsRemaining;
   
   self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
+  
+  if (user.hasLastGoldmineRetrieval) {
+    self.lastGoldmineRetrieval = [NSDate dateWithTimeIntervalSince1970:user.lastGoldmineRetrieval/1000.0];
+  }
   
   for (id<GameStateUpdate> gsu in _unrespondedUpdates) {
     if ([gsu respondsToSelector:@selector(update)]) {
@@ -713,6 +720,48 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [_forgeTimer invalidate];
     [_forgeTimer release];
     _forgeTimer = nil;
+  }
+}
+
+- (void) beginGoldmineTimer {
+  [self stopGoldmineTimer];
+  Globals *gl = [Globals sharedGlobals];
+  
+  NSTimeInterval timeInterval = -[self.lastGoldmineRetrieval timeIntervalSinceNow];
+  int timeToStartCollect = 3600.f*gl.numHoursBeforeGoldmineRetrieval;
+  int timeToEndCollect = 3600.f*(gl.numHoursBeforeGoldmineRetrieval+gl.numHoursForGoldminePickup);
+  
+  if (timeInterval < timeToStartCollect) {
+    NSTimeInterval timeInterval = [[self.lastGoldmineRetrieval dateByAddingTimeInterval:timeToStartCollect] timeIntervalSinceNow];
+    _goldmineTimer = [[NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(goldmineTimeComplete) userInfo:nil repeats:NO] retain];
+    [[NSRunLoop mainRunLoop] addTimer:_goldmineTimer forMode:NSRunLoopCommonModes];
+  } else if (timeInterval < timeToEndCollect) {
+    NSTimeInterval timeInterval = [[self.lastGoldmineRetrieval dateByAddingTimeInterval:timeToEndCollect] timeIntervalSinceNow];
+    _goldmineTimer = [[NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(goldmineTimeComplete) userInfo:nil repeats:NO] retain];
+    [[NSRunLoop mainRunLoop] addTimer:_goldmineTimer forMode:NSRunLoopCommonModes];
+  }
+}
+
+- (void) goldmineTimeComplete {
+  UserNotification *un = [[UserNotification alloc] initWithGoldmineRetrieval:self.lastGoldmineRetrieval];
+  if (un) {
+    [self addNotification:un];
+    BazaarMap *bm = [BazaarMap sharedBazaarMap];
+    CritStructBuilding *csb = (CritStructBuilding *)[bm getChildByTag:BazaarStructTypeGoldMine];
+    if (un.goldmineCollect) {
+      csb.retrievable = YES;
+    } else {
+      csb.retrievable = NO;
+    }
+    [un release];
+  }
+}
+
+- (void) stopGoldmineTimer {
+  if (_goldmineTimer) {
+    [_goldmineTimer invalidate];
+    [_goldmineTimer release];
+    _goldmineTimer = nil;
   }
 }
 

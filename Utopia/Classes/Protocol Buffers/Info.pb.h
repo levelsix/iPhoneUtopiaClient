@@ -74,6 +74,8 @@
 @class MinimumUserTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
+@class MonteCardProto;
+@class MonteCardProto_Builder;
 @class NeutralCityElementProto;
 @class NeutralCityElementProto_Builder;
 @class PlayerWallPostProto;
@@ -99,14 +101,6 @@ typedef enum {
 } GroupChatScope;
 
 BOOL GroupChatScopeIsValidValue(GroupChatScope value);
-
-typedef enum {
-  MonteCardBad = 0,
-  MonteCardMedium = 1,
-  MonteCardGood = 2,
-} MonteCard;
-
-BOOL MonteCardIsValidValue(MonteCard value);
 
 typedef enum {
   LeaderboardTypeMostBattlesWon = 2,
@@ -643,6 +637,83 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) battlesFled;
 - (MinimumUserProtoWithBattleHistory_Builder*) setBattlesFled:(int32_t) value;
 - (MinimumUserProtoWithBattleHistory_Builder*) clearBattlesFled;
+@end
+
+@interface MonteCardProto : PBGeneratedMessage {
+@private
+  BOOL hasDiamondsGained_:1;
+  BOOL hasEquipLevel_:1;
+  BOOL hasCoinsGained_:1;
+  BOOL hasEquip_:1;
+  int32_t diamondsGained;
+  int32_t equipLevel;
+  int32_t coinsGained;
+  FullEquipProto* equip;
+}
+- (BOOL) hasDiamondsGained;
+- (BOOL) hasEquip;
+- (BOOL) hasEquipLevel;
+- (BOOL) hasCoinsGained;
+@property (readonly) int32_t diamondsGained;
+@property (readonly, retain) FullEquipProto* equip;
+@property (readonly) int32_t equipLevel;
+@property (readonly) int32_t coinsGained;
+
++ (MonteCardProto*) defaultInstance;
+- (MonteCardProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MonteCardProto_Builder*) builder;
++ (MonteCardProto_Builder*) builder;
++ (MonteCardProto_Builder*) builderWithPrototype:(MonteCardProto*) prototype;
+
++ (MonteCardProto*) parseFromData:(NSData*) data;
++ (MonteCardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MonteCardProto*) parseFromInputStream:(NSInputStream*) input;
++ (MonteCardProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MonteCardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MonteCardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MonteCardProto_Builder : PBGeneratedMessage_Builder {
+@private
+  MonteCardProto* result;
+}
+
+- (MonteCardProto*) defaultInstance;
+
+- (MonteCardProto_Builder*) clear;
+- (MonteCardProto_Builder*) clone;
+
+- (MonteCardProto*) build;
+- (MonteCardProto*) buildPartial;
+
+- (MonteCardProto_Builder*) mergeFrom:(MonteCardProto*) other;
+- (MonteCardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MonteCardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasDiamondsGained;
+- (int32_t) diamondsGained;
+- (MonteCardProto_Builder*) setDiamondsGained:(int32_t) value;
+- (MonteCardProto_Builder*) clearDiamondsGained;
+
+- (BOOL) hasEquip;
+- (FullEquipProto*) equip;
+- (MonteCardProto_Builder*) setEquip:(FullEquipProto*) value;
+- (MonteCardProto_Builder*) setEquipBuilder:(FullEquipProto_Builder*) builderForValue;
+- (MonteCardProto_Builder*) mergeEquip:(FullEquipProto*) value;
+- (MonteCardProto_Builder*) clearEquip;
+
+- (BOOL) hasEquipLevel;
+- (int32_t) equipLevel;
+- (MonteCardProto_Builder*) setEquipLevel:(int32_t) value;
+- (MonteCardProto_Builder*) clearEquipLevel;
+
+- (BOOL) hasCoinsGained;
+- (int32_t) coinsGained;
+- (MonteCardProto_Builder*) setCoinsGained:(int32_t) value;
+- (MonteCardProto_Builder*) clearCoinsGained;
 @end
 
 @interface FullClanProto : PBGeneratedMessage {

@@ -223,7 +223,7 @@ static NSString *udid = nil;
 }
 
 - (int) sendStartupMessage:(uint64_t)clientTime {
-  StartupRequestProto *req = [[[[[StartupRequestProto builder] 
+  StartupRequestProto *req = [[[[[StartupRequestProto builder]
                                  setUdid:udid]
                                 setApsalarId:[Apsalar apsalarID]]
                                setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
@@ -251,19 +251,19 @@ static NSString *udid = nil;
 }
 
 - (int) sendChatMessage:(NSString *)message recipient:(int)recipient {
-  ChatRequestProto *req = [[[[[ChatRequestProto builder] 
-                              setMessage:message] 
-                             setSender:_sender] 
+  ChatRequestProto *req = [[[[[ChatRequestProto builder]
+                              setMessage:message]
+                             setSender:_sender]
                             addRecipients:[[[MinimumUserProto builder] setUserId:recipient] build]]
                            build];
   return [self sendData:req withMessageType:EventProtocolRequestCChatEvent];
 }
 
 - (int) sendVaultMessage:(int)amount requestType: (VaultRequestProto_VaultRequestType) type {
-  VaultRequestProto *req = [[[[[VaultRequestProto builder] 
-                               setAmount:amount] 
-                              setSender:_sender] 
-                             setRequestType:type] 
+  VaultRequestProto *req = [[[[[VaultRequestProto builder]
+                               setAmount:amount]
+                              setSender:_sender]
+                             setRequestType:type]
                             build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCVaultEvent];
@@ -427,7 +427,7 @@ static NSString *udid = nil;
 }
 
 - (int) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y {
-  MoveOrRotateNormStructureRequestProto *req = 
+  MoveOrRotateNormStructureRequestProto *req =
   [[[[[[MoveOrRotateNormStructureRequestProto builder]
        setSender:_sender]
       setUserStructId:userStructId]
@@ -439,7 +439,7 @@ static NSString *udid = nil;
 }
 
 - (int) sendRotateNormStructureMessage:(int)userStructId orientation:(StructOrientation)orientation {
-  MoveOrRotateNormStructureRequestProto *req = 
+  MoveOrRotateNormStructureRequestProto *req =
   [[[[[[MoveOrRotateNormStructureRequestProto builder]
        setSender:_sender]
       setUserStructId:userStructId]
@@ -471,7 +471,7 @@ static NSString *udid = nil;
 }
 
 - (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type {
-  FinishNormStructWaittimeWithDiamondsRequestProto *req = 
+  FinishNormStructWaittimeWithDiamondsRequestProto *req =
   [[[[[[FinishNormStructWaittimeWithDiamondsRequestProto builder]
        setSender:_sender]
       setUserStructId:userStructId]
@@ -746,8 +746,8 @@ static NSString *udid = nil;
 }
 
 - (int) sendCharacterModWithType:(CharacterModType)modType newType:(UserType)userType newName:(NSString *)name {
-  CharacterModRequestProto_Builder *bldr = [[[CharacterModRequestProto builder] 
-                                             setModType:modType] 
+  CharacterModRequestProto_Builder *bldr = [[[CharacterModRequestProto builder]
+                                             setModType:modType]
                                             setSender:_sender];
   
   if (modType == CharacterModTypeChangeName && name) {
@@ -902,6 +902,25 @@ static NSString *udid = nil;
   RetrieveThreeCardMonteRequestProto *req = [[[RetrieveThreeCardMonteRequestProto builder] setSender:_sender] build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveThreeCardMonteEvent];
+}
+
+- (int) sendBeginGoldmineTimerMessage:(uint64_t)clientTime reset:(BOOL)reset {
+  BeginGoldmineTimerRequestProto *req = [[[[[BeginGoldmineTimerRequestProto builder]
+                                            setSender:_sender]
+                                           setClientTime:clientTime]
+                                          setReset:reset]
+                                         build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCBeginGoldmineTimerEvent];
+}
+
+- (int) sendCollectFromGoldmineMessage:(uint64_t)clientTime {
+  CollectFromGoldmineRequestProto *req = [[[[CollectFromGoldmineRequestProto builder]
+                                            setSender:_sender]
+                                           setClientTime:clientTime]
+                                          build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCCollectFromGoldmineEvent];
 }
 
 - (void) closeDownConnection {

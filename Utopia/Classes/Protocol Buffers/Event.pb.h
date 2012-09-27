@@ -182,6 +182,8 @@
 @class MinimumUserTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
+@class MonteCardProto;
+@class MonteCardProto_Builder;
 @class MoveOrRotateNormStructureRequestProto;
 @class MoveOrRotateNormStructureRequestProto_Builder;
 @class MoveOrRotateNormStructureResponseProto;
@@ -358,6 +360,8 @@
 @class StartupResponseProto_StartupConstants_ForgeConstants_Builder;
 @class StartupResponseProto_StartupConstants_FormulaConstants;
 @class StartupResponseProto_StartupConstants_FormulaConstants_Builder;
+@class StartupResponseProto_StartupConstants_GoldmineConstants;
+@class StartupResponseProto_StartupConstants_GoldmineConstants_Builder;
 @class StartupResponseProto_StartupConstants_KiipRewardConditions;
 @class StartupResponseProto_StartupConstants_KiipRewardConditions_Builder;
 @class StartupResponseProto_TutorialConstants;
@@ -2215,52 +2219,52 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasHealthFormulaExponentBase_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
-  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasCutOfVaultDepositTaken_:1;
-  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
+  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
+  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
+  BOOL hasHealthFormulaExponentBase_:1;
+  BOOL hasCutOfVaultDepositTaken_:1;
+  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
+  BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
+  BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
-  BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
-  BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
   BOOL hasMaxCityRank_:1;
   BOOL hasArmoryImgVerticalPixelOffset_:1;
   BOOL hasVaultImgVerticalPixelOffset_:1;
   BOOL hasMarketplaceImgVerticalPixelOffset_:1;
   BOOL hasCarpenterImgVerticalPixelOffset_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
+  BOOL hasMaxLengthOfChatString_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
+  BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
+  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
   BOOL hasAverageSizeOfLevelBracket_:1;
+  BOOL hasMinBattlesRequiredForKdrconsideration_:1;
   BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
+  BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
   BOOL hasMinNameLength_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasSizeOfAttackList_:1;
   BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
-  BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
-  BOOL hasMinBattlesRequiredForKdrconsideration_:1;
-  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
-  BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
-  BOOL hasMaxLengthOfChatString_:1;
   BOOL hasDiamondCostToPlayThreeCardMonte_:1;
+  BOOL hasMaxLevelDifferenceForBattle_:1;
+  BOOL hasMaxLevelForUser_:1;
+  BOOL hasArmoryXlength_:1;
+  BOOL hasArmoryYlength_:1;
+  BOOL hasVaultXlength_:1;
   BOOL hasVaultYlength_:1;
   BOOL hasMarketplaceXlength_:1;
   BOOL hasMarketplaceYlength_:1;
-  BOOL hasVaultXlength_:1;
   BOOL hasCarpenterXlength_:1;
   BOOL hasCarpenterYlength_:1;
   BOOL hasAviaryXlength_:1;
-  BOOL hasArmoryYlength_:1;
   BOOL hasAviaryYlength_:1;
-  BOOL hasArmoryXlength_:1;
-  BOOL hasMaxLevelForUser_:1;
   BOOL hasAttackBaseGain_:1;
   BOOL hasDefenseBaseGain_:1;
-  BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasEnergyBaseGain_:1;
   BOOL hasStaminaBaseGain_:1;
   BOOL hasAttackBaseCost_:1;
@@ -2275,58 +2279,59 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
   BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasMaxNumberOfMarketplacePosts_:1;
+  BOOL hasGoldmineConstants_:1;
   BOOL hasClanConstants_:1;
   BOOL hasCharModConstants_:1;
   BOOL hasForgeConstants_:1;
   BOOL hasKiipRewardConditions_:1;
   BOOL hasBattleConstants_:1;
   BOOL hasFormulaConstants_:1;
-  Float64 healthFormulaExponentBase;
-  Float64 levelEquipBoostExponentBase;
-  Float64 percentReturnedToUserForSellingEquipInArmory;
-  Float64 cutOfVaultDepositTaken;
-  Float64 percentReturnedToUserForSellingNormStructure;
-  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+  Float64 percentReturnedToUserForSellingNormStructure;
+  Float64 levelEquipBoostExponentBase;
+  Float64 healthFormulaExponentBase;
+  Float64 cutOfVaultDepositTaken;
+  Float64 percentReturnedToUserForSellingEquipInArmory;
+  int32_t numDaysLongMarketplaceLicenseLastsFor;
+  int32_t numDaysShortMarketplaceLicenseLastsFor;
   int32_t diamondCostOfLongMarketplaceLicense;
   int32_t diamondCostOfShortMarketplaceLicense;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
-  int32_t numDaysShortMarketplaceLicenseLastsFor;
-  int32_t numDaysLongMarketplaceLicenseLastsFor;
   int32_t maxCityRank;
   int32_t armoryImgVerticalPixelOffset;
   int32_t vaultImgVerticalPixelOffset;
   int32_t marketplaceImgVerticalPixelOffset;
   int32_t carpenterImgVerticalPixelOffset;
   int32_t aviaryImgVerticalPixelOffset;
+  int32_t maxLengthOfChatString;
   int32_t maxCharLengthForWallPost;
   int32_t playerWallPostsRetrieveCap;
+  int32_t diamondPriceForGroupChatPurchasePackage;
+  int32_t numChatsGivenPerGroupChatPurchasePackage;
   int32_t averageSizeOfLevelBracket;
+  int32_t minBattlesRequiredForKdrconsideration;
   int32_t adColonyVideosRequiredToRedeemDiamonds;
+  int32_t hoursInAttackedByOneProtectionPeriod;
   int32_t minNameLength;
   int32_t maxNameLength;
   int32_t sizeOfAttackList;
   int32_t maxNumTimesAttackedByOneInProtectionPeriod;
-  int32_t hoursInAttackedByOneProtectionPeriod;
-  int32_t minBattlesRequiredForKdrconsideration;
-  int32_t numChatsGivenPerGroupChatPurchasePackage;
-  int32_t diamondPriceForGroupChatPurchasePackage;
-  int32_t maxLengthOfChatString;
   int32_t diamondCostToPlayThreeCardMonte;
+  int32_t maxLevelDifferenceForBattle;
+  int32_t maxLevelForUser;
+  int32_t armoryXlength;
+  int32_t armoryYlength;
+  int32_t vaultXlength;
   int32_t vaultYlength;
   int32_t marketplaceXlength;
   int32_t marketplaceYlength;
-  int32_t vaultXlength;
   int32_t carpenterXlength;
   int32_t carpenterYlength;
   int32_t aviaryXlength;
-  int32_t armoryYlength;
   int32_t aviaryYlength;
-  int32_t armoryXlength;
-  int32_t maxLevelForUser;
   int32_t attackBaseGain;
   int32_t defenseBaseGain;
-  int32_t maxLevelDifferenceForBattle;
   int32_t energyBaseGain;
   int32_t staminaBaseGain;
   int32_t attackBaseCost;
@@ -2341,6 +2346,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
   int32_t diamondCostForFullStaminaRefill;
   int32_t diamondCostForFullEnergyRefill;
   int32_t maxNumberOfMarketplacePosts;
+  StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
   StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
   StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
@@ -2417,6 +2423,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (BOOL) hasMaxLengthOfChatString;
 - (BOOL) hasClanConstants;
 - (BOOL) hasDiamondCostToPlayThreeCardMonte;
+- (BOOL) hasGoldmineConstants;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2483,6 +2490,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 @property (readonly) int32_t maxLengthOfChatString;
 @property (readonly, retain) StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
 @property (readonly) int32_t diamondCostToPlayThreeCardMonte;
+@property (readonly, retain) StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2505,6 +2513,81 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_GoldmineConstants : PBGeneratedMessage {
+@private
+  BOOL hasNumHoursBeforeGoldmineRetrieval_:1;
+  BOOL hasNumHoursForGoldminePickup_:1;
+  BOOL hasGoldAmountFromGoldminePickup_:1;
+  BOOL hasGoldCostForGoldmineRestart_:1;
+  int32_t numHoursBeforeGoldmineRetrieval;
+  int32_t numHoursForGoldminePickup;
+  int32_t goldAmountFromGoldminePickup;
+  int32_t goldCostForGoldmineRestart;
+}
+- (BOOL) hasNumHoursBeforeGoldmineRetrieval;
+- (BOOL) hasNumHoursForGoldminePickup;
+- (BOOL) hasGoldAmountFromGoldminePickup;
+- (BOOL) hasGoldCostForGoldmineRestart;
+@property (readonly) int32_t numHoursBeforeGoldmineRetrieval;
+@property (readonly) int32_t numHoursForGoldminePickup;
+@property (readonly) int32_t goldAmountFromGoldminePickup;
+@property (readonly) int32_t goldCostForGoldmineRestart;
+
++ (StartupResponseProto_StartupConstants_GoldmineConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_GoldmineConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_GoldmineConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_GoldmineConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_GoldmineConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_GoldmineConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_GoldmineConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_GoldmineConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_GoldmineConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_GoldmineConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_GoldmineConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_GoldmineConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_GoldmineConstants*) build;
+- (StartupResponseProto_StartupConstants_GoldmineConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_GoldmineConstants*) other;
+- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasNumHoursBeforeGoldmineRetrieval;
+- (int32_t) numHoursBeforeGoldmineRetrieval;
+- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) setNumHoursBeforeGoldmineRetrieval:(int32_t) value;
+- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) clearNumHoursBeforeGoldmineRetrieval;
+
+- (BOOL) hasNumHoursForGoldminePickup;
+- (int32_t) numHoursForGoldminePickup;
+- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) setNumHoursForGoldminePickup:(int32_t) value;
+- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) clearNumHoursForGoldminePickup;
+
+- (BOOL) hasGoldAmountFromGoldminePickup;
+- (int32_t) goldAmountFromGoldminePickup;
+- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) setGoldAmountFromGoldminePickup:(int32_t) value;
+- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) clearGoldAmountFromGoldminePickup;
+
+- (BOOL) hasGoldCostForGoldmineRestart;
+- (int32_t) goldCostForGoldmineRestart;
+- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) setGoldCostForGoldmineRestart:(int32_t) value;
+- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) clearGoldCostForGoldmineRestart;
 @end
 
 @interface StartupResponseProto_StartupConstants_ClanConstants : PBGeneratedMessage {
@@ -3595,6 +3678,13 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (int32_t) diamondCostToPlayThreeCardMonte;
 - (StartupResponseProto_StartupConstants_Builder*) setDiamondCostToPlayThreeCardMonte:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostToPlayThreeCardMonte;
+
+- (BOOL) hasGoldmineConstants;
+- (StartupResponseProto_StartupConstants_GoldmineConstants*) goldmineConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setGoldmineConstants:(StartupResponseProto_StartupConstants_GoldmineConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setGoldmineConstantsBuilder:(StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeGoldmineConstants:(StartupResponseProto_StartupConstants_GoldmineConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearGoldmineConstants;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -13409,62 +13499,26 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 
 @interface RetrieveThreeCardMonteResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasBadDiamondsGained_:1;
-  BOOL hasBadEquipLevel_:1;
-  BOOL hasBadCoinsGained_:1;
-  BOOL hasMediumDiamondsGained_:1;
-  BOOL hasMediumEquipLevel_:1;
-  BOOL hasMediumCoinsGained_:1;
-  BOOL hasGoodDiamondsGained_:1;
-  BOOL hasGoodEquipLevel_:1;
-  BOOL hasGoodCoinsGained_:1;
   BOOL hasSender_:1;
-  BOOL hasBadEquip_:1;
-  BOOL hasMediumEquip_:1;
-  BOOL hasGoodEquip_:1;
+  BOOL hasBadMonteCard_:1;
+  BOOL hasMediumMonteCard_:1;
+  BOOL hasGoodMonteCard_:1;
   BOOL hasStatus_:1;
-  int32_t badDiamondsGained;
-  int32_t badEquipLevel;
-  int32_t badCoinsGained;
-  int32_t mediumDiamondsGained;
-  int32_t mediumEquipLevel;
-  int32_t mediumCoinsGained;
-  int32_t goodDiamondsGained;
-  int32_t goodEquipLevel;
-  int32_t goodCoinsGained;
   MinimumUserProto* sender;
-  FullEquipProto* badEquip;
-  FullEquipProto* mediumEquip;
-  FullEquipProto* goodEquip;
+  MonteCardProto* badMonteCard;
+  MonteCardProto* mediumMonteCard;
+  MonteCardProto* goodMonteCard;
   RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatus status;
 }
 - (BOOL) hasSender;
-- (BOOL) hasBadDiamondsGained;
-- (BOOL) hasBadEquip;
-- (BOOL) hasBadEquipLevel;
-- (BOOL) hasBadCoinsGained;
-- (BOOL) hasMediumDiamondsGained;
-- (BOOL) hasMediumEquip;
-- (BOOL) hasMediumEquipLevel;
-- (BOOL) hasMediumCoinsGained;
-- (BOOL) hasGoodDiamondsGained;
-- (BOOL) hasGoodEquip;
-- (BOOL) hasGoodEquipLevel;
-- (BOOL) hasGoodCoinsGained;
+- (BOOL) hasBadMonteCard;
+- (BOOL) hasMediumMonteCard;
+- (BOOL) hasGoodMonteCard;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t badDiamondsGained;
-@property (readonly, retain) FullEquipProto* badEquip;
-@property (readonly) int32_t badEquipLevel;
-@property (readonly) int32_t badCoinsGained;
-@property (readonly) int32_t mediumDiamondsGained;
-@property (readonly, retain) FullEquipProto* mediumEquip;
-@property (readonly) int32_t mediumEquipLevel;
-@property (readonly) int32_t mediumCoinsGained;
-@property (readonly) int32_t goodDiamondsGained;
-@property (readonly, retain) FullEquipProto* goodEquip;
-@property (readonly) int32_t goodEquipLevel;
-@property (readonly) int32_t goodCoinsGained;
+@property (readonly, retain) MonteCardProto* badMonteCard;
+@property (readonly, retain) MonteCardProto* mediumMonteCard;
+@property (readonly, retain) MonteCardProto* goodMonteCard;
 @property (readonly) RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatus status;
 
 + (RetrieveThreeCardMonteResponseProto*) defaultInstance;
@@ -13508,71 +13562,26 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (RetrieveThreeCardMonteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveThreeCardMonteResponseProto_Builder*) clearSender;
 
-- (BOOL) hasBadDiamondsGained;
-- (int32_t) badDiamondsGained;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setBadDiamondsGained:(int32_t) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearBadDiamondsGained;
+- (BOOL) hasBadMonteCard;
+- (MonteCardProto*) badMonteCard;
+- (RetrieveThreeCardMonteResponseProto_Builder*) setBadMonteCard:(MonteCardProto*) value;
+- (RetrieveThreeCardMonteResponseProto_Builder*) setBadMonteCardBuilder:(MonteCardProto_Builder*) builderForValue;
+- (RetrieveThreeCardMonteResponseProto_Builder*) mergeBadMonteCard:(MonteCardProto*) value;
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearBadMonteCard;
 
-- (BOOL) hasBadEquip;
-- (FullEquipProto*) badEquip;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setBadEquip:(FullEquipProto*) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setBadEquipBuilder:(FullEquipProto_Builder*) builderForValue;
-- (RetrieveThreeCardMonteResponseProto_Builder*) mergeBadEquip:(FullEquipProto*) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearBadEquip;
+- (BOOL) hasMediumMonteCard;
+- (MonteCardProto*) mediumMonteCard;
+- (RetrieveThreeCardMonteResponseProto_Builder*) setMediumMonteCard:(MonteCardProto*) value;
+- (RetrieveThreeCardMonteResponseProto_Builder*) setMediumMonteCardBuilder:(MonteCardProto_Builder*) builderForValue;
+- (RetrieveThreeCardMonteResponseProto_Builder*) mergeMediumMonteCard:(MonteCardProto*) value;
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearMediumMonteCard;
 
-- (BOOL) hasBadEquipLevel;
-- (int32_t) badEquipLevel;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setBadEquipLevel:(int32_t) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearBadEquipLevel;
-
-- (BOOL) hasBadCoinsGained;
-- (int32_t) badCoinsGained;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setBadCoinsGained:(int32_t) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearBadCoinsGained;
-
-- (BOOL) hasMediumDiamondsGained;
-- (int32_t) mediumDiamondsGained;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setMediumDiamondsGained:(int32_t) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearMediumDiamondsGained;
-
-- (BOOL) hasMediumEquip;
-- (FullEquipProto*) mediumEquip;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setMediumEquip:(FullEquipProto*) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setMediumEquipBuilder:(FullEquipProto_Builder*) builderForValue;
-- (RetrieveThreeCardMonteResponseProto_Builder*) mergeMediumEquip:(FullEquipProto*) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearMediumEquip;
-
-- (BOOL) hasMediumEquipLevel;
-- (int32_t) mediumEquipLevel;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setMediumEquipLevel:(int32_t) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearMediumEquipLevel;
-
-- (BOOL) hasMediumCoinsGained;
-- (int32_t) mediumCoinsGained;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setMediumCoinsGained:(int32_t) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearMediumCoinsGained;
-
-- (BOOL) hasGoodDiamondsGained;
-- (int32_t) goodDiamondsGained;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setGoodDiamondsGained:(int32_t) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearGoodDiamondsGained;
-
-- (BOOL) hasGoodEquip;
-- (FullEquipProto*) goodEquip;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setGoodEquip:(FullEquipProto*) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setGoodEquipBuilder:(FullEquipProto_Builder*) builderForValue;
-- (RetrieveThreeCardMonteResponseProto_Builder*) mergeGoodEquip:(FullEquipProto*) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearGoodEquip;
-
-- (BOOL) hasGoodEquipLevel;
-- (int32_t) goodEquipLevel;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setGoodEquipLevel:(int32_t) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearGoodEquipLevel;
-
-- (BOOL) hasGoodCoinsGained;
-- (int32_t) goodCoinsGained;
-- (RetrieveThreeCardMonteResponseProto_Builder*) setGoodCoinsGained:(int32_t) value;
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearGoodCoinsGained;
+- (BOOL) hasGoodMonteCard;
+- (MonteCardProto*) goodMonteCard;
+- (RetrieveThreeCardMonteResponseProto_Builder*) setGoodMonteCard:(MonteCardProto*) value;
+- (RetrieveThreeCardMonteResponseProto_Builder*) setGoodMonteCardBuilder:(MonteCardProto_Builder*) builderForValue;
+- (RetrieveThreeCardMonteResponseProto_Builder*) mergeGoodMonteCard:(MonteCardProto*) value;
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearGoodMonteCard;
 
 - (BOOL) hasStatus;
 - (RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatus) status;
@@ -13582,31 +13591,15 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 
 @interface PlayThreeCardMonteRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasDiamondsGained_:1;
-  BOOL hasCoinsGained_:1;
-  BOOL hasEquipLevel_:1;
+  BOOL hasCardId_:1;
   BOOL hasSender_:1;
-  BOOL hasEquipGained_:1;
-  BOOL hasMonteCard_:1;
-  int32_t diamondsGained;
-  int32_t coinsGained;
-  int32_t equipLevel;
+  int32_t cardId;
   MinimumUserProto* sender;
-  FullEquipProto* equipGained;
-  MonteCard monteCard;
 }
 - (BOOL) hasSender;
-- (BOOL) hasMonteCard;
-- (BOOL) hasDiamondsGained;
-- (BOOL) hasCoinsGained;
-- (BOOL) hasEquipGained;
-- (BOOL) hasEquipLevel;
+- (BOOL) hasCardId;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) MonteCard monteCard;
-@property (readonly) int32_t diamondsGained;
-@property (readonly) int32_t coinsGained;
-@property (readonly, retain) FullEquipProto* equipGained;
-@property (readonly) int32_t equipLevel;
+@property (readonly) int32_t cardId;
 
 + (PlayThreeCardMonteRequestProto*) defaultInstance;
 - (PlayThreeCardMonteRequestProto*) defaultInstance;
@@ -13649,32 +13642,10 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (PlayThreeCardMonteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (PlayThreeCardMonteRequestProto_Builder*) clearSender;
 
-- (BOOL) hasMonteCard;
-- (MonteCard) monteCard;
-- (PlayThreeCardMonteRequestProto_Builder*) setMonteCard:(MonteCard) value;
-- (PlayThreeCardMonteRequestProto_Builder*) clearMonteCard;
-
-- (BOOL) hasDiamondsGained;
-- (int32_t) diamondsGained;
-- (PlayThreeCardMonteRequestProto_Builder*) setDiamondsGained:(int32_t) value;
-- (PlayThreeCardMonteRequestProto_Builder*) clearDiamondsGained;
-
-- (BOOL) hasCoinsGained;
-- (int32_t) coinsGained;
-- (PlayThreeCardMonteRequestProto_Builder*) setCoinsGained:(int32_t) value;
-- (PlayThreeCardMonteRequestProto_Builder*) clearCoinsGained;
-
-- (BOOL) hasEquipGained;
-- (FullEquipProto*) equipGained;
-- (PlayThreeCardMonteRequestProto_Builder*) setEquipGained:(FullEquipProto*) value;
-- (PlayThreeCardMonteRequestProto_Builder*) setEquipGainedBuilder:(FullEquipProto_Builder*) builderForValue;
-- (PlayThreeCardMonteRequestProto_Builder*) mergeEquipGained:(FullEquipProto*) value;
-- (PlayThreeCardMonteRequestProto_Builder*) clearEquipGained;
-
-- (BOOL) hasEquipLevel;
-- (int32_t) equipLevel;
-- (PlayThreeCardMonteRequestProto_Builder*) setEquipLevel:(int32_t) value;
-- (PlayThreeCardMonteRequestProto_Builder*) clearEquipLevel;
+- (BOOL) hasCardId;
+- (int32_t) cardId;
+- (PlayThreeCardMonteRequestProto_Builder*) setCardId:(int32_t) value;
+- (PlayThreeCardMonteRequestProto_Builder*) clearCardId;
 @end
 
 @interface PlayThreeCardMonteResponseProto : PBGeneratedMessage {

@@ -126,4 +126,7 @@
 - (ClanWallPostProto *) postOnClanWall:(NSString *)content;
 - (void) retrieveClanWallPosts:(int)beforeThisPostId;
 
+- (void) beginGoldmineTimer;
+- (void) collectFromGoldmine;
+
 @end

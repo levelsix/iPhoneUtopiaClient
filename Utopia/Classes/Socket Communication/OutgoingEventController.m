@@ -44,9 +44,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   
-  int tag = [sc sendUserCreateMessageWithName:gs.name 
+  int tag = [sc sendUserCreateMessageWithName:gs.name
                                          type:gs.type
-                                          lat:gs.location.latitude 
+                                          lat:gs.location.latitude
                                           lon:gs.location.longitude
                                  referralCode:tc.referralCode
                                   deviceToken:gs.deviceToken
@@ -199,20 +199,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //  GameState *gs = [GameState sharedGameState];
 //  Globals *gl = [Globals sharedGlobals];
 //  UserEquip *ue = [gs myEquipWithId:equipId];
-//  
+//
 //  if (ue) {
 //    int tag = [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeSell quantity:1 equipId:equipId];
-//    
+//
 //    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:[gl calculateEquipSilverSellCost:ue]];
 //    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:[gl calculateEquipGoldSellCost:ue]];
 //    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:-1];
-//    
+//
 //    [gs addUnrespondedUpdates:ceu, su, gu, nil];
-//    
+//
 //  } else {
 //    [Globals popupMessage:@"You do not own this equipment"];
 //  }
-//  
+//
 //  return [gs myEquipWithId:equipId].quantity;
 //}
 
@@ -274,11 +274,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return;
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] 
-             sendGenerateAttackListMessage:numEnemies 
+  int tag = [[SocketCommunication sharedSocketCommunication]
+             sendGenerateAttackListMessage:numEnemies
              latUpperBound:MIN(CGRectGetMaxY(bounds), 90)
-             latLowerBound:MAX(CGRectGetMinY(bounds), -90) 
-             lonUpperBound:MIN(CGRectGetMaxX(bounds), 180) 
+             latLowerBound:MAX(CGRectGetMinY(bounds), -90)
+             lonUpperBound:MIN(CGRectGetMaxX(bounds), 180)
              lonLowerBound:MAX(CGRectGetMinX(bounds), -180)];
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
@@ -501,7 +501,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     NSDate *date = [NSDate date];
     [sc sendPurchaseMarketplaceLicenseMessage:[date timeIntervalSince1970]*1000 type:PurchaseMarketplaceLicenseRequestProto_LicenseTypeLong];
     gs.lastLongLicensePurchaseTime = date;
-  } 
+  }
 }
 
 - (void) addAttackSkillPoint {
@@ -825,7 +825,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) normStructWaitComplete:(UserStruct *)userStruct { 
+- (void) normStructWaitComplete:(UserStruct *)userStruct {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
@@ -1312,7 +1312,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) retrieveQuestLog {
-  GameState *gs = [GameState sharedGameState];  
+  GameState *gs = [GameState sharedGameState];
   int tag = [[SocketCommunication sharedSocketCommunication] sendUserQuestDetailsMessage:0];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
@@ -1422,7 +1422,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   uint64_t time = [self getCurrentMilliseconds];
   NSString *preparedText = [NSString stringWithFormat:@"%d%@%d%d%llu",
                             gs.userId,
-                            gs.referralCode, 
+                            gs.referralCode,
                             amount,
                             type,
                             time];
@@ -1431,7 +1431,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
                                 withSecret:LVL6_SHARED_SECRET];
   [signer release];
   
-  int tag = [[SocketCommunication sharedSocketCommunication] 
+  int tag = [[SocketCommunication sharedSocketCommunication]
              sendEarnFreeDiamondsAdColonyMessageClientTime:time
              digest:digest
              amount:amount
@@ -1810,6 +1810,58 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveClanWallPostsMessage:beforeThisPostId];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+}
+
+- (void) beginGoldmineTimer {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  BOOL reset = NO;
+  if (gs.lastGoldmineRetrieval) {
+    if (gs.gold < gl.goldCostForGoldmineRestart) {
+      [Globals popupMessage:@"Attempting to restart goldmine without enough gold"];
+    }
+    reset = YES;
+  }
+  
+  uint64_t clientTime = [self getCurrentMilliseconds];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginGoldmineTimerMessage:clientTime reset:reset];
+  
+  if (reset) {
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gl.goldCostForGoldmineRestart]];
+  }
+  
+  [gs addUnrespondedUpdate:[GoldmineTimeUpdate updateWithTag:tag prevDate:gs.lastGoldmineRetrieval nextDate:[NSDate dateWithTimeIntervalSince1970:clientTime/1000.0]]];
+  
+  [gs beginGoldmineTimer];
+}
+
+- (void) collectFromGoldmine {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (!gs.lastGoldmineRetrieval) {
+    [Globals popupMessage:@"Attempting to collect from goldmine when it is not started"];
+    return;
+  }
+  
+  NSTimeInterval timeInterval = -[gs.lastGoldmineRetrieval timeIntervalSinceNow];
+  NSLog(@"%f", timeInterval);
+  float timeToEnd = 3600.f*(gl.numHoursBeforeGoldmineRetrieval+gl.numHoursForGoldminePickup);
+  
+  if (timeInterval > timeToEnd) {
+    [Globals popupMessage:@"Attempting to collect from goldmine after missing pickup time"];
+  } else if (timeInterval > 3600*(gl.numHoursBeforeGoldmineRetrieval+gl.numHoursForGoldminePickup)) {
+    [Globals popupMessage:@"Attempting to collect from goldmine after missing pickup time"];
+  } else {
+    
+    uint64_t clientTime = [self getCurrentMilliseconds];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendCollectFromGoldmineMessage:clientTime];
+    
+    [gs addUnrespondedUpdates:[GoldUpdate updateWithTag:tag change:gl.goldAmountFromGoldminePickup], [GoldmineTimeUpdate updateWithTag:tag prevDate:gs.lastGoldmineRetrieval nextDate:[gs.lastGoldmineRetrieval dateByAddingTimeInterval:timeToEnd]], nil];
+    
+    [gs beginGoldmineTimer];
+  }
 }
 
 @end

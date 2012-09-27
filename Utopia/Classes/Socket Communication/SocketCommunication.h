@@ -117,4 +117,7 @@
 - (int) sendPostOnClanWallMessage:(NSString *)content;
 - (int) sendRetrieveClanWallPostsMessage:(int)beforeThisClanId;
 
+- (int) sendBeginGoldmineTimerMessage:(uint64_t)clientTime reset:(BOOL)reset;
+- (int) sendCollectFromGoldmineMessage:(uint64_t)clientTime;
+
 @end

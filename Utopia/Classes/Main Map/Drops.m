@@ -51,6 +51,47 @@
 
 @end
 
+@implementation GoldStack
+
+@synthesize amount;
+
+- (id) initWithAmount:(int)amt {
+  if ((self = [super initWithFile:@"pickupgold.png"])) {
+    amount = amt;
+    
+    [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+    // Set isTouchEnabled to YES so that gesture recognizers will ignore
+    self.isTouchEnabled = YES;
+  }
+  return self;
+}
+
+- (BOOL) isPointInArea:(CGPoint)pt {
+  CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width, self.contentSize.height), -40, -40);
+  pt = [self convertToNodeSpace:pt];
+  
+  if (CGRectContainsPoint(rect, pt)) {
+    return YES;
+  }
+  return NO;
+}
+
+- (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+  if (!_clicked) {
+    CGPoint pt = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
+    return [self isPointInArea:pt];
+  }
+  return NO;
+}
+
+- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
+  GameMap *map = (GameMap *)self.parent;
+  [map pickUpGoldDrop:self];
+  _clicked = YES;
+}
+
+@end
+
 @implementation EquipDrop
 
 @synthesize equipId;

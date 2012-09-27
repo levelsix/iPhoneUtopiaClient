@@ -18,6 +18,16 @@
 
 @end
 
+@interface GoldStack : CCSprite <CCTargetedTouchDelegate> {
+  BOOL _clicked;
+}
+
+@property (nonatomic, assign) int amount;
+
+- (id) initWithAmount:(int)amt;
+
+@end
+
 @interface EquipDrop : CCSprite <CCTargetedTouchDelegate> {
   BOOL _clicked;
 }

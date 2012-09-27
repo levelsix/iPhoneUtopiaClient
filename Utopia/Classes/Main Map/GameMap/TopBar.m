@@ -657,8 +657,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       _silverLabel.string = [Globals commafyNumber:_curSilver+change];
       _curSilver += change;
     }
-    if (gs.gold != _curGold) {
-      int diff = gs.gold - _curGold;
+    int gold = gs.gold-[[[GameLayer sharedGameLayer] currentMap] goldOnMap];
+    if (gold != _curGold) {
+      int diff = gold - _curGold;
       int change = 0;
       if (diff > 0) {
         change = MAX((int)(0.1*diff), 1);
