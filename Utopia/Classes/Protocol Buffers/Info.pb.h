@@ -74,8 +74,6 @@
 @class MinimumUserTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
-@class MonteCardProto;
-@class MonteCardProto_Builder;
 @class NeutralCityElementProto;
 @class NeutralCityElementProto_Builder;
 @class PlayerWallPostProto;
@@ -101,6 +99,14 @@ typedef enum {
 } GroupChatScope;
 
 BOOL GroupChatScopeIsValidValue(GroupChatScope value);
+
+typedef enum {
+  MonteCardBad = 0,
+  MonteCardMedium = 1,
+  MonteCardGood = 2,
+} MonteCard;
+
+BOOL MonteCardIsValidValue(MonteCard value);
 
 typedef enum {
   LeaderboardTypeMostBattlesWon = 2,
@@ -639,83 +645,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (MinimumUserProtoWithBattleHistory_Builder*) clearBattlesFled;
 @end
 
-@interface MonteCardProto : PBGeneratedMessage {
-@private
-  BOOL hasDiamondsGained_:1;
-  BOOL hasEquipLevel_:1;
-  BOOL hasCoinsGained_:1;
-  BOOL hasEquip_:1;
-  int32_t diamondsGained;
-  int32_t equipLevel;
-  int32_t coinsGained;
-  FullEquipProto* equip;
-}
-- (BOOL) hasDiamondsGained;
-- (BOOL) hasEquip;
-- (BOOL) hasEquipLevel;
-- (BOOL) hasCoinsGained;
-@property (readonly) int32_t diamondsGained;
-@property (readonly, retain) FullEquipProto* equip;
-@property (readonly) int32_t equipLevel;
-@property (readonly) int32_t coinsGained;
-
-+ (MonteCardProto*) defaultInstance;
-- (MonteCardProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (MonteCardProto_Builder*) builder;
-+ (MonteCardProto_Builder*) builder;
-+ (MonteCardProto_Builder*) builderWithPrototype:(MonteCardProto*) prototype;
-
-+ (MonteCardProto*) parseFromData:(NSData*) data;
-+ (MonteCardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MonteCardProto*) parseFromInputStream:(NSInputStream*) input;
-+ (MonteCardProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MonteCardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (MonteCardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface MonteCardProto_Builder : PBGeneratedMessage_Builder {
-@private
-  MonteCardProto* result;
-}
-
-- (MonteCardProto*) defaultInstance;
-
-- (MonteCardProto_Builder*) clear;
-- (MonteCardProto_Builder*) clone;
-
-- (MonteCardProto*) build;
-- (MonteCardProto*) buildPartial;
-
-- (MonteCardProto_Builder*) mergeFrom:(MonteCardProto*) other;
-- (MonteCardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (MonteCardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasDiamondsGained;
-- (int32_t) diamondsGained;
-- (MonteCardProto_Builder*) setDiamondsGained:(int32_t) value;
-- (MonteCardProto_Builder*) clearDiamondsGained;
-
-- (BOOL) hasEquip;
-- (FullEquipProto*) equip;
-- (MonteCardProto_Builder*) setEquip:(FullEquipProto*) value;
-- (MonteCardProto_Builder*) setEquipBuilder:(FullEquipProto_Builder*) builderForValue;
-- (MonteCardProto_Builder*) mergeEquip:(FullEquipProto*) value;
-- (MonteCardProto_Builder*) clearEquip;
-
-- (BOOL) hasEquipLevel;
-- (int32_t) equipLevel;
-- (MonteCardProto_Builder*) setEquipLevel:(int32_t) value;
-- (MonteCardProto_Builder*) clearEquipLevel;
-
-- (BOOL) hasCoinsGained;
-- (int32_t) coinsGained;
-- (MonteCardProto_Builder*) setCoinsGained:(int32_t) value;
-- (MonteCardProto_Builder*) clearCoinsGained;
-@end
-
 @interface FullClanProto : PBGeneratedMessage {
 @private
   BOOL hasIsGood_:1;
@@ -1149,15 +1078,15 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasIsAdmin_:1;
   BOOL hasIsFake_:1;
   BOOL hasCreateTime_:1;
-  BOOL hasLastLoginTime_:1;
   BOOL hasLastTimeAttacked_:1;
   BOOL hasLastBattleNotificationTime_:1;
   BOOL hasLastStaminaRefillTime_:1;
-  BOOL hasLastGoldmineRetrieval_:1;
+  BOOL hasLastLoginTime_:1;
   BOOL hasLastEnergyRefillTime_:1;
   BOOL hasLastLogoutTime_:1;
   BOOL hasLastShortLicensePurchaseTime_:1;
   BOOL hasLastLongLicensePurchaseTime_:1;
+  BOOL hasFlees_:1;
   BOOL hasNumReferrals_:1;
   BOOL hasNumPostsInMarketplace_:1;
   BOOL hasNumMarketplaceSalesUnredeemed_:1;
@@ -1179,36 +1108,35 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasStaminaMax_:1;
   BOOL hasDiamonds_:1;
   BOOL hasCoins_:1;
-  BOOL hasMarketplaceDiamondsEarnings_:1;
-  BOOL hasFlees_:1;
   BOOL hasBattlesLost_:1;
   BOOL hasBattlesWon_:1;
   BOOL hasTasksCompleted_:1;
   BOOL hasExperience_:1;
   BOOL hasVaultBalance_:1;
   BOOL hasMarketplaceCoinsEarnings_:1;
+  BOOL hasMarketplaceDiamondsEarnings_:1;
   BOOL hasUdid_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasReferralCode_:1;
   BOOL hasName_:1;
   BOOL hasArmorEquippedUserEquip_:1;
   BOOL hasWeaponEquippedUserEquip_:1;
-  BOOL hasClan_:1;
   BOOL hasAmuletEquippedUserEquip_:1;
+  BOOL hasClan_:1;
   BOOL hasUserLocation_:1;
   BOOL hasUserType_:1;
   BOOL isAdmin_:1;
   BOOL isFake_:1;
   int64_t createTime;
-  int64_t lastLoginTime;
   int64_t lastTimeAttacked;
   int64_t lastBattleNotificationTime;
   int64_t lastStaminaRefillTime;
-  int64_t lastGoldmineRetrieval;
+  int64_t lastLoginTime;
   int64_t lastEnergyRefillTime;
   int64_t lastLogoutTime;
   int64_t lastShortLicensePurchaseTime;
   int64_t lastLongLicensePurchaseTime;
+  int32_t flees;
   int32_t numReferrals;
   int32_t numPostsInMarketplace;
   int32_t numMarketplaceSalesUnredeemed;
@@ -1230,22 +1158,21 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t staminaMax;
   int32_t diamonds;
   int32_t coins;
-  int32_t marketplaceDiamondsEarnings;
-  int32_t flees;
   int32_t battlesLost;
   int32_t battlesWon;
   int32_t tasksCompleted;
   int32_t experience;
   int32_t vaultBalance;
   int32_t marketplaceCoinsEarnings;
+  int32_t marketplaceDiamondsEarnings;
   NSString* udid;
   NSString* deviceToken;
   NSString* referralCode;
   NSString* name;
   FullUserEquipProto* armorEquippedUserEquip;
   FullUserEquipProto* weaponEquippedUserEquip;
-  MinimumClanProto* clan;
   FullUserEquipProto* amuletEquippedUserEquip;
+  MinimumClanProto* clan;
   LocationProto* userLocation;
   UserType userType;
 }
@@ -1290,7 +1217,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasNumAdColonyVideosWatched;
 - (BOOL) hasNumGroupChatsRemaining;
 - (BOOL) hasClan;
-- (BOOL) hasLastGoldmineRetrieval;
 - (BOOL) hasUdid;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasLastBattleNotificationTime;
@@ -1341,7 +1267,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t numAdColonyVideosWatched;
 @property (readonly) int32_t numGroupChatsRemaining;
 @property (readonly, retain) MinimumClanProto* clan;
-@property (readonly) int64_t lastGoldmineRetrieval;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* deviceToken;
 @property (readonly) int64_t lastBattleNotificationTime;
@@ -1600,11 +1525,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullUserProto_Builder*) setClanBuilder:(MinimumClanProto_Builder*) builderForValue;
 - (FullUserProto_Builder*) mergeClan:(MinimumClanProto*) value;
 - (FullUserProto_Builder*) clearClan;
-
-- (BOOL) hasLastGoldmineRetrieval;
-- (int64_t) lastGoldmineRetrieval;
-- (FullUserProto_Builder*) setLastGoldmineRetrieval:(int64_t) value;
-- (FullUserProto_Builder*) clearLastGoldmineRetrieval;
 
 - (BOOL) hasUdid;
 - (NSString*) udid;

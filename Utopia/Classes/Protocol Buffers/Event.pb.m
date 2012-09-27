@@ -4896,7 +4896,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t maxLengthOfChatString;
 @property (retain) StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
 @property int32_t diamondCostToPlayThreeCardMonte;
-@property (retain) StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5366,13 +5365,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasDiamondCostToPlayThreeCardMonte_ = !!value;
 }
 @synthesize diamondCostToPlayThreeCardMonte;
-- (BOOL) hasGoldmineConstants {
-  return !!hasGoldmineConstants_;
-}
-- (void) setHasGoldmineConstants:(BOOL) value {
-  hasGoldmineConstants_ = !!value;
-}
-@synthesize goldmineConstants;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5383,7 +5375,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.forgeConstants = nil;
   self.charModConstants = nil;
   self.clanConstants = nil;
-  self.goldmineConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -5454,7 +5445,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.maxLengthOfChatString = 0;
     self.clanConstants = [StartupResponseProto_StartupConstants_ClanConstants defaultInstance];
     self.diamondCostToPlayThreeCardMonte = 0;
-    self.goldmineConstants = [StartupResponseProto_StartupConstants_GoldmineConstants defaultInstance];
   }
   return self;
 }
@@ -5702,9 +5692,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasDiamondCostToPlayThreeCardMonte) {
     [output writeInt32:79 value:self.diamondCostToPlayThreeCardMonte];
   }
-  if (self.hasGoldmineConstants) {
-    [output writeMessage:80 value:self.goldmineConstants];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5931,9 +5918,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasDiamondCostToPlayThreeCardMonte) {
     size += computeInt32Size(79, self.diamondCostToPlayThreeCardMonte);
   }
-  if (self.hasGoldmineConstants) {
-    size += computeMessageSize(80, self.goldmineConstants);
-  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -5964,297 +5948,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
-}
-@end
-
-@interface StartupResponseProto_StartupConstants_GoldmineConstants ()
-@property int32_t numHoursBeforeGoldmineRetrieval;
-@property int32_t numHoursForGoldminePickup;
-@property int32_t goldAmountFromGoldminePickup;
-@property int32_t goldCostForGoldmineRestart;
-@end
-
-@implementation StartupResponseProto_StartupConstants_GoldmineConstants
-
-- (BOOL) hasNumHoursBeforeGoldmineRetrieval {
-  return !!hasNumHoursBeforeGoldmineRetrieval_;
-}
-- (void) setHasNumHoursBeforeGoldmineRetrieval:(BOOL) value {
-  hasNumHoursBeforeGoldmineRetrieval_ = !!value;
-}
-@synthesize numHoursBeforeGoldmineRetrieval;
-- (BOOL) hasNumHoursForGoldminePickup {
-  return !!hasNumHoursForGoldminePickup_;
-}
-- (void) setHasNumHoursForGoldminePickup:(BOOL) value {
-  hasNumHoursForGoldminePickup_ = !!value;
-}
-@synthesize numHoursForGoldminePickup;
-- (BOOL) hasGoldAmountFromGoldminePickup {
-  return !!hasGoldAmountFromGoldminePickup_;
-}
-- (void) setHasGoldAmountFromGoldminePickup:(BOOL) value {
-  hasGoldAmountFromGoldminePickup_ = !!value;
-}
-@synthesize goldAmountFromGoldminePickup;
-- (BOOL) hasGoldCostForGoldmineRestart {
-  return !!hasGoldCostForGoldmineRestart_;
-}
-- (void) setHasGoldCostForGoldmineRestart:(BOOL) value {
-  hasGoldCostForGoldmineRestart_ = !!value;
-}
-@synthesize goldCostForGoldmineRestart;
-- (void) dealloc {
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.numHoursBeforeGoldmineRetrieval = 0;
-    self.numHoursForGoldminePickup = 0;
-    self.goldAmountFromGoldminePickup = 0;
-    self.goldCostForGoldmineRestart = 0;
-  }
-  return self;
-}
-static StartupResponseProto_StartupConstants_GoldmineConstants* defaultStartupResponseProto_StartupConstants_GoldmineConstantsInstance = nil;
-+ (void) initialize {
-  if (self == [StartupResponseProto_StartupConstants_GoldmineConstants class]) {
-    defaultStartupResponseProto_StartupConstants_GoldmineConstantsInstance = [[StartupResponseProto_StartupConstants_GoldmineConstants alloc] init];
-  }
-}
-+ (StartupResponseProto_StartupConstants_GoldmineConstants*) defaultInstance {
-  return defaultStartupResponseProto_StartupConstants_GoldmineConstantsInstance;
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants*) defaultInstance {
-  return defaultStartupResponseProto_StartupConstants_GoldmineConstantsInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasNumHoursBeforeGoldmineRetrieval) {
-    [output writeInt32:1 value:self.numHoursBeforeGoldmineRetrieval];
-  }
-  if (self.hasNumHoursForGoldminePickup) {
-    [output writeInt32:2 value:self.numHoursForGoldminePickup];
-  }
-  if (self.hasGoldAmountFromGoldminePickup) {
-    [output writeInt32:3 value:self.goldAmountFromGoldminePickup];
-  }
-  if (self.hasGoldCostForGoldmineRestart) {
-    [output writeInt32:4 value:self.goldCostForGoldmineRestart];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasNumHoursBeforeGoldmineRetrieval) {
-    size += computeInt32Size(1, self.numHoursBeforeGoldmineRetrieval);
-  }
-  if (self.hasNumHoursForGoldminePickup) {
-    size += computeInt32Size(2, self.numHoursForGoldminePickup);
-  }
-  if (self.hasGoldAmountFromGoldminePickup) {
-    size += computeInt32Size(3, self.goldAmountFromGoldminePickup);
-  }
-  if (self.hasGoldCostForGoldmineRestart) {
-    size += computeInt32Size(4, self.goldCostForGoldmineRestart);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (StartupResponseProto_StartupConstants_GoldmineConstants*) parseFromData:(NSData*) data {
-  return (StartupResponseProto_StartupConstants_GoldmineConstants*)[[[StartupResponseProto_StartupConstants_GoldmineConstants builder] mergeFromData:data] build];
-}
-+ (StartupResponseProto_StartupConstants_GoldmineConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (StartupResponseProto_StartupConstants_GoldmineConstants*)[[[StartupResponseProto_StartupConstants_GoldmineConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (StartupResponseProto_StartupConstants_GoldmineConstants*) parseFromInputStream:(NSInputStream*) input {
-  return (StartupResponseProto_StartupConstants_GoldmineConstants*)[[[StartupResponseProto_StartupConstants_GoldmineConstants builder] mergeFromInputStream:input] build];
-}
-+ (StartupResponseProto_StartupConstants_GoldmineConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (StartupResponseProto_StartupConstants_GoldmineConstants*)[[[StartupResponseProto_StartupConstants_GoldmineConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (StartupResponseProto_StartupConstants_GoldmineConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (StartupResponseProto_StartupConstants_GoldmineConstants*)[[[StartupResponseProto_StartupConstants_GoldmineConstants builder] mergeFromCodedInputStream:input] build];
-}
-+ (StartupResponseProto_StartupConstants_GoldmineConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (StartupResponseProto_StartupConstants_GoldmineConstants*)[[[StartupResponseProto_StartupConstants_GoldmineConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) builder {
-  return [[[StartupResponseProto_StartupConstants_GoldmineConstants_Builder alloc] init] autorelease];
-}
-+ (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_GoldmineConstants*) prototype {
-  return [[StartupResponseProto_StartupConstants_GoldmineConstants builder] mergeFrom:prototype];
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) builder {
-  return [StartupResponseProto_StartupConstants_GoldmineConstants builder];
-}
-@end
-
-@interface StartupResponseProto_StartupConstants_GoldmineConstants_Builder()
-@property (retain) StartupResponseProto_StartupConstants_GoldmineConstants* result;
-@end
-
-@implementation StartupResponseProto_StartupConstants_GoldmineConstants_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[StartupResponseProto_StartupConstants_GoldmineConstants alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) clear {
-  self.result = [[[StartupResponseProto_StartupConstants_GoldmineConstants alloc] init] autorelease];
-  return self;
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) clone {
-  return [StartupResponseProto_StartupConstants_GoldmineConstants builderWithPrototype:result];
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants*) defaultInstance {
-  return [StartupResponseProto_StartupConstants_GoldmineConstants defaultInstance];
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants*) buildPartial {
-  StartupResponseProto_StartupConstants_GoldmineConstants* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_GoldmineConstants*) other {
-  if (other == [StartupResponseProto_StartupConstants_GoldmineConstants defaultInstance]) {
-    return self;
-  }
-  if (other.hasNumHoursBeforeGoldmineRetrieval) {
-    [self setNumHoursBeforeGoldmineRetrieval:other.numHoursBeforeGoldmineRetrieval];
-  }
-  if (other.hasNumHoursForGoldminePickup) {
-    [self setNumHoursForGoldminePickup:other.numHoursForGoldminePickup];
-  }
-  if (other.hasGoldAmountFromGoldminePickup) {
-    [self setGoldAmountFromGoldminePickup:other.goldAmountFromGoldminePickup];
-  }
-  if (other.hasGoldCostForGoldmineRestart) {
-    [self setGoldCostForGoldmineRestart:other.goldCostForGoldmineRestart];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 8: {
-        [self setNumHoursBeforeGoldmineRetrieval:[input readInt32]];
-        break;
-      }
-      case 16: {
-        [self setNumHoursForGoldminePickup:[input readInt32]];
-        break;
-      }
-      case 24: {
-        [self setGoldAmountFromGoldminePickup:[input readInt32]];
-        break;
-      }
-      case 32: {
-        [self setGoldCostForGoldmineRestart:[input readInt32]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasNumHoursBeforeGoldmineRetrieval {
-  return result.hasNumHoursBeforeGoldmineRetrieval;
-}
-- (int32_t) numHoursBeforeGoldmineRetrieval {
-  return result.numHoursBeforeGoldmineRetrieval;
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) setNumHoursBeforeGoldmineRetrieval:(int32_t) value {
-  result.hasNumHoursBeforeGoldmineRetrieval = YES;
-  result.numHoursBeforeGoldmineRetrieval = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) clearNumHoursBeforeGoldmineRetrieval {
-  result.hasNumHoursBeforeGoldmineRetrieval = NO;
-  result.numHoursBeforeGoldmineRetrieval = 0;
-  return self;
-}
-- (BOOL) hasNumHoursForGoldminePickup {
-  return result.hasNumHoursForGoldminePickup;
-}
-- (int32_t) numHoursForGoldminePickup {
-  return result.numHoursForGoldminePickup;
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) setNumHoursForGoldminePickup:(int32_t) value {
-  result.hasNumHoursForGoldminePickup = YES;
-  result.numHoursForGoldminePickup = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) clearNumHoursForGoldminePickup {
-  result.hasNumHoursForGoldminePickup = NO;
-  result.numHoursForGoldminePickup = 0;
-  return self;
-}
-- (BOOL) hasGoldAmountFromGoldminePickup {
-  return result.hasGoldAmountFromGoldminePickup;
-}
-- (int32_t) goldAmountFromGoldminePickup {
-  return result.goldAmountFromGoldminePickup;
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) setGoldAmountFromGoldminePickup:(int32_t) value {
-  result.hasGoldAmountFromGoldminePickup = YES;
-  result.goldAmountFromGoldminePickup = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) clearGoldAmountFromGoldminePickup {
-  result.hasGoldAmountFromGoldminePickup = NO;
-  result.goldAmountFromGoldminePickup = 0;
-  return self;
-}
-- (BOOL) hasGoldCostForGoldmineRestart {
-  return result.hasGoldCostForGoldmineRestart;
-}
-- (int32_t) goldCostForGoldmineRestart {
-  return result.goldCostForGoldmineRestart;
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) setGoldCostForGoldmineRestart:(int32_t) value {
-  result.hasGoldCostForGoldmineRestart = YES;
-  result.goldCostForGoldmineRestart = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) clearGoldCostForGoldmineRestart {
-  result.hasGoldCostForGoldmineRestart = NO;
-  result.goldCostForGoldmineRestart = 0;
-  return self;
 }
 @end
 
@@ -9382,9 +9075,6 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasDiamondCostToPlayThreeCardMonte) {
     [self setDiamondCostToPlayThreeCardMonte:other.diamondCostToPlayThreeCardMonte];
   }
-  if (other.hasGoldmineConstants) {
-    [self mergeGoldmineConstants:other.goldmineConstants];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -9712,15 +9402,6 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 632: {
         [self setDiamondCostToPlayThreeCardMonte:[input readInt32]];
-        break;
-      }
-      case 642: {
-        StartupResponseProto_StartupConstants_GoldmineConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_GoldmineConstants builder];
-        if (self.hasGoldmineConstants) {
-          [subBuilder mergeFrom:self.goldmineConstants];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setGoldmineConstants:[subBuilder buildPartial]];
         break;
       }
     }
@@ -10955,36 +10636,6 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostToPlayThreeCardMonte {
   result.hasDiamondCostToPlayThreeCardMonte = NO;
   result.diamondCostToPlayThreeCardMonte = 0;
-  return self;
-}
-- (BOOL) hasGoldmineConstants {
-  return result.hasGoldmineConstants;
-}
-- (StartupResponseProto_StartupConstants_GoldmineConstants*) goldmineConstants {
-  return result.goldmineConstants;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setGoldmineConstants:(StartupResponseProto_StartupConstants_GoldmineConstants*) value {
-  result.hasGoldmineConstants = YES;
-  result.goldmineConstants = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setGoldmineConstantsBuilder:(StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) builderForValue {
-  return [self setGoldmineConstants:[builderForValue build]];
-}
-- (StartupResponseProto_StartupConstants_Builder*) mergeGoldmineConstants:(StartupResponseProto_StartupConstants_GoldmineConstants*) value {
-  if (result.hasGoldmineConstants &&
-      result.goldmineConstants != [StartupResponseProto_StartupConstants_GoldmineConstants defaultInstance]) {
-    result.goldmineConstants =
-      [[[StartupResponseProto_StartupConstants_GoldmineConstants builderWithPrototype:result.goldmineConstants] mergeFrom:value] buildPartial];
-  } else {
-    result.goldmineConstants = value;
-  }
-  result.hasGoldmineConstants = YES;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearGoldmineConstants {
-  result.hasGoldmineConstants = NO;
-  result.goldmineConstants = [StartupResponseProto_StartupConstants_GoldmineConstants defaultInstance];
   return self;
 }
 @end
@@ -23728,8 +23379,21 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
 
 @interface RetrieveCurrentMarketplacePostsRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property int32_t beforeThisPostId;
 @property BOOL fromSender;
+@property int32_t currentNumOfEntries;
+@property RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter filter;
+@property BOOL commonEquips;
+@property BOOL uncommonEquips;
+@property BOOL rareEquips;
+@property BOOL epicEquips;
+@property BOOL legendaryEquips;
+@property BOOL myClassOnly;
+@property int32_t minEquipLevel;
+@property int32_t maxEquipLevel;
+@property int32_t minForgeLevel;
+@property int32_t maxForgeLevel;
+@property RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder sortOrder;
+@property (retain) NSString* searchString;
 @end
 
 @implementation RetrieveCurrentMarketplacePostsRequestProto
@@ -23741,13 +23405,6 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasBeforeThisPostId {
-  return !!hasBeforeThisPostId_;
-}
-- (void) setHasBeforeThisPostId:(BOOL) value {
-  hasBeforeThisPostId_ = !!value;
-}
-@synthesize beforeThisPostId;
 - (BOOL) hasFromSender {
   return !!hasFromSender_;
 }
@@ -23760,15 +23417,157 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
 - (void) setFromSender:(BOOL) value {
   fromSender_ = !!value;
 }
+- (BOOL) hasCurrentNumOfEntries {
+  return !!hasCurrentNumOfEntries_;
+}
+- (void) setHasCurrentNumOfEntries:(BOOL) value {
+  hasCurrentNumOfEntries_ = !!value;
+}
+@synthesize currentNumOfEntries;
+- (BOOL) hasFilter {
+  return !!hasFilter_;
+}
+- (void) setHasFilter:(BOOL) value {
+  hasFilter_ = !!value;
+}
+@synthesize filter;
+- (BOOL) hasCommonEquips {
+  return !!hasCommonEquips_;
+}
+- (void) setHasCommonEquips:(BOOL) value {
+  hasCommonEquips_ = !!value;
+}
+- (BOOL) commonEquips {
+  return !!commonEquips_;
+}
+- (void) setCommonEquips:(BOOL) value {
+  commonEquips_ = !!value;
+}
+- (BOOL) hasUncommonEquips {
+  return !!hasUncommonEquips_;
+}
+- (void) setHasUncommonEquips:(BOOL) value {
+  hasUncommonEquips_ = !!value;
+}
+- (BOOL) uncommonEquips {
+  return !!uncommonEquips_;
+}
+- (void) setUncommonEquips:(BOOL) value {
+  uncommonEquips_ = !!value;
+}
+- (BOOL) hasRareEquips {
+  return !!hasRareEquips_;
+}
+- (void) setHasRareEquips:(BOOL) value {
+  hasRareEquips_ = !!value;
+}
+- (BOOL) rareEquips {
+  return !!rareEquips_;
+}
+- (void) setRareEquips:(BOOL) value {
+  rareEquips_ = !!value;
+}
+- (BOOL) hasEpicEquips {
+  return !!hasEpicEquips_;
+}
+- (void) setHasEpicEquips:(BOOL) value {
+  hasEpicEquips_ = !!value;
+}
+- (BOOL) epicEquips {
+  return !!epicEquips_;
+}
+- (void) setEpicEquips:(BOOL) value {
+  epicEquips_ = !!value;
+}
+- (BOOL) hasLegendaryEquips {
+  return !!hasLegendaryEquips_;
+}
+- (void) setHasLegendaryEquips:(BOOL) value {
+  hasLegendaryEquips_ = !!value;
+}
+- (BOOL) legendaryEquips {
+  return !!legendaryEquips_;
+}
+- (void) setLegendaryEquips:(BOOL) value {
+  legendaryEquips_ = !!value;
+}
+- (BOOL) hasMyClassOnly {
+  return !!hasMyClassOnly_;
+}
+- (void) setHasMyClassOnly:(BOOL) value {
+  hasMyClassOnly_ = !!value;
+}
+- (BOOL) myClassOnly {
+  return !!myClassOnly_;
+}
+- (void) setMyClassOnly:(BOOL) value {
+  myClassOnly_ = !!value;
+}
+- (BOOL) hasMinEquipLevel {
+  return !!hasMinEquipLevel_;
+}
+- (void) setHasMinEquipLevel:(BOOL) value {
+  hasMinEquipLevel_ = !!value;
+}
+@synthesize minEquipLevel;
+- (BOOL) hasMaxEquipLevel {
+  return !!hasMaxEquipLevel_;
+}
+- (void) setHasMaxEquipLevel:(BOOL) value {
+  hasMaxEquipLevel_ = !!value;
+}
+@synthesize maxEquipLevel;
+- (BOOL) hasMinForgeLevel {
+  return !!hasMinForgeLevel_;
+}
+- (void) setHasMinForgeLevel:(BOOL) value {
+  hasMinForgeLevel_ = !!value;
+}
+@synthesize minForgeLevel;
+- (BOOL) hasMaxForgeLevel {
+  return !!hasMaxForgeLevel_;
+}
+- (void) setHasMaxForgeLevel:(BOOL) value {
+  hasMaxForgeLevel_ = !!value;
+}
+@synthesize maxForgeLevel;
+- (BOOL) hasSortOrder {
+  return !!hasSortOrder_;
+}
+- (void) setHasSortOrder:(BOOL) value {
+  hasSortOrder_ = !!value;
+}
+@synthesize sortOrder;
+- (BOOL) hasSearchString {
+  return !!hasSearchString_;
+}
+- (void) setHasSearchString:(BOOL) value {
+  hasSearchString_ = !!value;
+}
+@synthesize searchString;
 - (void) dealloc {
   self.sender = nil;
+  self.searchString = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.beforeThisPostId = 0;
     self.fromSender = NO;
+    self.currentNumOfEntries = 0;
+    self.filter = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAll;
+    self.commonEquips = NO;
+    self.uncommonEquips = NO;
+    self.rareEquips = NO;
+    self.epicEquips = NO;
+    self.legendaryEquips = NO;
+    self.myClassOnly = NO;
+    self.minEquipLevel = 0;
+    self.maxEquipLevel = 0;
+    self.minForgeLevel = 0;
+    self.maxForgeLevel = 0;
+    self.sortOrder = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderPriceHighToLow;
+    self.searchString = @"";
   }
   return self;
 }
@@ -23791,11 +23590,50 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasBeforeThisPostId) {
-    [output writeInt32:2 value:self.beforeThisPostId];
-  }
   if (self.hasFromSender) {
-    [output writeBool:3 value:self.fromSender];
+    [output writeBool:2 value:self.fromSender];
+  }
+  if (self.hasCurrentNumOfEntries) {
+    [output writeInt32:3 value:self.currentNumOfEntries];
+  }
+  if (self.hasFilter) {
+    [output writeEnum:4 value:self.filter];
+  }
+  if (self.hasCommonEquips) {
+    [output writeBool:5 value:self.commonEquips];
+  }
+  if (self.hasUncommonEquips) {
+    [output writeBool:6 value:self.uncommonEquips];
+  }
+  if (self.hasRareEquips) {
+    [output writeBool:7 value:self.rareEquips];
+  }
+  if (self.hasEpicEquips) {
+    [output writeBool:8 value:self.epicEquips];
+  }
+  if (self.hasLegendaryEquips) {
+    [output writeBool:9 value:self.legendaryEquips];
+  }
+  if (self.hasMyClassOnly) {
+    [output writeBool:10 value:self.myClassOnly];
+  }
+  if (self.hasMinEquipLevel) {
+    [output writeInt32:11 value:self.minEquipLevel];
+  }
+  if (self.hasMaxEquipLevel) {
+    [output writeInt32:12 value:self.maxEquipLevel];
+  }
+  if (self.hasMinForgeLevel) {
+    [output writeInt32:13 value:self.minForgeLevel];
+  }
+  if (self.hasMaxForgeLevel) {
+    [output writeInt32:14 value:self.maxForgeLevel];
+  }
+  if (self.hasSortOrder) {
+    [output writeEnum:15 value:self.sortOrder];
+  }
+  if (self.hasSearchString) {
+    [output writeString:16 value:self.searchString];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -23809,11 +23647,50 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasBeforeThisPostId) {
-    size += computeInt32Size(2, self.beforeThisPostId);
-  }
   if (self.hasFromSender) {
-    size += computeBoolSize(3, self.fromSender);
+    size += computeBoolSize(2, self.fromSender);
+  }
+  if (self.hasCurrentNumOfEntries) {
+    size += computeInt32Size(3, self.currentNumOfEntries);
+  }
+  if (self.hasFilter) {
+    size += computeEnumSize(4, self.filter);
+  }
+  if (self.hasCommonEquips) {
+    size += computeBoolSize(5, self.commonEquips);
+  }
+  if (self.hasUncommonEquips) {
+    size += computeBoolSize(6, self.uncommonEquips);
+  }
+  if (self.hasRareEquips) {
+    size += computeBoolSize(7, self.rareEquips);
+  }
+  if (self.hasEpicEquips) {
+    size += computeBoolSize(8, self.epicEquips);
+  }
+  if (self.hasLegendaryEquips) {
+    size += computeBoolSize(9, self.legendaryEquips);
+  }
+  if (self.hasMyClassOnly) {
+    size += computeBoolSize(10, self.myClassOnly);
+  }
+  if (self.hasMinEquipLevel) {
+    size += computeInt32Size(11, self.minEquipLevel);
+  }
+  if (self.hasMaxEquipLevel) {
+    size += computeInt32Size(12, self.maxEquipLevel);
+  }
+  if (self.hasMinForgeLevel) {
+    size += computeInt32Size(13, self.minForgeLevel);
+  }
+  if (self.hasMaxForgeLevel) {
+    size += computeInt32Size(14, self.maxForgeLevel);
+  }
+  if (self.hasSortOrder) {
+    size += computeEnumSize(15, self.sortOrder);
+  }
+  if (self.hasSearchString) {
+    size += computeStringSize(16, self.searchString);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -23848,6 +23725,29 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
 }
 @end
 
+BOOL RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterIsValidValue(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter value) {
+  switch (value) {
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAll:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterWeapons:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterArmor:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAmulets:
+      return YES;
+    default:
+      return NO;
+  }
+}
+BOOL RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderIsValidValue(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder value) {
+  switch (value) {
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderPriceHighToLow:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderPriceLowToHigh:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderAttackHighToLow:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderDefenseHighToLow:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderTotalStatsHighToLow:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface RetrieveCurrentMarketplacePostsRequestProto_Builder()
 @property (retain) RetrieveCurrentMarketplacePostsRequestProto* result;
 @end
@@ -23893,11 +23793,50 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasBeforeThisPostId) {
-    [self setBeforeThisPostId:other.beforeThisPostId];
-  }
   if (other.hasFromSender) {
     [self setFromSender:other.fromSender];
+  }
+  if (other.hasCurrentNumOfEntries) {
+    [self setCurrentNumOfEntries:other.currentNumOfEntries];
+  }
+  if (other.hasFilter) {
+    [self setFilter:other.filter];
+  }
+  if (other.hasCommonEquips) {
+    [self setCommonEquips:other.commonEquips];
+  }
+  if (other.hasUncommonEquips) {
+    [self setUncommonEquips:other.uncommonEquips];
+  }
+  if (other.hasRareEquips) {
+    [self setRareEquips:other.rareEquips];
+  }
+  if (other.hasEpicEquips) {
+    [self setEpicEquips:other.epicEquips];
+  }
+  if (other.hasLegendaryEquips) {
+    [self setLegendaryEquips:other.legendaryEquips];
+  }
+  if (other.hasMyClassOnly) {
+    [self setMyClassOnly:other.myClassOnly];
+  }
+  if (other.hasMinEquipLevel) {
+    [self setMinEquipLevel:other.minEquipLevel];
+  }
+  if (other.hasMaxEquipLevel) {
+    [self setMaxEquipLevel:other.maxEquipLevel];
+  }
+  if (other.hasMinForgeLevel) {
+    [self setMinForgeLevel:other.minForgeLevel];
+  }
+  if (other.hasMaxForgeLevel) {
+    [self setMaxForgeLevel:other.maxForgeLevel];
+  }
+  if (other.hasSortOrder) {
+    [self setSortOrder:other.sortOrder];
+  }
+  if (other.hasSearchString) {
+    [self setSearchString:other.searchString];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -23930,11 +23869,73 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
         break;
       }
       case 16: {
-        [self setBeforeThisPostId:[input readInt32]];
+        [self setFromSender:[input readBool]];
         break;
       }
       case 24: {
-        [self setFromSender:[input readBool]];
+        [self setCurrentNumOfEntries:[input readInt32]];
+        break;
+      }
+      case 32: {
+        int32_t value = [input readEnum];
+        if (RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterIsValidValue(value)) {
+          [self setFilter:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
+        }
+        break;
+      }
+      case 40: {
+        [self setCommonEquips:[input readBool]];
+        break;
+      }
+      case 48: {
+        [self setUncommonEquips:[input readBool]];
+        break;
+      }
+      case 56: {
+        [self setRareEquips:[input readBool]];
+        break;
+      }
+      case 64: {
+        [self setEpicEquips:[input readBool]];
+        break;
+      }
+      case 72: {
+        [self setLegendaryEquips:[input readBool]];
+        break;
+      }
+      case 80: {
+        [self setMyClassOnly:[input readBool]];
+        break;
+      }
+      case 88: {
+        [self setMinEquipLevel:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setMaxEquipLevel:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self setMinForgeLevel:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self setMaxForgeLevel:[input readInt32]];
+        break;
+      }
+      case 120: {
+        int32_t value = [input readEnum];
+        if (RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderIsValidValue(value)) {
+          [self setSortOrder:value];
+        } else {
+          [unknownFields mergeVarintField:15 value:value];
+        }
+        break;
+      }
+      case 130: {
+        [self setSearchString:[input readString]];
         break;
       }
     }
@@ -23970,22 +23971,6 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasBeforeThisPostId {
-  return result.hasBeforeThisPostId;
-}
-- (int32_t) beforeThisPostId {
-  return result.beforeThisPostId;
-}
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setBeforeThisPostId:(int32_t) value {
-  result.hasBeforeThisPostId = YES;
-  result.beforeThisPostId = value;
-  return self;
-}
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearBeforeThisPostId {
-  result.hasBeforeThisPostId = NO;
-  result.beforeThisPostId = 0;
-  return self;
-}
 - (BOOL) hasFromSender {
   return result.hasFromSender;
 }
@@ -24000,6 +23985,230 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearFromSender {
   result.hasFromSender = NO;
   result.fromSender = NO;
+  return self;
+}
+- (BOOL) hasCurrentNumOfEntries {
+  return result.hasCurrentNumOfEntries;
+}
+- (int32_t) currentNumOfEntries {
+  return result.currentNumOfEntries;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setCurrentNumOfEntries:(int32_t) value {
+  result.hasCurrentNumOfEntries = YES;
+  result.currentNumOfEntries = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearCurrentNumOfEntries {
+  result.hasCurrentNumOfEntries = NO;
+  result.currentNumOfEntries = 0;
+  return self;
+}
+- (BOOL) hasFilter {
+  return result.hasFilter;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter) filter {
+  return result.filter;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setFilter:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter) value {
+  result.hasFilter = YES;
+  result.filter = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearFilter {
+  result.hasFilter = NO;
+  result.filter = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAll;
+  return self;
+}
+- (BOOL) hasCommonEquips {
+  return result.hasCommonEquips;
+}
+- (BOOL) commonEquips {
+  return result.commonEquips;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setCommonEquips:(BOOL) value {
+  result.hasCommonEquips = YES;
+  result.commonEquips = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearCommonEquips {
+  result.hasCommonEquips = NO;
+  result.commonEquips = NO;
+  return self;
+}
+- (BOOL) hasUncommonEquips {
+  return result.hasUncommonEquips;
+}
+- (BOOL) uncommonEquips {
+  return result.uncommonEquips;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setUncommonEquips:(BOOL) value {
+  result.hasUncommonEquips = YES;
+  result.uncommonEquips = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearUncommonEquips {
+  result.hasUncommonEquips = NO;
+  result.uncommonEquips = NO;
+  return self;
+}
+- (BOOL) hasRareEquips {
+  return result.hasRareEquips;
+}
+- (BOOL) rareEquips {
+  return result.rareEquips;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setRareEquips:(BOOL) value {
+  result.hasRareEquips = YES;
+  result.rareEquips = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearRareEquips {
+  result.hasRareEquips = NO;
+  result.rareEquips = NO;
+  return self;
+}
+- (BOOL) hasEpicEquips {
+  return result.hasEpicEquips;
+}
+- (BOOL) epicEquips {
+  return result.epicEquips;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setEpicEquips:(BOOL) value {
+  result.hasEpicEquips = YES;
+  result.epicEquips = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearEpicEquips {
+  result.hasEpicEquips = NO;
+  result.epicEquips = NO;
+  return self;
+}
+- (BOOL) hasLegendaryEquips {
+  return result.hasLegendaryEquips;
+}
+- (BOOL) legendaryEquips {
+  return result.legendaryEquips;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setLegendaryEquips:(BOOL) value {
+  result.hasLegendaryEquips = YES;
+  result.legendaryEquips = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearLegendaryEquips {
+  result.hasLegendaryEquips = NO;
+  result.legendaryEquips = NO;
+  return self;
+}
+- (BOOL) hasMyClassOnly {
+  return result.hasMyClassOnly;
+}
+- (BOOL) myClassOnly {
+  return result.myClassOnly;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMyClassOnly:(BOOL) value {
+  result.hasMyClassOnly = YES;
+  result.myClassOnly = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMyClassOnly {
+  result.hasMyClassOnly = NO;
+  result.myClassOnly = NO;
+  return self;
+}
+- (BOOL) hasMinEquipLevel {
+  return result.hasMinEquipLevel;
+}
+- (int32_t) minEquipLevel {
+  return result.minEquipLevel;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMinEquipLevel:(int32_t) value {
+  result.hasMinEquipLevel = YES;
+  result.minEquipLevel = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMinEquipLevel {
+  result.hasMinEquipLevel = NO;
+  result.minEquipLevel = 0;
+  return self;
+}
+- (BOOL) hasMaxEquipLevel {
+  return result.hasMaxEquipLevel;
+}
+- (int32_t) maxEquipLevel {
+  return result.maxEquipLevel;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMaxEquipLevel:(int32_t) value {
+  result.hasMaxEquipLevel = YES;
+  result.maxEquipLevel = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMaxEquipLevel {
+  result.hasMaxEquipLevel = NO;
+  result.maxEquipLevel = 0;
+  return self;
+}
+- (BOOL) hasMinForgeLevel {
+  return result.hasMinForgeLevel;
+}
+- (int32_t) minForgeLevel {
+  return result.minForgeLevel;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMinForgeLevel:(int32_t) value {
+  result.hasMinForgeLevel = YES;
+  result.minForgeLevel = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMinForgeLevel {
+  result.hasMinForgeLevel = NO;
+  result.minForgeLevel = 0;
+  return self;
+}
+- (BOOL) hasMaxForgeLevel {
+  return result.hasMaxForgeLevel;
+}
+- (int32_t) maxForgeLevel {
+  return result.maxForgeLevel;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMaxForgeLevel:(int32_t) value {
+  result.hasMaxForgeLevel = YES;
+  result.maxForgeLevel = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMaxForgeLevel {
+  result.hasMaxForgeLevel = NO;
+  result.maxForgeLevel = 0;
+  return self;
+}
+- (BOOL) hasSortOrder {
+  return result.hasSortOrder;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder) sortOrder {
+  return result.sortOrder;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSortOrder:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder) value {
+  result.hasSortOrder = YES;
+  result.sortOrder = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSortOrder {
+  result.hasSortOrder = NO;
+  result.sortOrder = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderPriceHighToLow;
+  return self;
+}
+- (BOOL) hasSearchString {
+  return result.hasSearchString;
+}
+- (NSString*) searchString {
+  return result.searchString;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSearchString:(NSString*) value {
+  result.hasSearchString = YES;
+  result.searchString = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSearchString {
+  result.hasSearchString = NO;
+  result.searchString = @"";
   return self;
 }
 @end
@@ -53352,9 +53561,18 @@ static RetrieveThreeCardMonteRequestProto* defaultRetrieveThreeCardMonteRequestP
 
 @interface RetrieveThreeCardMonteResponseProto ()
 @property (retain) MinimumUserProto* sender;
-@property (retain) MonteCardProto* badMonteCard;
-@property (retain) MonteCardProto* mediumMonteCard;
-@property (retain) MonteCardProto* goodMonteCard;
+@property int32_t badDiamondsGained;
+@property (retain) FullEquipProto* badEquip;
+@property int32_t badEquipLevel;
+@property int32_t badCoinsGained;
+@property int32_t mediumDiamondsGained;
+@property (retain) FullEquipProto* mediumEquip;
+@property int32_t mediumEquipLevel;
+@property int32_t mediumCoinsGained;
+@property int32_t goodDiamondsGained;
+@property (retain) FullEquipProto* goodEquip;
+@property int32_t goodEquipLevel;
+@property int32_t goodCoinsGained;
 @property RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatus status;
 @end
 
@@ -53367,27 +53585,90 @@ static RetrieveThreeCardMonteRequestProto* defaultRetrieveThreeCardMonteRequestP
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasBadMonteCard {
-  return !!hasBadMonteCard_;
+- (BOOL) hasBadDiamondsGained {
+  return !!hasBadDiamondsGained_;
 }
-- (void) setHasBadMonteCard:(BOOL) value {
-  hasBadMonteCard_ = !!value;
+- (void) setHasBadDiamondsGained:(BOOL) value {
+  hasBadDiamondsGained_ = !!value;
 }
-@synthesize badMonteCard;
-- (BOOL) hasMediumMonteCard {
-  return !!hasMediumMonteCard_;
+@synthesize badDiamondsGained;
+- (BOOL) hasBadEquip {
+  return !!hasBadEquip_;
 }
-- (void) setHasMediumMonteCard:(BOOL) value {
-  hasMediumMonteCard_ = !!value;
+- (void) setHasBadEquip:(BOOL) value {
+  hasBadEquip_ = !!value;
 }
-@synthesize mediumMonteCard;
-- (BOOL) hasGoodMonteCard {
-  return !!hasGoodMonteCard_;
+@synthesize badEquip;
+- (BOOL) hasBadEquipLevel {
+  return !!hasBadEquipLevel_;
 }
-- (void) setHasGoodMonteCard:(BOOL) value {
-  hasGoodMonteCard_ = !!value;
+- (void) setHasBadEquipLevel:(BOOL) value {
+  hasBadEquipLevel_ = !!value;
 }
-@synthesize goodMonteCard;
+@synthesize badEquipLevel;
+- (BOOL) hasBadCoinsGained {
+  return !!hasBadCoinsGained_;
+}
+- (void) setHasBadCoinsGained:(BOOL) value {
+  hasBadCoinsGained_ = !!value;
+}
+@synthesize badCoinsGained;
+- (BOOL) hasMediumDiamondsGained {
+  return !!hasMediumDiamondsGained_;
+}
+- (void) setHasMediumDiamondsGained:(BOOL) value {
+  hasMediumDiamondsGained_ = !!value;
+}
+@synthesize mediumDiamondsGained;
+- (BOOL) hasMediumEquip {
+  return !!hasMediumEquip_;
+}
+- (void) setHasMediumEquip:(BOOL) value {
+  hasMediumEquip_ = !!value;
+}
+@synthesize mediumEquip;
+- (BOOL) hasMediumEquipLevel {
+  return !!hasMediumEquipLevel_;
+}
+- (void) setHasMediumEquipLevel:(BOOL) value {
+  hasMediumEquipLevel_ = !!value;
+}
+@synthesize mediumEquipLevel;
+- (BOOL) hasMediumCoinsGained {
+  return !!hasMediumCoinsGained_;
+}
+- (void) setHasMediumCoinsGained:(BOOL) value {
+  hasMediumCoinsGained_ = !!value;
+}
+@synthesize mediumCoinsGained;
+- (BOOL) hasGoodDiamondsGained {
+  return !!hasGoodDiamondsGained_;
+}
+- (void) setHasGoodDiamondsGained:(BOOL) value {
+  hasGoodDiamondsGained_ = !!value;
+}
+@synthesize goodDiamondsGained;
+- (BOOL) hasGoodEquip {
+  return !!hasGoodEquip_;
+}
+- (void) setHasGoodEquip:(BOOL) value {
+  hasGoodEquip_ = !!value;
+}
+@synthesize goodEquip;
+- (BOOL) hasGoodEquipLevel {
+  return !!hasGoodEquipLevel_;
+}
+- (void) setHasGoodEquipLevel:(BOOL) value {
+  hasGoodEquipLevel_ = !!value;
+}
+@synthesize goodEquipLevel;
+- (BOOL) hasGoodCoinsGained {
+  return !!hasGoodCoinsGained_;
+}
+- (void) setHasGoodCoinsGained:(BOOL) value {
+  hasGoodCoinsGained_ = !!value;
+}
+@synthesize goodCoinsGained;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -53397,17 +53678,26 @@ static RetrieveThreeCardMonteRequestProto* defaultRetrieveThreeCardMonteRequestP
 @synthesize status;
 - (void) dealloc {
   self.sender = nil;
-  self.badMonteCard = nil;
-  self.mediumMonteCard = nil;
-  self.goodMonteCard = nil;
+  self.badEquip = nil;
+  self.mediumEquip = nil;
+  self.goodEquip = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.badMonteCard = [MonteCardProto defaultInstance];
-    self.mediumMonteCard = [MonteCardProto defaultInstance];
-    self.goodMonteCard = [MonteCardProto defaultInstance];
+    self.badDiamondsGained = 0;
+    self.badEquip = [FullEquipProto defaultInstance];
+    self.badEquipLevel = 0;
+    self.badCoinsGained = 0;
+    self.mediumDiamondsGained = 0;
+    self.mediumEquip = [FullEquipProto defaultInstance];
+    self.mediumEquipLevel = 0;
+    self.mediumCoinsGained = 0;
+    self.goodDiamondsGained = 0;
+    self.goodEquip = [FullEquipProto defaultInstance];
+    self.goodEquipLevel = 0;
+    self.goodCoinsGained = 0;
     self.status = RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatusSuccess;
   }
   return self;
@@ -53431,14 +53721,41 @@ static RetrieveThreeCardMonteResponseProto* defaultRetrieveThreeCardMonteRespons
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasBadMonteCard) {
-    [output writeMessage:2 value:self.badMonteCard];
+  if (self.hasBadDiamondsGained) {
+    [output writeInt32:2 value:self.badDiamondsGained];
   }
-  if (self.hasMediumMonteCard) {
-    [output writeMessage:3 value:self.mediumMonteCard];
+  if (self.hasBadEquip) {
+    [output writeMessage:3 value:self.badEquip];
   }
-  if (self.hasGoodMonteCard) {
-    [output writeMessage:4 value:self.goodMonteCard];
+  if (self.hasBadEquipLevel) {
+    [output writeInt32:4 value:self.badEquipLevel];
+  }
+  if (self.hasBadCoinsGained) {
+    [output writeInt32:5 value:self.badCoinsGained];
+  }
+  if (self.hasMediumDiamondsGained) {
+    [output writeInt32:6 value:self.mediumDiamondsGained];
+  }
+  if (self.hasMediumEquip) {
+    [output writeMessage:7 value:self.mediumEquip];
+  }
+  if (self.hasMediumEquipLevel) {
+    [output writeInt32:8 value:self.mediumEquipLevel];
+  }
+  if (self.hasMediumCoinsGained) {
+    [output writeInt32:9 value:self.mediumCoinsGained];
+  }
+  if (self.hasGoodDiamondsGained) {
+    [output writeInt32:10 value:self.goodDiamondsGained];
+  }
+  if (self.hasGoodEquip) {
+    [output writeMessage:11 value:self.goodEquip];
+  }
+  if (self.hasGoodEquipLevel) {
+    [output writeInt32:12 value:self.goodEquipLevel];
+  }
+  if (self.hasGoodCoinsGained) {
+    [output writeInt32:13 value:self.goodCoinsGained];
   }
   if (self.hasStatus) {
     [output writeEnum:14 value:self.status];
@@ -53455,14 +53772,41 @@ static RetrieveThreeCardMonteResponseProto* defaultRetrieveThreeCardMonteRespons
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasBadMonteCard) {
-    size += computeMessageSize(2, self.badMonteCard);
+  if (self.hasBadDiamondsGained) {
+    size += computeInt32Size(2, self.badDiamondsGained);
   }
-  if (self.hasMediumMonteCard) {
-    size += computeMessageSize(3, self.mediumMonteCard);
+  if (self.hasBadEquip) {
+    size += computeMessageSize(3, self.badEquip);
   }
-  if (self.hasGoodMonteCard) {
-    size += computeMessageSize(4, self.goodMonteCard);
+  if (self.hasBadEquipLevel) {
+    size += computeInt32Size(4, self.badEquipLevel);
+  }
+  if (self.hasBadCoinsGained) {
+    size += computeInt32Size(5, self.badCoinsGained);
+  }
+  if (self.hasMediumDiamondsGained) {
+    size += computeInt32Size(6, self.mediumDiamondsGained);
+  }
+  if (self.hasMediumEquip) {
+    size += computeMessageSize(7, self.mediumEquip);
+  }
+  if (self.hasMediumEquipLevel) {
+    size += computeInt32Size(8, self.mediumEquipLevel);
+  }
+  if (self.hasMediumCoinsGained) {
+    size += computeInt32Size(9, self.mediumCoinsGained);
+  }
+  if (self.hasGoodDiamondsGained) {
+    size += computeInt32Size(10, self.goodDiamondsGained);
+  }
+  if (self.hasGoodEquip) {
+    size += computeMessageSize(11, self.goodEquip);
+  }
+  if (self.hasGoodEquipLevel) {
+    size += computeInt32Size(12, self.goodEquipLevel);
+  }
+  if (self.hasGoodCoinsGained) {
+    size += computeInt32Size(13, self.goodCoinsGained);
   }
   if (self.hasStatus) {
     size += computeEnumSize(14, self.status);
@@ -53554,14 +53898,41 @@ BOOL RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatusIsValidValu
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasBadMonteCard) {
-    [self mergeBadMonteCard:other.badMonteCard];
+  if (other.hasBadDiamondsGained) {
+    [self setBadDiamondsGained:other.badDiamondsGained];
   }
-  if (other.hasMediumMonteCard) {
-    [self mergeMediumMonteCard:other.mediumMonteCard];
+  if (other.hasBadEquip) {
+    [self mergeBadEquip:other.badEquip];
   }
-  if (other.hasGoodMonteCard) {
-    [self mergeGoodMonteCard:other.goodMonteCard];
+  if (other.hasBadEquipLevel) {
+    [self setBadEquipLevel:other.badEquipLevel];
+  }
+  if (other.hasBadCoinsGained) {
+    [self setBadCoinsGained:other.badCoinsGained];
+  }
+  if (other.hasMediumDiamondsGained) {
+    [self setMediumDiamondsGained:other.mediumDiamondsGained];
+  }
+  if (other.hasMediumEquip) {
+    [self mergeMediumEquip:other.mediumEquip];
+  }
+  if (other.hasMediumEquipLevel) {
+    [self setMediumEquipLevel:other.mediumEquipLevel];
+  }
+  if (other.hasMediumCoinsGained) {
+    [self setMediumCoinsGained:other.mediumCoinsGained];
+  }
+  if (other.hasGoodDiamondsGained) {
+    [self setGoodDiamondsGained:other.goodDiamondsGained];
+  }
+  if (other.hasGoodEquip) {
+    [self mergeGoodEquip:other.goodEquip];
+  }
+  if (other.hasGoodEquipLevel) {
+    [self setGoodEquipLevel:other.goodEquipLevel];
+  }
+  if (other.hasGoodCoinsGained) {
+    [self setGoodCoinsGained:other.goodCoinsGained];
   }
   if (other.hasStatus) {
     [self setStatus:other.status];
@@ -53596,31 +53967,67 @@ BOOL RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatusIsValidValu
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 18: {
-        MonteCardProto_Builder* subBuilder = [MonteCardProto builder];
-        if (self.hasBadMonteCard) {
-          [subBuilder mergeFrom:self.badMonteCard];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setBadMonteCard:[subBuilder buildPartial]];
+      case 16: {
+        [self setBadDiamondsGained:[input readInt32]];
         break;
       }
       case 26: {
-        MonteCardProto_Builder* subBuilder = [MonteCardProto builder];
-        if (self.hasMediumMonteCard) {
-          [subBuilder mergeFrom:self.mediumMonteCard];
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasBadEquip) {
+          [subBuilder mergeFrom:self.badEquip];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setMediumMonteCard:[subBuilder buildPartial]];
+        [self setBadEquip:[subBuilder buildPartial]];
         break;
       }
-      case 34: {
-        MonteCardProto_Builder* subBuilder = [MonteCardProto builder];
-        if (self.hasGoodMonteCard) {
-          [subBuilder mergeFrom:self.goodMonteCard];
+      case 32: {
+        [self setBadEquipLevel:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setBadCoinsGained:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setMediumDiamondsGained:[input readInt32]];
+        break;
+      }
+      case 58: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasMediumEquip) {
+          [subBuilder mergeFrom:self.mediumEquip];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setGoodMonteCard:[subBuilder buildPartial]];
+        [self setMediumEquip:[subBuilder buildPartial]];
+        break;
+      }
+      case 64: {
+        [self setMediumEquipLevel:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setMediumCoinsGained:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setGoodDiamondsGained:[input readInt32]];
+        break;
+      }
+      case 90: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasGoodEquip) {
+          [subBuilder mergeFrom:self.goodEquip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setGoodEquip:[subBuilder buildPartial]];
+        break;
+      }
+      case 96: {
+        [self setGoodEquipLevel:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self setGoodCoinsGained:[input readInt32]];
         break;
       }
       case 112: {
@@ -53665,94 +54072,238 @@ BOOL RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatusIsValidValu
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasBadMonteCard {
-  return result.hasBadMonteCard;
+- (BOOL) hasBadDiamondsGained {
+  return result.hasBadDiamondsGained;
 }
-- (MonteCardProto*) badMonteCard {
-  return result.badMonteCard;
+- (int32_t) badDiamondsGained {
+  return result.badDiamondsGained;
 }
-- (RetrieveThreeCardMonteResponseProto_Builder*) setBadMonteCard:(MonteCardProto*) value {
-  result.hasBadMonteCard = YES;
-  result.badMonteCard = value;
+- (RetrieveThreeCardMonteResponseProto_Builder*) setBadDiamondsGained:(int32_t) value {
+  result.hasBadDiamondsGained = YES;
+  result.badDiamondsGained = value;
   return self;
 }
-- (RetrieveThreeCardMonteResponseProto_Builder*) setBadMonteCardBuilder:(MonteCardProto_Builder*) builderForValue {
-  return [self setBadMonteCard:[builderForValue build]];
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearBadDiamondsGained {
+  result.hasBadDiamondsGained = NO;
+  result.badDiamondsGained = 0;
+  return self;
 }
-- (RetrieveThreeCardMonteResponseProto_Builder*) mergeBadMonteCard:(MonteCardProto*) value {
-  if (result.hasBadMonteCard &&
-      result.badMonteCard != [MonteCardProto defaultInstance]) {
-    result.badMonteCard =
-      [[[MonteCardProto builderWithPrototype:result.badMonteCard] mergeFrom:value] buildPartial];
+- (BOOL) hasBadEquip {
+  return result.hasBadEquip;
+}
+- (FullEquipProto*) badEquip {
+  return result.badEquip;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) setBadEquip:(FullEquipProto*) value {
+  result.hasBadEquip = YES;
+  result.badEquip = value;
+  return self;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) setBadEquipBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setBadEquip:[builderForValue build]];
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) mergeBadEquip:(FullEquipProto*) value {
+  if (result.hasBadEquip &&
+      result.badEquip != [FullEquipProto defaultInstance]) {
+    result.badEquip =
+      [[[FullEquipProto builderWithPrototype:result.badEquip] mergeFrom:value] buildPartial];
   } else {
-    result.badMonteCard = value;
+    result.badEquip = value;
   }
-  result.hasBadMonteCard = YES;
+  result.hasBadEquip = YES;
   return self;
 }
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearBadMonteCard {
-  result.hasBadMonteCard = NO;
-  result.badMonteCard = [MonteCardProto defaultInstance];
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearBadEquip {
+  result.hasBadEquip = NO;
+  result.badEquip = [FullEquipProto defaultInstance];
   return self;
 }
-- (BOOL) hasMediumMonteCard {
-  return result.hasMediumMonteCard;
+- (BOOL) hasBadEquipLevel {
+  return result.hasBadEquipLevel;
 }
-- (MonteCardProto*) mediumMonteCard {
-  return result.mediumMonteCard;
+- (int32_t) badEquipLevel {
+  return result.badEquipLevel;
 }
-- (RetrieveThreeCardMonteResponseProto_Builder*) setMediumMonteCard:(MonteCardProto*) value {
-  result.hasMediumMonteCard = YES;
-  result.mediumMonteCard = value;
+- (RetrieveThreeCardMonteResponseProto_Builder*) setBadEquipLevel:(int32_t) value {
+  result.hasBadEquipLevel = YES;
+  result.badEquipLevel = value;
   return self;
 }
-- (RetrieveThreeCardMonteResponseProto_Builder*) setMediumMonteCardBuilder:(MonteCardProto_Builder*) builderForValue {
-  return [self setMediumMonteCard:[builderForValue build]];
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearBadEquipLevel {
+  result.hasBadEquipLevel = NO;
+  result.badEquipLevel = 0;
+  return self;
 }
-- (RetrieveThreeCardMonteResponseProto_Builder*) mergeMediumMonteCard:(MonteCardProto*) value {
-  if (result.hasMediumMonteCard &&
-      result.mediumMonteCard != [MonteCardProto defaultInstance]) {
-    result.mediumMonteCard =
-      [[[MonteCardProto builderWithPrototype:result.mediumMonteCard] mergeFrom:value] buildPartial];
+- (BOOL) hasBadCoinsGained {
+  return result.hasBadCoinsGained;
+}
+- (int32_t) badCoinsGained {
+  return result.badCoinsGained;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) setBadCoinsGained:(int32_t) value {
+  result.hasBadCoinsGained = YES;
+  result.badCoinsGained = value;
+  return self;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearBadCoinsGained {
+  result.hasBadCoinsGained = NO;
+  result.badCoinsGained = 0;
+  return self;
+}
+- (BOOL) hasMediumDiamondsGained {
+  return result.hasMediumDiamondsGained;
+}
+- (int32_t) mediumDiamondsGained {
+  return result.mediumDiamondsGained;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) setMediumDiamondsGained:(int32_t) value {
+  result.hasMediumDiamondsGained = YES;
+  result.mediumDiamondsGained = value;
+  return self;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearMediumDiamondsGained {
+  result.hasMediumDiamondsGained = NO;
+  result.mediumDiamondsGained = 0;
+  return self;
+}
+- (BOOL) hasMediumEquip {
+  return result.hasMediumEquip;
+}
+- (FullEquipProto*) mediumEquip {
+  return result.mediumEquip;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) setMediumEquip:(FullEquipProto*) value {
+  result.hasMediumEquip = YES;
+  result.mediumEquip = value;
+  return self;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) setMediumEquipBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setMediumEquip:[builderForValue build]];
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) mergeMediumEquip:(FullEquipProto*) value {
+  if (result.hasMediumEquip &&
+      result.mediumEquip != [FullEquipProto defaultInstance]) {
+    result.mediumEquip =
+      [[[FullEquipProto builderWithPrototype:result.mediumEquip] mergeFrom:value] buildPartial];
   } else {
-    result.mediumMonteCard = value;
+    result.mediumEquip = value;
   }
-  result.hasMediumMonteCard = YES;
+  result.hasMediumEquip = YES;
   return self;
 }
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearMediumMonteCard {
-  result.hasMediumMonteCard = NO;
-  result.mediumMonteCard = [MonteCardProto defaultInstance];
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearMediumEquip {
+  result.hasMediumEquip = NO;
+  result.mediumEquip = [FullEquipProto defaultInstance];
   return self;
 }
-- (BOOL) hasGoodMonteCard {
-  return result.hasGoodMonteCard;
+- (BOOL) hasMediumEquipLevel {
+  return result.hasMediumEquipLevel;
 }
-- (MonteCardProto*) goodMonteCard {
-  return result.goodMonteCard;
+- (int32_t) mediumEquipLevel {
+  return result.mediumEquipLevel;
 }
-- (RetrieveThreeCardMonteResponseProto_Builder*) setGoodMonteCard:(MonteCardProto*) value {
-  result.hasGoodMonteCard = YES;
-  result.goodMonteCard = value;
+- (RetrieveThreeCardMonteResponseProto_Builder*) setMediumEquipLevel:(int32_t) value {
+  result.hasMediumEquipLevel = YES;
+  result.mediumEquipLevel = value;
   return self;
 }
-- (RetrieveThreeCardMonteResponseProto_Builder*) setGoodMonteCardBuilder:(MonteCardProto_Builder*) builderForValue {
-  return [self setGoodMonteCard:[builderForValue build]];
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearMediumEquipLevel {
+  result.hasMediumEquipLevel = NO;
+  result.mediumEquipLevel = 0;
+  return self;
 }
-- (RetrieveThreeCardMonteResponseProto_Builder*) mergeGoodMonteCard:(MonteCardProto*) value {
-  if (result.hasGoodMonteCard &&
-      result.goodMonteCard != [MonteCardProto defaultInstance]) {
-    result.goodMonteCard =
-      [[[MonteCardProto builderWithPrototype:result.goodMonteCard] mergeFrom:value] buildPartial];
+- (BOOL) hasMediumCoinsGained {
+  return result.hasMediumCoinsGained;
+}
+- (int32_t) mediumCoinsGained {
+  return result.mediumCoinsGained;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) setMediumCoinsGained:(int32_t) value {
+  result.hasMediumCoinsGained = YES;
+  result.mediumCoinsGained = value;
+  return self;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearMediumCoinsGained {
+  result.hasMediumCoinsGained = NO;
+  result.mediumCoinsGained = 0;
+  return self;
+}
+- (BOOL) hasGoodDiamondsGained {
+  return result.hasGoodDiamondsGained;
+}
+- (int32_t) goodDiamondsGained {
+  return result.goodDiamondsGained;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) setGoodDiamondsGained:(int32_t) value {
+  result.hasGoodDiamondsGained = YES;
+  result.goodDiamondsGained = value;
+  return self;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearGoodDiamondsGained {
+  result.hasGoodDiamondsGained = NO;
+  result.goodDiamondsGained = 0;
+  return self;
+}
+- (BOOL) hasGoodEquip {
+  return result.hasGoodEquip;
+}
+- (FullEquipProto*) goodEquip {
+  return result.goodEquip;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) setGoodEquip:(FullEquipProto*) value {
+  result.hasGoodEquip = YES;
+  result.goodEquip = value;
+  return self;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) setGoodEquipBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setGoodEquip:[builderForValue build]];
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) mergeGoodEquip:(FullEquipProto*) value {
+  if (result.hasGoodEquip &&
+      result.goodEquip != [FullEquipProto defaultInstance]) {
+    result.goodEquip =
+      [[[FullEquipProto builderWithPrototype:result.goodEquip] mergeFrom:value] buildPartial];
   } else {
-    result.goodMonteCard = value;
+    result.goodEquip = value;
   }
-  result.hasGoodMonteCard = YES;
+  result.hasGoodEquip = YES;
   return self;
 }
-- (RetrieveThreeCardMonteResponseProto_Builder*) clearGoodMonteCard {
-  result.hasGoodMonteCard = NO;
-  result.goodMonteCard = [MonteCardProto defaultInstance];
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearGoodEquip {
+  result.hasGoodEquip = NO;
+  result.goodEquip = [FullEquipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasGoodEquipLevel {
+  return result.hasGoodEquipLevel;
+}
+- (int32_t) goodEquipLevel {
+  return result.goodEquipLevel;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) setGoodEquipLevel:(int32_t) value {
+  result.hasGoodEquipLevel = YES;
+  result.goodEquipLevel = value;
+  return self;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearGoodEquipLevel {
+  result.hasGoodEquipLevel = NO;
+  result.goodEquipLevel = 0;
+  return self;
+}
+- (BOOL) hasGoodCoinsGained {
+  return result.hasGoodCoinsGained;
+}
+- (int32_t) goodCoinsGained {
+  return result.goodCoinsGained;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) setGoodCoinsGained:(int32_t) value {
+  result.hasGoodCoinsGained = YES;
+  result.goodCoinsGained = value;
+  return self;
+}
+- (RetrieveThreeCardMonteResponseProto_Builder*) clearGoodCoinsGained {
+  result.hasGoodCoinsGained = NO;
+  result.goodCoinsGained = 0;
   return self;
 }
 - (BOOL) hasStatus {
@@ -53775,7 +54326,11 @@ BOOL RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatusIsValidValu
 
 @interface PlayThreeCardMonteRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property int32_t cardId;
+@property MonteCard monteCard;
+@property int32_t diamondsGained;
+@property int32_t coinsGained;
+@property (retain) FullEquipProto* equipGained;
+@property int32_t equipLevel;
 @end
 
 @implementation PlayThreeCardMonteRequestProto
@@ -53787,21 +54342,54 @@ BOOL RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatusIsValidValu
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasCardId {
-  return !!hasCardId_;
+- (BOOL) hasMonteCard {
+  return !!hasMonteCard_;
 }
-- (void) setHasCardId:(BOOL) value {
-  hasCardId_ = !!value;
+- (void) setHasMonteCard:(BOOL) value {
+  hasMonteCard_ = !!value;
 }
-@synthesize cardId;
+@synthesize monteCard;
+- (BOOL) hasDiamondsGained {
+  return !!hasDiamondsGained_;
+}
+- (void) setHasDiamondsGained:(BOOL) value {
+  hasDiamondsGained_ = !!value;
+}
+@synthesize diamondsGained;
+- (BOOL) hasCoinsGained {
+  return !!hasCoinsGained_;
+}
+- (void) setHasCoinsGained:(BOOL) value {
+  hasCoinsGained_ = !!value;
+}
+@synthesize coinsGained;
+- (BOOL) hasEquipGained {
+  return !!hasEquipGained_;
+}
+- (void) setHasEquipGained:(BOOL) value {
+  hasEquipGained_ = !!value;
+}
+@synthesize equipGained;
+- (BOOL) hasEquipLevel {
+  return !!hasEquipLevel_;
+}
+- (void) setHasEquipLevel:(BOOL) value {
+  hasEquipLevel_ = !!value;
+}
+@synthesize equipLevel;
 - (void) dealloc {
   self.sender = nil;
+  self.equipGained = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.cardId = 0;
+    self.monteCard = MonteCardBad;
+    self.diamondsGained = 0;
+    self.coinsGained = 0;
+    self.equipGained = [FullEquipProto defaultInstance];
+    self.equipLevel = 0;
   }
   return self;
 }
@@ -53824,8 +54412,20 @@ static PlayThreeCardMonteRequestProto* defaultPlayThreeCardMonteRequestProtoInst
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasCardId) {
-    [output writeInt32:2 value:self.cardId];
+  if (self.hasMonteCard) {
+    [output writeEnum:2 value:self.monteCard];
+  }
+  if (self.hasDiamondsGained) {
+    [output writeInt32:3 value:self.diamondsGained];
+  }
+  if (self.hasCoinsGained) {
+    [output writeInt32:4 value:self.coinsGained];
+  }
+  if (self.hasEquipGained) {
+    [output writeMessage:5 value:self.equipGained];
+  }
+  if (self.hasEquipLevel) {
+    [output writeInt32:6 value:self.equipLevel];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -53839,8 +54439,20 @@ static PlayThreeCardMonteRequestProto* defaultPlayThreeCardMonteRequestProtoInst
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasCardId) {
-    size += computeInt32Size(2, self.cardId);
+  if (self.hasMonteCard) {
+    size += computeEnumSize(2, self.monteCard);
+  }
+  if (self.hasDiamondsGained) {
+    size += computeInt32Size(3, self.diamondsGained);
+  }
+  if (self.hasCoinsGained) {
+    size += computeInt32Size(4, self.coinsGained);
+  }
+  if (self.hasEquipGained) {
+    size += computeMessageSize(5, self.equipGained);
+  }
+  if (self.hasEquipLevel) {
+    size += computeInt32Size(6, self.equipLevel);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -53920,8 +54532,20 @@ static PlayThreeCardMonteRequestProto* defaultPlayThreeCardMonteRequestProtoInst
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasCardId) {
-    [self setCardId:other.cardId];
+  if (other.hasMonteCard) {
+    [self setMonteCard:other.monteCard];
+  }
+  if (other.hasDiamondsGained) {
+    [self setDiamondsGained:other.diamondsGained];
+  }
+  if (other.hasCoinsGained) {
+    [self setCoinsGained:other.coinsGained];
+  }
+  if (other.hasEquipGained) {
+    [self mergeEquipGained:other.equipGained];
+  }
+  if (other.hasEquipLevel) {
+    [self setEquipLevel:other.equipLevel];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -53954,7 +54578,33 @@ static PlayThreeCardMonteRequestProto* defaultPlayThreeCardMonteRequestProtoInst
         break;
       }
       case 16: {
-        [self setCardId:[input readInt32]];
+        int32_t value = [input readEnum];
+        if (MonteCardIsValidValue(value)) {
+          [self setMonteCard:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        [self setDiamondsGained:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setCoinsGained:[input readInt32]];
+        break;
+      }
+      case 42: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasEquipGained) {
+          [subBuilder mergeFrom:self.equipGained];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setEquipGained:[subBuilder buildPartial]];
+        break;
+      }
+      case 48: {
+        [self setEquipLevel:[input readInt32]];
         break;
       }
     }
@@ -53990,20 +54640,98 @@ static PlayThreeCardMonteRequestProto* defaultPlayThreeCardMonteRequestProtoInst
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasCardId {
-  return result.hasCardId;
+- (BOOL) hasMonteCard {
+  return result.hasMonteCard;
 }
-- (int32_t) cardId {
-  return result.cardId;
+- (MonteCard) monteCard {
+  return result.monteCard;
 }
-- (PlayThreeCardMonteRequestProto_Builder*) setCardId:(int32_t) value {
-  result.hasCardId = YES;
-  result.cardId = value;
+- (PlayThreeCardMonteRequestProto_Builder*) setMonteCard:(MonteCard) value {
+  result.hasMonteCard = YES;
+  result.monteCard = value;
   return self;
 }
-- (PlayThreeCardMonteRequestProto_Builder*) clearCardId {
-  result.hasCardId = NO;
-  result.cardId = 0;
+- (PlayThreeCardMonteRequestProto_Builder*) clearMonteCard {
+  result.hasMonteCard = NO;
+  result.monteCard = MonteCardBad;
+  return self;
+}
+- (BOOL) hasDiamondsGained {
+  return result.hasDiamondsGained;
+}
+- (int32_t) diamondsGained {
+  return result.diamondsGained;
+}
+- (PlayThreeCardMonteRequestProto_Builder*) setDiamondsGained:(int32_t) value {
+  result.hasDiamondsGained = YES;
+  result.diamondsGained = value;
+  return self;
+}
+- (PlayThreeCardMonteRequestProto_Builder*) clearDiamondsGained {
+  result.hasDiamondsGained = NO;
+  result.diamondsGained = 0;
+  return self;
+}
+- (BOOL) hasCoinsGained {
+  return result.hasCoinsGained;
+}
+- (int32_t) coinsGained {
+  return result.coinsGained;
+}
+- (PlayThreeCardMonteRequestProto_Builder*) setCoinsGained:(int32_t) value {
+  result.hasCoinsGained = YES;
+  result.coinsGained = value;
+  return self;
+}
+- (PlayThreeCardMonteRequestProto_Builder*) clearCoinsGained {
+  result.hasCoinsGained = NO;
+  result.coinsGained = 0;
+  return self;
+}
+- (BOOL) hasEquipGained {
+  return result.hasEquipGained;
+}
+- (FullEquipProto*) equipGained {
+  return result.equipGained;
+}
+- (PlayThreeCardMonteRequestProto_Builder*) setEquipGained:(FullEquipProto*) value {
+  result.hasEquipGained = YES;
+  result.equipGained = value;
+  return self;
+}
+- (PlayThreeCardMonteRequestProto_Builder*) setEquipGainedBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setEquipGained:[builderForValue build]];
+}
+- (PlayThreeCardMonteRequestProto_Builder*) mergeEquipGained:(FullEquipProto*) value {
+  if (result.hasEquipGained &&
+      result.equipGained != [FullEquipProto defaultInstance]) {
+    result.equipGained =
+      [[[FullEquipProto builderWithPrototype:result.equipGained] mergeFrom:value] buildPartial];
+  } else {
+    result.equipGained = value;
+  }
+  result.hasEquipGained = YES;
+  return self;
+}
+- (PlayThreeCardMonteRequestProto_Builder*) clearEquipGained {
+  result.hasEquipGained = NO;
+  result.equipGained = [FullEquipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasEquipLevel {
+  return result.hasEquipLevel;
+}
+- (int32_t) equipLevel {
+  return result.equipLevel;
+}
+- (PlayThreeCardMonteRequestProto_Builder*) setEquipLevel:(int32_t) value {
+  result.hasEquipLevel = YES;
+  result.equipLevel = value;
+  return self;
+}
+- (PlayThreeCardMonteRequestProto_Builder*) clearEquipLevel {
+  result.hasEquipLevel = NO;
+  result.equipLevel = 0;
   return self;
 }
 @end
@@ -54312,1023 +55040,6 @@ BOOL PlayThreeCardMonteResponseProto_PlayThreeCardMonteStatusIsValidValue(PlayTh
 - (PlayThreeCardMonteResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = PlayThreeCardMonteResponseProto_PlayThreeCardMonteStatusSuccess;
-  return self;
-}
-@end
-
-@interface BeginGoldmineTimerRequestProto ()
-@property (retain) MinimumUserProto* sender;
-@property BOOL reset;
-@property int64_t clientTime;
-@end
-
-@implementation BeginGoldmineTimerRequestProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value {
-  hasSender_ = !!value;
-}
-@synthesize sender;
-- (BOOL) hasReset {
-  return !!hasReset_;
-}
-- (void) setHasReset:(BOOL) value {
-  hasReset_ = !!value;
-}
-- (BOOL) reset {
-  return !!reset_;
-}
-- (void) setReset:(BOOL) value {
-  reset_ = !!value;
-}
-- (BOOL) hasClientTime {
-  return !!hasClientTime_;
-}
-- (void) setHasClientTime:(BOOL) value {
-  hasClientTime_ = !!value;
-}
-@synthesize clientTime;
-- (void) dealloc {
-  self.sender = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-    self.reset = NO;
-    self.clientTime = 0L;
-  }
-  return self;
-}
-static BeginGoldmineTimerRequestProto* defaultBeginGoldmineTimerRequestProtoInstance = nil;
-+ (void) initialize {
-  if (self == [BeginGoldmineTimerRequestProto class]) {
-    defaultBeginGoldmineTimerRequestProtoInstance = [[BeginGoldmineTimerRequestProto alloc] init];
-  }
-}
-+ (BeginGoldmineTimerRequestProto*) defaultInstance {
-  return defaultBeginGoldmineTimerRequestProtoInstance;
-}
-- (BeginGoldmineTimerRequestProto*) defaultInstance {
-  return defaultBeginGoldmineTimerRequestProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  if (self.hasReset) {
-    [output writeBool:2 value:self.reset];
-  }
-  if (self.hasClientTime) {
-    [output writeInt64:3 value:self.clientTime];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasSender) {
-    size += computeMessageSize(1, self.sender);
-  }
-  if (self.hasReset) {
-    size += computeBoolSize(2, self.reset);
-  }
-  if (self.hasClientTime) {
-    size += computeInt64Size(3, self.clientTime);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (BeginGoldmineTimerRequestProto*) parseFromData:(NSData*) data {
-  return (BeginGoldmineTimerRequestProto*)[[[BeginGoldmineTimerRequestProto builder] mergeFromData:data] build];
-}
-+ (BeginGoldmineTimerRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (BeginGoldmineTimerRequestProto*)[[[BeginGoldmineTimerRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (BeginGoldmineTimerRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (BeginGoldmineTimerRequestProto*)[[[BeginGoldmineTimerRequestProto builder] mergeFromInputStream:input] build];
-}
-+ (BeginGoldmineTimerRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (BeginGoldmineTimerRequestProto*)[[[BeginGoldmineTimerRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (BeginGoldmineTimerRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (BeginGoldmineTimerRequestProto*)[[[BeginGoldmineTimerRequestProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (BeginGoldmineTimerRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (BeginGoldmineTimerRequestProto*)[[[BeginGoldmineTimerRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (BeginGoldmineTimerRequestProto_Builder*) builder {
-  return [[[BeginGoldmineTimerRequestProto_Builder alloc] init] autorelease];
-}
-+ (BeginGoldmineTimerRequestProto_Builder*) builderWithPrototype:(BeginGoldmineTimerRequestProto*) prototype {
-  return [[BeginGoldmineTimerRequestProto builder] mergeFrom:prototype];
-}
-- (BeginGoldmineTimerRequestProto_Builder*) builder {
-  return [BeginGoldmineTimerRequestProto builder];
-}
-@end
-
-@interface BeginGoldmineTimerRequestProto_Builder()
-@property (retain) BeginGoldmineTimerRequestProto* result;
-@end
-
-@implementation BeginGoldmineTimerRequestProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[BeginGoldmineTimerRequestProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (BeginGoldmineTimerRequestProto_Builder*) clear {
-  self.result = [[[BeginGoldmineTimerRequestProto alloc] init] autorelease];
-  return self;
-}
-- (BeginGoldmineTimerRequestProto_Builder*) clone {
-  return [BeginGoldmineTimerRequestProto builderWithPrototype:result];
-}
-- (BeginGoldmineTimerRequestProto*) defaultInstance {
-  return [BeginGoldmineTimerRequestProto defaultInstance];
-}
-- (BeginGoldmineTimerRequestProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (BeginGoldmineTimerRequestProto*) buildPartial {
-  BeginGoldmineTimerRequestProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (BeginGoldmineTimerRequestProto_Builder*) mergeFrom:(BeginGoldmineTimerRequestProto*) other {
-  if (other == [BeginGoldmineTimerRequestProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  if (other.hasReset) {
-    [self setReset:other.reset];
-  }
-  if (other.hasClientTime) {
-    [self setClientTime:other.clientTime];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (BeginGoldmineTimerRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (BeginGoldmineTimerRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-      case 16: {
-        [self setReset:[input readBool]];
-        break;
-      }
-      case 24: {
-        [self setClientTime:[input readInt64]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (BeginGoldmineTimerRequestProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (BeginGoldmineTimerRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (BeginGoldmineTimerRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (BeginGoldmineTimerRequestProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasReset {
-  return result.hasReset;
-}
-- (BOOL) reset {
-  return result.reset;
-}
-- (BeginGoldmineTimerRequestProto_Builder*) setReset:(BOOL) value {
-  result.hasReset = YES;
-  result.reset = value;
-  return self;
-}
-- (BeginGoldmineTimerRequestProto_Builder*) clearReset {
-  result.hasReset = NO;
-  result.reset = NO;
-  return self;
-}
-- (BOOL) hasClientTime {
-  return result.hasClientTime;
-}
-- (int64_t) clientTime {
-  return result.clientTime;
-}
-- (BeginGoldmineTimerRequestProto_Builder*) setClientTime:(int64_t) value {
-  result.hasClientTime = YES;
-  result.clientTime = value;
-  return self;
-}
-- (BeginGoldmineTimerRequestProto_Builder*) clearClientTime {
-  result.hasClientTime = NO;
-  result.clientTime = 0L;
-  return self;
-}
-@end
-
-@interface BeginGoldmineTimerResponseProto ()
-@property (retain) MinimumUserProto* sender;
-@property BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatus status;
-@end
-
-@implementation BeginGoldmineTimerResponseProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value {
-  hasSender_ = !!value;
-}
-@synthesize sender;
-- (BOOL) hasStatus {
-  return !!hasStatus_;
-}
-- (void) setHasStatus:(BOOL) value {
-  hasStatus_ = !!value;
-}
-@synthesize status;
-- (void) dealloc {
-  self.sender = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-    self.status = BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusSuccess;
-  }
-  return self;
-}
-static BeginGoldmineTimerResponseProto* defaultBeginGoldmineTimerResponseProtoInstance = nil;
-+ (void) initialize {
-  if (self == [BeginGoldmineTimerResponseProto class]) {
-    defaultBeginGoldmineTimerResponseProtoInstance = [[BeginGoldmineTimerResponseProto alloc] init];
-  }
-}
-+ (BeginGoldmineTimerResponseProto*) defaultInstance {
-  return defaultBeginGoldmineTimerResponseProtoInstance;
-}
-- (BeginGoldmineTimerResponseProto*) defaultInstance {
-  return defaultBeginGoldmineTimerResponseProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  if (self.hasStatus) {
-    [output writeEnum:2 value:self.status];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasSender) {
-    size += computeMessageSize(1, self.sender);
-  }
-  if (self.hasStatus) {
-    size += computeEnumSize(2, self.status);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (BeginGoldmineTimerResponseProto*) parseFromData:(NSData*) data {
-  return (BeginGoldmineTimerResponseProto*)[[[BeginGoldmineTimerResponseProto builder] mergeFromData:data] build];
-}
-+ (BeginGoldmineTimerResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (BeginGoldmineTimerResponseProto*)[[[BeginGoldmineTimerResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (BeginGoldmineTimerResponseProto*) parseFromInputStream:(NSInputStream*) input {
-  return (BeginGoldmineTimerResponseProto*)[[[BeginGoldmineTimerResponseProto builder] mergeFromInputStream:input] build];
-}
-+ (BeginGoldmineTimerResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (BeginGoldmineTimerResponseProto*)[[[BeginGoldmineTimerResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (BeginGoldmineTimerResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (BeginGoldmineTimerResponseProto*)[[[BeginGoldmineTimerResponseProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (BeginGoldmineTimerResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (BeginGoldmineTimerResponseProto*)[[[BeginGoldmineTimerResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (BeginGoldmineTimerResponseProto_Builder*) builder {
-  return [[[BeginGoldmineTimerResponseProto_Builder alloc] init] autorelease];
-}
-+ (BeginGoldmineTimerResponseProto_Builder*) builderWithPrototype:(BeginGoldmineTimerResponseProto*) prototype {
-  return [[BeginGoldmineTimerResponseProto builder] mergeFrom:prototype];
-}
-- (BeginGoldmineTimerResponseProto_Builder*) builder {
-  return [BeginGoldmineTimerResponseProto builder];
-}
-@end
-
-BOOL BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusIsValidValue(BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatus value) {
-  switch (value) {
-    case BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusSuccess:
-    case BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusNotEnoughDiamonds:
-    case BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusStillCollecting:
-    case BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusOtherFail:
-    case BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusClientTooApartFromServerTime:
-      return YES;
-    default:
-      return NO;
-  }
-}
-@interface BeginGoldmineTimerResponseProto_Builder()
-@property (retain) BeginGoldmineTimerResponseProto* result;
-@end
-
-@implementation BeginGoldmineTimerResponseProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[BeginGoldmineTimerResponseProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (BeginGoldmineTimerResponseProto_Builder*) clear {
-  self.result = [[[BeginGoldmineTimerResponseProto alloc] init] autorelease];
-  return self;
-}
-- (BeginGoldmineTimerResponseProto_Builder*) clone {
-  return [BeginGoldmineTimerResponseProto builderWithPrototype:result];
-}
-- (BeginGoldmineTimerResponseProto*) defaultInstance {
-  return [BeginGoldmineTimerResponseProto defaultInstance];
-}
-- (BeginGoldmineTimerResponseProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (BeginGoldmineTimerResponseProto*) buildPartial {
-  BeginGoldmineTimerResponseProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (BeginGoldmineTimerResponseProto_Builder*) mergeFrom:(BeginGoldmineTimerResponseProto*) other {
-  if (other == [BeginGoldmineTimerResponseProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  if (other.hasStatus) {
-    [self setStatus:other.status];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (BeginGoldmineTimerResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (BeginGoldmineTimerResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-      case 16: {
-        int32_t value = [input readEnum];
-        if (BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusIsValidValue(value)) {
-          [self setStatus:value];
-        } else {
-          [unknownFields mergeVarintField:2 value:value];
-        }
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (BeginGoldmineTimerResponseProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (BeginGoldmineTimerResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (BeginGoldmineTimerResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (BeginGoldmineTimerResponseProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasStatus {
-  return result.hasStatus;
-}
-- (BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatus) status {
-  return result.status;
-}
-- (BeginGoldmineTimerResponseProto_Builder*) setStatus:(BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatus) value {
-  result.hasStatus = YES;
-  result.status = value;
-  return self;
-}
-- (BeginGoldmineTimerResponseProto_Builder*) clearStatus {
-  result.hasStatus = NO;
-  result.status = BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusSuccess;
-  return self;
-}
-@end
-
-@interface CollectFromGoldmineRequestProto ()
-@property (retain) MinimumUserProto* sender;
-@property int64_t clientTime;
-@end
-
-@implementation CollectFromGoldmineRequestProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value {
-  hasSender_ = !!value;
-}
-@synthesize sender;
-- (BOOL) hasClientTime {
-  return !!hasClientTime_;
-}
-- (void) setHasClientTime:(BOOL) value {
-  hasClientTime_ = !!value;
-}
-@synthesize clientTime;
-- (void) dealloc {
-  self.sender = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-    self.clientTime = 0L;
-  }
-  return self;
-}
-static CollectFromGoldmineRequestProto* defaultCollectFromGoldmineRequestProtoInstance = nil;
-+ (void) initialize {
-  if (self == [CollectFromGoldmineRequestProto class]) {
-    defaultCollectFromGoldmineRequestProtoInstance = [[CollectFromGoldmineRequestProto alloc] init];
-  }
-}
-+ (CollectFromGoldmineRequestProto*) defaultInstance {
-  return defaultCollectFromGoldmineRequestProtoInstance;
-}
-- (CollectFromGoldmineRequestProto*) defaultInstance {
-  return defaultCollectFromGoldmineRequestProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  if (self.hasClientTime) {
-    [output writeInt64:2 value:self.clientTime];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasSender) {
-    size += computeMessageSize(1, self.sender);
-  }
-  if (self.hasClientTime) {
-    size += computeInt64Size(2, self.clientTime);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (CollectFromGoldmineRequestProto*) parseFromData:(NSData*) data {
-  return (CollectFromGoldmineRequestProto*)[[[CollectFromGoldmineRequestProto builder] mergeFromData:data] build];
-}
-+ (CollectFromGoldmineRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CollectFromGoldmineRequestProto*)[[[CollectFromGoldmineRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (CollectFromGoldmineRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (CollectFromGoldmineRequestProto*)[[[CollectFromGoldmineRequestProto builder] mergeFromInputStream:input] build];
-}
-+ (CollectFromGoldmineRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CollectFromGoldmineRequestProto*)[[[CollectFromGoldmineRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (CollectFromGoldmineRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (CollectFromGoldmineRequestProto*)[[[CollectFromGoldmineRequestProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (CollectFromGoldmineRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CollectFromGoldmineRequestProto*)[[[CollectFromGoldmineRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (CollectFromGoldmineRequestProto_Builder*) builder {
-  return [[[CollectFromGoldmineRequestProto_Builder alloc] init] autorelease];
-}
-+ (CollectFromGoldmineRequestProto_Builder*) builderWithPrototype:(CollectFromGoldmineRequestProto*) prototype {
-  return [[CollectFromGoldmineRequestProto builder] mergeFrom:prototype];
-}
-- (CollectFromGoldmineRequestProto_Builder*) builder {
-  return [CollectFromGoldmineRequestProto builder];
-}
-@end
-
-@interface CollectFromGoldmineRequestProto_Builder()
-@property (retain) CollectFromGoldmineRequestProto* result;
-@end
-
-@implementation CollectFromGoldmineRequestProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[CollectFromGoldmineRequestProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (CollectFromGoldmineRequestProto_Builder*) clear {
-  self.result = [[[CollectFromGoldmineRequestProto alloc] init] autorelease];
-  return self;
-}
-- (CollectFromGoldmineRequestProto_Builder*) clone {
-  return [CollectFromGoldmineRequestProto builderWithPrototype:result];
-}
-- (CollectFromGoldmineRequestProto*) defaultInstance {
-  return [CollectFromGoldmineRequestProto defaultInstance];
-}
-- (CollectFromGoldmineRequestProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (CollectFromGoldmineRequestProto*) buildPartial {
-  CollectFromGoldmineRequestProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (CollectFromGoldmineRequestProto_Builder*) mergeFrom:(CollectFromGoldmineRequestProto*) other {
-  if (other == [CollectFromGoldmineRequestProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  if (other.hasClientTime) {
-    [self setClientTime:other.clientTime];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (CollectFromGoldmineRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (CollectFromGoldmineRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-      case 16: {
-        [self setClientTime:[input readInt64]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (CollectFromGoldmineRequestProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (CollectFromGoldmineRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (CollectFromGoldmineRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (CollectFromGoldmineRequestProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasClientTime {
-  return result.hasClientTime;
-}
-- (int64_t) clientTime {
-  return result.clientTime;
-}
-- (CollectFromGoldmineRequestProto_Builder*) setClientTime:(int64_t) value {
-  result.hasClientTime = YES;
-  result.clientTime = value;
-  return self;
-}
-- (CollectFromGoldmineRequestProto_Builder*) clearClientTime {
-  result.hasClientTime = NO;
-  result.clientTime = 0L;
-  return self;
-}
-@end
-
-@interface CollectFromGoldmineResponseProto ()
-@property (retain) MinimumUserProto* sender;
-@property CollectFromGoldmineResponseProto_CollectFromGoldmineStatus status;
-@end
-
-@implementation CollectFromGoldmineResponseProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value {
-  hasSender_ = !!value;
-}
-@synthesize sender;
-- (BOOL) hasStatus {
-  return !!hasStatus_;
-}
-- (void) setHasStatus:(BOOL) value {
-  hasStatus_ = !!value;
-}
-@synthesize status;
-- (void) dealloc {
-  self.sender = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-    self.status = CollectFromGoldmineResponseProto_CollectFromGoldmineStatusSuccess;
-  }
-  return self;
-}
-static CollectFromGoldmineResponseProto* defaultCollectFromGoldmineResponseProtoInstance = nil;
-+ (void) initialize {
-  if (self == [CollectFromGoldmineResponseProto class]) {
-    defaultCollectFromGoldmineResponseProtoInstance = [[CollectFromGoldmineResponseProto alloc] init];
-  }
-}
-+ (CollectFromGoldmineResponseProto*) defaultInstance {
-  return defaultCollectFromGoldmineResponseProtoInstance;
-}
-- (CollectFromGoldmineResponseProto*) defaultInstance {
-  return defaultCollectFromGoldmineResponseProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  if (self.hasStatus) {
-    [output writeEnum:3 value:self.status];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasSender) {
-    size += computeMessageSize(1, self.sender);
-  }
-  if (self.hasStatus) {
-    size += computeEnumSize(3, self.status);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (CollectFromGoldmineResponseProto*) parseFromData:(NSData*) data {
-  return (CollectFromGoldmineResponseProto*)[[[CollectFromGoldmineResponseProto builder] mergeFromData:data] build];
-}
-+ (CollectFromGoldmineResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CollectFromGoldmineResponseProto*)[[[CollectFromGoldmineResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (CollectFromGoldmineResponseProto*) parseFromInputStream:(NSInputStream*) input {
-  return (CollectFromGoldmineResponseProto*)[[[CollectFromGoldmineResponseProto builder] mergeFromInputStream:input] build];
-}
-+ (CollectFromGoldmineResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CollectFromGoldmineResponseProto*)[[[CollectFromGoldmineResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (CollectFromGoldmineResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (CollectFromGoldmineResponseProto*)[[[CollectFromGoldmineResponseProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (CollectFromGoldmineResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CollectFromGoldmineResponseProto*)[[[CollectFromGoldmineResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (CollectFromGoldmineResponseProto_Builder*) builder {
-  return [[[CollectFromGoldmineResponseProto_Builder alloc] init] autorelease];
-}
-+ (CollectFromGoldmineResponseProto_Builder*) builderWithPrototype:(CollectFromGoldmineResponseProto*) prototype {
-  return [[CollectFromGoldmineResponseProto builder] mergeFrom:prototype];
-}
-- (CollectFromGoldmineResponseProto_Builder*) builder {
-  return [CollectFromGoldmineResponseProto builder];
-}
-@end
-
-BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(CollectFromGoldmineResponseProto_CollectFromGoldmineStatus value) {
-  switch (value) {
-    case CollectFromGoldmineResponseProto_CollectFromGoldmineStatusSuccess:
-    case CollectFromGoldmineResponseProto_CollectFromGoldmineStatusNotYetStarted:
-    case CollectFromGoldmineResponseProto_CollectFromGoldmineStatusStillCollecting:
-    case CollectFromGoldmineResponseProto_CollectFromGoldmineStatusOtherFail:
-    case CollectFromGoldmineResponseProto_CollectFromGoldmineStatusClientTooApartFromServerTime:
-      return YES;
-    default:
-      return NO;
-  }
-}
-@interface CollectFromGoldmineResponseProto_Builder()
-@property (retain) CollectFromGoldmineResponseProto* result;
-@end
-
-@implementation CollectFromGoldmineResponseProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[CollectFromGoldmineResponseProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (CollectFromGoldmineResponseProto_Builder*) clear {
-  self.result = [[[CollectFromGoldmineResponseProto alloc] init] autorelease];
-  return self;
-}
-- (CollectFromGoldmineResponseProto_Builder*) clone {
-  return [CollectFromGoldmineResponseProto builderWithPrototype:result];
-}
-- (CollectFromGoldmineResponseProto*) defaultInstance {
-  return [CollectFromGoldmineResponseProto defaultInstance];
-}
-- (CollectFromGoldmineResponseProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (CollectFromGoldmineResponseProto*) buildPartial {
-  CollectFromGoldmineResponseProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (CollectFromGoldmineResponseProto_Builder*) mergeFrom:(CollectFromGoldmineResponseProto*) other {
-  if (other == [CollectFromGoldmineResponseProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  if (other.hasStatus) {
-    [self setStatus:other.status];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (CollectFromGoldmineResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (CollectFromGoldmineResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-      case 24: {
-        int32_t value = [input readEnum];
-        if (CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(value)) {
-          [self setStatus:value];
-        } else {
-          [unknownFields mergeVarintField:3 value:value];
-        }
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (CollectFromGoldmineResponseProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (CollectFromGoldmineResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (CollectFromGoldmineResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (CollectFromGoldmineResponseProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasStatus {
-  return result.hasStatus;
-}
-- (CollectFromGoldmineResponseProto_CollectFromGoldmineStatus) status {
-  return result.status;
-}
-- (CollectFromGoldmineResponseProto_Builder*) setStatus:(CollectFromGoldmineResponseProto_CollectFromGoldmineStatus) value {
-  result.hasStatus = YES;
-  result.status = value;
-  return self;
-}
-- (CollectFromGoldmineResponseProto_Builder*) clearStatus {
-  result.hasStatus = NO;
-  result.status = CollectFromGoldmineResponseProto_CollectFromGoldmineStatusSuccess;
   return self;
 }
 @end

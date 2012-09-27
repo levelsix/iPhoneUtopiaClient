@@ -56,11 +56,10 @@ enum GroupChatScope {
 	CLAN = 3;
 }
 
-message MonteCardProto {
-     optional int32 diamondsGained = 2;
-     optional FullEquipProto equip = 3;
-     optional int32 equipLevel = 4;
-     optional int32 coinsGained = 5;
+enum MonteCard {
+	BAD = 0;
+	MEDIUM = 1;
+	GOOD = 2;
 }	
 
 //------------------------------------------------------------------------------------------
@@ -206,7 +205,6 @@ message FullUserProto {
 	optional int32 numAdColonyVideosWatched = 51;
 	optional int32 numGroupChatsRemaining = 54;
 	optional MinimumClanProto clan = 55;
-	optional int64 lastGoldmineRetrieval = 56;
 
 	//CreateInfoProtoUtils.java doesn't set these (I can't think of a time the client would need this
 	//consider making other fields like this

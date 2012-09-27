@@ -39,6 +39,16 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value) {
       return NO;
   }
 }
+BOOL MonteCardIsValidValue(MonteCard value) {
+  switch (value) {
+    case MonteCardBad:
+    case MonteCardMedium:
+    case MonteCardGood:
+      return YES;
+    default:
+      return NO;
+  }
+}
 BOOL LeaderboardTypeIsValidValue(LeaderboardType value) {
   switch (value) {
     case LeaderboardTypeMostBattlesWon:
@@ -1597,317 +1607,6 @@ static MinimumUserProtoWithBattleHistory* defaultMinimumUserProtoWithBattleHisto
 - (MinimumUserProtoWithBattleHistory_Builder*) clearBattlesFled {
   result.hasBattlesFled = NO;
   result.battlesFled = 0;
-  return self;
-}
-@end
-
-@interface MonteCardProto ()
-@property int32_t diamondsGained;
-@property (retain) FullEquipProto* equip;
-@property int32_t equipLevel;
-@property int32_t coinsGained;
-@end
-
-@implementation MonteCardProto
-
-- (BOOL) hasDiamondsGained {
-  return !!hasDiamondsGained_;
-}
-- (void) setHasDiamondsGained:(BOOL) value {
-  hasDiamondsGained_ = !!value;
-}
-@synthesize diamondsGained;
-- (BOOL) hasEquip {
-  return !!hasEquip_;
-}
-- (void) setHasEquip:(BOOL) value {
-  hasEquip_ = !!value;
-}
-@synthesize equip;
-- (BOOL) hasEquipLevel {
-  return !!hasEquipLevel_;
-}
-- (void) setHasEquipLevel:(BOOL) value {
-  hasEquipLevel_ = !!value;
-}
-@synthesize equipLevel;
-- (BOOL) hasCoinsGained {
-  return !!hasCoinsGained_;
-}
-- (void) setHasCoinsGained:(BOOL) value {
-  hasCoinsGained_ = !!value;
-}
-@synthesize coinsGained;
-- (void) dealloc {
-  self.equip = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.diamondsGained = 0;
-    self.equip = [FullEquipProto defaultInstance];
-    self.equipLevel = 0;
-    self.coinsGained = 0;
-  }
-  return self;
-}
-static MonteCardProto* defaultMonteCardProtoInstance = nil;
-+ (void) initialize {
-  if (self == [MonteCardProto class]) {
-    defaultMonteCardProtoInstance = [[MonteCardProto alloc] init];
-  }
-}
-+ (MonteCardProto*) defaultInstance {
-  return defaultMonteCardProtoInstance;
-}
-- (MonteCardProto*) defaultInstance {
-  return defaultMonteCardProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasDiamondsGained) {
-    [output writeInt32:2 value:self.diamondsGained];
-  }
-  if (self.hasEquip) {
-    [output writeMessage:3 value:self.equip];
-  }
-  if (self.hasEquipLevel) {
-    [output writeInt32:4 value:self.equipLevel];
-  }
-  if (self.hasCoinsGained) {
-    [output writeInt32:5 value:self.coinsGained];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasDiamondsGained) {
-    size += computeInt32Size(2, self.diamondsGained);
-  }
-  if (self.hasEquip) {
-    size += computeMessageSize(3, self.equip);
-  }
-  if (self.hasEquipLevel) {
-    size += computeInt32Size(4, self.equipLevel);
-  }
-  if (self.hasCoinsGained) {
-    size += computeInt32Size(5, self.coinsGained);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (MonteCardProto*) parseFromData:(NSData*) data {
-  return (MonteCardProto*)[[[MonteCardProto builder] mergeFromData:data] build];
-}
-+ (MonteCardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MonteCardProto*)[[[MonteCardProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (MonteCardProto*) parseFromInputStream:(NSInputStream*) input {
-  return (MonteCardProto*)[[[MonteCardProto builder] mergeFromInputStream:input] build];
-}
-+ (MonteCardProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MonteCardProto*)[[[MonteCardProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (MonteCardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (MonteCardProto*)[[[MonteCardProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (MonteCardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MonteCardProto*)[[[MonteCardProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (MonteCardProto_Builder*) builder {
-  return [[[MonteCardProto_Builder alloc] init] autorelease];
-}
-+ (MonteCardProto_Builder*) builderWithPrototype:(MonteCardProto*) prototype {
-  return [[MonteCardProto builder] mergeFrom:prototype];
-}
-- (MonteCardProto_Builder*) builder {
-  return [MonteCardProto builder];
-}
-@end
-
-@interface MonteCardProto_Builder()
-@property (retain) MonteCardProto* result;
-@end
-
-@implementation MonteCardProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[MonteCardProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (MonteCardProto_Builder*) clear {
-  self.result = [[[MonteCardProto alloc] init] autorelease];
-  return self;
-}
-- (MonteCardProto_Builder*) clone {
-  return [MonteCardProto builderWithPrototype:result];
-}
-- (MonteCardProto*) defaultInstance {
-  return [MonteCardProto defaultInstance];
-}
-- (MonteCardProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (MonteCardProto*) buildPartial {
-  MonteCardProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (MonteCardProto_Builder*) mergeFrom:(MonteCardProto*) other {
-  if (other == [MonteCardProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasDiamondsGained) {
-    [self setDiamondsGained:other.diamondsGained];
-  }
-  if (other.hasEquip) {
-    [self mergeEquip:other.equip];
-  }
-  if (other.hasEquipLevel) {
-    [self setEquipLevel:other.equipLevel];
-  }
-  if (other.hasCoinsGained) {
-    [self setCoinsGained:other.coinsGained];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (MonteCardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (MonteCardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 16: {
-        [self setDiamondsGained:[input readInt32]];
-        break;
-      }
-      case 26: {
-        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
-        if (self.hasEquip) {
-          [subBuilder mergeFrom:self.equip];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setEquip:[subBuilder buildPartial]];
-        break;
-      }
-      case 32: {
-        [self setEquipLevel:[input readInt32]];
-        break;
-      }
-      case 40: {
-        [self setCoinsGained:[input readInt32]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasDiamondsGained {
-  return result.hasDiamondsGained;
-}
-- (int32_t) diamondsGained {
-  return result.diamondsGained;
-}
-- (MonteCardProto_Builder*) setDiamondsGained:(int32_t) value {
-  result.hasDiamondsGained = YES;
-  result.diamondsGained = value;
-  return self;
-}
-- (MonteCardProto_Builder*) clearDiamondsGained {
-  result.hasDiamondsGained = NO;
-  result.diamondsGained = 0;
-  return self;
-}
-- (BOOL) hasEquip {
-  return result.hasEquip;
-}
-- (FullEquipProto*) equip {
-  return result.equip;
-}
-- (MonteCardProto_Builder*) setEquip:(FullEquipProto*) value {
-  result.hasEquip = YES;
-  result.equip = value;
-  return self;
-}
-- (MonteCardProto_Builder*) setEquipBuilder:(FullEquipProto_Builder*) builderForValue {
-  return [self setEquip:[builderForValue build]];
-}
-- (MonteCardProto_Builder*) mergeEquip:(FullEquipProto*) value {
-  if (result.hasEquip &&
-      result.equip != [FullEquipProto defaultInstance]) {
-    result.equip =
-      [[[FullEquipProto builderWithPrototype:result.equip] mergeFrom:value] buildPartial];
-  } else {
-    result.equip = value;
-  }
-  result.hasEquip = YES;
-  return self;
-}
-- (MonteCardProto_Builder*) clearEquip {
-  result.hasEquip = NO;
-  result.equip = [FullEquipProto defaultInstance];
-  return self;
-}
-- (BOOL) hasEquipLevel {
-  return result.hasEquipLevel;
-}
-- (int32_t) equipLevel {
-  return result.equipLevel;
-}
-- (MonteCardProto_Builder*) setEquipLevel:(int32_t) value {
-  result.hasEquipLevel = YES;
-  result.equipLevel = value;
-  return self;
-}
-- (MonteCardProto_Builder*) clearEquipLevel {
-  result.hasEquipLevel = NO;
-  result.equipLevel = 0;
-  return self;
-}
-- (BOOL) hasCoinsGained {
-  return result.hasCoinsGained;
-}
-- (int32_t) coinsGained {
-  return result.coinsGained;
-}
-- (MonteCardProto_Builder*) setCoinsGained:(int32_t) value {
-  result.hasCoinsGained = YES;
-  result.coinsGained = value;
-  return self;
-}
-- (MonteCardProto_Builder*) clearCoinsGained {
-  result.hasCoinsGained = NO;
-  result.coinsGained = 0;
   return self;
 }
 @end
@@ -3706,7 +3405,6 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 @property int32_t numAdColonyVideosWatched;
 @property int32_t numGroupChatsRemaining;
 @property (retain) MinimumClanProto* clan;
-@property int64_t lastGoldmineRetrieval;
 @property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -4017,13 +3715,6 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   hasClan_ = !!value;
 }
 @synthesize clan;
-- (BOOL) hasLastGoldmineRetrieval {
-  return !!hasLastGoldmineRetrieval_;
-}
-- (void) setHasLastGoldmineRetrieval:(BOOL) value {
-  hasLastGoldmineRetrieval_ = !!value;
-}
-@synthesize lastGoldmineRetrieval;
 - (BOOL) hasUdid {
   return !!hasUdid_;
 }
@@ -4142,7 +3833,6 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
     self.numAdColonyVideosWatched = 0;
     self.numGroupChatsRemaining = 0;
     self.clan = [MinimumClanProto defaultInstance];
-    self.lastGoldmineRetrieval = 0L;
     self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -4321,9 +4011,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasClan) {
     [output writeMessage:55 value:self.clan];
   }
-  if (self.hasLastGoldmineRetrieval) {
-    [output writeInt64:56 value:self.lastGoldmineRetrieval];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -4482,9 +4169,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasClan) {
     size += computeMessageSize(55, self.clan);
-  }
-  if (self.hasLastGoldmineRetrieval) {
-    size += computeInt64Size(56, self.lastGoldmineRetrieval);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4683,9 +4367,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasClan) {
     [self mergeClan:other.clan];
-  }
-  if (other.hasLastGoldmineRetrieval) {
-    [self setLastGoldmineRetrieval:other.lastGoldmineRetrieval];
   }
   if (other.hasUdid) {
     [self setUdid:other.udid];
@@ -4963,10 +4644,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setClan:[subBuilder buildPartial]];
-        break;
-      }
-      case 448: {
-        [self setLastGoldmineRetrieval:[input readInt64]];
         break;
       }
     }
@@ -5696,22 +5373,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearClan {
   result.hasClan = NO;
   result.clan = [MinimumClanProto defaultInstance];
-  return self;
-}
-- (BOOL) hasLastGoldmineRetrieval {
-  return result.hasLastGoldmineRetrieval;
-}
-- (int64_t) lastGoldmineRetrieval {
-  return result.lastGoldmineRetrieval;
-}
-- (FullUserProto_Builder*) setLastGoldmineRetrieval:(int64_t) value {
-  result.hasLastGoldmineRetrieval = YES;
-  result.lastGoldmineRetrieval = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearLastGoldmineRetrieval {
-  result.hasLastGoldmineRetrieval = NO;
-  result.lastGoldmineRetrieval = 0L;
   return self;
 }
 - (BOOL) hasUdid {
