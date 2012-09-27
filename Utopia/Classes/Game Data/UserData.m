@@ -243,6 +243,7 @@
     BazaarMap *bm = [BazaarMap sharedBazaarMap];
     CritStructBuilding *csb = (CritStructBuilding *)[bm getChildByTag:self.type];
     [bm addGoldDrop:1 fromSprite:csb];
+    csb.retrievable = NO;
   } else {
     [self.goldMineView displayForCurrentState];
   }

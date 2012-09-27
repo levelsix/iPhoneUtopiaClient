@@ -410,6 +410,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   [gl updateConstants:proto.startupConstants];
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
+    [[SocketCommunication sharedSocketCommunication] sendRetrieveThreeCardMonteMessage];
+    
     // Update user before creating map
     [gs updateUser:proto.sender timestamp:0];
     [gs setPlayerHasBoughtInAppPurchase:proto.playerHasBoughtInAppPurchase];
@@ -1868,7 +1870,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve three card monte response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo) {
+  if (proto.status == RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatusSuccess) {
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

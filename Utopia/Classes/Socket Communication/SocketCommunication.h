@@ -120,4 +120,6 @@
 - (int) sendBeginGoldmineTimerMessage:(uint64_t)clientTime reset:(BOOL)reset;
 - (int) sendCollectFromGoldmineMessage:(uint64_t)clientTime;
 
+- (int) sendRetrieveThreeCardMonteMessage;
+
 @end

@@ -307,9 +307,9 @@
   [ss runAction:[CCSequence actions:
                  [CCSpawn actions:
                   [CCEaseSineIn actionWithAction:
-                   [CCMoveToCustom actionWithDuration:0.5 position:ccp(ss.position.x,250)]],
+                   [CCMoveToCustom actionWithDuration:0.5 position:ccp(ss.position.x,292)]],
                   [CCEaseSineOut actionWithAction:
-                   [CCMoveToCustom actionWithDuration:0.5 position:ccp(352,ss.position.y)]],
+                   [CCMoveToCustom actionWithDuration:0.5 position:ccp(420,ss.position.y)]],
                   [CCScaleTo actionWithDuration:0.5 scale:0.5],
                   nil],
                  [CCCallBlock actionWithBlock:^{[ss removeFromParentAndCleanup:YES];}],

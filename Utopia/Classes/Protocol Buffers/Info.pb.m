@@ -1602,6 +1602,7 @@ static MinimumUserProtoWithBattleHistory* defaultMinimumUserProtoWithBattleHisto
 @end
 
 @interface MonteCardProto ()
+@property int32_t cardId;
 @property int32_t diamondsGained;
 @property (retain) FullEquipProto* equip;
 @property int32_t equipLevel;
@@ -1610,6 +1611,13 @@ static MinimumUserProtoWithBattleHistory* defaultMinimumUserProtoWithBattleHisto
 
 @implementation MonteCardProto
 
+- (BOOL) hasCardId {
+  return !!hasCardId_;
+}
+- (void) setHasCardId:(BOOL) value {
+  hasCardId_ = !!value;
+}
+@synthesize cardId;
 - (BOOL) hasDiamondsGained {
   return !!hasDiamondsGained_;
 }
@@ -1644,6 +1652,7 @@ static MinimumUserProtoWithBattleHistory* defaultMinimumUserProtoWithBattleHisto
 }
 - (id) init {
   if ((self = [super init])) {
+    self.cardId = 0;
     self.diamondsGained = 0;
     self.equip = [FullEquipProto defaultInstance];
     self.equipLevel = 0;
@@ -1667,6 +1676,9 @@ static MonteCardProto* defaultMonteCardProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasCardId) {
+    [output writeInt32:1 value:self.cardId];
+  }
   if (self.hasDiamondsGained) {
     [output writeInt32:2 value:self.diamondsGained];
   }
@@ -1688,6 +1700,9 @@ static MonteCardProto* defaultMonteCardProtoInstance = nil;
   }
 
   size = 0;
+  if (self.hasCardId) {
+    size += computeInt32Size(1, self.cardId);
+  }
   if (self.hasDiamondsGained) {
     size += computeInt32Size(2, self.diamondsGained);
   }
@@ -1775,6 +1790,9 @@ static MonteCardProto* defaultMonteCardProtoInstance = nil;
   if (other == [MonteCardProto defaultInstance]) {
     return self;
   }
+  if (other.hasCardId) {
+    [self setCardId:other.cardId];
+  }
   if (other.hasDiamondsGained) {
     [self setDiamondsGained:other.diamondsGained];
   }
@@ -1808,6 +1826,10 @@ static MonteCardProto* defaultMonteCardProtoInstance = nil;
         }
         break;
       }
+      case 8: {
+        [self setCardId:[input readInt32]];
+        break;
+      }
       case 16: {
         [self setDiamondsGained:[input readInt32]];
         break;
@@ -1831,6 +1853,22 @@ static MonteCardProto* defaultMonteCardProtoInstance = nil;
       }
     }
   }
+}
+- (BOOL) hasCardId {
+  return result.hasCardId;
+}
+- (int32_t) cardId {
+  return result.cardId;
+}
+- (MonteCardProto_Builder*) setCardId:(int32_t) value {
+  result.hasCardId = YES;
+  result.cardId = value;
+  return self;
+}
+- (MonteCardProto_Builder*) clearCardId {
+  result.hasCardId = NO;
+  result.cardId = 0;
+  return self;
 }
 - (BOOL) hasDiamondsGained {
   return result.hasDiamondsGained;

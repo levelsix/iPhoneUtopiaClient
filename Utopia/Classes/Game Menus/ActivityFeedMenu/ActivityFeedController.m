@@ -170,9 +170,8 @@
 }
 
 - (IBAction)profilePicClicked:(id)sender {
-  if (self.notification.type == kNotificationForge) {
-    [ForgeMenuController displayView];
-    [[ActivityFeedController sharedActivityFeedController] close];
+  if (notification.type == kNotificationForge || notification.type == kNotificationGoldmine) {
+    [self buttonClicked:nil];
   } else {
     NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];
     

@@ -641,19 +641,23 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface MonteCardProto : PBGeneratedMessage {
 @private
+  BOOL hasCardId_:1;
   BOOL hasDiamondsGained_:1;
   BOOL hasEquipLevel_:1;
   BOOL hasCoinsGained_:1;
   BOOL hasEquip_:1;
+  int32_t cardId;
   int32_t diamondsGained;
   int32_t equipLevel;
   int32_t coinsGained;
   FullEquipProto* equip;
 }
+- (BOOL) hasCardId;
 - (BOOL) hasDiamondsGained;
 - (BOOL) hasEquip;
 - (BOOL) hasEquipLevel;
 - (BOOL) hasCoinsGained;
+@property (readonly) int32_t cardId;
 @property (readonly) int32_t diamondsGained;
 @property (readonly, retain) FullEquipProto* equip;
 @property (readonly) int32_t equipLevel;
@@ -692,6 +696,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (MonteCardProto_Builder*) mergeFrom:(MonteCardProto*) other;
 - (MonteCardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (MonteCardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasCardId;
+- (int32_t) cardId;
+- (MonteCardProto_Builder*) setCardId:(int32_t) value;
+- (MonteCardProto_Builder*) clearCardId;
 
 - (BOOL) hasDiamondsGained;
 - (int32_t) diamondsGained;

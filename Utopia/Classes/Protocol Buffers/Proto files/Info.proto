@@ -57,6 +57,7 @@ enum GroupChatScope {
 }
 
 message MonteCardProto {
+	optional int32 cardId = 1;
      optional int32 diamondsGained = 2;
      optional FullEquipProto equip = 3;
      optional int32 equipLevel = 4;
