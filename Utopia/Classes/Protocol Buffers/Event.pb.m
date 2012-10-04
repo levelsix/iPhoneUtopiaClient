@@ -24395,7 +24395,7 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
 @property int32_t minForgeLevel;
 @property int32_t maxForgeLevel;
 @property RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder sortOrder;
-@property (retain) NSString* specificEquipId;
+@property int32_t specificEquipId;
 @end
 
 @implementation RetrieveCurrentMarketplacePostsRequestProto
@@ -24549,7 +24549,6 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
 @synthesize specificEquipId;
 - (void) dealloc {
   self.sender = nil;
-  self.specificEquipId = nil;
   [super dealloc];
 }
 - (id) init {
@@ -24569,7 +24568,7 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
     self.minForgeLevel = 0;
     self.maxForgeLevel = 0;
     self.sortOrder = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderMostRecentPosts;
-    self.specificEquipId = @"";
+    self.specificEquipId = 0;
   }
   return self;
 }
@@ -24635,7 +24634,7 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
     [output writeEnum:15 value:self.sortOrder];
   }
   if (self.hasSpecificEquipId) {
-    [output writeString:16 value:self.specificEquipId];
+    [output writeInt32:16 value:self.specificEquipId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -24692,7 +24691,7 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
     size += computeEnumSize(15, self.sortOrder);
   }
   if (self.hasSpecificEquipId) {
-    size += computeStringSize(16, self.specificEquipId);
+    size += computeInt32Size(16, self.specificEquipId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -24937,8 +24936,8 @@ BOOL RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePosts
         }
         break;
       }
-      case 130: {
-        [self setSpecificEquipId:[input readString]];
+      case 128: {
+        [self setSpecificEquipId:[input readInt32]];
         break;
       }
     }
@@ -25201,17 +25200,17 @@ BOOL RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePosts
 - (BOOL) hasSpecificEquipId {
   return result.hasSpecificEquipId;
 }
-- (NSString*) specificEquipId {
+- (int32_t) specificEquipId {
   return result.specificEquipId;
 }
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSpecificEquipId:(NSString*) value {
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSpecificEquipId:(int32_t) value {
   result.hasSpecificEquipId = YES;
   result.specificEquipId = value;
   return self;
 }
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSpecificEquipId {
   result.hasSpecificEquipId = NO;
-  result.specificEquipId = @"";
+  result.specificEquipId = 0;
   return self;
 }
 @end

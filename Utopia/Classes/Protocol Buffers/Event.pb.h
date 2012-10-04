@@ -6828,7 +6828,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   int32_t maxEquipLevel;
   int32_t minForgeLevel;
   int32_t maxForgeLevel;
-  NSString* specificEquipId;
+  int32_t specificEquipId;
   MinimumUserProto* sender;
   RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter filter;
   RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder sortOrder;
@@ -6864,7 +6864,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 @property (readonly) int32_t minForgeLevel;
 @property (readonly) int32_t maxForgeLevel;
 @property (readonly) RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder sortOrder;
-@property (readonly, retain) NSString* specificEquipId;
+@property (readonly) int32_t specificEquipId;
 
 + (RetrieveCurrentMarketplacePostsRequestProto*) defaultInstance;
 - (RetrieveCurrentMarketplacePostsRequestProto*) defaultInstance;
@@ -6978,8 +6978,8 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSortOrder;
 
 - (BOOL) hasSpecificEquipId;
-- (NSString*) specificEquipId;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSpecificEquipId:(NSString*) value;
+- (int32_t) specificEquipId;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSpecificEquipId:(int32_t) value;
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSpecificEquipId;
 @end
 

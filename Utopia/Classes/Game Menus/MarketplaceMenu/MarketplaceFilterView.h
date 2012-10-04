@@ -10,6 +10,15 @@
 #import "NibUtils.h"
 #import "Protocols.pb.h"
 
+#define FILTER_BAR_USER_DEFAULTS_KEY @"FilterBarButtonMarketplace"
+#define RARITY_BAR_USER_DEFAULTS_KEY @"RarityBarButtonMarketplace"
+#define SWITCH_BUTTON_USER_DEFAULTS_KEY @"SwitchButtonMarketplace"
+#define EQUIP_LEVEL_MIN_USER_DEFAULTS_KEY @"EquipLevelMinMarketplace"
+#define EQUIP_LEVEL_MAX_USER_DEFAULTS_KEY @"EquipLevelMaxMarketplace"
+#define FORGE_LEVEL_MIN_USER_DEFAULTS_KEY @"ForgeLevelMinMarketplace"
+#define FORGE_LEVEL_MAX_USER_DEFAULTS_KEY @"ForgeLevelMaxMarketplace"
+#define SORT_ORDER_USER_DEFAULTS_KEY @"SortOrderMarketplace"
+
 @class SliderPin;
 
 typedef enum {

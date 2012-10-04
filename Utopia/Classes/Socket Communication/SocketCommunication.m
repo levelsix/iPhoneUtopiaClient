@@ -314,9 +314,33 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCInAppPurchaseEvent];
 }
 
-- (int) sendRetrieveCurrentMarketplacePostsMessageBeforePostId:(int)postId fromSender:(BOOL)fromSender{
-  RetrieveCurrentMarketplacePostsRequestProto_Builder *bldr = [[[RetrieveCurrentMarketplacePostsRequestProto builder] setSender:_sender] setFromSender:fromSender];
+- (int) sendRetrieveCurrentMarketplacePostsMessageWithCurNumEntries:(int)curNumEntries filter:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter)filter commonEquips:(BOOL)commonEquips uncommonEquips:(BOOL)uncommonEquips rareEquips:(BOOL)rareEquips epicEquips:(BOOL)epicEquips legendaryEquips:(BOOL)legendaryEquips myClassOnly:(BOOL)myClassOnly minEquipLevel:(int)minEquipLevel maxEquipLevel:(int)maxEquipLevel minForgeLevel:(int)minForgeLevel maxForgeLevel:(int)maxForgeLevel sortOrder:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder)sortOrder specificEquipId:(int)specificEquipId {
+  RetrieveCurrentMarketplacePostsRequestProto_Builder *bldr = [[RetrieveCurrentMarketplacePostsRequestProto builder] setSender:_sender];
   
+  bldr.currentNumOfEntries = curNumEntries;
+  bldr.filter = filter;
+  bldr.commonEquips = commonEquips;
+  bldr.uncommonEquips = uncommonEquips;
+  bldr.rareEquips = rareEquips;
+  bldr.epicEquips = epicEquips;
+  bldr.legendaryEquips = legendaryEquips;
+  bldr.myClassOnly = myClassOnly;
+  bldr.minEquipLevel = minEquipLevel;
+  bldr.maxEquipLevel = maxEquipLevel;
+  bldr.minForgeLevel = minForgeLevel;
+  bldr.maxForgeLevel = maxForgeLevel;
+  bldr.sortOrder = sortOrder;
+  if (specificEquipId > 0) bldr.specificEquipId = specificEquipId;
+  
+  RetrieveCurrentMarketplacePostsRequestProto *req = bldr.build;
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent];
+}
+
+- (int) sendRetrieveCurrentMarketplacePostsMessageFromSenderWithCurNumEntries:(int)curNumEntries {
+  RetrieveCurrentMarketplacePostsRequestProto_Builder *bldr = [[RetrieveCurrentMarketplacePostsRequestProto builder] setSender:_sender];
+  
+  bldr.fromSender = YES;
+  bldr.currentNumOfEntries = curNumEntries;
   
   RetrieveCurrentMarketplacePostsRequestProto *req = bldr.build;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent];

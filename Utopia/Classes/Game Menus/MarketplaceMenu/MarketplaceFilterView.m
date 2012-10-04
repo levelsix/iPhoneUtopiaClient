@@ -178,8 +178,6 @@
       [self unclickButton:kAmuButton];
       [self unclickButton:kArmButton];
       [self unclickButton:kAllButton];
-      
-      [[MarketplaceViewController sharedMarketplaceViewController] setCurrentFilter:kWeaponFilter2];
     } else {
       [self unclickButton:kWeapButton];
     }
@@ -192,8 +190,6 @@
       [self unclickButton:kAmuButton];
       [self unclickButton:kWeapButton];
       [self unclickButton:kAllButton];
-      
-      [[MarketplaceViewController sharedMarketplaceViewController] setCurrentFilter:kArmorFilter2];
     } else {
       [self unclickButton:kArmButton];
     } 
@@ -206,8 +202,6 @@
       [self unclickButton:kArmButton];
       [self unclickButton:kWeapButton];
       [self unclickButton:kAllButton];
-      
-      [[MarketplaceViewController sharedMarketplaceViewController] setCurrentFilter:kAmuletFilter2];
     } else {
       [self unclickButton:kAmuButton];
     } 
@@ -220,8 +214,6 @@
       [self unclickButton:kAmuButton];
       [self unclickButton:kWeapButton];
       [self unclickButton:kArmButton];
-      
-      [[MarketplaceViewController sharedMarketplaceViewController] setCurrentFilter:kAllFilter2];
     } else {
       [self unclickButton:kAllButton];
     } 
@@ -373,7 +365,7 @@
   
   self.darkHandle.hidden = YES;
   
-  if (dist > 1.f) {
+  if (dist > 4.f) {
     if (handle.center.x < self.frame.size.width/2) {
       self.isOn = NO;
     } else {
@@ -627,15 +619,6 @@
   self.forgeLevelBar.numNotches = gl.forgeMaxEquipLevel;
 }
 
-#define FILTER_BAR_USER_DEFAULTS_KEY @"FilterBarButtonMarketplace"
-#define RARITY_BAR_USER_DEFAULTS_KEY @"RarityBarButtonMarketplace"
-#define SWITCH_BUTTON_USER_DEFAULTS_KEY @"SwitchButtonMarketplace"
-#define EQUIP_LEVEL_MIN_USER_DEFAULTS_KEY @"EquipLevelMinMarketplace"
-#define EQUIP_LEVEL_MAX_USER_DEFAULTS_KEY @"EquipLevelMaxMarketplace"
-#define FORGE_LEVEL_MIN_USER_DEFAULTS_KEY @"ForgeLevelMinMarketplace"
-#define FORGE_LEVEL_MAX_USER_DEFAULTS_KEY @"ForgeLevelMaxMarketplace"
-#define SORT_ORDER_USER_DEFAULTS_KEY @"SortOrderMarketplace"
-
 - (void) loadFilterSettings {
   Globals *gl = [Globals sharedGlobals];
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -781,7 +764,7 @@
   CGPoint pt = [touch locationInView:view.superview];
   
   if (!_passedThreshold || pt.x < _initialX/2) {
-    [[MarketplaceViewController sharedMarketplaceViewController] closeFilterPage:nil];
+    [[MarketplaceViewController sharedMarketplaceViewController] closeFilterPage];
   } else {
     CGRect r = view.frame;
     float dist = r.origin.x;

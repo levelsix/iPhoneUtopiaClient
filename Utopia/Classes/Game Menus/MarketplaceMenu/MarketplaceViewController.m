@@ -47,9 +47,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize armoryPriceIcon, armoryPriceView, armoryPriceLabel, armoryPriceBottomSubview;
 @synthesize bottomBar;
 @synthesize topBarLabel;
-@synthesize filtered;
 @synthesize filterView, mainView;
-@synthesize currentFilter = currentFilter;
 
 - (void) viewDidLoad {
   [super viewDidLoad];
@@ -82,7 +80,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [self.postsTableView insertSubview:rightRopeFirstRow belowSubview:self.ropeView];
   
   self.redeemView.hidden = YES;
-  currentFilter = kAllFilter;
   
   Globals *gl = [Globals sharedGlobals];
   shortLicenseCost.text = [NSString stringWithFormat:@"%d", gl.diamondCostOfShortMarketplaceLicense];
@@ -163,11 +160,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   rect.size.width = armoryPriceLabel.frame.origin.x + size.width;
   armoryPriceBottomSubview.frame = rect;
   armoryPriceBottomSubview.center = CGPointMake(armoryPriceBottomSubview.superview.frame.size.width/2, armoryPriceBottomSubview.center.y);
-}
-
-- (void) setCurrentFilter:(Filters2)c {
-  currentFilter = c;
-  [self.tableView reloadData];
 }
 
 - (IBAction)backClicked:(id)sender {
@@ -494,9 +486,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  self.filtered = [self getCurrentFilterState];
+  GameState *gs = [GameState sharedGameState];
+  NSArray *a = state == kEquipBuyingState ? gs.marketplaceEquipPosts : gs.marketplaceEquipPostsFromSender;
   int extra = state == kEquipSellingState ? [[[GameState sharedGameState] myEquips] count] + ![[GameState sharedGameState] hasValidLicense]: 0;
-  int rows = [self.filtered count]+extra+1;
+  int rows = a.count+extra+1;
   if (rows > 1) {
     self.leftRope.alpha = 1.f;
     self.rightRope.alpha = 1.f;
@@ -550,7 +543,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   }
   
   if ([cell isKindOfClass:[ItemPostView class]]) {
-    NSMutableArray *a = self.filtered;
+    NSArray *a = state == kEquipBuyingState ? gs.marketplaceEquipPosts : gs.marketplaceEquipPostsFromSender;
     if (state == kEquipSellingState && indexPath.row > (a.count+displayLicense)) {
       [(ItemPostView *)cell showEquipListing:[[gs myEquips] objectAtIndex:indexPath.row-a.count-displayLicense-1]];
       return cell;
@@ -690,7 +683,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
       default:
         break;
     }
-    self.filtered = [self getCurrentFilterState];
     [self stopLoading];
     self.postsTableView.contentOffset = CGPointMake(0, 0);
     [self resetAllRows];
@@ -826,9 +818,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (IBAction) closeFilterPage:(id)sender {
+  [self.filterView saveFilterSettings];
+  [self closeFilterPage];
+  [self refresh];
+}
+
+- (void) closeFilterPage {
   if (self.filterView.superview) {
-    [self.filterView saveFilterSettings];
-    
     __block CGRect r = self.mainView.frame;
     float dist = r.origin.x;
     r.origin.x = 0;
@@ -878,42 +874,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.licenseBgdView = nil;
   self.licenseMainView = nil;
   self.bottomBar = nil;
-  self.filtered = nil;
   self.filterView = nil;
   self.mainView = nil;
 }
 
 #pragma mark FILTERMETHODS
 
-- (NSMutableArray *) getCurrentFilterState {
+- (NSMutableArray *) arrayForCurrentState {
   if (state == kEquipBuyingState) {
-    NSArray *allPosts = [[GameState sharedGameState] marketplaceEquipPosts];
-    NSMutableArray *postsForState = [NSMutableArray array];
-    if (currentFilter == kWeaponFilter) {
-      for (FullMarketplacePostProto *post in allPosts){
-        if (post.postedEquip.equipType == FullEquipProto_EquipTypeWeapon) {
-          [postsForState addObject:post];
-        }
-      }
-    }
-    else if (currentFilter == kArmorFilter) {
-      for (FullMarketplacePostProto *post in allPosts){
-        if (post.postedEquip.equipType == FullEquipProto_EquipTypeArmor) {
-          [postsForState addObject:post];
-        }
-      }
-    }
-    else if (currentFilter == kAmuletFilter) {
-      for (FullMarketplacePostProto *post in allPosts) {
-        if (post.postedEquip.equipType == FullEquipProto_EquipTypeAmulet) {
-          [postsForState addObject:post];
-        }
-      }
-    }
-    else if(currentFilter == kAllFilter) {
-      return [[GameState sharedGameState] marketplaceEquipPosts];
-    }
-    return postsForState;
+    return [[GameState sharedGameState] marketplaceEquipPosts];
   } else if (state == kEquipSellingState) {
     return [[GameState sharedGameState] marketplaceEquipPostsFromSender];
   }

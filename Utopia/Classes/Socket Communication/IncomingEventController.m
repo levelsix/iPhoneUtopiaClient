@@ -702,8 +702,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
           [eq removeAllObjects];
         }
         
-        mvc.filtered = [mvc getCurrentFilterState];
-        int oldCount = mvc.filtered.count;
+        NSArray *arr = [mvc arrayForCurrentState];
+        int oldCount = arr.count;
         
         for (FullMarketplacePostProto *fmpp in proto.marketplacePostsList) {
           [eq addObject:fmpp];
@@ -711,7 +711,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         }
         [gs addToStaticEquips:staticEquips];
         
-        mvc.filtered = [mvc getCurrentFilterState];
+        
         [mvc insertRowsFrom:oldCount+![[GameState sharedGameState] hasValidLicense]+1];
       }
     }
@@ -765,8 +765,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     } else {
       [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.fullUserEquipOfBoughtItem]];
       
-      mvc.filtered = [mvc getCurrentFilterState];
-      NSMutableArray *mktPosts = mvc.filtered;
+      NSMutableArray *mktPosts = mvc.arrayForCurrentState;
       [[Globals sharedGlobals] confirmWearEquip:proto.fullUserEquipOfBoughtItem.userEquipId];
       
       for (int i = 0; i < mktPosts.count; i++) {

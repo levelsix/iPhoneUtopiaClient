@@ -309,29 +309,74 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [defaults synchronize];
 }
 
-- (void) retrieveMostRecentMarketplacePosts {
+- (void) retrieveMarketplacePosts {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  [[[GameState sharedGameState] marketplaceEquipPosts] removeAllObjects];
-  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:0 fromSender:NO];
-  [[MarketplaceViewController sharedMarketplaceViewController] deleteRows:1];
+  Globals *gl = [Globals sharedGlobals];
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  
+  int filterBarButton = [defaults integerForKey:FILTER_BAR_USER_DEFAULTS_KEY];
+  int rarityBarButton = [defaults integerForKey:RARITY_BAR_USER_DEFAULTS_KEY];
+  BOOL myClassOnly = [defaults boolForKey:SWITCH_BUTTON_USER_DEFAULTS_KEY];
+  int equipMin = [defaults integerForKey:EQUIP_LEVEL_MIN_USER_DEFAULTS_KEY];
+  int equipMax = [defaults integerForKey:EQUIP_LEVEL_MAX_USER_DEFAULTS_KEY];
+  int forgeMin = [defaults integerForKey:FORGE_LEVEL_MIN_USER_DEFAULTS_KEY];
+  int forgeMax = [defaults integerForKey:FORGE_LEVEL_MAX_USER_DEFAULTS_KEY];
+  int sortOrder = [defaults integerForKey:SORT_ORDER_USER_DEFAULTS_KEY];
+  BOOL commonEquips = YES;
+  BOOL uncommonEquips = YES;
+  BOOL rareEquips = YES;
+  BOOL epicEquips = YES;
+  BOOL legendaryEquips = YES;
+  
+  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter filter = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAll;
+  switch (filterBarButton) {
+    case 1:
+      filter = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterWeapons;
+      break;
+    case 2:
+      filter = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterArmor;
+      break;
+    case 3:
+      filter = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAmulets;
+      break;
+    default:
+      break;
+  }
+  
+  
+  if (rarityBarButton & 1) {
+    if (!(rarityBarButton & (1 << 1))) legendaryEquips = NO;
+    if (!(rarityBarButton & (1 << 2))) epicEquips = NO;
+    if (!(rarityBarButton & (1 << 3))) rareEquips = NO;
+    if (!(rarityBarButton & (1 << 4))) uncommonEquips = NO;
+    if (!(rarityBarButton & (1 << 5))) commonEquips = NO;
+  }
+  
+  if (equipMin == 0) equipMin = 1;
+  if (equipMax == 0) equipMax = gl.maxLevelForUser/5*5+4;
+  
+  if (forgeMin == 0) forgeMin = 1;
+  if (forgeMax == 0) forgeMax = gl.forgeMaxEquipLevel;
+  
+  int curNumEntries = [[GameState sharedGameState] marketplaceEquipPosts].count;
+  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageWithCurNumEntries:curNumEntries filter:filter commonEquips:commonEquips uncommonEquips:uncommonEquips rareEquips:rareEquips epicEquips:epicEquips legendaryEquips:legendaryEquips myClassOnly:myClassOnly minEquipLevel:equipMin maxEquipLevel:equipMax minForgeLevel:forgeMin maxForgeLevel:forgeMax sortOrder:sortOrder specificEquipId:0];
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
+- (void) retrieveMostRecentMarketplacePosts {
+  [[[GameState sharedGameState] marketplaceEquipPosts] removeAllObjects];
+  [[MarketplaceViewController sharedMarketplaceViewController] deleteRows:1];
+  [self retrieveMarketplacePosts];
+}
+
 - (void) retrieveMoreMarketplacePosts {
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  GameState *gs = [GameState sharedGameState];
-  FullMarketplacePostProto *x = gs.marketplaceEquipPosts.lastObject;
-  if (!x) {
-    return;
-  }
-  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:[x marketplacePostId] fromSender:NO];
-  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+  [self retrieveMarketplacePosts];
 }
 
 - (void) retrieveMostRecentMarketplacePostsFromSender {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   [[[GameState sharedGameState] marketplaceEquipPostsFromSender] removeAllObjects];
-  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:0 fromSender:YES];
+  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageFromSenderWithCurNumEntries:0];
   [[MarketplaceViewController sharedMarketplaceViewController] deleteRows:1];
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
@@ -339,11 +384,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) retrieveMoreMarketplacePostsFromSender {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   GameState *gs = [GameState sharedGameState];
-  FullMarketplacePostProto *x = gs.marketplaceEquipPostsFromSender.lastObject;
-  if (!x) {
-    return;
-  }
-  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:[x marketplacePostId] fromSender:YES];
+  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageFromSenderWithCurNumEntries:gs.marketplaceEquipPostsFromSender.count];
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
@@ -380,7 +421,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  NSMutableArray *mktPostsFromSender = mvc.filtered;
+  NSMutableArray *mktPostsFromSender = mvc.arrayForCurrentState;
   for (int i = 0; i < mktPostsFromSender.count; i++) {
     FullMarketplacePostProto *proto = [mktPostsFromSender objectAtIndex:i];
     if (proto.marketplacePostId == postId) {

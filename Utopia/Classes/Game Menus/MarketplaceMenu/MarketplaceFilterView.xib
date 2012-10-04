@@ -1140,7 +1140,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">DONE</string>
+						<string key="IBUIText">FIND</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC45MzMzMzMzMzMzIDAuOTA1ODgyMzUyOSAwLjc4MDM5MjE1NjkAA</bytes>
@@ -1375,6 +1375,7 @@
 						<string key="NSFrame">{{0, 364}, {379, 216}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<bool key="IBUIShowsSelectionIndicator">YES</bool>
@@ -2894,7 +2895,6 @@
 					<string key="superclassName">PullRefreshTableViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="backClicked:">id</string>
-						<string key="closeFilterPage:">id</string>
 						<string key="closePurchLicenseView:">id</string>
 						<string key="longLicenseClicked:">id</string>
 						<string key="shortLicenseClicked:">id</string>
@@ -2902,10 +2902,6 @@
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="backClicked:">
 							<string key="name">backClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="closeFilterPage:">
-							<string key="name">closeFilterPage:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="closePurchLicenseView:">

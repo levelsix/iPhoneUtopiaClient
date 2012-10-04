@@ -20,18 +20,9 @@ typedef enum {
   kEquipSellingState
 } MarketplaceState;
 
-typedef enum {
-  kAllFilter2 = 20,
-  kWeaponFilter2,
-  kArmorFilter2,
-  kAmuletFilter2,
-  kNoneFilter2Selected
-} Filters2;
-
 @interface MarketplaceViewController : PullRefreshTableViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
   BOOL _refreshing;
   BOOL _isDisplayingLoadingView;
-  Filters2 currentFilter;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *navBar;
@@ -83,10 +74,6 @@ typedef enum {
 @property (nonatomic, retain) UIView *leftRopeFirstRow;
 @property (nonatomic, retain) UIView *rightRopeFirstRow;
 
-@property (nonatomic, retain) NSMutableArray *filtered;
-
-@property (nonatomic, assign) Filters2 currentFilter;
-
 @property (nonatomic, retain) IBOutlet MarketplaceFilterView *filterView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 
@@ -100,7 +87,7 @@ typedef enum {
 - (void) insertRowsFrom:(int)start;
 - (void) deleteRows:(int)start;
 - (void) resetAllRows;
-- (NSMutableArray *) getCurrentFilterState;
+- (NSMutableArray *) arrayForCurrentState;
 - (void) displayRedeemView;
 - (void) doneRefreshing;
 
@@ -109,7 +96,7 @@ typedef enum {
 - (IBAction) longLicenseClicked:(id)sender;
 - (IBAction) backClicked:(id)sender;
 
-- (IBAction) closeFilterPage:(id)sender;
+- (void) closeFilterPage;
 
 - (void) close;
 
