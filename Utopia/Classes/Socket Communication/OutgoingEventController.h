@@ -129,4 +129,6 @@
 - (void) beginGoldmineTimer;
 - (void) collectFromGoldmine;
 
+- (void) pickLockBox:(int)eventId method:(PickLockBoxRequestProto_PickLockBoxMethod)method;
+
 @end

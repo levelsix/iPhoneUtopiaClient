@@ -24,6 +24,10 @@
 @class BootPlayerFromClanRequestProto_Builder;
 @class BootPlayerFromClanResponseProto;
 @class BootPlayerFromClanResponseProto_Builder;
+@class BossActionRequestProto;
+@class BossActionRequestProto_Builder;
+@class BossActionResponseProto;
+@class BossActionResponseProto_Builder;
 @class BuildStructJobProto;
 @class BuildStructJobProto_Builder;
 @class ChangeClanDescriptionRequestProto;
@@ -96,6 +100,8 @@
 @class ForgeAttemptWaitCompleteRequestProto_Builder;
 @class ForgeAttemptWaitCompleteResponseProto;
 @class ForgeAttemptWaitCompleteResponseProto_Builder;
+@class FullBossProto;
+@class FullBossProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
 @class FullClanProto;
@@ -114,6 +120,8 @@
 @class FullTaskProto_Builder;
 @class FullTaskProto_FullTaskEquipReqProto;
 @class FullTaskProto_FullTaskEquipReqProto_Builder;
+@class FullUserBossProto;
+@class FullUserBossProto_Builder;
 @class FullUserCityExpansionDataProto;
 @class FullUserCityExpansionDataProto_Builder;
 @class FullUserCityProto;
@@ -156,6 +164,10 @@
 @class LoadPlayerCityResponseProto_Builder;
 @class LocationProto;
 @class LocationProto_Builder;
+@class LockBoxEventProto;
+@class LockBoxEventProto_Builder;
+@class LockBoxItemProto;
+@class LockBoxItemProto_Builder;
 @class LogoutRequestProto;
 @class LogoutRequestProto_Builder;
 @class MinimumClanProto;
@@ -194,6 +206,10 @@
 @class NormStructWaitCompleteRequestProto_Builder;
 @class NormStructWaitCompleteResponseProto;
 @class NormStructWaitCompleteResponseProto_Builder;
+@class PickLockBoxRequestProto;
+@class PickLockBoxRequestProto_Builder;
+@class PickLockBoxResponseProto;
+@class PickLockBoxResponseProto_Builder;
 @class PlayThreeCardMonteRequestProto;
 @class PlayThreeCardMonteRequestProto_Builder;
 @class PlayThreeCardMonteResponseProto;
@@ -364,6 +380,8 @@
 @class StartupResponseProto_StartupConstants_GoldmineConstants_Builder;
 @class StartupResponseProto_StartupConstants_KiipRewardConditions;
 @class StartupResponseProto_StartupConstants_KiipRewardConditions_Builder;
+@class StartupResponseProto_StartupConstants_LockBoxConstants;
+@class StartupResponseProto_StartupConstants_LockBoxConstants_Builder;
 @class StartupResponseProto_TutorialConstants;
 @class StartupResponseProto_TutorialConstants_Builder;
 @class StartupResponseProto_TutorialConstants_FullTutorialQuestProto;
@@ -398,6 +416,10 @@
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
 @class UserCreateResponseProto_Builder;
+@class UserLockBoxEventProto;
+@class UserLockBoxEventProto_Builder;
+@class UserLockBoxItemProto;
+@class UserLockBoxItemProto_Builder;
 @class UserQuestDetailsRequestProto;
 @class UserQuestDetailsRequestProto_Builder;
 @class UserQuestDetailsResponseProto;
@@ -612,6 +634,26 @@ typedef enum {
 } InAppPurchaseResponseProto_InAppPurchaseStatus;
 
 BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseResponseProto_InAppPurchaseStatus value);
+
+typedef enum {
+  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAll = 0,
+  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterWeapons = 1,
+  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterArmor = 2,
+  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAmulets = 3,
+} RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter;
+
+BOOL RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterIsValidValue(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter value);
+
+typedef enum {
+  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderMostRecentPosts = 0,
+  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderPriceLowToHigh = 1,
+  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderPriceHighToLow = 2,
+  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderAttackHighToLow = 3,
+  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderDefenseHighToLow = 4,
+  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderTotalStatsHighToLow = 5,
+} RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder;
+
+BOOL RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderIsValidValue(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder value);
 
 typedef enum {
   RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusSuccess = 0,
@@ -1083,6 +1125,35 @@ typedef enum {
 
 BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(CollectFromGoldmineResponseProto_CollectFromGoldmineStatus value);
 
+typedef enum {
+  PickLockBoxRequestProto_PickLockBoxMethodFree = 0,
+  PickLockBoxRequestProto_PickLockBoxMethodSilver = 1,
+  PickLockBoxRequestProto_PickLockBoxMethodGold = 2,
+} PickLockBoxRequestProto_PickLockBoxMethod;
+
+BOOL PickLockBoxRequestProto_PickLockBoxMethodIsValidValue(PickLockBoxRequestProto_PickLockBoxMethod value);
+
+typedef enum {
+  PickLockBoxResponseProto_PickLockBoxStatusSuccess = 0,
+  PickLockBoxResponseProto_PickLockBoxStatusNotEnoughCurrency = 1,
+  PickLockBoxResponseProto_PickLockBoxStatusNotEnoughLockboxes = 2,
+  PickLockBoxResponseProto_PickLockBoxStatusEventIsNotInProgress = 3,
+  PickLockBoxResponseProto_PickLockBoxStatusClientTooApartFromServerTime = 4,
+  PickLockBoxResponseProto_PickLockBoxStatusOtherFail = 5,
+} PickLockBoxResponseProto_PickLockBoxStatus;
+
+BOOL PickLockBoxResponseProto_PickLockBoxStatusIsValidValue(PickLockBoxResponseProto_PickLockBoxStatus value);
+
+typedef enum {
+  BossActionResponseProto_BossActionStatusSuccess = 0,
+  BossActionResponseProto_BossActionStatusUserNotEnoughStamina = 1,
+  BossActionResponseProto_BossActionStatusBossHasNotSpawned = 2,
+  BossActionResponseProto_BossActionStatusOtherFail = 3,
+  BossActionResponseProto_BossActionStatusClientTooApartFromServerTime = 4,
+} BossActionResponseProto_BossActionStatus;
+
+BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProto_BossActionStatus value);
+
 
 @interface EventRoot : NSObject {
 }
@@ -1320,6 +1391,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 @private
   BOOL hasCoinsGained_:1;
   BOOL hasExpGained_:1;
+  BOOL hasEventIdOfLockBoxGained_:1;
   BOOL hasAttacker_:1;
   BOOL hasDefender_:1;
   BOOL hasUserEquipGained_:1;
@@ -1328,6 +1400,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
   BOOL hasBattleResult_:1;
   int32_t coinsGained;
   int32_t expGained;
+  int32_t eventIdOfLockBoxGained;
   MinimumUserProto* attacker;
   MinimumUserProto* defender;
   FullUserEquipProto* userEquipGained;
@@ -1343,6 +1416,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (BOOL) hasUserEquipGained;
 - (BOOL) hasEquipGained;
 - (BOOL) hasExpGained;
+- (BOOL) hasEventIdOfLockBoxGained;
 @property (readonly, retain) MinimumUserProto* attacker;
 @property (readonly, retain) MinimumUserProto* defender;
 @property (readonly) BattleResponseProto_BattleStatus status;
@@ -1351,6 +1425,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 @property (readonly, retain) FullUserEquipProto* userEquipGained;
 @property (readonly, retain) FullEquipProto* equipGained;
 @property (readonly) int32_t expGained;
+@property (readonly) int32_t eventIdOfLockBoxGained;
 
 + (BattleResponseProto*) defaultInstance;
 - (BattleResponseProto*) defaultInstance;
@@ -1433,6 +1508,11 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (int32_t) expGained;
 - (BattleResponseProto_Builder*) setExpGained:(int32_t) value;
 - (BattleResponseProto_Builder*) clearExpGained;
+
+- (BOOL) hasEventIdOfLockBoxGained;
+- (int32_t) eventIdOfLockBoxGained;
+- (BattleResponseProto_Builder*) setEventIdOfLockBoxGained:(int32_t) value;
+- (BattleResponseProto_Builder*) clearEventIdOfLockBoxGained;
 @end
 
 @interface VaultRequestProto : PBGeneratedMessage {
@@ -1799,41 +1879,43 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
   BOOL hasExperienceRequiredForCurrentLevel_:1;
   BOOL hasExperienceRequiredForNextLevel_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasForgeAttemptEquip_:1;
-  BOOL hasUnhandledForgeAttempt_:1;
-  BOOL hasDailyBonusInfo_:1;
   BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasTutorialConstants_:1;
+  BOOL hasForgeAttemptEquip_:1;
+  BOOL hasUnhandledForgeAttempt_:1;
+  BOOL hasDailyBonusInfo_:1;
   BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
   int32_t experienceRequiredForCurrentLevel;
   int32_t experienceRequiredForNextLevel;
   NSString* appStoreUrl;
-  FullEquipProto* forgeAttemptEquip;
-  UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
-  StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
   FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_TutorialConstants* tutorialConstants;
+  FullEquipProto* forgeAttemptEquip;
+  UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
+  StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableAlliesList;
-  NSMutableArray* mutableClanWallPostNotificationsList;
-  NSMutableArray* mutablePlayerWallPostNotificationsList;
-  NSMutableArray* mutableReferralNotificationsList;
-  NSMutableArray* mutableAttackNotificationsList;
-  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
-  NSMutableArray* mutableUserClanInfoList;
-  NSMutableArray* mutableAllCitiesList;
-  NSMutableArray* mutableUserCityInfosList;
   NSMutableArray* mutableEquipsList;
+  NSMutableArray* mutableUserClanInfoList;
+  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
+  NSMutableArray* mutableAttackNotificationsList;
+  NSMutableArray* mutableReferralNotificationsList;
+  NSMutableArray* mutablePlayerWallPostNotificationsList;
+  NSMutableArray* mutableClanWallPostNotificationsList;
+  NSMutableArray* mutableLockBoxEventsList;
+  NSMutableArray* mutableUserLockBoxEventsList;
   NSMutableArray* mutableUserEquipsList;
+  NSMutableArray* mutableAlliesList;
   NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableInProgressCompleteQuestsList;
   NSMutableArray* mutableInProgressIncompleteQuestsList;
+  NSMutableArray* mutableUserCityInfosList;
+  NSMutableArray* mutableAllCitiesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -1885,6 +1967,10 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (PlayerWallPostProto*) playerWallPostNotificationsAtIndex:(int32_t) index;
 - (NSArray*) clanWallPostNotificationsList;
 - (ClanWallPostProto*) clanWallPostNotificationsAtIndex:(int32_t) index;
+- (NSArray*) lockBoxEventsList;
+- (LockBoxEventProto*) lockBoxEventsAtIndex:(int32_t) index;
+- (NSArray*) userLockBoxEventsList;
+- (UserLockBoxEventProto*) userLockBoxEventsAtIndex:(int32_t) index;
 - (NSArray*) alliesList;
 - (MinimumUserProtoWithLevel*) alliesAtIndex:(int32_t) index;
 - (NSArray*) noticesToPlayersList;
@@ -2219,17 +2305,17 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
-  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
-  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
-  BOOL hasHealthFormulaExponentBase_:1;
-  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
-  BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
+  BOOL hasCutOfVaultDepositTaken_:1;
+  BOOL hasHealthFormulaExponentBase_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
+  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
+  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
+  BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
+  BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasMaxCityRank_:1;
   BOOL hasArmoryImgVerticalPixelOffset_:1;
@@ -2237,20 +2323,20 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
   BOOL hasMarketplaceImgVerticalPixelOffset_:1;
   BOOL hasCarpenterImgVerticalPixelOffset_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
-  BOOL hasMaxLengthOfChatString_:1;
+  BOOL hasDiamondCostToPlayThreeCardMonte_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
+  BOOL hasMaxLengthOfChatString_:1;
   BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
-  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
   BOOL hasAverageSizeOfLevelBracket_:1;
-  BOOL hasMinBattlesRequiredForKdrconsideration_:1;
+  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
   BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
-  BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
+  BOOL hasMinBattlesRequiredForKdrconsideration_:1;
   BOOL hasMinNameLength_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasSizeOfAttackList_:1;
   BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
-  BOOL hasDiamondCostToPlayThreeCardMonte_:1;
+  BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasArmoryXlength_:1;
@@ -2279,6 +2365,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
   BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasMaxNumberOfMarketplacePosts_:1;
+  BOOL hasLockBoxConstants_:1;
   BOOL hasGoldmineConstants_:1;
   BOOL hasClanConstants_:1;
   BOOL hasCharModConstants_:1;
@@ -2286,17 +2373,17 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
   BOOL hasKiipRewardConditions_:1;
   BOOL hasBattleConstants_:1;
   BOOL hasFormulaConstants_:1;
-  Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
-  Float64 percentReturnedToUserForSellingNormStructure;
-  Float64 levelEquipBoostExponentBase;
-  Float64 healthFormulaExponentBase;
-  Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingEquipInArmory;
-  int32_t numDaysLongMarketplaceLicenseLastsFor;
-  int32_t numDaysShortMarketplaceLicenseLastsFor;
+  Float64 cutOfVaultDepositTaken;
+  Float64 healthFormulaExponentBase;
+  Float64 levelEquipBoostExponentBase;
+  Float64 percentReturnedToUserForSellingNormStructure;
+  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+  Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
   int32_t diamondCostOfLongMarketplaceLicense;
   int32_t diamondCostOfShortMarketplaceLicense;
+  int32_t numDaysShortMarketplaceLicenseLastsFor;
+  int32_t numDaysLongMarketplaceLicenseLastsFor;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t maxCityRank;
   int32_t armoryImgVerticalPixelOffset;
@@ -2304,20 +2391,20 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
   int32_t marketplaceImgVerticalPixelOffset;
   int32_t carpenterImgVerticalPixelOffset;
   int32_t aviaryImgVerticalPixelOffset;
-  int32_t maxLengthOfChatString;
+  int32_t diamondCostToPlayThreeCardMonte;
   int32_t maxCharLengthForWallPost;
   int32_t playerWallPostsRetrieveCap;
+  int32_t maxLengthOfChatString;
   int32_t diamondPriceForGroupChatPurchasePackage;
-  int32_t numChatsGivenPerGroupChatPurchasePackage;
   int32_t averageSizeOfLevelBracket;
-  int32_t minBattlesRequiredForKdrconsideration;
+  int32_t numChatsGivenPerGroupChatPurchasePackage;
   int32_t adColonyVideosRequiredToRedeemDiamonds;
-  int32_t hoursInAttackedByOneProtectionPeriod;
+  int32_t minBattlesRequiredForKdrconsideration;
   int32_t minNameLength;
   int32_t maxNameLength;
   int32_t sizeOfAttackList;
   int32_t maxNumTimesAttackedByOneInProtectionPeriod;
-  int32_t diamondCostToPlayThreeCardMonte;
+  int32_t hoursInAttackedByOneProtectionPeriod;
   int32_t maxLevelDifferenceForBattle;
   int32_t maxLevelForUser;
   int32_t armoryXlength;
@@ -2346,6 +2433,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
   int32_t diamondCostForFullStaminaRefill;
   int32_t diamondCostForFullEnergyRefill;
   int32_t maxNumberOfMarketplacePosts;
+  StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
   StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
   StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
@@ -2424,6 +2512,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (BOOL) hasClanConstants;
 - (BOOL) hasDiamondCostToPlayThreeCardMonte;
 - (BOOL) hasGoldmineConstants;
+- (BOOL) hasLockBoxConstants;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2491,6 +2580,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 @property (readonly, retain) StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
 @property (readonly) int32_t diamondCostToPlayThreeCardMonte;
 @property (readonly, retain) StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
+@property (readonly, retain) StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2513,6 +2603,108 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_LockBoxConstants : PBGeneratedMessage {
+@private
+  BOOL hasGoldChanceToPickLockBox_:1;
+  BOOL hasSilverChanceToPickLockBox_:1;
+  BOOL hasFreeChanceToPickLockBox_:1;
+  BOOL hasGoldCostToPickLockBox_:1;
+  BOOL hasSilverCostToPickLockBox_:1;
+  BOOL hasNumMinutesToRepickLockBox_:1;
+  BOOL hasGoldCostToResetPickLockBox_:1;
+  Float32 goldChanceToPickLockBox;
+  Float32 silverChanceToPickLockBox;
+  Float32 freeChanceToPickLockBox;
+  int32_t goldCostToPickLockBox;
+  int32_t silverCostToPickLockBox;
+  int32_t numMinutesToRepickLockBox;
+  int32_t goldCostToResetPickLockBox;
+}
+- (BOOL) hasGoldCostToPickLockBox;
+- (BOOL) hasSilverCostToPickLockBox;
+- (BOOL) hasGoldChanceToPickLockBox;
+- (BOOL) hasSilverChanceToPickLockBox;
+- (BOOL) hasFreeChanceToPickLockBox;
+- (BOOL) hasNumMinutesToRepickLockBox;
+- (BOOL) hasGoldCostToResetPickLockBox;
+@property (readonly) int32_t goldCostToPickLockBox;
+@property (readonly) int32_t silverCostToPickLockBox;
+@property (readonly) Float32 goldChanceToPickLockBox;
+@property (readonly) Float32 silverChanceToPickLockBox;
+@property (readonly) Float32 freeChanceToPickLockBox;
+@property (readonly) int32_t numMinutesToRepickLockBox;
+@property (readonly) int32_t goldCostToResetPickLockBox;
+
++ (StartupResponseProto_StartupConstants_LockBoxConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_LockBoxConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_LockBoxConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_LockBoxConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_LockBoxConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_LockBoxConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_LockBoxConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_LockBoxConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_LockBoxConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_LockBoxConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_LockBoxConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_LockBoxConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_LockBoxConstants*) build;
+- (StartupResponseProto_StartupConstants_LockBoxConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_LockBoxConstants*) other;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasGoldCostToPickLockBox;
+- (int32_t) goldCostToPickLockBox;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setGoldCostToPickLockBox:(int32_t) value;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearGoldCostToPickLockBox;
+
+- (BOOL) hasSilverCostToPickLockBox;
+- (int32_t) silverCostToPickLockBox;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setSilverCostToPickLockBox:(int32_t) value;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearSilverCostToPickLockBox;
+
+- (BOOL) hasGoldChanceToPickLockBox;
+- (Float32) goldChanceToPickLockBox;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setGoldChanceToPickLockBox:(Float32) value;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearGoldChanceToPickLockBox;
+
+- (BOOL) hasSilverChanceToPickLockBox;
+- (Float32) silverChanceToPickLockBox;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setSilverChanceToPickLockBox:(Float32) value;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearSilverChanceToPickLockBox;
+
+- (BOOL) hasFreeChanceToPickLockBox;
+- (Float32) freeChanceToPickLockBox;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setFreeChanceToPickLockBox:(Float32) value;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearFreeChanceToPickLockBox;
+
+- (BOOL) hasNumMinutesToRepickLockBox;
+- (int32_t) numMinutesToRepickLockBox;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setNumMinutesToRepickLockBox:(int32_t) value;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearNumMinutesToRepickLockBox;
+
+- (BOOL) hasGoldCostToResetPickLockBox;
+- (int32_t) goldCostToResetPickLockBox;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setGoldCostToResetPickLockBox:(int32_t) value;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearGoldCostToResetPickLockBox;
 @end
 
 @interface StartupResponseProto_StartupConstants_GoldmineConstants : PBGeneratedMessage {
@@ -3685,6 +3877,13 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (StartupResponseProto_StartupConstants_Builder*) setGoldmineConstantsBuilder:(StartupResponseProto_StartupConstants_GoldmineConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeGoldmineConstants:(StartupResponseProto_StartupConstants_GoldmineConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearGoldmineConstants;
+
+- (BOOL) hasLockBoxConstants;
+- (StartupResponseProto_StartupConstants_LockBoxConstants*) lockBoxConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setLockBoxConstants:(StartupResponseProto_StartupConstants_LockBoxConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setLockBoxConstantsBuilder:(StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeLockBoxConstants:(StartupResponseProto_StartupConstants_LockBoxConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearLockBoxConstants;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -4387,6 +4586,20 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (StartupResponseProto_Builder*) addAllClanWallPostNotifications:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearClanWallPostNotificationsList;
 
+- (NSArray*) lockBoxEventsList;
+- (LockBoxEventProto*) lockBoxEventsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceLockBoxEventsAtIndex:(int32_t) index with:(LockBoxEventProto*) value;
+- (StartupResponseProto_Builder*) addLockBoxEvents:(LockBoxEventProto*) value;
+- (StartupResponseProto_Builder*) addAllLockBoxEvents:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearLockBoxEventsList;
+
+- (NSArray*) userLockBoxEventsList;
+- (UserLockBoxEventProto*) userLockBoxEventsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceUserLockBoxEventsAtIndex:(int32_t) index with:(UserLockBoxEventProto*) value;
+- (StartupResponseProto_Builder*) addUserLockBoxEvents:(UserLockBoxEventProto*) value;
+- (StartupResponseProto_Builder*) addAllUserLockBoxEvents:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearUserLockBoxEventsList;
+
 - (BOOL) hasAppStoreUrl;
 - (NSString*) appStoreUrl;
 - (StartupResponseProto_Builder*) setAppStoreUrl:(NSString*) value;
@@ -4994,6 +5207,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
   BOOL hasCoinBonusIfCityRankup_:1;
   BOOL hasExpBonusIfCityRankup_:1;
   BOOL hasCityId_:1;
+  BOOL hasEventIdOfLockBoxGained_:1;
   BOOL hasSender_:1;
   BOOL hasLootUserEquip_:1;
   BOOL hasStatus_:1;
@@ -5003,6 +5217,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
   int32_t coinBonusIfCityRankup;
   int32_t expBonusIfCityRankup;
   int32_t cityId;
+  int32_t eventIdOfLockBoxGained;
   MinimumUserProto* sender;
   FullUserEquipProto* lootUserEquip;
   TaskActionResponseProto_TaskActionStatus status;
@@ -5016,6 +5231,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (BOOL) hasCoinBonusIfCityRankup;
 - (BOOL) hasExpBonusIfCityRankup;
 - (BOOL) hasCityId;
+- (BOOL) hasEventIdOfLockBoxGained;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) TaskActionResponseProto_TaskActionStatus status;
 - (BOOL) taskCompleted;
@@ -5025,6 +5241,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 @property (readonly) int32_t coinBonusIfCityRankup;
 @property (readonly) int32_t expBonusIfCityRankup;
 @property (readonly) int32_t cityId;
+@property (readonly) int32_t eventIdOfLockBoxGained;
 
 + (TaskActionResponseProto*) defaultInstance;
 - (TaskActionResponseProto*) defaultInstance;
@@ -5108,6 +5325,11 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (int32_t) cityId;
 - (TaskActionResponseProto_Builder*) setCityId:(int32_t) value;
 - (TaskActionResponseProto_Builder*) clearCityId;
+
+- (BOOL) hasEventIdOfLockBoxGained;
+- (int32_t) eventIdOfLockBoxGained;
+- (TaskActionResponseProto_Builder*) setEventIdOfLockBoxGained:(int32_t) value;
+- (TaskActionResponseProto_Builder*) clearEventIdOfLockBoxGained;
 @end
 
 @interface PurchaseNormStructureRequestProto : PBGeneratedMessage {
@@ -6579,18 +6801,70 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 @interface RetrieveCurrentMarketplacePostsRequestProto : PBGeneratedMessage {
 @private
   BOOL hasFromSender_:1;
-  BOOL hasBeforeThisPostId_:1;
+  BOOL hasCommonEquips_:1;
+  BOOL hasUncommonEquips_:1;
+  BOOL hasRareEquips_:1;
+  BOOL hasEpicEquips_:1;
+  BOOL hasLegendaryEquips_:1;
+  BOOL hasMyClassOnly_:1;
+  BOOL hasCurrentNumOfEntries_:1;
+  BOOL hasMinEquipLevel_:1;
+  BOOL hasMaxEquipLevel_:1;
+  BOOL hasMinForgeLevel_:1;
+  BOOL hasMaxForgeLevel_:1;
+  BOOL hasSpecificEquipId_:1;
   BOOL hasSender_:1;
+  BOOL hasFilter_:1;
+  BOOL hasSortOrder_:1;
   BOOL fromSender_:1;
-  int32_t beforeThisPostId;
+  BOOL commonEquips_:1;
+  BOOL uncommonEquips_:1;
+  BOOL rareEquips_:1;
+  BOOL epicEquips_:1;
+  BOOL legendaryEquips_:1;
+  BOOL myClassOnly_:1;
+  int32_t currentNumOfEntries;
+  int32_t minEquipLevel;
+  int32_t maxEquipLevel;
+  int32_t minForgeLevel;
+  int32_t maxForgeLevel;
+  NSString* specificEquipId;
   MinimumUserProto* sender;
+  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter filter;
+  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder sortOrder;
 }
 - (BOOL) hasSender;
-- (BOOL) hasBeforeThisPostId;
 - (BOOL) hasFromSender;
+- (BOOL) hasCurrentNumOfEntries;
+- (BOOL) hasFilter;
+- (BOOL) hasCommonEquips;
+- (BOOL) hasUncommonEquips;
+- (BOOL) hasRareEquips;
+- (BOOL) hasEpicEquips;
+- (BOOL) hasLegendaryEquips;
+- (BOOL) hasMyClassOnly;
+- (BOOL) hasMinEquipLevel;
+- (BOOL) hasMaxEquipLevel;
+- (BOOL) hasMinForgeLevel;
+- (BOOL) hasMaxForgeLevel;
+- (BOOL) hasSortOrder;
+- (BOOL) hasSpecificEquipId;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t beforeThisPostId;
 - (BOOL) fromSender;
+@property (readonly) int32_t currentNumOfEntries;
+@property (readonly) RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter filter;
+- (BOOL) commonEquips;
+- (BOOL) uncommonEquips;
+- (BOOL) rareEquips;
+- (BOOL) epicEquips;
+- (BOOL) legendaryEquips;
+- (BOOL) myClassOnly;
+@property (readonly) int32_t minEquipLevel;
+@property (readonly) int32_t maxEquipLevel;
+@property (readonly) int32_t minForgeLevel;
+@property (readonly) int32_t maxForgeLevel;
+@property (readonly) RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder sortOrder;
+@property (readonly, retain) NSString* specificEquipId;
 
 + (RetrieveCurrentMarketplacePostsRequestProto*) defaultInstance;
 - (RetrieveCurrentMarketplacePostsRequestProto*) defaultInstance;
@@ -6633,15 +6907,80 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSender;
 
-- (BOOL) hasBeforeThisPostId;
-- (int32_t) beforeThisPostId;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setBeforeThisPostId:(int32_t) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearBeforeThisPostId;
-
 - (BOOL) hasFromSender;
 - (BOOL) fromSender;
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setFromSender:(BOOL) value;
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearFromSender;
+
+- (BOOL) hasCurrentNumOfEntries;
+- (int32_t) currentNumOfEntries;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setCurrentNumOfEntries:(int32_t) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearCurrentNumOfEntries;
+
+- (BOOL) hasFilter;
+- (RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter) filter;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setFilter:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearFilter;
+
+- (BOOL) hasCommonEquips;
+- (BOOL) commonEquips;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setCommonEquips:(BOOL) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearCommonEquips;
+
+- (BOOL) hasUncommonEquips;
+- (BOOL) uncommonEquips;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setUncommonEquips:(BOOL) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearUncommonEquips;
+
+- (BOOL) hasRareEquips;
+- (BOOL) rareEquips;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setRareEquips:(BOOL) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearRareEquips;
+
+- (BOOL) hasEpicEquips;
+- (BOOL) epicEquips;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setEpicEquips:(BOOL) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearEpicEquips;
+
+- (BOOL) hasLegendaryEquips;
+- (BOOL) legendaryEquips;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setLegendaryEquips:(BOOL) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearLegendaryEquips;
+
+- (BOOL) hasMyClassOnly;
+- (BOOL) myClassOnly;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMyClassOnly:(BOOL) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMyClassOnly;
+
+- (BOOL) hasMinEquipLevel;
+- (int32_t) minEquipLevel;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMinEquipLevel:(int32_t) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMinEquipLevel;
+
+- (BOOL) hasMaxEquipLevel;
+- (int32_t) maxEquipLevel;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMaxEquipLevel:(int32_t) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMaxEquipLevel;
+
+- (BOOL) hasMinForgeLevel;
+- (int32_t) minForgeLevel;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMinForgeLevel:(int32_t) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMinForgeLevel;
+
+- (BOOL) hasMaxForgeLevel;
+- (int32_t) maxForgeLevel;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMaxForgeLevel:(int32_t) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMaxForgeLevel;
+
+- (BOOL) hasSortOrder;
+- (RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder) sortOrder;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSortOrder:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSortOrder;
+
+- (BOOL) hasSpecificEquipId;
+- (NSString*) specificEquipId;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSpecificEquipId:(NSString*) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSpecificEquipId;
 @end
 
 @interface RetrieveCurrentMarketplacePostsResponseProto : PBGeneratedMessage {
@@ -8372,8 +8711,10 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 
 @interface RetrieveStaticDataRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasCurrentLockBoxEvents_:1;
   BOOL hasLevelForExpRequiredRequest_:1;
   BOOL hasSender_:1;
+  BOOL currentLockBoxEvents_:1;
   int32_t levelForExpRequiredRequest;
   MinimumUserProto* sender;
   NSMutableArray* mutableStructIdsList;
@@ -8388,8 +8729,10 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 }
 - (BOOL) hasSender;
 - (BOOL) hasLevelForExpRequiredRequest;
+- (BOOL) hasCurrentLockBoxEvents;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t levelForExpRequiredRequest;
+- (BOOL) currentLockBoxEvents;
 - (NSArray*) structIdsList;
 - (int32_t) structIdsAtIndex:(int32_t) index;
 - (NSArray*) taskIdsList;
@@ -8517,6 +8860,11 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (int32_t) levelForExpRequiredRequest;
 - (RetrieveStaticDataRequestProto_Builder*) setLevelForExpRequiredRequest:(int32_t) value;
 - (RetrieveStaticDataRequestProto_Builder*) clearLevelForExpRequiredRequest;
+
+- (BOOL) hasCurrentLockBoxEvents;
+- (BOOL) currentLockBoxEvents;
+- (RetrieveStaticDataRequestProto_Builder*) setCurrentLockBoxEvents:(BOOL) value;
+- (RetrieveStaticDataRequestProto_Builder*) clearCurrentLockBoxEvents;
 @end
 
 @interface RetrieveStaticDataResponseProto : PBGeneratedMessage {
@@ -8536,6 +8884,7 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
   NSMutableArray* mutableDefeatTypeJobsList;
   NSMutableArray* mutablePossessEquipJobsList;
   NSMutableArray* mutableUpgradeStructJobsList;
+  NSMutableArray* mutableLockBoxEventsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasExpRequiredForRequestedLevel;
@@ -8561,6 +8910,8 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (PossessEquipJobProto*) possessEquipJobsAtIndex:(int32_t) index;
 - (NSArray*) upgradeStructJobsList;
 - (UpgradeStructJobProto*) upgradeStructJobsAtIndex:(int32_t) index;
+- (NSArray*) lockBoxEventsList;
+- (LockBoxEventProto*) lockBoxEventsAtIndex:(int32_t) index;
 
 + (RetrieveStaticDataResponseProto*) defaultInstance;
 - (RetrieveStaticDataResponseProto*) defaultInstance;
@@ -8670,6 +9021,13 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (int32_t) expRequiredForRequestedLevel;
 - (RetrieveStaticDataResponseProto_Builder*) setExpRequiredForRequestedLevel:(int32_t) value;
 - (RetrieveStaticDataResponseProto_Builder*) clearExpRequiredForRequestedLevel;
+
+- (NSArray*) lockBoxEventsList;
+- (LockBoxEventProto*) lockBoxEventsAtIndex:(int32_t) index;
+- (RetrieveStaticDataResponseProto_Builder*) replaceLockBoxEventsAtIndex:(int32_t) index with:(LockBoxEventProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addLockBoxEvents:(LockBoxEventProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addAllLockBoxEvents:(NSArray*) values;
+- (RetrieveStaticDataResponseProto_Builder*) clearLockBoxEventsList;
 
 - (BOOL) hasStatus;
 - (RetrieveStaticDataResponseProto_RetrieveStaticDataStatus) status;
@@ -13961,5 +14319,365 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (CollectFromGoldmineResponseProto_CollectFromGoldmineStatus) status;
 - (CollectFromGoldmineResponseProto_Builder*) setStatus:(CollectFromGoldmineResponseProto_CollectFromGoldmineStatus) value;
 - (CollectFromGoldmineResponseProto_Builder*) clearStatus;
+@end
+
+@interface PickLockBoxRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasLockBoxEventId_:1;
+  BOOL hasSender_:1;
+  BOOL hasMethod_:1;
+  int64_t clientTime;
+  int32_t lockBoxEventId;
+  MinimumUserProto* sender;
+  PickLockBoxRequestProto_PickLockBoxMethod method;
+}
+- (BOOL) hasSender;
+- (BOOL) hasLockBoxEventId;
+- (BOOL) hasMethod;
+- (BOOL) hasClientTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t lockBoxEventId;
+@property (readonly) PickLockBoxRequestProto_PickLockBoxMethod method;
+@property (readonly) int64_t clientTime;
+
++ (PickLockBoxRequestProto*) defaultInstance;
+- (PickLockBoxRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PickLockBoxRequestProto_Builder*) builder;
++ (PickLockBoxRequestProto_Builder*) builder;
++ (PickLockBoxRequestProto_Builder*) builderWithPrototype:(PickLockBoxRequestProto*) prototype;
+
++ (PickLockBoxRequestProto*) parseFromData:(NSData*) data;
++ (PickLockBoxRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PickLockBoxRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (PickLockBoxRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PickLockBoxRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PickLockBoxRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PickLockBoxRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PickLockBoxRequestProto* result;
+}
+
+- (PickLockBoxRequestProto*) defaultInstance;
+
+- (PickLockBoxRequestProto_Builder*) clear;
+- (PickLockBoxRequestProto_Builder*) clone;
+
+- (PickLockBoxRequestProto*) build;
+- (PickLockBoxRequestProto*) buildPartial;
+
+- (PickLockBoxRequestProto_Builder*) mergeFrom:(PickLockBoxRequestProto*) other;
+- (PickLockBoxRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PickLockBoxRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PickLockBoxRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PickLockBoxRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PickLockBoxRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PickLockBoxRequestProto_Builder*) clearSender;
+
+- (BOOL) hasLockBoxEventId;
+- (int32_t) lockBoxEventId;
+- (PickLockBoxRequestProto_Builder*) setLockBoxEventId:(int32_t) value;
+- (PickLockBoxRequestProto_Builder*) clearLockBoxEventId;
+
+- (BOOL) hasMethod;
+- (PickLockBoxRequestProto_PickLockBoxMethod) method;
+- (PickLockBoxRequestProto_Builder*) setMethod:(PickLockBoxRequestProto_PickLockBoxMethod) value;
+- (PickLockBoxRequestProto_Builder*) clearMethod;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (PickLockBoxRequestProto_Builder*) setClientTime:(int64_t) value;
+- (PickLockBoxRequestProto_Builder*) clearClientTime;
+@end
+
+@interface PickLockBoxResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSuccess_:1;
+  BOOL hasClientTime_:1;
+  BOOL hasLockBoxEventId_:1;
+  BOOL hasSender_:1;
+  BOOL hasItem_:1;
+  BOOL hasPrizeEquip_:1;
+  BOOL hasStatus_:1;
+  BOOL success_:1;
+  int64_t clientTime;
+  int32_t lockBoxEventId;
+  MinimumUserProto* sender;
+  LockBoxItemProto* item;
+  FullUserEquipProto* prizeEquip;
+  PickLockBoxResponseProto_PickLockBoxStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasSuccess;
+- (BOOL) hasItem;
+- (BOOL) hasPrizeEquip;
+- (BOOL) hasLockBoxEventId;
+- (BOOL) hasClientTime;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+- (BOOL) success;
+@property (readonly, retain) LockBoxItemProto* item;
+@property (readonly, retain) FullUserEquipProto* prizeEquip;
+@property (readonly) int32_t lockBoxEventId;
+@property (readonly) int64_t clientTime;
+@property (readonly) PickLockBoxResponseProto_PickLockBoxStatus status;
+
++ (PickLockBoxResponseProto*) defaultInstance;
+- (PickLockBoxResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PickLockBoxResponseProto_Builder*) builder;
++ (PickLockBoxResponseProto_Builder*) builder;
++ (PickLockBoxResponseProto_Builder*) builderWithPrototype:(PickLockBoxResponseProto*) prototype;
+
++ (PickLockBoxResponseProto*) parseFromData:(NSData*) data;
++ (PickLockBoxResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PickLockBoxResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (PickLockBoxResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PickLockBoxResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PickLockBoxResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PickLockBoxResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PickLockBoxResponseProto* result;
+}
+
+- (PickLockBoxResponseProto*) defaultInstance;
+
+- (PickLockBoxResponseProto_Builder*) clear;
+- (PickLockBoxResponseProto_Builder*) clone;
+
+- (PickLockBoxResponseProto*) build;
+- (PickLockBoxResponseProto*) buildPartial;
+
+- (PickLockBoxResponseProto_Builder*) mergeFrom:(PickLockBoxResponseProto*) other;
+- (PickLockBoxResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PickLockBoxResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PickLockBoxResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PickLockBoxResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PickLockBoxResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PickLockBoxResponseProto_Builder*) clearSender;
+
+- (BOOL) hasSuccess;
+- (BOOL) success;
+- (PickLockBoxResponseProto_Builder*) setSuccess:(BOOL) value;
+- (PickLockBoxResponseProto_Builder*) clearSuccess;
+
+- (BOOL) hasItem;
+- (LockBoxItemProto*) item;
+- (PickLockBoxResponseProto_Builder*) setItem:(LockBoxItemProto*) value;
+- (PickLockBoxResponseProto_Builder*) setItemBuilder:(LockBoxItemProto_Builder*) builderForValue;
+- (PickLockBoxResponseProto_Builder*) mergeItem:(LockBoxItemProto*) value;
+- (PickLockBoxResponseProto_Builder*) clearItem;
+
+- (BOOL) hasPrizeEquip;
+- (FullUserEquipProto*) prizeEquip;
+- (PickLockBoxResponseProto_Builder*) setPrizeEquip:(FullUserEquipProto*) value;
+- (PickLockBoxResponseProto_Builder*) setPrizeEquipBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (PickLockBoxResponseProto_Builder*) mergePrizeEquip:(FullUserEquipProto*) value;
+- (PickLockBoxResponseProto_Builder*) clearPrizeEquip;
+
+- (BOOL) hasLockBoxEventId;
+- (int32_t) lockBoxEventId;
+- (PickLockBoxResponseProto_Builder*) setLockBoxEventId:(int32_t) value;
+- (PickLockBoxResponseProto_Builder*) clearLockBoxEventId;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (PickLockBoxResponseProto_Builder*) setClientTime:(int64_t) value;
+- (PickLockBoxResponseProto_Builder*) clearClientTime;
+
+- (BOOL) hasStatus;
+- (PickLockBoxResponseProto_PickLockBoxStatus) status;
+- (PickLockBoxResponseProto_Builder*) setStatus:(PickLockBoxResponseProto_PickLockBoxStatus) value;
+- (PickLockBoxResponseProto_Builder*) clearStatus;
+@end
+
+@interface BossActionRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasCurTime_:1;
+  BOOL hasBossId_:1;
+  BOOL hasSender_:1;
+  int64_t curTime;
+  int32_t bossId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasBossId;
+- (BOOL) hasCurTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t bossId;
+@property (readonly) int64_t curTime;
+
++ (BossActionRequestProto*) defaultInstance;
+- (BossActionRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BossActionRequestProto_Builder*) builder;
++ (BossActionRequestProto_Builder*) builder;
++ (BossActionRequestProto_Builder*) builderWithPrototype:(BossActionRequestProto*) prototype;
+
++ (BossActionRequestProto*) parseFromData:(NSData*) data;
++ (BossActionRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BossActionRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (BossActionRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BossActionRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BossActionRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BossActionRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BossActionRequestProto* result;
+}
+
+- (BossActionRequestProto*) defaultInstance;
+
+- (BossActionRequestProto_Builder*) clear;
+- (BossActionRequestProto_Builder*) clone;
+
+- (BossActionRequestProto*) build;
+- (BossActionRequestProto*) buildPartial;
+
+- (BossActionRequestProto_Builder*) mergeFrom:(BossActionRequestProto*) other;
+- (BossActionRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BossActionRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BossActionRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BossActionRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BossActionRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BossActionRequestProto_Builder*) clearSender;
+
+- (BOOL) hasBossId;
+- (int32_t) bossId;
+- (BossActionRequestProto_Builder*) setBossId:(int32_t) value;
+- (BossActionRequestProto_Builder*) clearBossId;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (BossActionRequestProto_Builder*) setCurTime:(int64_t) value;
+- (BossActionRequestProto_Builder*) clearCurTime;
+@end
+
+@interface BossActionResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasDamageDone_:1;
+  BOOL hasBossId_:1;
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  int32_t damageDone;
+  int32_t bossId;
+  MinimumUserProto* sender;
+  BossActionResponseProto_BossActionStatus status;
+  NSMutableArray* mutableCoinsGainedList;
+  NSMutableArray* mutableDiamondsGainedList;
+  NSMutableArray* mutableLootUserEquipList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasDamageDone;
+- (BOOL) hasBossId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) BossActionResponseProto_BossActionStatus status;
+@property (readonly) int32_t damageDone;
+@property (readonly) int32_t bossId;
+- (NSArray*) lootUserEquipList;
+- (FullUserEquipProto*) lootUserEquipAtIndex:(int32_t) index;
+- (NSArray*) coinsGainedList;
+- (int32_t) coinsGainedAtIndex:(int32_t) index;
+- (NSArray*) diamondsGainedList;
+- (int32_t) diamondsGainedAtIndex:(int32_t) index;
+
++ (BossActionResponseProto*) defaultInstance;
+- (BossActionResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BossActionResponseProto_Builder*) builder;
++ (BossActionResponseProto_Builder*) builder;
++ (BossActionResponseProto_Builder*) builderWithPrototype:(BossActionResponseProto*) prototype;
+
++ (BossActionResponseProto*) parseFromData:(NSData*) data;
++ (BossActionResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BossActionResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (BossActionResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BossActionResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BossActionResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BossActionResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BossActionResponseProto* result;
+}
+
+- (BossActionResponseProto*) defaultInstance;
+
+- (BossActionResponseProto_Builder*) clear;
+- (BossActionResponseProto_Builder*) clone;
+
+- (BossActionResponseProto*) build;
+- (BossActionResponseProto*) buildPartial;
+
+- (BossActionResponseProto_Builder*) mergeFrom:(BossActionResponseProto*) other;
+- (BossActionResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BossActionResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BossActionResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BossActionResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BossActionResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BossActionResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (BossActionResponseProto_BossActionStatus) status;
+- (BossActionResponseProto_Builder*) setStatus:(BossActionResponseProto_BossActionStatus) value;
+- (BossActionResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasDamageDone;
+- (int32_t) damageDone;
+- (BossActionResponseProto_Builder*) setDamageDone:(int32_t) value;
+- (BossActionResponseProto_Builder*) clearDamageDone;
+
+- (NSArray*) lootUserEquipList;
+- (FullUserEquipProto*) lootUserEquipAtIndex:(int32_t) index;
+- (BossActionResponseProto_Builder*) replaceLootUserEquipAtIndex:(int32_t) index with:(FullUserEquipProto*) value;
+- (BossActionResponseProto_Builder*) addLootUserEquip:(FullUserEquipProto*) value;
+- (BossActionResponseProto_Builder*) addAllLootUserEquip:(NSArray*) values;
+- (BossActionResponseProto_Builder*) clearLootUserEquipList;
+
+- (NSArray*) coinsGainedList;
+- (int32_t) coinsGainedAtIndex:(int32_t) index;
+- (BossActionResponseProto_Builder*) replaceCoinsGainedAtIndex:(int32_t) index with:(int32_t) value;
+- (BossActionResponseProto_Builder*) addCoinsGained:(int32_t) value;
+- (BossActionResponseProto_Builder*) addAllCoinsGained:(NSArray*) values;
+- (BossActionResponseProto_Builder*) clearCoinsGainedList;
+
+- (NSArray*) diamondsGainedList;
+- (int32_t) diamondsGainedAtIndex:(int32_t) index;
+- (BossActionResponseProto_Builder*) replaceDiamondsGainedAtIndex:(int32_t) index with:(int32_t) value;
+- (BossActionResponseProto_Builder*) addDiamondsGained:(int32_t) value;
+- (BossActionResponseProto_Builder*) addAllDiamondsGained:(NSArray*) values;
+- (BossActionResponseProto_Builder*) clearDiamondsGainedList;
+
+- (BOOL) hasBossId;
+- (int32_t) bossId;
+- (BossActionResponseProto_Builder*) setBossId:(int32_t) value;
+- (BossActionResponseProto_Builder*) clearBossId;
 @end
 

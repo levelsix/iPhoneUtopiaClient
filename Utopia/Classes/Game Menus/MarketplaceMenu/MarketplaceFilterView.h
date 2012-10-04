@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NibUtils.h"
+#import "Protocols.pb.h"
 
 @class SliderPin;
 
@@ -112,6 +113,17 @@ typedef enum {
 
 @end
 
+@interface MarketplacePickerView : UIView <UIPickerViewDataSource, UIPickerViewDelegate>
+
+@property (nonatomic, assign) RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder sortOrder;
+
+@property (nonatomic, retain) IBOutlet UILabel *sortOrderLabel;
+@property (nonatomic, retain) IBOutlet UIPickerView *pickerView;
+
+@property (nonatomic, retain) NSArray *sortOrderStrings;
+
+@end
+
 @interface MarketplaceFilterView : UIView
 
 @property (nonatomic, retain) IBOutlet FilterBar *filterBar;
@@ -119,6 +131,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet SwitchButton *switchButton;
 @property (nonatomic, retain) IBOutlet SliderBar *equipLevelBar;
 @property (nonatomic, retain) IBOutlet SliderBar *forgeLevelBar;
+@property (nonatomic, retain) IBOutlet MarketplacePickerView *pickerView;
 
 - (void) loadFilterSettings;
 - (void) saveFilterSettings;

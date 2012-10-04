@@ -24,6 +24,10 @@
 @class BootPlayerFromClanRequestProto_Builder;
 @class BootPlayerFromClanResponseProto;
 @class BootPlayerFromClanResponseProto_Builder;
+@class BossActionRequestProto;
+@class BossActionRequestProto_Builder;
+@class BossActionResponseProto;
+@class BossActionResponseProto_Builder;
 @class BuildStructJobProto;
 @class BuildStructJobProto_Builder;
 @class ChangeClanDescriptionRequestProto;
@@ -96,6 +100,8 @@
 @class ForgeAttemptWaitCompleteRequestProto_Builder;
 @class ForgeAttemptWaitCompleteResponseProto;
 @class ForgeAttemptWaitCompleteResponseProto_Builder;
+@class FullBossProto;
+@class FullBossProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
 @class FullClanProto;
@@ -114,6 +120,8 @@
 @class FullTaskProto_Builder;
 @class FullTaskProto_FullTaskEquipReqProto;
 @class FullTaskProto_FullTaskEquipReqProto_Builder;
+@class FullUserBossProto;
+@class FullUserBossProto_Builder;
 @class FullUserCityExpansionDataProto;
 @class FullUserCityExpansionDataProto_Builder;
 @class FullUserCityProto;
@@ -156,6 +164,10 @@
 @class LoadPlayerCityResponseProto_Builder;
 @class LocationProto;
 @class LocationProto_Builder;
+@class LockBoxEventProto;
+@class LockBoxEventProto_Builder;
+@class LockBoxItemProto;
+@class LockBoxItemProto_Builder;
 @class LogoutRequestProto;
 @class LogoutRequestProto_Builder;
 @class MinimumClanProto;
@@ -194,6 +206,10 @@
 @class NormStructWaitCompleteRequestProto_Builder;
 @class NormStructWaitCompleteResponseProto;
 @class NormStructWaitCompleteResponseProto_Builder;
+@class PickLockBoxRequestProto;
+@class PickLockBoxRequestProto_Builder;
+@class PickLockBoxResponseProto;
+@class PickLockBoxResponseProto_Builder;
 @class PlayThreeCardMonteRequestProto;
 @class PlayThreeCardMonteRequestProto_Builder;
 @class PlayThreeCardMonteResponseProto;
@@ -364,6 +380,8 @@
 @class StartupResponseProto_StartupConstants_GoldmineConstants_Builder;
 @class StartupResponseProto_StartupConstants_KiipRewardConditions;
 @class StartupResponseProto_StartupConstants_KiipRewardConditions_Builder;
+@class StartupResponseProto_StartupConstants_LockBoxConstants;
+@class StartupResponseProto_StartupConstants_LockBoxConstants_Builder;
 @class StartupResponseProto_TutorialConstants;
 @class StartupResponseProto_TutorialConstants_Builder;
 @class StartupResponseProto_TutorialConstants_FullTutorialQuestProto;
@@ -398,6 +416,10 @@
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
 @class UserCreateResponseProto_Builder;
+@class UserLockBoxEventProto;
+@class UserLockBoxEventProto_Builder;
+@class UserLockBoxItemProto;
+@class UserLockBoxItemProto_Builder;
 @class UserQuestDetailsRequestProto;
 @class UserQuestDetailsRequestProto_Builder;
 @class UserQuestDetailsResponseProto;
@@ -475,6 +497,8 @@ typedef enum {
   EventProtocolRequestCPlayThreeCardMonteEvent = 68,
   EventProtocolRequestCBeginGoldmineTimerEvent = 69,
   EventProtocolRequestCCollectFromGoldmineEvent = 70,
+  EventProtocolRequestCPickLockBoxEvent = 71,
+  EventProtocolRequestCBossActionEvent = 72,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -550,6 +574,8 @@ typedef enum {
   EventProtocolResponseSPlayThreeCardMonteEvent = 68,
   EventProtocolResponseSBeginGoldmineTimerEvent = 69,
   EventProtocolResponseSCollectFromGoldmineEvent = 70,
+  EventProtocolResponseSPickLockBoxEvent = 71,
+  EventProtocolResponseSBossActionEvent = 72,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

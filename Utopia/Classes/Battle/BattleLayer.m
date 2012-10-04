@@ -212,7 +212,7 @@
 @implementation StolenEquipView
 
 @synthesize nameLabel, equipIcon, attackLabel, defenseLabel, titleLabel, levelIcon;
-@synthesize mainView, bgdView;
+@synthesize mainView, bgdView, statsView;
 
 - (void) loadForEquip:(FullUserEquipProto *)fuep {
   GameState *gs = [GameState sharedGameState];
@@ -224,6 +224,22 @@
   attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fuep.equipId level:fuep.level]];
   defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fuep.equipId level:fuep.level]];
   levelIcon.level = fuep.level;
+  
+  statsView.hidden = NO;
+  levelIcon.hidden = NO;
+}
+
+- (void) loadForLockBox:(int)eventId {
+  GameState *gs = [GameState sharedGameState];
+  LockBoxEventProto *e = [gs lockBoxEventWithId:eventId];
+  titleLabel.text = @"Lock Box Found!";
+  nameLabel.text = @"Lock Box";
+  nameLabel.textColor = [Globals goldColor];
+  equipIcon.equipId = 0;
+  [Globals imageNamed:e.lockBoxImageName withImageView:equipIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  statsView.hidden = YES;
+  levelIcon.hidden = YES;
 }
 
 - (void) dealloc {
@@ -234,6 +250,7 @@
   self.mainView = nil;
   self.bgdView = nil;
   self.levelIcon = nil;
+  self.statsView = nil;
   [super dealloc];
 }
 
@@ -241,7 +258,7 @@
 
 @implementation BattleLayer
 
-@synthesize summaryView, stolenEquipView, brp, enemyEquips;
+@synthesize summaryView, stolenEquipView, gainedEquipView, gainedLockBoxView, brp, enemyEquips;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
@@ -527,7 +544,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     doneLabel.position = ccp(_loseButton.contentSize.width/2, _loseButton.contentSize.height/2);
     
     [[NSBundle mainBundle] loadNibNamed:@"BattleSummaryView" owner:self options:nil];
-    [[NSBundle mainBundle] loadNibNamed:@"StolenEquipView" owner:self options:nil];
     
     self.isTouchEnabled = YES;
     
@@ -535,6 +551,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _right = nil;
   }
   return self;
+}
+
+- (StolenEquipView *) gainedEquipView {
+  if (!gainedEquipView) {
+    [[NSBundle mainBundle] loadNibNamed:@"StolenEquipView" owner:self options:nil];
+    self.gainedEquipView = self.stolenEquipView;
+    self.stolenEquipView = nil;
+  }
+  return gainedEquipView;
+}
+
+- (StolenEquipView *) gainedLockBoxView {
+  if (!gainedLockBoxView) {
+    [[NSBundle mainBundle] loadNibNamed:@"StolenEquipView" owner:self options:nil];
+    self.gainedLockBoxView = self.stolenEquipView;
+    self.stolenEquipView = nil;
+  }
+  return gainedLockBoxView;
 }
 
 - (void) beginBattleAgainst:(FullUserProto *)user {
@@ -566,8 +600,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     return;
   }
   
-  self.enemyEquips = nil;
-  [[OutgoingEventController sharedOutgoingEventController] retrieveEquipsForUser:user.userId];
+  if (user.isFake) {
+    NSMutableArray *arr = [NSMutableArray array];
+    if (user.hasWeaponEquippedUserEquip) [arr addObject:user.weaponEquippedUserEquip];
+    if (user.hasArmorEquippedUserEquip) [arr addObject:user.armorEquippedUserEquip];
+    if (user.hasAmuletEquippedUserEquip) [arr addObject:user.amuletEquippedUserEquip];
+    self.enemyEquips = arr;
+  } else {
+    self.enemyEquips = nil;
+    [[OutgoingEventController sharedOutgoingEventController] retrieveEquipsForUser:user.userId];
+  }
   
   [self removeChild:_left cleanup:YES];
   [self removeChild:_right cleanup:YES];
@@ -654,9 +696,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _isBattling = YES;
   
   // Pop out the end views
-  if (stolenEquipView.superview) {
-    [Globals popOutView:stolenEquipView.mainView fadeOutBgdView:stolenEquipView.bgdView completion:^{
-      [stolenEquipView removeFromSuperview];
+  if (gainedEquipView.superview) {
+    [Globals popOutView:gainedEquipView.mainView fadeOutBgdView:gainedEquipView.bgdView completion:^{
+      [gainedEquipView removeFromSuperview];
+    }];
+  }
+  if (gainedLockBoxView.superview) {
+    [Globals popOutView:gainedLockBoxView.mainView fadeOutBgdView:gainedLockBoxView.bgdView completion:^{
+      [gainedLockBoxView removeFromSuperview];
     }];
   }
   if (summaryView.superview) {
@@ -671,7 +718,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [_battleCalculator release];
   _battleCalculator = [BattleCalculator createWithRightStats:[UserBattleStats
                                                               createWithFullUserProto:_fup]
-                                                andLeftStats:[UserBattleStats 
+                                                andLeftStats:[UserBattleStats
                                                               createFromGameState]];
   [_battleCalculator retain];
   
@@ -796,9 +843,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   }
 }
 
-- (CCSprite *)spriteForPercentage:(float)percent {  
+- (CCSprite *)spriteForPercentage:(float)percent {
   CombatDamageType dmgType = [_battleCalculator damageZoneForPercent:percent];
-  SoundEngine *se = [SoundEngine sharedSoundEngine];  
+  SoundEngine *se = [SoundEngine sharedSoundEngine];
   switch (dmgType) {
     case DMG_TYPE_PERFECT:
       [se perfectAttack];
@@ -909,7 +956,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                    [CCMoveBy actionWithDuration:ps.duration position:ccp(220,5)],
                    [CCCallFunc actionWithTarget:self selector:@selector(attackAnimationDone)],
                    nil]];
-  } 
+  }
   
 }
 
@@ -924,7 +971,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   damageLabel.color = ccc3(255, 0, 0);
   [damageLabel runAction:[CCSequence actions:
                           [CCSpawn actions:
-                           [CCFadeOut actionWithDuration:1.f], 
+                           [CCFadeOut actionWithDuration:1.f],
                            [CCMoveBy actionWithDuration:1.f position:ccp(0,40)],nil],
                           [CCCallBlock actionWithBlock:^{[damageLabel removeFromParentAndCleanup:YES];}], nil]];
   
@@ -995,7 +1042,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   //  float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
   //  [_flippedComboProgressTimer runAction:[CCSequence actions:[CCEaseIn actionWithAction:[CCProgressFromTo actionWithDuration:perc*duration/100 from:0 to:perc] rate:2.5],
   //                                         [CCCallBlock actionWithBlock:^{[self showEnemyBattleWordForPercentage:perc];}],
-  //                 
+  //
   //  [CCDelayTime actionWithDuration:02.5],
   //                                         [CCCallFunc actionWithTarget:self selector:@selector(doEnemyAttackAnimation)],
   //                                         nil]];
@@ -1032,7 +1079,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                       [CCDelayTime actionWithDuration:0.1],
                       // ATTACK!!
                       [CCMoveBy actionWithDuration:0.02 position:ccp(-50, 0)],
-                      // Wait a bit before 
+                      // Wait a bit before
                       // Call the done selector
                       [CCCallFunc actionWithTarget:self selector:@selector(rightClassSpecificAnimation)],
                       nil]];
@@ -1076,7 +1123,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                    [CCMoveBy actionWithDuration:ps.duration position:ccp(-220,5)],
                    [CCCallFunc actionWithTarget:self selector:@selector(enemyAttackDone)],
                    nil]];
-  } 
+  }
   
 }
 
@@ -1091,7 +1138,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   damageLabel.color = ccc3(255, 0, 0);
   [damageLabel runAction:[CCSequence actions:
                           [CCSpawn actions:
-                           [CCFadeOut actionWithDuration:1.f], 
+                           [CCFadeOut actionWithDuration:1.f],
                            [CCMoveBy actionWithDuration:1.f position:ccp(0,40)],nil],
                           [CCCallBlock actionWithBlock:^{[damageLabel removeFromParentAndCleanup:YES];}], nil]];
   
@@ -1162,7 +1209,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _winLayer.scale = 1.5f;
   [_winLayer runAction:[CCScaleTo actionWithDuration:0.2f scale:1.f]];
   
-  [[SoundEngine sharedSoundEngine] stopBackgroundMusic]; 
+  [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
   [[SoundEngine sharedSoundEngine] battleVictory];
   
   // Set the city id to 0 if win, only want it to count as 1 win
@@ -1328,16 +1375,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     SEL completeAction = nil;
     if (brp.hasUserEquipGained) {
       completeAction = @selector(displayStolenEquip);
+    } else if (brp.hasEventIdOfLockBoxGained) {
+      completeAction = @selector(displayStolenLockBox);
     } else {
       completeAction = @selector(displaySummary);
     }
-    [_left runAction: [CCSequence actions: 
+    [_left runAction: [CCSequence actions:
                        [CCDelayTime actionWithDuration:0.1],
                        [CCMoveBy actionWithDuration:0.4 position:ccp(-3*_right.contentSize.width/4, 0)],
                        [CCCallFunc actionWithTarget:self selector:completeAction],
                        nil]];
   } else {
-    [_right runAction: [CCSequence actions: 
+    [_right runAction: [CCSequence actions:
                         [CCDelayTime actionWithDuration:0.1],
                         [CCMoveBy actionWithDuration:0.4 position:ccp(3*_right.contentSize.width/4, 0)],
                         [CCCallFunc actionWithTarget:self selector:@selector(displaySummary)],
@@ -1346,10 +1395,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) displayStolenEquip {
-  UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
-  [stolenEquipView loadForEquip:brp.userEquipGained];
-  [view addSubview:stolenEquipView];
-  [Globals bounceView:stolenEquipView.mainView fadeInBgdView:stolenEquipView.bgdView];
+  [self.gainedEquipView loadForEquip:brp.userEquipGained];
+  [Globals displayUIView:self.gainedEquipView];
+  [Globals bounceView:self.gainedEquipView.mainView fadeInBgdView:self.gainedEquipView.bgdView];
+}
+
+- (void) displayStolenLockBox {
+  [self.gainedLockBoxView loadForLockBox:brp.eventIdOfLockBoxGained];
+  [Globals displayUIView:self.gainedLockBoxView];
+  [Globals bounceView:self.gainedLockBoxView.mainView fadeInBgdView:self.gainedLockBoxView.bgdView];
 }
 
 - (float) rand {
@@ -1363,10 +1417,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (IBAction) stolenEquipOkayClicked:(id)sender {
-  [Globals popOutView:stolenEquipView.mainView fadeOutBgdView:stolenEquipView.bgdView completion:^{
-    [stolenEquipView removeFromSuperview];
-  }];
-  [self displaySummary];
+  if (gainedEquipView.superview) {
+    [Globals popOutView:gainedEquipView.mainView fadeOutBgdView:gainedEquipView.bgdView completion:^{
+      [gainedEquipView removeFromSuperview];
+    }];
+    if (brp.hasEventIdOfLockBoxGained) {
+      [self displayStolenLockBox];
+    } else {
+      [self displaySummary];
+    }
+  } else if (gainedLockBoxView.superview) {
+    [Globals popOutView:gainedLockBoxView.mainView fadeOutBgdView:gainedLockBoxView.bgdView completion:^{
+      [gainedLockBoxView removeFromSuperview];
+    }];
+    [self displaySummary];
+  }
 }
 
 - (void) displaySummary {
@@ -1447,9 +1512,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   self.enemyEquips = nil;
   [_fup release];
   self.brp = nil;
-  [self.stolenEquipView removeFromSuperview];
+  [self.gainedEquipView removeFromSuperview];
+  [self.gainedLockBoxView removeFromSuperview];
   [self.summaryView removeFromSuperview];
   self.stolenEquipView = nil;
+  self.gainedEquipView = nil;
+  self.gainedLockBoxView = nil;
   self.summaryView = nil;
   [_battleCalculator release];
   [super dealloc];

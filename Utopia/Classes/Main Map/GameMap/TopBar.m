@@ -26,6 +26,7 @@
 #import "TutorialQuestLogController.h"
 #import "ChatMenuController.h"
 #import "ClanMenuController.h"
+#import "LockBoxMenuController.h"
 
 #define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
 #define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
@@ -218,7 +219,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _questButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(questButtonClicked)];
     _questButton.position = ccp(mapButton.position.x, self.contentSize.height-_coinBar.contentSize.height-_questButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
     
-    _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, _bazaarButton, _homeButton, _questButton, nil];
+    s = [CCSprite spriteWithFile:@"tblockbox.png"];
+    _lockBoxButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(lockBoxButtonClicked)];
+    _lockBoxButton.position = ccp(_questButton.position.x, _questButton.position.y-_questButton.contentSize.height/2-_lockBoxButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
+    
+    _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, nil];
     _bottomButtons.contentSize = CGSizeZero;
     _bottomButtons.position = CGPointZero;
     [self addChild:_bottomButtons z:10];
@@ -242,6 +247,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _questNewLabel = [CCLabelTTF labelWithString:@"1" fontName:@"AJensonPro-BoldCapt" fontSize:fontSize];
     [_questNewBadge addChild:_questNewLabel];
     _questNewLabel.position = ccp(_questNewBadge.contentSize.width/2, _questNewBadge.contentSize.height/2-2);
+    
+    _lockBoxBadge = [CCSprite spriteWithFile:@"badgeforquests.png"];
+    [_lockBoxButton addChild:_lockBoxBadge];
+    _lockBoxBadge.visible = NO;
+    _lockBoxBadge.position = ccp(4, _lockBoxButton.contentSize.height-4);
+    
+    CCLabelTTF *lockBoxLabel = [CCLabelTTF labelWithString:@"1" fontName:@"AJensonPro-BoldCapt" fontSize:fontSize];
+    [_lockBoxBadge addChild:lockBoxLabel];
+    lockBoxLabel.position = ccp(_lockBoxBadge.contentSize.width/2, _lockBoxBadge.contentSize.height/2-2);
     
     _trackingEnstBar = NO;
     _trackingCoinBar = NO;
@@ -277,6 +291,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (void) questButtonClicked {
   [[QuestLogController sharedQuestLogController] loadQuestLog];
+}
+
+- (void) lockBoxButtonClicked {
+  [LockBoxMenuController displayView];
 }
   
 - (void) bazaarClicked {
@@ -891,6 +909,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     view.alpha = 0.f;
     chatBottomView.alpha = 1.f;
   }];
+}
+
+- (void) shouldDisplayLockBoxButton:(BOOL)button andBadge:(BOOL)badge {
+  _lockBoxButton.visible = button;
+  _lockBoxBadge.visible = badge;
 }
 
 - (void) onEnterTransitionDidFinish {

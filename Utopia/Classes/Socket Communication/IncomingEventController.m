@@ -45,6 +45,7 @@
 #import "Crittercism.h"
 #import "ClanMenuController.h"
 #import "SocketCommunication.h"
+#import "LockBoxMenuController.h"
 
 @implementation IncomingEventController
 
@@ -264,6 +265,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSCollectFromGoldmineEvent:
       responseClass = [CollectFromGoldmineResponseProto class];
       break;
+    case EventProtocolResponseSPickLockBoxEvent:
+      responseClass = [PickLockBoxResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -336,6 +340,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         gs.silver -= proto.coinsGained;
       }
       
+      if (proto.hasEventIdOfLockBoxGained) {
+        [gs addToNumLockBoxesForEvent:proto.eventIdOfLockBoxGained];
+      }
       if (proto.hasUserEquipGained) {
         [gs.staticEquips setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
         [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.userEquipGained]];
@@ -434,6 +441,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToInProgressIncompleteQuests:proto.inProgressIncompleteQuestsList];
     [oec loadPlayerCity:gs.userId];
     [oec retrieveAllStaticData];
+    [gs addNewStaticLockBoxEvents:proto.lockBoxEventsList];
+    [gs addToMyLockBoxEvents:proto.userLockBoxEventsList];
     
     [gs addToRequestedClans:proto.userClanInfoList];
     
@@ -474,7 +483,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     //Display daily bonus screen if its applicable
     StartupResponseProto_DailyBonusInfo *dbi = proto.dailyBonusInfo;
     if (dbi.firstTimeToday) {
-      // This will 
+      // This will
       DailyBonusMenuController *dbmc = [[DailyBonusMenuController alloc] initWithNibName:nil bundle:nil];
       [dbmc loadForDay:dbi.numConsecutiveDaysPlayed silver:dbi.coinBonus equip:dbi.userEquipBonus];
       [[TopBar sharedTopBar] setDbmc:dbmc];
@@ -488,7 +497,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     
     // Display generic popups for strings that haven't been seen before
-    NSUserDefaults *standardDefault = [NSUserDefaults standardUserDefaults]; 
+    NSUserDefaults *standardDefault = [NSUserDefaults standardUserDefaults];
     NSMutableArray *stringsStored = [[[NSUserDefaults standardUserDefaults]objectForKey:@"myCurrentString"]mutableCopy];
     NSMutableArray *incomingStrings = [NSMutableArray arrayWithArray:proto.noticesToPlayersList];
     
@@ -619,6 +628,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   if (proto.status == TaskActionResponseProto_TaskActionStatusSuccess) {
     gs.silver +=  proto.coinsGained;
+    
+    if (proto.hasEventIdOfLockBoxGained) {
+      [gs addToNumLockBoxesForEvent:proto.eventIdOfLockBoxGained];
+    }
     
     if (proto.hasLootUserEquip) {
       [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.lootUserEquip]];
@@ -1130,6 +1143,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToStaticStructs:proto.structsList];
     [gs addToStaticTasks:proto.tasksList];
     [gs addToStaticUpgradeStructJobs:proto.upgradeStructJobsList];
+    
+    if (proto.lockBoxEventsList.count > 0) [gs addNewStaticLockBoxEvents:proto.lockBoxEventsList];
     
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1906,6 +1921,76 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to collect from goldmine."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handlePickLockBoxResponseProto:(FullEvent *)fe {
+  PickLockBoxResponseProto *proto = (PickLockBoxResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Pick lock box response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == PickLockBoxResponseProto_PickLockBoxStatusSuccess) {
+    NSNumber *num = [NSNumber numberWithInt:proto.lockBoxEventId];
+    UserLockBoxEventProto *ulbe = [gs.myLockBoxEvents objectForKey:num];
+    
+    if (ulbe) {
+      UserLockBoxEventProto_Builder *bldr = [UserLockBoxEventProto builderWithPrototype:ulbe];
+      
+      bldr.lastPickTime = proto.clientTime;
+      
+      if (proto.success) {
+        bldr.numLockBoxes--;
+        
+        NSArray *items = bldr.itemsList;
+        UserLockBoxItemProto *oldItem = nil;
+        int i = 0;
+        for (; i < items.count; i++) {
+          UserLockBoxItemProto *item = [items objectAtIndex:i];
+          if (item.lockBoxItemId == proto.item.lockBoxItemId) {
+            oldItem = item;
+            break;
+          }
+        }
+        
+        if (oldItem) {
+          UserLockBoxItemProto_Builder *newItem = [UserLockBoxItemProto builderWithPrototype:oldItem];
+          newItem.quantity++;
+          [bldr replaceItemsAtIndex:i with:newItem.build];
+        } else {
+          UserLockBoxItemProto_Builder *newItem = [UserLockBoxItemProto builder];
+          newItem.quantity = 1;
+          newItem.userId = gs.userId;
+          newItem.lockBoxItemId = proto.item.lockBoxItemId;
+          [bldr addItems:newItem.build];
+        }
+        
+        if (proto.hasPrizeEquip) {
+          [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.prizeEquip]];
+          
+          for (int i = 0; i < items.count; i++) {
+            UserLockBoxItemProto *item = [items objectAtIndex:i];
+            UserLockBoxItemProto_Builder *newItem = [UserLockBoxItemProto builderWithPrototype:item];
+            newItem.quantity--;
+            [bldr replaceItemsAtIndex:i with:newItem.build];
+          }
+        }
+      }
+      
+      [gs.myLockBoxEvents setObject:bldr.build forKey:num];
+      
+      [[[LockBoxMenuController sharedLockBoxMenuController] pickView] receivedPickLockResponse:proto];
+      
+      [[GameState sharedGameState] resetLockBoxTimers];
+    } else {
+      [Globals popupMessage:@"An error occurred while trying to pick lock box"];
+    }
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to pick lock box."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

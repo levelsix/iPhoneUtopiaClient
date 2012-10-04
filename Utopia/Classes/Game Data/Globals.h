@@ -133,6 +133,15 @@
 @property (nonatomic, assign) int goldAmountFromGoldminePickup;
 @property (nonatomic, assign) int goldCostForGoldmineRestart;
 
+// Lock Box constants
+@property (nonatomic, assign) int goldCostToPickLockBox;
+@property (nonatomic, assign) int silverCostToPickLockBox;
+@property (nonatomic, assign) float goldChanceToPickLockBox;
+@property (nonatomic, assign) float silverChanceToPickLockBox;
+@property (nonatomic, assign) float freeChanceToPickLockBox;
+@property (nonatomic, assign) int numMinutesToRepickLockBox;
+@property (nonatomic, assign) int goldCostToResetPickLockBox;
+
 @property (nonatomic, retain) NSDictionary *productIdentifiers;
 
 @property (nonatomic, retain) NSMutableDictionary *imageCache;
@@ -169,7 +178,7 @@
 + (NSString *) stringForRarity:(FullEquipProto_Rarity)rarity;
 + (NSString *) shortenedStringForRarity:(FullEquipProto_Rarity)rarity;
 + (NSString *) factionForUserType:(UserType)type;
-+ (NSString *) stringForEquipClassType:(FullEquipProto_ClassType)type;
++ (NSString *) stringForEquipClassType:(EquipClassType)type;
 + (NSString *) stringForEquipType:(FullEquipProto_EquipType)type;
 + (NSString *) classForUserType:(UserType)type;
 + (PlayerClassType) playerClassTypeForUserType:(UserType)userType;
@@ -184,7 +193,7 @@
 + (NSString *) battleAnimationFileForUser:(UserType)type;
 + (NSString *) stringForTimeSinceNow:(NSDate *)date;
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep;
-+ (BOOL) class:(UserType)ut canEquip:(FullEquipProto_ClassType) ct;
++ (BOOL) class:(UserType)ut canEquip:(EquipClassType) ct;
 + (BOOL) canEquip:(FullEquipProto *)fep;
 
 + (NSString *) nameForDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker;

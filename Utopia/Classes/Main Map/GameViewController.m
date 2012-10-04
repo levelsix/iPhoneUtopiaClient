@@ -50,6 +50,7 @@
 #import "LeaderboardController.h"
 #import "ChatMenuController.h"
 #import "ClanMenuController.h"
+#import "LockBoxMenuController.h"
 
 #define DOOR_CLOSE_DURATION 1.5f
 #define DOOR_OPEN_DURATION 1.f
@@ -116,6 +117,8 @@
   [GoldShoppeViewController purgeSingleton];
   [LeaderboardController removeView];
   [LeaderboardController purgeSingleton];
+  [LockBoxMenuController removeView];
+  [LockBoxMenuController purgeSingleton];
   [MapViewController cleanupAndPurgeSingleton];
   [MarketplaceViewController removeView];
   [MarketplaceViewController purgeSingleton];

@@ -51,6 +51,7 @@ typedef enum {
   ProfilePicture *_profilePic;
   
   CCMenuItem *_questButton;
+  CCMenuItem *_lockBoxButton;
   CCMenuItem *_bazaarButton;
   CCMenuItem *_homeButton;
   CCMenu *_bottomButtons;
@@ -60,6 +61,8 @@ typedef enum {
   CCSprite *_questNewBadge;
   CCLabelTTF *_questNewLabel;
   int _questNewBadgeNum;
+  
+  CCSprite *_lockBoxBadge;
   
   // For faster comparisons of touch
   CGRect _enstBarRect;
@@ -125,6 +128,8 @@ typedef enum {
 
 - (void) fadeInMenuOverChatView:(UIView *)view;
 - (void) fadeOutMenuOverChatView:(UIView *)view;
+
+- (void) shouldDisplayLockBoxButton:(BOOL)button andBadge:(BOOL)badge;
 
 + (TopBar *) sharedTopBar;
 + (void) purgeSingleton;

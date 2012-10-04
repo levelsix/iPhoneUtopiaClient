@@ -572,9 +572,54 @@
 
 @end
 
+@implementation MarketplacePickerView
+
+@synthesize sortOrder, sortOrderLabel, pickerView, sortOrderStrings;
+
+- (void) awakeFromNib {
+  self.sortOrderStrings = [NSArray arrayWithObjects:
+                           @"Posts: Most Recent",
+                           @"Price: Low to High",
+                           @"Price: High to Low",
+                           @"Attack: High to Low",
+                           @"Defense: High to Low",
+                           @"Total Stats: High to Low", nil];
+}
+
+- (void) setSortOrder:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder)s {
+  sortOrder = s;
+  self.sortOrderLabel.text = [self.sortOrderStrings objectAtIndex:s];
+  [self.pickerView selectRow:s inComponent:1 animated:NO];
+}
+
+- (int) numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+  return 1;
+}
+
+- (int) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+  return self.sortOrderStrings.count;
+}
+
+- (NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+  return [self.sortOrderStrings objectAtIndex:row];
+}
+
+- (void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+  self.sortOrder = row;
+}
+
+- (void) dealloc {
+  self.sortOrderLabel = nil;
+  self.pickerView = nil;
+  self.sortOrderStrings = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation MarketplaceFilterView
 
-@synthesize filterBar, rarityBar, switchButton, equipLevelBar, forgeLevelBar;
+@synthesize filterBar, rarityBar, switchButton, equipLevelBar, forgeLevelBar, pickerView;
 
 - (void) awakeFromNib {
   Globals *gl = [Globals sharedGlobals];
@@ -669,6 +714,7 @@
   self.switchButton = nil;
   self.equipLevelBar = nil;
   self.forgeLevelBar = nil;
+  self.pickerView = nil;
   [super dealloc];
 }
 

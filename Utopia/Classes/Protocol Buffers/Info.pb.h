@@ -14,6 +14,8 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
+@class FullBossProto;
+@class FullBossProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
 @class FullClanProto;
@@ -32,6 +34,8 @@
 @class FullTaskProto_Builder;
 @class FullTaskProto_FullTaskEquipReqProto;
 @class FullTaskProto_FullTaskEquipReqProto_Builder;
+@class FullUserBossProto;
+@class FullUserBossProto_Builder;
 @class FullUserCityExpansionDataProto;
 @class FullUserCityExpansionDataProto_Builder;
 @class FullUserCityProto;
@@ -50,6 +54,10 @@
 @class FullUserStructureProto_Builder;
 @class LocationProto;
 @class LocationProto_Builder;
+@class LockBoxEventProto;
+@class LockBoxEventProto_Builder;
+@class LockBoxItemProto;
+@class LockBoxItemProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
@@ -86,6 +94,19 @@
 @class UnhandledBlacksmithAttemptProto_Builder;
 @class UpgradeStructJobProto;
 @class UpgradeStructJobProto_Builder;
+@class UserLockBoxEventProto;
+@class UserLockBoxEventProto_Builder;
+@class UserLockBoxItemProto;
+@class UserLockBoxItemProto_Builder;
+typedef enum {
+  EquipClassTypeWarrior = 0,
+  EquipClassTypeArcher = 1,
+  EquipClassTypeMage = 2,
+  EquipClassTypeAllAmulet = 3,
+} EquipClassType;
+
+BOOL EquipClassTypeIsValidValue(EquipClassType value);
+
 typedef enum {
   UserClanStatusMember = 0,
   UserClanStatusRequesting = 2,
@@ -227,15 +248,6 @@ typedef enum {
 BOOL FullEquipProto_EquipTypeIsValidValue(FullEquipProto_EquipType value);
 
 typedef enum {
-  FullEquipProto_ClassTypeWarrior = 0,
-  FullEquipProto_ClassTypeArcher = 1,
-  FullEquipProto_ClassTypeMage = 2,
-  FullEquipProto_ClassTypeAllAmulet = 3,
-} FullEquipProto_ClassType;
-
-BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
-
-typedef enum {
   NeutralCityElementProto_NeutralCityElemTypePersonQuestGiver = 0,
   NeutralCityElementProto_NeutralCityElemTypeBuilding = 1,
   NeutralCityElementProto_NeutralCityElemTypeDecoration = 2,
@@ -281,6 +293,595 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
+@end
+
+@interface LockBoxEventProto : PBGeneratedMessage {
+@private
+  BOOL hasStartDate_:1;
+  BOOL hasEndDate_:1;
+  BOOL hasLockBoxEventId_:1;
+  BOOL hasLockBoxImageName_:1;
+  BOOL hasEventName_:1;
+  BOOL hasPrizeEquip_:1;
+  int64_t startDate;
+  int64_t endDate;
+  int32_t lockBoxEventId;
+  NSString* lockBoxImageName;
+  NSString* eventName;
+  FullEquipProto* prizeEquip;
+  NSMutableArray* mutableItemsList;
+}
+- (BOOL) hasLockBoxEventId;
+- (BOOL) hasStartDate;
+- (BOOL) hasEndDate;
+- (BOOL) hasLockBoxImageName;
+- (BOOL) hasEventName;
+- (BOOL) hasPrizeEquip;
+@property (readonly) int32_t lockBoxEventId;
+@property (readonly) int64_t startDate;
+@property (readonly) int64_t endDate;
+@property (readonly, retain) NSString* lockBoxImageName;
+@property (readonly, retain) NSString* eventName;
+@property (readonly, retain) FullEquipProto* prizeEquip;
+- (NSArray*) itemsList;
+- (LockBoxItemProto*) itemsAtIndex:(int32_t) index;
+
++ (LockBoxEventProto*) defaultInstance;
+- (LockBoxEventProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (LockBoxEventProto_Builder*) builder;
++ (LockBoxEventProto_Builder*) builder;
++ (LockBoxEventProto_Builder*) builderWithPrototype:(LockBoxEventProto*) prototype;
+
++ (LockBoxEventProto*) parseFromData:(NSData*) data;
++ (LockBoxEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LockBoxEventProto*) parseFromInputStream:(NSInputStream*) input;
++ (LockBoxEventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LockBoxEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (LockBoxEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface LockBoxEventProto_Builder : PBGeneratedMessage_Builder {
+@private
+  LockBoxEventProto* result;
+}
+
+- (LockBoxEventProto*) defaultInstance;
+
+- (LockBoxEventProto_Builder*) clear;
+- (LockBoxEventProto_Builder*) clone;
+
+- (LockBoxEventProto*) build;
+- (LockBoxEventProto*) buildPartial;
+
+- (LockBoxEventProto_Builder*) mergeFrom:(LockBoxEventProto*) other;
+- (LockBoxEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (LockBoxEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasLockBoxEventId;
+- (int32_t) lockBoxEventId;
+- (LockBoxEventProto_Builder*) setLockBoxEventId:(int32_t) value;
+- (LockBoxEventProto_Builder*) clearLockBoxEventId;
+
+- (BOOL) hasStartDate;
+- (int64_t) startDate;
+- (LockBoxEventProto_Builder*) setStartDate:(int64_t) value;
+- (LockBoxEventProto_Builder*) clearStartDate;
+
+- (BOOL) hasEndDate;
+- (int64_t) endDate;
+- (LockBoxEventProto_Builder*) setEndDate:(int64_t) value;
+- (LockBoxEventProto_Builder*) clearEndDate;
+
+- (BOOL) hasLockBoxImageName;
+- (NSString*) lockBoxImageName;
+- (LockBoxEventProto_Builder*) setLockBoxImageName:(NSString*) value;
+- (LockBoxEventProto_Builder*) clearLockBoxImageName;
+
+- (BOOL) hasEventName;
+- (NSString*) eventName;
+- (LockBoxEventProto_Builder*) setEventName:(NSString*) value;
+- (LockBoxEventProto_Builder*) clearEventName;
+
+- (BOOL) hasPrizeEquip;
+- (FullEquipProto*) prizeEquip;
+- (LockBoxEventProto_Builder*) setPrizeEquip:(FullEquipProto*) value;
+- (LockBoxEventProto_Builder*) setPrizeEquipBuilder:(FullEquipProto_Builder*) builderForValue;
+- (LockBoxEventProto_Builder*) mergePrizeEquip:(FullEquipProto*) value;
+- (LockBoxEventProto_Builder*) clearPrizeEquip;
+
+- (NSArray*) itemsList;
+- (LockBoxItemProto*) itemsAtIndex:(int32_t) index;
+- (LockBoxEventProto_Builder*) replaceItemsAtIndex:(int32_t) index with:(LockBoxItemProto*) value;
+- (LockBoxEventProto_Builder*) addItems:(LockBoxItemProto*) value;
+- (LockBoxEventProto_Builder*) addAllItems:(NSArray*) values;
+- (LockBoxEventProto_Builder*) clearItemsList;
+@end
+
+@interface LockBoxItemProto : PBGeneratedMessage {
+@private
+  BOOL hasChanceToUnlock_:1;
+  BOOL hasLockBoxItemId_:1;
+  BOOL hasLockBoxEventId_:1;
+  BOOL hasName_:1;
+  BOOL hasImageName_:1;
+  BOOL hasType_:1;
+  Float32 chanceToUnlock;
+  int32_t lockBoxItemId;
+  int32_t lockBoxEventId;
+  NSString* name;
+  NSString* imageName;
+  EquipClassType type;
+}
+- (BOOL) hasLockBoxItemId;
+- (BOOL) hasLockBoxEventId;
+- (BOOL) hasChanceToUnlock;
+- (BOOL) hasName;
+- (BOOL) hasType;
+- (BOOL) hasImageName;
+@property (readonly) int32_t lockBoxItemId;
+@property (readonly) int32_t lockBoxEventId;
+@property (readonly) Float32 chanceToUnlock;
+@property (readonly, retain) NSString* name;
+@property (readonly) EquipClassType type;
+@property (readonly, retain) NSString* imageName;
+
++ (LockBoxItemProto*) defaultInstance;
+- (LockBoxItemProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (LockBoxItemProto_Builder*) builder;
++ (LockBoxItemProto_Builder*) builder;
++ (LockBoxItemProto_Builder*) builderWithPrototype:(LockBoxItemProto*) prototype;
+
++ (LockBoxItemProto*) parseFromData:(NSData*) data;
++ (LockBoxItemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LockBoxItemProto*) parseFromInputStream:(NSInputStream*) input;
++ (LockBoxItemProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LockBoxItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (LockBoxItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface LockBoxItemProto_Builder : PBGeneratedMessage_Builder {
+@private
+  LockBoxItemProto* result;
+}
+
+- (LockBoxItemProto*) defaultInstance;
+
+- (LockBoxItemProto_Builder*) clear;
+- (LockBoxItemProto_Builder*) clone;
+
+- (LockBoxItemProto*) build;
+- (LockBoxItemProto*) buildPartial;
+
+- (LockBoxItemProto_Builder*) mergeFrom:(LockBoxItemProto*) other;
+- (LockBoxItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (LockBoxItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasLockBoxItemId;
+- (int32_t) lockBoxItemId;
+- (LockBoxItemProto_Builder*) setLockBoxItemId:(int32_t) value;
+- (LockBoxItemProto_Builder*) clearLockBoxItemId;
+
+- (BOOL) hasLockBoxEventId;
+- (int32_t) lockBoxEventId;
+- (LockBoxItemProto_Builder*) setLockBoxEventId:(int32_t) value;
+- (LockBoxItemProto_Builder*) clearLockBoxEventId;
+
+- (BOOL) hasChanceToUnlock;
+- (Float32) chanceToUnlock;
+- (LockBoxItemProto_Builder*) setChanceToUnlock:(Float32) value;
+- (LockBoxItemProto_Builder*) clearChanceToUnlock;
+
+- (BOOL) hasName;
+- (NSString*) name;
+- (LockBoxItemProto_Builder*) setName:(NSString*) value;
+- (LockBoxItemProto_Builder*) clearName;
+
+- (BOOL) hasType;
+- (EquipClassType) type;
+- (LockBoxItemProto_Builder*) setType:(EquipClassType) value;
+- (LockBoxItemProto_Builder*) clearType;
+
+- (BOOL) hasImageName;
+- (NSString*) imageName;
+- (LockBoxItemProto_Builder*) setImageName:(NSString*) value;
+- (LockBoxItemProto_Builder*) clearImageName;
+@end
+
+@interface UserLockBoxEventProto : PBGeneratedMessage {
+@private
+  BOOL hasLastPickTime_:1;
+  BOOL hasLockBoxEventId_:1;
+  BOOL hasUserId_:1;
+  BOOL hasNumLockBoxes_:1;
+  BOOL hasNumTimesCompleted_:1;
+  int64_t lastPickTime;
+  int32_t lockBoxEventId;
+  int32_t userId;
+  int32_t numLockBoxes;
+  int32_t numTimesCompleted;
+  NSMutableArray* mutableItemsList;
+}
+- (BOOL) hasLockBoxEventId;
+- (BOOL) hasUserId;
+- (BOOL) hasNumLockBoxes;
+- (BOOL) hasNumTimesCompleted;
+- (BOOL) hasLastPickTime;
+@property (readonly) int32_t lockBoxEventId;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t numLockBoxes;
+@property (readonly) int32_t numTimesCompleted;
+@property (readonly) int64_t lastPickTime;
+- (NSArray*) itemsList;
+- (UserLockBoxItemProto*) itemsAtIndex:(int32_t) index;
+
++ (UserLockBoxEventProto*) defaultInstance;
+- (UserLockBoxEventProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserLockBoxEventProto_Builder*) builder;
++ (UserLockBoxEventProto_Builder*) builder;
++ (UserLockBoxEventProto_Builder*) builderWithPrototype:(UserLockBoxEventProto*) prototype;
+
++ (UserLockBoxEventProto*) parseFromData:(NSData*) data;
++ (UserLockBoxEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserLockBoxEventProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserLockBoxEventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserLockBoxEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserLockBoxEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserLockBoxEventProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UserLockBoxEventProto* result;
+}
+
+- (UserLockBoxEventProto*) defaultInstance;
+
+- (UserLockBoxEventProto_Builder*) clear;
+- (UserLockBoxEventProto_Builder*) clone;
+
+- (UserLockBoxEventProto*) build;
+- (UserLockBoxEventProto*) buildPartial;
+
+- (UserLockBoxEventProto_Builder*) mergeFrom:(UserLockBoxEventProto*) other;
+- (UserLockBoxEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserLockBoxEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasLockBoxEventId;
+- (int32_t) lockBoxEventId;
+- (UserLockBoxEventProto_Builder*) setLockBoxEventId:(int32_t) value;
+- (UserLockBoxEventProto_Builder*) clearLockBoxEventId;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (UserLockBoxEventProto_Builder*) setUserId:(int32_t) value;
+- (UserLockBoxEventProto_Builder*) clearUserId;
+
+- (BOOL) hasNumLockBoxes;
+- (int32_t) numLockBoxes;
+- (UserLockBoxEventProto_Builder*) setNumLockBoxes:(int32_t) value;
+- (UserLockBoxEventProto_Builder*) clearNumLockBoxes;
+
+- (BOOL) hasNumTimesCompleted;
+- (int32_t) numTimesCompleted;
+- (UserLockBoxEventProto_Builder*) setNumTimesCompleted:(int32_t) value;
+- (UserLockBoxEventProto_Builder*) clearNumTimesCompleted;
+
+- (BOOL) hasLastPickTime;
+- (int64_t) lastPickTime;
+- (UserLockBoxEventProto_Builder*) setLastPickTime:(int64_t) value;
+- (UserLockBoxEventProto_Builder*) clearLastPickTime;
+
+- (NSArray*) itemsList;
+- (UserLockBoxItemProto*) itemsAtIndex:(int32_t) index;
+- (UserLockBoxEventProto_Builder*) replaceItemsAtIndex:(int32_t) index with:(UserLockBoxItemProto*) value;
+- (UserLockBoxEventProto_Builder*) addItems:(UserLockBoxItemProto*) value;
+- (UserLockBoxEventProto_Builder*) addAllItems:(NSArray*) values;
+- (UserLockBoxEventProto_Builder*) clearItemsList;
+@end
+
+@interface UserLockBoxItemProto : PBGeneratedMessage {
+@private
+  BOOL hasLockBoxItemId_:1;
+  BOOL hasUserId_:1;
+  BOOL hasQuantity_:1;
+  int32_t lockBoxItemId;
+  int32_t userId;
+  int32_t quantity;
+}
+- (BOOL) hasLockBoxItemId;
+- (BOOL) hasUserId;
+- (BOOL) hasQuantity;
+@property (readonly) int32_t lockBoxItemId;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t quantity;
+
++ (UserLockBoxItemProto*) defaultInstance;
+- (UserLockBoxItemProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserLockBoxItemProto_Builder*) builder;
++ (UserLockBoxItemProto_Builder*) builder;
++ (UserLockBoxItemProto_Builder*) builderWithPrototype:(UserLockBoxItemProto*) prototype;
+
++ (UserLockBoxItemProto*) parseFromData:(NSData*) data;
++ (UserLockBoxItemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserLockBoxItemProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserLockBoxItemProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserLockBoxItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserLockBoxItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserLockBoxItemProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UserLockBoxItemProto* result;
+}
+
+- (UserLockBoxItemProto*) defaultInstance;
+
+- (UserLockBoxItemProto_Builder*) clear;
+- (UserLockBoxItemProto_Builder*) clone;
+
+- (UserLockBoxItemProto*) build;
+- (UserLockBoxItemProto*) buildPartial;
+
+- (UserLockBoxItemProto_Builder*) mergeFrom:(UserLockBoxItemProto*) other;
+- (UserLockBoxItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserLockBoxItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasLockBoxItemId;
+- (int32_t) lockBoxItemId;
+- (UserLockBoxItemProto_Builder*) setLockBoxItemId:(int32_t) value;
+- (UserLockBoxItemProto_Builder*) clearLockBoxItemId;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (UserLockBoxItemProto_Builder*) setUserId:(int32_t) value;
+- (UserLockBoxItemProto_Builder*) clearUserId;
+
+- (BOOL) hasQuantity;
+- (int32_t) quantity;
+- (UserLockBoxItemProto_Builder*) setQuantity:(int32_t) value;
+- (UserLockBoxItemProto_Builder*) clearQuantity;
+@end
+
+@interface FullBossProto : PBGeneratedMessage {
+@private
+  BOOL hasBossId_:1;
+  BOOL hasBaseHealth_:1;
+  BOOL hasMinDamage_:1;
+  BOOL hasMaxDamage_:1;
+  BOOL hasMinutesToKill_:1;
+  BOOL hasMinutesToRespawn_:1;
+  BOOL hasExperienceGained_:1;
+  BOOL hasCityId_:1;
+  BOOL hasAssetNumWithinCity_:1;
+  BOOL hasStaminaCost_:1;
+  BOOL hasGoodName_:1;
+  BOOL hasBadName_:1;
+  int32_t bossId;
+  int32_t baseHealth;
+  int32_t minDamage;
+  int32_t maxDamage;
+  int32_t minutesToKill;
+  int32_t minutesToRespawn;
+  int32_t experienceGained;
+  int32_t cityId;
+  int32_t assetNumWithinCity;
+  int32_t staminaCost;
+  NSString* goodName;
+  NSString* badName;
+}
+- (BOOL) hasBossId;
+- (BOOL) hasBaseHealth;
+- (BOOL) hasMinDamage;
+- (BOOL) hasMaxDamage;
+- (BOOL) hasMinutesToKill;
+- (BOOL) hasMinutesToRespawn;
+- (BOOL) hasExperienceGained;
+- (BOOL) hasCityId;
+- (BOOL) hasAssetNumWithinCity;
+- (BOOL) hasGoodName;
+- (BOOL) hasBadName;
+- (BOOL) hasStaminaCost;
+@property (readonly) int32_t bossId;
+@property (readonly) int32_t baseHealth;
+@property (readonly) int32_t minDamage;
+@property (readonly) int32_t maxDamage;
+@property (readonly) int32_t minutesToKill;
+@property (readonly) int32_t minutesToRespawn;
+@property (readonly) int32_t experienceGained;
+@property (readonly) int32_t cityId;
+@property (readonly) int32_t assetNumWithinCity;
+@property (readonly, retain) NSString* goodName;
+@property (readonly, retain) NSString* badName;
+@property (readonly) int32_t staminaCost;
+
++ (FullBossProto*) defaultInstance;
+- (FullBossProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (FullBossProto_Builder*) builder;
++ (FullBossProto_Builder*) builder;
++ (FullBossProto_Builder*) builderWithPrototype:(FullBossProto*) prototype;
+
++ (FullBossProto*) parseFromData:(NSData*) data;
++ (FullBossProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FullBossProto*) parseFromInputStream:(NSInputStream*) input;
++ (FullBossProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FullBossProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (FullBossProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface FullBossProto_Builder : PBGeneratedMessage_Builder {
+@private
+  FullBossProto* result;
+}
+
+- (FullBossProto*) defaultInstance;
+
+- (FullBossProto_Builder*) clear;
+- (FullBossProto_Builder*) clone;
+
+- (FullBossProto*) build;
+- (FullBossProto*) buildPartial;
+
+- (FullBossProto_Builder*) mergeFrom:(FullBossProto*) other;
+- (FullBossProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (FullBossProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasBossId;
+- (int32_t) bossId;
+- (FullBossProto_Builder*) setBossId:(int32_t) value;
+- (FullBossProto_Builder*) clearBossId;
+
+- (BOOL) hasBaseHealth;
+- (int32_t) baseHealth;
+- (FullBossProto_Builder*) setBaseHealth:(int32_t) value;
+- (FullBossProto_Builder*) clearBaseHealth;
+
+- (BOOL) hasMinDamage;
+- (int32_t) minDamage;
+- (FullBossProto_Builder*) setMinDamage:(int32_t) value;
+- (FullBossProto_Builder*) clearMinDamage;
+
+- (BOOL) hasMaxDamage;
+- (int32_t) maxDamage;
+- (FullBossProto_Builder*) setMaxDamage:(int32_t) value;
+- (FullBossProto_Builder*) clearMaxDamage;
+
+- (BOOL) hasMinutesToKill;
+- (int32_t) minutesToKill;
+- (FullBossProto_Builder*) setMinutesToKill:(int32_t) value;
+- (FullBossProto_Builder*) clearMinutesToKill;
+
+- (BOOL) hasMinutesToRespawn;
+- (int32_t) minutesToRespawn;
+- (FullBossProto_Builder*) setMinutesToRespawn:(int32_t) value;
+- (FullBossProto_Builder*) clearMinutesToRespawn;
+
+- (BOOL) hasExperienceGained;
+- (int32_t) experienceGained;
+- (FullBossProto_Builder*) setExperienceGained:(int32_t) value;
+- (FullBossProto_Builder*) clearExperienceGained;
+
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (FullBossProto_Builder*) setCityId:(int32_t) value;
+- (FullBossProto_Builder*) clearCityId;
+
+- (BOOL) hasAssetNumWithinCity;
+- (int32_t) assetNumWithinCity;
+- (FullBossProto_Builder*) setAssetNumWithinCity:(int32_t) value;
+- (FullBossProto_Builder*) clearAssetNumWithinCity;
+
+- (BOOL) hasGoodName;
+- (NSString*) goodName;
+- (FullBossProto_Builder*) setGoodName:(NSString*) value;
+- (FullBossProto_Builder*) clearGoodName;
+
+- (BOOL) hasBadName;
+- (NSString*) badName;
+- (FullBossProto_Builder*) setBadName:(NSString*) value;
+- (FullBossProto_Builder*) clearBadName;
+
+- (BOOL) hasStaminaCost;
+- (int32_t) staminaCost;
+- (FullBossProto_Builder*) setStaminaCost:(int32_t) value;
+- (FullBossProto_Builder*) clearStaminaCost;
+@end
+
+@interface FullUserBossProto : PBGeneratedMessage {
+@private
+  BOOL hasStartTime_:1;
+  BOOL hasBossId_:1;
+  BOOL hasUserId_:1;
+  BOOL hasCurHealth_:1;
+  BOOL hasNumTimesKilled_:1;
+  int64_t startTime;
+  int32_t bossId;
+  int32_t userId;
+  int32_t curHealth;
+  int32_t numTimesKilled;
+}
+- (BOOL) hasBossId;
+- (BOOL) hasUserId;
+- (BOOL) hasCurHealth;
+- (BOOL) hasNumTimesKilled;
+- (BOOL) hasStartTime;
+@property (readonly) int32_t bossId;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t curHealth;
+@property (readonly) int32_t numTimesKilled;
+@property (readonly) int64_t startTime;
+
++ (FullUserBossProto*) defaultInstance;
+- (FullUserBossProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (FullUserBossProto_Builder*) builder;
++ (FullUserBossProto_Builder*) builder;
++ (FullUserBossProto_Builder*) builderWithPrototype:(FullUserBossProto*) prototype;
+
++ (FullUserBossProto*) parseFromData:(NSData*) data;
++ (FullUserBossProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FullUserBossProto*) parseFromInputStream:(NSInputStream*) input;
++ (FullUserBossProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FullUserBossProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (FullUserBossProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface FullUserBossProto_Builder : PBGeneratedMessage_Builder {
+@private
+  FullUserBossProto* result;
+}
+
+- (FullUserBossProto*) defaultInstance;
+
+- (FullUserBossProto_Builder*) clear;
+- (FullUserBossProto_Builder*) clone;
+
+- (FullUserBossProto*) build;
+- (FullUserBossProto*) buildPartial;
+
+- (FullUserBossProto_Builder*) mergeFrom:(FullUserBossProto*) other;
+- (FullUserBossProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (FullUserBossProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasBossId;
+- (int32_t) bossId;
+- (FullUserBossProto_Builder*) setBossId:(int32_t) value;
+- (FullUserBossProto_Builder*) clearBossId;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (FullUserBossProto_Builder*) setUserId:(int32_t) value;
+- (FullUserBossProto_Builder*) clearUserId;
+
+- (BOOL) hasCurHealth;
+- (int32_t) curHealth;
+- (FullUserBossProto_Builder*) setCurHealth:(int32_t) value;
+- (FullUserBossProto_Builder*) clearCurHealth;
+
+- (BOOL) hasNumTimesKilled;
+- (int32_t) numTimesKilled;
+- (FullUserBossProto_Builder*) setNumTimesKilled:(int32_t) value;
+- (FullUserBossProto_Builder*) clearNumTimesKilled;
+
+- (BOOL) hasStartTime;
+- (int64_t) startTime;
+- (FullUserBossProto_Builder*) setStartTime:(int64_t) value;
+- (FullUserBossProto_Builder*) clearStartTime;
 @end
 
 @interface FullClanProtoWithClanSize : PBGeneratedMessage {
@@ -1691,7 +2292,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   NSString* name;
   NSString* description;
   FullEquipProto_EquipType equipType;
-  FullEquipProto_ClassType classType;
+  EquipClassType classType;
   FullEquipProto_Rarity rarity;
 }
 - (BOOL) hasEquipId;
@@ -1719,7 +2320,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t coinPrice;
 @property (readonly) int32_t diamondPrice;
 @property (readonly) Float32 chanceOfLoss;
-@property (readonly) FullEquipProto_ClassType classType;
+@property (readonly) EquipClassType classType;
 @property (readonly) FullEquipProto_Rarity rarity;
 - (BOOL) isBuyableInArmory;
 @property (readonly) Float32 chanceOfForgeFailureBase;
@@ -1810,8 +2411,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullEquipProto_Builder*) clearChanceOfLoss;
 
 - (BOOL) hasClassType;
-- (FullEquipProto_ClassType) classType;
-- (FullEquipProto_Builder*) setClassType:(FullEquipProto_ClassType) value;
+- (EquipClassType) classType;
+- (FullEquipProto_Builder*) setClassType:(EquipClassType) value;
 - (FullEquipProto_Builder*) clearClassType;
 
 - (BOOL) hasRarity;

@@ -79,6 +79,8 @@
 - (void) pickUpGoldDrop:(GoldStack *)ss;
 - (void) addEquipDrop:(int)equipId fromSprite:(MapSprite *)sprite;
 - (void) pickUpEquipDrop:(EquipDrop *)ed;
+- (void) addLockBoxDrop:(int)eventId fromSprite:(MapSprite *)sprite;
+- (void) pickUpLockBoxDrop:(LockBoxDrop *)lbd;
 
 - (IBAction)attackClicked:(id)sender;
 - (IBAction)enemyProfileClicked:(id)sender;

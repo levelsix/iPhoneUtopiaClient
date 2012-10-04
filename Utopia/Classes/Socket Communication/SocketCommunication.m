@@ -510,7 +510,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCLoadPlayerCityEvent];
 }
 
-- (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds {
+- (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds lockBoxEvents:(BOOL)lockBoxEvents {
   RetrieveStaticDataRequestProto_Builder *blder = [RetrieveStaticDataRequestProto builder];
   
   if (structIds) {
@@ -539,6 +539,9 @@ static NSString *udid = nil;
   }
   if (upgradeStructJobIds) {
     [blder addAllUpgradeStructJobIds:upgradeStructJobIds];
+  }
+  if (lockBoxEvents) {
+    [blder setCurrentLockBoxEvents:YES];
   }
   
   [blder setSender:_sender];
@@ -921,6 +924,17 @@ static NSString *udid = nil;
                                           build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCCollectFromGoldmineEvent];
+}
+
+- (int) sendPickLockBoxMessage:(int)eventId method:(PickLockBoxRequestProto_PickLockBoxMethod)method clientTime:(uint64_t)clientTime {
+  PickLockBoxRequestProto *req = [[[[[[PickLockBoxRequestProto builder]
+                                     setSender:_sender]
+                                    setMethod:method]
+                                   setClientTime:clientTime]
+                                  setLockBoxEventId:eventId]
+                                  build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCPickLockBoxEvent];
 }
 
 - (void) closeDownConnection {

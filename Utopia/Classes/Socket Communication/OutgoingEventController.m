@@ -1116,7 +1116,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   if (shouldSend) {
-    int tag = [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:[rDefeatTypeJobs allObjects] possessEquipJobIds:[rPossessEquipJobs allObjects] upgradeStructJobIds:[rUpgradeStructJobs allObjects]];
+    int tag = [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:[rDefeatTypeJobs allObjects] possessEquipJobIds:[rPossessEquipJobs allObjects] upgradeStructJobIds:[rUpgradeStructJobs allObjects] lockBoxEvents:YES];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
@@ -1125,7 +1125,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   NSNumber *n = [NSNumber numberWithInt:equipId];
   if (![gs.staticEquips objectForKey:n] && equipId != 0) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
@@ -1188,7 +1188,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     if (rTasks.count > 0) {
-      [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+      [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
     }
     
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
@@ -1846,7 +1846,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   NSTimeInterval timeInterval = -[gs.lastGoldmineRetrieval timeIntervalSinceNow];
-  NSLog(@"%f", timeInterval);
   float timeToEnd = 3600.f*(gl.numHoursBeforeGoldmineRetrieval+gl.numHoursForGoldminePickup);
   
   if (timeInterval > timeToEnd) {
@@ -1861,6 +1860,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs addUnrespondedUpdates:[GoldUpdate updateWithTag:tag change:gl.goldAmountFromGoldminePickup], [GoldmineTimeUpdate updateWithTag:tag prevDate:gs.lastGoldmineRetrieval nextDate:[gs.lastGoldmineRetrieval dateByAddingTimeInterval:timeToEnd]], nil];
     
     [gs beginGoldmineTimer];
+  }
+}
+
+- (void) pickLockBox:(int)eventId method:(PickLockBoxRequestProto_PickLockBoxMethod)method {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  LockBoxEventProto *lbe = [gs getCurrentLockBoxEvent];
+  UserLockBoxEventProto *ulbe = [gs.myLockBoxEvents objectForKey:[NSNumber numberWithInt:lbe.lockBoxEventId]];
+  
+  int goldCost = method == PickLockBoxRequestProto_PickLockBoxMethodGold ? gl.goldCostToPickLockBox : 0;
+  int silverCost = method == PickLockBoxRequestProto_PickLockBoxMethodSilver ? gl.silverCostToPickLockBox : 0;
+  uint64_t ms = [self getCurrentMilliseconds];
+  uint64_t pickTime = ulbe.lastPickTime + 60000*gl.numMinutesToRepickLockBox;
+  if (ms < pickTime){
+    goldCost += gl.goldCostToResetPickLockBox;
+  }
+  if (gs.gold < goldCost || gs.silver < silverCost) {
+    [Globals popupMessage:@"Attempting to pick lock box without enough currency"];
+  } else {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendPickLockBoxMessage:eventId method:method clientTime:[self getCurrentMilliseconds]];
+    
+    [gs addUnrespondedUpdates:[GoldUpdate updateWithTag:tag change:-goldCost], [SilverUpdate updateWithTag:tag change:-silverCost], nil];
   }
 }
 

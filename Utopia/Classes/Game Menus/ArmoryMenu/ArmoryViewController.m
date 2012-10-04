@@ -513,7 +513,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   equipDescriptionLabel.text = fep.description;
   
   if (![Globals canEquip:fep]) {
-    if (fep.classType != gs.type % 3 && fep.classType != FullEquipProto_ClassTypeAllAmulet) {
+    if (fep.classType != gs.type % 3 && fep.classType != EquipClassTypeAllAmulet) {
       cantEquipLabel.text = [NSString stringWithFormat:@"This item can only be used by a %@", [Globals stringForEquipClassType:fep.classType]];
     } else if (fep.minLevel > gs.level) {
       cantEquipLabel.text = [NSString stringWithFormat:@"Requires Level %d to Equip", fep.minLevel];

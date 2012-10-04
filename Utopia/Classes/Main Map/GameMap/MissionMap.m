@@ -42,9 +42,9 @@
     _label = [CCLabelFX labelWithString:@""
                                fontName:@"DINCond-Black"
                                fontSize:10
-                           shadowOffset:CGSizeMake(0, -1) 
-                             shadowBlur:1.f 
-                            shadowColor:ccc4(0, 0, 0, 80) 
+                           shadowOffset:CGSizeMake(0, -1)
+                             shadowBlur:1.f
+                            shadowColor:ccc4(0, 0, 0, 80)
                               fillColor:ccc4(255,255,255,255)];
     [self addChild:_label];
     _label.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
@@ -58,8 +58,8 @@
     _progressBar.percentage = 0.f;
     isAnimating = YES;
     [_progressBar runAction:[CCSequence actions:
-                             [CCProgressTo actionWithDuration:TASK_BAR_DURATION percent:100.f], 
-                             [CCCallBlock actionWithBlock:^{ isAnimating = NO; }], 
+                             [CCProgressTo actionWithDuration:TASK_BAR_DURATION percent:100.f],
+                             [CCCallBlock actionWithBlock:^{ isAnimating = NO; }],
                              [CCCallFunc actionWithTarget:self.parent selector:@selector(taskBarAnimDone)],nil]];
   }
 }
@@ -419,7 +419,7 @@
   expLabel.color = ccc3(255,200,0);
   [expLabel runAction:[CCSequence actions:
                        [CCSpawn actions:
-                        [CCFadeOut actionWithDuration:EXP_LABEL_DURATION], 
+                        [CCFadeOut actionWithDuration:EXP_LABEL_DURATION],
                         [CCMoveBy actionWithDuration:EXP_LABEL_DURATION position:ccp(0,40)],nil],
                        [CCCallBlock actionWithBlock:^{[expLabel removeFromParentAndCleanup:YES];}], nil]];
   
@@ -428,12 +428,16 @@
   successLabel.position = ccp(expLabel.position.x, expLabel.position.y+expLabel.contentSize.height/2+successLabel.contentSize.height/2);
   successLabel.color = ccc3(255,255,255);
   [successLabel runAction:[CCSequence actions:
-                       [CCSpawn actions:
-                        [CCFadeOut actionWithDuration:EXP_LABEL_DURATION], 
-                        [CCMoveBy actionWithDuration:EXP_LABEL_DURATION position:ccp(0,40)],nil],
-                       [CCCallBlock actionWithBlock:^{[successLabel removeFromParentAndCleanup:YES];}], nil]];
+                           [CCSpawn actions:
+                            [CCFadeOut actionWithDuration:EXP_LABEL_DURATION],
+                            [CCMoveBy actionWithDuration:EXP_LABEL_DURATION position:ccp(0,40)],nil],
+                           [CCCallBlock actionWithBlock:^{[successLabel removeFromParentAndCleanup:YES];}], nil]];
   
   [self addSilverDrop:tarp.coinsGained fromSprite:_selected];
+  
+  if (tarp.hasEventIdOfLockBoxGained) {
+    [self addLockBoxDrop:tarp.eventIdOfLockBoxGained fromSprite:_selected];
+  }
   
   if (tarp.hasLootUserEquip) {
     [self addEquipDrop:tarp.lootUserEquip.equipId fromSprite:_selected];
@@ -599,26 +603,41 @@
   
   for (FullQuestProto *fqp in [gs.availableQuests allValues]) {
     if (fqp.cityId == _cityId) {
-      QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
-      qg.quest = fqp;
-      qg.questGiverState = kAvailable;
-      [arr addObject:qg];
+      CCNode *node = [self assetWithId:fqp.assetNumWithinCity];
+      if ([node isKindOfClass:[QuestGiver class]]) {
+        QuestGiver *qg = (QuestGiver *)node;
+        qg.quest = fqp;
+        qg.questGiverState = kAvailable;
+        [arr addObject:qg];
+      } else {
+        LNLog(@"Asset num %d for quest %d is not a quest giver", fqp.assetNumWithinCity, fqp.questId);
+      }
     }
   }
   for (FullQuestProto *fqp in [gs.inProgressIncompleteQuests allValues]) {
     if (fqp.cityId == _cityId) {
-      QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
-      qg.quest = fqp;
-      qg.questGiverState = kInProgress;
-      [arr addObject:qg];
+      CCNode *node = [self assetWithId:fqp.assetNumWithinCity];
+      if ([node isKindOfClass:[QuestGiver class]]) {
+        QuestGiver *qg = (QuestGiver *)node;
+        qg.quest = fqp;
+        qg.questGiverState = kInProgress;
+        [arr addObject:qg];
+      } else {
+        LNLog(@"Asset num %d for quest %d is not a quest giver", fqp.assetNumWithinCity, fqp.questId);
+      }
     }
   }
   for (FullQuestProto *fqp in [gs.inProgressCompleteQuests allValues]) {
     if (fqp.cityId == _cityId) {
-      QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
-      qg.quest = fqp;
-      qg.questGiverState = kCompleted;
-      [arr addObject:qg];
+      CCNode *node = [self assetWithId:fqp.assetNumWithinCity];
+      if ([node isKindOfClass:[QuestGiver class]]) {
+        QuestGiver *qg = (QuestGiver *)node;
+        qg.quest = fqp;
+        qg.questGiverState = kCompleted;
+        [arr addObject:qg];
+      } else {
+        LNLog(@"Asset num %d for quest %d is not a quest giver", fqp.assetNumWithinCity, fqp.questId);
+      }
     }
   }
   

@@ -1,4 +1,4 @@
-//
+  //
 //  GameMap.m
 //  IsoMap
 //
@@ -32,7 +32,7 @@
 @end
 
 @implementation CCMoveByCustom
-- (void) update: (ccTime) t {	
+- (void) update: (ccTime) t {
 	//Here we neglect to change something with a zero delta.
 	if (delta_.x == 0) {
 		[target_ setPosition: ccp( [(CCNode*)target_ position].x, (startPosition_.y + delta_.y * t ) )];
@@ -228,7 +228,7 @@
   coinLabel.color = ccc3(174, 237, 0);
   [coinLabel runAction:[CCSequence actions:
                         [CCSpawn actions:
-                         [CCFadeOut actionWithDuration:DROP_LABEL_DURATION], 
+                         [CCFadeOut actionWithDuration:DROP_LABEL_DURATION],
                          [CCMoveBy actionWithDuration:DROP_LABEL_DURATION position:ccp(0,40)],nil],
                         [CCCallBlock actionWithBlock:^{[coinLabel removeFromParentAndCleanup:YES];}], nil]];
   
@@ -354,7 +354,7 @@
   nameLabel.color = ccc3((int)(red*255), (int)(green*255), (int)(blue*255));
   [nameLabel runAction:[CCSequence actions:
                         [CCSpawn actions:
-                         [CCFadeOut actionWithDuration:DROP_LABEL_DURATION], 
+                         [CCFadeOut actionWithDuration:DROP_LABEL_DURATION],
                          [CCMoveBy actionWithDuration:DROP_LABEL_DURATION position:ccp(0,40)],nil],
                         [CCCallBlock actionWithBlock:^{[nameLabel removeFromParentAndCleanup:YES];}], nil]];
   
@@ -378,6 +378,64 @@
                  nil]];
 }
 
+- (void) addLockBoxDrop:(int)eventId fromSprite:(MapSprite *)sprite {
+  LockBoxDrop *lbd = [[LockBoxDrop alloc] initWithEventId:eventId];
+  if (lbd) {
+    [self addChild:lbd z:1004];
+    [lbd release];
+    lbd.position = ccpAdd(sprite.position, ccp(0,sprite.contentSize.height/2));
+    lbd.scale = 0.01;
+    lbd.opacity = 5;
+    
+    // Need to fade in, scale to 1, bounce in y dir, move normal in x dir
+    float xPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60;
+    float yPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10;
+    [lbd runAction:[CCSpawn actions:
+                    [CCFadeIn actionWithDuration:0.1],
+                    [CCScaleTo actionWithDuration:0.1 scale:0.4],
+                    [CCSequence actions:
+                     [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
+                     [CCEaseBounceOut actionWithAction:
+                      [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-85+yPos)]],
+                     nil],
+                    [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],
+                    nil]];
+  }
+}
+
+- (void) pickUpLockBoxDrop:(LockBoxDrop *)lbd {
+  [lbd stopAllActions];
+  
+  CCLabelFX *nameLabel = [CCLabelFX labelWithString:@"+1 Lock Box" fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+  [self addChild:nameLabel z:1005];
+  nameLabel.position = lbd.position;
+  nameLabel.color = ccc3(255, 200, 0);
+  [nameLabel runAction:[CCSequence actions:
+                        [CCSpawn actions:
+                         [CCFadeOut actionWithDuration:DROP_LABEL_DURATION],
+                         [CCMoveBy actionWithDuration:DROP_LABEL_DURATION position:ccp(0,40)],nil],
+                        [CCCallBlock actionWithBlock:^{[nameLabel removeFromParentAndCleanup:YES];}], nil]];
+  
+  TopBar *tb = [TopBar sharedTopBar];
+  CGPoint world = [lbd.parent convertToWorldSpace:lbd.position];
+  CGPoint pos = [tb convertToNodeSpace:world];
+  [lbd removeFromParentAndCleanup:NO];
+  lbd.position = pos;
+  lbd.scale *= self.scale;
+  [tb addChild:lbd z:-1];
+  
+  [lbd runAction:[CCSequence actions:
+                  [CCSpawn actions:
+                   [CCEaseSineIn actionWithAction:
+                    [CCMoveToCustom actionWithDuration:0.5 position:ccp(lbd.position.x,195)]],
+                   [CCEaseSineOut actionWithAction:
+                    [CCMoveToCustom actionWithDuration:0.5 position:ccp(452,lbd.position.y)]],
+                   [CCScaleTo actionWithDuration:0.5 scale:0.2],
+                   nil],
+                  [CCCallBlock actionWithBlock:^{[lbd removeFromParentAndCleanup:YES];}],
+                  nil]];
+}
+
 - (BOOL) mapSprite:(MapSprite *)front isInFrontOfMapSprite: (MapSprite *)back {
   if (front == back) {
     return YES;
@@ -385,7 +443,7 @@
   
   CGRect frontLoc = front.location;
   CGRect backLoc = back.location;
-    
+  
   BOOL leftX = frontLoc.origin.x < backLoc.origin.x && frontLoc.origin.x+frontLoc.size.width <= backLoc.origin.x;
   BOOL rightX = frontLoc.origin.x >= backLoc.origin.x+backLoc.size.width && frontLoc.origin.x+frontLoc.size.width > backLoc.origin.x+backLoc.size.width;
   
@@ -400,16 +458,16 @@
     return frontLoc.origin.y <= backLoc.origin.y;
   }
   return front.position.y <= back.position.y;
-//  // In the case where both x and y are overlapping, we must do some crazy stuff.
-//  // Find the abs of the diff of x and y of both locs and use the one with a bigger diff.
-//  float diffX = ABS(frontLoc.origin.x-backLoc.origin.x);
-//  float diffY = ABS(frontLoc.origin.y-backLoc.origin.y);
-//  
-//  if (diffX > diffY) {
-//    return frontLoc.origin.x <= backLoc.origin.x;
-//  } else {
-//    return frontLoc.origin.y <= backLoc.origin.y;
-//  }
+  //  // In the case where both x and y are overlapping, we must do some crazy stuff.
+  //  // Find the abs of the diff of x and y of both locs and use the one with a bigger diff.
+  //  float diffX = ABS(frontLoc.origin.x-backLoc.origin.x);
+  //  float diffY = ABS(frontLoc.origin.y-backLoc.origin.y);
+  //
+  //  if (diffX > diffY) {
+  //    return frontLoc.origin.x <= backLoc.origin.x;
+  //  } else {
+  //    return frontLoc.origin.y <= backLoc.origin.y;
+  //  }
 }
 
 - (void) updateEnemyMenu {
@@ -763,8 +821,8 @@
 - (CGPoint) convertTilePointToCCPoint:(CGPoint)pt {
   CGSize ms = mapSize_;
   CGSize ts = tileSizeInPoints;
-  return ccp( ms.width * ts.width/2.f + ts.width * (pt.x-pt.y)/2.f, 
-      ts.height * (pt.y+pt.x)/2.f);
+  return ccp( ms.width * ts.width/2.f + ts.width * (pt.x-pt.y)/2.f,
+             ts.height * (pt.y+pt.x)/2.f);
 }
 
 - (CGPoint) convertCCPointToTilePoint:(CGPoint)pt {

@@ -989,6 +989,7 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
 @property (retain) FullUserEquipProto* userEquipGained;
 @property (retain) FullEquipProto* equipGained;
 @property int32_t expGained;
+@property int32_t eventIdOfLockBoxGained;
 @end
 
 @implementation BattleResponseProto
@@ -1049,6 +1050,13 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   hasExpGained_ = !!value;
 }
 @synthesize expGained;
+- (BOOL) hasEventIdOfLockBoxGained {
+  return !!hasEventIdOfLockBoxGained_;
+}
+- (void) setHasEventIdOfLockBoxGained:(BOOL) value {
+  hasEventIdOfLockBoxGained_ = !!value;
+}
+@synthesize eventIdOfLockBoxGained;
 - (void) dealloc {
   self.attacker = nil;
   self.defender = nil;
@@ -1066,6 +1074,7 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
     self.userEquipGained = [FullUserEquipProto defaultInstance];
     self.equipGained = [FullEquipProto defaultInstance];
     self.expGained = 0;
+    self.eventIdOfLockBoxGained = 0;
   }
   return self;
 }
@@ -1109,6 +1118,9 @@ static BattleResponseProto* defaultBattleResponseProtoInstance = nil;
   if (self.hasEquipGained) {
     [output writeMessage:8 value:self.equipGained];
   }
+  if (self.hasEventIdOfLockBoxGained) {
+    [output writeInt32:9 value:self.eventIdOfLockBoxGained];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1141,6 +1153,9 @@ static BattleResponseProto* defaultBattleResponseProtoInstance = nil;
   }
   if (self.hasEquipGained) {
     size += computeMessageSize(8, self.equipGained);
+  }
+  if (self.hasEventIdOfLockBoxGained) {
+    size += computeInt32Size(9, self.eventIdOfLockBoxGained);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1251,6 +1266,9 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
   if (other.hasExpGained) {
     [self setExpGained:other.expGained];
   }
+  if (other.hasEventIdOfLockBoxGained) {
+    [self setEventIdOfLockBoxGained:other.eventIdOfLockBoxGained];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1332,6 +1350,10 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setEquipGained:[subBuilder buildPartial]];
+        break;
+      }
+      case 72: {
+        [self setEventIdOfLockBoxGained:[input readInt32]];
         break;
       }
     }
@@ -1519,6 +1541,22 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
 - (BattleResponseProto_Builder*) clearExpGained {
   result.hasExpGained = NO;
   result.expGained = 0;
+  return self;
+}
+- (BOOL) hasEventIdOfLockBoxGained {
+  return result.hasEventIdOfLockBoxGained;
+}
+- (int32_t) eventIdOfLockBoxGained {
+  return result.eventIdOfLockBoxGained;
+}
+- (BattleResponseProto_Builder*) setEventIdOfLockBoxGained:(int32_t) value {
+  result.hasEventIdOfLockBoxGained = YES;
+  result.eventIdOfLockBoxGained = value;
+  return self;
+}
+- (BattleResponseProto_Builder*) clearEventIdOfLockBoxGained {
+  result.hasEventIdOfLockBoxGained = NO;
+  result.eventIdOfLockBoxGained = 0;
   return self;
 }
 @end
@@ -3046,6 +3084,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableReferralNotificationsList;
 @property (retain) NSMutableArray* mutablePlayerWallPostNotificationsList;
 @property (retain) NSMutableArray* mutableClanWallPostNotificationsList;
+@property (retain) NSMutableArray* mutableLockBoxEventsList;
+@property (retain) NSMutableArray* mutableUserLockBoxEventsList;
 @property (retain) NSString* appStoreUrl;
 @property (retain) NSMutableArray* mutableAlliesList;
 @property (retain) StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
@@ -3119,6 +3159,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableReferralNotificationsList;
 @synthesize mutablePlayerWallPostNotificationsList;
 @synthesize mutableClanWallPostNotificationsList;
+@synthesize mutableLockBoxEventsList;
+@synthesize mutableUserLockBoxEventsList;
 - (BOOL) hasAppStoreUrl {
   return !!hasAppStoreUrl_;
 }
@@ -3178,6 +3220,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableReferralNotificationsList = nil;
   self.mutablePlayerWallPostNotificationsList = nil;
   self.mutableClanWallPostNotificationsList = nil;
+  self.mutableLockBoxEventsList = nil;
+  self.mutableUserLockBoxEventsList = nil;
   self.appStoreUrl = nil;
   self.mutableAlliesList = nil;
   self.dailyBonusInfo = nil;
@@ -3306,6 +3350,20 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableClanWallPostNotificationsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) lockBoxEventsList {
+  return mutableLockBoxEventsList;
+}
+- (LockBoxEventProto*) lockBoxEventsAtIndex:(int32_t) index {
+  id value = [mutableLockBoxEventsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) userLockBoxEventsList {
+  return mutableUserLockBoxEventsList;
+}
+- (UserLockBoxEventProto*) userLockBoxEventsAtIndex:(int32_t) index {
+  id value = [mutableUserLockBoxEventsList objectAtIndex:index];
+  return value;
+}
 - (NSArray*) alliesList {
   return mutableAlliesList;
 }
@@ -3405,6 +3463,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (ClanWallPostProto* element in self.clanWallPostNotificationsList) {
     [output writeMessage:27 value:element];
   }
+  for (LockBoxEventProto* element in self.lockBoxEventsList) {
+    [output writeMessage:28 value:element];
+  }
+  for (UserLockBoxEventProto* element in self.userLockBoxEventsList) {
+    [output writeMessage:29 value:element];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3499,6 +3563,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (ClanWallPostProto* element in self.clanWallPostNotificationsList) {
     size += computeMessageSize(27, element);
+  }
+  for (LockBoxEventProto* element in self.lockBoxEventsList) {
+    size += computeMessageSize(28, element);
+  }
+  for (UserLockBoxEventProto* element in self.userLockBoxEventsList) {
+    size += computeMessageSize(29, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4897,6 +4967,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
 @property int32_t diamondCostToPlayThreeCardMonte;
 @property (retain) StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
+@property (retain) StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5373,6 +5444,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasGoldmineConstants_ = !!value;
 }
 @synthesize goldmineConstants;
+- (BOOL) hasLockBoxConstants {
+  return !!hasLockBoxConstants_;
+}
+- (void) setHasLockBoxConstants:(BOOL) value {
+  hasLockBoxConstants_ = !!value;
+}
+@synthesize lockBoxConstants;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5384,6 +5462,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.charModConstants = nil;
   self.clanConstants = nil;
   self.goldmineConstants = nil;
+  self.lockBoxConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -5455,6 +5534,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.clanConstants = [StartupResponseProto_StartupConstants_ClanConstants defaultInstance];
     self.diamondCostToPlayThreeCardMonte = 0;
     self.goldmineConstants = [StartupResponseProto_StartupConstants_GoldmineConstants defaultInstance];
+    self.lockBoxConstants = [StartupResponseProto_StartupConstants_LockBoxConstants defaultInstance];
   }
   return self;
 }
@@ -5705,6 +5785,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasGoldmineConstants) {
     [output writeMessage:80 value:self.goldmineConstants];
   }
+  if (self.hasLockBoxConstants) {
+    [output writeMessage:81 value:self.lockBoxConstants];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5934,6 +6017,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasGoldmineConstants) {
     size += computeMessageSize(80, self.goldmineConstants);
   }
+  if (self.hasLockBoxConstants) {
+    size += computeMessageSize(81, self.lockBoxConstants);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -5964,6 +6050,411 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_LockBoxConstants ()
+@property int32_t goldCostToPickLockBox;
+@property int32_t silverCostToPickLockBox;
+@property Float32 goldChanceToPickLockBox;
+@property Float32 silverChanceToPickLockBox;
+@property Float32 freeChanceToPickLockBox;
+@property int32_t numMinutesToRepickLockBox;
+@property int32_t goldCostToResetPickLockBox;
+@end
+
+@implementation StartupResponseProto_StartupConstants_LockBoxConstants
+
+- (BOOL) hasGoldCostToPickLockBox {
+  return !!hasGoldCostToPickLockBox_;
+}
+- (void) setHasGoldCostToPickLockBox:(BOOL) value {
+  hasGoldCostToPickLockBox_ = !!value;
+}
+@synthesize goldCostToPickLockBox;
+- (BOOL) hasSilverCostToPickLockBox {
+  return !!hasSilverCostToPickLockBox_;
+}
+- (void) setHasSilverCostToPickLockBox:(BOOL) value {
+  hasSilverCostToPickLockBox_ = !!value;
+}
+@synthesize silverCostToPickLockBox;
+- (BOOL) hasGoldChanceToPickLockBox {
+  return !!hasGoldChanceToPickLockBox_;
+}
+- (void) setHasGoldChanceToPickLockBox:(BOOL) value {
+  hasGoldChanceToPickLockBox_ = !!value;
+}
+@synthesize goldChanceToPickLockBox;
+- (BOOL) hasSilverChanceToPickLockBox {
+  return !!hasSilverChanceToPickLockBox_;
+}
+- (void) setHasSilverChanceToPickLockBox:(BOOL) value {
+  hasSilverChanceToPickLockBox_ = !!value;
+}
+@synthesize silverChanceToPickLockBox;
+- (BOOL) hasFreeChanceToPickLockBox {
+  return !!hasFreeChanceToPickLockBox_;
+}
+- (void) setHasFreeChanceToPickLockBox:(BOOL) value {
+  hasFreeChanceToPickLockBox_ = !!value;
+}
+@synthesize freeChanceToPickLockBox;
+- (BOOL) hasNumMinutesToRepickLockBox {
+  return !!hasNumMinutesToRepickLockBox_;
+}
+- (void) setHasNumMinutesToRepickLockBox:(BOOL) value {
+  hasNumMinutesToRepickLockBox_ = !!value;
+}
+@synthesize numMinutesToRepickLockBox;
+- (BOOL) hasGoldCostToResetPickLockBox {
+  return !!hasGoldCostToResetPickLockBox_;
+}
+- (void) setHasGoldCostToResetPickLockBox:(BOOL) value {
+  hasGoldCostToResetPickLockBox_ = !!value;
+}
+@synthesize goldCostToResetPickLockBox;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.goldCostToPickLockBox = 0;
+    self.silverCostToPickLockBox = 0;
+    self.goldChanceToPickLockBox = 0;
+    self.silverChanceToPickLockBox = 0;
+    self.freeChanceToPickLockBox = 0;
+    self.numMinutesToRepickLockBox = 0;
+    self.goldCostToResetPickLockBox = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_LockBoxConstants* defaultStartupResponseProto_StartupConstants_LockBoxConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_LockBoxConstants class]) {
+    defaultStartupResponseProto_StartupConstants_LockBoxConstantsInstance = [[StartupResponseProto_StartupConstants_LockBoxConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_LockBoxConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_LockBoxConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_LockBoxConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasGoldCostToPickLockBox) {
+    [output writeInt32:1 value:self.goldCostToPickLockBox];
+  }
+  if (self.hasSilverCostToPickLockBox) {
+    [output writeInt32:2 value:self.silverCostToPickLockBox];
+  }
+  if (self.hasGoldChanceToPickLockBox) {
+    [output writeFloat:3 value:self.goldChanceToPickLockBox];
+  }
+  if (self.hasSilverChanceToPickLockBox) {
+    [output writeFloat:4 value:self.silverChanceToPickLockBox];
+  }
+  if (self.hasFreeChanceToPickLockBox) {
+    [output writeFloat:5 value:self.freeChanceToPickLockBox];
+  }
+  if (self.hasNumMinutesToRepickLockBox) {
+    [output writeInt32:6 value:self.numMinutesToRepickLockBox];
+  }
+  if (self.hasGoldCostToResetPickLockBox) {
+    [output writeInt32:7 value:self.goldCostToResetPickLockBox];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasGoldCostToPickLockBox) {
+    size += computeInt32Size(1, self.goldCostToPickLockBox);
+  }
+  if (self.hasSilverCostToPickLockBox) {
+    size += computeInt32Size(2, self.silverCostToPickLockBox);
+  }
+  if (self.hasGoldChanceToPickLockBox) {
+    size += computeFloatSize(3, self.goldChanceToPickLockBox);
+  }
+  if (self.hasSilverChanceToPickLockBox) {
+    size += computeFloatSize(4, self.silverChanceToPickLockBox);
+  }
+  if (self.hasFreeChanceToPickLockBox) {
+    size += computeFloatSize(5, self.freeChanceToPickLockBox);
+  }
+  if (self.hasNumMinutesToRepickLockBox) {
+    size += computeInt32Size(6, self.numMinutesToRepickLockBox);
+  }
+  if (self.hasGoldCostToResetPickLockBox) {
+    size += computeInt32Size(7, self.goldCostToResetPickLockBox);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_LockBoxConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_LockBoxConstants*)[[[StartupResponseProto_StartupConstants_LockBoxConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_LockBoxConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_LockBoxConstants*)[[[StartupResponseProto_StartupConstants_LockBoxConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_LockBoxConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_LockBoxConstants*)[[[StartupResponseProto_StartupConstants_LockBoxConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_LockBoxConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_LockBoxConstants*)[[[StartupResponseProto_StartupConstants_LockBoxConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_LockBoxConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_LockBoxConstants*)[[[StartupResponseProto_StartupConstants_LockBoxConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_LockBoxConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_LockBoxConstants*)[[[StartupResponseProto_StartupConstants_LockBoxConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_LockBoxConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_LockBoxConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_LockBoxConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_LockBoxConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_LockBoxConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_LockBoxConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_LockBoxConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_LockBoxConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_LockBoxConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_LockBoxConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_LockBoxConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_LockBoxConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_LockBoxConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_LockBoxConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasGoldCostToPickLockBox) {
+    [self setGoldCostToPickLockBox:other.goldCostToPickLockBox];
+  }
+  if (other.hasSilverCostToPickLockBox) {
+    [self setSilverCostToPickLockBox:other.silverCostToPickLockBox];
+  }
+  if (other.hasGoldChanceToPickLockBox) {
+    [self setGoldChanceToPickLockBox:other.goldChanceToPickLockBox];
+  }
+  if (other.hasSilverChanceToPickLockBox) {
+    [self setSilverChanceToPickLockBox:other.silverChanceToPickLockBox];
+  }
+  if (other.hasFreeChanceToPickLockBox) {
+    [self setFreeChanceToPickLockBox:other.freeChanceToPickLockBox];
+  }
+  if (other.hasNumMinutesToRepickLockBox) {
+    [self setNumMinutesToRepickLockBox:other.numMinutesToRepickLockBox];
+  }
+  if (other.hasGoldCostToResetPickLockBox) {
+    [self setGoldCostToResetPickLockBox:other.goldCostToResetPickLockBox];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setGoldCostToPickLockBox:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setSilverCostToPickLockBox:[input readInt32]];
+        break;
+      }
+      case 29: {
+        [self setGoldChanceToPickLockBox:[input readFloat]];
+        break;
+      }
+      case 37: {
+        [self setSilverChanceToPickLockBox:[input readFloat]];
+        break;
+      }
+      case 45: {
+        [self setFreeChanceToPickLockBox:[input readFloat]];
+        break;
+      }
+      case 48: {
+        [self setNumMinutesToRepickLockBox:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setGoldCostToResetPickLockBox:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasGoldCostToPickLockBox {
+  return result.hasGoldCostToPickLockBox;
+}
+- (int32_t) goldCostToPickLockBox {
+  return result.goldCostToPickLockBox;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setGoldCostToPickLockBox:(int32_t) value {
+  result.hasGoldCostToPickLockBox = YES;
+  result.goldCostToPickLockBox = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearGoldCostToPickLockBox {
+  result.hasGoldCostToPickLockBox = NO;
+  result.goldCostToPickLockBox = 0;
+  return self;
+}
+- (BOOL) hasSilverCostToPickLockBox {
+  return result.hasSilverCostToPickLockBox;
+}
+- (int32_t) silverCostToPickLockBox {
+  return result.silverCostToPickLockBox;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setSilverCostToPickLockBox:(int32_t) value {
+  result.hasSilverCostToPickLockBox = YES;
+  result.silverCostToPickLockBox = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearSilverCostToPickLockBox {
+  result.hasSilverCostToPickLockBox = NO;
+  result.silverCostToPickLockBox = 0;
+  return self;
+}
+- (BOOL) hasGoldChanceToPickLockBox {
+  return result.hasGoldChanceToPickLockBox;
+}
+- (Float32) goldChanceToPickLockBox {
+  return result.goldChanceToPickLockBox;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setGoldChanceToPickLockBox:(Float32) value {
+  result.hasGoldChanceToPickLockBox = YES;
+  result.goldChanceToPickLockBox = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearGoldChanceToPickLockBox {
+  result.hasGoldChanceToPickLockBox = NO;
+  result.goldChanceToPickLockBox = 0;
+  return self;
+}
+- (BOOL) hasSilverChanceToPickLockBox {
+  return result.hasSilverChanceToPickLockBox;
+}
+- (Float32) silverChanceToPickLockBox {
+  return result.silverChanceToPickLockBox;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setSilverChanceToPickLockBox:(Float32) value {
+  result.hasSilverChanceToPickLockBox = YES;
+  result.silverChanceToPickLockBox = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearSilverChanceToPickLockBox {
+  result.hasSilverChanceToPickLockBox = NO;
+  result.silverChanceToPickLockBox = 0;
+  return self;
+}
+- (BOOL) hasFreeChanceToPickLockBox {
+  return result.hasFreeChanceToPickLockBox;
+}
+- (Float32) freeChanceToPickLockBox {
+  return result.freeChanceToPickLockBox;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setFreeChanceToPickLockBox:(Float32) value {
+  result.hasFreeChanceToPickLockBox = YES;
+  result.freeChanceToPickLockBox = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearFreeChanceToPickLockBox {
+  result.hasFreeChanceToPickLockBox = NO;
+  result.freeChanceToPickLockBox = 0;
+  return self;
+}
+- (BOOL) hasNumMinutesToRepickLockBox {
+  return result.hasNumMinutesToRepickLockBox;
+}
+- (int32_t) numMinutesToRepickLockBox {
+  return result.numMinutesToRepickLockBox;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setNumMinutesToRepickLockBox:(int32_t) value {
+  result.hasNumMinutesToRepickLockBox = YES;
+  result.numMinutesToRepickLockBox = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearNumMinutesToRepickLockBox {
+  result.hasNumMinutesToRepickLockBox = NO;
+  result.numMinutesToRepickLockBox = 0;
+  return self;
+}
+- (BOOL) hasGoldCostToResetPickLockBox {
+  return result.hasGoldCostToResetPickLockBox;
+}
+- (int32_t) goldCostToResetPickLockBox {
+  return result.goldCostToResetPickLockBox;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setGoldCostToResetPickLockBox:(int32_t) value {
+  result.hasGoldCostToResetPickLockBox = YES;
+  result.goldCostToResetPickLockBox = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearGoldCostToResetPickLockBox {
+  result.hasGoldCostToResetPickLockBox = NO;
+  result.goldCostToResetPickLockBox = 0;
+  return self;
 }
 @end
 
@@ -9385,6 +9876,9 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasGoldmineConstants) {
     [self mergeGoldmineConstants:other.goldmineConstants];
   }
+  if (other.hasLockBoxConstants) {
+    [self mergeLockBoxConstants:other.lockBoxConstants];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -9721,6 +10215,15 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setGoldmineConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 650: {
+        StartupResponseProto_StartupConstants_LockBoxConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_LockBoxConstants builder];
+        if (self.hasLockBoxConstants) {
+          [subBuilder mergeFrom:self.lockBoxConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setLockBoxConstants:[subBuilder buildPartial]];
         break;
       }
     }
@@ -10985,6 +11488,36 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearGoldmineConstants {
   result.hasGoldmineConstants = NO;
   result.goldmineConstants = [StartupResponseProto_StartupConstants_GoldmineConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasLockBoxConstants {
+  return result.hasLockBoxConstants;
+}
+- (StartupResponseProto_StartupConstants_LockBoxConstants*) lockBoxConstants {
+  return result.lockBoxConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setLockBoxConstants:(StartupResponseProto_StartupConstants_LockBoxConstants*) value {
+  result.hasLockBoxConstants = YES;
+  result.lockBoxConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setLockBoxConstantsBuilder:(StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) builderForValue {
+  return [self setLockBoxConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeLockBoxConstants:(StartupResponseProto_StartupConstants_LockBoxConstants*) value {
+  if (result.hasLockBoxConstants &&
+      result.lockBoxConstants != [StartupResponseProto_StartupConstants_LockBoxConstants defaultInstance]) {
+    result.lockBoxConstants =
+      [[[StartupResponseProto_StartupConstants_LockBoxConstants builderWithPrototype:result.lockBoxConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.lockBoxConstants = value;
+  }
+  result.hasLockBoxConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearLockBoxConstants {
+  result.hasLockBoxConstants = NO;
+  result.lockBoxConstants = [StartupResponseProto_StartupConstants_LockBoxConstants defaultInstance];
   return self;
 }
 @end
@@ -13650,6 +14183,18 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableClanWallPostNotificationsList addObjectsFromArray:other.mutableClanWallPostNotificationsList];
   }
+  if (other.mutableLockBoxEventsList.count > 0) {
+    if (result.mutableLockBoxEventsList == nil) {
+      result.mutableLockBoxEventsList = [NSMutableArray array];
+    }
+    [result.mutableLockBoxEventsList addObjectsFromArray:other.mutableLockBoxEventsList];
+  }
+  if (other.mutableUserLockBoxEventsList.count > 0) {
+    if (result.mutableUserLockBoxEventsList == nil) {
+      result.mutableUserLockBoxEventsList = [NSMutableArray array];
+    }
+    [result.mutableUserLockBoxEventsList addObjectsFromArray:other.mutableUserLockBoxEventsList];
+  }
   if (other.hasAppStoreUrl) {
     [self setAppStoreUrl:other.appStoreUrl];
   }
@@ -13872,6 +14417,18 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         ClanWallPostProto_Builder* subBuilder = [ClanWallPostProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addClanWallPostNotifications:[subBuilder buildPartial]];
+        break;
+      }
+      case 226: {
+        LockBoxEventProto_Builder* subBuilder = [LockBoxEventProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addLockBoxEvents:[subBuilder buildPartial]];
+        break;
+      }
+      case 234: {
+        UserLockBoxEventProto_Builder* subBuilder = [UserLockBoxEventProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserLockBoxEvents:[subBuilder buildPartial]];
         break;
       }
     }
@@ -14406,6 +14963,64 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     result.mutableClanWallPostNotificationsList = [NSMutableArray array];
   }
   [result.mutableClanWallPostNotificationsList addObject:value];
+  return self;
+}
+- (NSArray*) lockBoxEventsList {
+  if (result.mutableLockBoxEventsList == nil) { return [NSArray array]; }
+  return result.mutableLockBoxEventsList;
+}
+- (LockBoxEventProto*) lockBoxEventsAtIndex:(int32_t) index {
+  return [result lockBoxEventsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceLockBoxEventsAtIndex:(int32_t) index with:(LockBoxEventProto*) value {
+  [result.mutableLockBoxEventsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllLockBoxEvents:(NSArray*) values {
+  if (result.mutableLockBoxEventsList == nil) {
+    result.mutableLockBoxEventsList = [NSMutableArray array];
+  }
+  [result.mutableLockBoxEventsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearLockBoxEventsList {
+  result.mutableLockBoxEventsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addLockBoxEvents:(LockBoxEventProto*) value {
+  if (result.mutableLockBoxEventsList == nil) {
+    result.mutableLockBoxEventsList = [NSMutableArray array];
+  }
+  [result.mutableLockBoxEventsList addObject:value];
+  return self;
+}
+- (NSArray*) userLockBoxEventsList {
+  if (result.mutableUserLockBoxEventsList == nil) { return [NSArray array]; }
+  return result.mutableUserLockBoxEventsList;
+}
+- (UserLockBoxEventProto*) userLockBoxEventsAtIndex:(int32_t) index {
+  return [result userLockBoxEventsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceUserLockBoxEventsAtIndex:(int32_t) index with:(UserLockBoxEventProto*) value {
+  [result.mutableUserLockBoxEventsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllUserLockBoxEvents:(NSArray*) values {
+  if (result.mutableUserLockBoxEventsList == nil) {
+    result.mutableUserLockBoxEventsList = [NSMutableArray array];
+  }
+  [result.mutableUserLockBoxEventsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearUserLockBoxEventsList {
+  result.mutableUserLockBoxEventsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addUserLockBoxEvents:(UserLockBoxEventProto*) value {
+  if (result.mutableUserLockBoxEventsList == nil) {
+    result.mutableUserLockBoxEventsList = [NSMutableArray array];
+  }
+  [result.mutableUserLockBoxEventsList addObject:value];
   return self;
 }
 - (BOOL) hasAppStoreUrl {
@@ -16956,6 +17571,7 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
 @property int32_t coinBonusIfCityRankup;
 @property int32_t expBonusIfCityRankup;
 @property int32_t cityId;
+@property int32_t eventIdOfLockBoxGained;
 @end
 
 @implementation TaskActionResponseProto
@@ -17033,6 +17649,13 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
   hasCityId_ = !!value;
 }
 @synthesize cityId;
+- (BOOL) hasEventIdOfLockBoxGained {
+  return !!hasEventIdOfLockBoxGained_;
+}
+- (void) setHasEventIdOfLockBoxGained:(BOOL) value {
+  hasEventIdOfLockBoxGained_ = !!value;
+}
+@synthesize eventIdOfLockBoxGained;
 - (void) dealloc {
   self.sender = nil;
   self.lootUserEquip = nil;
@@ -17049,6 +17672,7 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
     self.coinBonusIfCityRankup = 0;
     self.expBonusIfCityRankup = 0;
     self.cityId = 0;
+    self.eventIdOfLockBoxGained = 0;
   }
   return self;
 }
@@ -17095,6 +17719,9 @@ static TaskActionResponseProto* defaultTaskActionResponseProtoInstance = nil;
   if (self.hasCityId) {
     [output writeInt32:9 value:self.cityId];
   }
+  if (self.hasEventIdOfLockBoxGained) {
+    [output writeInt32:10 value:self.eventIdOfLockBoxGained];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -17130,6 +17757,9 @@ static TaskActionResponseProto* defaultTaskActionResponseProtoInstance = nil;
   }
   if (self.hasCityId) {
     size += computeInt32Size(9, self.cityId);
+  }
+  if (self.hasEventIdOfLockBoxGained) {
+    size += computeInt32Size(10, self.eventIdOfLockBoxGained);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -17245,6 +17875,9 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
   if (other.hasCityId) {
     [self setCityId:other.cityId];
   }
+  if (other.hasEventIdOfLockBoxGained) {
+    [self setEventIdOfLockBoxGained:other.eventIdOfLockBoxGained];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -17315,6 +17948,10 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
       }
       case 72: {
         [self setCityId:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setEventIdOfLockBoxGained:[input readInt32]];
         break;
       }
     }
@@ -17490,6 +18127,22 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
 - (TaskActionResponseProto_Builder*) clearCityId {
   result.hasCityId = NO;
   result.cityId = 0;
+  return self;
+}
+- (BOOL) hasEventIdOfLockBoxGained {
+  return result.hasEventIdOfLockBoxGained;
+}
+- (int32_t) eventIdOfLockBoxGained {
+  return result.eventIdOfLockBoxGained;
+}
+- (TaskActionResponseProto_Builder*) setEventIdOfLockBoxGained:(int32_t) value {
+  result.hasEventIdOfLockBoxGained = YES;
+  result.eventIdOfLockBoxGained = value;
+  return self;
+}
+- (TaskActionResponseProto_Builder*) clearEventIdOfLockBoxGained {
+  result.hasEventIdOfLockBoxGained = NO;
+  result.eventIdOfLockBoxGained = 0;
   return self;
 }
 @end
@@ -23728,8 +24381,21 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
 
 @interface RetrieveCurrentMarketplacePostsRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property int32_t beforeThisPostId;
 @property BOOL fromSender;
+@property int32_t currentNumOfEntries;
+@property RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter filter;
+@property BOOL commonEquips;
+@property BOOL uncommonEquips;
+@property BOOL rareEquips;
+@property BOOL epicEquips;
+@property BOOL legendaryEquips;
+@property BOOL myClassOnly;
+@property int32_t minEquipLevel;
+@property int32_t maxEquipLevel;
+@property int32_t minForgeLevel;
+@property int32_t maxForgeLevel;
+@property RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder sortOrder;
+@property (retain) NSString* specificEquipId;
 @end
 
 @implementation RetrieveCurrentMarketplacePostsRequestProto
@@ -23741,13 +24407,6 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasBeforeThisPostId {
-  return !!hasBeforeThisPostId_;
-}
-- (void) setHasBeforeThisPostId:(BOOL) value {
-  hasBeforeThisPostId_ = !!value;
-}
-@synthesize beforeThisPostId;
 - (BOOL) hasFromSender {
   return !!hasFromSender_;
 }
@@ -23760,15 +24419,157 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
 - (void) setFromSender:(BOOL) value {
   fromSender_ = !!value;
 }
+- (BOOL) hasCurrentNumOfEntries {
+  return !!hasCurrentNumOfEntries_;
+}
+- (void) setHasCurrentNumOfEntries:(BOOL) value {
+  hasCurrentNumOfEntries_ = !!value;
+}
+@synthesize currentNumOfEntries;
+- (BOOL) hasFilter {
+  return !!hasFilter_;
+}
+- (void) setHasFilter:(BOOL) value {
+  hasFilter_ = !!value;
+}
+@synthesize filter;
+- (BOOL) hasCommonEquips {
+  return !!hasCommonEquips_;
+}
+- (void) setHasCommonEquips:(BOOL) value {
+  hasCommonEquips_ = !!value;
+}
+- (BOOL) commonEquips {
+  return !!commonEquips_;
+}
+- (void) setCommonEquips:(BOOL) value {
+  commonEquips_ = !!value;
+}
+- (BOOL) hasUncommonEquips {
+  return !!hasUncommonEquips_;
+}
+- (void) setHasUncommonEquips:(BOOL) value {
+  hasUncommonEquips_ = !!value;
+}
+- (BOOL) uncommonEquips {
+  return !!uncommonEquips_;
+}
+- (void) setUncommonEquips:(BOOL) value {
+  uncommonEquips_ = !!value;
+}
+- (BOOL) hasRareEquips {
+  return !!hasRareEquips_;
+}
+- (void) setHasRareEquips:(BOOL) value {
+  hasRareEquips_ = !!value;
+}
+- (BOOL) rareEquips {
+  return !!rareEquips_;
+}
+- (void) setRareEquips:(BOOL) value {
+  rareEquips_ = !!value;
+}
+- (BOOL) hasEpicEquips {
+  return !!hasEpicEquips_;
+}
+- (void) setHasEpicEquips:(BOOL) value {
+  hasEpicEquips_ = !!value;
+}
+- (BOOL) epicEquips {
+  return !!epicEquips_;
+}
+- (void) setEpicEquips:(BOOL) value {
+  epicEquips_ = !!value;
+}
+- (BOOL) hasLegendaryEquips {
+  return !!hasLegendaryEquips_;
+}
+- (void) setHasLegendaryEquips:(BOOL) value {
+  hasLegendaryEquips_ = !!value;
+}
+- (BOOL) legendaryEquips {
+  return !!legendaryEquips_;
+}
+- (void) setLegendaryEquips:(BOOL) value {
+  legendaryEquips_ = !!value;
+}
+- (BOOL) hasMyClassOnly {
+  return !!hasMyClassOnly_;
+}
+- (void) setHasMyClassOnly:(BOOL) value {
+  hasMyClassOnly_ = !!value;
+}
+- (BOOL) myClassOnly {
+  return !!myClassOnly_;
+}
+- (void) setMyClassOnly:(BOOL) value {
+  myClassOnly_ = !!value;
+}
+- (BOOL) hasMinEquipLevel {
+  return !!hasMinEquipLevel_;
+}
+- (void) setHasMinEquipLevel:(BOOL) value {
+  hasMinEquipLevel_ = !!value;
+}
+@synthesize minEquipLevel;
+- (BOOL) hasMaxEquipLevel {
+  return !!hasMaxEquipLevel_;
+}
+- (void) setHasMaxEquipLevel:(BOOL) value {
+  hasMaxEquipLevel_ = !!value;
+}
+@synthesize maxEquipLevel;
+- (BOOL) hasMinForgeLevel {
+  return !!hasMinForgeLevel_;
+}
+- (void) setHasMinForgeLevel:(BOOL) value {
+  hasMinForgeLevel_ = !!value;
+}
+@synthesize minForgeLevel;
+- (BOOL) hasMaxForgeLevel {
+  return !!hasMaxForgeLevel_;
+}
+- (void) setHasMaxForgeLevel:(BOOL) value {
+  hasMaxForgeLevel_ = !!value;
+}
+@synthesize maxForgeLevel;
+- (BOOL) hasSortOrder {
+  return !!hasSortOrder_;
+}
+- (void) setHasSortOrder:(BOOL) value {
+  hasSortOrder_ = !!value;
+}
+@synthesize sortOrder;
+- (BOOL) hasSpecificEquipId {
+  return !!hasSpecificEquipId_;
+}
+- (void) setHasSpecificEquipId:(BOOL) value {
+  hasSpecificEquipId_ = !!value;
+}
+@synthesize specificEquipId;
 - (void) dealloc {
   self.sender = nil;
+  self.specificEquipId = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.beforeThisPostId = 0;
     self.fromSender = NO;
+    self.currentNumOfEntries = 0;
+    self.filter = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAll;
+    self.commonEquips = NO;
+    self.uncommonEquips = NO;
+    self.rareEquips = NO;
+    self.epicEquips = NO;
+    self.legendaryEquips = NO;
+    self.myClassOnly = NO;
+    self.minEquipLevel = 0;
+    self.maxEquipLevel = 0;
+    self.minForgeLevel = 0;
+    self.maxForgeLevel = 0;
+    self.sortOrder = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderMostRecentPosts;
+    self.specificEquipId = @"";
   }
   return self;
 }
@@ -23791,11 +24592,50 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasBeforeThisPostId) {
-    [output writeInt32:2 value:self.beforeThisPostId];
-  }
   if (self.hasFromSender) {
-    [output writeBool:3 value:self.fromSender];
+    [output writeBool:2 value:self.fromSender];
+  }
+  if (self.hasCurrentNumOfEntries) {
+    [output writeInt32:3 value:self.currentNumOfEntries];
+  }
+  if (self.hasFilter) {
+    [output writeEnum:4 value:self.filter];
+  }
+  if (self.hasCommonEquips) {
+    [output writeBool:5 value:self.commonEquips];
+  }
+  if (self.hasUncommonEquips) {
+    [output writeBool:6 value:self.uncommonEquips];
+  }
+  if (self.hasRareEquips) {
+    [output writeBool:7 value:self.rareEquips];
+  }
+  if (self.hasEpicEquips) {
+    [output writeBool:8 value:self.epicEquips];
+  }
+  if (self.hasLegendaryEquips) {
+    [output writeBool:9 value:self.legendaryEquips];
+  }
+  if (self.hasMyClassOnly) {
+    [output writeBool:10 value:self.myClassOnly];
+  }
+  if (self.hasMinEquipLevel) {
+    [output writeInt32:11 value:self.minEquipLevel];
+  }
+  if (self.hasMaxEquipLevel) {
+    [output writeInt32:12 value:self.maxEquipLevel];
+  }
+  if (self.hasMinForgeLevel) {
+    [output writeInt32:13 value:self.minForgeLevel];
+  }
+  if (self.hasMaxForgeLevel) {
+    [output writeInt32:14 value:self.maxForgeLevel];
+  }
+  if (self.hasSortOrder) {
+    [output writeEnum:15 value:self.sortOrder];
+  }
+  if (self.hasSpecificEquipId) {
+    [output writeString:16 value:self.specificEquipId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -23809,11 +24649,50 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasBeforeThisPostId) {
-    size += computeInt32Size(2, self.beforeThisPostId);
-  }
   if (self.hasFromSender) {
-    size += computeBoolSize(3, self.fromSender);
+    size += computeBoolSize(2, self.fromSender);
+  }
+  if (self.hasCurrentNumOfEntries) {
+    size += computeInt32Size(3, self.currentNumOfEntries);
+  }
+  if (self.hasFilter) {
+    size += computeEnumSize(4, self.filter);
+  }
+  if (self.hasCommonEquips) {
+    size += computeBoolSize(5, self.commonEquips);
+  }
+  if (self.hasUncommonEquips) {
+    size += computeBoolSize(6, self.uncommonEquips);
+  }
+  if (self.hasRareEquips) {
+    size += computeBoolSize(7, self.rareEquips);
+  }
+  if (self.hasEpicEquips) {
+    size += computeBoolSize(8, self.epicEquips);
+  }
+  if (self.hasLegendaryEquips) {
+    size += computeBoolSize(9, self.legendaryEquips);
+  }
+  if (self.hasMyClassOnly) {
+    size += computeBoolSize(10, self.myClassOnly);
+  }
+  if (self.hasMinEquipLevel) {
+    size += computeInt32Size(11, self.minEquipLevel);
+  }
+  if (self.hasMaxEquipLevel) {
+    size += computeInt32Size(12, self.maxEquipLevel);
+  }
+  if (self.hasMinForgeLevel) {
+    size += computeInt32Size(13, self.minForgeLevel);
+  }
+  if (self.hasMaxForgeLevel) {
+    size += computeInt32Size(14, self.maxForgeLevel);
+  }
+  if (self.hasSortOrder) {
+    size += computeEnumSize(15, self.sortOrder);
+  }
+  if (self.hasSpecificEquipId) {
+    size += computeStringSize(16, self.specificEquipId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -23848,6 +24727,30 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
 }
 @end
 
+BOOL RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterIsValidValue(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter value) {
+  switch (value) {
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAll:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterWeapons:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterArmor:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAmulets:
+      return YES;
+    default:
+      return NO;
+  }
+}
+BOOL RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderIsValidValue(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder value) {
+  switch (value) {
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderMostRecentPosts:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderPriceLowToHigh:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderPriceHighToLow:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderAttackHighToLow:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderDefenseHighToLow:
+    case RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderTotalStatsHighToLow:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface RetrieveCurrentMarketplacePostsRequestProto_Builder()
 @property (retain) RetrieveCurrentMarketplacePostsRequestProto* result;
 @end
@@ -23893,11 +24796,50 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasBeforeThisPostId) {
-    [self setBeforeThisPostId:other.beforeThisPostId];
-  }
   if (other.hasFromSender) {
     [self setFromSender:other.fromSender];
+  }
+  if (other.hasCurrentNumOfEntries) {
+    [self setCurrentNumOfEntries:other.currentNumOfEntries];
+  }
+  if (other.hasFilter) {
+    [self setFilter:other.filter];
+  }
+  if (other.hasCommonEquips) {
+    [self setCommonEquips:other.commonEquips];
+  }
+  if (other.hasUncommonEquips) {
+    [self setUncommonEquips:other.uncommonEquips];
+  }
+  if (other.hasRareEquips) {
+    [self setRareEquips:other.rareEquips];
+  }
+  if (other.hasEpicEquips) {
+    [self setEpicEquips:other.epicEquips];
+  }
+  if (other.hasLegendaryEquips) {
+    [self setLegendaryEquips:other.legendaryEquips];
+  }
+  if (other.hasMyClassOnly) {
+    [self setMyClassOnly:other.myClassOnly];
+  }
+  if (other.hasMinEquipLevel) {
+    [self setMinEquipLevel:other.minEquipLevel];
+  }
+  if (other.hasMaxEquipLevel) {
+    [self setMaxEquipLevel:other.maxEquipLevel];
+  }
+  if (other.hasMinForgeLevel) {
+    [self setMinForgeLevel:other.minForgeLevel];
+  }
+  if (other.hasMaxForgeLevel) {
+    [self setMaxForgeLevel:other.maxForgeLevel];
+  }
+  if (other.hasSortOrder) {
+    [self setSortOrder:other.sortOrder];
+  }
+  if (other.hasSpecificEquipId) {
+    [self setSpecificEquipId:other.specificEquipId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -23930,11 +24872,73 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
         break;
       }
       case 16: {
-        [self setBeforeThisPostId:[input readInt32]];
+        [self setFromSender:[input readBool]];
         break;
       }
       case 24: {
-        [self setFromSender:[input readBool]];
+        [self setCurrentNumOfEntries:[input readInt32]];
+        break;
+      }
+      case 32: {
+        int32_t value = [input readEnum];
+        if (RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterIsValidValue(value)) {
+          [self setFilter:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
+        }
+        break;
+      }
+      case 40: {
+        [self setCommonEquips:[input readBool]];
+        break;
+      }
+      case 48: {
+        [self setUncommonEquips:[input readBool]];
+        break;
+      }
+      case 56: {
+        [self setRareEquips:[input readBool]];
+        break;
+      }
+      case 64: {
+        [self setEpicEquips:[input readBool]];
+        break;
+      }
+      case 72: {
+        [self setLegendaryEquips:[input readBool]];
+        break;
+      }
+      case 80: {
+        [self setMyClassOnly:[input readBool]];
+        break;
+      }
+      case 88: {
+        [self setMinEquipLevel:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setMaxEquipLevel:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self setMinForgeLevel:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self setMaxForgeLevel:[input readInt32]];
+        break;
+      }
+      case 120: {
+        int32_t value = [input readEnum];
+        if (RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderIsValidValue(value)) {
+          [self setSortOrder:value];
+        } else {
+          [unknownFields mergeVarintField:15 value:value];
+        }
+        break;
+      }
+      case 130: {
+        [self setSpecificEquipId:[input readString]];
         break;
       }
     }
@@ -23970,22 +24974,6 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasBeforeThisPostId {
-  return result.hasBeforeThisPostId;
-}
-- (int32_t) beforeThisPostId {
-  return result.beforeThisPostId;
-}
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setBeforeThisPostId:(int32_t) value {
-  result.hasBeforeThisPostId = YES;
-  result.beforeThisPostId = value;
-  return self;
-}
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearBeforeThisPostId {
-  result.hasBeforeThisPostId = NO;
-  result.beforeThisPostId = 0;
-  return self;
-}
 - (BOOL) hasFromSender {
   return result.hasFromSender;
 }
@@ -24000,6 +24988,230 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearFromSender {
   result.hasFromSender = NO;
   result.fromSender = NO;
+  return self;
+}
+- (BOOL) hasCurrentNumOfEntries {
+  return result.hasCurrentNumOfEntries;
+}
+- (int32_t) currentNumOfEntries {
+  return result.currentNumOfEntries;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setCurrentNumOfEntries:(int32_t) value {
+  result.hasCurrentNumOfEntries = YES;
+  result.currentNumOfEntries = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearCurrentNumOfEntries {
+  result.hasCurrentNumOfEntries = NO;
+  result.currentNumOfEntries = 0;
+  return self;
+}
+- (BOOL) hasFilter {
+  return result.hasFilter;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter) filter {
+  return result.filter;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setFilter:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter) value {
+  result.hasFilter = YES;
+  result.filter = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearFilter {
+  result.hasFilter = NO;
+  result.filter = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAll;
+  return self;
+}
+- (BOOL) hasCommonEquips {
+  return result.hasCommonEquips;
+}
+- (BOOL) commonEquips {
+  return result.commonEquips;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setCommonEquips:(BOOL) value {
+  result.hasCommonEquips = YES;
+  result.commonEquips = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearCommonEquips {
+  result.hasCommonEquips = NO;
+  result.commonEquips = NO;
+  return self;
+}
+- (BOOL) hasUncommonEquips {
+  return result.hasUncommonEquips;
+}
+- (BOOL) uncommonEquips {
+  return result.uncommonEquips;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setUncommonEquips:(BOOL) value {
+  result.hasUncommonEquips = YES;
+  result.uncommonEquips = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearUncommonEquips {
+  result.hasUncommonEquips = NO;
+  result.uncommonEquips = NO;
+  return self;
+}
+- (BOOL) hasRareEquips {
+  return result.hasRareEquips;
+}
+- (BOOL) rareEquips {
+  return result.rareEquips;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setRareEquips:(BOOL) value {
+  result.hasRareEquips = YES;
+  result.rareEquips = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearRareEquips {
+  result.hasRareEquips = NO;
+  result.rareEquips = NO;
+  return self;
+}
+- (BOOL) hasEpicEquips {
+  return result.hasEpicEquips;
+}
+- (BOOL) epicEquips {
+  return result.epicEquips;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setEpicEquips:(BOOL) value {
+  result.hasEpicEquips = YES;
+  result.epicEquips = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearEpicEquips {
+  result.hasEpicEquips = NO;
+  result.epicEquips = NO;
+  return self;
+}
+- (BOOL) hasLegendaryEquips {
+  return result.hasLegendaryEquips;
+}
+- (BOOL) legendaryEquips {
+  return result.legendaryEquips;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setLegendaryEquips:(BOOL) value {
+  result.hasLegendaryEquips = YES;
+  result.legendaryEquips = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearLegendaryEquips {
+  result.hasLegendaryEquips = NO;
+  result.legendaryEquips = NO;
+  return self;
+}
+- (BOOL) hasMyClassOnly {
+  return result.hasMyClassOnly;
+}
+- (BOOL) myClassOnly {
+  return result.myClassOnly;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMyClassOnly:(BOOL) value {
+  result.hasMyClassOnly = YES;
+  result.myClassOnly = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMyClassOnly {
+  result.hasMyClassOnly = NO;
+  result.myClassOnly = NO;
+  return self;
+}
+- (BOOL) hasMinEquipLevel {
+  return result.hasMinEquipLevel;
+}
+- (int32_t) minEquipLevel {
+  return result.minEquipLevel;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMinEquipLevel:(int32_t) value {
+  result.hasMinEquipLevel = YES;
+  result.minEquipLevel = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMinEquipLevel {
+  result.hasMinEquipLevel = NO;
+  result.minEquipLevel = 0;
+  return self;
+}
+- (BOOL) hasMaxEquipLevel {
+  return result.hasMaxEquipLevel;
+}
+- (int32_t) maxEquipLevel {
+  return result.maxEquipLevel;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMaxEquipLevel:(int32_t) value {
+  result.hasMaxEquipLevel = YES;
+  result.maxEquipLevel = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMaxEquipLevel {
+  result.hasMaxEquipLevel = NO;
+  result.maxEquipLevel = 0;
+  return self;
+}
+- (BOOL) hasMinForgeLevel {
+  return result.hasMinForgeLevel;
+}
+- (int32_t) minForgeLevel {
+  return result.minForgeLevel;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMinForgeLevel:(int32_t) value {
+  result.hasMinForgeLevel = YES;
+  result.minForgeLevel = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMinForgeLevel {
+  result.hasMinForgeLevel = NO;
+  result.minForgeLevel = 0;
+  return self;
+}
+- (BOOL) hasMaxForgeLevel {
+  return result.hasMaxForgeLevel;
+}
+- (int32_t) maxForgeLevel {
+  return result.maxForgeLevel;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMaxForgeLevel:(int32_t) value {
+  result.hasMaxForgeLevel = YES;
+  result.maxForgeLevel = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMaxForgeLevel {
+  result.hasMaxForgeLevel = NO;
+  result.maxForgeLevel = 0;
+  return self;
+}
+- (BOOL) hasSortOrder {
+  return result.hasSortOrder;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder) sortOrder {
+  return result.sortOrder;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSortOrder:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder) value {
+  result.hasSortOrder = YES;
+  result.sortOrder = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSortOrder {
+  result.hasSortOrder = NO;
+  result.sortOrder = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderMostRecentPosts;
+  return self;
+}
+- (BOOL) hasSpecificEquipId {
+  return result.hasSpecificEquipId;
+}
+- (NSString*) specificEquipId {
+  return result.specificEquipId;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSpecificEquipId:(NSString*) value {
+  result.hasSpecificEquipId = YES;
+  result.specificEquipId = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSpecificEquipId {
+  result.hasSpecificEquipId = NO;
+  result.specificEquipId = @"";
   return self;
 }
 @end
@@ -31443,6 +32655,7 @@ BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestD
 @property (retain) NSMutableArray* mutablePossessEquipJobIdsList;
 @property (retain) NSMutableArray* mutableUpgradeStructJobIdsList;
 @property int32_t levelForExpRequiredRequest;
+@property BOOL currentLockBoxEvents;
 @end
 
 @implementation RetrieveStaticDataRequestProto
@@ -31470,6 +32683,18 @@ BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestD
   hasLevelForExpRequiredRequest_ = !!value;
 }
 @synthesize levelForExpRequiredRequest;
+- (BOOL) hasCurrentLockBoxEvents {
+  return !!hasCurrentLockBoxEvents_;
+}
+- (void) setHasCurrentLockBoxEvents:(BOOL) value {
+  hasCurrentLockBoxEvents_ = !!value;
+}
+- (BOOL) currentLockBoxEvents {
+  return !!currentLockBoxEvents_;
+}
+- (void) setCurrentLockBoxEvents:(BOOL) value {
+  currentLockBoxEvents_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.mutableStructIdsList = nil;
@@ -31487,6 +32712,7 @@ BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestD
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.levelForExpRequiredRequest = 0;
+    self.currentLockBoxEvents = NO;
   }
   return self;
 }
@@ -31602,6 +32828,9 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   if (self.hasLevelForExpRequiredRequest) {
     [output writeInt32:11 value:self.levelForExpRequiredRequest];
   }
+  if (self.hasCurrentLockBoxEvents) {
+    [output writeBool:12 value:self.currentLockBoxEvents];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -31688,6 +32917,9 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   }
   if (self.hasLevelForExpRequiredRequest) {
     size += computeInt32Size(11, self.levelForExpRequiredRequest);
+  }
+  if (self.hasCurrentLockBoxEvents) {
+    size += computeBoolSize(12, self.currentLockBoxEvents);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -31824,6 +33056,9 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   if (other.hasLevelForExpRequiredRequest) {
     [self setLevelForExpRequiredRequest:other.levelForExpRequiredRequest];
   }
+  if (other.hasCurrentLockBoxEvents) {
+    [self setCurrentLockBoxEvents:other.currentLockBoxEvents];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -31892,6 +33127,10 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
       }
       case 88: {
         [self setLevelForExpRequiredRequest:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setCurrentLockBoxEvents:[input readBool]];
         break;
       }
     }
@@ -32222,6 +33461,22 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   result.levelForExpRequiredRequest = 0;
   return self;
 }
+- (BOOL) hasCurrentLockBoxEvents {
+  return result.hasCurrentLockBoxEvents;
+}
+- (BOOL) currentLockBoxEvents {
+  return result.currentLockBoxEvents;
+}
+- (RetrieveStaticDataRequestProto_Builder*) setCurrentLockBoxEvents:(BOOL) value {
+  result.hasCurrentLockBoxEvents = YES;
+  result.currentLockBoxEvents = value;
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clearCurrentLockBoxEvents {
+  result.hasCurrentLockBoxEvents = NO;
+  result.currentLockBoxEvents = NO;
+  return self;
+}
 @end
 
 @interface RetrieveStaticDataResponseProto ()
@@ -32236,6 +33491,7 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
 @property (retain) NSMutableArray* mutablePossessEquipJobsList;
 @property (retain) NSMutableArray* mutableUpgradeStructJobsList;
 @property int32_t expRequiredForRequestedLevel;
+@property (retain) NSMutableArray* mutableLockBoxEventsList;
 @property RetrieveStaticDataResponseProto_RetrieveStaticDataStatus status;
 @end
 
@@ -32264,6 +33520,7 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   hasExpRequiredForRequestedLevel_ = !!value;
 }
 @synthesize expRequiredForRequestedLevel;
+@synthesize mutableLockBoxEventsList;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -32282,6 +33539,7 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   self.mutableDefeatTypeJobsList = nil;
   self.mutablePossessEquipJobsList = nil;
   self.mutableUpgradeStructJobsList = nil;
+  self.mutableLockBoxEventsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -32367,6 +33625,13 @@ static RetrieveStaticDataResponseProto* defaultRetrieveStaticDataResponseProtoIn
   id value = [mutableUpgradeStructJobsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) lockBoxEventsList {
+  return mutableLockBoxEventsList;
+}
+- (LockBoxEventProto*) lockBoxEventsAtIndex:(int32_t) index {
+  id value = [mutableLockBoxEventsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -32404,8 +33669,11 @@ static RetrieveStaticDataResponseProto* defaultRetrieveStaticDataResponseProtoIn
   if (self.hasExpRequiredForRequestedLevel) {
     [output writeInt32:11 value:self.expRequiredForRequestedLevel];
   }
+  for (LockBoxEventProto* element in self.lockBoxEventsList) {
+    [output writeMessage:12 value:element];
+  }
   if (self.hasStatus) {
-    [output writeEnum:12 value:self.status];
+    [output writeEnum:13 value:self.status];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -32449,8 +33717,11 @@ static RetrieveStaticDataResponseProto* defaultRetrieveStaticDataResponseProtoIn
   if (self.hasExpRequiredForRequestedLevel) {
     size += computeInt32Size(11, self.expRequiredForRequestedLevel);
   }
+  for (LockBoxEventProto* element in self.lockBoxEventsList) {
+    size += computeMessageSize(12, element);
+  }
   if (self.hasStatus) {
-    size += computeEnumSize(12, self.status);
+    size += computeEnumSize(13, self.status);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -32596,6 +33867,12 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
   if (other.hasExpRequiredForRequestedLevel) {
     [self setExpRequiredForRequestedLevel:other.expRequiredForRequestedLevel];
   }
+  if (other.mutableLockBoxEventsList.count > 0) {
+    if (result.mutableLockBoxEventsList == nil) {
+      result.mutableLockBoxEventsList = [NSMutableArray array];
+    }
+    [result.mutableLockBoxEventsList addObjectsFromArray:other.mutableLockBoxEventsList];
+  }
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
@@ -32687,12 +33964,18 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
         [self setExpRequiredForRequestedLevel:[input readInt32]];
         break;
       }
-      case 96: {
+      case 98: {
+        LockBoxEventProto_Builder* subBuilder = [LockBoxEventProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addLockBoxEvents:[subBuilder buildPartial]];
+        break;
+      }
+      case 104: {
         int32_t value = [input readEnum];
         if (RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
-          [unknownFields mergeVarintField:12 value:value];
+          [unknownFields mergeVarintField:13 value:value];
         }
         break;
       }
@@ -33004,6 +34287,35 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (RetrieveStaticDataResponseProto_Builder*) clearExpRequiredForRequestedLevel {
   result.hasExpRequiredForRequestedLevel = NO;
   result.expRequiredForRequestedLevel = 0;
+  return self;
+}
+- (NSArray*) lockBoxEventsList {
+  if (result.mutableLockBoxEventsList == nil) { return [NSArray array]; }
+  return result.mutableLockBoxEventsList;
+}
+- (LockBoxEventProto*) lockBoxEventsAtIndex:(int32_t) index {
+  return [result lockBoxEventsAtIndex:index];
+}
+- (RetrieveStaticDataResponseProto_Builder*) replaceLockBoxEventsAtIndex:(int32_t) index with:(LockBoxEventProto*) value {
+  [result.mutableLockBoxEventsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addAllLockBoxEvents:(NSArray*) values {
+  if (result.mutableLockBoxEventsList == nil) {
+    result.mutableLockBoxEventsList = [NSMutableArray array];
+  }
+  [result.mutableLockBoxEventsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clearLockBoxEventsList {
+  result.mutableLockBoxEventsList = nil;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addLockBoxEvents:(LockBoxEventProto*) value {
+  if (result.mutableLockBoxEventsList == nil) {
+    result.mutableLockBoxEventsList = [NSMutableArray array];
+  }
+  [result.mutableLockBoxEventsList addObject:value];
   return self;
 }
 - (BOOL) hasStatus {
@@ -55329,6 +56641,1602 @@ BOOL CollectFromGoldmineResponseProto_CollectFromGoldmineStatusIsValidValue(Coll
 - (CollectFromGoldmineResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = CollectFromGoldmineResponseProto_CollectFromGoldmineStatusSuccess;
+  return self;
+}
+@end
+
+@interface PickLockBoxRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t lockBoxEventId;
+@property PickLockBoxRequestProto_PickLockBoxMethod method;
+@property int64_t clientTime;
+@end
+
+@implementation PickLockBoxRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasLockBoxEventId {
+  return !!hasLockBoxEventId_;
+}
+- (void) setHasLockBoxEventId:(BOOL) value {
+  hasLockBoxEventId_ = !!value;
+}
+@synthesize lockBoxEventId;
+- (BOOL) hasMethod {
+  return !!hasMethod_;
+}
+- (void) setHasMethod:(BOOL) value {
+  hasMethod_ = !!value;
+}
+@synthesize method;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.lockBoxEventId = 0;
+    self.method = PickLockBoxRequestProto_PickLockBoxMethodFree;
+    self.clientTime = 0L;
+  }
+  return self;
+}
+static PickLockBoxRequestProto* defaultPickLockBoxRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [PickLockBoxRequestProto class]) {
+    defaultPickLockBoxRequestProtoInstance = [[PickLockBoxRequestProto alloc] init];
+  }
+}
++ (PickLockBoxRequestProto*) defaultInstance {
+  return defaultPickLockBoxRequestProtoInstance;
+}
+- (PickLockBoxRequestProto*) defaultInstance {
+  return defaultPickLockBoxRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasLockBoxEventId) {
+    [output writeInt32:2 value:self.lockBoxEventId];
+  }
+  if (self.hasMethod) {
+    [output writeEnum:3 value:self.method];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:4 value:self.clientTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasLockBoxEventId) {
+    size += computeInt32Size(2, self.lockBoxEventId);
+  }
+  if (self.hasMethod) {
+    size += computeEnumSize(3, self.method);
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(4, self.clientTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PickLockBoxRequestProto*) parseFromData:(NSData*) data {
+  return (PickLockBoxRequestProto*)[[[PickLockBoxRequestProto builder] mergeFromData:data] build];
+}
++ (PickLockBoxRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PickLockBoxRequestProto*)[[[PickLockBoxRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PickLockBoxRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PickLockBoxRequestProto*)[[[PickLockBoxRequestProto builder] mergeFromInputStream:input] build];
+}
++ (PickLockBoxRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PickLockBoxRequestProto*)[[[PickLockBoxRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PickLockBoxRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PickLockBoxRequestProto*)[[[PickLockBoxRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PickLockBoxRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PickLockBoxRequestProto*)[[[PickLockBoxRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PickLockBoxRequestProto_Builder*) builder {
+  return [[[PickLockBoxRequestProto_Builder alloc] init] autorelease];
+}
++ (PickLockBoxRequestProto_Builder*) builderWithPrototype:(PickLockBoxRequestProto*) prototype {
+  return [[PickLockBoxRequestProto builder] mergeFrom:prototype];
+}
+- (PickLockBoxRequestProto_Builder*) builder {
+  return [PickLockBoxRequestProto builder];
+}
+@end
+
+BOOL PickLockBoxRequestProto_PickLockBoxMethodIsValidValue(PickLockBoxRequestProto_PickLockBoxMethod value) {
+  switch (value) {
+    case PickLockBoxRequestProto_PickLockBoxMethodFree:
+    case PickLockBoxRequestProto_PickLockBoxMethodSilver:
+    case PickLockBoxRequestProto_PickLockBoxMethodGold:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface PickLockBoxRequestProto_Builder()
+@property (retain) PickLockBoxRequestProto* result;
+@end
+
+@implementation PickLockBoxRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PickLockBoxRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PickLockBoxRequestProto_Builder*) clear {
+  self.result = [[[PickLockBoxRequestProto alloc] init] autorelease];
+  return self;
+}
+- (PickLockBoxRequestProto_Builder*) clone {
+  return [PickLockBoxRequestProto builderWithPrototype:result];
+}
+- (PickLockBoxRequestProto*) defaultInstance {
+  return [PickLockBoxRequestProto defaultInstance];
+}
+- (PickLockBoxRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PickLockBoxRequestProto*) buildPartial {
+  PickLockBoxRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PickLockBoxRequestProto_Builder*) mergeFrom:(PickLockBoxRequestProto*) other {
+  if (other == [PickLockBoxRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasLockBoxEventId) {
+    [self setLockBoxEventId:other.lockBoxEventId];
+  }
+  if (other.hasMethod) {
+    [self setMethod:other.method];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PickLockBoxRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PickLockBoxRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setLockBoxEventId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (PickLockBoxRequestProto_PickLockBoxMethodIsValidValue(value)) {
+          [self setMethod:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+      case 32: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (PickLockBoxRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (PickLockBoxRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (PickLockBoxRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (PickLockBoxRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasLockBoxEventId {
+  return result.hasLockBoxEventId;
+}
+- (int32_t) lockBoxEventId {
+  return result.lockBoxEventId;
+}
+- (PickLockBoxRequestProto_Builder*) setLockBoxEventId:(int32_t) value {
+  result.hasLockBoxEventId = YES;
+  result.lockBoxEventId = value;
+  return self;
+}
+- (PickLockBoxRequestProto_Builder*) clearLockBoxEventId {
+  result.hasLockBoxEventId = NO;
+  result.lockBoxEventId = 0;
+  return self;
+}
+- (BOOL) hasMethod {
+  return result.hasMethod;
+}
+- (PickLockBoxRequestProto_PickLockBoxMethod) method {
+  return result.method;
+}
+- (PickLockBoxRequestProto_Builder*) setMethod:(PickLockBoxRequestProto_PickLockBoxMethod) value {
+  result.hasMethod = YES;
+  result.method = value;
+  return self;
+}
+- (PickLockBoxRequestProto_Builder*) clearMethod {
+  result.hasMethod = NO;
+  result.method = PickLockBoxRequestProto_PickLockBoxMethodFree;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (PickLockBoxRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (PickLockBoxRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+@end
+
+@interface PickLockBoxResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property BOOL success;
+@property (retain) LockBoxItemProto* item;
+@property (retain) FullUserEquipProto* prizeEquip;
+@property int32_t lockBoxEventId;
+@property int64_t clientTime;
+@property PickLockBoxResponseProto_PickLockBoxStatus status;
+@end
+
+@implementation PickLockBoxResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasSuccess {
+  return !!hasSuccess_;
+}
+- (void) setHasSuccess:(BOOL) value {
+  hasSuccess_ = !!value;
+}
+- (BOOL) success {
+  return !!success_;
+}
+- (void) setSuccess:(BOOL) value {
+  success_ = !!value;
+}
+- (BOOL) hasItem {
+  return !!hasItem_;
+}
+- (void) setHasItem:(BOOL) value {
+  hasItem_ = !!value;
+}
+@synthesize item;
+- (BOOL) hasPrizeEquip {
+  return !!hasPrizeEquip_;
+}
+- (void) setHasPrizeEquip:(BOOL) value {
+  hasPrizeEquip_ = !!value;
+}
+@synthesize prizeEquip;
+- (BOOL) hasLockBoxEventId {
+  return !!hasLockBoxEventId_;
+}
+- (void) setHasLockBoxEventId:(BOOL) value {
+  hasLockBoxEventId_ = !!value;
+}
+@synthesize lockBoxEventId;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  self.item = nil;
+  self.prizeEquip = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.success = NO;
+    self.item = [LockBoxItemProto defaultInstance];
+    self.prizeEquip = [FullUserEquipProto defaultInstance];
+    self.lockBoxEventId = 0;
+    self.clientTime = 0L;
+    self.status = PickLockBoxResponseProto_PickLockBoxStatusSuccess;
+  }
+  return self;
+}
+static PickLockBoxResponseProto* defaultPickLockBoxResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [PickLockBoxResponseProto class]) {
+    defaultPickLockBoxResponseProtoInstance = [[PickLockBoxResponseProto alloc] init];
+  }
+}
++ (PickLockBoxResponseProto*) defaultInstance {
+  return defaultPickLockBoxResponseProtoInstance;
+}
+- (PickLockBoxResponseProto*) defaultInstance {
+  return defaultPickLockBoxResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasSuccess) {
+    [output writeBool:2 value:self.success];
+  }
+  if (self.hasItem) {
+    [output writeMessage:3 value:self.item];
+  }
+  if (self.hasPrizeEquip) {
+    [output writeMessage:4 value:self.prizeEquip];
+  }
+  if (self.hasLockBoxEventId) {
+    [output writeInt32:5 value:self.lockBoxEventId];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:6 value:self.clientTime];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:7 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasSuccess) {
+    size += computeBoolSize(2, self.success);
+  }
+  if (self.hasItem) {
+    size += computeMessageSize(3, self.item);
+  }
+  if (self.hasPrizeEquip) {
+    size += computeMessageSize(4, self.prizeEquip);
+  }
+  if (self.hasLockBoxEventId) {
+    size += computeInt32Size(5, self.lockBoxEventId);
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(6, self.clientTime);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(7, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PickLockBoxResponseProto*) parseFromData:(NSData*) data {
+  return (PickLockBoxResponseProto*)[[[PickLockBoxResponseProto builder] mergeFromData:data] build];
+}
++ (PickLockBoxResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PickLockBoxResponseProto*)[[[PickLockBoxResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PickLockBoxResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PickLockBoxResponseProto*)[[[PickLockBoxResponseProto builder] mergeFromInputStream:input] build];
+}
++ (PickLockBoxResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PickLockBoxResponseProto*)[[[PickLockBoxResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PickLockBoxResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PickLockBoxResponseProto*)[[[PickLockBoxResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PickLockBoxResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PickLockBoxResponseProto*)[[[PickLockBoxResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PickLockBoxResponseProto_Builder*) builder {
+  return [[[PickLockBoxResponseProto_Builder alloc] init] autorelease];
+}
++ (PickLockBoxResponseProto_Builder*) builderWithPrototype:(PickLockBoxResponseProto*) prototype {
+  return [[PickLockBoxResponseProto builder] mergeFrom:prototype];
+}
+- (PickLockBoxResponseProto_Builder*) builder {
+  return [PickLockBoxResponseProto builder];
+}
+@end
+
+BOOL PickLockBoxResponseProto_PickLockBoxStatusIsValidValue(PickLockBoxResponseProto_PickLockBoxStatus value) {
+  switch (value) {
+    case PickLockBoxResponseProto_PickLockBoxStatusSuccess:
+    case PickLockBoxResponseProto_PickLockBoxStatusNotEnoughCurrency:
+    case PickLockBoxResponseProto_PickLockBoxStatusNotEnoughLockboxes:
+    case PickLockBoxResponseProto_PickLockBoxStatusEventIsNotInProgress:
+    case PickLockBoxResponseProto_PickLockBoxStatusClientTooApartFromServerTime:
+    case PickLockBoxResponseProto_PickLockBoxStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface PickLockBoxResponseProto_Builder()
+@property (retain) PickLockBoxResponseProto* result;
+@end
+
+@implementation PickLockBoxResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PickLockBoxResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PickLockBoxResponseProto_Builder*) clear {
+  self.result = [[[PickLockBoxResponseProto alloc] init] autorelease];
+  return self;
+}
+- (PickLockBoxResponseProto_Builder*) clone {
+  return [PickLockBoxResponseProto builderWithPrototype:result];
+}
+- (PickLockBoxResponseProto*) defaultInstance {
+  return [PickLockBoxResponseProto defaultInstance];
+}
+- (PickLockBoxResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PickLockBoxResponseProto*) buildPartial {
+  PickLockBoxResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PickLockBoxResponseProto_Builder*) mergeFrom:(PickLockBoxResponseProto*) other {
+  if (other == [PickLockBoxResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasSuccess) {
+    [self setSuccess:other.success];
+  }
+  if (other.hasItem) {
+    [self mergeItem:other.item];
+  }
+  if (other.hasPrizeEquip) {
+    [self mergePrizeEquip:other.prizeEquip];
+  }
+  if (other.hasLockBoxEventId) {
+    [self setLockBoxEventId:other.lockBoxEventId];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PickLockBoxResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PickLockBoxResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setSuccess:[input readBool]];
+        break;
+      }
+      case 26: {
+        LockBoxItemProto_Builder* subBuilder = [LockBoxItemProto builder];
+        if (self.hasItem) {
+          [subBuilder mergeFrom:self.item];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setItem:[subBuilder buildPartial]];
+        break;
+      }
+      case 34: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasPrizeEquip) {
+          [subBuilder mergeFrom:self.prizeEquip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPrizeEquip:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        [self setLockBoxEventId:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 56: {
+        int32_t value = [input readEnum];
+        if (PickLockBoxResponseProto_PickLockBoxStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:7 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (PickLockBoxResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (PickLockBoxResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (PickLockBoxResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (PickLockBoxResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasSuccess {
+  return result.hasSuccess;
+}
+- (BOOL) success {
+  return result.success;
+}
+- (PickLockBoxResponseProto_Builder*) setSuccess:(BOOL) value {
+  result.hasSuccess = YES;
+  result.success = value;
+  return self;
+}
+- (PickLockBoxResponseProto_Builder*) clearSuccess {
+  result.hasSuccess = NO;
+  result.success = NO;
+  return self;
+}
+- (BOOL) hasItem {
+  return result.hasItem;
+}
+- (LockBoxItemProto*) item {
+  return result.item;
+}
+- (PickLockBoxResponseProto_Builder*) setItem:(LockBoxItemProto*) value {
+  result.hasItem = YES;
+  result.item = value;
+  return self;
+}
+- (PickLockBoxResponseProto_Builder*) setItemBuilder:(LockBoxItemProto_Builder*) builderForValue {
+  return [self setItem:[builderForValue build]];
+}
+- (PickLockBoxResponseProto_Builder*) mergeItem:(LockBoxItemProto*) value {
+  if (result.hasItem &&
+      result.item != [LockBoxItemProto defaultInstance]) {
+    result.item =
+      [[[LockBoxItemProto builderWithPrototype:result.item] mergeFrom:value] buildPartial];
+  } else {
+    result.item = value;
+  }
+  result.hasItem = YES;
+  return self;
+}
+- (PickLockBoxResponseProto_Builder*) clearItem {
+  result.hasItem = NO;
+  result.item = [LockBoxItemProto defaultInstance];
+  return self;
+}
+- (BOOL) hasPrizeEquip {
+  return result.hasPrizeEquip;
+}
+- (FullUserEquipProto*) prizeEquip {
+  return result.prizeEquip;
+}
+- (PickLockBoxResponseProto_Builder*) setPrizeEquip:(FullUserEquipProto*) value {
+  result.hasPrizeEquip = YES;
+  result.prizeEquip = value;
+  return self;
+}
+- (PickLockBoxResponseProto_Builder*) setPrizeEquipBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setPrizeEquip:[builderForValue build]];
+}
+- (PickLockBoxResponseProto_Builder*) mergePrizeEquip:(FullUserEquipProto*) value {
+  if (result.hasPrizeEquip &&
+      result.prizeEquip != [FullUserEquipProto defaultInstance]) {
+    result.prizeEquip =
+      [[[FullUserEquipProto builderWithPrototype:result.prizeEquip] mergeFrom:value] buildPartial];
+  } else {
+    result.prizeEquip = value;
+  }
+  result.hasPrizeEquip = YES;
+  return self;
+}
+- (PickLockBoxResponseProto_Builder*) clearPrizeEquip {
+  result.hasPrizeEquip = NO;
+  result.prizeEquip = [FullUserEquipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasLockBoxEventId {
+  return result.hasLockBoxEventId;
+}
+- (int32_t) lockBoxEventId {
+  return result.lockBoxEventId;
+}
+- (PickLockBoxResponseProto_Builder*) setLockBoxEventId:(int32_t) value {
+  result.hasLockBoxEventId = YES;
+  result.lockBoxEventId = value;
+  return self;
+}
+- (PickLockBoxResponseProto_Builder*) clearLockBoxEventId {
+  result.hasLockBoxEventId = NO;
+  result.lockBoxEventId = 0;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (PickLockBoxResponseProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (PickLockBoxResponseProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (PickLockBoxResponseProto_PickLockBoxStatus) status {
+  return result.status;
+}
+- (PickLockBoxResponseProto_Builder*) setStatus:(PickLockBoxResponseProto_PickLockBoxStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (PickLockBoxResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = PickLockBoxResponseProto_PickLockBoxStatusSuccess;
+  return self;
+}
+@end
+
+@interface BossActionRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t bossId;
+@property int64_t curTime;
+@end
+
+@implementation BossActionRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasBossId {
+  return !!hasBossId_;
+}
+- (void) setHasBossId:(BOOL) value {
+  hasBossId_ = !!value;
+}
+@synthesize bossId;
+- (BOOL) hasCurTime {
+  return !!hasCurTime_;
+}
+- (void) setHasCurTime:(BOOL) value {
+  hasCurTime_ = !!value;
+}
+@synthesize curTime;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.bossId = 0;
+    self.curTime = 0L;
+  }
+  return self;
+}
+static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [BossActionRequestProto class]) {
+    defaultBossActionRequestProtoInstance = [[BossActionRequestProto alloc] init];
+  }
+}
++ (BossActionRequestProto*) defaultInstance {
+  return defaultBossActionRequestProtoInstance;
+}
+- (BossActionRequestProto*) defaultInstance {
+  return defaultBossActionRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasBossId) {
+    [output writeInt32:2 value:self.bossId];
+  }
+  if (self.hasCurTime) {
+    [output writeInt64:3 value:self.curTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasBossId) {
+    size += computeInt32Size(2, self.bossId);
+  }
+  if (self.hasCurTime) {
+    size += computeInt64Size(3, self.curTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (BossActionRequestProto*) parseFromData:(NSData*) data {
+  return (BossActionRequestProto*)[[[BossActionRequestProto builder] mergeFromData:data] build];
+}
++ (BossActionRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BossActionRequestProto*)[[[BossActionRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BossActionRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BossActionRequestProto*)[[[BossActionRequestProto builder] mergeFromInputStream:input] build];
+}
++ (BossActionRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BossActionRequestProto*)[[[BossActionRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BossActionRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BossActionRequestProto*)[[[BossActionRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BossActionRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BossActionRequestProto*)[[[BossActionRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BossActionRequestProto_Builder*) builder {
+  return [[[BossActionRequestProto_Builder alloc] init] autorelease];
+}
++ (BossActionRequestProto_Builder*) builderWithPrototype:(BossActionRequestProto*) prototype {
+  return [[BossActionRequestProto builder] mergeFrom:prototype];
+}
+- (BossActionRequestProto_Builder*) builder {
+  return [BossActionRequestProto builder];
+}
+@end
+
+@interface BossActionRequestProto_Builder()
+@property (retain) BossActionRequestProto* result;
+@end
+
+@implementation BossActionRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[BossActionRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BossActionRequestProto_Builder*) clear {
+  self.result = [[[BossActionRequestProto alloc] init] autorelease];
+  return self;
+}
+- (BossActionRequestProto_Builder*) clone {
+  return [BossActionRequestProto builderWithPrototype:result];
+}
+- (BossActionRequestProto*) defaultInstance {
+  return [BossActionRequestProto defaultInstance];
+}
+- (BossActionRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BossActionRequestProto*) buildPartial {
+  BossActionRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (BossActionRequestProto_Builder*) mergeFrom:(BossActionRequestProto*) other {
+  if (other == [BossActionRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasBossId) {
+    [self setBossId:other.bossId];
+  }
+  if (other.hasCurTime) {
+    [self setCurTime:other.curTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BossActionRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BossActionRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setBossId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setCurTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (BossActionRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (BossActionRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (BossActionRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (BossActionRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasBossId {
+  return result.hasBossId;
+}
+- (int32_t) bossId {
+  return result.bossId;
+}
+- (BossActionRequestProto_Builder*) setBossId:(int32_t) value {
+  result.hasBossId = YES;
+  result.bossId = value;
+  return self;
+}
+- (BossActionRequestProto_Builder*) clearBossId {
+  result.hasBossId = NO;
+  result.bossId = 0;
+  return self;
+}
+- (BOOL) hasCurTime {
+  return result.hasCurTime;
+}
+- (int64_t) curTime {
+  return result.curTime;
+}
+- (BossActionRequestProto_Builder*) setCurTime:(int64_t) value {
+  result.hasCurTime = YES;
+  result.curTime = value;
+  return self;
+}
+- (BossActionRequestProto_Builder*) clearCurTime {
+  result.hasCurTime = NO;
+  result.curTime = 0L;
+  return self;
+}
+@end
+
+@interface BossActionResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property BossActionResponseProto_BossActionStatus status;
+@property int32_t damageDone;
+@property (retain) NSMutableArray* mutableLootUserEquipList;
+@property (retain) NSMutableArray* mutableCoinsGainedList;
+@property (retain) NSMutableArray* mutableDiamondsGainedList;
+@property int32_t bossId;
+@end
+
+@implementation BossActionResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (BOOL) hasDamageDone {
+  return !!hasDamageDone_;
+}
+- (void) setHasDamageDone:(BOOL) value {
+  hasDamageDone_ = !!value;
+}
+@synthesize damageDone;
+@synthesize mutableLootUserEquipList;
+@synthesize mutableCoinsGainedList;
+@synthesize mutableDiamondsGainedList;
+- (BOOL) hasBossId {
+  return !!hasBossId_;
+}
+- (void) setHasBossId:(BOOL) value {
+  hasBossId_ = !!value;
+}
+@synthesize bossId;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableLootUserEquipList = nil;
+  self.mutableCoinsGainedList = nil;
+  self.mutableDiamondsGainedList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = BossActionResponseProto_BossActionStatusSuccess;
+    self.damageDone = 0;
+    self.bossId = 0;
+  }
+  return self;
+}
+static BossActionResponseProto* defaultBossActionResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [BossActionResponseProto class]) {
+    defaultBossActionResponseProtoInstance = [[BossActionResponseProto alloc] init];
+  }
+}
++ (BossActionResponseProto*) defaultInstance {
+  return defaultBossActionResponseProtoInstance;
+}
+- (BossActionResponseProto*) defaultInstance {
+  return defaultBossActionResponseProtoInstance;
+}
+- (NSArray*) lootUserEquipList {
+  return mutableLootUserEquipList;
+}
+- (FullUserEquipProto*) lootUserEquipAtIndex:(int32_t) index {
+  id value = [mutableLootUserEquipList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) coinsGainedList {
+  return mutableCoinsGainedList;
+}
+- (int32_t) coinsGainedAtIndex:(int32_t) index {
+  id value = [mutableCoinsGainedList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) diamondsGainedList {
+  return mutableDiamondsGainedList;
+}
+- (int32_t) diamondsGainedAtIndex:(int32_t) index {
+  id value = [mutableDiamondsGainedList objectAtIndex:index];
+  return [value intValue];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  if (self.hasDamageDone) {
+    [output writeInt32:3 value:self.damageDone];
+  }
+  for (FullUserEquipProto* element in self.lootUserEquipList) {
+    [output writeMessage:5 value:element];
+  }
+  for (NSNumber* value in self.mutableCoinsGainedList) {
+    [output writeInt32:6 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableDiamondsGainedList) {
+    [output writeInt32:7 value:[value intValue]];
+  }
+  if (self.hasBossId) {
+    [output writeInt32:8 value:self.bossId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  if (self.hasDamageDone) {
+    size += computeInt32Size(3, self.damageDone);
+  }
+  for (FullUserEquipProto* element in self.lootUserEquipList) {
+    size += computeMessageSize(5, element);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableCoinsGainedList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableCoinsGainedList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableDiamondsGainedList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableDiamondsGainedList.count;
+  }
+  if (self.hasBossId) {
+    size += computeInt32Size(8, self.bossId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (BossActionResponseProto*) parseFromData:(NSData*) data {
+  return (BossActionResponseProto*)[[[BossActionResponseProto builder] mergeFromData:data] build];
+}
++ (BossActionResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BossActionResponseProto*)[[[BossActionResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BossActionResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BossActionResponseProto*)[[[BossActionResponseProto builder] mergeFromInputStream:input] build];
+}
++ (BossActionResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BossActionResponseProto*)[[[BossActionResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BossActionResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BossActionResponseProto*)[[[BossActionResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BossActionResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BossActionResponseProto*)[[[BossActionResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BossActionResponseProto_Builder*) builder {
+  return [[[BossActionResponseProto_Builder alloc] init] autorelease];
+}
++ (BossActionResponseProto_Builder*) builderWithPrototype:(BossActionResponseProto*) prototype {
+  return [[BossActionResponseProto builder] mergeFrom:prototype];
+}
+- (BossActionResponseProto_Builder*) builder {
+  return [BossActionResponseProto builder];
+}
+@end
+
+BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProto_BossActionStatus value) {
+  switch (value) {
+    case BossActionResponseProto_BossActionStatusSuccess:
+    case BossActionResponseProto_BossActionStatusUserNotEnoughStamina:
+    case BossActionResponseProto_BossActionStatusBossHasNotSpawned:
+    case BossActionResponseProto_BossActionStatusOtherFail:
+    case BossActionResponseProto_BossActionStatusClientTooApartFromServerTime:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface BossActionResponseProto_Builder()
+@property (retain) BossActionResponseProto* result;
+@end
+
+@implementation BossActionResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[BossActionResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BossActionResponseProto_Builder*) clear {
+  self.result = [[[BossActionResponseProto alloc] init] autorelease];
+  return self;
+}
+- (BossActionResponseProto_Builder*) clone {
+  return [BossActionResponseProto builderWithPrototype:result];
+}
+- (BossActionResponseProto*) defaultInstance {
+  return [BossActionResponseProto defaultInstance];
+}
+- (BossActionResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BossActionResponseProto*) buildPartial {
+  BossActionResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (BossActionResponseProto_Builder*) mergeFrom:(BossActionResponseProto*) other {
+  if (other == [BossActionResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.hasDamageDone) {
+    [self setDamageDone:other.damageDone];
+  }
+  if (other.mutableLootUserEquipList.count > 0) {
+    if (result.mutableLootUserEquipList == nil) {
+      result.mutableLootUserEquipList = [NSMutableArray array];
+    }
+    [result.mutableLootUserEquipList addObjectsFromArray:other.mutableLootUserEquipList];
+  }
+  if (other.mutableCoinsGainedList.count > 0) {
+    if (result.mutableCoinsGainedList == nil) {
+      result.mutableCoinsGainedList = [NSMutableArray array];
+    }
+    [result.mutableCoinsGainedList addObjectsFromArray:other.mutableCoinsGainedList];
+  }
+  if (other.mutableDiamondsGainedList.count > 0) {
+    if (result.mutableDiamondsGainedList == nil) {
+      result.mutableDiamondsGainedList = [NSMutableArray array];
+    }
+    [result.mutableDiamondsGainedList addObjectsFromArray:other.mutableDiamondsGainedList];
+  }
+  if (other.hasBossId) {
+    [self setBossId:other.bossId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BossActionResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BossActionResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (BossActionResponseProto_BossActionStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        [self setDamageDone:[input readInt32]];
+        break;
+      }
+      case 42: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addLootUserEquip:[subBuilder buildPartial]];
+        break;
+      }
+      case 48: {
+        [self addCoinsGained:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self addDiamondsGained:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setBossId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (BossActionResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (BossActionResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (BossActionResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (BossActionResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (BossActionResponseProto_BossActionStatus) status {
+  return result.status;
+}
+- (BossActionResponseProto_Builder*) setStatus:(BossActionResponseProto_BossActionStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (BossActionResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = BossActionResponseProto_BossActionStatusSuccess;
+  return self;
+}
+- (BOOL) hasDamageDone {
+  return result.hasDamageDone;
+}
+- (int32_t) damageDone {
+  return result.damageDone;
+}
+- (BossActionResponseProto_Builder*) setDamageDone:(int32_t) value {
+  result.hasDamageDone = YES;
+  result.damageDone = value;
+  return self;
+}
+- (BossActionResponseProto_Builder*) clearDamageDone {
+  result.hasDamageDone = NO;
+  result.damageDone = 0;
+  return self;
+}
+- (NSArray*) lootUserEquipList {
+  if (result.mutableLootUserEquipList == nil) { return [NSArray array]; }
+  return result.mutableLootUserEquipList;
+}
+- (FullUserEquipProto*) lootUserEquipAtIndex:(int32_t) index {
+  return [result lootUserEquipAtIndex:index];
+}
+- (BossActionResponseProto_Builder*) replaceLootUserEquipAtIndex:(int32_t) index with:(FullUserEquipProto*) value {
+  [result.mutableLootUserEquipList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (BossActionResponseProto_Builder*) addAllLootUserEquip:(NSArray*) values {
+  if (result.mutableLootUserEquipList == nil) {
+    result.mutableLootUserEquipList = [NSMutableArray array];
+  }
+  [result.mutableLootUserEquipList addObjectsFromArray:values];
+  return self;
+}
+- (BossActionResponseProto_Builder*) clearLootUserEquipList {
+  result.mutableLootUserEquipList = nil;
+  return self;
+}
+- (BossActionResponseProto_Builder*) addLootUserEquip:(FullUserEquipProto*) value {
+  if (result.mutableLootUserEquipList == nil) {
+    result.mutableLootUserEquipList = [NSMutableArray array];
+  }
+  [result.mutableLootUserEquipList addObject:value];
+  return self;
+}
+- (NSArray*) coinsGainedList {
+  if (result.mutableCoinsGainedList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableCoinsGainedList;
+}
+- (int32_t) coinsGainedAtIndex:(int32_t) index {
+  return [result coinsGainedAtIndex:index];
+}
+- (BossActionResponseProto_Builder*) replaceCoinsGainedAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableCoinsGainedList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (BossActionResponseProto_Builder*) addCoinsGained:(int32_t) value {
+  if (result.mutableCoinsGainedList == nil) {
+    result.mutableCoinsGainedList = [NSMutableArray array];
+  }
+  [result.mutableCoinsGainedList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (BossActionResponseProto_Builder*) addAllCoinsGained:(NSArray*) values {
+  if (result.mutableCoinsGainedList == nil) {
+    result.mutableCoinsGainedList = [NSMutableArray array];
+  }
+  [result.mutableCoinsGainedList addObjectsFromArray:values];
+  return self;
+}
+- (BossActionResponseProto_Builder*) clearCoinsGainedList {
+  result.mutableCoinsGainedList = nil;
+  return self;
+}
+- (NSArray*) diamondsGainedList {
+  if (result.mutableDiamondsGainedList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableDiamondsGainedList;
+}
+- (int32_t) diamondsGainedAtIndex:(int32_t) index {
+  return [result diamondsGainedAtIndex:index];
+}
+- (BossActionResponseProto_Builder*) replaceDiamondsGainedAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableDiamondsGainedList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (BossActionResponseProto_Builder*) addDiamondsGained:(int32_t) value {
+  if (result.mutableDiamondsGainedList == nil) {
+    result.mutableDiamondsGainedList = [NSMutableArray array];
+  }
+  [result.mutableDiamondsGainedList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (BossActionResponseProto_Builder*) addAllDiamondsGained:(NSArray*) values {
+  if (result.mutableDiamondsGainedList == nil) {
+    result.mutableDiamondsGainedList = [NSMutableArray array];
+  }
+  [result.mutableDiamondsGainedList addObjectsFromArray:values];
+  return self;
+}
+- (BossActionResponseProto_Builder*) clearDiamondsGainedList {
+  result.mutableDiamondsGainedList = nil;
+  return self;
+}
+- (BOOL) hasBossId {
+  return result.hasBossId;
+}
+- (int32_t) bossId {
+  return result.bossId;
+}
+- (BossActionResponseProto_Builder*) setBossId:(int32_t) value {
+  result.hasBossId = YES;
+  result.bossId = value;
+  return self;
+}
+- (BossActionResponseProto_Builder*) clearBossId {
+  result.hasBossId = NO;
+  result.bossId = 0;
   return self;
 }
 @end

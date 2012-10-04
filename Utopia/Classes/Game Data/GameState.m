@@ -79,6 +79,7 @@
 @synthesize staticBuildStructJobs = _staticBuildStructJobs;
 @synthesize staticPossessEquipJobs = _staticPossessEquipJobs;
 @synthesize staticUpgradeStructJobs = _staticUpgradeStructJobs;
+@synthesize staticLockBoxEvents = _staticLockBoxEvents;
 
 @synthesize carpenterStructs = _carpenterStructs;
 @synthesize armoryWeapons = _armoryWeapons;
@@ -88,6 +89,8 @@
 @synthesize myEquips = _myEquips;
 @synthesize myStructs = _myStructs;
 @synthesize myCities = _myCities;
+@synthesize myLockBoxEvents = _myLockBoxEvents;
+@synthesize lockBoxEventTimers = _lockBoxEventTimers;
 
 @synthesize availableQuests = _availableQuests;
 @synthesize inProgressCompleteQuests = _inProgressCompleteQuests;
@@ -139,6 +142,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _wallPosts = [[NSMutableArray alloc] init];
     _globalChatMessages = [[NSMutableArray alloc] init];
     _clanChatMessages = [[NSMutableArray alloc] init];
+    _staticLockBoxEvents = [[NSMutableArray alloc] init];
+    _myLockBoxEvents = [[NSMutableDictionary alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -259,23 +264,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
       NSArray *arr = [NSArray arrayWithObject:[NSNumber numberWithInt:itemId]];
       if (dict == _staticStructs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:arr taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:arr taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
       } else if (dict == _staticTasks) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:arr questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:arr questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
       } else if (dict == _staticQuests) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:arr cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:arr cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
       } else if (dict == _staticCities) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:arr equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:arr equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
       } else if (dict == _staticEquips) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:arr buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:arr buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
       } else if (dict == _staticBuildStructJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:arr defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:arr defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
       } else if (dict == _staticDefeatTypeJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:arr possessEquipJobIds:nil upgradeStructJobIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:arr possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
       } else if (dict == _staticPossessEquipJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:arr upgradeStructJobIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:arr upgradeStructJobIds:nil lockBoxEvents:NO];
       } else if (dict == _staticUpgradeStructJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:arr];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:arr lockBoxEvents:NO];
       }
     } else if (!ad.isActive || numTimes > 10000) {
       return nil;
@@ -334,6 +339,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return [self getStaticDataFrom:_staticTasks withId:taskId];
 }
 
+- (LockBoxEventProto *) lockBoxEventWithId:(int)eventId {
+  for (LockBoxEventProto *p in _staticLockBoxEvents) {
+    if (p.lockBoxEventId == eventId) {
+      return p;
+    }
+  }
+  return nil;
+}
+
 - (void) addToMyEquips:(NSArray *)equips {
   for (FullUserEquipProto *eq in equips) {
     [self.myEquips addObject:[UserEquip userEquipWithProto:eq]];
@@ -350,6 +364,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (FullUserCityProto *cit in cities) {
     [self.myCities setObject:[UserCity userCityWithProto:cit] forKey:[NSNumber numberWithInt:cit.cityId]];
   }
+}
+
+- (void) addToMyLockBoxEvents:(NSArray *)events {
+  for (UserLockBoxEventProto *p in events) {
+    [self.myLockBoxEvents setObject:p forKey:[NSNumber numberWithInt:p.lockBoxEventId]];
+  }
+  [self resetLockBoxTimers];
 }
 
 - (void) addToAvailableQuests:(NSArray *)quests {
@@ -595,6 +616,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) addNewStaticLockBoxEvents:(NSArray *)events {
+  [_staticLockBoxEvents removeAllObjects];
+  for (LockBoxEventProto *p in events) {
+    [_staticLockBoxEvents addObject:p];
+    [self.staticEquips setObject:p.prizeEquip forKey:[NSNumber numberWithInt:p.prizeEquip.equipId]];
+  }
+  [self resetLockBoxTimers];
+}
+
 - (FullQuestProto *) questForQuestId:(int)questId {
   NSNumber *num = [NSNumber numberWithInt:questId];
   FullQuestProto *fqp = [_availableQuests objectForKey:num];
@@ -606,19 +636,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (BOOL) hasValidLicense {
   return YES;
   //  Globals *gl = [Globals sharedGlobals];
-  //  
+  //
   //  NSTimeInterval shortLic = [self.lastShortLicensePurchaseTime timeIntervalSinceNow];
   //  NSTimeInterval time = -((NSTimeInterval)gl.numDaysShortMarketplaceLicenseLastsFor)*24*60*60;
   //  if (shortLic > time) {
   //    return YES;
   //  }
-  //  
+  //
   //  NSTimeInterval longLic = [self.lastLongLicensePurchaseTime timeIntervalSinceNow];
   //  time = -gl.numDaysLongMarketplaceLicenseLastsFor*24l*60l*60l;
   //  if (longLic > time) {
   //    return YES;
   //  }
-  //  
+  //
   //  return NO;
 }
 
@@ -773,6 +803,100 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) resetLockBoxTimers {
+  [self stopAllLockBoxTimers];
+  [self updateLockBoxButton];
+  
+  _lockBoxEventTimers = [[NSMutableArray array] retain];
+  for (LockBoxEventProto *e in _staticLockBoxEvents) {
+    NSTimer *timer;
+    NSTimeInterval timeInterval;
+    
+    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.startDate/1000.0] timeIntervalSinceNow];
+    if (timeInterval > 0) {
+      timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateLockBoxButton) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+      [_lockBoxEventTimers addObject:timer];
+    }
+    
+    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.endDate/1000.0] timeIntervalSinceNow];
+    if (timeInterval > 0) {
+      timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateLockBoxButton) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+      [_lockBoxEventTimers addObject:timer];
+    }
+    
+    Globals *gl = [Globals sharedGlobals];
+    UserLockBoxEventProto *ue = [self.myLockBoxEvents objectForKey:[NSNumber numberWithInt:e.lockBoxEventId]];
+    if (ue) {
+      timeInterval = [[NSDate dateWithTimeIntervalSince1970:(ue.lastPickTime/1000.0+60*gl.numMinutesToRepickLockBox)] timeIntervalSinceNow];
+      if (timeInterval > 0) {
+        timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateLockBoxButton) userInfo:nil repeats:NO];
+        [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+        [_lockBoxEventTimers addObject:timer];
+      }
+    }
+  }
+}
+
+- (void) stopAllLockBoxTimers {
+  for (NSTimer *timer in _lockBoxEventTimers) {
+    [timer invalidate];
+  }
+  [_lockBoxEventTimers removeAllObjects];
+  [_lockBoxEventTimers release];
+  _lockBoxEventTimers = nil;
+}
+
+- (LockBoxEventProto *) getCurrentLockBoxEvent {
+  double curTime = [[NSDate date] timeIntervalSince1970]*1000.0;
+  for (LockBoxEventProto *p in _staticLockBoxEvents) {
+    if (curTime > p.startDate && curTime < p.endDate) {
+      return p;
+    }
+  }
+  return nil;
+}
+
+- (void) addToNumLockBoxesForEvent:(int)eventId {
+  NSNumber *num = [NSNumber numberWithInt:eventId];
+  UserLockBoxEventProto *e = [_myLockBoxEvents objectForKey:num];
+  UserLockBoxEventProto_Builder *b = nil;
+  if (e) {
+    b = [UserLockBoxEventProto builderWithPrototype:e];
+    b.numLockBoxes++;
+  } else {
+    b = [UserLockBoxEventProto builderWithPrototype:e];
+    b.userId = _userId;
+    b.lockBoxEventId = eventId;
+    b.numTimesCompleted = 0;
+    b.numLockBoxes = 1;
+  }
+  [_myLockBoxEvents setObject:b.build forKey:num];
+}
+
+- (void) updateLockBoxButton {
+  Globals *gl = [Globals sharedGlobals];
+  LockBoxEventProto *e = [self getCurrentLockBoxEvent];
+  UserLockBoxEventProto *ue = [self.myLockBoxEvents objectForKey:[NSNumber numberWithInt:e.lockBoxEventId]];
+  
+  BOOL shouldDisplayButton = NO;
+  BOOL shouldDisplayBadge = NO;
+  if (e) {
+    shouldDisplayButton = YES;
+    
+    uint64_t secs = [[NSDate date] timeIntervalSince1970];
+    uint64_t pickTime = ue.lastPickTime/1000 + 60*gl.numMinutesToRepickLockBox;
+    if (!ue || secs >= pickTime) {
+      shouldDisplayBadge = YES;
+    }
+  }
+  
+  [[TopBar sharedTopBar] shouldDisplayLockBoxButton:shouldDisplayButton andBadge:shouldDisplayBadge];
+  
+  LNLog(@"Updated lock box button..");
+}
+
 - (void) purgeStaticData {
   [_staticQuests removeAllObjects];
   [_staticBuildStructJobs removeAllObjects];
@@ -785,7 +909,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) reretrieveStaticData {
-  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:_staticStructs.allKeys taskIds:_staticTasks.allKeys questIds:_staticQuests.allKeys cityIds:_staticCities.allKeys equipIds:_staticEquips.allKeys buildStructJobIds:_staticBuildStructJobs.allKeys defeatTypeJobIds:_staticDefeatTypeJobs.allKeys possessEquipJobIds:_staticPossessEquipJobs.allKeys upgradeStructJobIds:_staticUpgradeStructJobs.allKeys];
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:_staticStructs.allKeys taskIds:_staticTasks.allKeys questIds:_staticQuests.allKeys cityIds:_staticCities.allKeys equipIds:_staticEquips.allKeys buildStructJobIds:_staticBuildStructJobs.allKeys defeatTypeJobIds:_staticDefeatTypeJobs.allKeys possessEquipJobIds:_staticPossessEquipJobs.allKeys upgradeStructJobIds:_staticUpgradeStructJobs.allKeys lockBoxEvents:YES];
   
   [_staticStructs removeAllObjects];
   [_staticEquips removeAllObjects];
@@ -820,6 +944,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.wallPosts = [[[NSMutableArray alloc] init] autorelease];
   self.clanChatMessages = [[[NSMutableArray alloc] init] autorelease];
   self.globalChatMessages = [[[NSMutableArray alloc] init] autorelease];
+  self.staticLockBoxEvents = [[[NSMutableArray alloc] init] autorelease];
+  self.myLockBoxEvents = [[[NSMutableDictionary alloc] init] autorelease];
   
   self.availableQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressCompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
@@ -831,6 +957,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [self stopForgeTimer];
   self.forgeAttempt = nil;
+  
+  [self stopAllLockBoxTimers];
 }
 
 - (void) dealloc {
@@ -874,6 +1002,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.forgeAttempt = nil;
   self.clan = nil;
   self.requestedClans = nil;
+  self.lockBoxEventTimers = nil;
+  self.myLockBoxEvents = nil;
+  self.staticLockBoxEvents = nil;
+  [self stopAllLockBoxTimers];
+  self.lockBoxEventTimers = nil;
   [self stopForgeTimer];
   [super dealloc];
 }

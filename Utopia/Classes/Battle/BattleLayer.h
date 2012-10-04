@@ -75,10 +75,12 @@
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
 
+@property (nonatomic, retain) IBOutlet UIView *statsView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 - (void) loadForEquip:(FullUserEquipProto *)fuep;
+- (void) loadForLockBox:(int)eventId;
 
 @end
 
@@ -145,7 +147,11 @@
   id<BattleCalculator> _battleCalculator;
 }
 
+// Since we can only one IBOutlet, the gainedEquipView displays for stolen equips
+// and the gained lock box view shows for acquiring a lock box
 @property (nonatomic, retain) IBOutlet StolenEquipView *stolenEquipView;
+@property (nonatomic, retain) StolenEquipView *gainedEquipView;
+@property (nonatomic, retain) StolenEquipView *gainedLockBoxView;
 @property (nonatomic, retain) IBOutlet BattleSummaryView *summaryView;
 
 @property (nonatomic, retain) BattleResponseProto *brp;

@@ -168,6 +168,7 @@
 @property (retain) NSMutableDictionary *staticDefeatTypeJobs;
 @property (retain) NSMutableDictionary *staticPossessEquipJobs;
 @property (retain) NSMutableDictionary *staticUpgradeStructJobs;
+@property (retain) NSMutableArray *staticLockBoxEvents;
 
 @property (retain) NSArray *carpenterStructs;
 @property (retain) NSArray *armoryWeapons;
@@ -177,6 +178,8 @@
 @property (retain) NSMutableArray *myEquips;
 @property (retain) NSMutableArray *myStructs;
 @property (retain) NSMutableDictionary *myCities;
+@property (retain) NSMutableDictionary *myLockBoxEvents;
+@property (retain) NSMutableArray *lockBoxEventTimers;
 
 @property (retain) NSMutableDictionary *inProgressCompleteQuests;
 @property (retain) NSMutableDictionary *inProgressIncompleteQuests;
@@ -214,6 +217,7 @@
 - (FullCityProto *)cityWithId:(int)cityId;
 - (FullTaskProto *) taskWithId:(int)taskId;
 - (FullQuestProto *) questForQuestId:(int)questId;
+- (LockBoxEventProto *) lockBoxEventWithId:(int)eventId;
 
 - (int) weaponEquippedId;
 - (int) armorEquippedId;
@@ -222,6 +226,7 @@
 - (void) addToMyEquips:(NSArray *)myEquips;
 - (void) addToMyStructs:(NSArray *)myStructs;
 - (void) addToMyCities:(NSArray *)cities;
+- (void) addToMyLockBoxEvents:(NSArray *)events;
 - (void) addToAvailableQuests:(NSArray *)quests;
 - (void) addToInProgressCompleteQuests:(NSArray *)quests;
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests;
@@ -246,6 +251,7 @@
 - (void) addToStaticDefeatTypeJobs:(NSArray *)arr;
 - (void) addToStaticPossessEquipJobs:(NSArray *)arr;
 - (void) addToStaticUpgradeStructJobs:(NSArray *)arr;
+- (void) addNewStaticLockBoxEvents:(NSArray *)events;
 
 - (void) addUnrespondedUpdate:(id<GameStateUpdate>)up;
 - (void) addUnrespondedUpdates:(id<GameStateUpdate>)field1, ... NS_REQUIRES_NIL_TERMINATION;
@@ -263,6 +269,10 @@
 - (void) stopGoldmineTimer;
 
 - (void) addToRequestedClans:(NSArray *)arr;
+
+- (void) resetLockBoxTimers;
+- (LockBoxEventProto *) getCurrentLockBoxEvent;
+- (void) addToNumLockBoxesForEvent:(int)eventId;
 
 - (void) purgeStaticData;
 - (void) reretrieveStaticData;

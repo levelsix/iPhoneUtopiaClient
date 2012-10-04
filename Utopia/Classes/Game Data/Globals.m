@@ -81,6 +81,8 @@ static NSMutableSet *_pulsingViews;
 @synthesize maxCharLengthForClanTag;
 @synthesize maxCharLengthForWallPost;
 @synthesize goldAmountFromGoldminePickup, goldCostForGoldmineRestart, numHoursBeforeGoldmineRetrieval, numHoursForGoldminePickup;
+@synthesize freeChanceToPickLockBox, goldChanceToPickLockBox, goldCostToPickLockBox, goldCostToResetPickLockBox;
+@synthesize numMinutesToRepickLockBox, silverChanceToPickLockBox, silverCostToPickLockBox;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -217,6 +219,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.goldAmountFromGoldminePickup = constants.goldmineConstants.goldAmountFromGoldminePickup;
   self.numHoursForGoldminePickup = constants.goldmineConstants.numHoursForGoldminePickup;
   self.numHoursBeforeGoldmineRetrieval = constants.goldmineConstants.numHoursBeforeGoldmineRetrieval;
+  
+  self.goldChanceToPickLockBox = constants.lockBoxConstants.goldChanceToPickLockBox;
+  self.silverCostToPickLockBox = constants.lockBoxConstants.silverCostToPickLockBox;
+  self.goldCostToPickLockBox = constants.lockBoxConstants.goldCostToPickLockBox;
+  self.silverChanceToPickLockBox = constants.lockBoxConstants.silverChanceToPickLockBox;
+  self.freeChanceToPickLockBox = constants.lockBoxConstants.freeChanceToPickLockBox;
+  self.numMinutesToRepickLockBox = constants.lockBoxConstants.numMinutesToRepickLockBox;
+  self.goldCostToResetPickLockBox = constants.lockBoxConstants.goldCostToResetPickLockBox;
   
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
@@ -394,14 +404,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return nil;
 }
 
-+ (NSString *) stringForEquipClassType:(FullEquipProto_ClassType)type {
-  if (type == FullEquipProto_ClassTypeWarrior) {
++ (NSString *) stringForEquipClassType:(EquipClassType)type {
+  if (type == EquipClassTypeWarrior) {
     return @"Warrior";
-  } else if (type == FullEquipProto_ClassTypeArcher) {
+  } else if (type == EquipClassTypeArcher) {
     return @"Archer";
-  } else if (type == FullEquipProto_ClassTypeMage) {
+  } else if (type == EquipClassTypeMage) {
     return @"Mage";
-  } else if (type == FullEquipProto_ClassTypeAllAmulet) {
+  } else if (type == EquipClassTypeAllAmulet) {
     return @"All";
   }
   return nil;
@@ -461,8 +471,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [NSString stringWithFormat:@"%d year%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
 }
 
-+ (BOOL) class:(UserType)ut canEquip:(FullEquipProto_ClassType) ct {
-  return (ct == ut % 3 || ct == FullEquipProto_ClassTypeAllAmulet);
++ (BOOL) class:(UserType)ut canEquip:(EquipClassType) ct {
+  return (ct == ut % 3 || ct == EquipClassTypeAllAmulet);
 }
 
 + (BOOL) canEquip:(FullEquipProto *)fep {

@@ -37,3 +37,13 @@
 - (id) initWithEquipId:(int)equipId;
 
 @end
+
+@interface LockBoxDrop : CCSprite <CCTargetedTouchDelegate> {
+  BOOL _clicked;
+}
+
+@property (nonatomic, assign) int eventId;
+
+- (id) initWithEventId:(int)eventId;
+
+@end
