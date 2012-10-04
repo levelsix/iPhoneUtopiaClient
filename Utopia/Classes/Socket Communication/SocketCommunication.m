@@ -314,12 +314,9 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCInAppPurchaseEvent];
 }
 
-- (int) sendRetrieveCurrentMarketplacePostsMessageBeforePostId: (int)postId fromSender:(BOOL)fromSender{
+- (int) sendRetrieveCurrentMarketplacePostsMessageBeforePostId:(int)postId fromSender:(BOOL)fromSender{
   RetrieveCurrentMarketplacePostsRequestProto_Builder *bldr = [[[RetrieveCurrentMarketplacePostsRequestProto builder] setSender:_sender] setFromSender:fromSender];
   
-  if (postId) {
-    [bldr setBeforeThisPostId:postId];
-  }
   
   RetrieveCurrentMarketplacePostsRequestProto *req = bldr.build;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent];

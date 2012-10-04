@@ -589,7 +589,7 @@
 - (void) setSortOrder:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder)s {
   sortOrder = s;
   self.sortOrderLabel.text = [self.sortOrderStrings objectAtIndex:s];
-  [self.pickerView selectRow:s inComponent:1 animated:NO];
+  [self.pickerView selectRow:s inComponent:0 animated:NO];
 }
 
 - (int) numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -634,6 +634,7 @@
 #define EQUIP_LEVEL_MAX_USER_DEFAULTS_KEY @"EquipLevelMaxMarketplace"
 #define FORGE_LEVEL_MIN_USER_DEFAULTS_KEY @"ForgeLevelMinMarketplace"
 #define FORGE_LEVEL_MAX_USER_DEFAULTS_KEY @"ForgeLevelMaxMarketplace"
+#define SORT_ORDER_USER_DEFAULTS_KEY @"SortOrderMarketplace"
 
 - (void) loadFilterSettings {
   Globals *gl = [Globals sharedGlobals];
@@ -646,6 +647,7 @@
   int equipMax = [defaults integerForKey:EQUIP_LEVEL_MAX_USER_DEFAULTS_KEY];
   int forgeMin = [defaults integerForKey:FORGE_LEVEL_MIN_USER_DEFAULTS_KEY];
   int forgeMax = [defaults integerForKey:FORGE_LEVEL_MAX_USER_DEFAULTS_KEY];
+  int sortOrder = [defaults integerForKey:SORT_ORDER_USER_DEFAULTS_KEY];
   
   MarketPlaceFilterButton button = kAllButton;
   switch (filterBarButton) {
@@ -679,6 +681,8 @@
   if (forgeMax == 0) forgeMax = gl.forgeMaxEquipLevel;
   [self.forgeLevelBar movePin:YES toNotch:forgeMin-1];
   [self.forgeLevelBar movePin:NO toNotch:forgeMax-1];
+  
+  [self.pickerView setSortOrder:sortOrder];
 }
 
 - (void) saveFilterSettings {
@@ -691,6 +695,7 @@
   [defaults setInteger:self.equipLevelBar.rightPin.currentValue forKey:EQUIP_LEVEL_MAX_USER_DEFAULTS_KEY];
   [defaults setInteger:self.forgeLevelBar.leftPin.currentValue forKey:FORGE_LEVEL_MIN_USER_DEFAULTS_KEY];
   [defaults setInteger:self.forgeLevelBar.rightPin.currentValue forKey:FORGE_LEVEL_MAX_USER_DEFAULTS_KEY];
+  [defaults setInteger:self.pickerView.sortOrder forKey:SORT_ORDER_USER_DEFAULTS_KEY];
 }
 
 - (IBAction)restoreDefaults:(id)sender {
@@ -702,8 +707,26 @@
   [defaults removeObjectForKey:EQUIP_LEVEL_MAX_USER_DEFAULTS_KEY];
   [defaults removeObjectForKey:FORGE_LEVEL_MIN_USER_DEFAULTS_KEY];
   [defaults removeObjectForKey:FORGE_LEVEL_MAX_USER_DEFAULTS_KEY];
+  [defaults removeObjectForKey:SORT_ORDER_USER_DEFAULTS_KEY];
   
   [self loadFilterSettings];
+}
+
+- (IBAction)openSortOrder:(id)sender {
+  [pickerView.pickerView selectRow:pickerView.sortOrder inComponent:0 animated:NO];
+  [UIView animateWithDuration:0.3f animations:^{
+    CGRect r = self.frame;
+    r.origin.y = -(r.size.height-self.superview.frame.size.height);
+    self.frame = r;
+  }];
+}
+
+- (IBAction)closeSortOrder:(id)sender {
+  [UIView animateWithDuration:0.3f animations:^{
+    CGRect r = self.frame;
+    r.origin.y = 0;
+    self.frame = r;
+  }];
 }
 
 - (void) dealloc {
@@ -758,7 +781,7 @@
   CGPoint pt = [touch locationInView:view.superview];
   
   if (!_passedThreshold || pt.x < _initialX/2) {
-//    [[MarketplaceViewController sharedMarketplaceViewController] closeFilterPage:nil];
+    [[MarketplaceViewController sharedMarketplaceViewController] closeFilterPage:nil];
   } else {
     CGRect r = view.frame;
     float dist = r.origin.x;
