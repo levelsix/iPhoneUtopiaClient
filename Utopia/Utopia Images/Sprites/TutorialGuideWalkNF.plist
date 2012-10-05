@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		
+		<key>TutorialGuideWalkF00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 12}, {41, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{73, 340}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{20, 12}, {39, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 170}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 12}, {37, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 0}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 12}, {37, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 340}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{24, 12}, {35, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{73, 0}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 12}, {37, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{365, 85}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 12}, {37, 63}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{73, 85}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{20, 12}, {39, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 255}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{19, 12}, {41, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{219, 170}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{20, 13}, {39, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 340}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 12}, {39, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 170}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{20, 12}, {41, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 85}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 12}, {39, 63}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{219, 0}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 12}, {37, 63}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 85}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{24, 12}, {37, 63}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{219, 255}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 12}, {37, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{73, 255}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkF16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 12}, {41, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 255}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{19, 11}, {39, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 255}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 11}, {37, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 255}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 11}, {37, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 0}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 11}, {37, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 340}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 10}, {37, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 0}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 10}, {37, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{73, 170}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 10}, {37, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 170}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 10}, {37, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{365, 170}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{19, 11}, {41, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 170}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{20, 11}, {39, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{365, 255}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{20, 11}, {39, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 85}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 11}, {37, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{365, 0}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 10}, {37, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{365, 340}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 10}, {37, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{219, 340}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 10}, {37, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{219, 85}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 10}, {37, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 0}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>TutorialGuideWalkN16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{19, 11}, {39, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 85}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>version</key>
+		<string>1.5.5</string>
+		<key>format</key>
+		<integer>3</integer>
+		<key>size</key>
+		<string>{512, 512}</string>
+		<key>name</key>
+		<string>AllianceWarriorGenericUD@2x.zwd</string>
+		<key>premultipliedAlpha</key>
+		<false/>
+		<key>target</key>
+		<dict>
+			<key>name</key>
+			<string>default</string>
+			<key>textureFileName</key>
+			<string>TutorialGuideWalkNF.pvr</string>
+			<key>textureFileExtension</key>
+			<string>.pvr.ccz</string>
+			<key>coordinatesFileName</key>
+			<string>TutorialGuideWalkNF</string>
+			<key>coordinatesFileExtension</key>
+			<string>.plist</string>
+			<key>premultipliedAlpha</key>
+			<false/>
+		</dict>
+	</dict>
+</dict>
+</plist>

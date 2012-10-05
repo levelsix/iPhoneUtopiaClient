@@ -1,0 +1,962 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		
+		<key>LegionArcherWalkF00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 8}, {41, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 425}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{19, 8}, {39, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 255}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 8}, {37, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 0}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 8}, {37, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{219, 340}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 7}, {37, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 255}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{24, 6}, {35, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{219, 170}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{24, 6}, {35, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 170}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 6}, {39, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{219, 85}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{19, 6}, {41, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 85}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{17, 7}, {43, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 340}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{16, 7}, {45, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 255}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{15, 8}, {45, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{365, 85}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{16, 8}, {43, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{219, 255}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{17, 8}, {43, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 425}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 7}, {41, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{73, 255}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{19, 6}, {41, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{365, 425}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{20, 6}, {39, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 425}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF17.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{19, 6}, {41, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{365, 255}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF18.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 7}, {41, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{219, 425}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF19.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 7}, {41, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 255}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkF20.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 8}, {41, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 85}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{15, 8}, {45, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 85}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{15, 8}, {45, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{365, 170}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{15, 8}, {45, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 170}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{16, 8}, {45, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 0}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{17, 8}, {45, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 170}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 7}, {45, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{73, 85}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{20, 7}, {43, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 425}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{19, 7}, {43, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{219, 0}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 7}, {43, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{365, 340}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{17, 8}, {43, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{73, 0}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 8}, {41, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{365, 0}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{19, 8}, {41, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{73, 340}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 8}, {37, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 0}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 8}, {35, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 340}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 8}, {35, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 340}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 7}, {37, 65}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{73, 170}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 7}, {37, 67}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{73, 425}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN17.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{20, 7}, {41, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 0}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN18.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 7}, {43, 71}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 170}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN19.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{17, 8}, {43, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 85}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionArcherWalkN20.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{15, 8}, {45, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{73, 85}</string>
+			<key>spriteSourceSize</key>
+			<string>{73, 85}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 340}, {73, 85}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>version</key>
+		<string>1.5.5</string>
+		<key>format</key>
+		<integer>3</integer>
+		<key>size</key>
+		<string>{512, 512}</string>
+		<key>name</key>
+		<string>FarmerMitchWalkNF.zwd</string>
+		<key>premultipliedAlpha</key>
+		<false/>
+		<key>target</key>
+		<dict>
+			<key>name</key>
+			<string>default</string>
+			<key>textureFileName</key>
+			<string>LegionArcherWalkNF.pvr</string>
+			<key>textureFileExtension</key>
+			<string>.pvr.ccz</string>
+			<key>coordinatesFileName</key>
+			<string>LegionArcherWalkNF</string>
+			<key>coordinatesFileExtension</key>
+			<string>.plist</string>
+			<key>premultipliedAlpha</key>
+			<false/>
+		</dict>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		
+		<key>FarmerMitchWalkF00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{93, 67}, {110, 146}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1008, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{94, 66}, {106, 146}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1764, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{96, 66}, {102, 144}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1260, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{97, 65}, {100, 142}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{504, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{97, 65}, {98, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{252, 1208}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{94, 65}, {98, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{88, 65}, {102, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{84, 66}, {102, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{80, 68}, {104, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{252, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{79, 68}, {102, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{504, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{81, 68}, {100, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{252, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{84, 68}, {96, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1512, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{90, 67}, {92, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1512, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{96, 66}, {92, 140}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 1208}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{94, 65}, {102, 144}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{756, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{94, 65}, {106, 146}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkF16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{93, 67}, {110, 146}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{504, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{76, 71}, {100, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1764, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{75, 71}, {100, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1260, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{74, 71}, {102, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1260, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{74, 71}, {102, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{756, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{76, 71}, {102, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1008, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{77, 70}, {102, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1260, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{78, 70}, {104, 140}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{756, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{80, 71}, {102, 142}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{504, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{80, 73}, {104, 142}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1512, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{80, 73}, {102, 140}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{252, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{79, 73}, {102, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{252, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{77, 73}, {104, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1764, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{76, 73}, {104, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1008, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{75, 71}, {104, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1512, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{75, 70}, {102, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1008, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{75, 70}, {102, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{756, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>FarmerMitchWalkN16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{76, 71}, {100, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1764, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>version</key>
+		<string>1.5.5</string>
+		<key>format</key>
+		<integer>3</integer>
+		<key>size</key>
+		<string>{2048, 2048}</string>
+		<key>name</key>
+		<string>Untitled</string>
+		<key>premultipliedAlpha</key>
+		<false/>
+		<key>target</key>
+		<dict>
+			<key>name</key>
+			<string>default</string>
+			<key>textureFileName</key>
+			<string>FarmerMitchWalkNF@2x</string>
+			<key>textureFileExtension</key>
+			<string>.png</string>
+			<key>coordinatesFileName</key>
+			<string>FarmerMitchWalkNF@2x</string>
+			<key>coordinatesFileExtension</key>
+			<string>.plist</string>
+			<key>premultipliedAlpha</key>
+			<false/>
+		</dict>
+	</dict>
+</dict>
+</plist>

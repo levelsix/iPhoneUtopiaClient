@@ -1,0 +1,874 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		
+		<key>AllianceWarriorWalkF00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{91, 59}, {86, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1008, 1208}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{92, 58}, {86, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{94, 57}, {84, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1008, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{96, 56}, {82, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1260, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{98, 55}, {78, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{504, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{100, 54}, {76, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1008, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{96, 54}, {78, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1260, 1208}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{94, 56}, {80, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{504, 1208}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{90, 58}, {82, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1512, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{87, 59}, {84, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1512, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{87, 59}, {84, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{756, 1208}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{88, 59}, {84, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1260, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{91, 59}, {82, 126}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{97, 57}, {78, 126}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1764, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{98, 56}, {76, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{756, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{96, 57}, {80, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{252, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{93, 57}, {82, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1764, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF17.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{92, 58}, {86, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{756, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkF18.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{91, 59}, {86, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1008, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{89, 60}, {86, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{252, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{91, 59}, {84, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{93, 59}, {82, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1260, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{97, 58}, {80, 126}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1512, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{102, 57}, {76, 124}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{756, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{99, 56}, {80, 126}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{96, 57}, {84, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1764, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{94, 58}, {86, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1512, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{93, 59}, {88, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{504, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{93, 60}, {88, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 1208}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{94, 60}, {88, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{252, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{96, 60}, {86, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{504, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{98, 60}, {84, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{756, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{100, 59}, {80, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1260, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{102, 59}, {78, 126}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{252, 302}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{98, 59}, {80, 122}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{504, 906}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{96, 59}, {82, 126}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{252, 1208}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN17.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{95, 59}, {82, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1008, 0}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceWarriorWalkN18.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{89, 60}, {86, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{250, 300}</string>
+			<key>spriteSourceSize</key>
+			<string>{250, 300}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1764, 604}, {250, 300}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>version</key>
+		<string>1.5.5</string>
+		<key>format</key>
+		<integer>3</integer>
+		<key>size</key>
+		<string>{2048, 2048}</string>
+		<key>name</key>
+		<string>Untitled</string>
+		<key>premultipliedAlpha</key>
+		<false/>
+		<key>target</key>
+		<dict>
+			<key>name</key>
+			<string>default</string>
+			<key>textureFileName</key>
+			<string>AllianceWarriorWalkNF@2x</string>
+			<key>textureFileExtension</key>
+			<string>.png</string>
+			<key>coordinatesFileName</key>
+			<string>AllianceWarriorWalkNF@2x</string>
+			<key>coordinatesFileExtension</key>
+			<string>.plist</string>
+			<key>premultipliedAlpha</key>
+			<false/>
+		</dict>
+	</dict>
+</dict>
+</plist>

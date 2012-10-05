@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="53" height="53" tilewidth="64" tileheight="32">
+ <tileset firstgid="1" name="rivertiles" tilewidth="64" tileheight="32">
+  <image source="rivertiles.png" width="256" height="128"/>
+ </tileset>
+ <tileset firstgid="17" name="tile_field_grass" tilewidth="64" tileheight="32">
+  <image source="tile_field_grass.png" width="64" height="32"/>
+ </tileset>
+ <tileset firstgid="18" name="bazaar" tilewidth="64" tileheight="56">
+  <image source="bazaar.png" width="256" height="64"/>
+ </tileset>
+ <tileset firstgid="22" name="VillaDecs" tilewidth="64" tileheight="56">
+  <image source="VillaDecs.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="26" name="farmfence" tilewidth="64" tileheight="56">
+  <image source="farmfence.png" width="256" height="128"/>
+ </tileset>
+ <tileset firstgid="34" name="VillaTileset" tilewidth="64" tileheight="32">
+  <image source="VillaTileset.png" width="256" height="128"/>
+ </tileset>
+ <tileset firstgid="50" name="hedgefence" tilewidth="64" tileheight="56">
+  <image source="hedgefence.png" width="512" height="64"/>
+ </tileset>
+ <tileset firstgid="58" name="woodenfence" tilewidth="64" tileheight="56">
+  <image source="stonewall.png" width="256" height="128"/>
+ </tileset>
+ <tileset firstgid="66" name="trees" tilewidth="64" tileheight="72">
+  <image source="trees.png" width="128" height="256"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="53" height="53">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3PMQrAMAxD0V4h979sJ0GHUJpGtmyRD16N3nXFNoL/Zzce59CYXOdmns6uN09H1xdPJ9eKp4Prj6eya8dT0cXwVHIxPRVcER6lK9KjcGV4Ml2ZngyXwhPpUnoiXGoL26U2sF3q7WyXejPbpd7Kdqk3sl3qbWyXetNxHddx1T4311vqbWxPR9dK6q1sTwfXTurtbE9FFzO1he2p4IrMzYPcPMjNg9w8yM2D3DzIzYPcPMjNg9w8yM2D3DzIzYPcPCjDcwNFqp/25CsAAA==
+  </data>
+ </layer>
+ <layer name="river tiles" width="53" height="53">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3TwQqAIBBFUSEqsv7/e0ta1EKSRHHecA/MJoTmgoYA+BdHL9BBappHL9EYTRpo0kCTBpo00KSBJg00aaAJqBNf8/6mfPdo0kVT2/+W5s9ZK3dvLczXuSPcu++Z89M1S+fde9iCv3dT25S7q1bQ9PDYZBlNGmjSQJMGmjTQpMNjU+KxCQCsOgHFcqhL5CsAAA==
+  </data>
+ </layer>
+ <layer name="VillaTileset" width="53" height="53">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3XWwrDIBRF0TuWkj5I2/lPrwQqGDFRi8Wj7gX5KOTj3EdMagYAAAAAAHIs32smi3ddG2f5h1fw+9YkBWaltG+1soxSk3/2PevEkaI0p1pGrOlu+13s8RvkYvv8j7Zxivbk6F61XRutptJzN/acKJ7dYY/Pet7DnDar5fe8l5pCJXNyfXhbfCdV/lO5uflSM0zNSXmOW72xnqcyh/ut9g6O5VeeQ45ZanK71fqb6Be95gYAABjBBx/fCCbkKwAA
+  </data>
+ </layer>
+ <layer name="VillaDecs" width="53" height="53">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3TUQqAIBBF0VmF5f43GkJfYTGG5Ty9B4ZI/OhimuGNNPoDPpBsvi6aNNCkgSYNNGlQb8qXKdSbatSbVj6nfPNUsUqTOpo0RG7y3Of0MJ493uklUlOvrpamYq+sRdPStJ3vm8Vu8oh0Tr3+8T/udYsZmwAAAAAAAABgtAN4RnhF5CsAAA==
+  </data>
+ </layer>
+ <layer name="Bridges" width="53" height="53">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3VsQ0AIAwDsN4A///KwgOIATXYUvZmSasAAAAA6GTuJEnslGC8PgAaON2vDnuX2Im/+WfcmJW3c4mdAAAAUi0Kdtdz5CsAAA==
+  </data>
+ </layer>
+ <layer name="Fences" width="53" height="53">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3X6wqAIAyGYa8j9f5vM6I/MSaVHebm+4AYYdDHRrSUAAAAgH7V+gVwSYQ6FbG8W5R73uukZfJulkzeek/7HmSxtPOjilATiUw7rR+tlcP+ZZ0s650b109572FNxEwWqtjfPm8hYiaci1g/Mv2vNbfPMlvBTmsevPPcaP/uAAAAALBZAWnPi9/kKwAA
+  </data>
+ </layer>
+ <layer name="GRASS FENCE" width="53" height="53">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3RoQ0AQAgDQKZi/9HwLwDxitwldcXQCAAAAID78sm2t7nhn+nv3T62AgAAAAAALim3INLm5CsAAA==
+  </data>
+ </layer>
+ <layer name="woodenfence" width="53" height="53">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3YQQqAMAwEQP8lIv3/p8SDIEUqCCIbZyCHQg/dSxI6TQAAwJ11UBW1rx/wApkyyJQhNdOof7fBveo9HwB4ptqOsHTn1J3vTKYc86mAa1XmzaHvZxX8JVP67JEpw56p/5dLzwQAT23HnDix5CsAAA==
+  </data>
+ </layer>
+ <layer name="Trees" width="53" height="53">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3W2w2AIBAEQHpT+2/JfyNGzCGvmQLIBViWlAAgb289QICj9QBU4VxhPnedI+vwTS47W8AaT2b4O1Km5E7xv9qZ1NP2gH6N3snR/aKvuL7Xo2dkdfoX3ushLzVn0PEwt5L3w/+OSLn71EOvAms6AZME24TkKwAA
+  </data>
+ </layer>
+ <layer name="Walkable" width="53" height="53">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3W0QqAIAyFYV/C93/VCLqI0UQz7Wz8Hwy6kNwxE0sBAAAAAKioV2VCphi8TNVUJD09V+dZgV37FbXb07wR99bdTCbV3Bky2X4jZdrxb5PpW6vOMbXzeuY9KneJkfm9sX9nsMikc89pyfqdetc8SibrbSbl/ej11upTqf9RXq7ImU4ZMwEAAADwHb02CTTkKwAA
+  </data>
+ </layer>
+ <layer name="Border of Doom" width="53" height="53">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+2aSw7EIAzFegnuf9WuvEGq+iOBWHjT3eR5VEES9ThiacG/n03rntXpPap7XeWv6nWXu5rX07xVvN7mXN3ra75Vvf7mWs1rVJ5VvEbnmO0VVX+WV3TdbK+serY6WfVs77ntPJrtA7Z7EGz9Ctj6SrD1/2Cb08A2T4Nt7wHbqxbbqxY2L9v5bruHbf2Sra+1zR+2OdE2z9v2Lrb9mG2Pafv/bO+57Tya7QO2exBs/QrY+kqw9f9gm9PANk+Dbe8Btu/5wPbdJWT4nEe7hk3kKwAA
+  </data>
+ </layer>
+</map>

@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		
+		<key>BlackSmithWalkF00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{30, 19}, {112, 144}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 170}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{31, 18}, {110, 144}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{730, 510}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{33, 18}, {108, 144}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 0}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{35, 17}, {104, 140}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{584, 170}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{31, 17}, {108, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{876, 340}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{30, 17}, {110, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 510}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{26, 17}, {112, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 0}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 18}, {116, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 170}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{20, 19}, {118, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 0}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 19}, {120, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{876, 510}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{17, 19}, {122, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{730, 0}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{17, 19}, {122, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 170}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 18}, {122, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 510}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 18}, {118, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 680}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{27, 17}, {114, 142}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 340}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{31, 18}, {110, 144}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{584, 510}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkF16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{30, 19}, {112, 144}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{584, 340}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 1}, {114, 158}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{876, 170}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{24, 2}, {112, 156}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{584, 680}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{25, 3}, {110, 154}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{730, 340}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{25, 3}, {108, 154}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{730, 170}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{25, 3}, {108, 156}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 340}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{25, 2}, {108, 156}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 340}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{26, 2}, {108, 160}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 510}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{27, 3}, {108, 162}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 680}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{28, 4}, {108, 162}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 0}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{29, 4}, {106, 162}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{730, 680}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{29, 3}, {108, 160}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 680}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{30, 3}, {106, 160}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 170}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{30, 2}, {108, 162}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{876, 0}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{30, 1}, {108, 162}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 510}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{27, 1}, {110, 160}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{584, 0}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{24, 1}, {112, 158}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 340}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>BlackSmithWalkN16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 1}, {114, 158}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 680}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>version</key>
+		<string>1.5.5</string>
+		<key>format</key>
+		<integer>3</integer>
+		<key>size</key>
+		<string>{1024, 1024}</string>
+		<key>name</key>
+		<string>CaptainRizWalkNF@2x.zwd</string>
+		<key>premultipliedAlpha</key>
+		<false/>
+		<key>target</key>
+		<dict>
+			<key>name</key>
+			<string>default</string>
+			<key>textureFileName</key>
+			<string>BlackSmithWalkNF@2x.pvr</string>
+			<key>textureFileExtension</key>
+			<string>.pvr.ccz</string>
+			<key>coordinatesFileName</key>
+			<string>BlackSmithWalkNF@2x</string>
+			<key>coordinatesFileExtension</key>
+			<string>.plist</string>
+			<key>premultipliedAlpha</key>
+			<false/>
+		</dict>
+	</dict>
+</dict>
+</plist>

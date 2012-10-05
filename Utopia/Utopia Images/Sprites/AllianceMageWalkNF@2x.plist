@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		<key>AllianceMageWalkF00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{47, 4}, {96, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{152, 0}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{47, 4}, {96, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{608, 0}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{47, 3}, {96, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{608, 304}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{46, 3}, {98, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{152, 152}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{43, 3}, {100, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{152, 760}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{40, 3}, {102, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{456, 0}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{37, 3}, {106, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{456, 760}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{36, 4}, {106, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{760, 304}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{36, 4}, {106, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{608, 456}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{36, 4}, {108, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{760, 0}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{38, 4}, {106, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{152, 304}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{40, 4}, {104, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{304, 152}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{43, 3}, {100, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{456, 608}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{47, 3}, {96, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{152, 456}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{47, 3}, {96, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 608}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{47, 4}, {96, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{304, 304}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkF16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{47, 4}, {96, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 152}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{32, 4}, {112, 142}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{608, 152}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{31, 4}, {112, 140}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{760, 152}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{31, 5}, {112, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 760}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{32, 4}, {110, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{304, 0}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{34, 4}, {108, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 0}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{36, 3}, {106, 140}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 304}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{39, 3}, {104, 140}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{456, 456}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{42, 4}, {102, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{760, 456}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{45, 5}, {98, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{304, 456}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{46, 5}, {96, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 456}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{45, 5}, {98, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{456, 304}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{44, 5}, {98, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{456, 152}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{43, 4}, {100, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{152, 608}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{40, 4}, {104, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{304, 608}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{37, 3}, {108, 140}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{304, 760}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{34, 3}, {110, 142}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{608, 608}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>AllianceMageWalkN16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{32, 4}, {112, 142}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 150}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 150}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{760, 608}, {150, 150}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>version</key>
+		<string>1.5.5</string>
+		<key>format</key>
+		<integer>3</integer>
+		<key>size</key>
+		<string>{1024, 1024}</string>
+		<key>name</key>
+		<string>SailorSteveWalkNF@2x.zwd</string>
+		<key>premultipliedAlpha</key>
+		<false/>
+		<key>target</key>
+		<dict>
+			<key>name</key>
+			<string>default</string>
+			<key>textureFileName</key>
+			<string>AllianceMageWalkNF@2x.pvr</string>
+			<key>textureFileExtension</key>
+			<string>.pvr.ccz</string>
+			<key>coordinatesFileName</key>
+			<string>AllianceWalkNF@2x</string>
+			<key>coordinatesFileExtension</key>
+			<string>.plist</string>
+			<key>premultipliedAlpha</key>
+			<false/>
+		</dict>
+	</dict>
+</dict>
+</plist>

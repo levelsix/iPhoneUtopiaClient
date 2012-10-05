@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		
+		<key>CarpenterWalkF00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{40, 14}, {110, 144}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{300, 170}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{40, 14}, {110, 144}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{150, 850}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{42, 13}, {108, 144}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{150, 510}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{44, 12}, {106, 140}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{450, 680}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{44, 11}, {106, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{600, 510}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{42, 11}, {108, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{150, 680}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{42, 12}, {108, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{450, 170}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{38, 14}, {112, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 850}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{34, 16}, {114, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{450, 340}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{38, 16}, {112, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{750, 0}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{42, 15}, {108, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 0}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{42, 14}, {108, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{600, 340}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{42, 13}, {108, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{150, 0}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{44, 12}, {106, 140}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{600, 170}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{42, 12}, {108, 142}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{150, 340}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{40, 13}, {110, 144}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{450, 850}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkF16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{40, 14}, {110, 144}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{750, 680}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 20}, {120, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{150, 170}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{15, 20}, {122, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{300, 0}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{14, 20}, {124, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 340}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{13, 19}, {124, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{450, 0}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{12, 18}, {126, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{300, 340}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{12, 18}, {126, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{600, 680}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{12, 19}, {126, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 510}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 20}, {128, 140}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{750, 510}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{11, 22}, {128, 140}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{750, 170}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{12, 22}, {128, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{600, 0}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{12, 22}, {128, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{450, 510}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{13, 21}, {128, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{300, 510}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{14, 20}, {128, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{300, 850}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{14, 19}, {126, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 170}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{15, 19}, {126, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 680}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{17, 19}, {122, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{750, 340}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>CarpenterWalkN16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{18, 20}, {120, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{150, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{150, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{300, 680}, {150, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>version</key>
+		<string>1.5.5</string>
+		<key>format</key>
+		<integer>3</integer>
+		<key>size</key>
+		<string>{1024, 1024}</string>
+		<key>name</key>
+		<string>AllianceMageAttackUD@2x.zwd</string>
+		<key>premultipliedAlpha</key>
+		<false/>
+		<key>target</key>
+		<dict>
+			<key>name</key>
+			<string>default</string>
+			<key>textureFileName</key>
+			<string>CarpenterWalkNF@2x.pvr</string>
+			<key>textureFileExtension</key>
+			<string>.pvr.ccz</string>
+			<key>coordinatesFileName</key>
+			<string>CarpenterWalkNF@2x</string>
+			<key>coordinatesFileExtension</key>
+			<string>.plist</string>
+			<key>premultipliedAlpha</key>
+			<false/>
+		</dict>
+	</dict>
+</dict>
+</plist>

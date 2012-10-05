@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		
+		<key>AllianceArcherWalkF00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 7}, {43, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{375, 240}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{24, 7}, {39, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{150, 320}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{26, 7}, {37, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{75, 320}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{27, 6}, {35, 64}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{300, 80}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{28, 6}, {33, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{375, 0}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{26, 5}, {35, 68}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{75, 0}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{24, 5}, {37, 68}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{150, 240}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 6}, {41, 68}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{225, 400}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{20, 7}, {43, 68}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 400}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{20, 7}, {43, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 80}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 7}, {43, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{75, 400}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 6}, {41, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{75, 80}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 6}, {39, 64}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{225, 160}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{25, 5}, {37, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{300, 320}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 6}, {41, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{150, 0}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 6}, {43, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{225, 240}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkF16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 7}, {43, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{375, 320}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{19, 8}, {45, 68}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{75, 240}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{19, 8}, {45, 68}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{225, 80}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{20, 8}, {43, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{150, 160}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 7}, {43, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{150, 400}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 6}, {39, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 320}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{24, 6}, {37, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 0}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{22, 6}, {39, 68}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{300, 160}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 7}, {41, 68}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{225, 0}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 7}, {41, 68}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{375, 160}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{24, 8}, {37, 66}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 160}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{26, 8}, {35, 64}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{300, 0}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{28, 7}, {33, 64}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{375, 80}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{27, 6}, {35, 64}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 240}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{25, 6}, {37, 68}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{225, 320}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{23, 6}, {39, 70}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{150, 80}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{21, 7}, {41, 68}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{75, 160}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>AllianceArcherWalkN16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{19, 8}, {45, 68}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{75, 80}</string>
+			<key>spriteSourceSize</key>
+			<string>{75, 80}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{300, 240}, {75, 80}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>version</key>
+		<string>1.5.5</string>
+		<key>format</key>
+		<integer>3</integer>
+		<key>size</key>
+		<string>{512, 512}</string>
+		<key>name</key>
+		<string>LegionMageAttackUD.zwd</string>
+		<key>premultipliedAlpha</key>
+		<false/>
+		<key>target</key>
+		<dict>
+			<key>name</key>
+			<string>default</string>
+			<key>textureFileName</key>
+			<string>AllianceArcherWalkNF.pvr</string>
+			<key>textureFileExtension</key>
+			<string>.pvr.ccz</string>
+			<key>coordinatesFileName</key>
+			<string>AllianceArcherWalkNF</string>
+			<key>coordinatesFileExtension</key>
+			<string>.plist</string>
+			<key>premultipliedAlpha</key>
+			<false/>
+		</dict>
+	</dict>
+</dict>
+</plist>

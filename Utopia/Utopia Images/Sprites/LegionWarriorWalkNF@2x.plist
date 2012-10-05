@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		
+		<key>LegionWarriorWalkF00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{62, 18}, {84, 140}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{584, 680}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{66, 18}, {80, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 680}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{66, 17}, {80, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 680}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{68, 16}, {76, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 340}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{66, 16}, {78, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 170}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{64, 16}, {78, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{876, 170}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{64, 17}, {78, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{730, 510}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{57, 18}, {84, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{876, 0}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{53, 20}, {86, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{730, 0}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{56, 20}, {84, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{876, 510}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{62, 19}, {78, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{584, 0}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{67, 18}, {74, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 510}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{66, 17}, {76, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{730, 340}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{65, 17}, {78, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 170}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{66, 16}, {80, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 340}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{66, 17}, {80, 138}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 680}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkF16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{62, 18}, {84, 140}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 0}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{53, 23}, {88, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 340}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{57, 23}, {84, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{584, 170}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{62, 23}, {78, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 510}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{66, 22}, {76, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 0}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{66, 21}, {76, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 340}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{65, 21}, {80, 128}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 0}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{64, 22}, {82, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 170}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{66, 23}, {80, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{730, 680}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{62, 25}, {84, 136}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{876, 340}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{64, 25}, {82, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{292, 680}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{66, 25}, {80, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{584, 340}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN11.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{68, 24}, {78, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{730, 170}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN12.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{66, 23}, {80, 126}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 510}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN13.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{64, 22}, {80, 124}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 0}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN14.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{63, 22}, {80, 126}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{146, 170}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN15.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{58, 22}, {84, 130}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{584, 510}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>LegionWarriorWalkN16.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{53, 23}, {88, 132}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{146, 170}</string>
+			<key>spriteSourceSize</key>
+			<string>{146, 170}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{438, 510}, {146, 170}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>version</key>
+		<string>1.5.5</string>
+		<key>format</key>
+		<integer>3</integer>
+		<key>size</key>
+		<string>{1024, 1024}</string>
+		<key>name</key>
+		<string>LegionWarriorWalkUD.zwd</string>
+		<key>premultipliedAlpha</key>
+		<false/>
+		<key>target</key>
+		<dict>
+			<key>name</key>
+			<string>default</string>
+			<key>textureFileName</key>
+			<string>LegionWarriorWalkNF@2x.pvr</string>
+			<key>textureFileExtension</key>
+			<string>.pvr.ccz</string>
+			<key>coordinatesFileName</key>
+			<string>LegionWarriorWalkNF@2x</string>
+			<key>coordinatesFileExtension</key>
+			<string>.plist</string>
+			<key>premultipliedAlpha</key>
+			<false/>
+		</dict>
+	</dict>
+</dict>
+</plist>
