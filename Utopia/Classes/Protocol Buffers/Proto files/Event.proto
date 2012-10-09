@@ -139,7 +139,7 @@ message StartupResponseProto {
 	repeated AttackedNotificationProto attackNotifications = 13;
 	repeated ReferralNotificationProto referralNotifications = 14;
 	repeated PlayerWallPostProto playerWallPostNotifications = 19;
-	repeated ClanWallPostProto clanWallPostNotifications = 27;
+	repeated ClanBulletinPostProto clanBulletinPostNotifications = 27;
 	
 	repeated LockBoxEventProto lockBoxEvents = 28;
 	repeated UserLockBoxEventProto userLockBoxEvents = 29;
@@ -156,6 +156,11 @@ message StartupResponseProto {
 	optional FullEquipProto forgeAttemptEquip = 25;
 	
 	repeated string noticesToPlayers = 24;
+		
+	repeated MarketplaceSearchEquipProto mktSearchEquips = 30;
+	
+	repeated GroupChatMessageProto globalChats = 31;
+	repeated GroupChatMessageProto clanChats = 32;
 	
 	message DailyBonusInfo {
 		optional int32 numConsecutiveDaysPlayed = 1;
@@ -280,10 +285,28 @@ message StartupResponseProto {
 		optional int32 maxLengthOfChatString = 77;
 		
 		optional ClanConstants clanConstants = 78;
-		optional int32 diamondCostToPlayThreeCardMonte = 79;
+		
+		optional ThreeCardMonteConstants threeCardMonteConstants = 79;
 		
 		optional GoldmineConstants goldmineConstants = 80;
 		optional LockBoxConstants lockBoxConstants = 81;
+		optional ExpansionConstants expansionConstants = 82;
+		
+		message ThreeCardMonteConstants {
+			optional int32 diamondCostToPlayThreeCardMonte = 1;
+			optional int32 minLevelToDisplayThreeCardMonte = 2;
+			optional float badMonteCardPercentageChance = 3;
+			optional float mediumMonteCardPercentageChance = 4;
+			optional float goodMonteCardPercentageChance = 5;
+		}
+		
+		message ExpansionConstants {
+			optional int32 expansionWaitCompleteHourConstant = 1;
+			optional int32 expansionWaitCompleteHourIncrementBase = 2;
+			optional int32 expansionWaitCompleteBaseMinutesToOneGold = 3;
+			optional int32 expansionPurchaseCostConstant = 4;
+			optional int32 expansionPurchaseCostExponentBase = 5;
+		}
 		
 		message LockBoxConstants {
 			optional int32 goldCostToPickLockBox = 1;
@@ -1086,12 +1109,6 @@ message LoadPlayerCityResponseProto {
 	repeated FullUserProto ownerAllies = 5;			//only if owner is an enemy
 	repeated FullUserProto ownerEnemies = 6;		//only if owner is you or ally
 
-    optional FullUserCritstructProto armory = 7;
-    optional FullUserCritstructProto vault = 8;
-    optional FullUserCritstructProto marketplace = 9;
-    optional FullUserCritstructProto carpenter = 10;
-    optional FullUserCritstructProto aviary = 11;    
-
 	optional FullUserCityExpansionDataProto userCityExpansionData = 12;
      
     enum LoadPlayerCityStatus {
@@ -1250,6 +1267,7 @@ message PurchaseCityExpansionResponseProto {
 message ExpansionWaitCompleteRequestProto {
 	optional MinimumUserProto sender = 1;
 	optional int64 curTime = 2;						//used for checking
+	optional bool speedUp = 3;
 }
 
 																						//DONE
@@ -1700,6 +1718,7 @@ message SendGroupChatRequestProto {
 	optional MinimumUserProto sender = 1;
 	optional GroupChatScope scope = 2;
 	optional string chatMessage = 3;
+	optional int64 clientTime = 4;
 }
 
 message SendGroupChatResponseProto {
@@ -1929,18 +1948,18 @@ message ChangeClanDescriptionResponseProto {
 
 //------------------------------------------------------------------------------------------
 
-message PostOnClanWallRequestProto {
+message PostOnClanBulletinRequestProto {
 	optional MinimumUserProto sender = 1;
 	optional string content = 3;
 }
 
 																						//DONE
-message PostOnClanWallResponseProto {
+message PostOnClanBulletinResponseProto {
 	 optional MinimumUserProto sender = 1;
-     optional PostOnClanWallStatus status = 2;
-	 optional ClanWallPostProto post = 3;
+     optional PostOnClanBulletinStatus status = 2;
+	 optional ClanBulletinPostProto post = 3;
 	
-     enum PostOnClanWallStatus {
+     enum PostOnClanBulletinStatus {
      	SUCCESS = 0;
      	NO_CONTENT_SENT = 1;
      	POST_TOO_LARGE = 2;
@@ -1951,20 +1970,20 @@ message PostOnClanWallResponseProto {
 
 //------------------------------------------------------------------------------------------
 
-message RetrieveClanWallPostsRequestProto {
+message RetrieveClanBulletinPostsRequestProto {
 	optional MinimumUserProto sender = 1;
 	optional int32 beforeThisPostId = 2;
 }
 
 																						//DONE
-message RetrieveClanWallPostsResponseProto {
+message RetrieveClanBulletinPostsResponseProto {
      optional MinimumUserProto sender = 1;
      optional int32 beforeThisPostId = 2;
-	 optional RetrieveClanWallPostsStatus status = 4;
+	 optional RetrieveClanBulletinPostsStatus status = 4;
      
-     repeated ClanWallPostProto clanWallPosts = 5;
+     repeated ClanBulletinPostProto clanBulletinPosts = 5;
      
-     enum RetrieveClanWallPostsStatus {
+     enum RetrieveClanBulletinPostsStatus {
      	SUCCESS = 0;
      	OTHER_FAIL = 1;
      	NOT_IN_CLAN = 2;

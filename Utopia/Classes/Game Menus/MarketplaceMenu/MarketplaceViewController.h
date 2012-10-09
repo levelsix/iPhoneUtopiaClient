@@ -23,6 +23,8 @@ typedef enum {
 @interface MarketplaceViewController : PullRefreshTableViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
   BOOL _refreshing;
   BOOL _isDisplayingLoadingView;
+  
+  UIGestureRecognizer *_swipeGestureRecognizer;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *navBar;

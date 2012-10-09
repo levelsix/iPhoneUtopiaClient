@@ -66,3 +66,34 @@
 - (IBAction)closeClicked:(id)sender;
 
 @end
+
+@interface ExpansionView : UIView {
+  ExpansionDirection _direction;
+}
+
+@property (nonatomic, retain) IBOutlet UIImageView *farLeftArrow;
+@property (nonatomic, retain) IBOutlet UIImageView *farRightArrow;
+@property (nonatomic, retain) IBOutlet UIImageView *nearLeftArrow;
+@property (nonatomic, retain) IBOutlet UIImageView *nearRightArrow;
+@property (nonatomic, retain) IBOutlet UIImageView *expandingSign;
+
+@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+@property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
+@property (nonatomic, retain) IBOutlet UILabel *timeLeftLabel;
+@property (nonatomic, retain) IBOutlet UILabel *totalTimeLabel;
+@property (nonatomic, retain) IBOutlet UILabel *costLabel;
+
+@property (nonatomic, retain) IBOutlet ProgressBar *progressBar;
+
+@property (nonatomic, retain) IBOutlet UIView *expandingView;
+@property (nonatomic, retain) IBOutlet UIView *cantExpandView;
+@property (nonatomic, retain) IBOutlet UIView *expandNowView;
+
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+
+@property (nonatomic, retain) NSTimer *timer;
+
+- (void) displayForDirection:(ExpansionDirection)direction;
+
+@end

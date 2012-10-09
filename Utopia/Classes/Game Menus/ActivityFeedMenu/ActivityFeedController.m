@@ -110,7 +110,7 @@
     }
     
     [button setImage:[Globals imageNamed:@"afcollect.png"] forState:UIControlStateNormal];
-    [userIcon setImage:[Globals imageNamed:@"GoldMine.png"] forState:UIControlStateNormal];
+    [userIcon setImage:[Globals imageNamed:@"goldmineicon.png"] forState:UIControlStateNormal];
     
     buttonLabel.text = @"Visit";
   } else if (notification.type == kNotificationWallPost) {

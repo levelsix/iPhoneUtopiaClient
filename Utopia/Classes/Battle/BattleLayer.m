@@ -23,6 +23,7 @@
 #import "TopBar.h"
 #import "GenericPopupController.h"
 #import "ClanMenuController.h"
+#import "ChatMenuController.h"
 
 #define FAKE_PLAYER_RAND 6
 #define NAME_LABEL_FONT_SIZE 11.f
@@ -676,6 +677,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     if ([ClanMenuController isInitialized]) {
       [[ClanMenuController sharedClanMenuController] closeClicked:nil];
     }
+    
+    if ([ChatMenuController isInitialized]) {
+      [[ChatMenuController sharedChatMenuController] close];
+    }
   } else {
     [self startBattle];
   }
@@ -1273,7 +1278,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _attackButton.visible = NO;
   _pausedLayer.visible = NO;
   _fleeLayer.visible = YES;
-  
+  _bottomMenu.visible = NO;
   
   [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
   [[SoundEngine sharedSoundEngine] battleLoss];

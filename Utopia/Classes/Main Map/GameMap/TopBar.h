@@ -9,7 +9,6 @@
 #import "cocos2d.h"
 #import "MaskedSprite.h"
 #import "ProfilePicture.h"
-#import "DailyBonusMenuController.h"
 #import "InGameNotification.h"
 #import "ChatBottomView.h"
 
@@ -95,7 +94,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL isStarted;
 
 // If it is first day bonus
-@property (nonatomic, retain) DailyBonusMenuController *dbmc;
+//@property (nonatomic, retain) DailyBonusMenuController *dbmc;
 
 - (void) setUpEnergyTimer;
 - (void) setUpStaminaTimer;

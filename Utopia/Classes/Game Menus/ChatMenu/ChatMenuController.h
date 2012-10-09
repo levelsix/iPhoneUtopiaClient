@@ -42,6 +42,7 @@ typedef LeaderboardBarButton ChatBarButton;
 @property (nonatomic, retain) IBOutlet UILabel *textLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *typeCircle;
 @property (nonatomic, retain) IBOutlet UIButton *typeIcon;
+@property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 
 @property (nonatomic, retain) ChatMessage *chatMessage;
 
@@ -71,5 +72,7 @@ typedef LeaderboardBarButton ChatBarButton;
 + (BOOL) isInitialized;
 
 - (void) updateNumChatsLabel;
+
+- (void) close;
 
 @end

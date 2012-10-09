@@ -103,7 +103,7 @@
 
 - (int) sendRetrieveLeaderboardMessage:(LeaderboardType)type afterRank:(int)rank;
 
-- (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg;
+- (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg clientTime:(uint64_t)clientTime;
 - (int) sendPurchaseGroupChatMessage;
 
 - (int) sendCreateClanMessage:(NSString *)clanName tag:(NSString *)tag;
@@ -115,8 +115,8 @@
 - (int) sendChangeClanDescription:(NSString *)description;
 - (int) sendRetrieveClanInfoMessage:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId;
 - (int) sendBootPlayerFromClan:(int)playerId;
-- (int) sendPostOnClanWallMessage:(NSString *)content;
-- (int) sendRetrieveClanWallPostsMessage:(int)beforeThisClanId;
+- (int) sendPostOnClanBulletinMessage:(NSString *)content;
+- (int) sendRetrieveClanBulletinPostsMessage:(int)beforeThisClanId;
 
 - (int) sendBeginGoldmineTimerMessage:(uint64_t)clientTime reset:(BOOL)reset;
 - (int) sendCollectFromGoldmineMessage:(uint64_t)clientTime;
@@ -124,5 +124,11 @@
 - (int) sendRetrieveThreeCardMonteMessage;
 
 - (int) sendPickLockBoxMessage:(int)eventId method:(PickLockBoxRequestProto_PickLockBoxMethod)method clientTime:(uint64_t)clientTime;
+
+- (int) sendPurchaseCityExpansionMessage:(ExpansionDirection)direction timeOfPurchase:(uint64_t)time;
+- (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp curTime:(uint64_t)time;
+
+- (int) sendRetrieveThreeCardMonteMessage;
+- (int) sendPlayThreeCardMonteMessage:(int)cardId;
 
 @end

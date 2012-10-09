@@ -796,11 +796,12 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveLeaderboardEvent];
 }
 
-- (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg {
-  SendGroupChatRequestProto *req = [[[[[SendGroupChatRequestProto builder]
+- (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg clientTime:(uint64_t)clientTime {
+  SendGroupChatRequestProto *req = [[[[[[SendGroupChatRequestProto builder]
                                        setScope:scope]
                                       setChatMessage:msg]
                                      setSender:_sender]
+                                     setClientTime:clientTime]
                                     build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCSendGroupChatEvent];
@@ -902,16 +903,16 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBootPlayerFromClanEvent];
 }
 
-- (int) sendPostOnClanWallMessage:(NSString *)content {
-  PostOnClanWallRequestProto *req = [[[[PostOnClanWallRequestProto builder]
+- (int) sendPostOnClanBulletinMessage:(NSString *)content {
+  PostOnClanBulletinRequestProto *req = [[[[PostOnClanBulletinRequestProto builder]
                                        setSender:_sender]
                                       setContent:content]
                                      build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCPostOnClanWallEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCPostOnClanBulletinEvent];
 }
 
-- (int) sendRetrieveClanWallPostsMessage:(int)beforeThisClanId {
+- (int) sendRetrieveClanBulletinPostsMessage:(int)beforeThisClanId {
   RetrieveClanInfoRequestProto_Builder *bldr = [[RetrieveClanInfoRequestProto builder] setSender:_sender];
   
   if (beforeThisClanId > 0) {
@@ -919,13 +920,7 @@ static NSString *udid = nil;
   }
   
   RetrieveClanInfoRequestProto *req = [bldr build];
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveClanWallPostsEvent];
-}
-
-- (int) sendRetrieveThreeCardMonteMessage {
-  RetrieveThreeCardMonteRequestProto *req = [[[RetrieveThreeCardMonteRequestProto builder] setSender:_sender] build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveThreeCardMonteEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveClanBulletinPostsEvent];
 }
 
 - (int) sendBeginGoldmineTimerMessage:(uint64_t)clientTime reset:(BOOL)reset {
@@ -956,6 +951,36 @@ static NSString *udid = nil;
                                   build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCPickLockBoxEvent];
+}
+
+- (int) sendPurchaseCityExpansionMessage:(ExpansionDirection)direction timeOfPurchase:(uint64_t)time {
+  PurchaseCityExpansionRequestProto *req = [[[[[PurchaseCityExpansionRequestProto builder]
+                                               setSender:_sender]
+                                              setDirection:direction]
+                                             setTimeOfPurchase:time]
+                                            build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCPurchaseCityExpansionEvent];
+}
+
+- (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp curTime:(uint64_t)time {
+  ExpansionWaitCompleteRequestProto *req = [[[[[ExpansionWaitCompleteRequestProto builder]
+                                               setSender:_sender]
+                                              setSpeedUp:speedUp]
+                                             setCurTime:time]
+                                            build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCExpansionWaitCompleteEvent];
+}
+
+- (int) sendRetrieveThreeCardMonteMessage {
+  RetrieveThreeCardMonteRequestProto *req = [[[RetrieveThreeCardMonteRequestProto builder] setSender:_sender] build];
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveThreeCardMonteEvent];
+}
+
+- (int) sendPlayThreeCardMonteMessage:(int)cardId {
+  PlayThreeCardMonteRequestProto *req = [[[[PlayThreeCardMonteRequestProto builder]setSender:_sender]setCardId:cardId]build];
+  return [self sendData:req withMessageType:EventProtocolRequestCPlayThreeCardMonteEvent];
 }
 
 - (void) closeDownConnection {

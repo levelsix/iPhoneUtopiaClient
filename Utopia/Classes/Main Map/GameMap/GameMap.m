@@ -127,11 +127,11 @@
         CGPoint tileCoord = ccp(height-j-1, width-i-1);
         int tileGid = [layer tileGIDAt:tileCoord];
         if (tileGid) {
-          if (tileCoord.x < bottomLeftCorner.x) {
-            bottomLeftCorner = tileCoord;
+          if (i < bottomLeftCorner.x) {
+            bottomLeftCorner = ccp(i, j);
           }
-          if (tileCoord.x > topRightCorner.x) {
-            topRightCorner = tileCoord;
+          if (i > topRightCorner.x) {
+            topRightCorner = ccp(i, j);
           }
         }
       }
@@ -636,13 +636,13 @@
 }
 
 -(void) setPosition:(CGPoint)position {
-  CGSize ms = self.mapSize;
-  CGSize ts = self.tileSizeInPoints;
   // For y, make sure to account for anchor point being at bottom middle.
-  float minX = ms.width * ts.width/2.f + ts.width * (bottomLeftCorner.x-bottomLeftCorner.y)/2.f;
-  float minY = ts.height * (bottomLeftCorner.y+bottomLeftCorner.x)/2.f+ts.height/2;
-  float maxX = ms.width * ts.width/2.f + ts.width * (topRightCorner.x-topRightCorner.y)/2.f;
-  float maxY = ts.height * (topRightCorner.y+topRightCorner.x)/2.f+ts.height/2;
+  CGPoint blPt = [self convertTilePointToCCPoint:bottomLeftCorner];
+  CGPoint trPt = [self convertTilePointToCCPoint:topRightCorner];
+  float minX = blPt.x;
+  float minY = blPt.y+self.tileSizeInPoints.height/2;
+  float maxX = trPt.x;
+  float maxY = trPt.y+self.tileSizeInPoints.height/2;
   
   float x = MAX(MIN(-minX*self.scaleX, position.x), -maxX*self.scaleX + [[CCDirector sharedDirector] winSize].width);
   float y = MAX(MIN(-minY*self.scaleY, position.y), -maxY*self.scaleY + [[CCDirector sharedDirector] winSize].height);

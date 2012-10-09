@@ -51,6 +51,7 @@
 #import "ChatMenuController.h"
 #import "ClanMenuController.h"
 #import "LockBoxMenuController.h"
+#import "ThreeCardMonteViewController.h"
 
 #define DOOR_CLOSE_DURATION 1.5f
 #define DOOR_OPEN_DURATION 1.f
@@ -135,6 +136,8 @@
   [GenericPopupController purgeSingleton];
   [EquipMenuController removeView];
   [EquipMenuController purgeSingleton];
+  [ThreeCardMonteViewController removeView];
+  [ThreeCardMonteViewController purgeSingleton];
   [[HomeMap sharedHomeMap] invalidateAllTimers];
   [HomeMap purgeSingleton];
   [BazaarMap purgeSingleton];

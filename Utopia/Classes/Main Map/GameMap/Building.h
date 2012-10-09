@@ -79,3 +79,13 @@
 @interface MissionBuilding : Building <TaskElement>
 
 @end
+
+@interface ExpansionBoard : Building {
+  ExpansionDirection _direction;
+}
+
+@property (nonatomic, assign) ExpansionDirection direction;
+
+- (id) initForDirection:(ExpansionDirection)direction location:(CGRect)location map:(GameMap *)map isExpanding:(BOOL)isExpanding;
+
+@end

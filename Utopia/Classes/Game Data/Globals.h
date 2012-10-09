@@ -12,6 +12,7 @@
 #import "Analytics.h"
 #import "GameMap.h"
 #import "BattleConstants.h"
+#import "LoggingContexts.h"
 
 #define BUTTON_CLICKED_LEEWAY 30
 
@@ -141,6 +142,20 @@
 @property (nonatomic, assign) float freeChanceToPickLockBox;
 @property (nonatomic, assign) int numMinutesToRepickLockBox;
 @property (nonatomic, assign) int goldCostToResetPickLockBox;
+
+// Expansion Constants
+@property (nonatomic, assign) int expansionWaitCompleteHourConstant;
+@property (nonatomic, assign) int expansionWaitCompleteHourIncrementBase;
+@property (nonatomic, assign) int expansionWaitCompleteBaseMinutesToOneGold;
+@property (nonatomic, assign) int expansionPurchaseCostConstant;
+@property (nonatomic, assign) int expansionPurchaseCostExponentBase;
+
+// Three Card Monte Constants
+@property (nonatomic, assign) int minLevelToDisplayThreeCardMonte;
+@property (nonatomic, assign) int diamondCostToPlayThreeCardMonte;
+@property (nonatomic, assign) float badMonteCardPercentageChance;
+@property (nonatomic, assign) float mediumMonteCardPercentageChance;
+@property (nonatomic, assign) float goodMonteCardPercentageChance;
 
 @property (nonatomic, retain) NSDictionary *productIdentifiers;
 
@@ -275,5 +290,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (int) calculateGoldCostToGuaranteeForgingSuccess:(int)equipId level:(int)level;
 - (int) calculateGoldCostToSpeedUpForging:(int)equipId level:(int)level;
 - (int) calculateRetailValueForEquip:(int)equipId level:(int)level;
+- (int) calculateNumMinutesForNewExpansion:(UserExpansion *)ue;
+- (int) calculateGoldCostToSpeedUpExpansion:(UserExpansion *)ue;
+- (int) calculateSilverCostForNewExpansion:(UserExpansion *)ue;
 
 @end

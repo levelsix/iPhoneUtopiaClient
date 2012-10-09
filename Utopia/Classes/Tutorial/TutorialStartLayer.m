@@ -19,6 +19,7 @@
 #import "TutorialCarpenterMenuController.h"
 #import "TutorialHomeMap.h"
 #import "ProfileViewController.h"
+#import "SoundEngine.h"
 
 #ifdef DEBUG
 #define PAN_DURATION 25.f
@@ -86,7 +87,7 @@
 }
 
 - (void) start {
-  [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Mission_Enemy_song.m4a"];
+  [[SoundEngine sharedSoundEngine] playMissionMapMusic];
   
   _incrementor = 0;
   [_bgd runAction: [CCSequence actions:

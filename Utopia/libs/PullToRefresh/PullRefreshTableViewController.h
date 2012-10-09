@@ -54,6 +54,7 @@
 
 - (void)setupStrings;
 - (void)addPullToRefreshHeader:(UITableView *)tableView;
+- (void) displayLoading;
 - (void)startLoading;
 - (void)stopLoading;
 - (void)refresh;

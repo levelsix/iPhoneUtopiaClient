@@ -309,7 +309,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [defaults synchronize];
 }
 
-- (void) retrieveMarketplacePosts {
+- (void) retrieveMarketplacePosts:(int)searchEquipId {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   Globals *gl = [Globals sharedGlobals];
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -359,18 +359,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (forgeMax == 0) forgeMax = gl.forgeMaxEquipLevel;
   
   int curNumEntries = [[GameState sharedGameState] marketplaceEquipPosts].count;
-  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageWithCurNumEntries:curNumEntries filter:filter commonEquips:commonEquips uncommonEquips:uncommonEquips rareEquips:rareEquips epicEquips:epicEquips legendaryEquips:legendaryEquips myClassOnly:myClassOnly minEquipLevel:equipMin maxEquipLevel:equipMax minForgeLevel:forgeMin maxForgeLevel:forgeMax sortOrder:sortOrder specificEquipId:0];
+  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageWithCurNumEntries:curNumEntries filter:filter commonEquips:commonEquips uncommonEquips:uncommonEquips rareEquips:rareEquips epicEquips:epicEquips legendaryEquips:legendaryEquips myClassOnly:myClassOnly minEquipLevel:equipMin maxEquipLevel:equipMax minForgeLevel:forgeMin maxForgeLevel:forgeMax sortOrder:sortOrder specificEquipId:searchEquipId];
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
-- (void) retrieveMostRecentMarketplacePosts {
+- (void) retrieveMostRecentMarketplacePosts:(int)searchEquipId {
   [[[GameState sharedGameState] marketplaceEquipPosts] removeAllObjects];
   [[MarketplaceViewController sharedMarketplaceViewController] deleteRows:1];
-  [self retrieveMarketplacePosts];
+  [self retrieveMarketplacePosts:searchEquipId];
 }
 
-- (void) retrieveMoreMarketplacePosts {
-  [self retrieveMarketplacePosts];
+- (void) retrieveMoreMarketplacePosts:(int)searchEquipId {
+  [self retrieveMarketplacePosts:searchEquipId];
 }
 
 - (void) retrieveMostRecentMarketplacePostsFromSender {
@@ -1682,9 +1682,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) sendGroupChat:(GroupChatScope)scope message:(NSString *)msg {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
-  if (gs.numGroupChatsRemaining > 0) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendGroupChatMessage:scope message:msg];
+  if (msg.length > gl.maxLengthOfChatString) {
+    [Globals popupMessage:@"Attempting to send msg that exceeds appropriate length"];
+  } else {
+//  if ((scope == GroupChatScopeGlobal && gs.numGroupChatsRemaining > 0) || (scope != GroupChatScopeGlobal)) {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendGroupChatMessage:scope message:msg clientTime:[self getCurrentMilliseconds]];
     
     if (scope == GroupChatScopeGlobal) {
       [gs addUnrespondedUpdate:[ChatUpdate updateWithTag:tag change:-1]];
@@ -1693,8 +1697,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
       [gs addChatMessage:gs.minUser message:msg scope:scope];
     });
-  } else {
-    [Globals popupMessage:@"Attempting to send chat without any speakers"];
+//  } else {
+//    [Globals popupMessage:@"Attempting to send chat without any speakers"];
+//  }
   }
 }
 
@@ -1822,7 +1827,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
-- (ClanWallPostProto *) postOnClanWall:(NSString *)content {
+- (ClanBulletinPostProto *) postOnClanBulletin:(NSString *)content {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   if (content.length <= 0 || content.length > gl.maxCharLengthForWallPost) {
@@ -1833,11 +1838,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Attempting to post on clan wall while not in a clan."];
     return nil;
   }
+  if (gs.userId != gs.clan.ownerId) {
+    [Globals popupMessage:@"You must be the leader to post on the clan board."];
+    return nil;
+  }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendPostOnClanWallMessage:content];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendPostOnClanBulletinMessage:content];
   
-  ClanWallPostProto_Builder *bldr = [ClanWallPostProto builder];
-  bldr.clanWallPostId = 0;
+  ClanBulletinPostProto_Builder *bldr = [ClanBulletinPostProto builder];
+  bldr.clanBulletinPostId = 0;
   bldr.poster = gs.minUser;
   bldr.content = content;
   bldr.timeOfPost = [[NSDate date] timeIntervalSince1970]*1000;
@@ -1847,9 +1856,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return [bldr build];
 }
 
-- (void) retrieveClanWallPosts:(int)beforeThisPostId {
+- (void) retrieveClanBulletinPosts:(int)beforeThisPostId {
   GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveClanWallPostsMessage:beforeThisPostId];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveClanBulletinPostsMessage:beforeThisPostId];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
@@ -1924,6 +1933,87 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     [gs addUnrespondedUpdates:[GoldUpdate updateWithTag:tag change:-goldCost], [SilverUpdate updateWithTag:tag change:-silverCost], nil];
   }
+}
+
+- (void) purchaseCityExpansion:(ExpansionDirection)direction {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  UserExpansion *ue = gs.userExpansion;
+  
+  int silverCost = [gl calculateSilverCostForNewExpansion:ue];
+  if (gs.silver < silverCost) {
+    [Globals popupMessage:@"Attempting to expand without enough silver"];
+  } else if (ue.isExpanding) {
+    [Globals popupMessage:@"Attempting to expand while already expanding"];
+  } else {
+    uint64_t ms = [self getCurrentMilliseconds];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseCityExpansionMessage:direction timeOfPurchase:ms];
+    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-silverCost]];
+    
+    if (!ue) {
+      ue = [[UserExpansion alloc] init];
+      ue.userId = gs.userId;
+    }
+    
+    ue.isExpanding = YES;
+    ue.lastExpandDirection = direction;
+    ue.lastExpandTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
+    gs.userExpansion = ue;
+    
+    [gs beginExpansionTimer];
+  }
+}
+
+- (void) expansionWaitComplete:(BOOL)speedUp {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  UserExpansion *ue = gs.userExpansion;
+  
+  int goldCost = speedUp ? [gl calculateGoldCostToSpeedUpExpansion:ue] : 0;
+  if (gs.gold < goldCost) {
+    [Globals popupMessage:@"Attempting to speedup without enough gold"];
+  } else if (!ue.isExpanding) {
+    [Globals popupMessage:@"Attempting to complete expansion while not expanding"];
+  } else if (!speedUp && [[NSDate date] compare:[ue.lastExpandTime dateByAddingTimeInterval:[gl calculateNumMinutesForNewExpansion:ue]*60]] == NSOrderedDescending) {
+    [Globals popupMessage:@"Attempting to complete expansion before it is ready"];
+  } else {
+    uint64_t ms = [self getCurrentMilliseconds];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendExpansionWaitCompleteMessage:speedUp curTime:ms];
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
+    
+    ue.isExpanding = NO;
+    
+    switch (ue.lastExpandDirection) {
+      case ExpansionDirectionFarLeft:
+        ue.farLeftExpansions++;
+        break;
+      case ExpansionDirectionFarRight:
+        ue.farRightExpansions++;
+        break;
+      case ExpansionDirectionNearLeft:
+        ue.nearLeftExpansions++;
+        break;
+      case ExpansionDirectionNearRight:
+        ue.nearRightExpansions++;
+        break;
+      default:
+        break;
+    }
+    
+    [gs stopExpansionTimer];
+  }
+}
+
+-(void) retrieveThreeCardMonte {
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveThreeCardMonteMessage];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+}
+
+-(void) playThreeCardMonte:(int)cardID {
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendPlayThreeCardMonteMessage:cardID];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 @end

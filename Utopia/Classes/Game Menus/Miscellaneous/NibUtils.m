@@ -71,6 +71,15 @@
 
 @end
 
+@implementation NiceFontLabel8
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Archer-BoldItalic" size:self.font.pointSize];
+}
+
+@end
+
 @implementation NiceFontButton
 
 - (void) awakeFromNib {

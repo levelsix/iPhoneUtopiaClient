@@ -83,8 +83,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCTransferClanOwnership:
     case EventProtocolRequestCRetrieveClanInfoEvent:
     case EventProtocolRequestCChangeClanDescriptionEvent:
-    case EventProtocolRequestCPostOnClanWallEvent:
-    case EventProtocolRequestCRetrieveClanWallPostsEvent:
+    case EventProtocolRequestCPostOnClanBulletinEvent:
+    case EventProtocolRequestCRetrieveClanBulletinPostsEvent:
     case EventProtocolRequestCBootPlayerFromClanEvent:
     case EventProtocolRequestCRetrieveThreeCardMonteEvent:
     case EventProtocolRequestCPlayThreeCardMonteEvent:
@@ -162,8 +162,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSTransferClanOwnership:
     case EventProtocolResponseSRetrieveClanInfoEvent:
     case EventProtocolResponseSChangeClanDescriptionEvent:
-    case EventProtocolResponseSPostOnClanWallEvent:
-    case EventProtocolResponseSRetrieveClanWallPostsEvent:
+    case EventProtocolResponseSPostOnClanBulletinEvent:
+    case EventProtocolResponseSRetrieveClanBulletinPostsEvent:
     case EventProtocolResponseSBootPlayerFromClanEvent:
     case EventProtocolResponseSRetrieveThreeCardMonteEvent:
     case EventProtocolResponseSPlayThreeCardMonteEvent:

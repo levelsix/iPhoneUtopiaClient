@@ -11,6 +11,9 @@
 #import "Globals.h"
 #import "HomeMap.h"
 #import "SoundEngine.h"
+#import "RefillMenuController.h"
+#import "OutgoingEventController.h"
+#import "GenericPopupController.h"
 
 @implementation HomeBuildingMenu
 
@@ -270,6 +273,195 @@
   self.timer = nil;
   self.userStruct = nil;
   self.coinIcon = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation ExpansionView
+
+@synthesize mainView, bgdView;
+@synthesize farLeftArrow, farRightArrow, nearLeftArrow, nearRightArrow;
+@synthesize expandingSign, progressBar;
+@synthesize titleLabel, buttonLabel, timeLeftLabel, totalTimeLabel, costLabel;
+@synthesize expandingView, cantExpandView, expandNowView;
+@synthesize timer;
+
+- (void) awakeFromNib {
+  self.expandNowView.center = expandingView.center;
+  [self.mainView addSubview:self.expandNowView];
+  
+  self.cantExpandView.center = expandingView.center;
+  [self.mainView addSubview:cantExpandView];
+}
+
+- (void) setTimer:(NSTimer *)t {
+  if (timer != t) {
+    [timer invalidate];
+    [timer release];
+    timer = [t retain];
+  }
+}
+
+- (UIImageView *) arrowForDirection:(ExpansionDirection)direction {
+  if (direction == ExpansionDirectionNearLeft) {
+    return nearLeftArrow;
+  } else if (direction == ExpansionDirectionNearRight) {
+    return nearRightArrow;
+  } else if (direction == ExpansionDirectionFarLeft) {
+    return farLeftArrow;
+  } else if (direction == ExpansionDirectionFarRight) {
+    return farRightArrow;
+  }
+  return nil;
+}
+
+- (void) displayForDirection:(ExpansionDirection)direction {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  UserExpansion *ue = gs.userExpansion;
+  
+  UIImageView *visibleArrow = nil;
+  
+  _direction = direction;
+  
+  self.timer = nil;
+  
+  if (!ue || !ue.isExpanding) {
+    expandingSign.hidden = YES;
+    expandingView.hidden = YES;
+    cantExpandView.hidden = YES;
+    expandNowView.hidden = NO;
+    
+    visibleArrow = [self arrowForDirection:direction];
+    
+    buttonLabel.text = @"EXPAND KINGDOM";
+    titleLabel.text = @"Expand Now!";
+    
+    costLabel.text = [Globals commafyNumber:[gl calculateSilverCostForNewExpansion:ue]];
+    totalTimeLabel.text = [NSString stringWithFormat:@"%d Hours", [gl calculateNumMinutesForNewExpansion:ue]/60];
+  } else {
+    expandingSign.hidden = NO;
+    expandNowView.hidden = YES;
+    
+    visibleArrow = [self arrowForDirection:ue.lastExpandDirection];
+    
+    buttonLabel.text = @"FINISH NOW";
+    titleLabel.text = @"Expanding";
+    
+    if (direction == ue.lastExpandDirection) {
+      expandingView.hidden = NO;
+      cantExpandView.hidden = YES;
+      
+      [self updateMenu];
+      self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateMenu) userInfo:nil repeats:YES];
+      [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    } else {
+      expandingView.hidden = YES;
+      cantExpandView.hidden = NO;
+    }
+  }
+  
+  farLeftArrow.hidden = (farLeftArrow != visibleArrow);
+  farRightArrow.hidden = (farRightArrow != visibleArrow);
+  nearLeftArrow.hidden = (nearLeftArrow != visibleArrow);
+  nearRightArrow.hidden = (nearRightArrow != visibleArrow);
+  
+  if (!self.superview) {
+    [Globals displayUIView:self];
+    [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  }
+}
+
+- (void) updateMenu {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  NSDate *startTime = nil;
+  int secsToExpand = 0;
+  
+  startTime = gs.userExpansion.lastExpandTime;
+  secsToExpand = 60*[gl calculateNumMinutesForNewExpansion:gs.userExpansion];
+  
+  NSDate *date = [startTime dateByAddingTimeInterval:secsToExpand];
+  if ([date compare:[NSDate date]] == NSOrderedAscending) {
+    [self closeClicked:nil];
+  } else {
+    timeLeftLabel.text = [Globals convertTimeToString:date.timeIntervalSinceNow];
+    progressBar.percentage = 1.f - date.timeIntervalSinceNow/secsToExpand;
+  }
+}
+
+- (IBAction)bottomButtonClicked:(id)sender {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  UserExpansion *ue = gs.userExpansion;
+  
+  if (!ue || !ue.isExpanding) {
+    int silverCost = [gl calculateSilverCostForNewExpansion:ue];
+    if (gs.silver < silverCost) {
+      [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+    } else {
+      [[OutgoingEventController sharedOutgoingEventController] purchaseCityExpansion:_direction];
+      [self displayForDirection:_direction];
+      [[HomeMap sharedHomeMap] refresh];
+    }
+  } else {
+    int goldCost = [gl calculateGoldCostToSpeedUpExpansion:ue];
+    NSString *desc = [NSString stringWithFormat:@"Would you like to speed up this expansion for %d gold?", goldCost];
+    [GenericPopupController displayConfirmationWithDescription:desc title:@"Speed Up?" okayButton:@"Speed Up" cancelButton:nil target:self selector:@selector(speedUp)];
+  }
+}
+
+- (void) speedUp {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  UserExpansion *ue = gs.userExpansion;
+  
+  int goldCost = [gl calculateGoldCostToSpeedUpExpansion:ue];
+  if (gs.gold < goldCost) {
+    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] expansionWaitComplete:YES];
+    
+    self.timer = nil;
+    float secs = PROGRESS_BAR_SPEED*(1.f-progressBar.percentage);
+    [UIView animateWithDuration:secs animations:^{
+      progressBar.percentage = 1.f;
+    } completion:^(BOOL finished) {
+      [[HomeMap sharedHomeMap] refresh];
+      [self closeClicked:nil];
+    }];
+  }
+}
+
+- (IBAction)closeClicked:(id)sender {
+  if (self.superview) {
+    self.timer = nil;
+    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+      [self removeFromSuperview];
+    }];
+  }
+}
+
+- (void) dealloc {
+  self.mainView = nil;
+  self.bgdView = nil;
+  self.farLeftArrow = nil;
+  self.farRightArrow = nil;
+  self.nearLeftArrow = nil;
+  self.nearRightArrow = nil;
+  self.expandingView = nil;
+  self.expandingSign = nil;
+  self.progressBar = nil;
+  self.titleLabel = nil;
+  self.buttonLabel = nil;
+  self.timeLeftLabel = nil;
+  self.totalTimeLabel = nil;
+  self.costLabel = nil;
+  self.cantExpandView = nil;
+  self.expandNowView = nil;
+  self.timer = nil;
   [super dealloc];
 }
 

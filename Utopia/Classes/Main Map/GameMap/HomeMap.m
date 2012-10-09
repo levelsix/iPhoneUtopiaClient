@@ -22,10 +22,26 @@
 
 #define HOME_BUILDING_TAG_OFFSET 123456
 
+#define FAR_LEFT_EXPANSION_BOARD_START_POSITION ccp(51.25, 60.5)
+#define FAR_RIGHT_EXPANSION_BOARD_START_POSITION ccp(60, 51.75)
+#define NEAR_LEFT_EXPANSION_BOARD_START_POSITION ccp(42.25, 51.75)
+#define NEAR_RIGHT_EXPANSION_BOARD_START_POSITION ccp(51.25, 43)
+#define FAR_LEFT_EXPANSION_START 58
+#define FAR_RIGHT_EXPANSION_START 58
+#define NEAR_LEFT_EXPANSION_START 45
+#define NEAR_RIGHT_EXPANSION_START 45
+#define EXPANSION_EXTRA_TILES 3
+
+#define EXPANSION_LAYER_NAME @"Expansion"
+#define BUILDABLE_LAYER_NAME @"Buildable"
+#define METATILES_LAYER_NAME @"MetaLayer"
+#define WALKABLE_LAYER_NAME @"Walkable"
+#define TREES_LAYER_NAME @"Treez"
+
 @implementation HomeMap
 
 @synthesize buildableData = _buildableData;
-@synthesize hbMenu, collectMenu, moveMenu, upgradeMenu;
+@synthesize hbMenu, collectMenu, moveMenu, upgradeMenu, expansionView;
 @synthesize loading = _loading;
 @synthesize redGid, greenGid;
 
@@ -43,8 +59,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     for (CCNode *child in [self children]) {
       if ([child isKindOfClass:[CCTMXLayer class]]) {
         CCTMXLayer *layer = (CCTMXLayer *)child;
-        if ([[layer layerName] isEqualToString: @"MetaLayer"]) {
-          // Put meta tile layer at front, 
+        if ([[layer layerName] isEqualToString: METATILES_LAYER_NAME]) {
+          // Put meta tile layer at front,
           // when something is selected, we will make it z = 1000
           [self reorderChild:layer z:1001];
           CGPoint redGidPt = ccp(mapSize_.width-1, mapSize_.height-1);
@@ -68,22 +84,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [self.buildableData addObject:row];
     }
     
-    int width = self.mapSize.width;
-    int height = self.mapSize.height;
-    CCTMXLayer *layer = [self layerNamed:@"Buildable"];
-    for (int i = 0; i < width; i++) {
-      for (int j = 0; j < height; j++) {
-        NSMutableArray *row = [self.buildableData objectAtIndex:i];
-        // Convert their coordinates to our coordinate system
-        CGPoint tileCoord = ccp(height-j-1, width-i-1);
-        int tileGid = [layer tileGIDAt:tileCoord];
-        if (tileGid) {
-          [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
-        }
-      }
-    }
-    [self removeChild:layer cleanup:YES];
-    
     self.walkableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];
     for (int i = 0; i < self.mapSize.width; i++) {
       NSMutableArray *row = [NSMutableArray arrayWithCapacity:self.mapSize.height];
@@ -93,50 +93,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [self.walkableData addObject:row];
     }
     
-    layer = [self layerNamed:@"Walkable"];
-    for (int i = 0; i < width; i++) {
-      for (int j = 0; j < height; j++) {
-        NSMutableArray *row = [self.walkableData objectAtIndex:i];
-        // Convert their coordinates to our coordinate system
-        CGPoint tileCoord = ccp(height-j-1, width-i-1);
-        int tileGid = [layer tileGIDAt:tileCoord];
-        if (tileGid) {
-          [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
-        }
-      }
-    }
-    [self removeChild:layer cleanup:YES];
+    CCTMXLayer *layer = [self layerNamed:BUILDABLE_LAYER_NAME];
+    layer.visible = NO;
+    layer = [self layerNamed:WALKABLE_LAYER_NAME];
+    layer.visible = NO;
     
-    layer = [self layerNamed:@"Expansion"];
-    for (int i = 0; i < width; i++) {
-      for (int j = 0; j < height; j++) {
-        NSMutableArray *brow = [self.buildableData objectAtIndex:i];
-        NSMutableArray *wrow = [self.walkableData objectAtIndex:i];
-        // Convert their coordinates to our coordinate system
-        CGPoint tileCoord = ccp(height-j-1, width-i-1);
-        int tileGid = [layer tileGIDAt:tileCoord];
-        if (tileGid) {
-          [brow replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
-          [wrow replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
-        }
-      }
-    }
+    [self refreshForExpansion];
     
     // Create the attack gate
-    MapSprite *mid = [[MapSprite alloc] initWithFile:@"centergate.png" location:CGRectMake(47, 23, 3, 1) map:self];
-    [self addChild:mid];
-    [mid release];
-    
-    for (int i = 1; i < 9; i++) {
-      MapSprite *left = [[MapSprite alloc] initWithFile:@"leftgate.png" location:CGRectMake(47-3*i, 23, 3, 1) map:self];
-      [self addChild:left];
-      [left release];
-    }
-    for (int i = 1; i < 9; i++) {
-      MapSprite *right = [[MapSprite alloc] initWithFile:@"rightgate.png" location:CGRectMake(47+3*i, 23, 3, 1) map:self];
-      [self addChild:right];
-      [right release];
-    }
+//    MapSprite *mid = [[MapSprite alloc] initWithFile:@"centergate.png" location:CGRectMake(47, 23, 3, 1) map:self];
+//    [self addChild:mid];
+//    [mid release];
+//    
+//    for (int i = 1; i < 9; i++) {
+//      MapSprite *left = [[MapSprite alloc] initWithFile:@"leftgate.png" location:CGRectMake(47-3*i, 23, 3, 1) map:self];
+//      [self addChild:left];
+//      [left release];
+//    }
+//    for (int i = 1; i < 9; i++) {
+//      MapSprite *right = [[MapSprite alloc] initWithFile:@"rightgate.png" location:CGRectMake(47+3*i, 23, 3, 1) map:self];
+//      [self addChild:right];
+//      [right release];
+//    }
     
     CGRect r = CGRectZero;
     r = CGRectZero;
@@ -175,6 +153,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   return self;
 }
 
+- (ExpansionView *)expansionView {
+  if (!expansionView) {
+    [[NSBundle mainBundle] loadNibNamed:@"ExpansionView" owner:self options:nil];
+  }
+  return expansionView;
+}
+
 - (int) baseTagForStructId:(int)structId {
   return [[Globals sharedGlobals] maxRepeatedNormStructs]*structId+HOME_BUILDING_TAG_OFFSET;
 }
@@ -206,6 +191,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   NSMutableArray *arr = [NSMutableArray array];
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
+  
+  [arr addObjectsFromArray:[self refreshForExpansion]];
   
   for (UserStruct *s in [gs myStructs]) {
     int tag = [self baseTagForStructId:s.structId];
@@ -294,6 +281,96 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   _loading = NO;
 }
 
+- (NSArray *) refreshForExpansion {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *arr = [NSMutableArray array];
+  UserExpansion *ue = gs.userExpansion;
+  
+  CGRect r = CGRectZero;
+  r.size = CGSizeMake(3, 1);
+  r.origin = FAR_LEFT_EXPANSION_BOARD_START_POSITION;
+  r.origin.y += ue.farLeftExpansions*EXPANSION_EXTRA_TILES;
+  BOOL isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionFarLeft);
+  ExpansionBoard *eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionFarLeft location:r map:self isExpanding:isExpanding];
+  [self addChild:eb];
+  [arr addObject:eb];
+  [eb release];
+  
+  r.origin = FAR_RIGHT_EXPANSION_BOARD_START_POSITION;
+  r.origin.x += ue.farRightExpansions*EXPANSION_EXTRA_TILES;
+  isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionFarRight);
+  eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionFarRight location:r map:self isExpanding:isExpanding];
+  [self addChild:eb];
+  [arr addObject:eb];
+  [eb release];
+  
+  r.origin = NEAR_LEFT_EXPANSION_BOARD_START_POSITION;
+  r.origin.x -= ue.nearLeftExpansions*EXPANSION_EXTRA_TILES;
+  isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionNearLeft);
+  eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionNearLeft location:r map:self isExpanding:isExpanding];
+  [self addChild:eb];
+  [arr addObject:eb];
+  [eb release];
+  
+  r.origin = NEAR_RIGHT_EXPANSION_BOARD_START_POSITION;
+  r.origin.y -= ue.nearRightExpansions*EXPANSION_EXTRA_TILES;
+  isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionNearRight);
+  eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionNearRight location:r map:self isExpanding:isExpanding];
+  [self addChild:eb];
+  [arr addObject:eb];
+  [eb release];
+  
+  int left = NEAR_LEFT_EXPANSION_START-EXPANSION_EXTRA_TILES*ue.nearLeftExpansions;
+  int right = FAR_RIGHT_EXPANSION_START+EXPANSION_EXTRA_TILES*ue.farRightExpansions;
+  int top = FAR_LEFT_EXPANSION_START+EXPANSION_EXTRA_TILES*ue.farLeftExpansions;
+  int bottom = NEAR_RIGHT_EXPANSION_START-EXPANSION_EXTRA_TILES*ue.nearRightExpansions;
+  
+  CCTMXLayer *expLayer = [self layerNamed:EXPANSION_LAYER_NAME];
+  CCTMXLayer *treeLayer = [self layerNamed:TREES_LAYER_NAME];
+  CCTMXLayer *buildLayer = [self layerNamed:BUILDABLE_LAYER_NAME];
+  CCTMXLayer *walkLayer = [self layerNamed:WALKABLE_LAYER_NAME];
+  int width = self.mapSize.width;
+  int height = self.mapSize.height;
+  for (int i = 0; i < width; i++) {
+    for (int j = 0; j < height; j++) {
+      if (i >= left && i <= right && j <= top && j >= bottom) {
+        CGPoint tileCoord = ccp(height-j-1, width-i-1);
+        [expLayer removeTileAt:tileCoord];
+        [treeLayer removeTileAt:tileCoord];
+      }
+    }
+  }
+  
+  for (int i = 0; i < width; i++) {
+    for (int j = 0; j < height; j++) {
+      NSMutableArray *brow = [self.buildableData objectAtIndex:i];
+      NSMutableArray *wrow = [self.walkableData objectAtIndex:i];
+      
+      [brow replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
+      [wrow replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
+      
+      // Convert their coordinates to our coordinate system
+      CGPoint tileCoord = ccp(height-j-1, width-i-1);
+      int tileGid = [buildLayer tileGIDAt:tileCoord];
+      if (tileGid) {
+        [brow replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
+      }
+      
+      tileGid = [walkLayer tileGIDAt:tileCoord];
+      if (tileGid) {
+        [wrow replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
+      }
+      
+      if (i < left || i > right || j > top || j < bottom) {
+        [brow replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
+        [wrow replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
+      }
+    }
+  }
+  
+  return arr;
+}
+
 - (void) moveToStruct:(int)structId {
   int baseTag = [self baseTagForStructId:structId];
   MoneyBuilding *mb = nil;
@@ -334,7 +411,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (void) moveToCenter {
   // When this is called we want to move the player's sprite to the center too.
   // Also, center of home map should show gate
-  _myPlayer.location = CGRectMake(48, 28, 1, 1);
+  _myPlayer.location = CGRectMake(51, 51, 1, 1);
   [self moveToSprite:_myPlayer];
 }
 
@@ -345,7 +422,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
   
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
-  CGRect loc = CGRectMake(47, 28, fsp.xLength, fsp.yLength);
+  CGRect loc = CGRectMake(51, 51, fsp.xLength, fsp.yLength);
   _purchBuilding = [[MoneyBuilding alloc] initWithFile:[Globals imageNameForStruct:structId] location:loc map:self];
   _purchBuilding.verticalOffset = fsp.imgVerticalPixelOffset;
   
@@ -402,6 +479,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         
         [self doMenuAnimations];
       }
+    } else if ([selected isKindOfClass:[ExpansionBoard class]]) {
+      [self.expansionView displayForDirection:((ExpansionBoard *)_selected).direction];
+      self.selected = nil;
     } else {
       [self closeMenus];
       [self.upgradeMenu closeClicked:nil];
@@ -635,9 +715,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (IBAction)cancelMoveClicked:(id)sender {
   if (_purchasing) {
-    self.selected = nil;
     [_purchBuilding liftBlock];
-    [self removeChild:_purchBuilding cleanup:YES];
+    self.selected = nil;
     _canMove = NO;
     _purchasing = NO;
   } else {
@@ -732,7 +811,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [self updateTimersForBuilding:_upgrBuilding];
         [self.upgradeMenu displayForUserStruct:us];
         [self closeMenus];
-        [_upgrBuilding displayUpgradeIcon]; 
+        [_upgrBuilding displayUpgradeIcon];
         
         [[SoundEngine sharedSoundEngine] carpenterPurchase];
       }
@@ -905,6 +984,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self.upgradeMenu removeFromSuperview];
   self.upgradeMenu = nil;
   self.buildableData = nil;
+  [self.expansionView removeFromSuperview];
+  self.expansionView = nil;
   
   [self invalidateAllTimers];
   [_timers release];

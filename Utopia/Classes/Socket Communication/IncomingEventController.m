@@ -34,7 +34,6 @@
 #import "TopBar.h"
 #import "FullEvent.h"
 #import "KiipDelegate.h"
-#import "DailyBonusMenuController.h"
 #import "EquipMenuController.h"
 #import "ForgeMenuController.h"
 #import "RefillMenuController.h"
@@ -46,6 +45,7 @@
 #import "ClanMenuController.h"
 #import "SocketCommunication.h"
 #import "LockBoxMenuController.h"
+#import "ThreeCardMonteViewController.h"
 
 @implementation IncomingEventController
 
@@ -250,11 +250,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSBootPlayerFromClanEvent:
       responseClass = [BootPlayerFromClanResponseProto class];
       break;
-    case EventProtocolResponseSPostOnClanWallEvent:
-      responseClass = [PostOnClanWallResponseProto class];
+    case EventProtocolResponseSPostOnClanBulletinEvent:
+      responseClass = [PostOnClanBulletinResponseProto class];
       break;
-    case EventProtocolResponseSRetrieveClanWallPostsEvent:
-      responseClass = [RetrieveClanWallPostsResponseProto class];
+    case EventProtocolResponseSRetrieveClanBulletinPostsEvent:
+      responseClass = [RetrieveClanBulletinPostsResponseProto class];
       break;
     case EventProtocolResponseSRetrieveThreeCardMonteEvent:
       responseClass = [RetrieveThreeCardMonteResponseProto class];
@@ -267,6 +267,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSPickLockBoxEvent:
       responseClass = [PickLockBoxResponseProto class];
+      break;
+    case EventProtocolResponseSExpansionWaitCompleteEvent:
+      responseClass = [ExpansionWaitCompleteResponseProto class];
+      break;
+    case EventProtocolResponseSPurchaseCityExpansionEvent:
+      responseClass = [PurchaseCityExpansionResponseProto class];
+      break;
+    case EventProtocolResponseSPlayThreeCardMonteEvent:
+      responseClass = [PlayThreeCardMonteResponseProto class];
       break;
       
     default:
@@ -417,8 +426,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   [gl updateConstants:proto.startupConstants];
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
-    [[SocketCommunication sharedSocketCommunication] sendRetrieveThreeCardMonteMessage];
-    
     // Update user before creating map
     [gs updateUser:proto.sender timestamp:0];
     [gs setPlayerHasBoughtInAppPurchase:proto.playerHasBoughtInAppPurchase];
@@ -443,6 +450,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [oec retrieveAllStaticData];
     [gs addNewStaticLockBoxEvents:proto.lockBoxEventsList];
     [gs addToMyLockBoxEvents:proto.userLockBoxEventsList];
+    [gs setMktSearchEquips:proto.mktSearchEquipsList];
     
     [gs addToRequestedClans:proto.userClanInfoList];
     
@@ -480,14 +488,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs addWallPost:wallPost];
     }
     
-    //Display daily bonus screen if its applicable
-    StartupResponseProto_DailyBonusInfo *dbi = proto.dailyBonusInfo;
-    if (dbi.firstTimeToday) {
-      // This will
-      DailyBonusMenuController *dbmc = [[DailyBonusMenuController alloc] initWithNibName:nil bundle:nil];
-      [dbmc loadForDay:dbi.numConsecutiveDaysPlayed silver:dbi.coinBonus equip:dbi.userEquipBonus];
-      [[TopBar sharedTopBar] setDbmc:dbmc];
+    for (GroupChatMessageProto *msg in proto.globalChatsList) {
+      ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
+      [gs addChatMessage:cm scope:GroupChatScopeGlobal];
+      [cm release];
     }
+    for (GroupChatMessageProto *msg in proto.clanChatsList) {
+      ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
+      [gs addChatMessage:cm scope:GroupChatScopeClan];
+      [cm release];
+    }
+    
+    //Display daily bonus screen if its applicable
+//    StartupResponseProto_DailyBonusInfo *dbi = proto.dailyBonusInfo;
+//    if (dbi.firstTimeToday) {
+//      DailyBonusMenuController *dbmc = [[DailyBonusMenuController alloc] initWithNibName:nil bundle:nil];
+//      [dbmc loadForDay:dbi.numConsecutiveDaysPlayed silver:dbi.coinBonus equip:dbi.userEquipBonus];
+//      [[TopBar sharedTopBar] setDbmc:dbmc];
+//    }
     
     // This means we just finished tutorial
     if (gs.isTutorial) {
@@ -1072,25 +1090,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [[GameViewController sharedGameViewController] loadPlayerCityComplete];
   
   if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess) {
-    gs.connected = YES;
-    
-    [gs.myStructs removeAllObjects];
-    [gs addToMyStructs:proto.ownerNormStructsList];
-    
-    [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
-    
-    [[HomeMap sharedHomeMap] refresh];
-    [[GameViewController sharedGameViewController] startGame];
-    [gs removeNonFullUserUpdatesForTag:tag];
-    
-    // Check for unresponded in app purchases
-    NSString *key = IAP_DEFAULTS_KEY;
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSArray *arr = [defaults arrayForKey:key];
-    [defaults removeObjectForKey:key];
-    for (NSString *receipt in arr) {
-      LNLog(@"Sending over unresponded receipt.");
-      [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0];
+    if (proto.cityOwner.userId == gs.userId) {
+      gs.connected = YES;
+      
+      [gs.myStructs removeAllObjects];
+      [gs addToMyStructs:proto.ownerNormStructsList];
+      
+      if (proto.hasUserCityExpansionData) {
+        gs.userExpansion = [UserExpansion userExpansionWithFullUserCityExpansionDataProto:proto.userCityExpansionData];
+        [gs beginExpansionTimer];
+      }
+      
+      [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
+      
+      [[HomeMap sharedHomeMap] refresh];
+      [[GameViewController sharedGameViewController] startGame];
+      [gs removeNonFullUserUpdatesForTag:tag];
+      
+      // Check for unresponded in app purchases
+      NSString *key = IAP_DEFAULTS_KEY;
+      NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+      NSArray *arr = [defaults arrayForKey:key];
+      [defaults removeObjectForKey:key];
+      for (NSString *receipt in arr) {
+        LNLog(@"Sending over unresponded receipt.");
+        [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0];
+      }
     }
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
     [Globals popupMessage:@"Trying to reach a nonexistent player's city."];
@@ -1651,6 +1676,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.hasClanInfo) {
       gs.clan = proto.clanInfo;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
+      [gs.requestedClans removeAllObjects];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1691,7 +1717,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
     if (proto.requesterId == gs.userId) {
-      [gs.requestedClans removeObject:[NSNumber numberWithInt:proto.minClan.clanId]];
+      [gs.requestedClans removeAllObjects];
       if (proto.accept) {
         gs.clan = proto.minClan;
         [[SocketCommunication sharedSocketCommunication] rebuildSender];
@@ -1829,7 +1855,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [[ClanMenuController sharedClanMenuController] stopLoading:tag];
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == PostOnClanWallResponseProto_PostOnClanWallStatusSuccess) {
+  if (proto.status == PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess) {
     if (proto.playerToBoot == gs.userId) {
       gs.clan = nil;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
@@ -1844,13 +1870,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handlePostOnClanWallResponseProto:(FullEvent *)fe {
-  PostOnClanWallResponseProto *proto = (PostOnClanWallResponseProto *)fe.event;
+- (void) handlePostOnClanBulletinResponseProto:(FullEvent *)fe {
+  PostOnClanBulletinResponseProto *proto = (PostOnClanBulletinResponseProto *)fe.event;
   int tag = fe.tag;
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Post on clan wall response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == PostOnClanWallResponseProto_PostOnClanWallStatusSuccess) {
+  if (proto.status == PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess) {
     [[ClanMenuController sharedClanMenuController] receivedPostOnWall:proto];
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1861,34 +1887,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleRetrieveClanWallPostsResponseProto:(FullEvent *)fe {
-  RetrieveClanWallPostsResponseProto *proto = (RetrieveClanWallPostsResponseProto *)fe.event;
+- (void) handleRetrieveClanBulletinPostsResponseProto:(FullEvent *)fe {
+  RetrieveClanBulletinPostsResponseProto *proto = (RetrieveClanBulletinPostsResponseProto *)fe.event;
   int tag = fe.tag;
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve clan wall posts response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == PostOnClanWallResponseProto_PostOnClanWallStatusSuccess) {
+  if (proto.status == PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess) {
     [[ClanMenuController sharedClanMenuController] receivedWallPosts:proto];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to retrieve clan wall posts."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleRetrieveThreeCardMonteResponseProto:(FullEvent *)fe {
-  RetrieveThreeCardMonteResponseProto *proto = (RetrieveThreeCardMonteResponseProto *)fe.event;
-  int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve three card monte response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatusSuccess) {
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to retrieve three card monte response."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -1992,6 +2002,73 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to pick lock box."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleExpansionWaitCompleteResponseProto:(FullEvent *)fe {
+  ExpansionWaitCompleteResponseProto *proto = (ExpansionWaitCompleteResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Expansion wait complete response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to complete expansion wait time."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handlePurchaseCityExpansionResponseProto:(FullEvent *)fe {
+  PurchaseCityExpansionResponseProto *proto = (PurchaseCityExpansionResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purchase city expansion response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to purchase city expansion."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRetrieveThreeCardMonteResponseProto:(FullEvent *)fe {
+  RetrieveThreeCardMonteResponseProto *proto = (RetrieveThreeCardMonteResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve three card monte response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatusSuccess) {
+    NSMutableArray *staticEquips = [NSMutableArray array];
+    if (proto.badMonteCard.hasEquip) [staticEquips addObject:proto.badMonteCard.equip];
+    if (proto.mediumMonteCard.hasEquip) [staticEquips addObject:proto.mediumMonteCard.equip];
+    if (proto.goodMonteCard.hasEquip) [staticEquips addObject:proto.goodMonteCard.equip];
+    [gs addToStaticEquips:staticEquips];
+    
+    [[ThreeCardMonteViewController sharedThreeCardMonteViewController] receivedRetreiveThreeCardMonteResponse:proto];
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to retrieve three card monte cards."];
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+}
+
+- (void) handlePlayThreeCardMonteResponseProto:(FullEvent *)fe {
+  PlayThreeCardMonteResponseProto *proto = (PlayThreeCardMonteResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Play three card monte response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if(proto.status == PlayThreeCardMonteResponseProto_PlayThreeCardMonteStatusSuccess) {
+    if (proto.hasUserEquip)   [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.userEquip]];
+    [[ThreeCardMonteViewController sharedThreeCardMonteViewController] receivedPlayThreeCardMonteResponse:proto];
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+  else {
+    [Globals popupMessage:@"Server failed to play three card monte."];
   }
 }
 

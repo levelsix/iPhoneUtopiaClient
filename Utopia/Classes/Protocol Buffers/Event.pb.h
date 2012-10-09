@@ -46,8 +46,8 @@
 @class ChatRequestProto_Builder;
 @class ChatResponseProto;
 @class ChatResponseProto_Builder;
-@class ClanWallPostProto;
-@class ClanWallPostProto_Builder;
+@class ClanBulletinPostProto;
+@class ClanBulletinPostProto_Builder;
 @class CollectForgeEquipsRequestProto;
 @class CollectForgeEquipsRequestProto_Builder;
 @class CollectForgeEquipsResponseProto;
@@ -142,6 +142,8 @@
 @class GenerateAttackListRequestProto_Builder;
 @class GenerateAttackListResponseProto;
 @class GenerateAttackListResponseProto_Builder;
+@class GroupChatMessageProto;
+@class GroupChatMessageProto_Builder;
 @class InAppPurchaseRequestProto;
 @class InAppPurchaseRequestProto_Builder;
 @class InAppPurchaseResponseProto;
@@ -170,6 +172,8 @@
 @class LockBoxItemProto_Builder;
 @class LogoutRequestProto;
 @class LogoutRequestProto_Builder;
+@class MarketplaceSearchEquipProto;
+@class MarketplaceSearchEquipProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
@@ -218,10 +222,10 @@
 @class PlayerWallPostProto_Builder;
 @class PossessEquipJobProto;
 @class PossessEquipJobProto_Builder;
-@class PostOnClanWallRequestProto;
-@class PostOnClanWallRequestProto_Builder;
-@class PostOnClanWallResponseProto;
-@class PostOnClanWallResponseProto_Builder;
+@class PostOnClanBulletinRequestProto;
+@class PostOnClanBulletinRequestProto_Builder;
+@class PostOnClanBulletinResponseProto;
+@class PostOnClanBulletinResponseProto_Builder;
 @class PostOnPlayerWallRequestProto;
 @class PostOnPlayerWallRequestProto_Builder;
 @class PostOnPlayerWallResponseProto;
@@ -294,14 +298,14 @@
 @class RetractRequestJoinClanRequestProto_Builder;
 @class RetractRequestJoinClanResponseProto;
 @class RetractRequestJoinClanResponseProto_Builder;
+@class RetrieveClanBulletinPostsRequestProto;
+@class RetrieveClanBulletinPostsRequestProto_Builder;
+@class RetrieveClanBulletinPostsResponseProto;
+@class RetrieveClanBulletinPostsResponseProto_Builder;
 @class RetrieveClanInfoRequestProto;
 @class RetrieveClanInfoRequestProto_Builder;
 @class RetrieveClanInfoResponseProto;
 @class RetrieveClanInfoResponseProto_Builder;
-@class RetrieveClanWallPostsRequestProto;
-@class RetrieveClanWallPostsRequestProto_Builder;
-@class RetrieveClanWallPostsResponseProto;
-@class RetrieveClanWallPostsResponseProto_Builder;
 @class RetrieveCurrencyFromNormStructureRequestProto;
 @class RetrieveCurrencyFromNormStructureRequestProto_Builder;
 @class RetrieveCurrencyFromNormStructureResponseProto;
@@ -372,6 +376,8 @@
 @class StartupResponseProto_StartupConstants_CharacterModConstants_Builder;
 @class StartupResponseProto_StartupConstants_ClanConstants;
 @class StartupResponseProto_StartupConstants_ClanConstants_Builder;
+@class StartupResponseProto_StartupConstants_ExpansionConstants;
+@class StartupResponseProto_StartupConstants_ExpansionConstants_Builder;
 @class StartupResponseProto_StartupConstants_ForgeConstants;
 @class StartupResponseProto_StartupConstants_ForgeConstants_Builder;
 @class StartupResponseProto_StartupConstants_FormulaConstants;
@@ -382,6 +388,8 @@
 @class StartupResponseProto_StartupConstants_KiipRewardConditions_Builder;
 @class StartupResponseProto_StartupConstants_LockBoxConstants;
 @class StartupResponseProto_StartupConstants_LockBoxConstants_Builder;
+@class StartupResponseProto_StartupConstants_ThreeCardMonteConstants;
+@class StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder;
 @class StartupResponseProto_TutorialConstants;
 @class StartupResponseProto_TutorialConstants_Builder;
 @class StartupResponseProto_TutorialConstants_FullTutorialQuestProto;
@@ -1064,22 +1072,22 @@ typedef enum {
 BOOL ChangeClanDescriptionResponseProto_ChangeClanDescriptionStatusIsValidValue(ChangeClanDescriptionResponseProto_ChangeClanDescriptionStatus value);
 
 typedef enum {
-  PostOnClanWallResponseProto_PostOnClanWallStatusSuccess = 0,
-  PostOnClanWallResponseProto_PostOnClanWallStatusNoContentSent = 1,
-  PostOnClanWallResponseProto_PostOnClanWallStatusPostTooLarge = 2,
-  PostOnClanWallResponseProto_PostOnClanWallStatusOtherFail = 3,
-  PostOnClanWallResponseProto_PostOnClanWallStatusNotInClan = 4,
-} PostOnClanWallResponseProto_PostOnClanWallStatus;
+  PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess = 0,
+  PostOnClanBulletinResponseProto_PostOnClanBulletinStatusNoContentSent = 1,
+  PostOnClanBulletinResponseProto_PostOnClanBulletinStatusPostTooLarge = 2,
+  PostOnClanBulletinResponseProto_PostOnClanBulletinStatusOtherFail = 3,
+  PostOnClanBulletinResponseProto_PostOnClanBulletinStatusNotInClan = 4,
+} PostOnClanBulletinResponseProto_PostOnClanBulletinStatus;
 
-BOOL PostOnClanWallResponseProto_PostOnClanWallStatusIsValidValue(PostOnClanWallResponseProto_PostOnClanWallStatus value);
+BOOL PostOnClanBulletinResponseProto_PostOnClanBulletinStatusIsValidValue(PostOnClanBulletinResponseProto_PostOnClanBulletinStatus value);
 
 typedef enum {
-  RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusSuccess = 0,
-  RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusOtherFail = 1,
-  RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusNotInClan = 2,
-} RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatus;
+  RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatusSuccess = 0,
+  RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatusOtherFail = 1,
+  RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatusNotInClan = 2,
+} RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatus;
 
-BOOL RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusIsValidValue(RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatus value);
+BOOL RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatusIsValidValue(RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatus value);
 
 typedef enum {
   BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess = 0,
@@ -1879,38 +1887,41 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   BOOL hasExperienceRequiredForCurrentLevel_:1;
   BOOL hasExperienceRequiredForNextLevel_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasSender_:1;
-  BOOL hasStartupConstants_:1;
-  BOOL hasTutorialConstants_:1;
-  BOOL hasForgeAttemptEquip_:1;
-  BOOL hasUnhandledForgeAttempt_:1;
   BOOL hasDailyBonusInfo_:1;
-  BOOL hasStartupStatus_:1;
+  BOOL hasUnhandledForgeAttempt_:1;
+  BOOL hasForgeAttemptEquip_:1;
+  BOOL hasTutorialConstants_:1;
+  BOOL hasStartupConstants_:1;
+  BOOL hasSender_:1;
   BOOL hasUpdateStatus_:1;
+  BOOL hasStartupStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
   int32_t experienceRequiredForCurrentLevel;
   int32_t experienceRequiredForNextLevel;
   NSString* appStoreUrl;
-  FullUserProto* sender;
-  StartupResponseProto_StartupConstants* startupConstants;
-  StartupResponseProto_TutorialConstants* tutorialConstants;
-  FullEquipProto* forgeAttemptEquip;
-  UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
   StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
-  StartupResponseProto_StartupStatus startupStatus;
+  UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
+  FullEquipProto* forgeAttemptEquip;
+  StartupResponseProto_TutorialConstants* tutorialConstants;
+  StartupResponseProto_StartupConstants* startupConstants;
+  FullUserProto* sender;
   StartupResponseProto_UpdateStatus updateStatus;
+  StartupResponseProto_StartupStatus startupStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableEquipsList;
-  NSMutableArray* mutableUserClanInfoList;
-  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
-  NSMutableArray* mutableAttackNotificationsList;
-  NSMutableArray* mutableReferralNotificationsList;
-  NSMutableArray* mutablePlayerWallPostNotificationsList;
-  NSMutableArray* mutableClanWallPostNotificationsList;
-  NSMutableArray* mutableLockBoxEventsList;
-  NSMutableArray* mutableUserLockBoxEventsList;
-  NSMutableArray* mutableUserEquipsList;
+  NSMutableArray* mutableMktSearchEquipsList;
+  NSMutableArray* mutableGlobalChatsList;
+  NSMutableArray* mutableClanChatsList;
   NSMutableArray* mutableAlliesList;
+  NSMutableArray* mutableUserLockBoxEventsList;
+  NSMutableArray* mutableLockBoxEventsList;
+  NSMutableArray* mutableClanBulletinPostNotificationsList;
+  NSMutableArray* mutablePlayerWallPostNotificationsList;
+  NSMutableArray* mutableReferralNotificationsList;
+  NSMutableArray* mutableAttackNotificationsList;
+  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
+  NSMutableArray* mutableUserClanInfoList;
+  NSMutableArray* mutableEquipsList;
+  NSMutableArray* mutableUserEquipsList;
   NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableInProgressCompleteQuestsList;
   NSMutableArray* mutableInProgressIncompleteQuestsList;
@@ -1965,8 +1976,8 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (StartupResponseProto_ReferralNotificationProto*) referralNotificationsAtIndex:(int32_t) index;
 - (NSArray*) playerWallPostNotificationsList;
 - (PlayerWallPostProto*) playerWallPostNotificationsAtIndex:(int32_t) index;
-- (NSArray*) clanWallPostNotificationsList;
-- (ClanWallPostProto*) clanWallPostNotificationsAtIndex:(int32_t) index;
+- (NSArray*) clanBulletinPostNotificationsList;
+- (ClanBulletinPostProto*) clanBulletinPostNotificationsAtIndex:(int32_t) index;
 - (NSArray*) lockBoxEventsList;
 - (LockBoxEventProto*) lockBoxEventsAtIndex:(int32_t) index;
 - (NSArray*) userLockBoxEventsList;
@@ -1975,6 +1986,12 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (MinimumUserProtoWithLevel*) alliesAtIndex:(int32_t) index;
 - (NSArray*) noticesToPlayersList;
 - (NSString*) noticesToPlayersAtIndex:(int32_t) index;
+- (NSArray*) mktSearchEquipsList;
+- (MarketplaceSearchEquipProto*) mktSearchEquipsAtIndex:(int32_t) index;
+- (NSArray*) globalChatsList;
+- (GroupChatMessageProto*) globalChatsAtIndex:(int32_t) index;
+- (NSArray*) clanChatsList;
+- (GroupChatMessageProto*) clanChatsAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -2305,17 +2322,17 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasCutOfVaultDepositTaken_:1;
-  BOOL hasHealthFormulaExponentBase_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
-  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
+  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
+  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasCutOfVaultDepositTaken_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
+  BOOL hasHealthFormulaExponentBase_:1;
+  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
+  BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
+  BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
-  BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
-  BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasMaxCityRank_:1;
   BOOL hasArmoryImgVerticalPixelOffset_:1;
@@ -2323,21 +2340,19 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   BOOL hasMarketplaceImgVerticalPixelOffset_:1;
   BOOL hasCarpenterImgVerticalPixelOffset_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
-  BOOL hasDiamondCostToPlayThreeCardMonte_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
   BOOL hasMaxLengthOfChatString_:1;
-  BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
   BOOL hasAverageSizeOfLevelBracket_:1;
-  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
+  BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
   BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
-  BOOL hasMinBattlesRequiredForKdrconsideration_:1;
+  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
   BOOL hasMinNameLength_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasSizeOfAttackList_:1;
   BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
   BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
-  BOOL hasMaxLevelDifferenceForBattle_:1;
+  BOOL hasMinBattlesRequiredForKdrconsideration_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasArmoryXlength_:1;
   BOOL hasArmoryYlength_:1;
@@ -2348,6 +2363,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   BOOL hasCarpenterXlength_:1;
   BOOL hasCarpenterYlength_:1;
   BOOL hasAviaryXlength_:1;
+  BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasAviaryYlength_:1;
   BOOL hasAttackBaseGain_:1;
   BOOL hasDefenseBaseGain_:1;
@@ -2365,25 +2381,27 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasMaxNumberOfMarketplacePosts_:1;
+  BOOL hasExpansionConstants_:1;
   BOOL hasLockBoxConstants_:1;
-  BOOL hasGoldmineConstants_:1;
   BOOL hasClanConstants_:1;
+  BOOL hasThreeCardMonteConstants_:1;
+  BOOL hasGoldmineConstants_:1;
   BOOL hasCharModConstants_:1;
   BOOL hasForgeConstants_:1;
   BOOL hasKiipRewardConditions_:1;
   BOOL hasBattleConstants_:1;
   BOOL hasFormulaConstants_:1;
-  Float64 percentReturnedToUserForSellingEquipInArmory;
-  Float64 cutOfVaultDepositTaken;
-  Float64 healthFormulaExponentBase;
-  Float64 levelEquipBoostExponentBase;
-  Float64 percentReturnedToUserForSellingNormStructure;
-  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+  Float64 percentReturnedToUserForSellingNormStructure;
+  Float64 cutOfVaultDepositTaken;
+  Float64 levelEquipBoostExponentBase;
+  Float64 healthFormulaExponentBase;
+  Float64 percentReturnedToUserForSellingEquipInArmory;
+  int32_t numDaysLongMarketplaceLicenseLastsFor;
+  int32_t numDaysShortMarketplaceLicenseLastsFor;
   int32_t diamondCostOfLongMarketplaceLicense;
   int32_t diamondCostOfShortMarketplaceLicense;
-  int32_t numDaysShortMarketplaceLicenseLastsFor;
-  int32_t numDaysLongMarketplaceLicenseLastsFor;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t maxCityRank;
   int32_t armoryImgVerticalPixelOffset;
@@ -2391,21 +2409,19 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   int32_t marketplaceImgVerticalPixelOffset;
   int32_t carpenterImgVerticalPixelOffset;
   int32_t aviaryImgVerticalPixelOffset;
-  int32_t diamondCostToPlayThreeCardMonte;
   int32_t maxCharLengthForWallPost;
   int32_t playerWallPostsRetrieveCap;
   int32_t maxLengthOfChatString;
-  int32_t diamondPriceForGroupChatPurchasePackage;
   int32_t averageSizeOfLevelBracket;
-  int32_t numChatsGivenPerGroupChatPurchasePackage;
+  int32_t diamondPriceForGroupChatPurchasePackage;
   int32_t adColonyVideosRequiredToRedeemDiamonds;
-  int32_t minBattlesRequiredForKdrconsideration;
+  int32_t numChatsGivenPerGroupChatPurchasePackage;
   int32_t minNameLength;
   int32_t maxNameLength;
   int32_t sizeOfAttackList;
   int32_t maxNumTimesAttackedByOneInProtectionPeriod;
   int32_t hoursInAttackedByOneProtectionPeriod;
-  int32_t maxLevelDifferenceForBattle;
+  int32_t minBattlesRequiredForKdrconsideration;
   int32_t maxLevelForUser;
   int32_t armoryXlength;
   int32_t armoryYlength;
@@ -2416,6 +2432,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   int32_t carpenterXlength;
   int32_t carpenterYlength;
   int32_t aviaryXlength;
+  int32_t maxLevelDifferenceForBattle;
   int32_t aviaryYlength;
   int32_t attackBaseGain;
   int32_t defenseBaseGain;
@@ -2433,9 +2450,11 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   int32_t diamondCostForFullStaminaRefill;
   int32_t diamondCostForFullEnergyRefill;
   int32_t maxNumberOfMarketplacePosts;
+  StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
   StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
-  StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
+  StartupResponseProto_StartupConstants_ThreeCardMonteConstants* threeCardMonteConstants;
+  StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
   StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
   StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
   StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
@@ -2510,9 +2529,10 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (BOOL) hasDiamondPriceForGroupChatPurchasePackage;
 - (BOOL) hasMaxLengthOfChatString;
 - (BOOL) hasClanConstants;
-- (BOOL) hasDiamondCostToPlayThreeCardMonte;
+- (BOOL) hasThreeCardMonteConstants;
 - (BOOL) hasGoldmineConstants;
 - (BOOL) hasLockBoxConstants;
+- (BOOL) hasExpansionConstants;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2578,9 +2598,10 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 @property (readonly) int32_t diamondPriceForGroupChatPurchasePackage;
 @property (readonly) int32_t maxLengthOfChatString;
 @property (readonly, retain) StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-@property (readonly) int32_t diamondCostToPlayThreeCardMonte;
+@property (readonly, retain) StartupResponseProto_StartupConstants_ThreeCardMonteConstants* threeCardMonteConstants;
 @property (readonly, retain) StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
 @property (readonly, retain) StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
+@property (readonly, retain) StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2603,6 +2624,174 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_ThreeCardMonteConstants : PBGeneratedMessage {
+@private
+  BOOL hasBadMonteCardPercentageChance_:1;
+  BOOL hasMediumMonteCardPercentageChance_:1;
+  BOOL hasGoodMonteCardPercentageChance_:1;
+  BOOL hasDiamondCostToPlayThreeCardMonte_:1;
+  BOOL hasMinLevelToDisplayThreeCardMonte_:1;
+  Float32 badMonteCardPercentageChance;
+  Float32 mediumMonteCardPercentageChance;
+  Float32 goodMonteCardPercentageChance;
+  int32_t diamondCostToPlayThreeCardMonte;
+  int32_t minLevelToDisplayThreeCardMonte;
+}
+- (BOOL) hasDiamondCostToPlayThreeCardMonte;
+- (BOOL) hasMinLevelToDisplayThreeCardMonte;
+- (BOOL) hasBadMonteCardPercentageChance;
+- (BOOL) hasMediumMonteCardPercentageChance;
+- (BOOL) hasGoodMonteCardPercentageChance;
+@property (readonly) int32_t diamondCostToPlayThreeCardMonte;
+@property (readonly) int32_t minLevelToDisplayThreeCardMonte;
+@property (readonly) Float32 badMonteCardPercentageChance;
+@property (readonly) Float32 mediumMonteCardPercentageChance;
+@property (readonly) Float32 goodMonteCardPercentageChance;
+
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_ThreeCardMonteConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) build;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) other;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasDiamondCostToPlayThreeCardMonte;
+- (int32_t) diamondCostToPlayThreeCardMonte;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) setDiamondCostToPlayThreeCardMonte:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) clearDiamondCostToPlayThreeCardMonte;
+
+- (BOOL) hasMinLevelToDisplayThreeCardMonte;
+- (int32_t) minLevelToDisplayThreeCardMonte;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) setMinLevelToDisplayThreeCardMonte:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) clearMinLevelToDisplayThreeCardMonte;
+
+- (BOOL) hasBadMonteCardPercentageChance;
+- (Float32) badMonteCardPercentageChance;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) setBadMonteCardPercentageChance:(Float32) value;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) clearBadMonteCardPercentageChance;
+
+- (BOOL) hasMediumMonteCardPercentageChance;
+- (Float32) mediumMonteCardPercentageChance;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) setMediumMonteCardPercentageChance:(Float32) value;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) clearMediumMonteCardPercentageChance;
+
+- (BOOL) hasGoodMonteCardPercentageChance;
+- (Float32) goodMonteCardPercentageChance;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) setGoodMonteCardPercentageChance:(Float32) value;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) clearGoodMonteCardPercentageChance;
+@end
+
+@interface StartupResponseProto_StartupConstants_ExpansionConstants : PBGeneratedMessage {
+@private
+  BOOL hasExpansionWaitCompleteHourConstant_:1;
+  BOOL hasExpansionWaitCompleteHourIncrementBase_:1;
+  BOOL hasExpansionWaitCompleteBaseMinutesToOneGold_:1;
+  BOOL hasExpansionPurchaseCostConstant_:1;
+  BOOL hasExpansionPurchaseCostExponentBase_:1;
+  int32_t expansionWaitCompleteHourConstant;
+  int32_t expansionWaitCompleteHourIncrementBase;
+  int32_t expansionWaitCompleteBaseMinutesToOneGold;
+  int32_t expansionPurchaseCostConstant;
+  int32_t expansionPurchaseCostExponentBase;
+}
+- (BOOL) hasExpansionWaitCompleteHourConstant;
+- (BOOL) hasExpansionWaitCompleteHourIncrementBase;
+- (BOOL) hasExpansionWaitCompleteBaseMinutesToOneGold;
+- (BOOL) hasExpansionPurchaseCostConstant;
+- (BOOL) hasExpansionPurchaseCostExponentBase;
+@property (readonly) int32_t expansionWaitCompleteHourConstant;
+@property (readonly) int32_t expansionWaitCompleteHourIncrementBase;
+@property (readonly) int32_t expansionWaitCompleteBaseMinutesToOneGold;
+@property (readonly) int32_t expansionPurchaseCostConstant;
+@property (readonly) int32_t expansionPurchaseCostExponentBase;
+
++ (StartupResponseProto_StartupConstants_ExpansionConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_ExpansionConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_ExpansionConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_ExpansionConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_ExpansionConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_ExpansionConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_ExpansionConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_ExpansionConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_ExpansionConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_ExpansionConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_ExpansionConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_ExpansionConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_ExpansionConstants*) build;
+- (StartupResponseProto_StartupConstants_ExpansionConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_ExpansionConstants*) other;
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasExpansionWaitCompleteHourConstant;
+- (int32_t) expansionWaitCompleteHourConstant;
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) setExpansionWaitCompleteHourConstant:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) clearExpansionWaitCompleteHourConstant;
+
+- (BOOL) hasExpansionWaitCompleteHourIncrementBase;
+- (int32_t) expansionWaitCompleteHourIncrementBase;
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) setExpansionWaitCompleteHourIncrementBase:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) clearExpansionWaitCompleteHourIncrementBase;
+
+- (BOOL) hasExpansionWaitCompleteBaseMinutesToOneGold;
+- (int32_t) expansionWaitCompleteBaseMinutesToOneGold;
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) setExpansionWaitCompleteBaseMinutesToOneGold:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) clearExpansionWaitCompleteBaseMinutesToOneGold;
+
+- (BOOL) hasExpansionPurchaseCostConstant;
+- (int32_t) expansionPurchaseCostConstant;
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) setExpansionPurchaseCostConstant:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) clearExpansionPurchaseCostConstant;
+
+- (BOOL) hasExpansionPurchaseCostExponentBase;
+- (int32_t) expansionPurchaseCostExponentBase;
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) setExpansionPurchaseCostExponentBase:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) clearExpansionPurchaseCostExponentBase;
 @end
 
 @interface StartupResponseProto_StartupConstants_LockBoxConstants : PBGeneratedMessage {
@@ -3866,10 +4055,12 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (StartupResponseProto_StartupConstants_Builder*) mergeClanConstants:(StartupResponseProto_StartupConstants_ClanConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearClanConstants;
 
-- (BOOL) hasDiamondCostToPlayThreeCardMonte;
-- (int32_t) diamondCostToPlayThreeCardMonte;
-- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostToPlayThreeCardMonte:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostToPlayThreeCardMonte;
+- (BOOL) hasThreeCardMonteConstants;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) threeCardMonteConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setThreeCardMonteConstants:(StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setThreeCardMonteConstantsBuilder:(StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeThreeCardMonteConstants:(StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearThreeCardMonteConstants;
 
 - (BOOL) hasGoldmineConstants;
 - (StartupResponseProto_StartupConstants_GoldmineConstants*) goldmineConstants;
@@ -3884,6 +4075,13 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (StartupResponseProto_StartupConstants_Builder*) setLockBoxConstantsBuilder:(StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeLockBoxConstants:(StartupResponseProto_StartupConstants_LockBoxConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearLockBoxConstants;
+
+- (BOOL) hasExpansionConstants;
+- (StartupResponseProto_StartupConstants_ExpansionConstants*) expansionConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setExpansionConstants:(StartupResponseProto_StartupConstants_ExpansionConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setExpansionConstantsBuilder:(StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeExpansionConstants:(StartupResponseProto_StartupConstants_ExpansionConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearExpansionConstants;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -4579,12 +4777,12 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (StartupResponseProto_Builder*) addAllPlayerWallPostNotifications:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearPlayerWallPostNotificationsList;
 
-- (NSArray*) clanWallPostNotificationsList;
-- (ClanWallPostProto*) clanWallPostNotificationsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceClanWallPostNotificationsAtIndex:(int32_t) index with:(ClanWallPostProto*) value;
-- (StartupResponseProto_Builder*) addClanWallPostNotifications:(ClanWallPostProto*) value;
-- (StartupResponseProto_Builder*) addAllClanWallPostNotifications:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearClanWallPostNotificationsList;
+- (NSArray*) clanBulletinPostNotificationsList;
+- (ClanBulletinPostProto*) clanBulletinPostNotificationsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceClanBulletinPostNotificationsAtIndex:(int32_t) index with:(ClanBulletinPostProto*) value;
+- (StartupResponseProto_Builder*) addClanBulletinPostNotifications:(ClanBulletinPostProto*) value;
+- (StartupResponseProto_Builder*) addAllClanBulletinPostNotifications:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearClanBulletinPostNotificationsList;
 
 - (NSArray*) lockBoxEventsList;
 - (LockBoxEventProto*) lockBoxEventsAtIndex:(int32_t) index;
@@ -4644,6 +4842,27 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (StartupResponseProto_Builder*) addNoticesToPlayers:(NSString*) value;
 - (StartupResponseProto_Builder*) addAllNoticesToPlayers:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearNoticesToPlayersList;
+
+- (NSArray*) mktSearchEquipsList;
+- (MarketplaceSearchEquipProto*) mktSearchEquipsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceMktSearchEquipsAtIndex:(int32_t) index with:(MarketplaceSearchEquipProto*) value;
+- (StartupResponseProto_Builder*) addMktSearchEquips:(MarketplaceSearchEquipProto*) value;
+- (StartupResponseProto_Builder*) addAllMktSearchEquips:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearMktSearchEquipsList;
+
+- (NSArray*) globalChatsList;
+- (GroupChatMessageProto*) globalChatsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceGlobalChatsAtIndex:(int32_t) index with:(GroupChatMessageProto*) value;
+- (StartupResponseProto_Builder*) addGlobalChats:(GroupChatMessageProto*) value;
+- (StartupResponseProto_Builder*) addAllGlobalChats:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearGlobalChatsList;
+
+- (NSArray*) clanChatsList;
+- (GroupChatMessageProto*) clanChatsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceClanChatsAtIndex:(int32_t) index with:(GroupChatMessageProto*) value;
+- (StartupResponseProto_Builder*) addClanChats:(GroupChatMessageProto*) value;
+- (StartupResponseProto_Builder*) addAllClanChats:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearClanChatsList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
@@ -8083,20 +8302,10 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 @private
   BOOL hasSender_:1;
   BOOL hasCityOwner_:1;
-  BOOL hasArmory_:1;
-  BOOL hasVault_:1;
-  BOOL hasMarketplace_:1;
-  BOOL hasCarpenter_:1;
-  BOOL hasAviary_:1;
   BOOL hasUserCityExpansionData_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   MinimumUserProto* cityOwner;
-  FullUserCritstructProto* armory;
-  FullUserCritstructProto* vault;
-  FullUserCritstructProto* marketplace;
-  FullUserCritstructProto* carpenter;
-  FullUserCritstructProto* aviary;
   FullUserCityExpansionDataProto* userCityExpansionData;
   LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
   NSMutableArray* mutableOwnerNormStructsList;
@@ -8106,20 +8315,10 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (BOOL) hasSender;
 - (BOOL) hasCityOwner;
 - (BOOL) hasStatus;
-- (BOOL) hasArmory;
-- (BOOL) hasVault;
-- (BOOL) hasMarketplace;
-- (BOOL) hasCarpenter;
-- (BOOL) hasAviary;
 - (BOOL) hasUserCityExpansionData;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly, retain) MinimumUserProto* cityOwner;
 @property (readonly) LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
-@property (readonly, retain) FullUserCritstructProto* armory;
-@property (readonly, retain) FullUserCritstructProto* vault;
-@property (readonly, retain) FullUserCritstructProto* marketplace;
-@property (readonly, retain) FullUserCritstructProto* carpenter;
-@property (readonly, retain) FullUserCritstructProto* aviary;
 @property (readonly, retain) FullUserCityExpansionDataProto* userCityExpansionData;
 - (NSArray*) ownerNormStructsList;
 - (FullUserStructureProto*) ownerNormStructsAtIndex:(int32_t) index;
@@ -8201,41 +8400,6 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (LoadPlayerCityResponseProto_Builder*) addOwnerEnemies:(FullUserProto*) value;
 - (LoadPlayerCityResponseProto_Builder*) addAllOwnerEnemies:(NSArray*) values;
 - (LoadPlayerCityResponseProto_Builder*) clearOwnerEnemiesList;
-
-- (BOOL) hasArmory;
-- (FullUserCritstructProto*) armory;
-- (LoadPlayerCityResponseProto_Builder*) setArmory:(FullUserCritstructProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) setArmoryBuilder:(FullUserCritstructProto_Builder*) builderForValue;
-- (LoadPlayerCityResponseProto_Builder*) mergeArmory:(FullUserCritstructProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) clearArmory;
-
-- (BOOL) hasVault;
-- (FullUserCritstructProto*) vault;
-- (LoadPlayerCityResponseProto_Builder*) setVault:(FullUserCritstructProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) setVaultBuilder:(FullUserCritstructProto_Builder*) builderForValue;
-- (LoadPlayerCityResponseProto_Builder*) mergeVault:(FullUserCritstructProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) clearVault;
-
-- (BOOL) hasMarketplace;
-- (FullUserCritstructProto*) marketplace;
-- (LoadPlayerCityResponseProto_Builder*) setMarketplace:(FullUserCritstructProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) setMarketplaceBuilder:(FullUserCritstructProto_Builder*) builderForValue;
-- (LoadPlayerCityResponseProto_Builder*) mergeMarketplace:(FullUserCritstructProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) clearMarketplace;
-
-- (BOOL) hasCarpenter;
-- (FullUserCritstructProto*) carpenter;
-- (LoadPlayerCityResponseProto_Builder*) setCarpenter:(FullUserCritstructProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) setCarpenterBuilder:(FullUserCritstructProto_Builder*) builderForValue;
-- (LoadPlayerCityResponseProto_Builder*) mergeCarpenter:(FullUserCritstructProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) clearCarpenter;
-
-- (BOOL) hasAviary;
-- (FullUserCritstructProto*) aviary;
-- (LoadPlayerCityResponseProto_Builder*) setAviary:(FullUserCritstructProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) setAviaryBuilder:(FullUserCritstructProto_Builder*) builderForValue;
-- (LoadPlayerCityResponseProto_Builder*) mergeAviary:(FullUserCritstructProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) clearAviary;
 
 - (BOOL) hasUserCityExpansionData;
 - (FullUserCityExpansionDataProto*) userCityExpansionData;
@@ -9164,15 +9328,19 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 
 @interface ExpansionWaitCompleteRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasSpeedUp_:1;
   BOOL hasCurTime_:1;
   BOOL hasSender_:1;
+  BOOL speedUp_:1;
   int64_t curTime;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasCurTime;
+- (BOOL) hasSpeedUp;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t curTime;
+- (BOOL) speedUp;
 
 + (ExpansionWaitCompleteRequestProto*) defaultInstance;
 - (ExpansionWaitCompleteRequestProto*) defaultInstance;
@@ -9219,6 +9387,11 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (int64_t) curTime;
 - (ExpansionWaitCompleteRequestProto_Builder*) setCurTime:(int64_t) value;
 - (ExpansionWaitCompleteRequestProto_Builder*) clearCurTime;
+
+- (BOOL) hasSpeedUp;
+- (BOOL) speedUp;
+- (ExpansionWaitCompleteRequestProto_Builder*) setSpeedUp:(BOOL) value;
+- (ExpansionWaitCompleteRequestProto_Builder*) clearSpeedUp;
 @end
 
 @interface ExpansionWaitCompleteResponseProto : PBGeneratedMessage {
@@ -11943,9 +12116,11 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 
 @interface SendGroupChatRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasChatMessage_:1;
   BOOL hasSender_:1;
   BOOL hasScope_:1;
+  int64_t clientTime;
   NSString* chatMessage;
   MinimumUserProto* sender;
   GroupChatScope scope;
@@ -11953,9 +12128,11 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (BOOL) hasSender;
 - (BOOL) hasScope;
 - (BOOL) hasChatMessage;
+- (BOOL) hasClientTime;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) GroupChatScope scope;
 @property (readonly, retain) NSString* chatMessage;
+@property (readonly) int64_t clientTime;
 
 + (SendGroupChatRequestProto*) defaultInstance;
 - (SendGroupChatRequestProto*) defaultInstance;
@@ -12007,6 +12184,11 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (NSString*) chatMessage;
 - (SendGroupChatRequestProto_Builder*) setChatMessage:(NSString*) value;
 - (SendGroupChatRequestProto_Builder*) clearChatMessage;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (SendGroupChatRequestProto_Builder*) setClientTime:(int64_t) value;
+- (SendGroupChatRequestProto_Builder*) clearClientTime;
 @end
 
 @interface SendGroupChatResponseProto : PBGeneratedMessage {
@@ -13412,7 +13594,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (ChangeClanDescriptionResponseProto_Builder*) clearFullClan;
 @end
 
-@interface PostOnClanWallRequestProto : PBGeneratedMessage {
+@interface PostOnClanBulletinRequestProto : PBGeneratedMessage {
 @private
   BOOL hasContent_:1;
   BOOL hasSender_:1;
@@ -13424,124 +13606,124 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly, retain) NSString* content;
 
-+ (PostOnClanWallRequestProto*) defaultInstance;
-- (PostOnClanWallRequestProto*) defaultInstance;
++ (PostOnClanBulletinRequestProto*) defaultInstance;
+- (PostOnClanBulletinRequestProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (PostOnClanWallRequestProto_Builder*) builder;
-+ (PostOnClanWallRequestProto_Builder*) builder;
-+ (PostOnClanWallRequestProto_Builder*) builderWithPrototype:(PostOnClanWallRequestProto*) prototype;
+- (PostOnClanBulletinRequestProto_Builder*) builder;
++ (PostOnClanBulletinRequestProto_Builder*) builder;
++ (PostOnClanBulletinRequestProto_Builder*) builderWithPrototype:(PostOnClanBulletinRequestProto*) prototype;
 
-+ (PostOnClanWallRequestProto*) parseFromData:(NSData*) data;
-+ (PostOnClanWallRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PostOnClanWallRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (PostOnClanWallRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PostOnClanWallRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (PostOnClanWallRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PostOnClanBulletinRequestProto*) parseFromData:(NSData*) data;
++ (PostOnClanBulletinRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PostOnClanBulletinRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (PostOnClanBulletinRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PostOnClanBulletinRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PostOnClanBulletinRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PostOnClanWallRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface PostOnClanBulletinRequestProto_Builder : PBGeneratedMessage_Builder {
 @private
-  PostOnClanWallRequestProto* result;
+  PostOnClanBulletinRequestProto* result;
 }
 
-- (PostOnClanWallRequestProto*) defaultInstance;
+- (PostOnClanBulletinRequestProto*) defaultInstance;
 
-- (PostOnClanWallRequestProto_Builder*) clear;
-- (PostOnClanWallRequestProto_Builder*) clone;
+- (PostOnClanBulletinRequestProto_Builder*) clear;
+- (PostOnClanBulletinRequestProto_Builder*) clone;
 
-- (PostOnClanWallRequestProto*) build;
-- (PostOnClanWallRequestProto*) buildPartial;
+- (PostOnClanBulletinRequestProto*) build;
+- (PostOnClanBulletinRequestProto*) buildPartial;
 
-- (PostOnClanWallRequestProto_Builder*) mergeFrom:(PostOnClanWallRequestProto*) other;
-- (PostOnClanWallRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (PostOnClanWallRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (PostOnClanBulletinRequestProto_Builder*) mergeFrom:(PostOnClanBulletinRequestProto*) other;
+- (PostOnClanBulletinRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PostOnClanBulletinRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (PostOnClanWallRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (PostOnClanWallRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (PostOnClanWallRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (PostOnClanWallRequestProto_Builder*) clearSender;
+- (PostOnClanBulletinRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PostOnClanBulletinRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PostOnClanBulletinRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PostOnClanBulletinRequestProto_Builder*) clearSender;
 
 - (BOOL) hasContent;
 - (NSString*) content;
-- (PostOnClanWallRequestProto_Builder*) setContent:(NSString*) value;
-- (PostOnClanWallRequestProto_Builder*) clearContent;
+- (PostOnClanBulletinRequestProto_Builder*) setContent:(NSString*) value;
+- (PostOnClanBulletinRequestProto_Builder*) clearContent;
 @end
 
-@interface PostOnClanWallResponseProto : PBGeneratedMessage {
+@interface PostOnClanBulletinResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
   BOOL hasPost_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  ClanWallPostProto* post;
-  PostOnClanWallResponseProto_PostOnClanWallStatus status;
+  ClanBulletinPostProto* post;
+  PostOnClanBulletinResponseProto_PostOnClanBulletinStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasPost;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) PostOnClanWallResponseProto_PostOnClanWallStatus status;
-@property (readonly, retain) ClanWallPostProto* post;
+@property (readonly) PostOnClanBulletinResponseProto_PostOnClanBulletinStatus status;
+@property (readonly, retain) ClanBulletinPostProto* post;
 
-+ (PostOnClanWallResponseProto*) defaultInstance;
-- (PostOnClanWallResponseProto*) defaultInstance;
++ (PostOnClanBulletinResponseProto*) defaultInstance;
+- (PostOnClanBulletinResponseProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (PostOnClanWallResponseProto_Builder*) builder;
-+ (PostOnClanWallResponseProto_Builder*) builder;
-+ (PostOnClanWallResponseProto_Builder*) builderWithPrototype:(PostOnClanWallResponseProto*) prototype;
+- (PostOnClanBulletinResponseProto_Builder*) builder;
++ (PostOnClanBulletinResponseProto_Builder*) builder;
++ (PostOnClanBulletinResponseProto_Builder*) builderWithPrototype:(PostOnClanBulletinResponseProto*) prototype;
 
-+ (PostOnClanWallResponseProto*) parseFromData:(NSData*) data;
-+ (PostOnClanWallResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PostOnClanWallResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (PostOnClanWallResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PostOnClanWallResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (PostOnClanWallResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PostOnClanBulletinResponseProto*) parseFromData:(NSData*) data;
++ (PostOnClanBulletinResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PostOnClanBulletinResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (PostOnClanBulletinResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PostOnClanBulletinResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PostOnClanBulletinResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PostOnClanWallResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface PostOnClanBulletinResponseProto_Builder : PBGeneratedMessage_Builder {
 @private
-  PostOnClanWallResponseProto* result;
+  PostOnClanBulletinResponseProto* result;
 }
 
-- (PostOnClanWallResponseProto*) defaultInstance;
+- (PostOnClanBulletinResponseProto*) defaultInstance;
 
-- (PostOnClanWallResponseProto_Builder*) clear;
-- (PostOnClanWallResponseProto_Builder*) clone;
+- (PostOnClanBulletinResponseProto_Builder*) clear;
+- (PostOnClanBulletinResponseProto_Builder*) clone;
 
-- (PostOnClanWallResponseProto*) build;
-- (PostOnClanWallResponseProto*) buildPartial;
+- (PostOnClanBulletinResponseProto*) build;
+- (PostOnClanBulletinResponseProto*) buildPartial;
 
-- (PostOnClanWallResponseProto_Builder*) mergeFrom:(PostOnClanWallResponseProto*) other;
-- (PostOnClanWallResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (PostOnClanWallResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (PostOnClanBulletinResponseProto_Builder*) mergeFrom:(PostOnClanBulletinResponseProto*) other;
+- (PostOnClanBulletinResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PostOnClanBulletinResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (PostOnClanWallResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (PostOnClanWallResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (PostOnClanWallResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (PostOnClanWallResponseProto_Builder*) clearSender;
+- (PostOnClanBulletinResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PostOnClanBulletinResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PostOnClanBulletinResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PostOnClanBulletinResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (PostOnClanWallResponseProto_PostOnClanWallStatus) status;
-- (PostOnClanWallResponseProto_Builder*) setStatus:(PostOnClanWallResponseProto_PostOnClanWallStatus) value;
-- (PostOnClanWallResponseProto_Builder*) clearStatus;
+- (PostOnClanBulletinResponseProto_PostOnClanBulletinStatus) status;
+- (PostOnClanBulletinResponseProto_Builder*) setStatus:(PostOnClanBulletinResponseProto_PostOnClanBulletinStatus) value;
+- (PostOnClanBulletinResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasPost;
-- (ClanWallPostProto*) post;
-- (PostOnClanWallResponseProto_Builder*) setPost:(ClanWallPostProto*) value;
-- (PostOnClanWallResponseProto_Builder*) setPostBuilder:(ClanWallPostProto_Builder*) builderForValue;
-- (PostOnClanWallResponseProto_Builder*) mergePost:(ClanWallPostProto*) value;
-- (PostOnClanWallResponseProto_Builder*) clearPost;
+- (ClanBulletinPostProto*) post;
+- (PostOnClanBulletinResponseProto_Builder*) setPost:(ClanBulletinPostProto*) value;
+- (PostOnClanBulletinResponseProto_Builder*) setPostBuilder:(ClanBulletinPostProto_Builder*) builderForValue;
+- (PostOnClanBulletinResponseProto_Builder*) mergePost:(ClanBulletinPostProto*) value;
+- (PostOnClanBulletinResponseProto_Builder*) clearPost;
 @end
 
-@interface RetrieveClanWallPostsRequestProto : PBGeneratedMessage {
+@interface RetrieveClanBulletinPostsRequestProto : PBGeneratedMessage {
 @private
   BOOL hasBeforeThisPostId_:1;
   BOOL hasSender_:1;
@@ -13553,129 +13735,129 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t beforeThisPostId;
 
-+ (RetrieveClanWallPostsRequestProto*) defaultInstance;
-- (RetrieveClanWallPostsRequestProto*) defaultInstance;
++ (RetrieveClanBulletinPostsRequestProto*) defaultInstance;
+- (RetrieveClanBulletinPostsRequestProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetrieveClanWallPostsRequestProto_Builder*) builder;
-+ (RetrieveClanWallPostsRequestProto_Builder*) builder;
-+ (RetrieveClanWallPostsRequestProto_Builder*) builderWithPrototype:(RetrieveClanWallPostsRequestProto*) prototype;
+- (RetrieveClanBulletinPostsRequestProto_Builder*) builder;
++ (RetrieveClanBulletinPostsRequestProto_Builder*) builder;
++ (RetrieveClanBulletinPostsRequestProto_Builder*) builderWithPrototype:(RetrieveClanBulletinPostsRequestProto*) prototype;
 
-+ (RetrieveClanWallPostsRequestProto*) parseFromData:(NSData*) data;
-+ (RetrieveClanWallPostsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveClanWallPostsRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RetrieveClanWallPostsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveClanWallPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetrieveClanWallPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveClanBulletinPostsRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveClanBulletinPostsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveClanBulletinPostsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveClanBulletinPostsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveClanBulletinPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveClanBulletinPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RetrieveClanWallPostsRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface RetrieveClanBulletinPostsRequestProto_Builder : PBGeneratedMessage_Builder {
 @private
-  RetrieveClanWallPostsRequestProto* result;
+  RetrieveClanBulletinPostsRequestProto* result;
 }
 
-- (RetrieveClanWallPostsRequestProto*) defaultInstance;
+- (RetrieveClanBulletinPostsRequestProto*) defaultInstance;
 
-- (RetrieveClanWallPostsRequestProto_Builder*) clear;
-- (RetrieveClanWallPostsRequestProto_Builder*) clone;
+- (RetrieveClanBulletinPostsRequestProto_Builder*) clear;
+- (RetrieveClanBulletinPostsRequestProto_Builder*) clone;
 
-- (RetrieveClanWallPostsRequestProto*) build;
-- (RetrieveClanWallPostsRequestProto*) buildPartial;
+- (RetrieveClanBulletinPostsRequestProto*) build;
+- (RetrieveClanBulletinPostsRequestProto*) buildPartial;
 
-- (RetrieveClanWallPostsRequestProto_Builder*) mergeFrom:(RetrieveClanWallPostsRequestProto*) other;
-- (RetrieveClanWallPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetrieveClanWallPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (RetrieveClanBulletinPostsRequestProto_Builder*) mergeFrom:(RetrieveClanBulletinPostsRequestProto*) other;
+- (RetrieveClanBulletinPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveClanBulletinPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (RetrieveClanWallPostsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveClanWallPostsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetrieveClanWallPostsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RetrieveClanWallPostsRequestProto_Builder*) clearSender;
+- (RetrieveClanBulletinPostsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveClanBulletinPostsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveClanBulletinPostsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveClanBulletinPostsRequestProto_Builder*) clearSender;
 
 - (BOOL) hasBeforeThisPostId;
 - (int32_t) beforeThisPostId;
-- (RetrieveClanWallPostsRequestProto_Builder*) setBeforeThisPostId:(int32_t) value;
-- (RetrieveClanWallPostsRequestProto_Builder*) clearBeforeThisPostId;
+- (RetrieveClanBulletinPostsRequestProto_Builder*) setBeforeThisPostId:(int32_t) value;
+- (RetrieveClanBulletinPostsRequestProto_Builder*) clearBeforeThisPostId;
 @end
 
-@interface RetrieveClanWallPostsResponseProto : PBGeneratedMessage {
+@interface RetrieveClanBulletinPostsResponseProto : PBGeneratedMessage {
 @private
   BOOL hasBeforeThisPostId_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   int32_t beforeThisPostId;
   MinimumUserProto* sender;
-  RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatus status;
-  NSMutableArray* mutableClanWallPostsList;
+  RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatus status;
+  NSMutableArray* mutableClanBulletinPostsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasBeforeThisPostId;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t beforeThisPostId;
-@property (readonly) RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatus status;
-- (NSArray*) clanWallPostsList;
-- (ClanWallPostProto*) clanWallPostsAtIndex:(int32_t) index;
+@property (readonly) RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatus status;
+- (NSArray*) clanBulletinPostsList;
+- (ClanBulletinPostProto*) clanBulletinPostsAtIndex:(int32_t) index;
 
-+ (RetrieveClanWallPostsResponseProto*) defaultInstance;
-- (RetrieveClanWallPostsResponseProto*) defaultInstance;
++ (RetrieveClanBulletinPostsResponseProto*) defaultInstance;
+- (RetrieveClanBulletinPostsResponseProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetrieveClanWallPostsResponseProto_Builder*) builder;
-+ (RetrieveClanWallPostsResponseProto_Builder*) builder;
-+ (RetrieveClanWallPostsResponseProto_Builder*) builderWithPrototype:(RetrieveClanWallPostsResponseProto*) prototype;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) builder;
++ (RetrieveClanBulletinPostsResponseProto_Builder*) builder;
++ (RetrieveClanBulletinPostsResponseProto_Builder*) builderWithPrototype:(RetrieveClanBulletinPostsResponseProto*) prototype;
 
-+ (RetrieveClanWallPostsResponseProto*) parseFromData:(NSData*) data;
-+ (RetrieveClanWallPostsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveClanWallPostsResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RetrieveClanWallPostsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveClanWallPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetrieveClanWallPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveClanBulletinPostsResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveClanBulletinPostsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveClanBulletinPostsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveClanBulletinPostsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveClanBulletinPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveClanBulletinPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RetrieveClanWallPostsResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface RetrieveClanBulletinPostsResponseProto_Builder : PBGeneratedMessage_Builder {
 @private
-  RetrieveClanWallPostsResponseProto* result;
+  RetrieveClanBulletinPostsResponseProto* result;
 }
 
-- (RetrieveClanWallPostsResponseProto*) defaultInstance;
+- (RetrieveClanBulletinPostsResponseProto*) defaultInstance;
 
-- (RetrieveClanWallPostsResponseProto_Builder*) clear;
-- (RetrieveClanWallPostsResponseProto_Builder*) clone;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) clear;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) clone;
 
-- (RetrieveClanWallPostsResponseProto*) build;
-- (RetrieveClanWallPostsResponseProto*) buildPartial;
+- (RetrieveClanBulletinPostsResponseProto*) build;
+- (RetrieveClanBulletinPostsResponseProto*) buildPartial;
 
-- (RetrieveClanWallPostsResponseProto_Builder*) mergeFrom:(RetrieveClanWallPostsResponseProto*) other;
-- (RetrieveClanWallPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetrieveClanWallPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) mergeFrom:(RetrieveClanBulletinPostsResponseProto*) other;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (RetrieveClanWallPostsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveClanWallPostsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetrieveClanWallPostsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RetrieveClanWallPostsResponseProto_Builder*) clearSender;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) clearSender;
 
 - (BOOL) hasBeforeThisPostId;
 - (int32_t) beforeThisPostId;
-- (RetrieveClanWallPostsResponseProto_Builder*) setBeforeThisPostId:(int32_t) value;
-- (RetrieveClanWallPostsResponseProto_Builder*) clearBeforeThisPostId;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) setBeforeThisPostId:(int32_t) value;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) clearBeforeThisPostId;
 
 - (BOOL) hasStatus;
-- (RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatus) status;
-- (RetrieveClanWallPostsResponseProto_Builder*) setStatus:(RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatus) value;
-- (RetrieveClanWallPostsResponseProto_Builder*) clearStatus;
+- (RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatus) status;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) setStatus:(RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatus) value;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) clearStatus;
 
-- (NSArray*) clanWallPostsList;
-- (ClanWallPostProto*) clanWallPostsAtIndex:(int32_t) index;
-- (RetrieveClanWallPostsResponseProto_Builder*) replaceClanWallPostsAtIndex:(int32_t) index with:(ClanWallPostProto*) value;
-- (RetrieveClanWallPostsResponseProto_Builder*) addClanWallPosts:(ClanWallPostProto*) value;
-- (RetrieveClanWallPostsResponseProto_Builder*) addAllClanWallPosts:(NSArray*) values;
-- (RetrieveClanWallPostsResponseProto_Builder*) clearClanWallPostsList;
+- (NSArray*) clanBulletinPostsList;
+- (ClanBulletinPostProto*) clanBulletinPostsAtIndex:(int32_t) index;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) replaceClanBulletinPostsAtIndex:(int32_t) index with:(ClanBulletinPostProto*) value;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) addClanBulletinPosts:(ClanBulletinPostProto*) value;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) addAllClanBulletinPosts:(NSArray*) values;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) clearClanBulletinPostsList;
 @end
 
 @interface BootPlayerFromClanRequestProto : PBGeneratedMessage {

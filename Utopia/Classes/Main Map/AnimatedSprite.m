@@ -273,9 +273,11 @@
   _aboveHeadMark.position = ccpAdd(_nameLabel.position, ccp(0, 7+_aboveHeadMark.contentSize.height*_aboveHeadMark.anchorPoint.y));
   
   if (questGiverState == kAvailable || questGiverState == kCompleted) {
-    CCRotateBy *right = [CCRotateBy actionWithDuration:0.03f angle:3];
-    CCActionInterval *left = right.reverse;
-    CCRepeat *ring = [CCRepeat actionWithAction:[CCSequence actions:right, left, left, right, nil] times:5];
+    CCRotateBy *right1 = [CCRotateTo actionWithDuration:0.03f angle:3];
+    CCActionInterval *left = [CCRotateTo actionWithDuration:0.06f angle:-3];
+    CCRotateBy *right2 = [CCRotateTo actionWithDuration:0.03f angle:0];
+    _aboveHeadMark.rotation = -3;
+    CCRepeat *ring = [CCRepeat actionWithAction:[CCSequence actions:right1, left, right2, nil] times:5];
     [_aboveHeadMark runAction:[CCRepeatForever actionWithAction:
                                [CCSequence actions:
                                 ring,

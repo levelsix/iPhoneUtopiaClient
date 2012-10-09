@@ -609,10 +609,53 @@
 
 @synthesize message, sender, date;
 
+- (id) initWithProto:(GroupChatMessageProto *)p {
+  if ((self = [super init])) {
+    self.message = [p.content copy];
+    self.sender = p.sender;
+    self.date = [NSDate dateWithTimeIntervalSince1970:p.timeOfChat/1000.];
+  }
+  return self;
+}
+
 - (void) dealloc {
   self.message = nil;
   self.sender = nil;
   self.date = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation UserExpansion
+
+@synthesize userId, isExpanding, lastExpandDirection, lastExpandTime;
+@synthesize farLeftExpansions, farRightExpansions, nearLeftExpansions, nearRightExpansions;
+
+- (id) initWithFullUserCityExpansionDataProto:(FullUserCityExpansionDataProto *)proto {
+  if ((self = [super init])) {
+    self.userId = proto.userId;
+    self.farLeftExpansions = proto.farLeftExpansions;
+    self.farRightExpansions = proto.farRightExpansions;
+    self.nearLeftExpansions = proto.nearLeftExpansions;
+    self.nearRightExpansions = proto.nearRightExpansions;
+    self.lastExpandTime = proto.hasLastExpandTime ? [NSDate dateWithTimeIntervalSince1970:proto.lastExpandTime/1000.0] : nil;
+    self.isExpanding = proto.isExpanding;
+    self.lastExpandDirection = proto.lastExpandDirection;
+  }
+  return self;
+}
+
++ (id) userExpansionWithFullUserCityExpansionDataProto:(FullUserCityExpansionDataProto *)proto {
+  return [[[self alloc] initWithFullUserCityExpansionDataProto:proto] autorelease];
+}
+
+- (int) numCompletedExpansions {
+  return farLeftExpansions + farRightExpansions + nearLeftExpansions + nearRightExpansions;
+}
+
+- (void) dealloc {
+  self.lastExpandTime = nil;
   [super dealloc];
 }
 

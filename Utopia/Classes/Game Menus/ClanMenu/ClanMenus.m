@@ -18,7 +18,7 @@
 #define CLAN_POST_LABEL_MIN_Y 28.75
 #define CLAN_POST_CELL_OFFSET 5
 #define CLAN_POST_FONT [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:15]
-#define CLAN_POST_LABEL_WIDTH 473
+#define CLAN_POST_LABEL_WIDTH 399
 
 #define REFRESH_ROWS 20
 
@@ -71,7 +71,7 @@
   buttonLabel.text = @"GO TO CLAN LIST";
   _goToMyClan = NO;
 }
-
+ 
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
   NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
   Globals *gl = [Globals sharedGlobals];
@@ -782,7 +782,7 @@
   [self.contentView.layer insertSublayer:gradientLayer atIndex:0];
 }
 
-- (void) updateForBoardPost:(ClanWallPostProto *)boardPost {
+- (void) updateForBoardPost:(ClanBulletinPostProto *)boardPost {
   [playerIcon setImage:[Globals squareImageForUser:boardPost.poster.userType] forState:UIControlStateNormal];
   [nameLabel setTitle:boardPost.poster.name forState:UIControlStateNormal];
   timeLabel.text = [Globals stringForTimeSinceNow:[NSDate dateWithTimeIntervalSince1970:boardPost.timeOfPost/1000.0]];
@@ -887,7 +887,7 @@
 } 
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  ClanWallPostProto *boardPost = [self.boardPosts objectAtIndex:indexPath.row];
+  ClanBulletinPostProto *boardPost = [self.boardPosts objectAtIndex:indexPath.row];
   
   CGSize size = CGSizeMake(CLAN_POST_LABEL_WIDTH, 9999);
   size = [boardPost.content sizeWithFont:CLAN_POST_FONT constrainedToSize:size];
@@ -901,7 +901,7 @@
   } else {
     NSString *content = boardTextField.text;
     if (content.length > 0) {
-      ClanWallPostProto *boardPost = [[OutgoingEventController sharedOutgoingEventController] postOnClanWall:content];
+      ClanBulletinPostProto *boardPost = [[OutgoingEventController sharedOutgoingEventController] postOnClanBulletin:content];
       
       if (boardPost) {
         [self.boardPosts insertObject:boardPost atIndex:0];
@@ -940,7 +940,7 @@
 - (IBAction)visitProfile:(id)sender {
   UITableViewCell *cell = (UITableViewCell *)[[sender superview] superview];
   NSIndexPath *path = [boardTableView indexPathForCell:cell];
-  ClanWallPostProto *proto = [boardPosts objectAtIndex:path.row];
+  ClanBulletinPostProto *proto = [boardPosts objectAtIndex:path.row];
   
   [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:proto.poster withState:kProfileState];
 }

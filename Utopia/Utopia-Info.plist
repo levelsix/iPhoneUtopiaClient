@@ -28,7 +28,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2</string>
+	<string>1.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -65,6 +65,7 @@
 		<string>FF_DIN_Condensed_Black.otf</string>
 		<string>RequiemText-HTF-SmallCaps.otf</string>
 		<string>SanvitoPro-Semibold.ttf</string>
+		<string>Archer-BoldItal-Pro.otf</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

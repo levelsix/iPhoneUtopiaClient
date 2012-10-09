@@ -176,4 +176,22 @@ typedef enum {
 @property (nonatomic, retain) NSString *message;
 @property (nonatomic, retain) NSDate *date;
 
+- (id) initWithProto:(GroupChatMessageProto *)p;
+
+@end
+
+@interface UserExpansion : NSObject
+
+@property (nonatomic, assign) int userId;
+@property (nonatomic, assign) int farLeftExpansions;
+@property (nonatomic, assign) int farRightExpansions;
+@property (nonatomic, assign) int nearLeftExpansions;
+@property (nonatomic, assign) int nearRightExpansions;
+@property (nonatomic, assign) BOOL isExpanding;
+@property (nonatomic, retain) NSDate *lastExpandTime;
+@property (nonatomic, assign) ExpansionDirection lastExpandDirection;
+
++ (id) userExpansionWithFullUserCityExpansionDataProto:(FullUserCityExpansionDataProto *)proto;
+- (int) numCompletedExpansions;
+
 @end

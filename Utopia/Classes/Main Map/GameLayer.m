@@ -87,7 +87,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 // on "init" you need to initialize your instance
 -(id) init
 {
-	if( (self=[super initWithColor:ccc4(0, 140, 140, 255) fadingTo:ccc4(0, 0, 0, 255)])) {
+	if( (self=[super initWithColor:ccc4(75, 78, 29, 255)])) {
     [[NSBundle mainBundle] loadNibNamed:@"WelcomeView" owner:self options:nil];
     [[[[CCDirector sharedDirector] openGLView] superview] insertSubview:self.welcomeView atIndex:1];
     

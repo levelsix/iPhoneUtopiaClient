@@ -83,6 +83,9 @@ static NSMutableSet *_pulsingViews;
 @synthesize goldAmountFromGoldminePickup, goldCostForGoldmineRestart, numHoursBeforeGoldmineRetrieval, numHoursForGoldminePickup;
 @synthesize freeChanceToPickLockBox, goldChanceToPickLockBox, goldCostToPickLockBox, goldCostToResetPickLockBox;
 @synthesize numMinutesToRepickLockBox, silverChanceToPickLockBox, silverCostToPickLockBox;
+@synthesize expansionPurchaseCostConstant, expansionPurchaseCostExponentBase, expansionWaitCompleteBaseMinutesToOneGold;
+@synthesize expansionWaitCompleteHourConstant, expansionWaitCompleteHourIncrementBase;
+@synthesize diamondCostToPlayThreeCardMonte, minLevelToDisplayThreeCardMonte;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -227,6 +230,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.freeChanceToPickLockBox = constants.lockBoxConstants.freeChanceToPickLockBox;
   self.numMinutesToRepickLockBox = constants.lockBoxConstants.numMinutesToRepickLockBox;
   self.goldCostToResetPickLockBox = constants.lockBoxConstants.goldCostToResetPickLockBox;
+  
+  self.expansionPurchaseCostConstant = constants.expansionConstants.expansionPurchaseCostConstant;
+  self.expansionPurchaseCostExponentBase = constants.expansionConstants.expansionPurchaseCostExponentBase;
+  self.expansionWaitCompleteBaseMinutesToOneGold = constants.expansionConstants.expansionWaitCompleteBaseMinutesToOneGold;
+  self.expansionWaitCompleteHourConstant = constants.expansionConstants.expansionWaitCompleteHourConstant;
+  self.expansionWaitCompleteHourIncrementBase = constants.expansionConstants.expansionWaitCompleteHourIncrementBase;
+  
+  self.diamondCostToPlayThreeCardMonte = constants.threeCardMonteConstants.diamondCostToPlayThreeCardMonte;
+  self.minLevelToDisplayThreeCardMonte = constants.threeCardMonteConstants.minLevelToDisplayThreeCardMonte;
+  self.badMonteCardPercentageChance = constants.threeCardMonteConstants.badMonteCardPercentageChance;
+  self.mediumMonteCardPercentageChance = constants.threeCardMonteConstants.mediumMonteCardPercentageChance;
+  self.goodMonteCardPercentageChance = constants.threeCardMonteConstants.goodMonteCardPercentageChance;
   
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
@@ -1403,6 +1418,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateHealthForLevel:(int)level {
   return (int)(30.f * powf(self.healthFormulaExponentBase, level-1));
+}
+
+- (int) calculateNumMinutesForNewExpansion:(UserExpansion *)ue {
+  return (expansionWaitCompleteHourConstant + expansionWaitCompleteHourIncrementBase*(ue.numCompletedExpansions+1))*60;
+}
+
+- (int) calculateGoldCostToSpeedUpExpansion:(UserExpansion *)ue {
+  return [self calculateNumMinutesForNewExpansion:ue]/expansionWaitCompleteBaseMinutesToOneGold;
+}
+
+- (int) calculateSilverCostForNewExpansion:(UserExpansion *)ue {
+  return (int)(expansionPurchaseCostConstant*powf(expansionPurchaseCostExponentBase, ue.numCompletedExpansions));
 }
 
 + (void) popupView:(UIView *)targetView

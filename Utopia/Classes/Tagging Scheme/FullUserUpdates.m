@@ -58,6 +58,9 @@
 
 - (void) update {
   GameState *gs = [GameState sharedGameState];
+  if (gs.currentEnergy == gs.maxEnergy) {
+    gs.lastEnergyRefill = [NSDate date];
+  }
   gs.currentEnergy += MIN(_change, gs.maxEnergy-gs.currentEnergy);
 }
 
@@ -72,6 +75,9 @@
 
 - (void) update {
   GameState *gs = [GameState sharedGameState];
+  if (gs.currentStamina == gs.maxStamina) {
+    gs.lastEnergyRefill = [NSDate date];
+  }
   gs.currentStamina += MIN(_change, gs.maxStamina-gs.currentStamina);
 }
 
@@ -244,10 +250,10 @@
   gs.lastEnergyRefill = nextDate;
 }
 
-- (void) undo {
-  GameState *gs = [GameState sharedGameState];
-  gs.lastEnergyRefill = previousDate;
-}
+//- (void) undo {
+//  GameState *gs = [GameState sharedGameState];
+//  gs.lastEnergyRefill = previousDate;
+//}
 
 - (void) dealloc {
   self.previousDate = nil;
@@ -279,10 +285,10 @@
   gs.lastStaminaRefill = nextDate;
 }
 
-- (void) undo {
-  GameState *gs = [GameState sharedGameState];
-  gs.lastStaminaRefill = previousDate;
-}
+//- (void) undo {
+//  GameState *gs = [GameState sharedGameState];
+//  gs.lastStaminaRefill = previousDate;
+//}
 
 - (void) dealloc {
   self.previousDate = nil;
@@ -314,10 +320,10 @@
   gs.lastGoldmineRetrieval = nextDate;
 }
 
-- (void) undo {
-  GameState *gs = [GameState sharedGameState];
-  gs.lastGoldmineRetrieval = previousDate;
-}
+//- (void) undo {
+//  GameState *gs = [GameState sharedGameState];
+//  gs.lastGoldmineRetrieval = previousDate;
+//}
 
 - (void) dealloc {
   self.previousDate = nil;

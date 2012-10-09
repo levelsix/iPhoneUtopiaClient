@@ -108,6 +108,8 @@
   
   MinimumClanProto *_clan;
   NSMutableArray *_requestedClans;
+  
+  NSTimer *_expansionTimer;
 }
 
 @property (assign) BOOL isTutorial;
@@ -205,6 +207,10 @@
 @property (retain) MinimumClanProto *clan;
 @property (retain) NSMutableArray *requestedClans;
 
+@property (nonatomic, retain) NSArray *mktSearchEquips;
+
+@property (nonatomic, retain) UserExpansion *userExpansion;
+
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
 
@@ -233,6 +239,7 @@
 - (void) addNotification:(UserNotification *)un;
 - (void) addWallPost:(PlayerWallPostProto *)wallPost;
 - (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(GroupChatScope)scope;
+- (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope;
 
 - (UserEquip *) myEquipWithId:(int)equipId level:(int)level;
 - (NSArray *) myEquipsWithId:(int)equipId level:(int)level;
@@ -268,11 +275,16 @@
 - (void) goldmineTimeComplete;
 - (void) stopGoldmineTimer;
 
+- (void) beginExpansionTimer;
+- (void) stopExpansionTimer;
+
 - (void) addToRequestedClans:(NSArray *)arr;
 
 - (void) resetLockBoxTimers;
 - (LockBoxEventProto *) getCurrentLockBoxEvent;
 - (void) addToNumLockBoxesForEvent:(int)eventId;
+
+- (NSArray *) mktSearchEquipsSimilarToString:(NSString *)string;
 
 - (void) purgeStaticData;
 - (void) reretrieveStaticData;

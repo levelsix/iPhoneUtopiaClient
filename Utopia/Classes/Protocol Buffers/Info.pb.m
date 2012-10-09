@@ -175,11 +175,503 @@ BOOL ExpansionDirectionIsValidValue(ExpansionDirection value) {
   switch (value) {
     case ExpansionDirectionFarLeft:
     case ExpansionDirectionFarRight:
+    case ExpansionDirectionNearLeft:
+    case ExpansionDirectionNearRight:
       return YES;
     default:
       return NO;
   }
 }
+@interface GroupChatMessageProto ()
+@property (retain) MinimumUserProto* sender;
+@property int64_t timeOfChat;
+@property (retain) NSString* content;
+@end
+
+@implementation GroupChatMessageProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasTimeOfChat {
+  return !!hasTimeOfChat_;
+}
+- (void) setHasTimeOfChat:(BOOL) value {
+  hasTimeOfChat_ = !!value;
+}
+@synthesize timeOfChat;
+- (BOOL) hasContent {
+  return !!hasContent_;
+}
+- (void) setHasContent:(BOOL) value {
+  hasContent_ = !!value;
+}
+@synthesize content;
+- (void) dealloc {
+  self.sender = nil;
+  self.content = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.timeOfChat = 0L;
+    self.content = @"";
+  }
+  return self;
+}
+static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
++ (void) initialize {
+  if (self == [GroupChatMessageProto class]) {
+    defaultGroupChatMessageProtoInstance = [[GroupChatMessageProto alloc] init];
+  }
+}
++ (GroupChatMessageProto*) defaultInstance {
+  return defaultGroupChatMessageProtoInstance;
+}
+- (GroupChatMessageProto*) defaultInstance {
+  return defaultGroupChatMessageProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasTimeOfChat) {
+    [output writeInt64:2 value:self.timeOfChat];
+  }
+  if (self.hasContent) {
+    [output writeString:3 value:self.content];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasTimeOfChat) {
+    size += computeInt64Size(2, self.timeOfChat);
+  }
+  if (self.hasContent) {
+    size += computeStringSize(3, self.content);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (GroupChatMessageProto*) parseFromData:(NSData*) data {
+  return (GroupChatMessageProto*)[[[GroupChatMessageProto builder] mergeFromData:data] build];
+}
++ (GroupChatMessageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GroupChatMessageProto*)[[[GroupChatMessageProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (GroupChatMessageProto*) parseFromInputStream:(NSInputStream*) input {
+  return (GroupChatMessageProto*)[[[GroupChatMessageProto builder] mergeFromInputStream:input] build];
+}
++ (GroupChatMessageProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GroupChatMessageProto*)[[[GroupChatMessageProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (GroupChatMessageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (GroupChatMessageProto*)[[[GroupChatMessageProto builder] mergeFromCodedInputStream:input] build];
+}
++ (GroupChatMessageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GroupChatMessageProto*)[[[GroupChatMessageProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (GroupChatMessageProto_Builder*) builder {
+  return [[[GroupChatMessageProto_Builder alloc] init] autorelease];
+}
++ (GroupChatMessageProto_Builder*) builderWithPrototype:(GroupChatMessageProto*) prototype {
+  return [[GroupChatMessageProto builder] mergeFrom:prototype];
+}
+- (GroupChatMessageProto_Builder*) builder {
+  return [GroupChatMessageProto builder];
+}
+@end
+
+@interface GroupChatMessageProto_Builder()
+@property (retain) GroupChatMessageProto* result;
+@end
+
+@implementation GroupChatMessageProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[GroupChatMessageProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (GroupChatMessageProto_Builder*) clear {
+  self.result = [[[GroupChatMessageProto alloc] init] autorelease];
+  return self;
+}
+- (GroupChatMessageProto_Builder*) clone {
+  return [GroupChatMessageProto builderWithPrototype:result];
+}
+- (GroupChatMessageProto*) defaultInstance {
+  return [GroupChatMessageProto defaultInstance];
+}
+- (GroupChatMessageProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (GroupChatMessageProto*) buildPartial {
+  GroupChatMessageProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (GroupChatMessageProto_Builder*) mergeFrom:(GroupChatMessageProto*) other {
+  if (other == [GroupChatMessageProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasTimeOfChat) {
+    [self setTimeOfChat:other.timeOfChat];
+  }
+  if (other.hasContent) {
+    [self setContent:other.content];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (GroupChatMessageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (GroupChatMessageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setTimeOfChat:[input readInt64]];
+        break;
+      }
+      case 26: {
+        [self setContent:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (GroupChatMessageProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (GroupChatMessageProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (GroupChatMessageProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (GroupChatMessageProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasTimeOfChat {
+  return result.hasTimeOfChat;
+}
+- (int64_t) timeOfChat {
+  return result.timeOfChat;
+}
+- (GroupChatMessageProto_Builder*) setTimeOfChat:(int64_t) value {
+  result.hasTimeOfChat = YES;
+  result.timeOfChat = value;
+  return self;
+}
+- (GroupChatMessageProto_Builder*) clearTimeOfChat {
+  result.hasTimeOfChat = NO;
+  result.timeOfChat = 0L;
+  return self;
+}
+- (BOOL) hasContent {
+  return result.hasContent;
+}
+- (NSString*) content {
+  return result.content;
+}
+- (GroupChatMessageProto_Builder*) setContent:(NSString*) value {
+  result.hasContent = YES;
+  result.content = value;
+  return self;
+}
+- (GroupChatMessageProto_Builder*) clearContent {
+  result.hasContent = NO;
+  result.content = @"";
+  return self;
+}
+@end
+
+@interface MarketplaceSearchEquipProto ()
+@property int32_t equipId;
+@property (retain) NSString* name;
+@end
+
+@implementation MarketplaceSearchEquipProto
+
+- (BOOL) hasEquipId {
+  return !!hasEquipId_;
+}
+- (void) setHasEquipId:(BOOL) value {
+  hasEquipId_ = !!value;
+}
+@synthesize equipId;
+- (BOOL) hasName {
+  return !!hasName_;
+}
+- (void) setHasName:(BOOL) value {
+  hasName_ = !!value;
+}
+@synthesize name;
+- (void) dealloc {
+  self.name = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.equipId = 0;
+    self.name = @"";
+  }
+  return self;
+}
+static MarketplaceSearchEquipProto* defaultMarketplaceSearchEquipProtoInstance = nil;
++ (void) initialize {
+  if (self == [MarketplaceSearchEquipProto class]) {
+    defaultMarketplaceSearchEquipProtoInstance = [[MarketplaceSearchEquipProto alloc] init];
+  }
+}
++ (MarketplaceSearchEquipProto*) defaultInstance {
+  return defaultMarketplaceSearchEquipProtoInstance;
+}
+- (MarketplaceSearchEquipProto*) defaultInstance {
+  return defaultMarketplaceSearchEquipProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasEquipId) {
+    [output writeInt32:1 value:self.equipId];
+  }
+  if (self.hasName) {
+    [output writeString:2 value:self.name];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasEquipId) {
+    size += computeInt32Size(1, self.equipId);
+  }
+  if (self.hasName) {
+    size += computeStringSize(2, self.name);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MarketplaceSearchEquipProto*) parseFromData:(NSData*) data {
+  return (MarketplaceSearchEquipProto*)[[[MarketplaceSearchEquipProto builder] mergeFromData:data] build];
+}
++ (MarketplaceSearchEquipProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MarketplaceSearchEquipProto*)[[[MarketplaceSearchEquipProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MarketplaceSearchEquipProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MarketplaceSearchEquipProto*)[[[MarketplaceSearchEquipProto builder] mergeFromInputStream:input] build];
+}
++ (MarketplaceSearchEquipProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MarketplaceSearchEquipProto*)[[[MarketplaceSearchEquipProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MarketplaceSearchEquipProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MarketplaceSearchEquipProto*)[[[MarketplaceSearchEquipProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MarketplaceSearchEquipProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MarketplaceSearchEquipProto*)[[[MarketplaceSearchEquipProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MarketplaceSearchEquipProto_Builder*) builder {
+  return [[[MarketplaceSearchEquipProto_Builder alloc] init] autorelease];
+}
++ (MarketplaceSearchEquipProto_Builder*) builderWithPrototype:(MarketplaceSearchEquipProto*) prototype {
+  return [[MarketplaceSearchEquipProto builder] mergeFrom:prototype];
+}
+- (MarketplaceSearchEquipProto_Builder*) builder {
+  return [MarketplaceSearchEquipProto builder];
+}
+@end
+
+@interface MarketplaceSearchEquipProto_Builder()
+@property (retain) MarketplaceSearchEquipProto* result;
+@end
+
+@implementation MarketplaceSearchEquipProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MarketplaceSearchEquipProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MarketplaceSearchEquipProto_Builder*) clear {
+  self.result = [[[MarketplaceSearchEquipProto alloc] init] autorelease];
+  return self;
+}
+- (MarketplaceSearchEquipProto_Builder*) clone {
+  return [MarketplaceSearchEquipProto builderWithPrototype:result];
+}
+- (MarketplaceSearchEquipProto*) defaultInstance {
+  return [MarketplaceSearchEquipProto defaultInstance];
+}
+- (MarketplaceSearchEquipProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MarketplaceSearchEquipProto*) buildPartial {
+  MarketplaceSearchEquipProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MarketplaceSearchEquipProto_Builder*) mergeFrom:(MarketplaceSearchEquipProto*) other {
+  if (other == [MarketplaceSearchEquipProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasEquipId) {
+    [self setEquipId:other.equipId];
+  }
+  if (other.hasName) {
+    [self setName:other.name];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MarketplaceSearchEquipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MarketplaceSearchEquipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setEquipId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        [self setName:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasEquipId {
+  return result.hasEquipId;
+}
+- (int32_t) equipId {
+  return result.equipId;
+}
+- (MarketplaceSearchEquipProto_Builder*) setEquipId:(int32_t) value {
+  result.hasEquipId = YES;
+  result.equipId = value;
+  return self;
+}
+- (MarketplaceSearchEquipProto_Builder*) clearEquipId {
+  result.hasEquipId = NO;
+  result.equipId = 0;
+  return self;
+}
+- (BOOL) hasName {
+  return result.hasName;
+}
+- (NSString*) name {
+  return result.name;
+}
+- (MarketplaceSearchEquipProto_Builder*) setName:(NSString*) value {
+  result.hasName = YES;
+  result.name = value;
+  return self;
+}
+- (MarketplaceSearchEquipProto_Builder*) clearName {
+  result.hasName = NO;
+  result.name = @"";
+  return self;
+}
+@end
+
 @interface LockBoxEventProto ()
 @property int32_t lockBoxEventId;
 @property int64_t startDate;
@@ -2800,23 +3292,23 @@ static FullClanProtoWithClanSize* defaultFullClanProtoWithClanSizeInstance = nil
 }
 @end
 
-@interface ClanWallPostProto ()
-@property int32_t clanWallPostId;
+@interface ClanBulletinPostProto ()
+@property int32_t clanBulletinPostId;
 @property (retain) MinimumUserProto* poster;
 @property int32_t clanId;
 @property int64_t timeOfPost;
 @property (retain) NSString* content;
 @end
 
-@implementation ClanWallPostProto
+@implementation ClanBulletinPostProto
 
-- (BOOL) hasClanWallPostId {
-  return !!hasClanWallPostId_;
+- (BOOL) hasClanBulletinPostId {
+  return !!hasClanBulletinPostId_;
 }
-- (void) setHasClanWallPostId:(BOOL) value {
-  hasClanWallPostId_ = !!value;
+- (void) setHasClanBulletinPostId:(BOOL) value {
+  hasClanBulletinPostId_ = !!value;
 }
-@synthesize clanWallPostId;
+@synthesize clanBulletinPostId;
 - (BOOL) hasPoster {
   return !!hasPoster_;
 }
@@ -2852,7 +3344,7 @@ static FullClanProtoWithClanSize* defaultFullClanProtoWithClanSizeInstance = nil
 }
 - (id) init {
   if ((self = [super init])) {
-    self.clanWallPostId = 0;
+    self.clanBulletinPostId = 0;
     self.poster = [MinimumUserProto defaultInstance];
     self.clanId = 0;
     self.timeOfPost = 0L;
@@ -2860,17 +3352,17 @@ static FullClanProtoWithClanSize* defaultFullClanProtoWithClanSizeInstance = nil
   }
   return self;
 }
-static ClanWallPostProto* defaultClanWallPostProtoInstance = nil;
+static ClanBulletinPostProto* defaultClanBulletinPostProtoInstance = nil;
 + (void) initialize {
-  if (self == [ClanWallPostProto class]) {
-    defaultClanWallPostProtoInstance = [[ClanWallPostProto alloc] init];
+  if (self == [ClanBulletinPostProto class]) {
+    defaultClanBulletinPostProtoInstance = [[ClanBulletinPostProto alloc] init];
   }
 }
-+ (ClanWallPostProto*) defaultInstance {
-  return defaultClanWallPostProtoInstance;
++ (ClanBulletinPostProto*) defaultInstance {
+  return defaultClanBulletinPostProtoInstance;
 }
-- (ClanWallPostProto*) defaultInstance {
-  return defaultClanWallPostProtoInstance;
+- (ClanBulletinPostProto*) defaultInstance {
+  return defaultClanBulletinPostProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -2888,8 +3380,8 @@ static ClanWallPostProto* defaultClanWallPostProtoInstance = nil;
   if (self.hasContent) {
     [output writeString:4 value:self.content];
   }
-  if (self.hasClanWallPostId) {
-    [output writeInt32:5 value:self.clanWallPostId];
+  if (self.hasClanBulletinPostId) {
+    [output writeInt32:5 value:self.clanBulletinPostId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2912,47 +3404,47 @@ static ClanWallPostProto* defaultClanWallPostProtoInstance = nil;
   if (self.hasContent) {
     size += computeStringSize(4, self.content);
   }
-  if (self.hasClanWallPostId) {
-    size += computeInt32Size(5, self.clanWallPostId);
+  if (self.hasClanBulletinPostId) {
+    size += computeInt32Size(5, self.clanBulletinPostId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (ClanWallPostProto*) parseFromData:(NSData*) data {
-  return (ClanWallPostProto*)[[[ClanWallPostProto builder] mergeFromData:data] build];
++ (ClanBulletinPostProto*) parseFromData:(NSData*) data {
+  return (ClanBulletinPostProto*)[[[ClanBulletinPostProto builder] mergeFromData:data] build];
 }
-+ (ClanWallPostProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClanWallPostProto*)[[[ClanWallPostProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (ClanBulletinPostProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanBulletinPostProto*)[[[ClanBulletinPostProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (ClanWallPostProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ClanWallPostProto*)[[[ClanWallPostProto builder] mergeFromInputStream:input] build];
++ (ClanBulletinPostProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ClanBulletinPostProto*)[[[ClanBulletinPostProto builder] mergeFromInputStream:input] build];
 }
-+ (ClanWallPostProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClanWallPostProto*)[[[ClanWallPostProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (ClanBulletinPostProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanBulletinPostProto*)[[[ClanBulletinPostProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (ClanWallPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ClanWallPostProto*)[[[ClanWallPostProto builder] mergeFromCodedInputStream:input] build];
++ (ClanBulletinPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ClanBulletinPostProto*)[[[ClanBulletinPostProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (ClanWallPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClanWallPostProto*)[[[ClanWallPostProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (ClanBulletinPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanBulletinPostProto*)[[[ClanBulletinPostProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (ClanWallPostProto_Builder*) builder {
-  return [[[ClanWallPostProto_Builder alloc] init] autorelease];
++ (ClanBulletinPostProto_Builder*) builder {
+  return [[[ClanBulletinPostProto_Builder alloc] init] autorelease];
 }
-+ (ClanWallPostProto_Builder*) builderWithPrototype:(ClanWallPostProto*) prototype {
-  return [[ClanWallPostProto builder] mergeFrom:prototype];
++ (ClanBulletinPostProto_Builder*) builderWithPrototype:(ClanBulletinPostProto*) prototype {
+  return [[ClanBulletinPostProto builder] mergeFrom:prototype];
 }
-- (ClanWallPostProto_Builder*) builder {
-  return [ClanWallPostProto builder];
+- (ClanBulletinPostProto_Builder*) builder {
+  return [ClanBulletinPostProto builder];
 }
 @end
 
-@interface ClanWallPostProto_Builder()
-@property (retain) ClanWallPostProto* result;
+@interface ClanBulletinPostProto_Builder()
+@property (retain) ClanBulletinPostProto* result;
 @end
 
-@implementation ClanWallPostProto_Builder
+@implementation ClanBulletinPostProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -2960,38 +3452,38 @@ static ClanWallPostProto* defaultClanWallPostProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[ClanWallPostProto alloc] init] autorelease];
+    self.result = [[[ClanBulletinPostProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (ClanWallPostProto_Builder*) clear {
-  self.result = [[[ClanWallPostProto alloc] init] autorelease];
+- (ClanBulletinPostProto_Builder*) clear {
+  self.result = [[[ClanBulletinPostProto alloc] init] autorelease];
   return self;
 }
-- (ClanWallPostProto_Builder*) clone {
-  return [ClanWallPostProto builderWithPrototype:result];
+- (ClanBulletinPostProto_Builder*) clone {
+  return [ClanBulletinPostProto builderWithPrototype:result];
 }
-- (ClanWallPostProto*) defaultInstance {
-  return [ClanWallPostProto defaultInstance];
+- (ClanBulletinPostProto*) defaultInstance {
+  return [ClanBulletinPostProto defaultInstance];
 }
-- (ClanWallPostProto*) build {
+- (ClanBulletinPostProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (ClanWallPostProto*) buildPartial {
-  ClanWallPostProto* returnMe = [[result retain] autorelease];
+- (ClanBulletinPostProto*) buildPartial {
+  ClanBulletinPostProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (ClanWallPostProto_Builder*) mergeFrom:(ClanWallPostProto*) other {
-  if (other == [ClanWallPostProto defaultInstance]) {
+- (ClanBulletinPostProto_Builder*) mergeFrom:(ClanBulletinPostProto*) other {
+  if (other == [ClanBulletinPostProto defaultInstance]) {
     return self;
   }
-  if (other.hasClanWallPostId) {
-    [self setClanWallPostId:other.clanWallPostId];
+  if (other.hasClanBulletinPostId) {
+    [self setClanBulletinPostId:other.clanBulletinPostId];
   }
   if (other.hasPoster) {
     [self mergePoster:other.poster];
@@ -3008,10 +3500,10 @@ static ClanWallPostProto* defaultClanWallPostProtoInstance = nil;
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (ClanWallPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (ClanBulletinPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (ClanWallPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (ClanBulletinPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -3048,26 +3540,26 @@ static ClanWallPostProto* defaultClanWallPostProtoInstance = nil;
         break;
       }
       case 40: {
-        [self setClanWallPostId:[input readInt32]];
+        [self setClanBulletinPostId:[input readInt32]];
         break;
       }
     }
   }
 }
-- (BOOL) hasClanWallPostId {
-  return result.hasClanWallPostId;
+- (BOOL) hasClanBulletinPostId {
+  return result.hasClanBulletinPostId;
 }
-- (int32_t) clanWallPostId {
-  return result.clanWallPostId;
+- (int32_t) clanBulletinPostId {
+  return result.clanBulletinPostId;
 }
-- (ClanWallPostProto_Builder*) setClanWallPostId:(int32_t) value {
-  result.hasClanWallPostId = YES;
-  result.clanWallPostId = value;
+- (ClanBulletinPostProto_Builder*) setClanBulletinPostId:(int32_t) value {
+  result.hasClanBulletinPostId = YES;
+  result.clanBulletinPostId = value;
   return self;
 }
-- (ClanWallPostProto_Builder*) clearClanWallPostId {
-  result.hasClanWallPostId = NO;
-  result.clanWallPostId = 0;
+- (ClanBulletinPostProto_Builder*) clearClanBulletinPostId {
+  result.hasClanBulletinPostId = NO;
+  result.clanBulletinPostId = 0;
   return self;
 }
 - (BOOL) hasPoster {
@@ -3076,15 +3568,15 @@ static ClanWallPostProto* defaultClanWallPostProtoInstance = nil;
 - (MinimumUserProto*) poster {
   return result.poster;
 }
-- (ClanWallPostProto_Builder*) setPoster:(MinimumUserProto*) value {
+- (ClanBulletinPostProto_Builder*) setPoster:(MinimumUserProto*) value {
   result.hasPoster = YES;
   result.poster = value;
   return self;
 }
-- (ClanWallPostProto_Builder*) setPosterBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (ClanBulletinPostProto_Builder*) setPosterBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setPoster:[builderForValue build]];
 }
-- (ClanWallPostProto_Builder*) mergePoster:(MinimumUserProto*) value {
+- (ClanBulletinPostProto_Builder*) mergePoster:(MinimumUserProto*) value {
   if (result.hasPoster &&
       result.poster != [MinimumUserProto defaultInstance]) {
     result.poster =
@@ -3095,7 +3587,7 @@ static ClanWallPostProto* defaultClanWallPostProtoInstance = nil;
   result.hasPoster = YES;
   return self;
 }
-- (ClanWallPostProto_Builder*) clearPoster {
+- (ClanBulletinPostProto_Builder*) clearPoster {
   result.hasPoster = NO;
   result.poster = [MinimumUserProto defaultInstance];
   return self;
@@ -3106,12 +3598,12 @@ static ClanWallPostProto* defaultClanWallPostProtoInstance = nil;
 - (int32_t) clanId {
   return result.clanId;
 }
-- (ClanWallPostProto_Builder*) setClanId:(int32_t) value {
+- (ClanBulletinPostProto_Builder*) setClanId:(int32_t) value {
   result.hasClanId = YES;
   result.clanId = value;
   return self;
 }
-- (ClanWallPostProto_Builder*) clearClanId {
+- (ClanBulletinPostProto_Builder*) clearClanId {
   result.hasClanId = NO;
   result.clanId = 0;
   return self;
@@ -3122,12 +3614,12 @@ static ClanWallPostProto* defaultClanWallPostProtoInstance = nil;
 - (int64_t) timeOfPost {
   return result.timeOfPost;
 }
-- (ClanWallPostProto_Builder*) setTimeOfPost:(int64_t) value {
+- (ClanBulletinPostProto_Builder*) setTimeOfPost:(int64_t) value {
   result.hasTimeOfPost = YES;
   result.timeOfPost = value;
   return self;
 }
-- (ClanWallPostProto_Builder*) clearTimeOfPost {
+- (ClanBulletinPostProto_Builder*) clearTimeOfPost {
   result.hasTimeOfPost = NO;
   result.timeOfPost = 0L;
   return self;
@@ -3138,12 +3630,12 @@ static ClanWallPostProto* defaultClanWallPostProtoInstance = nil;
 - (NSString*) content {
   return result.content;
 }
-- (ClanWallPostProto_Builder*) setContent:(NSString*) value {
+- (ClanBulletinPostProto_Builder*) setContent:(NSString*) value {
   result.hasContent = YES;
   result.content = value;
   return self;
 }
-- (ClanWallPostProto_Builder*) clearContent {
+- (ClanBulletinPostProto_Builder*) clearContent {
   result.hasContent = NO;
   result.content = @"";
   return self;
@@ -12122,6 +12614,8 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
 @property int32_t userId;
 @property int32_t farLeftExpansions;
 @property int32_t farRightExpansions;
+@property int32_t nearLeftExpansions;
+@property int32_t nearRightExpansions;
 @property BOOL isExpanding;
 @property int64_t lastExpandTime;
 @property ExpansionDirection lastExpandDirection;
@@ -12150,6 +12644,20 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   hasFarRightExpansions_ = !!value;
 }
 @synthesize farRightExpansions;
+- (BOOL) hasNearLeftExpansions {
+  return !!hasNearLeftExpansions_;
+}
+- (void) setHasNearLeftExpansions:(BOOL) value {
+  hasNearLeftExpansions_ = !!value;
+}
+@synthesize nearLeftExpansions;
+- (BOOL) hasNearRightExpansions {
+  return !!hasNearRightExpansions_;
+}
+- (void) setHasNearRightExpansions:(BOOL) value {
+  hasNearRightExpansions_ = !!value;
+}
+@synthesize nearRightExpansions;
 - (BOOL) hasIsExpanding {
   return !!hasIsExpanding_;
 }
@@ -12184,6 +12692,8 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
     self.userId = 0;
     self.farLeftExpansions = 0;
     self.farRightExpansions = 0;
+    self.nearLeftExpansions = 0;
+    self.nearRightExpansions = 0;
     self.isExpanding = NO;
     self.lastExpandTime = 0L;
     self.lastExpandDirection = ExpansionDirectionFarLeft;
@@ -12210,19 +12720,25 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
     [output writeInt32:1 value:self.userId];
   }
   if (self.hasFarLeftExpansions) {
-    [output writeInt32:3 value:self.farLeftExpansions];
+    [output writeInt32:2 value:self.farLeftExpansions];
   }
   if (self.hasFarRightExpansions) {
-    [output writeInt32:4 value:self.farRightExpansions];
+    [output writeInt32:3 value:self.farRightExpansions];
+  }
+  if (self.hasNearLeftExpansions) {
+    [output writeInt32:4 value:self.nearLeftExpansions];
+  }
+  if (self.hasNearRightExpansions) {
+    [output writeInt32:5 value:self.nearRightExpansions];
   }
   if (self.hasIsExpanding) {
-    [output writeBool:5 value:self.isExpanding];
+    [output writeBool:6 value:self.isExpanding];
   }
   if (self.hasLastExpandTime) {
-    [output writeInt64:6 value:self.lastExpandTime];
+    [output writeInt64:7 value:self.lastExpandTime];
   }
   if (self.hasLastExpandDirection) {
-    [output writeEnum:7 value:self.lastExpandDirection];
+    [output writeEnum:8 value:self.lastExpandDirection];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -12237,19 +12753,25 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
     size += computeInt32Size(1, self.userId);
   }
   if (self.hasFarLeftExpansions) {
-    size += computeInt32Size(3, self.farLeftExpansions);
+    size += computeInt32Size(2, self.farLeftExpansions);
   }
   if (self.hasFarRightExpansions) {
-    size += computeInt32Size(4, self.farRightExpansions);
+    size += computeInt32Size(3, self.farRightExpansions);
+  }
+  if (self.hasNearLeftExpansions) {
+    size += computeInt32Size(4, self.nearLeftExpansions);
+  }
+  if (self.hasNearRightExpansions) {
+    size += computeInt32Size(5, self.nearRightExpansions);
   }
   if (self.hasIsExpanding) {
-    size += computeBoolSize(5, self.isExpanding);
+    size += computeBoolSize(6, self.isExpanding);
   }
   if (self.hasLastExpandTime) {
-    size += computeInt64Size(6, self.lastExpandTime);
+    size += computeInt64Size(7, self.lastExpandTime);
   }
   if (self.hasLastExpandDirection) {
-    size += computeEnumSize(7, self.lastExpandDirection);
+    size += computeEnumSize(8, self.lastExpandDirection);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -12335,6 +12857,12 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
   if (other.hasFarRightExpansions) {
     [self setFarRightExpansions:other.farRightExpansions];
   }
+  if (other.hasNearLeftExpansions) {
+    [self setNearLeftExpansions:other.nearLeftExpansions];
+  }
+  if (other.hasNearRightExpansions) {
+    [self setNearRightExpansions:other.nearRightExpansions];
+  }
   if (other.hasIsExpanding) {
     [self setIsExpanding:other.isExpanding];
   }
@@ -12369,28 +12897,36 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
         [self setUserId:[input readInt32]];
         break;
       }
-      case 24: {
+      case 16: {
         [self setFarLeftExpansions:[input readInt32]];
         break;
       }
-      case 32: {
+      case 24: {
         [self setFarRightExpansions:[input readInt32]];
         break;
       }
+      case 32: {
+        [self setNearLeftExpansions:[input readInt32]];
+        break;
+      }
       case 40: {
-        [self setIsExpanding:[input readBool]];
+        [self setNearRightExpansions:[input readInt32]];
         break;
       }
       case 48: {
-        [self setLastExpandTime:[input readInt64]];
+        [self setIsExpanding:[input readBool]];
         break;
       }
       case 56: {
+        [self setLastExpandTime:[input readInt64]];
+        break;
+      }
+      case 64: {
         int32_t value = [input readEnum];
         if (ExpansionDirectionIsValidValue(value)) {
           [self setLastExpandDirection:value];
         } else {
-          [unknownFields mergeVarintField:7 value:value];
+          [unknownFields mergeVarintField:8 value:value];
         }
         break;
       }
@@ -12443,6 +12979,38 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
 - (FullUserCityExpansionDataProto_Builder*) clearFarRightExpansions {
   result.hasFarRightExpansions = NO;
   result.farRightExpansions = 0;
+  return self;
+}
+- (BOOL) hasNearLeftExpansions {
+  return result.hasNearLeftExpansions;
+}
+- (int32_t) nearLeftExpansions {
+  return result.nearLeftExpansions;
+}
+- (FullUserCityExpansionDataProto_Builder*) setNearLeftExpansions:(int32_t) value {
+  result.hasNearLeftExpansions = YES;
+  result.nearLeftExpansions = value;
+  return self;
+}
+- (FullUserCityExpansionDataProto_Builder*) clearNearLeftExpansions {
+  result.hasNearLeftExpansions = NO;
+  result.nearLeftExpansions = 0;
+  return self;
+}
+- (BOOL) hasNearRightExpansions {
+  return result.hasNearRightExpansions;
+}
+- (int32_t) nearRightExpansions {
+  return result.nearRightExpansions;
+}
+- (FullUserCityExpansionDataProto_Builder*) setNearRightExpansions:(int32_t) value {
+  result.hasNearRightExpansions = YES;
+  result.nearRightExpansions = value;
+  return self;
+}
+- (FullUserCityExpansionDataProto_Builder*) clearNearRightExpansions {
+  result.hasNearRightExpansions = NO;
+  result.nearRightExpansions = 0;
   return self;
 }
 - (BOOL) hasIsExpanding {

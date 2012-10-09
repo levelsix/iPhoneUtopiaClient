@@ -3083,7 +3083,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableAttackNotificationsList;
 @property (retain) NSMutableArray* mutableReferralNotificationsList;
 @property (retain) NSMutableArray* mutablePlayerWallPostNotificationsList;
-@property (retain) NSMutableArray* mutableClanWallPostNotificationsList;
+@property (retain) NSMutableArray* mutableClanBulletinPostNotificationsList;
 @property (retain) NSMutableArray* mutableLockBoxEventsList;
 @property (retain) NSMutableArray* mutableUserLockBoxEventsList;
 @property (retain) NSString* appStoreUrl;
@@ -3093,6 +3093,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
 @property (retain) FullEquipProto* forgeAttemptEquip;
 @property (retain) NSMutableArray* mutableNoticesToPlayersList;
+@property (retain) NSMutableArray* mutableMktSearchEquipsList;
+@property (retain) NSMutableArray* mutableGlobalChatsList;
+@property (retain) NSMutableArray* mutableClanChatsList;
 @end
 
 @implementation StartupResponseProto
@@ -3158,7 +3161,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableAttackNotificationsList;
 @synthesize mutableReferralNotificationsList;
 @synthesize mutablePlayerWallPostNotificationsList;
-@synthesize mutableClanWallPostNotificationsList;
+@synthesize mutableClanBulletinPostNotificationsList;
 @synthesize mutableLockBoxEventsList;
 @synthesize mutableUserLockBoxEventsList;
 - (BOOL) hasAppStoreUrl {
@@ -3203,6 +3206,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 }
 @synthesize forgeAttemptEquip;
 @synthesize mutableNoticesToPlayersList;
+@synthesize mutableMktSearchEquipsList;
+@synthesize mutableGlobalChatsList;
+@synthesize mutableClanChatsList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3219,7 +3225,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableAttackNotificationsList = nil;
   self.mutableReferralNotificationsList = nil;
   self.mutablePlayerWallPostNotificationsList = nil;
-  self.mutableClanWallPostNotificationsList = nil;
+  self.mutableClanBulletinPostNotificationsList = nil;
   self.mutableLockBoxEventsList = nil;
   self.mutableUserLockBoxEventsList = nil;
   self.appStoreUrl = nil;
@@ -3228,6 +3234,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.unhandledForgeAttempt = nil;
   self.forgeAttemptEquip = nil;
   self.mutableNoticesToPlayersList = nil;
+  self.mutableMktSearchEquipsList = nil;
+  self.mutableGlobalChatsList = nil;
+  self.mutableClanChatsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3343,11 +3352,11 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutablePlayerWallPostNotificationsList objectAtIndex:index];
   return value;
 }
-- (NSArray*) clanWallPostNotificationsList {
-  return mutableClanWallPostNotificationsList;
+- (NSArray*) clanBulletinPostNotificationsList {
+  return mutableClanBulletinPostNotificationsList;
 }
-- (ClanWallPostProto*) clanWallPostNotificationsAtIndex:(int32_t) index {
-  id value = [mutableClanWallPostNotificationsList objectAtIndex:index];
+- (ClanBulletinPostProto*) clanBulletinPostNotificationsAtIndex:(int32_t) index {
+  id value = [mutableClanBulletinPostNotificationsList objectAtIndex:index];
   return value;
 }
 - (NSArray*) lockBoxEventsList {
@@ -3376,6 +3385,27 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 }
 - (NSString*) noticesToPlayersAtIndex:(int32_t) index {
   id value = [mutableNoticesToPlayersList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) mktSearchEquipsList {
+  return mutableMktSearchEquipsList;
+}
+- (MarketplaceSearchEquipProto*) mktSearchEquipsAtIndex:(int32_t) index {
+  id value = [mutableMktSearchEquipsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) globalChatsList {
+  return mutableGlobalChatsList;
+}
+- (GroupChatMessageProto*) globalChatsAtIndex:(int32_t) index {
+  id value = [mutableGlobalChatsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) clanChatsList {
+  return mutableClanChatsList;
+}
+- (GroupChatMessageProto*) clanChatsAtIndex:(int32_t) index {
+  id value = [mutableClanChatsList objectAtIndex:index];
   return value;
 }
 - (BOOL) isInitialized {
@@ -3460,7 +3490,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (FullUserClanProto* element in self.userClanInfoList) {
     [output writeMessage:26 value:element];
   }
-  for (ClanWallPostProto* element in self.clanWallPostNotificationsList) {
+  for (ClanBulletinPostProto* element in self.clanBulletinPostNotificationsList) {
     [output writeMessage:27 value:element];
   }
   for (LockBoxEventProto* element in self.lockBoxEventsList) {
@@ -3468,6 +3498,15 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (UserLockBoxEventProto* element in self.userLockBoxEventsList) {
     [output writeMessage:29 value:element];
+  }
+  for (MarketplaceSearchEquipProto* element in self.mktSearchEquipsList) {
+    [output writeMessage:30 value:element];
+  }
+  for (GroupChatMessageProto* element in self.globalChatsList) {
+    [output writeMessage:31 value:element];
+  }
+  for (GroupChatMessageProto* element in self.clanChatsList) {
+    [output writeMessage:32 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3561,7 +3600,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (FullUserClanProto* element in self.userClanInfoList) {
     size += computeMessageSize(26, element);
   }
-  for (ClanWallPostProto* element in self.clanWallPostNotificationsList) {
+  for (ClanBulletinPostProto* element in self.clanBulletinPostNotificationsList) {
     size += computeMessageSize(27, element);
   }
   for (LockBoxEventProto* element in self.lockBoxEventsList) {
@@ -3569,6 +3608,15 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (UserLockBoxEventProto* element in self.userLockBoxEventsList) {
     size += computeMessageSize(29, element);
+  }
+  for (MarketplaceSearchEquipProto* element in self.mktSearchEquipsList) {
+    size += computeMessageSize(30, element);
+  }
+  for (GroupChatMessageProto* element in self.globalChatsList) {
+    size += computeMessageSize(31, element);
+  }
+  for (GroupChatMessageProto* element in self.clanChatsList) {
+    size += computeMessageSize(32, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4965,9 +5013,10 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t diamondPriceForGroupChatPurchasePackage;
 @property int32_t maxLengthOfChatString;
 @property (retain) StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-@property int32_t diamondCostToPlayThreeCardMonte;
+@property (retain) StartupResponseProto_StartupConstants_ThreeCardMonteConstants* threeCardMonteConstants;
 @property (retain) StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
 @property (retain) StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
+@property (retain) StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5430,13 +5479,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasClanConstants_ = !!value;
 }
 @synthesize clanConstants;
-- (BOOL) hasDiamondCostToPlayThreeCardMonte {
-  return !!hasDiamondCostToPlayThreeCardMonte_;
+- (BOOL) hasThreeCardMonteConstants {
+  return !!hasThreeCardMonteConstants_;
 }
-- (void) setHasDiamondCostToPlayThreeCardMonte:(BOOL) value {
-  hasDiamondCostToPlayThreeCardMonte_ = !!value;
+- (void) setHasThreeCardMonteConstants:(BOOL) value {
+  hasThreeCardMonteConstants_ = !!value;
 }
-@synthesize diamondCostToPlayThreeCardMonte;
+@synthesize threeCardMonteConstants;
 - (BOOL) hasGoldmineConstants {
   return !!hasGoldmineConstants_;
 }
@@ -5451,6 +5500,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasLockBoxConstants_ = !!value;
 }
 @synthesize lockBoxConstants;
+- (BOOL) hasExpansionConstants {
+  return !!hasExpansionConstants_;
+}
+- (void) setHasExpansionConstants:(BOOL) value {
+  hasExpansionConstants_ = !!value;
+}
+@synthesize expansionConstants;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5461,8 +5517,10 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.forgeConstants = nil;
   self.charModConstants = nil;
   self.clanConstants = nil;
+  self.threeCardMonteConstants = nil;
   self.goldmineConstants = nil;
   self.lockBoxConstants = nil;
+  self.expansionConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -5532,9 +5590,10 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.diamondPriceForGroupChatPurchasePackage = 0;
     self.maxLengthOfChatString = 0;
     self.clanConstants = [StartupResponseProto_StartupConstants_ClanConstants defaultInstance];
-    self.diamondCostToPlayThreeCardMonte = 0;
+    self.threeCardMonteConstants = [StartupResponseProto_StartupConstants_ThreeCardMonteConstants defaultInstance];
     self.goldmineConstants = [StartupResponseProto_StartupConstants_GoldmineConstants defaultInstance];
     self.lockBoxConstants = [StartupResponseProto_StartupConstants_LockBoxConstants defaultInstance];
+    self.expansionConstants = [StartupResponseProto_StartupConstants_ExpansionConstants defaultInstance];
   }
   return self;
 }
@@ -5779,14 +5838,17 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasClanConstants) {
     [output writeMessage:78 value:self.clanConstants];
   }
-  if (self.hasDiamondCostToPlayThreeCardMonte) {
-    [output writeInt32:79 value:self.diamondCostToPlayThreeCardMonte];
+  if (self.hasThreeCardMonteConstants) {
+    [output writeMessage:79 value:self.threeCardMonteConstants];
   }
   if (self.hasGoldmineConstants) {
     [output writeMessage:80 value:self.goldmineConstants];
   }
   if (self.hasLockBoxConstants) {
     [output writeMessage:81 value:self.lockBoxConstants];
+  }
+  if (self.hasExpansionConstants) {
+    [output writeMessage:82 value:self.expansionConstants];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -6011,14 +6073,17 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasClanConstants) {
     size += computeMessageSize(78, self.clanConstants);
   }
-  if (self.hasDiamondCostToPlayThreeCardMonte) {
-    size += computeInt32Size(79, self.diamondCostToPlayThreeCardMonte);
+  if (self.hasThreeCardMonteConstants) {
+    size += computeMessageSize(79, self.threeCardMonteConstants);
   }
   if (self.hasGoldmineConstants) {
     size += computeMessageSize(80, self.goldmineConstants);
   }
   if (self.hasLockBoxConstants) {
     size += computeMessageSize(81, self.lockBoxConstants);
+  }
+  if (self.hasExpansionConstants) {
+    size += computeMessageSize(82, self.expansionConstants);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6050,6 +6115,664 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_ThreeCardMonteConstants ()
+@property int32_t diamondCostToPlayThreeCardMonte;
+@property int32_t minLevelToDisplayThreeCardMonte;
+@property Float32 badMonteCardPercentageChance;
+@property Float32 mediumMonteCardPercentageChance;
+@property Float32 goodMonteCardPercentageChance;
+@end
+
+@implementation StartupResponseProto_StartupConstants_ThreeCardMonteConstants
+
+- (BOOL) hasDiamondCostToPlayThreeCardMonte {
+  return !!hasDiamondCostToPlayThreeCardMonte_;
+}
+- (void) setHasDiamondCostToPlayThreeCardMonte:(BOOL) value {
+  hasDiamondCostToPlayThreeCardMonte_ = !!value;
+}
+@synthesize diamondCostToPlayThreeCardMonte;
+- (BOOL) hasMinLevelToDisplayThreeCardMonte {
+  return !!hasMinLevelToDisplayThreeCardMonte_;
+}
+- (void) setHasMinLevelToDisplayThreeCardMonte:(BOOL) value {
+  hasMinLevelToDisplayThreeCardMonte_ = !!value;
+}
+@synthesize minLevelToDisplayThreeCardMonte;
+- (BOOL) hasBadMonteCardPercentageChance {
+  return !!hasBadMonteCardPercentageChance_;
+}
+- (void) setHasBadMonteCardPercentageChance:(BOOL) value {
+  hasBadMonteCardPercentageChance_ = !!value;
+}
+@synthesize badMonteCardPercentageChance;
+- (BOOL) hasMediumMonteCardPercentageChance {
+  return !!hasMediumMonteCardPercentageChance_;
+}
+- (void) setHasMediumMonteCardPercentageChance:(BOOL) value {
+  hasMediumMonteCardPercentageChance_ = !!value;
+}
+@synthesize mediumMonteCardPercentageChance;
+- (BOOL) hasGoodMonteCardPercentageChance {
+  return !!hasGoodMonteCardPercentageChance_;
+}
+- (void) setHasGoodMonteCardPercentageChance:(BOOL) value {
+  hasGoodMonteCardPercentageChance_ = !!value;
+}
+@synthesize goodMonteCardPercentageChance;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.diamondCostToPlayThreeCardMonte = 0;
+    self.minLevelToDisplayThreeCardMonte = 0;
+    self.badMonteCardPercentageChance = 0;
+    self.mediumMonteCardPercentageChance = 0;
+    self.goodMonteCardPercentageChance = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_ThreeCardMonteConstants* defaultStartupResponseProto_StartupConstants_ThreeCardMonteConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_ThreeCardMonteConstants class]) {
+    defaultStartupResponseProto_StartupConstants_ThreeCardMonteConstantsInstance = [[StartupResponseProto_StartupConstants_ThreeCardMonteConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_ThreeCardMonteConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_ThreeCardMonteConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasDiamondCostToPlayThreeCardMonte) {
+    [output writeInt32:1 value:self.diamondCostToPlayThreeCardMonte];
+  }
+  if (self.hasMinLevelToDisplayThreeCardMonte) {
+    [output writeInt32:2 value:self.minLevelToDisplayThreeCardMonte];
+  }
+  if (self.hasBadMonteCardPercentageChance) {
+    [output writeFloat:3 value:self.badMonteCardPercentageChance];
+  }
+  if (self.hasMediumMonteCardPercentageChance) {
+    [output writeFloat:4 value:self.mediumMonteCardPercentageChance];
+  }
+  if (self.hasGoodMonteCardPercentageChance) {
+    [output writeFloat:5 value:self.goodMonteCardPercentageChance];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasDiamondCostToPlayThreeCardMonte) {
+    size += computeInt32Size(1, self.diamondCostToPlayThreeCardMonte);
+  }
+  if (self.hasMinLevelToDisplayThreeCardMonte) {
+    size += computeInt32Size(2, self.minLevelToDisplayThreeCardMonte);
+  }
+  if (self.hasBadMonteCardPercentageChance) {
+    size += computeFloatSize(3, self.badMonteCardPercentageChance);
+  }
+  if (self.hasMediumMonteCardPercentageChance) {
+    size += computeFloatSize(4, self.mediumMonteCardPercentageChance);
+  }
+  if (self.hasGoodMonteCardPercentageChance) {
+    size += computeFloatSize(5, self.goodMonteCardPercentageChance);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*)[[[StartupResponseProto_StartupConstants_ThreeCardMonteConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*)[[[StartupResponseProto_StartupConstants_ThreeCardMonteConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*)[[[StartupResponseProto_StartupConstants_ThreeCardMonteConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*)[[[StartupResponseProto_StartupConstants_ThreeCardMonteConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*)[[[StartupResponseProto_StartupConstants_ThreeCardMonteConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*)[[[StartupResponseProto_StartupConstants_ThreeCardMonteConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_ThreeCardMonteConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_ThreeCardMonteConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_ThreeCardMonteConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_ThreeCardMonteConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_ThreeCardMonteConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_ThreeCardMonteConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_ThreeCardMonteConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_ThreeCardMonteConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_ThreeCardMonteConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasDiamondCostToPlayThreeCardMonte) {
+    [self setDiamondCostToPlayThreeCardMonte:other.diamondCostToPlayThreeCardMonte];
+  }
+  if (other.hasMinLevelToDisplayThreeCardMonte) {
+    [self setMinLevelToDisplayThreeCardMonte:other.minLevelToDisplayThreeCardMonte];
+  }
+  if (other.hasBadMonteCardPercentageChance) {
+    [self setBadMonteCardPercentageChance:other.badMonteCardPercentageChance];
+  }
+  if (other.hasMediumMonteCardPercentageChance) {
+    [self setMediumMonteCardPercentageChance:other.mediumMonteCardPercentageChance];
+  }
+  if (other.hasGoodMonteCardPercentageChance) {
+    [self setGoodMonteCardPercentageChance:other.goodMonteCardPercentageChance];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setDiamondCostToPlayThreeCardMonte:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setMinLevelToDisplayThreeCardMonte:[input readInt32]];
+        break;
+      }
+      case 29: {
+        [self setBadMonteCardPercentageChance:[input readFloat]];
+        break;
+      }
+      case 37: {
+        [self setMediumMonteCardPercentageChance:[input readFloat]];
+        break;
+      }
+      case 45: {
+        [self setGoodMonteCardPercentageChance:[input readFloat]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasDiamondCostToPlayThreeCardMonte {
+  return result.hasDiamondCostToPlayThreeCardMonte;
+}
+- (int32_t) diamondCostToPlayThreeCardMonte {
+  return result.diamondCostToPlayThreeCardMonte;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) setDiamondCostToPlayThreeCardMonte:(int32_t) value {
+  result.hasDiamondCostToPlayThreeCardMonte = YES;
+  result.diamondCostToPlayThreeCardMonte = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) clearDiamondCostToPlayThreeCardMonte {
+  result.hasDiamondCostToPlayThreeCardMonte = NO;
+  result.diamondCostToPlayThreeCardMonte = 0;
+  return self;
+}
+- (BOOL) hasMinLevelToDisplayThreeCardMonte {
+  return result.hasMinLevelToDisplayThreeCardMonte;
+}
+- (int32_t) minLevelToDisplayThreeCardMonte {
+  return result.minLevelToDisplayThreeCardMonte;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) setMinLevelToDisplayThreeCardMonte:(int32_t) value {
+  result.hasMinLevelToDisplayThreeCardMonte = YES;
+  result.minLevelToDisplayThreeCardMonte = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) clearMinLevelToDisplayThreeCardMonte {
+  result.hasMinLevelToDisplayThreeCardMonte = NO;
+  result.minLevelToDisplayThreeCardMonte = 0;
+  return self;
+}
+- (BOOL) hasBadMonteCardPercentageChance {
+  return result.hasBadMonteCardPercentageChance;
+}
+- (Float32) badMonteCardPercentageChance {
+  return result.badMonteCardPercentageChance;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) setBadMonteCardPercentageChance:(Float32) value {
+  result.hasBadMonteCardPercentageChance = YES;
+  result.badMonteCardPercentageChance = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) clearBadMonteCardPercentageChance {
+  result.hasBadMonteCardPercentageChance = NO;
+  result.badMonteCardPercentageChance = 0;
+  return self;
+}
+- (BOOL) hasMediumMonteCardPercentageChance {
+  return result.hasMediumMonteCardPercentageChance;
+}
+- (Float32) mediumMonteCardPercentageChance {
+  return result.mediumMonteCardPercentageChance;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) setMediumMonteCardPercentageChance:(Float32) value {
+  result.hasMediumMonteCardPercentageChance = YES;
+  result.mediumMonteCardPercentageChance = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) clearMediumMonteCardPercentageChance {
+  result.hasMediumMonteCardPercentageChance = NO;
+  result.mediumMonteCardPercentageChance = 0;
+  return self;
+}
+- (BOOL) hasGoodMonteCardPercentageChance {
+  return result.hasGoodMonteCardPercentageChance;
+}
+- (Float32) goodMonteCardPercentageChance {
+  return result.goodMonteCardPercentageChance;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) setGoodMonteCardPercentageChance:(Float32) value {
+  result.hasGoodMonteCardPercentageChance = YES;
+  result.goodMonteCardPercentageChance = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) clearGoodMonteCardPercentageChance {
+  result.hasGoodMonteCardPercentageChance = NO;
+  result.goodMonteCardPercentageChance = 0;
+  return self;
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_ExpansionConstants ()
+@property int32_t expansionWaitCompleteHourConstant;
+@property int32_t expansionWaitCompleteHourIncrementBase;
+@property int32_t expansionWaitCompleteBaseMinutesToOneGold;
+@property int32_t expansionPurchaseCostConstant;
+@property int32_t expansionPurchaseCostExponentBase;
+@end
+
+@implementation StartupResponseProto_StartupConstants_ExpansionConstants
+
+- (BOOL) hasExpansionWaitCompleteHourConstant {
+  return !!hasExpansionWaitCompleteHourConstant_;
+}
+- (void) setHasExpansionWaitCompleteHourConstant:(BOOL) value {
+  hasExpansionWaitCompleteHourConstant_ = !!value;
+}
+@synthesize expansionWaitCompleteHourConstant;
+- (BOOL) hasExpansionWaitCompleteHourIncrementBase {
+  return !!hasExpansionWaitCompleteHourIncrementBase_;
+}
+- (void) setHasExpansionWaitCompleteHourIncrementBase:(BOOL) value {
+  hasExpansionWaitCompleteHourIncrementBase_ = !!value;
+}
+@synthesize expansionWaitCompleteHourIncrementBase;
+- (BOOL) hasExpansionWaitCompleteBaseMinutesToOneGold {
+  return !!hasExpansionWaitCompleteBaseMinutesToOneGold_;
+}
+- (void) setHasExpansionWaitCompleteBaseMinutesToOneGold:(BOOL) value {
+  hasExpansionWaitCompleteBaseMinutesToOneGold_ = !!value;
+}
+@synthesize expansionWaitCompleteBaseMinutesToOneGold;
+- (BOOL) hasExpansionPurchaseCostConstant {
+  return !!hasExpansionPurchaseCostConstant_;
+}
+- (void) setHasExpansionPurchaseCostConstant:(BOOL) value {
+  hasExpansionPurchaseCostConstant_ = !!value;
+}
+@synthesize expansionPurchaseCostConstant;
+- (BOOL) hasExpansionPurchaseCostExponentBase {
+  return !!hasExpansionPurchaseCostExponentBase_;
+}
+- (void) setHasExpansionPurchaseCostExponentBase:(BOOL) value {
+  hasExpansionPurchaseCostExponentBase_ = !!value;
+}
+@synthesize expansionPurchaseCostExponentBase;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.expansionWaitCompleteHourConstant = 0;
+    self.expansionWaitCompleteHourIncrementBase = 0;
+    self.expansionWaitCompleteBaseMinutesToOneGold = 0;
+    self.expansionPurchaseCostConstant = 0;
+    self.expansionPurchaseCostExponentBase = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_ExpansionConstants* defaultStartupResponseProto_StartupConstants_ExpansionConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_ExpansionConstants class]) {
+    defaultStartupResponseProto_StartupConstants_ExpansionConstantsInstance = [[StartupResponseProto_StartupConstants_ExpansionConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_ExpansionConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_ExpansionConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_ExpansionConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasExpansionWaitCompleteHourConstant) {
+    [output writeInt32:1 value:self.expansionWaitCompleteHourConstant];
+  }
+  if (self.hasExpansionWaitCompleteHourIncrementBase) {
+    [output writeInt32:2 value:self.expansionWaitCompleteHourIncrementBase];
+  }
+  if (self.hasExpansionWaitCompleteBaseMinutesToOneGold) {
+    [output writeInt32:3 value:self.expansionWaitCompleteBaseMinutesToOneGold];
+  }
+  if (self.hasExpansionPurchaseCostConstant) {
+    [output writeInt32:4 value:self.expansionPurchaseCostConstant];
+  }
+  if (self.hasExpansionPurchaseCostExponentBase) {
+    [output writeInt32:5 value:self.expansionPurchaseCostExponentBase];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasExpansionWaitCompleteHourConstant) {
+    size += computeInt32Size(1, self.expansionWaitCompleteHourConstant);
+  }
+  if (self.hasExpansionWaitCompleteHourIncrementBase) {
+    size += computeInt32Size(2, self.expansionWaitCompleteHourIncrementBase);
+  }
+  if (self.hasExpansionWaitCompleteBaseMinutesToOneGold) {
+    size += computeInt32Size(3, self.expansionWaitCompleteBaseMinutesToOneGold);
+  }
+  if (self.hasExpansionPurchaseCostConstant) {
+    size += computeInt32Size(4, self.expansionPurchaseCostConstant);
+  }
+  if (self.hasExpansionPurchaseCostExponentBase) {
+    size += computeInt32Size(5, self.expansionPurchaseCostExponentBase);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_ExpansionConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_ExpansionConstants*)[[[StartupResponseProto_StartupConstants_ExpansionConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_ExpansionConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ExpansionConstants*)[[[StartupResponseProto_StartupConstants_ExpansionConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ExpansionConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_ExpansionConstants*)[[[StartupResponseProto_StartupConstants_ExpansionConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_ExpansionConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ExpansionConstants*)[[[StartupResponseProto_StartupConstants_ExpansionConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ExpansionConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_ExpansionConstants*)[[[StartupResponseProto_StartupConstants_ExpansionConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_ExpansionConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ExpansionConstants*)[[[StartupResponseProto_StartupConstants_ExpansionConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_ExpansionConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_ExpansionConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_ExpansionConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_ExpansionConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_ExpansionConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_ExpansionConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_ExpansionConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_ExpansionConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_ExpansionConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_ExpansionConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_ExpansionConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_ExpansionConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_ExpansionConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_ExpansionConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasExpansionWaitCompleteHourConstant) {
+    [self setExpansionWaitCompleteHourConstant:other.expansionWaitCompleteHourConstant];
+  }
+  if (other.hasExpansionWaitCompleteHourIncrementBase) {
+    [self setExpansionWaitCompleteHourIncrementBase:other.expansionWaitCompleteHourIncrementBase];
+  }
+  if (other.hasExpansionWaitCompleteBaseMinutesToOneGold) {
+    [self setExpansionWaitCompleteBaseMinutesToOneGold:other.expansionWaitCompleteBaseMinutesToOneGold];
+  }
+  if (other.hasExpansionPurchaseCostConstant) {
+    [self setExpansionPurchaseCostConstant:other.expansionPurchaseCostConstant];
+  }
+  if (other.hasExpansionPurchaseCostExponentBase) {
+    [self setExpansionPurchaseCostExponentBase:other.expansionPurchaseCostExponentBase];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setExpansionWaitCompleteHourConstant:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setExpansionWaitCompleteHourIncrementBase:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setExpansionWaitCompleteBaseMinutesToOneGold:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setExpansionPurchaseCostConstant:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setExpansionPurchaseCostExponentBase:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasExpansionWaitCompleteHourConstant {
+  return result.hasExpansionWaitCompleteHourConstant;
+}
+- (int32_t) expansionWaitCompleteHourConstant {
+  return result.expansionWaitCompleteHourConstant;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) setExpansionWaitCompleteHourConstant:(int32_t) value {
+  result.hasExpansionWaitCompleteHourConstant = YES;
+  result.expansionWaitCompleteHourConstant = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) clearExpansionWaitCompleteHourConstant {
+  result.hasExpansionWaitCompleteHourConstant = NO;
+  result.expansionWaitCompleteHourConstant = 0;
+  return self;
+}
+- (BOOL) hasExpansionWaitCompleteHourIncrementBase {
+  return result.hasExpansionWaitCompleteHourIncrementBase;
+}
+- (int32_t) expansionWaitCompleteHourIncrementBase {
+  return result.expansionWaitCompleteHourIncrementBase;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) setExpansionWaitCompleteHourIncrementBase:(int32_t) value {
+  result.hasExpansionWaitCompleteHourIncrementBase = YES;
+  result.expansionWaitCompleteHourIncrementBase = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) clearExpansionWaitCompleteHourIncrementBase {
+  result.hasExpansionWaitCompleteHourIncrementBase = NO;
+  result.expansionWaitCompleteHourIncrementBase = 0;
+  return self;
+}
+- (BOOL) hasExpansionWaitCompleteBaseMinutesToOneGold {
+  return result.hasExpansionWaitCompleteBaseMinutesToOneGold;
+}
+- (int32_t) expansionWaitCompleteBaseMinutesToOneGold {
+  return result.expansionWaitCompleteBaseMinutesToOneGold;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) setExpansionWaitCompleteBaseMinutesToOneGold:(int32_t) value {
+  result.hasExpansionWaitCompleteBaseMinutesToOneGold = YES;
+  result.expansionWaitCompleteBaseMinutesToOneGold = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) clearExpansionWaitCompleteBaseMinutesToOneGold {
+  result.hasExpansionWaitCompleteBaseMinutesToOneGold = NO;
+  result.expansionWaitCompleteBaseMinutesToOneGold = 0;
+  return self;
+}
+- (BOOL) hasExpansionPurchaseCostConstant {
+  return result.hasExpansionPurchaseCostConstant;
+}
+- (int32_t) expansionPurchaseCostConstant {
+  return result.expansionPurchaseCostConstant;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) setExpansionPurchaseCostConstant:(int32_t) value {
+  result.hasExpansionPurchaseCostConstant = YES;
+  result.expansionPurchaseCostConstant = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) clearExpansionPurchaseCostConstant {
+  result.hasExpansionPurchaseCostConstant = NO;
+  result.expansionPurchaseCostConstant = 0;
+  return self;
+}
+- (BOOL) hasExpansionPurchaseCostExponentBase {
+  return result.hasExpansionPurchaseCostExponentBase;
+}
+- (int32_t) expansionPurchaseCostExponentBase {
+  return result.expansionPurchaseCostExponentBase;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) setExpansionPurchaseCostExponentBase:(int32_t) value {
+  result.hasExpansionPurchaseCostExponentBase = YES;
+  result.expansionPurchaseCostExponentBase = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) clearExpansionPurchaseCostExponentBase {
+  result.hasExpansionPurchaseCostExponentBase = NO;
+  result.expansionPurchaseCostExponentBase = 0;
+  return self;
 }
 @end
 
@@ -9870,14 +10593,17 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasClanConstants) {
     [self mergeClanConstants:other.clanConstants];
   }
-  if (other.hasDiamondCostToPlayThreeCardMonte) {
-    [self setDiamondCostToPlayThreeCardMonte:other.diamondCostToPlayThreeCardMonte];
+  if (other.hasThreeCardMonteConstants) {
+    [self mergeThreeCardMonteConstants:other.threeCardMonteConstants];
   }
   if (other.hasGoldmineConstants) {
     [self mergeGoldmineConstants:other.goldmineConstants];
   }
   if (other.hasLockBoxConstants) {
     [self mergeLockBoxConstants:other.lockBoxConstants];
+  }
+  if (other.hasExpansionConstants) {
+    [self mergeExpansionConstants:other.expansionConstants];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -10204,8 +10930,13 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         [self setClanConstants:[subBuilder buildPartial]];
         break;
       }
-      case 632: {
-        [self setDiamondCostToPlayThreeCardMonte:[input readInt32]];
+      case 634: {
+        StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_ThreeCardMonteConstants builder];
+        if (self.hasThreeCardMonteConstants) {
+          [subBuilder mergeFrom:self.threeCardMonteConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setThreeCardMonteConstants:[subBuilder buildPartial]];
         break;
       }
       case 642: {
@@ -10224,6 +10955,15 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setLockBoxConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 658: {
+        StartupResponseProto_StartupConstants_ExpansionConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_ExpansionConstants builder];
+        if (self.hasExpansionConstants) {
+          [subBuilder mergeFrom:self.expansionConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setExpansionConstants:[subBuilder buildPartial]];
         break;
       }
     }
@@ -11444,20 +12184,34 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   result.clanConstants = [StartupResponseProto_StartupConstants_ClanConstants defaultInstance];
   return self;
 }
-- (BOOL) hasDiamondCostToPlayThreeCardMonte {
-  return result.hasDiamondCostToPlayThreeCardMonte;
+- (BOOL) hasThreeCardMonteConstants {
+  return result.hasThreeCardMonteConstants;
 }
-- (int32_t) diamondCostToPlayThreeCardMonte {
-  return result.diamondCostToPlayThreeCardMonte;
+- (StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) threeCardMonteConstants {
+  return result.threeCardMonteConstants;
 }
-- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostToPlayThreeCardMonte:(int32_t) value {
-  result.hasDiamondCostToPlayThreeCardMonte = YES;
-  result.diamondCostToPlayThreeCardMonte = value;
+- (StartupResponseProto_StartupConstants_Builder*) setThreeCardMonteConstants:(StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) value {
+  result.hasThreeCardMonteConstants = YES;
+  result.threeCardMonteConstants = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostToPlayThreeCardMonte {
-  result.hasDiamondCostToPlayThreeCardMonte = NO;
-  result.diamondCostToPlayThreeCardMonte = 0;
+- (StartupResponseProto_StartupConstants_Builder*) setThreeCardMonteConstantsBuilder:(StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder*) builderForValue {
+  return [self setThreeCardMonteConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeThreeCardMonteConstants:(StartupResponseProto_StartupConstants_ThreeCardMonteConstants*) value {
+  if (result.hasThreeCardMonteConstants &&
+      result.threeCardMonteConstants != [StartupResponseProto_StartupConstants_ThreeCardMonteConstants defaultInstance]) {
+    result.threeCardMonteConstants =
+      [[[StartupResponseProto_StartupConstants_ThreeCardMonteConstants builderWithPrototype:result.threeCardMonteConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.threeCardMonteConstants = value;
+  }
+  result.hasThreeCardMonteConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearThreeCardMonteConstants {
+  result.hasThreeCardMonteConstants = NO;
+  result.threeCardMonteConstants = [StartupResponseProto_StartupConstants_ThreeCardMonteConstants defaultInstance];
   return self;
 }
 - (BOOL) hasGoldmineConstants {
@@ -11518,6 +12272,36 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearLockBoxConstants {
   result.hasLockBoxConstants = NO;
   result.lockBoxConstants = [StartupResponseProto_StartupConstants_LockBoxConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasExpansionConstants {
+  return result.hasExpansionConstants;
+}
+- (StartupResponseProto_StartupConstants_ExpansionConstants*) expansionConstants {
+  return result.expansionConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setExpansionConstants:(StartupResponseProto_StartupConstants_ExpansionConstants*) value {
+  result.hasExpansionConstants = YES;
+  result.expansionConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setExpansionConstantsBuilder:(StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) builderForValue {
+  return [self setExpansionConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeExpansionConstants:(StartupResponseProto_StartupConstants_ExpansionConstants*) value {
+  if (result.hasExpansionConstants &&
+      result.expansionConstants != [StartupResponseProto_StartupConstants_ExpansionConstants defaultInstance]) {
+    result.expansionConstants =
+      [[[StartupResponseProto_StartupConstants_ExpansionConstants builderWithPrototype:result.expansionConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.expansionConstants = value;
+  }
+  result.hasExpansionConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearExpansionConstants {
+  result.hasExpansionConstants = NO;
+  result.expansionConstants = [StartupResponseProto_StartupConstants_ExpansionConstants defaultInstance];
   return self;
 }
 @end
@@ -14177,11 +14961,11 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutablePlayerWallPostNotificationsList addObjectsFromArray:other.mutablePlayerWallPostNotificationsList];
   }
-  if (other.mutableClanWallPostNotificationsList.count > 0) {
-    if (result.mutableClanWallPostNotificationsList == nil) {
-      result.mutableClanWallPostNotificationsList = [NSMutableArray array];
+  if (other.mutableClanBulletinPostNotificationsList.count > 0) {
+    if (result.mutableClanBulletinPostNotificationsList == nil) {
+      result.mutableClanBulletinPostNotificationsList = [NSMutableArray array];
     }
-    [result.mutableClanWallPostNotificationsList addObjectsFromArray:other.mutableClanWallPostNotificationsList];
+    [result.mutableClanBulletinPostNotificationsList addObjectsFromArray:other.mutableClanBulletinPostNotificationsList];
   }
   if (other.mutableLockBoxEventsList.count > 0) {
     if (result.mutableLockBoxEventsList == nil) {
@@ -14221,6 +15005,24 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
       result.mutableNoticesToPlayersList = [NSMutableArray array];
     }
     [result.mutableNoticesToPlayersList addObjectsFromArray:other.mutableNoticesToPlayersList];
+  }
+  if (other.mutableMktSearchEquipsList.count > 0) {
+    if (result.mutableMktSearchEquipsList == nil) {
+      result.mutableMktSearchEquipsList = [NSMutableArray array];
+    }
+    [result.mutableMktSearchEquipsList addObjectsFromArray:other.mutableMktSearchEquipsList];
+  }
+  if (other.mutableGlobalChatsList.count > 0) {
+    if (result.mutableGlobalChatsList == nil) {
+      result.mutableGlobalChatsList = [NSMutableArray array];
+    }
+    [result.mutableGlobalChatsList addObjectsFromArray:other.mutableGlobalChatsList];
+  }
+  if (other.mutableClanChatsList.count > 0) {
+    if (result.mutableClanChatsList == nil) {
+      result.mutableClanChatsList = [NSMutableArray array];
+    }
+    [result.mutableClanChatsList addObjectsFromArray:other.mutableClanChatsList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -14414,9 +15216,9 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         break;
       }
       case 218: {
-        ClanWallPostProto_Builder* subBuilder = [ClanWallPostProto builder];
+        ClanBulletinPostProto_Builder* subBuilder = [ClanBulletinPostProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addClanWallPostNotifications:[subBuilder buildPartial]];
+        [self addClanBulletinPostNotifications:[subBuilder buildPartial]];
         break;
       }
       case 226: {
@@ -14429,6 +15231,24 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         UserLockBoxEventProto_Builder* subBuilder = [UserLockBoxEventProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserLockBoxEvents:[subBuilder buildPartial]];
+        break;
+      }
+      case 242: {
+        MarketplaceSearchEquipProto_Builder* subBuilder = [MarketplaceSearchEquipProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addMktSearchEquips:[subBuilder buildPartial]];
+        break;
+      }
+      case 250: {
+        GroupChatMessageProto_Builder* subBuilder = [GroupChatMessageProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addGlobalChats:[subBuilder buildPartial]];
+        break;
+      }
+      case 258: {
+        GroupChatMessageProto_Builder* subBuilder = [GroupChatMessageProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addClanChats:[subBuilder buildPartial]];
         break;
       }
     }
@@ -14936,33 +15756,33 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   [result.mutablePlayerWallPostNotificationsList addObject:value];
   return self;
 }
-- (NSArray*) clanWallPostNotificationsList {
-  if (result.mutableClanWallPostNotificationsList == nil) { return [NSArray array]; }
-  return result.mutableClanWallPostNotificationsList;
+- (NSArray*) clanBulletinPostNotificationsList {
+  if (result.mutableClanBulletinPostNotificationsList == nil) { return [NSArray array]; }
+  return result.mutableClanBulletinPostNotificationsList;
 }
-- (ClanWallPostProto*) clanWallPostNotificationsAtIndex:(int32_t) index {
-  return [result clanWallPostNotificationsAtIndex:index];
+- (ClanBulletinPostProto*) clanBulletinPostNotificationsAtIndex:(int32_t) index {
+  return [result clanBulletinPostNotificationsAtIndex:index];
 }
-- (StartupResponseProto_Builder*) replaceClanWallPostNotificationsAtIndex:(int32_t) index with:(ClanWallPostProto*) value {
-  [result.mutableClanWallPostNotificationsList replaceObjectAtIndex:index withObject:value];
+- (StartupResponseProto_Builder*) replaceClanBulletinPostNotificationsAtIndex:(int32_t) index with:(ClanBulletinPostProto*) value {
+  [result.mutableClanBulletinPostNotificationsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (StartupResponseProto_Builder*) addAllClanWallPostNotifications:(NSArray*) values {
-  if (result.mutableClanWallPostNotificationsList == nil) {
-    result.mutableClanWallPostNotificationsList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addAllClanBulletinPostNotifications:(NSArray*) values {
+  if (result.mutableClanBulletinPostNotificationsList == nil) {
+    result.mutableClanBulletinPostNotificationsList = [NSMutableArray array];
   }
-  [result.mutableClanWallPostNotificationsList addObjectsFromArray:values];
+  [result.mutableClanBulletinPostNotificationsList addObjectsFromArray:values];
   return self;
 }
-- (StartupResponseProto_Builder*) clearClanWallPostNotificationsList {
-  result.mutableClanWallPostNotificationsList = nil;
+- (StartupResponseProto_Builder*) clearClanBulletinPostNotificationsList {
+  result.mutableClanBulletinPostNotificationsList = nil;
   return self;
 }
-- (StartupResponseProto_Builder*) addClanWallPostNotifications:(ClanWallPostProto*) value {
-  if (result.mutableClanWallPostNotificationsList == nil) {
-    result.mutableClanWallPostNotificationsList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addClanBulletinPostNotifications:(ClanBulletinPostProto*) value {
+  if (result.mutableClanBulletinPostNotificationsList == nil) {
+    result.mutableClanBulletinPostNotificationsList = [NSMutableArray array];
   }
-  [result.mutableClanWallPostNotificationsList addObject:value];
+  [result.mutableClanBulletinPostNotificationsList addObject:value];
   return self;
 }
 - (NSArray*) lockBoxEventsList {
@@ -15203,6 +16023,93 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
 }
 - (StartupResponseProto_Builder*) clearNoticesToPlayersList {
   result.mutableNoticesToPlayersList = nil;
+  return self;
+}
+- (NSArray*) mktSearchEquipsList {
+  if (result.mutableMktSearchEquipsList == nil) { return [NSArray array]; }
+  return result.mutableMktSearchEquipsList;
+}
+- (MarketplaceSearchEquipProto*) mktSearchEquipsAtIndex:(int32_t) index {
+  return [result mktSearchEquipsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceMktSearchEquipsAtIndex:(int32_t) index with:(MarketplaceSearchEquipProto*) value {
+  [result.mutableMktSearchEquipsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllMktSearchEquips:(NSArray*) values {
+  if (result.mutableMktSearchEquipsList == nil) {
+    result.mutableMktSearchEquipsList = [NSMutableArray array];
+  }
+  [result.mutableMktSearchEquipsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearMktSearchEquipsList {
+  result.mutableMktSearchEquipsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addMktSearchEquips:(MarketplaceSearchEquipProto*) value {
+  if (result.mutableMktSearchEquipsList == nil) {
+    result.mutableMktSearchEquipsList = [NSMutableArray array];
+  }
+  [result.mutableMktSearchEquipsList addObject:value];
+  return self;
+}
+- (NSArray*) globalChatsList {
+  if (result.mutableGlobalChatsList == nil) { return [NSArray array]; }
+  return result.mutableGlobalChatsList;
+}
+- (GroupChatMessageProto*) globalChatsAtIndex:(int32_t) index {
+  return [result globalChatsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceGlobalChatsAtIndex:(int32_t) index with:(GroupChatMessageProto*) value {
+  [result.mutableGlobalChatsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllGlobalChats:(NSArray*) values {
+  if (result.mutableGlobalChatsList == nil) {
+    result.mutableGlobalChatsList = [NSMutableArray array];
+  }
+  [result.mutableGlobalChatsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearGlobalChatsList {
+  result.mutableGlobalChatsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addGlobalChats:(GroupChatMessageProto*) value {
+  if (result.mutableGlobalChatsList == nil) {
+    result.mutableGlobalChatsList = [NSMutableArray array];
+  }
+  [result.mutableGlobalChatsList addObject:value];
+  return self;
+}
+- (NSArray*) clanChatsList {
+  if (result.mutableClanChatsList == nil) { return [NSArray array]; }
+  return result.mutableClanChatsList;
+}
+- (GroupChatMessageProto*) clanChatsAtIndex:(int32_t) index {
+  return [result clanChatsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceClanChatsAtIndex:(int32_t) index with:(GroupChatMessageProto*) value {
+  [result.mutableClanChatsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllClanChats:(NSArray*) values {
+  if (result.mutableClanChatsList == nil) {
+    result.mutableClanChatsList = [NSMutableArray array];
+  }
+  [result.mutableClanChatsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearClanChatsList {
+  result.mutableClanChatsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addClanChats:(GroupChatMessageProto*) value {
+  if (result.mutableClanChatsList == nil) {
+    result.mutableClanChatsList = [NSMutableArray array];
+  }
+  [result.mutableClanChatsList addObject:value];
   return self;
 }
 @end
@@ -29864,11 +30771,6 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
 @property (retain) NSMutableArray* mutableOwnerNormStructsList;
 @property (retain) NSMutableArray* mutableOwnerAlliesList;
 @property (retain) NSMutableArray* mutableOwnerEnemiesList;
-@property (retain) FullUserCritstructProto* armory;
-@property (retain) FullUserCritstructProto* vault;
-@property (retain) FullUserCritstructProto* marketplace;
-@property (retain) FullUserCritstructProto* carpenter;
-@property (retain) FullUserCritstructProto* aviary;
 @property (retain) FullUserCityExpansionDataProto* userCityExpansionData;
 @end
 
@@ -29898,41 +30800,6 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
 @synthesize mutableOwnerNormStructsList;
 @synthesize mutableOwnerAlliesList;
 @synthesize mutableOwnerEnemiesList;
-- (BOOL) hasArmory {
-  return !!hasArmory_;
-}
-- (void) setHasArmory:(BOOL) value {
-  hasArmory_ = !!value;
-}
-@synthesize armory;
-- (BOOL) hasVault {
-  return !!hasVault_;
-}
-- (void) setHasVault:(BOOL) value {
-  hasVault_ = !!value;
-}
-@synthesize vault;
-- (BOOL) hasMarketplace {
-  return !!hasMarketplace_;
-}
-- (void) setHasMarketplace:(BOOL) value {
-  hasMarketplace_ = !!value;
-}
-@synthesize marketplace;
-- (BOOL) hasCarpenter {
-  return !!hasCarpenter_;
-}
-- (void) setHasCarpenter:(BOOL) value {
-  hasCarpenter_ = !!value;
-}
-@synthesize carpenter;
-- (BOOL) hasAviary {
-  return !!hasAviary_;
-}
-- (void) setHasAviary:(BOOL) value {
-  hasAviary_ = !!value;
-}
-@synthesize aviary;
 - (BOOL) hasUserCityExpansionData {
   return !!hasUserCityExpansionData_;
 }
@@ -29946,11 +30813,6 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   self.mutableOwnerNormStructsList = nil;
   self.mutableOwnerAlliesList = nil;
   self.mutableOwnerEnemiesList = nil;
-  self.armory = nil;
-  self.vault = nil;
-  self.marketplace = nil;
-  self.carpenter = nil;
-  self.aviary = nil;
   self.userCityExpansionData = nil;
   [super dealloc];
 }
@@ -29959,11 +30821,6 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
     self.sender = [MinimumUserProto defaultInstance];
     self.cityOwner = [MinimumUserProto defaultInstance];
     self.status = LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess;
-    self.armory = [FullUserCritstructProto defaultInstance];
-    self.vault = [FullUserCritstructProto defaultInstance];
-    self.marketplace = [FullUserCritstructProto defaultInstance];
-    self.carpenter = [FullUserCritstructProto defaultInstance];
-    self.aviary = [FullUserCritstructProto defaultInstance];
     self.userCityExpansionData = [FullUserCityExpansionDataProto defaultInstance];
   }
   return self;
@@ -30023,21 +30880,6 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
   for (FullUserProto* element in self.ownerEnemiesList) {
     [output writeMessage:6 value:element];
   }
-  if (self.hasArmory) {
-    [output writeMessage:7 value:self.armory];
-  }
-  if (self.hasVault) {
-    [output writeMessage:8 value:self.vault];
-  }
-  if (self.hasMarketplace) {
-    [output writeMessage:9 value:self.marketplace];
-  }
-  if (self.hasCarpenter) {
-    [output writeMessage:10 value:self.carpenter];
-  }
-  if (self.hasAviary) {
-    [output writeMessage:11 value:self.aviary];
-  }
   if (self.hasUserCityExpansionData) {
     [output writeMessage:12 value:self.userCityExpansionData];
   }
@@ -30067,21 +30909,6 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
   }
   for (FullUserProto* element in self.ownerEnemiesList) {
     size += computeMessageSize(6, element);
-  }
-  if (self.hasArmory) {
-    size += computeMessageSize(7, self.armory);
-  }
-  if (self.hasVault) {
-    size += computeMessageSize(8, self.vault);
-  }
-  if (self.hasMarketplace) {
-    size += computeMessageSize(9, self.marketplace);
-  }
-  if (self.hasCarpenter) {
-    size += computeMessageSize(10, self.carpenter);
-  }
-  if (self.hasAviary) {
-    size += computeMessageSize(11, self.aviary);
   }
   if (self.hasUserCityExpansionData) {
     size += computeMessageSize(12, self.userCityExpansionData);
@@ -30198,21 +31025,6 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
     }
     [result.mutableOwnerEnemiesList addObjectsFromArray:other.mutableOwnerEnemiesList];
   }
-  if (other.hasArmory) {
-    [self mergeArmory:other.armory];
-  }
-  if (other.hasVault) {
-    [self mergeVault:other.vault];
-  }
-  if (other.hasMarketplace) {
-    [self mergeMarketplace:other.marketplace];
-  }
-  if (other.hasCarpenter) {
-    [self mergeCarpenter:other.carpenter];
-  }
-  if (other.hasAviary) {
-    [self mergeAviary:other.aviary];
-  }
   if (other.hasUserCityExpansionData) {
     [self mergeUserCityExpansionData:other.userCityExpansionData];
   }
@@ -30280,51 +31092,6 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
         FullUserProto_Builder* subBuilder = [FullUserProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addOwnerEnemies:[subBuilder buildPartial]];
-        break;
-      }
-      case 58: {
-        FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
-        if (self.hasArmory) {
-          [subBuilder mergeFrom:self.armory];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setArmory:[subBuilder buildPartial]];
-        break;
-      }
-      case 66: {
-        FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
-        if (self.hasVault) {
-          [subBuilder mergeFrom:self.vault];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setVault:[subBuilder buildPartial]];
-        break;
-      }
-      case 74: {
-        FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
-        if (self.hasMarketplace) {
-          [subBuilder mergeFrom:self.marketplace];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setMarketplace:[subBuilder buildPartial]];
-        break;
-      }
-      case 82: {
-        FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
-        if (self.hasCarpenter) {
-          [subBuilder mergeFrom:self.carpenter];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setCarpenter:[subBuilder buildPartial]];
-        break;
-      }
-      case 90: {
-        FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
-        if (self.hasAviary) {
-          [subBuilder mergeFrom:self.aviary];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setAviary:[subBuilder buildPartial]];
         break;
       }
       case 98: {
@@ -30500,156 +31267,6 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
     result.mutableOwnerEnemiesList = [NSMutableArray array];
   }
   [result.mutableOwnerEnemiesList addObject:value];
-  return self;
-}
-- (BOOL) hasArmory {
-  return result.hasArmory;
-}
-- (FullUserCritstructProto*) armory {
-  return result.armory;
-}
-- (LoadPlayerCityResponseProto_Builder*) setArmory:(FullUserCritstructProto*) value {
-  result.hasArmory = YES;
-  result.armory = value;
-  return self;
-}
-- (LoadPlayerCityResponseProto_Builder*) setArmoryBuilder:(FullUserCritstructProto_Builder*) builderForValue {
-  return [self setArmory:[builderForValue build]];
-}
-- (LoadPlayerCityResponseProto_Builder*) mergeArmory:(FullUserCritstructProto*) value {
-  if (result.hasArmory &&
-      result.armory != [FullUserCritstructProto defaultInstance]) {
-    result.armory =
-      [[[FullUserCritstructProto builderWithPrototype:result.armory] mergeFrom:value] buildPartial];
-  } else {
-    result.armory = value;
-  }
-  result.hasArmory = YES;
-  return self;
-}
-- (LoadPlayerCityResponseProto_Builder*) clearArmory {
-  result.hasArmory = NO;
-  result.armory = [FullUserCritstructProto defaultInstance];
-  return self;
-}
-- (BOOL) hasVault {
-  return result.hasVault;
-}
-- (FullUserCritstructProto*) vault {
-  return result.vault;
-}
-- (LoadPlayerCityResponseProto_Builder*) setVault:(FullUserCritstructProto*) value {
-  result.hasVault = YES;
-  result.vault = value;
-  return self;
-}
-- (LoadPlayerCityResponseProto_Builder*) setVaultBuilder:(FullUserCritstructProto_Builder*) builderForValue {
-  return [self setVault:[builderForValue build]];
-}
-- (LoadPlayerCityResponseProto_Builder*) mergeVault:(FullUserCritstructProto*) value {
-  if (result.hasVault &&
-      result.vault != [FullUserCritstructProto defaultInstance]) {
-    result.vault =
-      [[[FullUserCritstructProto builderWithPrototype:result.vault] mergeFrom:value] buildPartial];
-  } else {
-    result.vault = value;
-  }
-  result.hasVault = YES;
-  return self;
-}
-- (LoadPlayerCityResponseProto_Builder*) clearVault {
-  result.hasVault = NO;
-  result.vault = [FullUserCritstructProto defaultInstance];
-  return self;
-}
-- (BOOL) hasMarketplace {
-  return result.hasMarketplace;
-}
-- (FullUserCritstructProto*) marketplace {
-  return result.marketplace;
-}
-- (LoadPlayerCityResponseProto_Builder*) setMarketplace:(FullUserCritstructProto*) value {
-  result.hasMarketplace = YES;
-  result.marketplace = value;
-  return self;
-}
-- (LoadPlayerCityResponseProto_Builder*) setMarketplaceBuilder:(FullUserCritstructProto_Builder*) builderForValue {
-  return [self setMarketplace:[builderForValue build]];
-}
-- (LoadPlayerCityResponseProto_Builder*) mergeMarketplace:(FullUserCritstructProto*) value {
-  if (result.hasMarketplace &&
-      result.marketplace != [FullUserCritstructProto defaultInstance]) {
-    result.marketplace =
-      [[[FullUserCritstructProto builderWithPrototype:result.marketplace] mergeFrom:value] buildPartial];
-  } else {
-    result.marketplace = value;
-  }
-  result.hasMarketplace = YES;
-  return self;
-}
-- (LoadPlayerCityResponseProto_Builder*) clearMarketplace {
-  result.hasMarketplace = NO;
-  result.marketplace = [FullUserCritstructProto defaultInstance];
-  return self;
-}
-- (BOOL) hasCarpenter {
-  return result.hasCarpenter;
-}
-- (FullUserCritstructProto*) carpenter {
-  return result.carpenter;
-}
-- (LoadPlayerCityResponseProto_Builder*) setCarpenter:(FullUserCritstructProto*) value {
-  result.hasCarpenter = YES;
-  result.carpenter = value;
-  return self;
-}
-- (LoadPlayerCityResponseProto_Builder*) setCarpenterBuilder:(FullUserCritstructProto_Builder*) builderForValue {
-  return [self setCarpenter:[builderForValue build]];
-}
-- (LoadPlayerCityResponseProto_Builder*) mergeCarpenter:(FullUserCritstructProto*) value {
-  if (result.hasCarpenter &&
-      result.carpenter != [FullUserCritstructProto defaultInstance]) {
-    result.carpenter =
-      [[[FullUserCritstructProto builderWithPrototype:result.carpenter] mergeFrom:value] buildPartial];
-  } else {
-    result.carpenter = value;
-  }
-  result.hasCarpenter = YES;
-  return self;
-}
-- (LoadPlayerCityResponseProto_Builder*) clearCarpenter {
-  result.hasCarpenter = NO;
-  result.carpenter = [FullUserCritstructProto defaultInstance];
-  return self;
-}
-- (BOOL) hasAviary {
-  return result.hasAviary;
-}
-- (FullUserCritstructProto*) aviary {
-  return result.aviary;
-}
-- (LoadPlayerCityResponseProto_Builder*) setAviary:(FullUserCritstructProto*) value {
-  result.hasAviary = YES;
-  result.aviary = value;
-  return self;
-}
-- (LoadPlayerCityResponseProto_Builder*) setAviaryBuilder:(FullUserCritstructProto_Builder*) builderForValue {
-  return [self setAviary:[builderForValue build]];
-}
-- (LoadPlayerCityResponseProto_Builder*) mergeAviary:(FullUserCritstructProto*) value {
-  if (result.hasAviary &&
-      result.aviary != [FullUserCritstructProto defaultInstance]) {
-    result.aviary =
-      [[[FullUserCritstructProto builderWithPrototype:result.aviary] mergeFrom:value] buildPartial];
-  } else {
-    result.aviary = value;
-  }
-  result.hasAviary = YES;
-  return self;
-}
-- (LoadPlayerCityResponseProto_Builder*) clearAviary {
-  result.hasAviary = NO;
-  result.aviary = [FullUserCritstructProto defaultInstance];
   return self;
 }
 - (BOOL) hasUserCityExpansionData {
@@ -34868,6 +35485,7 @@ BOOL PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusIsValidValue(
 @interface ExpansionWaitCompleteRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int64_t curTime;
+@property BOOL speedUp;
 @end
 
 @implementation ExpansionWaitCompleteRequestProto
@@ -34886,6 +35504,18 @@ BOOL PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusIsValidValue(
   hasCurTime_ = !!value;
 }
 @synthesize curTime;
+- (BOOL) hasSpeedUp {
+  return !!hasSpeedUp_;
+}
+- (void) setHasSpeedUp:(BOOL) value {
+  hasSpeedUp_ = !!value;
+}
+- (BOOL) speedUp {
+  return !!speedUp_;
+}
+- (void) setSpeedUp:(BOOL) value {
+  speedUp_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -34894,6 +35524,7 @@ BOOL PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusIsValidValue(
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.curTime = 0L;
+    self.speedUp = NO;
   }
   return self;
 }
@@ -34919,6 +35550,9 @@ static ExpansionWaitCompleteRequestProto* defaultExpansionWaitCompleteRequestPro
   if (self.hasCurTime) {
     [output writeInt64:2 value:self.curTime];
   }
+  if (self.hasSpeedUp) {
+    [output writeBool:3 value:self.speedUp];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -34933,6 +35567,9 @@ static ExpansionWaitCompleteRequestProto* defaultExpansionWaitCompleteRequestPro
   }
   if (self.hasCurTime) {
     size += computeInt64Size(2, self.curTime);
+  }
+  if (self.hasSpeedUp) {
+    size += computeBoolSize(3, self.speedUp);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -35015,6 +35652,9 @@ static ExpansionWaitCompleteRequestProto* defaultExpansionWaitCompleteRequestPro
   if (other.hasCurTime) {
     [self setCurTime:other.curTime];
   }
+  if (other.hasSpeedUp) {
+    [self setSpeedUp:other.speedUp];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -35047,6 +35687,10 @@ static ExpansionWaitCompleteRequestProto* defaultExpansionWaitCompleteRequestPro
       }
       case 16: {
         [self setCurTime:[input readInt64]];
+        break;
+      }
+      case 24: {
+        [self setSpeedUp:[input readBool]];
         break;
       }
     }
@@ -35096,6 +35740,22 @@ static ExpansionWaitCompleteRequestProto* defaultExpansionWaitCompleteRequestPro
 - (ExpansionWaitCompleteRequestProto_Builder*) clearCurTime {
   result.hasCurTime = NO;
   result.curTime = 0L;
+  return self;
+}
+- (BOOL) hasSpeedUp {
+  return result.hasSpeedUp;
+}
+- (BOOL) speedUp {
+  return result.speedUp;
+}
+- (ExpansionWaitCompleteRequestProto_Builder*) setSpeedUp:(BOOL) value {
+  result.hasSpeedUp = YES;
+  result.speedUp = value;
+  return self;
+}
+- (ExpansionWaitCompleteRequestProto_Builder*) clearSpeedUp {
+  result.hasSpeedUp = NO;
+  result.speedUp = NO;
   return self;
 }
 @end
@@ -46573,6 +47233,7 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
 @property (retain) MinimumUserProto* sender;
 @property GroupChatScope scope;
 @property (retain) NSString* chatMessage;
+@property int64_t clientTime;
 @end
 
 @implementation SendGroupChatRequestProto
@@ -46598,6 +47259,13 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
   hasChatMessage_ = !!value;
 }
 @synthesize chatMessage;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
 - (void) dealloc {
   self.sender = nil;
   self.chatMessage = nil;
@@ -46608,6 +47276,7 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
     self.sender = [MinimumUserProto defaultInstance];
     self.scope = GroupChatScopeGlobal;
     self.chatMessage = @"";
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -46636,6 +47305,9 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
   if (self.hasChatMessage) {
     [output writeString:3 value:self.chatMessage];
   }
+  if (self.hasClientTime) {
+    [output writeInt64:4 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -46653,6 +47325,9 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
   }
   if (self.hasChatMessage) {
     size += computeStringSize(3, self.chatMessage);
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(4, self.clientTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -46738,6 +47413,9 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
   if (other.hasChatMessage) {
     [self setChatMessage:other.chatMessage];
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -46779,6 +47457,10 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
       }
       case 26: {
         [self setChatMessage:[input readString]];
+        break;
+      }
+      case 32: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -46844,6 +47526,22 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
 - (SendGroupChatRequestProto_Builder*) clearChatMessage {
   result.hasChatMessage = NO;
   result.chatMessage = @"";
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (SendGroupChatRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (SendGroupChatRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
   return self;
 }
 @end
@@ -52814,12 +53512,12 @@ BOOL ChangeClanDescriptionResponseProto_ChangeClanDescriptionStatusIsValidValue(
 }
 @end
 
-@interface PostOnClanWallRequestProto ()
+@interface PostOnClanBulletinRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSString* content;
 @end
 
-@implementation PostOnClanWallRequestProto
+@implementation PostOnClanBulletinRequestProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -52847,17 +53545,17 @@ BOOL ChangeClanDescriptionResponseProto_ChangeClanDescriptionStatusIsValidValue(
   }
   return self;
 }
-static PostOnClanWallRequestProto* defaultPostOnClanWallRequestProtoInstance = nil;
+static PostOnClanBulletinRequestProto* defaultPostOnClanBulletinRequestProtoInstance = nil;
 + (void) initialize {
-  if (self == [PostOnClanWallRequestProto class]) {
-    defaultPostOnClanWallRequestProtoInstance = [[PostOnClanWallRequestProto alloc] init];
+  if (self == [PostOnClanBulletinRequestProto class]) {
+    defaultPostOnClanBulletinRequestProtoInstance = [[PostOnClanBulletinRequestProto alloc] init];
   }
 }
-+ (PostOnClanWallRequestProto*) defaultInstance {
-  return defaultPostOnClanWallRequestProtoInstance;
++ (PostOnClanBulletinRequestProto*) defaultInstance {
+  return defaultPostOnClanBulletinRequestProtoInstance;
 }
-- (PostOnClanWallRequestProto*) defaultInstance {
-  return defaultPostOnClanWallRequestProtoInstance;
+- (PostOnClanBulletinRequestProto*) defaultInstance {
+  return defaultPostOnClanBulletinRequestProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -52888,40 +53586,40 @@ static PostOnClanWallRequestProto* defaultPostOnClanWallRequestProtoInstance = n
   memoizedSerializedSize = size;
   return size;
 }
-+ (PostOnClanWallRequestProto*) parseFromData:(NSData*) data {
-  return (PostOnClanWallRequestProto*)[[[PostOnClanWallRequestProto builder] mergeFromData:data] build];
++ (PostOnClanBulletinRequestProto*) parseFromData:(NSData*) data {
+  return (PostOnClanBulletinRequestProto*)[[[PostOnClanBulletinRequestProto builder] mergeFromData:data] build];
 }
-+ (PostOnClanWallRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (PostOnClanWallRequestProto*)[[[PostOnClanWallRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (PostOnClanBulletinRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PostOnClanBulletinRequestProto*)[[[PostOnClanBulletinRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (PostOnClanWallRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (PostOnClanWallRequestProto*)[[[PostOnClanWallRequestProto builder] mergeFromInputStream:input] build];
++ (PostOnClanBulletinRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PostOnClanBulletinRequestProto*)[[[PostOnClanBulletinRequestProto builder] mergeFromInputStream:input] build];
 }
-+ (PostOnClanWallRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (PostOnClanWallRequestProto*)[[[PostOnClanWallRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (PostOnClanBulletinRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PostOnClanBulletinRequestProto*)[[[PostOnClanBulletinRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (PostOnClanWallRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (PostOnClanWallRequestProto*)[[[PostOnClanWallRequestProto builder] mergeFromCodedInputStream:input] build];
++ (PostOnClanBulletinRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PostOnClanBulletinRequestProto*)[[[PostOnClanBulletinRequestProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (PostOnClanWallRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (PostOnClanWallRequestProto*)[[[PostOnClanWallRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (PostOnClanBulletinRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PostOnClanBulletinRequestProto*)[[[PostOnClanBulletinRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (PostOnClanWallRequestProto_Builder*) builder {
-  return [[[PostOnClanWallRequestProto_Builder alloc] init] autorelease];
++ (PostOnClanBulletinRequestProto_Builder*) builder {
+  return [[[PostOnClanBulletinRequestProto_Builder alloc] init] autorelease];
 }
-+ (PostOnClanWallRequestProto_Builder*) builderWithPrototype:(PostOnClanWallRequestProto*) prototype {
-  return [[PostOnClanWallRequestProto builder] mergeFrom:prototype];
++ (PostOnClanBulletinRequestProto_Builder*) builderWithPrototype:(PostOnClanBulletinRequestProto*) prototype {
+  return [[PostOnClanBulletinRequestProto builder] mergeFrom:prototype];
 }
-- (PostOnClanWallRequestProto_Builder*) builder {
-  return [PostOnClanWallRequestProto builder];
+- (PostOnClanBulletinRequestProto_Builder*) builder {
+  return [PostOnClanBulletinRequestProto builder];
 }
 @end
 
-@interface PostOnClanWallRequestProto_Builder()
-@property (retain) PostOnClanWallRequestProto* result;
+@interface PostOnClanBulletinRequestProto_Builder()
+@property (retain) PostOnClanBulletinRequestProto* result;
 @end
 
-@implementation PostOnClanWallRequestProto_Builder
+@implementation PostOnClanBulletinRequestProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -52929,34 +53627,34 @@ static PostOnClanWallRequestProto* defaultPostOnClanWallRequestProtoInstance = n
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[PostOnClanWallRequestProto alloc] init] autorelease];
+    self.result = [[[PostOnClanBulletinRequestProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (PostOnClanWallRequestProto_Builder*) clear {
-  self.result = [[[PostOnClanWallRequestProto alloc] init] autorelease];
+- (PostOnClanBulletinRequestProto_Builder*) clear {
+  self.result = [[[PostOnClanBulletinRequestProto alloc] init] autorelease];
   return self;
 }
-- (PostOnClanWallRequestProto_Builder*) clone {
-  return [PostOnClanWallRequestProto builderWithPrototype:result];
+- (PostOnClanBulletinRequestProto_Builder*) clone {
+  return [PostOnClanBulletinRequestProto builderWithPrototype:result];
 }
-- (PostOnClanWallRequestProto*) defaultInstance {
-  return [PostOnClanWallRequestProto defaultInstance];
+- (PostOnClanBulletinRequestProto*) defaultInstance {
+  return [PostOnClanBulletinRequestProto defaultInstance];
 }
-- (PostOnClanWallRequestProto*) build {
+- (PostOnClanBulletinRequestProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (PostOnClanWallRequestProto*) buildPartial {
-  PostOnClanWallRequestProto* returnMe = [[result retain] autorelease];
+- (PostOnClanBulletinRequestProto*) buildPartial {
+  PostOnClanBulletinRequestProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (PostOnClanWallRequestProto_Builder*) mergeFrom:(PostOnClanWallRequestProto*) other {
-  if (other == [PostOnClanWallRequestProto defaultInstance]) {
+- (PostOnClanBulletinRequestProto_Builder*) mergeFrom:(PostOnClanBulletinRequestProto*) other {
+  if (other == [PostOnClanBulletinRequestProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
@@ -52968,10 +53666,10 @@ static PostOnClanWallRequestProto* defaultPostOnClanWallRequestProtoInstance = n
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (PostOnClanWallRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (PostOnClanBulletinRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (PostOnClanWallRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (PostOnClanBulletinRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -53008,15 +53706,15 @@ static PostOnClanWallRequestProto* defaultPostOnClanWallRequestProtoInstance = n
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (PostOnClanWallRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (PostOnClanBulletinRequestProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (PostOnClanWallRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (PostOnClanBulletinRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (PostOnClanWallRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (PostOnClanBulletinRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -53027,7 +53725,7 @@ static PostOnClanWallRequestProto* defaultPostOnClanWallRequestProtoInstance = n
   result.hasSender = YES;
   return self;
 }
-- (PostOnClanWallRequestProto_Builder*) clearSender {
+- (PostOnClanBulletinRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
@@ -53038,25 +53736,25 @@ static PostOnClanWallRequestProto* defaultPostOnClanWallRequestProtoInstance = n
 - (NSString*) content {
   return result.content;
 }
-- (PostOnClanWallRequestProto_Builder*) setContent:(NSString*) value {
+- (PostOnClanBulletinRequestProto_Builder*) setContent:(NSString*) value {
   result.hasContent = YES;
   result.content = value;
   return self;
 }
-- (PostOnClanWallRequestProto_Builder*) clearContent {
+- (PostOnClanBulletinRequestProto_Builder*) clearContent {
   result.hasContent = NO;
   result.content = @"";
   return self;
 }
 @end
 
-@interface PostOnClanWallResponseProto ()
+@interface PostOnClanBulletinResponseProto ()
 @property (retain) MinimumUserProto* sender;
-@property PostOnClanWallResponseProto_PostOnClanWallStatus status;
-@property (retain) ClanWallPostProto* post;
+@property PostOnClanBulletinResponseProto_PostOnClanBulletinStatus status;
+@property (retain) ClanBulletinPostProto* post;
 @end
 
-@implementation PostOnClanWallResponseProto
+@implementation PostOnClanBulletinResponseProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -53087,22 +53785,22 @@ static PostOnClanWallRequestProto* defaultPostOnClanWallRequestProtoInstance = n
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = PostOnClanWallResponseProto_PostOnClanWallStatusSuccess;
-    self.post = [ClanWallPostProto defaultInstance];
+    self.status = PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess;
+    self.post = [ClanBulletinPostProto defaultInstance];
   }
   return self;
 }
-static PostOnClanWallResponseProto* defaultPostOnClanWallResponseProtoInstance = nil;
+static PostOnClanBulletinResponseProto* defaultPostOnClanBulletinResponseProtoInstance = nil;
 + (void) initialize {
-  if (self == [PostOnClanWallResponseProto class]) {
-    defaultPostOnClanWallResponseProtoInstance = [[PostOnClanWallResponseProto alloc] init];
+  if (self == [PostOnClanBulletinResponseProto class]) {
+    defaultPostOnClanBulletinResponseProtoInstance = [[PostOnClanBulletinResponseProto alloc] init];
   }
 }
-+ (PostOnClanWallResponseProto*) defaultInstance {
-  return defaultPostOnClanWallResponseProtoInstance;
++ (PostOnClanBulletinResponseProto*) defaultInstance {
+  return defaultPostOnClanBulletinResponseProtoInstance;
 }
-- (PostOnClanWallResponseProto*) defaultInstance {
-  return defaultPostOnClanWallResponseProtoInstance;
+- (PostOnClanBulletinResponseProto*) defaultInstance {
+  return defaultPostOnClanBulletinResponseProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -53139,52 +53837,52 @@ static PostOnClanWallResponseProto* defaultPostOnClanWallResponseProtoInstance =
   memoizedSerializedSize = size;
   return size;
 }
-+ (PostOnClanWallResponseProto*) parseFromData:(NSData*) data {
-  return (PostOnClanWallResponseProto*)[[[PostOnClanWallResponseProto builder] mergeFromData:data] build];
++ (PostOnClanBulletinResponseProto*) parseFromData:(NSData*) data {
+  return (PostOnClanBulletinResponseProto*)[[[PostOnClanBulletinResponseProto builder] mergeFromData:data] build];
 }
-+ (PostOnClanWallResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (PostOnClanWallResponseProto*)[[[PostOnClanWallResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (PostOnClanBulletinResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PostOnClanBulletinResponseProto*)[[[PostOnClanBulletinResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (PostOnClanWallResponseProto*) parseFromInputStream:(NSInputStream*) input {
-  return (PostOnClanWallResponseProto*)[[[PostOnClanWallResponseProto builder] mergeFromInputStream:input] build];
++ (PostOnClanBulletinResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PostOnClanBulletinResponseProto*)[[[PostOnClanBulletinResponseProto builder] mergeFromInputStream:input] build];
 }
-+ (PostOnClanWallResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (PostOnClanWallResponseProto*)[[[PostOnClanWallResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (PostOnClanBulletinResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PostOnClanBulletinResponseProto*)[[[PostOnClanBulletinResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (PostOnClanWallResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (PostOnClanWallResponseProto*)[[[PostOnClanWallResponseProto builder] mergeFromCodedInputStream:input] build];
++ (PostOnClanBulletinResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PostOnClanBulletinResponseProto*)[[[PostOnClanBulletinResponseProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (PostOnClanWallResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (PostOnClanWallResponseProto*)[[[PostOnClanWallResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (PostOnClanBulletinResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PostOnClanBulletinResponseProto*)[[[PostOnClanBulletinResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (PostOnClanWallResponseProto_Builder*) builder {
-  return [[[PostOnClanWallResponseProto_Builder alloc] init] autorelease];
++ (PostOnClanBulletinResponseProto_Builder*) builder {
+  return [[[PostOnClanBulletinResponseProto_Builder alloc] init] autorelease];
 }
-+ (PostOnClanWallResponseProto_Builder*) builderWithPrototype:(PostOnClanWallResponseProto*) prototype {
-  return [[PostOnClanWallResponseProto builder] mergeFrom:prototype];
++ (PostOnClanBulletinResponseProto_Builder*) builderWithPrototype:(PostOnClanBulletinResponseProto*) prototype {
+  return [[PostOnClanBulletinResponseProto builder] mergeFrom:prototype];
 }
-- (PostOnClanWallResponseProto_Builder*) builder {
-  return [PostOnClanWallResponseProto builder];
+- (PostOnClanBulletinResponseProto_Builder*) builder {
+  return [PostOnClanBulletinResponseProto builder];
 }
 @end
 
-BOOL PostOnClanWallResponseProto_PostOnClanWallStatusIsValidValue(PostOnClanWallResponseProto_PostOnClanWallStatus value) {
+BOOL PostOnClanBulletinResponseProto_PostOnClanBulletinStatusIsValidValue(PostOnClanBulletinResponseProto_PostOnClanBulletinStatus value) {
   switch (value) {
-    case PostOnClanWallResponseProto_PostOnClanWallStatusSuccess:
-    case PostOnClanWallResponseProto_PostOnClanWallStatusNoContentSent:
-    case PostOnClanWallResponseProto_PostOnClanWallStatusPostTooLarge:
-    case PostOnClanWallResponseProto_PostOnClanWallStatusOtherFail:
-    case PostOnClanWallResponseProto_PostOnClanWallStatusNotInClan:
+    case PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess:
+    case PostOnClanBulletinResponseProto_PostOnClanBulletinStatusNoContentSent:
+    case PostOnClanBulletinResponseProto_PostOnClanBulletinStatusPostTooLarge:
+    case PostOnClanBulletinResponseProto_PostOnClanBulletinStatusOtherFail:
+    case PostOnClanBulletinResponseProto_PostOnClanBulletinStatusNotInClan:
       return YES;
     default:
       return NO;
   }
 }
-@interface PostOnClanWallResponseProto_Builder()
-@property (retain) PostOnClanWallResponseProto* result;
+@interface PostOnClanBulletinResponseProto_Builder()
+@property (retain) PostOnClanBulletinResponseProto* result;
 @end
 
-@implementation PostOnClanWallResponseProto_Builder
+@implementation PostOnClanBulletinResponseProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -53192,34 +53890,34 @@ BOOL PostOnClanWallResponseProto_PostOnClanWallStatusIsValidValue(PostOnClanWall
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[PostOnClanWallResponseProto alloc] init] autorelease];
+    self.result = [[[PostOnClanBulletinResponseProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (PostOnClanWallResponseProto_Builder*) clear {
-  self.result = [[[PostOnClanWallResponseProto alloc] init] autorelease];
+- (PostOnClanBulletinResponseProto_Builder*) clear {
+  self.result = [[[PostOnClanBulletinResponseProto alloc] init] autorelease];
   return self;
 }
-- (PostOnClanWallResponseProto_Builder*) clone {
-  return [PostOnClanWallResponseProto builderWithPrototype:result];
+- (PostOnClanBulletinResponseProto_Builder*) clone {
+  return [PostOnClanBulletinResponseProto builderWithPrototype:result];
 }
-- (PostOnClanWallResponseProto*) defaultInstance {
-  return [PostOnClanWallResponseProto defaultInstance];
+- (PostOnClanBulletinResponseProto*) defaultInstance {
+  return [PostOnClanBulletinResponseProto defaultInstance];
 }
-- (PostOnClanWallResponseProto*) build {
+- (PostOnClanBulletinResponseProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (PostOnClanWallResponseProto*) buildPartial {
-  PostOnClanWallResponseProto* returnMe = [[result retain] autorelease];
+- (PostOnClanBulletinResponseProto*) buildPartial {
+  PostOnClanBulletinResponseProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (PostOnClanWallResponseProto_Builder*) mergeFrom:(PostOnClanWallResponseProto*) other {
-  if (other == [PostOnClanWallResponseProto defaultInstance]) {
+- (PostOnClanBulletinResponseProto_Builder*) mergeFrom:(PostOnClanBulletinResponseProto*) other {
+  if (other == [PostOnClanBulletinResponseProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
@@ -53234,10 +53932,10 @@ BOOL PostOnClanWallResponseProto_PostOnClanWallStatusIsValidValue(PostOnClanWall
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (PostOnClanWallResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (PostOnClanBulletinResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (PostOnClanWallResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (PostOnClanBulletinResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -53263,7 +53961,7 @@ BOOL PostOnClanWallResponseProto_PostOnClanWallStatusIsValidValue(PostOnClanWall
       }
       case 16: {
         int32_t value = [input readEnum];
-        if (PostOnClanWallResponseProto_PostOnClanWallStatusIsValidValue(value)) {
+        if (PostOnClanBulletinResponseProto_PostOnClanBulletinStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -53271,7 +53969,7 @@ BOOL PostOnClanWallResponseProto_PostOnClanWallStatusIsValidValue(PostOnClanWall
         break;
       }
       case 26: {
-        ClanWallPostProto_Builder* subBuilder = [ClanWallPostProto builder];
+        ClanBulletinPostProto_Builder* subBuilder = [ClanBulletinPostProto builder];
         if (self.hasPost) {
           [subBuilder mergeFrom:self.post];
         }
@@ -53288,15 +53986,15 @@ BOOL PostOnClanWallResponseProto_PostOnClanWallStatusIsValidValue(PostOnClanWall
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (PostOnClanWallResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+- (PostOnClanBulletinResponseProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (PostOnClanWallResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (PostOnClanBulletinResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (PostOnClanWallResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (PostOnClanBulletinResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -53307,7 +54005,7 @@ BOOL PostOnClanWallResponseProto_PostOnClanWallStatusIsValidValue(PostOnClanWall
   result.hasSender = YES;
   return self;
 }
-- (PostOnClanWallResponseProto_Builder*) clearSender {
+- (PostOnClanBulletinResponseProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
@@ -53315,57 +54013,57 @@ BOOL PostOnClanWallResponseProto_PostOnClanWallStatusIsValidValue(PostOnClanWall
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (PostOnClanWallResponseProto_PostOnClanWallStatus) status {
+- (PostOnClanBulletinResponseProto_PostOnClanBulletinStatus) status {
   return result.status;
 }
-- (PostOnClanWallResponseProto_Builder*) setStatus:(PostOnClanWallResponseProto_PostOnClanWallStatus) value {
+- (PostOnClanBulletinResponseProto_Builder*) setStatus:(PostOnClanBulletinResponseProto_PostOnClanBulletinStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
-- (PostOnClanWallResponseProto_Builder*) clearStatus {
+- (PostOnClanBulletinResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
-  result.status = PostOnClanWallResponseProto_PostOnClanWallStatusSuccess;
+  result.status = PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess;
   return self;
 }
 - (BOOL) hasPost {
   return result.hasPost;
 }
-- (ClanWallPostProto*) post {
+- (ClanBulletinPostProto*) post {
   return result.post;
 }
-- (PostOnClanWallResponseProto_Builder*) setPost:(ClanWallPostProto*) value {
+- (PostOnClanBulletinResponseProto_Builder*) setPost:(ClanBulletinPostProto*) value {
   result.hasPost = YES;
   result.post = value;
   return self;
 }
-- (PostOnClanWallResponseProto_Builder*) setPostBuilder:(ClanWallPostProto_Builder*) builderForValue {
+- (PostOnClanBulletinResponseProto_Builder*) setPostBuilder:(ClanBulletinPostProto_Builder*) builderForValue {
   return [self setPost:[builderForValue build]];
 }
-- (PostOnClanWallResponseProto_Builder*) mergePost:(ClanWallPostProto*) value {
+- (PostOnClanBulletinResponseProto_Builder*) mergePost:(ClanBulletinPostProto*) value {
   if (result.hasPost &&
-      result.post != [ClanWallPostProto defaultInstance]) {
+      result.post != [ClanBulletinPostProto defaultInstance]) {
     result.post =
-      [[[ClanWallPostProto builderWithPrototype:result.post] mergeFrom:value] buildPartial];
+      [[[ClanBulletinPostProto builderWithPrototype:result.post] mergeFrom:value] buildPartial];
   } else {
     result.post = value;
   }
   result.hasPost = YES;
   return self;
 }
-- (PostOnClanWallResponseProto_Builder*) clearPost {
+- (PostOnClanBulletinResponseProto_Builder*) clearPost {
   result.hasPost = NO;
-  result.post = [ClanWallPostProto defaultInstance];
+  result.post = [ClanBulletinPostProto defaultInstance];
   return self;
 }
 @end
 
-@interface RetrieveClanWallPostsRequestProto ()
+@interface RetrieveClanBulletinPostsRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int32_t beforeThisPostId;
 @end
 
-@implementation RetrieveClanWallPostsRequestProto
+@implementation RetrieveClanBulletinPostsRequestProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -53392,17 +54090,17 @@ BOOL PostOnClanWallResponseProto_PostOnClanWallStatusIsValidValue(PostOnClanWall
   }
   return self;
 }
-static RetrieveClanWallPostsRequestProto* defaultRetrieveClanWallPostsRequestProtoInstance = nil;
+static RetrieveClanBulletinPostsRequestProto* defaultRetrieveClanBulletinPostsRequestProtoInstance = nil;
 + (void) initialize {
-  if (self == [RetrieveClanWallPostsRequestProto class]) {
-    defaultRetrieveClanWallPostsRequestProtoInstance = [[RetrieveClanWallPostsRequestProto alloc] init];
+  if (self == [RetrieveClanBulletinPostsRequestProto class]) {
+    defaultRetrieveClanBulletinPostsRequestProtoInstance = [[RetrieveClanBulletinPostsRequestProto alloc] init];
   }
 }
-+ (RetrieveClanWallPostsRequestProto*) defaultInstance {
-  return defaultRetrieveClanWallPostsRequestProtoInstance;
++ (RetrieveClanBulletinPostsRequestProto*) defaultInstance {
+  return defaultRetrieveClanBulletinPostsRequestProtoInstance;
 }
-- (RetrieveClanWallPostsRequestProto*) defaultInstance {
-  return defaultRetrieveClanWallPostsRequestProtoInstance;
+- (RetrieveClanBulletinPostsRequestProto*) defaultInstance {
+  return defaultRetrieveClanBulletinPostsRequestProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -53433,40 +54131,40 @@ static RetrieveClanWallPostsRequestProto* defaultRetrieveClanWallPostsRequestPro
   memoizedSerializedSize = size;
   return size;
 }
-+ (RetrieveClanWallPostsRequestProto*) parseFromData:(NSData*) data {
-  return (RetrieveClanWallPostsRequestProto*)[[[RetrieveClanWallPostsRequestProto builder] mergeFromData:data] build];
++ (RetrieveClanBulletinPostsRequestProto*) parseFromData:(NSData*) data {
+  return (RetrieveClanBulletinPostsRequestProto*)[[[RetrieveClanBulletinPostsRequestProto builder] mergeFromData:data] build];
 }
-+ (RetrieveClanWallPostsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveClanWallPostsRequestProto*)[[[RetrieveClanWallPostsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (RetrieveClanBulletinPostsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveClanBulletinPostsRequestProto*)[[[RetrieveClanBulletinPostsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (RetrieveClanWallPostsRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (RetrieveClanWallPostsRequestProto*)[[[RetrieveClanWallPostsRequestProto builder] mergeFromInputStream:input] build];
++ (RetrieveClanBulletinPostsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveClanBulletinPostsRequestProto*)[[[RetrieveClanBulletinPostsRequestProto builder] mergeFromInputStream:input] build];
 }
-+ (RetrieveClanWallPostsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveClanWallPostsRequestProto*)[[[RetrieveClanWallPostsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (RetrieveClanBulletinPostsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveClanBulletinPostsRequestProto*)[[[RetrieveClanBulletinPostsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (RetrieveClanWallPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (RetrieveClanWallPostsRequestProto*)[[[RetrieveClanWallPostsRequestProto builder] mergeFromCodedInputStream:input] build];
++ (RetrieveClanBulletinPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveClanBulletinPostsRequestProto*)[[[RetrieveClanBulletinPostsRequestProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (RetrieveClanWallPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveClanWallPostsRequestProto*)[[[RetrieveClanWallPostsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (RetrieveClanBulletinPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveClanBulletinPostsRequestProto*)[[[RetrieveClanBulletinPostsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (RetrieveClanWallPostsRequestProto_Builder*) builder {
-  return [[[RetrieveClanWallPostsRequestProto_Builder alloc] init] autorelease];
++ (RetrieveClanBulletinPostsRequestProto_Builder*) builder {
+  return [[[RetrieveClanBulletinPostsRequestProto_Builder alloc] init] autorelease];
 }
-+ (RetrieveClanWallPostsRequestProto_Builder*) builderWithPrototype:(RetrieveClanWallPostsRequestProto*) prototype {
-  return [[RetrieveClanWallPostsRequestProto builder] mergeFrom:prototype];
++ (RetrieveClanBulletinPostsRequestProto_Builder*) builderWithPrototype:(RetrieveClanBulletinPostsRequestProto*) prototype {
+  return [[RetrieveClanBulletinPostsRequestProto builder] mergeFrom:prototype];
 }
-- (RetrieveClanWallPostsRequestProto_Builder*) builder {
-  return [RetrieveClanWallPostsRequestProto builder];
+- (RetrieveClanBulletinPostsRequestProto_Builder*) builder {
+  return [RetrieveClanBulletinPostsRequestProto builder];
 }
 @end
 
-@interface RetrieveClanWallPostsRequestProto_Builder()
-@property (retain) RetrieveClanWallPostsRequestProto* result;
+@interface RetrieveClanBulletinPostsRequestProto_Builder()
+@property (retain) RetrieveClanBulletinPostsRequestProto* result;
 @end
 
-@implementation RetrieveClanWallPostsRequestProto_Builder
+@implementation RetrieveClanBulletinPostsRequestProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -53474,34 +54172,34 @@ static RetrieveClanWallPostsRequestProto* defaultRetrieveClanWallPostsRequestPro
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[RetrieveClanWallPostsRequestProto alloc] init] autorelease];
+    self.result = [[[RetrieveClanBulletinPostsRequestProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (RetrieveClanWallPostsRequestProto_Builder*) clear {
-  self.result = [[[RetrieveClanWallPostsRequestProto alloc] init] autorelease];
+- (RetrieveClanBulletinPostsRequestProto_Builder*) clear {
+  self.result = [[[RetrieveClanBulletinPostsRequestProto alloc] init] autorelease];
   return self;
 }
-- (RetrieveClanWallPostsRequestProto_Builder*) clone {
-  return [RetrieveClanWallPostsRequestProto builderWithPrototype:result];
+- (RetrieveClanBulletinPostsRequestProto_Builder*) clone {
+  return [RetrieveClanBulletinPostsRequestProto builderWithPrototype:result];
 }
-- (RetrieveClanWallPostsRequestProto*) defaultInstance {
-  return [RetrieveClanWallPostsRequestProto defaultInstance];
+- (RetrieveClanBulletinPostsRequestProto*) defaultInstance {
+  return [RetrieveClanBulletinPostsRequestProto defaultInstance];
 }
-- (RetrieveClanWallPostsRequestProto*) build {
+- (RetrieveClanBulletinPostsRequestProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (RetrieveClanWallPostsRequestProto*) buildPartial {
-  RetrieveClanWallPostsRequestProto* returnMe = [[result retain] autorelease];
+- (RetrieveClanBulletinPostsRequestProto*) buildPartial {
+  RetrieveClanBulletinPostsRequestProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (RetrieveClanWallPostsRequestProto_Builder*) mergeFrom:(RetrieveClanWallPostsRequestProto*) other {
-  if (other == [RetrieveClanWallPostsRequestProto defaultInstance]) {
+- (RetrieveClanBulletinPostsRequestProto_Builder*) mergeFrom:(RetrieveClanBulletinPostsRequestProto*) other {
+  if (other == [RetrieveClanBulletinPostsRequestProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
@@ -53513,10 +54211,10 @@ static RetrieveClanWallPostsRequestProto* defaultRetrieveClanWallPostsRequestPro
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (RetrieveClanWallPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (RetrieveClanBulletinPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (RetrieveClanWallPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (RetrieveClanBulletinPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -53553,15 +54251,15 @@ static RetrieveClanWallPostsRequestProto* defaultRetrieveClanWallPostsRequestPro
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (RetrieveClanWallPostsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (RetrieveClanBulletinPostsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (RetrieveClanWallPostsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (RetrieveClanBulletinPostsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (RetrieveClanWallPostsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (RetrieveClanBulletinPostsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -53572,7 +54270,7 @@ static RetrieveClanWallPostsRequestProto* defaultRetrieveClanWallPostsRequestPro
   result.hasSender = YES;
   return self;
 }
-- (RetrieveClanWallPostsRequestProto_Builder*) clearSender {
+- (RetrieveClanBulletinPostsRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
@@ -53583,26 +54281,26 @@ static RetrieveClanWallPostsRequestProto* defaultRetrieveClanWallPostsRequestPro
 - (int32_t) beforeThisPostId {
   return result.beforeThisPostId;
 }
-- (RetrieveClanWallPostsRequestProto_Builder*) setBeforeThisPostId:(int32_t) value {
+- (RetrieveClanBulletinPostsRequestProto_Builder*) setBeforeThisPostId:(int32_t) value {
   result.hasBeforeThisPostId = YES;
   result.beforeThisPostId = value;
   return self;
 }
-- (RetrieveClanWallPostsRequestProto_Builder*) clearBeforeThisPostId {
+- (RetrieveClanBulletinPostsRequestProto_Builder*) clearBeforeThisPostId {
   result.hasBeforeThisPostId = NO;
   result.beforeThisPostId = 0;
   return self;
 }
 @end
 
-@interface RetrieveClanWallPostsResponseProto ()
+@interface RetrieveClanBulletinPostsResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property int32_t beforeThisPostId;
-@property RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatus status;
-@property (retain) NSMutableArray* mutableClanWallPostsList;
+@property RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatus status;
+@property (retain) NSMutableArray* mutableClanBulletinPostsList;
 @end
 
-@implementation RetrieveClanWallPostsResponseProto
+@implementation RetrieveClanBulletinPostsResponseProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -53625,37 +54323,37 @@ static RetrieveClanWallPostsRequestProto* defaultRetrieveClanWallPostsRequestPro
   hasStatus_ = !!value;
 }
 @synthesize status;
-@synthesize mutableClanWallPostsList;
+@synthesize mutableClanBulletinPostsList;
 - (void) dealloc {
   self.sender = nil;
-  self.mutableClanWallPostsList = nil;
+  self.mutableClanBulletinPostsList = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.beforeThisPostId = 0;
-    self.status = RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusSuccess;
+    self.status = RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatusSuccess;
   }
   return self;
 }
-static RetrieveClanWallPostsResponseProto* defaultRetrieveClanWallPostsResponseProtoInstance = nil;
+static RetrieveClanBulletinPostsResponseProto* defaultRetrieveClanBulletinPostsResponseProtoInstance = nil;
 + (void) initialize {
-  if (self == [RetrieveClanWallPostsResponseProto class]) {
-    defaultRetrieveClanWallPostsResponseProtoInstance = [[RetrieveClanWallPostsResponseProto alloc] init];
+  if (self == [RetrieveClanBulletinPostsResponseProto class]) {
+    defaultRetrieveClanBulletinPostsResponseProtoInstance = [[RetrieveClanBulletinPostsResponseProto alloc] init];
   }
 }
-+ (RetrieveClanWallPostsResponseProto*) defaultInstance {
-  return defaultRetrieveClanWallPostsResponseProtoInstance;
++ (RetrieveClanBulletinPostsResponseProto*) defaultInstance {
+  return defaultRetrieveClanBulletinPostsResponseProtoInstance;
 }
-- (RetrieveClanWallPostsResponseProto*) defaultInstance {
-  return defaultRetrieveClanWallPostsResponseProtoInstance;
+- (RetrieveClanBulletinPostsResponseProto*) defaultInstance {
+  return defaultRetrieveClanBulletinPostsResponseProtoInstance;
 }
-- (NSArray*) clanWallPostsList {
-  return mutableClanWallPostsList;
+- (NSArray*) clanBulletinPostsList {
+  return mutableClanBulletinPostsList;
 }
-- (ClanWallPostProto*) clanWallPostsAtIndex:(int32_t) index {
-  id value = [mutableClanWallPostsList objectAtIndex:index];
+- (ClanBulletinPostProto*) clanBulletinPostsAtIndex:(int32_t) index {
+  id value = [mutableClanBulletinPostsList objectAtIndex:index];
   return value;
 }
 - (BOOL) isInitialized {
@@ -53671,7 +54369,7 @@ static RetrieveClanWallPostsResponseProto* defaultRetrieveClanWallPostsResponseP
   if (self.hasStatus) {
     [output writeEnum:4 value:self.status];
   }
-  for (ClanWallPostProto* element in self.clanWallPostsList) {
+  for (ClanBulletinPostProto* element in self.clanBulletinPostsList) {
     [output writeMessage:5 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
@@ -53692,57 +54390,57 @@ static RetrieveClanWallPostsResponseProto* defaultRetrieveClanWallPostsResponseP
   if (self.hasStatus) {
     size += computeEnumSize(4, self.status);
   }
-  for (ClanWallPostProto* element in self.clanWallPostsList) {
+  for (ClanBulletinPostProto* element in self.clanBulletinPostsList) {
     size += computeMessageSize(5, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (RetrieveClanWallPostsResponseProto*) parseFromData:(NSData*) data {
-  return (RetrieveClanWallPostsResponseProto*)[[[RetrieveClanWallPostsResponseProto builder] mergeFromData:data] build];
++ (RetrieveClanBulletinPostsResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveClanBulletinPostsResponseProto*)[[[RetrieveClanBulletinPostsResponseProto builder] mergeFromData:data] build];
 }
-+ (RetrieveClanWallPostsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveClanWallPostsResponseProto*)[[[RetrieveClanWallPostsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (RetrieveClanBulletinPostsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveClanBulletinPostsResponseProto*)[[[RetrieveClanBulletinPostsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (RetrieveClanWallPostsResponseProto*) parseFromInputStream:(NSInputStream*) input {
-  return (RetrieveClanWallPostsResponseProto*)[[[RetrieveClanWallPostsResponseProto builder] mergeFromInputStream:input] build];
++ (RetrieveClanBulletinPostsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveClanBulletinPostsResponseProto*)[[[RetrieveClanBulletinPostsResponseProto builder] mergeFromInputStream:input] build];
 }
-+ (RetrieveClanWallPostsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveClanWallPostsResponseProto*)[[[RetrieveClanWallPostsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (RetrieveClanBulletinPostsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveClanBulletinPostsResponseProto*)[[[RetrieveClanBulletinPostsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (RetrieveClanWallPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (RetrieveClanWallPostsResponseProto*)[[[RetrieveClanWallPostsResponseProto builder] mergeFromCodedInputStream:input] build];
++ (RetrieveClanBulletinPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveClanBulletinPostsResponseProto*)[[[RetrieveClanBulletinPostsResponseProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (RetrieveClanWallPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveClanWallPostsResponseProto*)[[[RetrieveClanWallPostsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (RetrieveClanBulletinPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveClanBulletinPostsResponseProto*)[[[RetrieveClanBulletinPostsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (RetrieveClanWallPostsResponseProto_Builder*) builder {
-  return [[[RetrieveClanWallPostsResponseProto_Builder alloc] init] autorelease];
++ (RetrieveClanBulletinPostsResponseProto_Builder*) builder {
+  return [[[RetrieveClanBulletinPostsResponseProto_Builder alloc] init] autorelease];
 }
-+ (RetrieveClanWallPostsResponseProto_Builder*) builderWithPrototype:(RetrieveClanWallPostsResponseProto*) prototype {
-  return [[RetrieveClanWallPostsResponseProto builder] mergeFrom:prototype];
++ (RetrieveClanBulletinPostsResponseProto_Builder*) builderWithPrototype:(RetrieveClanBulletinPostsResponseProto*) prototype {
+  return [[RetrieveClanBulletinPostsResponseProto builder] mergeFrom:prototype];
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) builder {
-  return [RetrieveClanWallPostsResponseProto builder];
+- (RetrieveClanBulletinPostsResponseProto_Builder*) builder {
+  return [RetrieveClanBulletinPostsResponseProto builder];
 }
 @end
 
-BOOL RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusIsValidValue(RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatus value) {
+BOOL RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatusIsValidValue(RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatus value) {
   switch (value) {
-    case RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusSuccess:
-    case RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusOtherFail:
-    case RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusNotInClan:
+    case RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatusSuccess:
+    case RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatusOtherFail:
+    case RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatusNotInClan:
       return YES;
     default:
       return NO;
   }
 }
-@interface RetrieveClanWallPostsResponseProto_Builder()
-@property (retain) RetrieveClanWallPostsResponseProto* result;
+@interface RetrieveClanBulletinPostsResponseProto_Builder()
+@property (retain) RetrieveClanBulletinPostsResponseProto* result;
 @end
 
-@implementation RetrieveClanWallPostsResponseProto_Builder
+@implementation RetrieveClanBulletinPostsResponseProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -53750,34 +54448,34 @@ BOOL RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusIsValidValue(
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[RetrieveClanWallPostsResponseProto alloc] init] autorelease];
+    self.result = [[[RetrieveClanBulletinPostsResponseProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) clear {
-  self.result = [[[RetrieveClanWallPostsResponseProto alloc] init] autorelease];
+- (RetrieveClanBulletinPostsResponseProto_Builder*) clear {
+  self.result = [[[RetrieveClanBulletinPostsResponseProto alloc] init] autorelease];
   return self;
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) clone {
-  return [RetrieveClanWallPostsResponseProto builderWithPrototype:result];
+- (RetrieveClanBulletinPostsResponseProto_Builder*) clone {
+  return [RetrieveClanBulletinPostsResponseProto builderWithPrototype:result];
 }
-- (RetrieveClanWallPostsResponseProto*) defaultInstance {
-  return [RetrieveClanWallPostsResponseProto defaultInstance];
+- (RetrieveClanBulletinPostsResponseProto*) defaultInstance {
+  return [RetrieveClanBulletinPostsResponseProto defaultInstance];
 }
-- (RetrieveClanWallPostsResponseProto*) build {
+- (RetrieveClanBulletinPostsResponseProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (RetrieveClanWallPostsResponseProto*) buildPartial {
-  RetrieveClanWallPostsResponseProto* returnMe = [[result retain] autorelease];
+- (RetrieveClanBulletinPostsResponseProto*) buildPartial {
+  RetrieveClanBulletinPostsResponseProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) mergeFrom:(RetrieveClanWallPostsResponseProto*) other {
-  if (other == [RetrieveClanWallPostsResponseProto defaultInstance]) {
+- (RetrieveClanBulletinPostsResponseProto_Builder*) mergeFrom:(RetrieveClanBulletinPostsResponseProto*) other {
+  if (other == [RetrieveClanBulletinPostsResponseProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
@@ -53789,19 +54487,19 @@ BOOL RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusIsValidValue(
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.mutableClanWallPostsList.count > 0) {
-    if (result.mutableClanWallPostsList == nil) {
-      result.mutableClanWallPostsList = [NSMutableArray array];
+  if (other.mutableClanBulletinPostsList.count > 0) {
+    if (result.mutableClanBulletinPostsList == nil) {
+      result.mutableClanBulletinPostsList = [NSMutableArray array];
     }
-    [result.mutableClanWallPostsList addObjectsFromArray:other.mutableClanWallPostsList];
+    [result.mutableClanBulletinPostsList addObjectsFromArray:other.mutableClanBulletinPostsList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (RetrieveClanBulletinPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (RetrieveClanBulletinPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -53831,7 +54529,7 @@ BOOL RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusIsValidValue(
       }
       case 32: {
         int32_t value = [input readEnum];
-        if (RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusIsValidValue(value)) {
+        if (RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:4 value:value];
@@ -53839,9 +54537,9 @@ BOOL RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusIsValidValue(
         break;
       }
       case 42: {
-        ClanWallPostProto_Builder* subBuilder = [ClanWallPostProto builder];
+        ClanBulletinPostProto_Builder* subBuilder = [ClanBulletinPostProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addClanWallPosts:[subBuilder buildPartial]];
+        [self addClanBulletinPosts:[subBuilder buildPartial]];
         break;
       }
     }
@@ -53853,15 +54551,15 @@ BOOL RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusIsValidValue(
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+- (RetrieveClanBulletinPostsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (RetrieveClanBulletinPostsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (RetrieveClanBulletinPostsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -53872,7 +54570,7 @@ BOOL RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusIsValidValue(
   result.hasSender = YES;
   return self;
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) clearSender {
+- (RetrieveClanBulletinPostsResponseProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
@@ -53883,12 +54581,12 @@ BOOL RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusIsValidValue(
 - (int32_t) beforeThisPostId {
   return result.beforeThisPostId;
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) setBeforeThisPostId:(int32_t) value {
+- (RetrieveClanBulletinPostsResponseProto_Builder*) setBeforeThisPostId:(int32_t) value {
   result.hasBeforeThisPostId = YES;
   result.beforeThisPostId = value;
   return self;
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) clearBeforeThisPostId {
+- (RetrieveClanBulletinPostsResponseProto_Builder*) clearBeforeThisPostId {
   result.hasBeforeThisPostId = NO;
   result.beforeThisPostId = 0;
   return self;
@@ -53896,46 +54594,46 @@ BOOL RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusIsValidValue(
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatus) status {
+- (RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatus) status {
   return result.status;
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) setStatus:(RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatus) value {
+- (RetrieveClanBulletinPostsResponseProto_Builder*) setStatus:(RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) clearStatus {
+- (RetrieveClanBulletinPostsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
-  result.status = RetrieveClanWallPostsResponseProto_RetrieveClanWallPostsStatusSuccess;
+  result.status = RetrieveClanBulletinPostsResponseProto_RetrieveClanBulletinPostsStatusSuccess;
   return self;
 }
-- (NSArray*) clanWallPostsList {
-  if (result.mutableClanWallPostsList == nil) { return [NSArray array]; }
-  return result.mutableClanWallPostsList;
+- (NSArray*) clanBulletinPostsList {
+  if (result.mutableClanBulletinPostsList == nil) { return [NSArray array]; }
+  return result.mutableClanBulletinPostsList;
 }
-- (ClanWallPostProto*) clanWallPostsAtIndex:(int32_t) index {
-  return [result clanWallPostsAtIndex:index];
+- (ClanBulletinPostProto*) clanBulletinPostsAtIndex:(int32_t) index {
+  return [result clanBulletinPostsAtIndex:index];
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) replaceClanWallPostsAtIndex:(int32_t) index with:(ClanWallPostProto*) value {
-  [result.mutableClanWallPostsList replaceObjectAtIndex:index withObject:value];
+- (RetrieveClanBulletinPostsResponseProto_Builder*) replaceClanBulletinPostsAtIndex:(int32_t) index with:(ClanBulletinPostProto*) value {
+  [result.mutableClanBulletinPostsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) addAllClanWallPosts:(NSArray*) values {
-  if (result.mutableClanWallPostsList == nil) {
-    result.mutableClanWallPostsList = [NSMutableArray array];
+- (RetrieveClanBulletinPostsResponseProto_Builder*) addAllClanBulletinPosts:(NSArray*) values {
+  if (result.mutableClanBulletinPostsList == nil) {
+    result.mutableClanBulletinPostsList = [NSMutableArray array];
   }
-  [result.mutableClanWallPostsList addObjectsFromArray:values];
+  [result.mutableClanBulletinPostsList addObjectsFromArray:values];
   return self;
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) clearClanWallPostsList {
-  result.mutableClanWallPostsList = nil;
+- (RetrieveClanBulletinPostsResponseProto_Builder*) clearClanBulletinPostsList {
+  result.mutableClanBulletinPostsList = nil;
   return self;
 }
-- (RetrieveClanWallPostsResponseProto_Builder*) addClanWallPosts:(ClanWallPostProto*) value {
-  if (result.mutableClanWallPostsList == nil) {
-    result.mutableClanWallPostsList = [NSMutableArray array];
+- (RetrieveClanBulletinPostsResponseProto_Builder*) addClanBulletinPosts:(ClanBulletinPostProto*) value {
+  if (result.mutableClanBulletinPostsList == nil) {
+    result.mutableClanBulletinPostsList = [NSMutableArray array];
   }
-  [result.mutableClanWallPostsList addObject:value];
+  [result.mutableClanBulletinPostsList addObject:value];
   return self;
 }
 @end

@@ -287,11 +287,11 @@
 }
 
 - (void) setTimer:(NSTimer *)timer {
-  if (_timer) {
+  if (_timer != timer) {
     [_timer invalidate];
     [_timer release];
+    _timer = [timer retain];
   }
-  _timer = [timer retain];
 }
 
 - (void) createTimerForCurrentState {
@@ -334,7 +334,6 @@
 
 - (void) dealloc {
   self.userStruct = nil;
-  [self.timer invalidate];
   self.timer = nil;
   [_retrieveBubble release];
   [super dealloc];
@@ -410,6 +409,37 @@
   self.ftp = nil;
   self.name = nil;
   [super dealloc];
+}
+
+@end
+
+@implementation ExpansionBoard
+
+@synthesize direction = _direction;
+
+- (id) initForDirection:(ExpansionDirection)direction location:(CGRect)location map:(GameMap *)map isExpanding:(BOOL)isExpanding {
+  NSString *file;
+  if (direction == ExpansionDirectionFarLeft || direction == ExpansionDirectionNearRight) {
+    file = @"leftexpand.png";
+  } else if (direction == ExpansionDirectionFarRight || direction == ExpansionDirectionNearLeft) {
+    file = @"rightexpand.png";
+  }
+  if ((self = [super initWithFile:file location:location map:map])) {
+    _direction = direction;
+    
+    if (isExpanding) {
+      CCSprite *yellow = nil;
+      if (direction == ExpansionDirectionFarLeft || direction == ExpansionDirectionNearRight) {
+        yellow = [CCSprite spriteWithFile:@"leftexpanding.png"];
+      } else if (direction == ExpansionDirectionFarRight || direction == ExpansionDirectionNearLeft) {
+        yellow = [CCSprite spriteWithFile:@"expandingright.png"];
+      }
+      yellow.anchorPoint = ccp(0,0);
+      yellow.position = ccp(18, 25);
+      [self addChild:yellow];
+    }
+  }
+  return self;
 }
 
 @end

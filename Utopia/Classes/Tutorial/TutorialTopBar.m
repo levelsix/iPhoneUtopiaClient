@@ -29,6 +29,8 @@
   [self addChild:_profilePic z:2];
   _profilePic.position = ccp(50, self.contentSize.height-50);
   self.isTouchEnabled = NO;
+  
+  _lockBoxButton.visible = NO;
 }
 
 - (void) update {
@@ -142,6 +144,10 @@
 }
 
 - (void) attackClicked {
+  return;
+}
+
+- (void) lockBoxButtonClicked {
   return;
 }
 

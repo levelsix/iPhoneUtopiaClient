@@ -286,8 +286,8 @@
 
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
   if (_trackingButton1) [self unclickButton:kButton1];
-  if (_trackingButton2) [self unclickButton:kButton3];
-  if (_trackingButton3) [self unclickButton:kButton2];
+  if (_trackingButton2) [self unclickButton:kButton2];
+  if (_trackingButton3) [self unclickButton:kButton3];
   _trackingButton1 = NO;
   _trackingButton3 = NO;
   _trackingButton2 = NO;
@@ -636,7 +636,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   GameState *gs = [GameState sharedGameState];
   if (gs.clan) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:gs.clan.clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO beforeClanId:0];
-    [[OutgoingEventController sharedOutgoingEventController] retrieveClanWallPosts:0];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveClanBulletinPosts:0];
   }
   
   [self.view wakeup];
@@ -1064,7 +1064,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   } else {
     if (gs.clan) {
       [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:gs.clan.clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO beforeClanId:0];
-      [[OutgoingEventController sharedOutgoingEventController] retrieveClanWallPosts:0];
+      [[OutgoingEventController sharedOutgoingEventController] retrieveClanBulletinPosts:0];
     }
     if (state == kMyClan) {
       self.state = kMyClan;
@@ -1196,7 +1196,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   }
 }
 
-- (void) receivedPostOnWall:(PostOnClanWallResponseProto *)proto {
+- (void) receivedPostOnWall:(PostOnClanBulletinResponseProto *)proto {
   GameState *gs = [GameState sharedGameState];
   if (proto.sender.userId != gs.userId) {
     [self.clanBoardView.boardPosts insertObject:proto.post atIndex:0];
@@ -1204,8 +1204,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   }
 }
 
-- (void) receivedWallPosts:(RetrieveClanWallPostsResponseProto *)proto {
-  clanBoardView.boardPosts = proto.clanWallPostsList ? proto.clanWallPostsList.mutableCopy : [NSMutableArray array];
+- (void) receivedWallPosts:(RetrieveClanBulletinPostsResponseProto *)proto {
+  clanBoardView.boardPosts = proto.clanBulletinPostsList ? proto.clanBulletinPostsList.mutableCopy : [NSMutableArray array];
 }
 
 - (void)viewDidUnload

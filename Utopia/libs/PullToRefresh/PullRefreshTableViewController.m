@@ -92,7 +92,7 @@
   }
 }
 
-- (void)startLoading {
+- (void) displayLoading {
   isLoading = YES;
   
   // Show the header
@@ -101,8 +101,14 @@
   self.tableView.contentInset = UIEdgeInsetsMake(REFRESH_HEADER_HEIGHT, 0, 0, 0);
   refreshLabel.text = self.textLoading;
   refreshArrow.hidden = YES;
+  refreshHeaderView.alpha = 1.f;
   [refreshSpinner startAnimating];
   [UIView commitAnimations];
+  
+}
+
+- (void)startLoading {
+  [self displayLoading];
   
   // Refresh action!
   [self refresh];

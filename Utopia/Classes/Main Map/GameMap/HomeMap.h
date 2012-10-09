@@ -36,6 +36,7 @@
 @property (nonatomic, retain) IBOutlet HomeBuildingCollectMenu *collectMenu;
 @property (nonatomic, retain) IBOutlet UIView *moveMenu;
 @property (nonatomic, retain) IBOutlet UpgradeBuildingMenu *upgradeMenu;
+@property (nonatomic, retain) IBOutlet ExpansionView *expansionView;
 
 @property (nonatomic, assign, readonly) BOOL loading;
 @property (nonatomic, assign) int redGid;
@@ -43,6 +44,7 @@
 
 + (HomeMap *)sharedHomeMap;
 + (void) purgeSingleton;
++ (BOOL) isInitialized;
 
 - (void) doMenuAnimations;
 - (void) closeMenus;

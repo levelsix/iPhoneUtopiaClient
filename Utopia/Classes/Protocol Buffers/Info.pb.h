@@ -4,8 +4,8 @@
 
 @class BuildStructJobProto;
 @class BuildStructJobProto_Builder;
-@class ClanWallPostProto;
-@class ClanWallPostProto_Builder;
+@class ClanBulletinPostProto;
+@class ClanBulletinPostProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class DefeatTypeJobProto;
@@ -52,12 +52,16 @@
 @class FullUserQuestDataLargeProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GroupChatMessageProto;
+@class GroupChatMessageProto_Builder;
 @class LocationProto;
 @class LocationProto_Builder;
 @class LockBoxEventProto;
 @class LockBoxEventProto_Builder;
 @class LockBoxItemProto;
 @class LockBoxItemProto_Builder;
+@class MarketplaceSearchEquipProto;
+@class MarketplaceSearchEquipProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
@@ -225,6 +229,8 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 typedef enum {
   ExpansionDirectionFarLeft = 0,
   ExpansionDirectionFarRight = 1,
+  ExpansionDirectionNearLeft = 2,
+  ExpansionDirectionNearRight = 3,
 } ExpansionDirection;
 
 BOOL ExpansionDirectionIsValidValue(ExpansionDirection value);
@@ -293,6 +299,131 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
+@end
+
+@interface GroupChatMessageProto : PBGeneratedMessage {
+@private
+  BOOL hasTimeOfChat_:1;
+  BOOL hasContent_:1;
+  BOOL hasSender_:1;
+  int64_t timeOfChat;
+  NSString* content;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasTimeOfChat;
+- (BOOL) hasContent;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int64_t timeOfChat;
+@property (readonly, retain) NSString* content;
+
++ (GroupChatMessageProto*) defaultInstance;
+- (GroupChatMessageProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (GroupChatMessageProto_Builder*) builder;
++ (GroupChatMessageProto_Builder*) builder;
++ (GroupChatMessageProto_Builder*) builderWithPrototype:(GroupChatMessageProto*) prototype;
+
++ (GroupChatMessageProto*) parseFromData:(NSData*) data;
++ (GroupChatMessageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (GroupChatMessageProto*) parseFromInputStream:(NSInputStream*) input;
++ (GroupChatMessageProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (GroupChatMessageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (GroupChatMessageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface GroupChatMessageProto_Builder : PBGeneratedMessage_Builder {
+@private
+  GroupChatMessageProto* result;
+}
+
+- (GroupChatMessageProto*) defaultInstance;
+
+- (GroupChatMessageProto_Builder*) clear;
+- (GroupChatMessageProto_Builder*) clone;
+
+- (GroupChatMessageProto*) build;
+- (GroupChatMessageProto*) buildPartial;
+
+- (GroupChatMessageProto_Builder*) mergeFrom:(GroupChatMessageProto*) other;
+- (GroupChatMessageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (GroupChatMessageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (GroupChatMessageProto_Builder*) setSender:(MinimumUserProto*) value;
+- (GroupChatMessageProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (GroupChatMessageProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (GroupChatMessageProto_Builder*) clearSender;
+
+- (BOOL) hasTimeOfChat;
+- (int64_t) timeOfChat;
+- (GroupChatMessageProto_Builder*) setTimeOfChat:(int64_t) value;
+- (GroupChatMessageProto_Builder*) clearTimeOfChat;
+
+- (BOOL) hasContent;
+- (NSString*) content;
+- (GroupChatMessageProto_Builder*) setContent:(NSString*) value;
+- (GroupChatMessageProto_Builder*) clearContent;
+@end
+
+@interface MarketplaceSearchEquipProto : PBGeneratedMessage {
+@private
+  BOOL hasEquipId_:1;
+  BOOL hasName_:1;
+  int32_t equipId;
+  NSString* name;
+}
+- (BOOL) hasEquipId;
+- (BOOL) hasName;
+@property (readonly) int32_t equipId;
+@property (readonly, retain) NSString* name;
+
++ (MarketplaceSearchEquipProto*) defaultInstance;
+- (MarketplaceSearchEquipProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MarketplaceSearchEquipProto_Builder*) builder;
++ (MarketplaceSearchEquipProto_Builder*) builder;
++ (MarketplaceSearchEquipProto_Builder*) builderWithPrototype:(MarketplaceSearchEquipProto*) prototype;
+
++ (MarketplaceSearchEquipProto*) parseFromData:(NSData*) data;
++ (MarketplaceSearchEquipProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MarketplaceSearchEquipProto*) parseFromInputStream:(NSInputStream*) input;
++ (MarketplaceSearchEquipProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MarketplaceSearchEquipProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MarketplaceSearchEquipProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MarketplaceSearchEquipProto_Builder : PBGeneratedMessage_Builder {
+@private
+  MarketplaceSearchEquipProto* result;
+}
+
+- (MarketplaceSearchEquipProto*) defaultInstance;
+
+- (MarketplaceSearchEquipProto_Builder*) clear;
+- (MarketplaceSearchEquipProto_Builder*) clone;
+
+- (MarketplaceSearchEquipProto*) build;
+- (MarketplaceSearchEquipProto*) buildPartial;
+
+- (MarketplaceSearchEquipProto_Builder*) mergeFrom:(MarketplaceSearchEquipProto*) other;
+- (MarketplaceSearchEquipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MarketplaceSearchEquipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasEquipId;
+- (int32_t) equipId;
+- (MarketplaceSearchEquipProto_Builder*) setEquipId:(int32_t) value;
+- (MarketplaceSearchEquipProto_Builder*) clearEquipId;
+
+- (BOOL) hasName;
+- (NSString*) name;
+- (MarketplaceSearchEquipProto_Builder*) setName:(NSString*) value;
+- (MarketplaceSearchEquipProto_Builder*) clearName;
 @end
 
 @interface LockBoxEventProto : PBGeneratedMessage {
@@ -943,90 +1074,90 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullClanProtoWithClanSize_Builder*) clearClanSize;
 @end
 
-@interface ClanWallPostProto : PBGeneratedMessage {
+@interface ClanBulletinPostProto : PBGeneratedMessage {
 @private
   BOOL hasTimeOfPost_:1;
-  BOOL hasClanWallPostId_:1;
+  BOOL hasClanBulletinPostId_:1;
   BOOL hasClanId_:1;
   BOOL hasContent_:1;
   BOOL hasPoster_:1;
   int64_t timeOfPost;
-  int32_t clanWallPostId;
+  int32_t clanBulletinPostId;
   int32_t clanId;
   NSString* content;
   MinimumUserProto* poster;
 }
-- (BOOL) hasClanWallPostId;
+- (BOOL) hasClanBulletinPostId;
 - (BOOL) hasPoster;
 - (BOOL) hasClanId;
 - (BOOL) hasTimeOfPost;
 - (BOOL) hasContent;
-@property (readonly) int32_t clanWallPostId;
+@property (readonly) int32_t clanBulletinPostId;
 @property (readonly, retain) MinimumUserProto* poster;
 @property (readonly) int32_t clanId;
 @property (readonly) int64_t timeOfPost;
 @property (readonly, retain) NSString* content;
 
-+ (ClanWallPostProto*) defaultInstance;
-- (ClanWallPostProto*) defaultInstance;
++ (ClanBulletinPostProto*) defaultInstance;
+- (ClanBulletinPostProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (ClanWallPostProto_Builder*) builder;
-+ (ClanWallPostProto_Builder*) builder;
-+ (ClanWallPostProto_Builder*) builderWithPrototype:(ClanWallPostProto*) prototype;
+- (ClanBulletinPostProto_Builder*) builder;
++ (ClanBulletinPostProto_Builder*) builder;
++ (ClanBulletinPostProto_Builder*) builderWithPrototype:(ClanBulletinPostProto*) prototype;
 
-+ (ClanWallPostProto*) parseFromData:(NSData*) data;
-+ (ClanWallPostProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ClanWallPostProto*) parseFromInputStream:(NSInputStream*) input;
-+ (ClanWallPostProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ClanWallPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (ClanWallPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanBulletinPostProto*) parseFromData:(NSData*) data;
++ (ClanBulletinPostProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanBulletinPostProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClanBulletinPostProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanBulletinPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanBulletinPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ClanWallPostProto_Builder : PBGeneratedMessage_Builder {
+@interface ClanBulletinPostProto_Builder : PBGeneratedMessage_Builder {
 @private
-  ClanWallPostProto* result;
+  ClanBulletinPostProto* result;
 }
 
-- (ClanWallPostProto*) defaultInstance;
+- (ClanBulletinPostProto*) defaultInstance;
 
-- (ClanWallPostProto_Builder*) clear;
-- (ClanWallPostProto_Builder*) clone;
+- (ClanBulletinPostProto_Builder*) clear;
+- (ClanBulletinPostProto_Builder*) clone;
 
-- (ClanWallPostProto*) build;
-- (ClanWallPostProto*) buildPartial;
+- (ClanBulletinPostProto*) build;
+- (ClanBulletinPostProto*) buildPartial;
 
-- (ClanWallPostProto_Builder*) mergeFrom:(ClanWallPostProto*) other;
-- (ClanWallPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (ClanWallPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (ClanBulletinPostProto_Builder*) mergeFrom:(ClanBulletinPostProto*) other;
+- (ClanBulletinPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanBulletinPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasClanWallPostId;
-- (int32_t) clanWallPostId;
-- (ClanWallPostProto_Builder*) setClanWallPostId:(int32_t) value;
-- (ClanWallPostProto_Builder*) clearClanWallPostId;
+- (BOOL) hasClanBulletinPostId;
+- (int32_t) clanBulletinPostId;
+- (ClanBulletinPostProto_Builder*) setClanBulletinPostId:(int32_t) value;
+- (ClanBulletinPostProto_Builder*) clearClanBulletinPostId;
 
 - (BOOL) hasPoster;
 - (MinimumUserProto*) poster;
-- (ClanWallPostProto_Builder*) setPoster:(MinimumUserProto*) value;
-- (ClanWallPostProto_Builder*) setPosterBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (ClanWallPostProto_Builder*) mergePoster:(MinimumUserProto*) value;
-- (ClanWallPostProto_Builder*) clearPoster;
+- (ClanBulletinPostProto_Builder*) setPoster:(MinimumUserProto*) value;
+- (ClanBulletinPostProto_Builder*) setPosterBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ClanBulletinPostProto_Builder*) mergePoster:(MinimumUserProto*) value;
+- (ClanBulletinPostProto_Builder*) clearPoster;
 
 - (BOOL) hasClanId;
 - (int32_t) clanId;
-- (ClanWallPostProto_Builder*) setClanId:(int32_t) value;
-- (ClanWallPostProto_Builder*) clearClanId;
+- (ClanBulletinPostProto_Builder*) setClanId:(int32_t) value;
+- (ClanBulletinPostProto_Builder*) clearClanId;
 
 - (BOOL) hasTimeOfPost;
 - (int64_t) timeOfPost;
-- (ClanWallPostProto_Builder*) setTimeOfPost:(int64_t) value;
-- (ClanWallPostProto_Builder*) clearTimeOfPost;
+- (ClanBulletinPostProto_Builder*) setTimeOfPost:(int64_t) value;
+- (ClanBulletinPostProto_Builder*) clearTimeOfPost;
 
 - (BOOL) hasContent;
 - (NSString*) content;
-- (ClanWallPostProto_Builder*) setContent:(NSString*) value;
-- (ClanWallPostProto_Builder*) clearContent;
+- (ClanBulletinPostProto_Builder*) setContent:(NSString*) value;
+- (ClanBulletinPostProto_Builder*) clearContent;
 @end
 
 @interface MinimumUserProtoForClans : PBGeneratedMessage {
@@ -3181,23 +3312,31 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasUserId_:1;
   BOOL hasFarLeftExpansions_:1;
   BOOL hasFarRightExpansions_:1;
+  BOOL hasNearLeftExpansions_:1;
+  BOOL hasNearRightExpansions_:1;
   BOOL hasLastExpandDirection_:1;
   BOOL isExpanding_:1;
   int64_t lastExpandTime;
   int32_t userId;
   int32_t farLeftExpansions;
   int32_t farRightExpansions;
+  int32_t nearLeftExpansions;
+  int32_t nearRightExpansions;
   ExpansionDirection lastExpandDirection;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasFarLeftExpansions;
 - (BOOL) hasFarRightExpansions;
+- (BOOL) hasNearLeftExpansions;
+- (BOOL) hasNearRightExpansions;
 - (BOOL) hasIsExpanding;
 - (BOOL) hasLastExpandTime;
 - (BOOL) hasLastExpandDirection;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t farLeftExpansions;
 @property (readonly) int32_t farRightExpansions;
+@property (readonly) int32_t nearLeftExpansions;
+@property (readonly) int32_t nearRightExpansions;
 - (BOOL) isExpanding;
 @property (readonly) int64_t lastExpandTime;
 @property (readonly) ExpansionDirection lastExpandDirection;
@@ -3250,6 +3389,16 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) farRightExpansions;
 - (FullUserCityExpansionDataProto_Builder*) setFarRightExpansions:(int32_t) value;
 - (FullUserCityExpansionDataProto_Builder*) clearFarRightExpansions;
+
+- (BOOL) hasNearLeftExpansions;
+- (int32_t) nearLeftExpansions;
+- (FullUserCityExpansionDataProto_Builder*) setNearLeftExpansions:(int32_t) value;
+- (FullUserCityExpansionDataProto_Builder*) clearNearLeftExpansions;
+
+- (BOOL) hasNearRightExpansions;
+- (int32_t) nearRightExpansions;
+- (FullUserCityExpansionDataProto_Builder*) setNearRightExpansions:(int32_t) value;
+- (FullUserCityExpansionDataProto_Builder*) clearNearRightExpansions;
 
 - (BOOL) hasIsExpanding;
 - (BOOL) isExpanding;

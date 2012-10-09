@@ -152,7 +152,7 @@
 @synthesize bubbleBotLeft, bubbleMidLeft, bubbleTopLeft;
 @synthesize bubbleBotRight, bubbleMidRight, bubbleTopRight;
 @synthesize chatLine, nameButton, textLabel, typeIcon;
-@synthesize typeCircle;
+@synthesize typeCircle, timeLabel;
 @synthesize chatMessage;
 
 static float chatLabelWidth = 342.f;
@@ -169,7 +169,6 @@ static float cellLabelFontSize = 14.f;
 
 - (void) updateForChat:(ChatMessage *)msg {
   self.chatMessage = msg;
-  //  [UIView commitAnimations];
   
   [self.typeIcon setImage:[Globals imageNamed:[Globals headshotImageNameForUser:msg.sender.userType]] forState:UIControlStateNormal];
   
@@ -179,7 +178,18 @@ static float cellLabelFontSize = 14.f;
   NSString *buttonText = [Globals fullNameWithName:msg.sender.name clanTag:msg.sender.clan.tag];
   [self.nameButton setTitle:buttonText forState:UIControlStateNormal];
   CGSize buttonSize = [buttonText sizeWithFont:self.nameButton.titleLabel.font constrainedToSize:CGSizeMake(self.nameButton.frame.size.width, 999) lineBreakMode:self.nameButton.titleLabel.lineBreakMode];
-  size.width = MAX(size.width, buttonSize.width+2*self.nameButton.frame.origin.x);
+  
+  CGRect r = nameButton.frame;
+  r.size.width = buttonSize.width;
+  nameButton.frame = r;
+  
+  self.timeLabel.text = [Globals stringForTimeSinceNow:msg.date];
+  
+  r = timeLabel.frame;
+  r.origin.x = MAX(CGRectGetMaxX(nameButton.frame), textLabel.frame.origin.x+size.width-r.size.width);
+  timeLabel.frame = r;
+  
+  size.width = MAX(size.width, buttonSize.width+timeLabel.frame.size.width);
   
   int xDiff = size.width-self.textLabel.frame.size.width;
   int yDiff = size.height-self.textLabel.frame.size.height;
@@ -257,15 +267,19 @@ static float cellLabelFontSize = 14.f;
     self.nameButton.transform = CGAffineTransformMakeScale(-1, 1);
     self.textLabel.transform = CGAffineTransformMakeScale(-1, 1);
     self.typeIcon.transform = CGAffineTransformMakeScale(-1, 1);
+    self.timeLabel.transform = CGAffineTransformMakeScale(-1, 1);
     self.nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     self.textLabel.textAlignment = UITextAlignmentRight;
+    self.timeLabel.textAlignment = UITextAlignmentLeft;
   } else {
     self.transform = CGAffineTransformIdentity;
     self.nameButton.transform = CGAffineTransformIdentity;
     self.textLabel.transform = CGAffineTransformIdentity;
     self.typeIcon.transform = CGAffineTransformIdentity;
+    self.timeLabel.transform = CGAffineTransformIdentity;
     self.nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     self.textLabel.textAlignment = UITextAlignmentLeft;
+    self.timeLabel.textAlignment = UITextAlignmentRight;
   }
 }
 
@@ -417,19 +431,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 }
 
 - (void) send {
-  GameState *gs = [GameState sharedGameState];
+//  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSString *msg = self.postTextField.text;
-  if ((isGlobal && gs.numGroupChatsRemaining > 0) || !isGlobal) {
-    if (msg.length > 0 && msg.length < gl.maxLengthOfChatString) {
+//  if ((isGlobal && gs.numGroupChatsRemaining > 0) || !isGlobal) {
+    if (msg.length > 0 && msg.length <= gl.maxLengthOfChatString) {
       GroupChatScope scope = self.isGlobal ? GroupChatScopeGlobal : GroupChatScopeClan;
       [[OutgoingEventController sharedOutgoingEventController] sendGroupChat:scope message:msg];
       [self updateNumChatsLabel]; 
     }
     self.postTextField.text = nil;
-  } else {
-    [self addChatsClicked:nil];
-  }
+//  } else {
+//    [self addChatsClicked:nil];
+//  }
   [self.postTextField resignFirstResponder];
 }
 

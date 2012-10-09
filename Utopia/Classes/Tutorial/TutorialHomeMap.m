@@ -35,7 +35,7 @@
   
   // Move purch building off the road
   CGRect r = _purchBuilding.location;
-  r.origin = ccpAdd(r.origin, ccp(3, -2));
+  r.origin = ccpAdd(r.origin, ccp(2, -3));
   _purchBuilding.location = r;
   
   [_purchBuilding placeBlock];

@@ -15,6 +15,7 @@
 
 + (BazaarMap *) sharedBazaarMap;
 + (void) purgeSingleton;
++ (BOOL) isInitialized;
 
 - (void) moveToCritStruct:(BazaarStructType)type;
 - (void) moveToQuestGiver;

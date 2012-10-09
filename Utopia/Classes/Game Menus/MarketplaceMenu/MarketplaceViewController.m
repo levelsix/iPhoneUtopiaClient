@@ -91,20 +91,23 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   UILabel *retractLabel = (UILabel *)[self.mainView viewWithTag:15];
   retractLabel.text = [NSString stringWithFormat:@"Removing items incurs a %d%% fee", (int)([[Globals sharedGlobals] retractPercentCut]*100)];
+  
+  _swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(openFilterPage:)];
+  [self.view addGestureRecognizer:_swipeGestureRecognizer];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewDidAppear:animated];
-  [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePosts];
   self.postsTableView.scrollEnabled = YES;
   
   [self.loadingView stop];
   
   [self setState:kEquipBuyingState];
   
+  [self refresh];
+  
   self.removeView.hidden = YES;
   [self.purchView removeFromSuperview];
-  self.postsTableView.contentOffset = CGPointZero;
   
   self.redeemView.hidden = YES;
   
@@ -413,11 +416,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     if (self.listing) {
       [self disableEditing];
     } else {
-      [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePosts];
-      
       if (self.state == kEquipSellingState) {
         self.state = kEquipBuyingState;
       }
+      
+      [self refresh];
     }
   }
 }
@@ -545,6 +548,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   if ([cell isKindOfClass:[ItemPostView class]]) {
     NSArray *a = state == kEquipBuyingState ? gs.marketplaceEquipPosts : gs.marketplaceEquipPostsFromSender;
     if (state == kEquipSellingState && indexPath.row > (a.count+displayLicense)) {
+      NSLog(@"%d, %d", indexPath.row, a.count);
       [(ItemPostView *)cell showEquipListing:[[gs myEquips] objectAtIndex:indexPath.row-a.count-displayLicense-1]];
       return cell;
     }
@@ -583,7 +587,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   if (scrollView.contentOffset.y > scrollView.contentSize.height-scrollView.frame.size.height-REFRESH_ROWS*self.postsTableView.rowHeight) {
     if (shouldReload) {
       if (self.state == kEquipBuyingState) {
-        [[OutgoingEventController sharedOutgoingEventController] retrieveMoreMarketplacePosts];
+        [[OutgoingEventController sharedOutgoingEventController] retrieveMoreMarketplacePosts:filterView.searchView.searchEquipId];
       } else {
         [[OutgoingEventController sharedOutgoingEventController] retrieveMoreMarketplacePostsFromSender];
       }
@@ -781,12 +785,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 
 - (void) refresh {
   if (self.state == kEquipBuyingState) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePosts];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePosts: filterView.searchView.searchEquipId];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePostsFromSender];
   }
+  [self displayLoading];
   [self.postsTableView reloadData];
   self.shouldReload = YES;
+  _refreshing = YES;
 }
 
 - (MarketplaceFilterView *) filterView {
@@ -814,6 +820,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     MarketplaceDragView *dragView = [[MarketplaceDragView alloc] initWithFrame:self.mainView.bounds];
     [self.mainView addSubview:dragView];
     dragView.tag = DRAG_VIEW_TAG;
+    
+    _swipeGestureRecognizer.enabled = NO;
   }
 }
 
@@ -825,6 +833,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 
 - (void) closeFilterPage {
   if (self.filterView.superview) {
+    [filterView endEditing:YES];
+    
     __block CGRect r = self.mainView.frame;
     float dist = r.origin.x;
     r.origin.x = 0;
@@ -838,6 +848,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
       [self.filterView removeFromSuperview];
       [[self.mainView viewWithTag:DRAG_VIEW_TAG] removeFromSuperview];
     }];
+    
+    _swipeGestureRecognizer.enabled = YES;
   }
 }
 
@@ -876,6 +888,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.bottomBar = nil;
   self.filterView = nil;
   self.mainView = nil;
+  [_swipeGestureRecognizer release];
 }
 
 #pragma mark FILTERMETHODS
@@ -894,7 +907,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @implementation UITextField (DisableCopyPaste)
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender
-{    
+{
   [UIMenuController sharedMenuController].menuVisible = NO;
   return NO;
 }

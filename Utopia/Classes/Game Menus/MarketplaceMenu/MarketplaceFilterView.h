@@ -133,6 +133,27 @@ typedef enum {
 
 @end
 
+@interface MarketplaceSearchCell : UITableViewCell
+
+@property (nonatomic, retain) MarketplaceSearchEquipProto *searchEquip;
+
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+
+@end
+
+@interface MarketplaceLiveSearchView : UIView <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+
+@property (nonatomic, retain) IBOutlet NSArray *searchEquips;
+
+@property (nonatomic, retain) IBOutlet UITableView *searchTable;
+@property (nonatomic, retain) IBOutlet UITextField *textField;
+
+@property (nonatomic, retain) IBOutlet MarketplaceSearchCell *searchCell;
+
+@property (nonatomic, assign) int searchEquipId;
+
+@end
+
 @interface MarketplaceFilterView : UIView
 
 @property (nonatomic, retain) IBOutlet FilterBar *filterBar;
@@ -141,6 +162,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet SliderBar *equipLevelBar;
 @property (nonatomic, retain) IBOutlet SliderBar *forgeLevelBar;
 @property (nonatomic, retain) IBOutlet MarketplacePickerView *pickerView;
+@property (nonatomic, retain) IBOutlet MarketplaceLiveSearchView *searchView;
 
 - (void) loadFilterSettings;
 - (void) saveFilterSettings;

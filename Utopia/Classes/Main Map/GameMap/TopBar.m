@@ -27,6 +27,7 @@
 #import "ChatMenuController.h"
 #import "ClanMenuController.h"
 #import "LockBoxMenuController.h"
+#import "ThreeCardMonteViewController.h"
 
 #define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
 #define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
@@ -70,14 +71,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 @synthesize energyTimer = _energyTimer;
 @synthesize staminaTimer = _staminaTimer;
 @synthesize isStarted;
-@synthesize dbmc;
+//@synthesize dbmc;
 @synthesize inGameNotification, chatBottomView;
 
 - (id) init {
   if ((self = [super init])) {
     _enstBgd = [CCSprite spriteWithFile:@"enstbg.png"];
     [self addChild:_enstBgd z:2];
-    _enstBgd.position = ccp(197, self.contentSize.height+_enstBgd.contentSize.height/2);
     _enstBgd.visible = YES;
     
     // Make the progress bars and place them on top of the background image
@@ -101,7 +101,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     
     _coinBar = [CCSprite spriteWithFile:@"coinbar.png"];
     [self addChild:_coinBar z:2];
-    _coinBar.position = ccp(373, self.contentSize.height+_coinBar.contentSize.height/2);
     
     NSString *fontName = [Globals font];
     _silverLabel = [CCLabelTTF labelWithString:@"0" fontName:fontName fontSize:12];
@@ -128,13 +127,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     self.profilePic = [ProfilePicture profileWithType:gs.type];
     [self addChild:_profilePic z:2];
     _profilePic.position = ccp(50, self.contentSize.height-50);
-    
-    // At this point, the bars are still above the screen so subtract 3/2 * width
-    _enstBarRect = CGRectMake(_enstBgd.position.x-_enstBgd.contentSize.width/2, _enstBgd.position.y-3*_enstBgd.contentSize.height/2, _enstBgd.contentSize.width, _enstBgd.contentSize.height);
-    // For coin bar remember to add in the gold button at the right side. Right most x of gold
-    // button will suffice since it is a child of the coin bar.
-    int rightMostX = finalgoldButtonPos.x+_goldButton.contentSize.width/2;
-    _coinBarRect = CGRectMake(_coinBar.position.x-_coinBar.contentSize.width/2, _coinBar.position.y-3*_coinBar.contentSize.height/2, rightMostX, _coinBar.contentSize.height);
     
     _bigToolTip = [ToolTip spriteWithFile:@"quantleftwithtimer.png"];
     [_enstBgd addChild:_bigToolTip z:2];
@@ -323,6 +315,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) start {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  _enstBgd.position = ccp(197, self.contentSize.height+_enstBgd.contentSize.height/2);
+  _coinBar.position = ccp(373, self.contentSize.height+_coinBar.contentSize.height/2);
+  
+  // At this point, the bars are still above the screen so subtract 3/2 * width
+  _enstBarRect = CGRectMake(_enstBgd.position.x-_enstBgd.contentSize.width/2, _enstBgd.position.y-3*_enstBgd.contentSize.height/2, _enstBgd.contentSize.width, _enstBgd.contentSize.height);
+  // For coin bar remember to add in the gold button at the right side. Right most x of gold
+  // button will suffice since it is a child of the coin bar.
+  int rightMostX = 155+_goldButton.contentSize.width/2;
+  _coinBarRect = CGRectMake(_coinBar.position.x-_coinBar.contentSize.width/2, _coinBar.position.y-3*_coinBar.contentSize.height/2, rightMostX, _coinBar.contentSize.height);
+  
   // Drop the bars down
   [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
   [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
@@ -332,10 +337,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     chatBottomView.hidden = NO;
   }
   
-  if (dbmc) {
-    [Globals displayUIView:dbmc.view];
-    self.dbmc = nil;
-  }
+//  if (dbmc) {
+//    [Globals displayUIView:dbmc.view];
+//    self.dbmc = nil;
+//  }
   
   BOOL showActFeed = NO;
   NSArray *notifications = [[GameState sharedGameState] notifications];
@@ -349,9 +354,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [ActivityFeedController displayView];
   }
   
+  if (gs.level >= gl.minLevelToDisplayThreeCardMonte && gl.minLevelToDisplayThreeCardMonte > 0) {
+    [ThreeCardMonteViewController displayView];
+  }
+  
   self.isStarted = YES;
   
-  GameState *gs = [GameState sharedGameState];
   
 #ifndef DEBUG
   [Crittercism setUsername:gs.name];
@@ -933,7 +941,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_staminaBar release];
   [_toolTipTimerDate release];
   self.profilePic = nil;
-  self.dbmc = nil;
+//  self.dbmc = nil;
   self.inGameNotification = nil;
   self.chatBottomView = nil;
   [_notificationsToDisplay release];

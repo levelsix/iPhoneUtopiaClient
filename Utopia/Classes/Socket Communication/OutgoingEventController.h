@@ -35,8 +35,8 @@
 - (void) reconnect;
 - (void) inAppPurchase: (NSString *) receipt goldAmt:(int)gold;
 
-- (void) retrieveMostRecentMarketplacePosts;
-- (void) retrieveMoreMarketplacePosts;
+- (void) retrieveMostRecentMarketplacePosts:(int)searchEquipId;
+- (void) retrieveMoreMarketplacePosts:(int)searchEquipId;
 - (void) retrieveMostRecentMarketplacePostsFromSender;
 - (void) retrieveMoreMarketplacePostsFromSender;
 - (void) equipPostToMarketplace:(int)equipId price:(int)amount;
@@ -123,12 +123,18 @@
 - (int) changeClanDescription:(NSString *)description;
 - (void) retrieveClanInfo:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId;
 - (int) bootPlayerFromClan:(int)playerId;
-- (ClanWallPostProto *) postOnClanWall:(NSString *)content;
-- (void) retrieveClanWallPosts:(int)beforeThisPostId;
+- (ClanBulletinPostProto *) postOnClanBulletin:(NSString *)content;
+- (void) retrieveClanBulletinPosts:(int)beforeThisPostId;
 
 - (void) beginGoldmineTimer;
 - (void) collectFromGoldmine;
 
 - (void) pickLockBox:(int)eventId method:(PickLockBoxRequestProto_PickLockBoxMethod)method;
+
+- (void) purchaseCityExpansion:(ExpansionDirection)direction;
+- (void) expansionWaitComplete:(BOOL)speedUp;
+
+-(void) retrieveThreeCardMonte;
+-(void) playThreeCardMonte:(int)cardID;
 
 @end

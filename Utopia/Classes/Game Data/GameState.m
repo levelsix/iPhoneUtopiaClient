@@ -17,8 +17,9 @@
 #import "ChatMenuController.h"
 #import "AppDelegate.h"
 #import "BazaarMap.h"
+#import "HomeMap.h"
 
-#define TagLog(...) LNLog(__VA_ARGS__)
+#define TagLog(...)
 
 @implementation GameState
 
@@ -116,6 +117,10 @@
 @synthesize clan = _clan;
 
 @synthesize requestedClans = _requestedClans;
+
+@synthesize mktSearchEquips = _mktSearchEquips;
+
+@synthesize userExpansion = _userExpansion;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
@@ -250,6 +255,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [Globals popupMessage:@"Attempted to access static item 0"];
     return nil;
   }
+  [dict retain];
   NSNumber *num = [NSNumber numberWithInt:itemId];
   id p = [dict objectForKey:num];
   int numTimes = 1;
@@ -283,6 +289,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
         [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:arr lockBoxEvents:NO];
       }
     } else if (!ad.isActive || numTimes > 10000) {
+      [dict release];
       return nil;
     }
     //    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
@@ -292,6 +299,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   // Retain and autorelease in case data gets purged
   [p retain];
+  [dict release];
   return [p autorelease];
 }
 
@@ -459,13 +467,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(GroupChatScope)scope {
-  int arrCount = 0;
-  
-  ChatBottomView *btm = [[TopBar sharedTopBar] chatBottomView];
   ChatMessage *cm = [[ChatMessage alloc] init];
   cm.sender = sender;
   cm.message = msg;
   cm.date = [NSDate date];
+  [self addChatMessage:cm scope:scope];
+  [cm release];
+}
+
+- (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope {
+  int arrCount = 0;
+  
+  ChatBottomView *btm = [[TopBar sharedTopBar] chatBottomView];
   if (scope == GroupChatScopeGlobal) {
     [self.globalChatMessages addObject:cm];
     
@@ -481,7 +494,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
     arrCount = self.clanChatMessages.count;
   }
-  [cm release];
   
   
   if ([ChatMenuController isInitialized] && [ChatMenuController sharedChatMenuController].view.superview) {
@@ -776,14 +788,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   UserNotification *un = [[UserNotification alloc] initWithGoldmineRetrieval:self.lastGoldmineRetrieval];
   if (un) {
     [self addNotification:un];
-    BazaarMap *bm = [BazaarMap sharedBazaarMap];
-    CritStructBuilding *csb = (CritStructBuilding *)[bm getChildByTag:BazaarStructTypeGoldMine];
-    if (un.goldmineCollect) {
-      csb.retrievable = YES;
-    } else {
-      csb.retrievable = NO;
+    if ([BazaarMap isInitialized]) {
+      BazaarMap *bm = [BazaarMap sharedBazaarMap];
+      CritStructBuilding *csb = (CritStructBuilding *)[bm getChildByTag:BazaarStructTypeGoldMine];
+      if (un.goldmineCollect) {
+        csb.retrievable = YES;
+      } else {
+        csb.retrievable = NO;
+      }
+      [un release];
     }
-    [un release];
   }
 }
 
@@ -792,6 +806,40 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [_goldmineTimer invalidate];
     [_goldmineTimer release];
     _goldmineTimer = nil;
+  }
+}
+
+- (void) beginExpansionTimer {
+  [self stopExpansionTimer];
+  Globals *gl = [Globals sharedGlobals];
+  UserExpansion *ue = _userExpansion;
+  
+  if (ue.isExpanding) {
+    float seconds = [gl calculateNumMinutesForNewExpansion:ue];;
+    NSDate *endTime = [ue.lastExpandTime dateByAddingTimeInterval:seconds];
+    
+    if ([endTime compare:[NSDate date]] == NSOrderedDescending) {
+      _expansionTimer = [[NSTimer timerWithTimeInterval:endTime.timeIntervalSinceNow target:self selector:@selector(expansionWaitTimeComplete) userInfo:nil repeats:NO] retain];
+      [[NSRunLoop mainRunLoop] addTimer:_expansionTimer forMode:NSRunLoopCommonModes];
+    } else {
+      [self expansionWaitTimeComplete];
+    }
+  }
+}
+
+- (void) expansionWaitTimeComplete {
+  [[OutgoingEventController sharedOutgoingEventController] expansionWaitComplete:NO];
+  
+  if ([HomeMap isInitialized]) {
+    [[HomeMap sharedHomeMap] refresh];
+  }
+}
+
+- (void) stopExpansionTimer {
+  if (_expansionTimer) {
+    [_expansionTimer invalidate];
+    [_expansionTimer release];
+    _expansionTimer = nil;
   }
 }
 
@@ -805,6 +853,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) resetLockBoxTimers {
   [self stopAllLockBoxTimers];
+  
+  if (_isTutorial) {
+    return;
+  }
+  
   [self updateLockBoxButton];
   
   _lockBoxEventTimers = [[NSMutableArray array] retain];
@@ -897,6 +950,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   LNLog(@"Updated lock box button..");
 }
 
+- (NSArray *) mktSearchEquipsSimilarToString:(NSString *)string {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (MarketplaceSearchEquipProto *eq in _mktSearchEquips) {
+    if ([eq.name rangeOfString:string options:NSCaseInsensitiveSearch].length > 0) {
+      [arr addObject:eq];
+    }
+  }
+  [arr sortUsingComparator:^NSComparisonResult(MarketplaceSearchEquipProto *obj1, MarketplaceSearchEquipProto *obj2) {
+    NSRange range1 = [obj1.name rangeOfString:string options:NSCaseInsensitiveSearch];
+    NSRange range2 = [obj2.name rangeOfString:string options:NSCaseInsensitiveSearch];
+    
+    if (range1.location < range2.location) {
+      return NSOrderedAscending;
+    } else if (range1.location > range2.location) {
+      return NSOrderedDescending;
+    }
+    return NSOrderedSame;
+  }];
+  return arr;
+}
+
 - (void) purgeStaticData {
   [_staticQuests removeAllObjects];
   [_staticBuildStructJobs removeAllObjects];
@@ -955,10 +1029,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   self.requestedClans = [[[NSMutableArray alloc] init] autorelease];
   
+  self.mktSearchEquips = nil;
+  
+  self.userExpansion = nil;
+  
   [self stopForgeTimer];
   self.forgeAttempt = nil;
   
   [self stopAllLockBoxTimers];
+  
+  [self stopExpansionTimer];
 }
 
 - (void) dealloc {
@@ -1005,9 +1085,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.lockBoxEventTimers = nil;
   self.myLockBoxEvents = nil;
   self.staticLockBoxEvents = nil;
+  self.mktSearchEquips = nil;
+  self.userExpansion = nil;
   [self stopAllLockBoxTimers];
   self.lockBoxEventTimers = nil;
   [self stopForgeTimer];
+  [self stopExpansionTimer];
   [super dealloc];
 }
 

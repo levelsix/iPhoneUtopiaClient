@@ -258,8 +258,13 @@
 
 - (void) displayStolenEquip {
   [self loadStolenEquip];
-  [Globals displayUIView:self.stolenEquipView];
-  [Globals bounceView:self.stolenEquipView.mainView fadeInBgdView:self.stolenEquipView.bgdView];
+  self.gainedEquipView.equipIcon.userInteractionEnabled = NO;
+  [Globals displayUIView:self.gainedEquipView];
+  [Globals bounceView:self.gainedEquipView.mainView fadeInBgdView:self.gainedEquipView.bgdView];
+}
+
+- (void) displayStolenLockBox {
+  [self displaySummary];
 }
 
 - (void) displaySummary {
@@ -286,11 +291,11 @@
   [gs.myEquips addObject:ue];
   [ue release];
   
-  [self.stolenEquipView loadForEquip:(FullUserEquipProto *)ue];
+  [self.gainedEquipView loadForEquip:(FullUserEquipProto *)ue];
   
   // Move arrow to close button (tag 20)
-  [self.stolenEquipView.mainView addSubview:_uiArrow];
-  UIView *okayButton = [self.stolenEquipView viewWithTag:20];
+  [self.gainedEquipView.mainView addSubview:_uiArrow];
+  UIView *okayButton = [self.gainedEquipView viewWithTag:20];
   _uiArrow.center = CGPointMake(CGRectGetMinX(okayButton.frame)-_uiArrow.frame.size.width/2-2, okayButton.center.y);
   [Globals animateUIArrow:_uiArrow atAngle:0];
 }

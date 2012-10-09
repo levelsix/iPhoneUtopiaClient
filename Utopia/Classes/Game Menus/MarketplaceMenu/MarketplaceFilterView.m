@@ -609,14 +609,149 @@
 
 @end
 
+@implementation MarketplaceSearchCell
+
+@synthesize searchEquip, nameLabel;
+
+- (void) awakeFromNib {
+  self.selectedBackgroundView = [[[UIView alloc] initWithFrame:self.bounds] autorelease];
+  self.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.2f];
+}
+
+- (void) setSearchEquip:(MarketplaceSearchEquipProto *)s {
+  if (s != searchEquip) {
+    [searchEquip release];
+    searchEquip = [s retain];
+  }
+  
+  self.nameLabel.text = searchEquip.name;
+}
+
+- (void) dealloc {
+  self.searchEquip = nil;
+  self.nameLabel = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation MarketplaceLiveSearchView
+
+@synthesize searchTable, textField, searchEquips, searchCell, searchEquipId;
+
+- (void) awakeFromNib {
+  searchTable.backgroundColor = [UIColor colorWithPatternImage:[Globals imageNamed:@"livesearchbg.png"]];
+  
+  searchTable.tableFooterView = [[[UIView alloc] init] autorelease];
+}
+
+- (int) numberOfSectionsInTableView:(UITableView *)tableView {
+  return 1;
+}
+
+- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  return searchEquips.count;
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  MarketplaceSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MarketplaceSearchCell"];
+  
+  if (!cell) {
+    [[NSBundle mainBundle] loadNibNamed:@"MarketplaceSearchCell" owner:self options:nil];
+    cell = self.searchCell;
+  }
+  
+  cell.searchEquip = [searchEquips objectAtIndex:indexPath.row];
+  
+  return cell;
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  [tableView deselectRowAtIndexPath:indexPath animated:NO];
+  
+  MarketplaceSearchCell *cell = (MarketplaceSearchCell *)[tableView cellForRowAtIndexPath:indexPath];
+  textField.text = cell.searchEquip.name;
+  [textField resignFirstResponder];
+  
+  self.searchEquipId = cell.searchEquip.equipId;
+}
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField {
+  self.hidden = NO;
+  CGRect r = self.frame;
+  r.size.height = 0;
+  self.frame = r;
+  [UIView animateWithDuration:0.2f animations:^{
+    CGRect r = self.frame;
+    r.size.height = 125;
+    self.frame = r;
+  }];
+}
+
+- (void) textFieldDidEndEditing:(UITextField *)textField {
+  [UIView animateWithDuration:0.2f animations:^{
+    CGRect r = self.frame;
+    r.size.height = 0;
+    self.frame = r;
+  } completion:^(BOOL finished) {
+    if (finished) {
+      self.hidden = YES;
+    }
+  }];
+}
+
+- (BOOL) textField:(UITextField *)t shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+  NSString *s = [t.text stringByReplacingCharactersInRange:range withString:string];
+  self.searchEquips = [[GameState sharedGameState] mktSearchEquipsSimilarToString:s];
+  [searchTable reloadData];
+  self.searchEquipId = 0;
+  return YES;
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)t {
+  [textField resignFirstResponder];
+  return YES;
+}
+
+- (IBAction)clearClicked:(id)sender {
+  self.textField.text = nil;
+  self.searchEquipId = 0;
+}
+
+
+- (void) dealloc {
+  self.searchTable = nil;
+  self.textField = nil;
+  self.searchEquips = nil;
+  self.searchCell = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation MarketplaceFilterView
 
-@synthesize filterBar, rarityBar, switchButton, equipLevelBar, forgeLevelBar, pickerView;
+@synthesize filterBar, rarityBar, switchButton, equipLevelBar, forgeLevelBar, pickerView, searchView;
 
 - (void) awakeFromNib {
   Globals *gl = [Globals sharedGlobals];
   self.equipLevelBar.numNotches = gl.maxLevelForUser/EQUIP_LEVEL_NOTCH_LEVEL_DIFF+2;
   self.forgeLevelBar.numNotches = gl.forgeMaxEquipLevel;
+  
+  CGRect r = searchView.frame;
+  r.origin.y = 45;
+  searchView.frame = r;
+  [self addSubview:self.searchView];
+  self.searchView.hidden = YES;
+  
+  UISwipeGestureRecognizer *gr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(openSortOrder:)];
+  gr.direction = UISwipeGestureRecognizerDirectionUp;
+  [self addGestureRecognizer:gr];
+  [gr release];
+  gr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(closeSortOrder:)];
+  gr.direction = UISwipeGestureRecognizerDirectionDown;
+  [self addGestureRecognizer:gr];
+  [gr release];
 }
 
 - (void) loadFilterSettings {
@@ -692,6 +827,8 @@
   [defaults removeObjectForKey:FORGE_LEVEL_MAX_USER_DEFAULTS_KEY];
   [defaults removeObjectForKey:SORT_ORDER_USER_DEFAULTS_KEY];
   
+  [self.searchView clearClicked:nil];
+  
   [self loadFilterSettings];
 }
 
@@ -712,6 +849,10 @@
   }];
 }
 
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self endEditing:YES];
+}
+
 - (void) dealloc {
   [self saveFilterSettings];
   
@@ -721,6 +862,7 @@
   self.equipLevelBar = nil;
   self.forgeLevelBar = nil;
   self.pickerView = nil;
+  self.searchView = nil;
   [super dealloc];
 }
 
