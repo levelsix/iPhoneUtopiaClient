@@ -16,7 +16,7 @@
 
 @implementation IAPHelper
 
-@synthesize products = _products;
+@synthesize  products = _products;
 @synthesize request = _request;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
@@ -29,7 +29,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 }
 
 - (void)requestProducts {
-  NSSet *productIds = [NSSet setWithArray:[[[Globals sharedGlobals] productIdentifiers] allKeys]];
+  NSMutableSet *productIds = [NSMutableSet setWithArray:[[[Globals sharedGlobals] productIdentifiersToGold] allKeys]];
   
   if (productIds.count > 0) {
     self.request = [[[SKProductsRequest alloc] initWithProductIdentifiers:productIds] autorelease];
@@ -41,14 +41,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
   ContextLogInfo(LN_CONTEXT_IAP, @"Received products results for %d products...", response.products.count);
   
-  self.products = response.products;
+  NSMutableDictionary *d = [NSMutableDictionary dictionaryWithCapacity:response.products.count];
+  for (SKProduct *p in response.products) {
+    [d setObject:p forKey:p.productIdentifier];
+  }
+  self.products = d;
   self.request = nil;
   
   ContextLogWarn(LN_CONTEXT_IAP,@"Invalid product ids: %@", response.invalidProductIdentifiers);
   
-//  if (response.products.count == 0) {
-//    [self requestProducts];
-//  }
+  //  if (response.products.count == 0) {
+  //    [self requestProducts];
+  //  }
 }
 
 - (NSString*)base64forData:(NSData*)theData {
@@ -95,8 +99,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 - (void)completeTransaction:(SKPaymentTransaction *)transaction {
   ContextLogVerbose(LN_CONTEXT_IAP,@"completeTransaction...");
   
+  Globals *gl = [Globals sharedGlobals];
   NSString *encodedReceipt = [self base64forData:transaction.transactionReceipt];
-  NSNumber *goldAmt = [[[Globals sharedGlobals] productIdentifiers] objectForKey:transaction.payment.productIdentifier];
+  NSString *productId = transaction.payment.productIdentifier;
+  
+  NSNumber *goldAmt = [gl.productIdentifiersToGold objectForKey:productId];
+  
   [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt.intValue];
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
@@ -106,6 +114,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   if (transaction.error.code != SKErrorPaymentCancelled)
   {
     ContextLogError(LN_CONTEXT_IAP, @"Transaction error: %@", transaction.error.localizedDescription);
+    [Globals popupMessage:[NSString stringWithFormat:@"Error: %@", transaction.error.localizedDescription]];
   } else {
     // Transaction was cancelled
     [Analytics cancelledGoldPackage:transaction.payment.productIdentifier];
@@ -133,12 +142,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 }
 
 - (void)buyProductIdentifier:(SKProduct *)product {
+  if (!product) {
+    [Globals popupMessage:@"An error has occurred processing this transaction.."];
+    [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
+    return;
+  }
   
   ContextLogInfo(LN_CONTEXT_IAP, @"Buying %@...", product.debugDescription);
   
   SKPayment *payment = [SKPayment paymentWithProduct:product];
   [[SKPaymentQueue defaultQueue] addPayment:payment];
-  
 }
 
 - (void)dealloc

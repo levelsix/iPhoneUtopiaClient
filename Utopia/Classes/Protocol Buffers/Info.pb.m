@@ -182,6 +182,532 @@ BOOL ExpansionDirectionIsValidValue(ExpansionDirection value) {
       return NO;
   }
 }
+@interface GoldSaleProto ()
+@property int32_t saleId;
+@property int64_t startDate;
+@property int64_t endDate;
+@property (retain) NSString* package1SaleIdentifier;
+@property (retain) NSString* package2SaleIdentifier;
+@property (retain) NSString* package3SaleIdentifier;
+@property (retain) NSString* package4SaleIdentifier;
+@property (retain) NSString* package5SaleIdentifier;
+@property (retain) NSString* goldShoppeImageName;
+@property (retain) NSString* goldBarImageName;
+@end
+
+@implementation GoldSaleProto
+
+- (BOOL) hasSaleId {
+  return !!hasSaleId_;
+}
+- (void) setHasSaleId:(BOOL) value {
+  hasSaleId_ = !!value;
+}
+@synthesize saleId;
+- (BOOL) hasStartDate {
+  return !!hasStartDate_;
+}
+- (void) setHasStartDate:(BOOL) value {
+  hasStartDate_ = !!value;
+}
+@synthesize startDate;
+- (BOOL) hasEndDate {
+  return !!hasEndDate_;
+}
+- (void) setHasEndDate:(BOOL) value {
+  hasEndDate_ = !!value;
+}
+@synthesize endDate;
+- (BOOL) hasPackage1SaleIdentifier {
+  return !!hasPackage1SaleIdentifier_;
+}
+- (void) setHasPackage1SaleIdentifier:(BOOL) value {
+  hasPackage1SaleIdentifier_ = !!value;
+}
+@synthesize package1SaleIdentifier;
+- (BOOL) hasPackage2SaleIdentifier {
+  return !!hasPackage2SaleIdentifier_;
+}
+- (void) setHasPackage2SaleIdentifier:(BOOL) value {
+  hasPackage2SaleIdentifier_ = !!value;
+}
+@synthesize package2SaleIdentifier;
+- (BOOL) hasPackage3SaleIdentifier {
+  return !!hasPackage3SaleIdentifier_;
+}
+- (void) setHasPackage3SaleIdentifier:(BOOL) value {
+  hasPackage3SaleIdentifier_ = !!value;
+}
+@synthesize package3SaleIdentifier;
+- (BOOL) hasPackage4SaleIdentifier {
+  return !!hasPackage4SaleIdentifier_;
+}
+- (void) setHasPackage4SaleIdentifier:(BOOL) value {
+  hasPackage4SaleIdentifier_ = !!value;
+}
+@synthesize package4SaleIdentifier;
+- (BOOL) hasPackage5SaleIdentifier {
+  return !!hasPackage5SaleIdentifier_;
+}
+- (void) setHasPackage5SaleIdentifier:(BOOL) value {
+  hasPackage5SaleIdentifier_ = !!value;
+}
+@synthesize package5SaleIdentifier;
+- (BOOL) hasGoldShoppeImageName {
+  return !!hasGoldShoppeImageName_;
+}
+- (void) setHasGoldShoppeImageName:(BOOL) value {
+  hasGoldShoppeImageName_ = !!value;
+}
+@synthesize goldShoppeImageName;
+- (BOOL) hasGoldBarImageName {
+  return !!hasGoldBarImageName_;
+}
+- (void) setHasGoldBarImageName:(BOOL) value {
+  hasGoldBarImageName_ = !!value;
+}
+@synthesize goldBarImageName;
+- (void) dealloc {
+  self.package1SaleIdentifier = nil;
+  self.package2SaleIdentifier = nil;
+  self.package3SaleIdentifier = nil;
+  self.package4SaleIdentifier = nil;
+  self.package5SaleIdentifier = nil;
+  self.goldShoppeImageName = nil;
+  self.goldBarImageName = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.saleId = 0;
+    self.startDate = 0L;
+    self.endDate = 0L;
+    self.package1SaleIdentifier = @"";
+    self.package2SaleIdentifier = @"";
+    self.package3SaleIdentifier = @"";
+    self.package4SaleIdentifier = @"";
+    self.package5SaleIdentifier = @"";
+    self.goldShoppeImageName = @"";
+    self.goldBarImageName = @"";
+  }
+  return self;
+}
+static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
++ (void) initialize {
+  if (self == [GoldSaleProto class]) {
+    defaultGoldSaleProtoInstance = [[GoldSaleProto alloc] init];
+  }
+}
++ (GoldSaleProto*) defaultInstance {
+  return defaultGoldSaleProtoInstance;
+}
+- (GoldSaleProto*) defaultInstance {
+  return defaultGoldSaleProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSaleId) {
+    [output writeInt32:1 value:self.saleId];
+  }
+  if (self.hasStartDate) {
+    [output writeInt64:2 value:self.startDate];
+  }
+  if (self.hasEndDate) {
+    [output writeInt64:3 value:self.endDate];
+  }
+  if (self.hasPackage1SaleIdentifier) {
+    [output writeString:4 value:self.package1SaleIdentifier];
+  }
+  if (self.hasPackage2SaleIdentifier) {
+    [output writeString:5 value:self.package2SaleIdentifier];
+  }
+  if (self.hasPackage3SaleIdentifier) {
+    [output writeString:6 value:self.package3SaleIdentifier];
+  }
+  if (self.hasPackage4SaleIdentifier) {
+    [output writeString:7 value:self.package4SaleIdentifier];
+  }
+  if (self.hasPackage5SaleIdentifier) {
+    [output writeString:8 value:self.package5SaleIdentifier];
+  }
+  if (self.hasGoldShoppeImageName) {
+    [output writeString:9 value:self.goldShoppeImageName];
+  }
+  if (self.hasGoldBarImageName) {
+    [output writeString:10 value:self.goldBarImageName];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSaleId) {
+    size += computeInt32Size(1, self.saleId);
+  }
+  if (self.hasStartDate) {
+    size += computeInt64Size(2, self.startDate);
+  }
+  if (self.hasEndDate) {
+    size += computeInt64Size(3, self.endDate);
+  }
+  if (self.hasPackage1SaleIdentifier) {
+    size += computeStringSize(4, self.package1SaleIdentifier);
+  }
+  if (self.hasPackage2SaleIdentifier) {
+    size += computeStringSize(5, self.package2SaleIdentifier);
+  }
+  if (self.hasPackage3SaleIdentifier) {
+    size += computeStringSize(6, self.package3SaleIdentifier);
+  }
+  if (self.hasPackage4SaleIdentifier) {
+    size += computeStringSize(7, self.package4SaleIdentifier);
+  }
+  if (self.hasPackage5SaleIdentifier) {
+    size += computeStringSize(8, self.package5SaleIdentifier);
+  }
+  if (self.hasGoldShoppeImageName) {
+    size += computeStringSize(9, self.goldShoppeImageName);
+  }
+  if (self.hasGoldBarImageName) {
+    size += computeStringSize(10, self.goldBarImageName);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (GoldSaleProto*) parseFromData:(NSData*) data {
+  return (GoldSaleProto*)[[[GoldSaleProto builder] mergeFromData:data] build];
+}
++ (GoldSaleProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GoldSaleProto*)[[[GoldSaleProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (GoldSaleProto*) parseFromInputStream:(NSInputStream*) input {
+  return (GoldSaleProto*)[[[GoldSaleProto builder] mergeFromInputStream:input] build];
+}
++ (GoldSaleProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GoldSaleProto*)[[[GoldSaleProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (GoldSaleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (GoldSaleProto*)[[[GoldSaleProto builder] mergeFromCodedInputStream:input] build];
+}
++ (GoldSaleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GoldSaleProto*)[[[GoldSaleProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (GoldSaleProto_Builder*) builder {
+  return [[[GoldSaleProto_Builder alloc] init] autorelease];
+}
++ (GoldSaleProto_Builder*) builderWithPrototype:(GoldSaleProto*) prototype {
+  return [[GoldSaleProto builder] mergeFrom:prototype];
+}
+- (GoldSaleProto_Builder*) builder {
+  return [GoldSaleProto builder];
+}
+@end
+
+@interface GoldSaleProto_Builder()
+@property (retain) GoldSaleProto* result;
+@end
+
+@implementation GoldSaleProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[GoldSaleProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (GoldSaleProto_Builder*) clear {
+  self.result = [[[GoldSaleProto alloc] init] autorelease];
+  return self;
+}
+- (GoldSaleProto_Builder*) clone {
+  return [GoldSaleProto builderWithPrototype:result];
+}
+- (GoldSaleProto*) defaultInstance {
+  return [GoldSaleProto defaultInstance];
+}
+- (GoldSaleProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (GoldSaleProto*) buildPartial {
+  GoldSaleProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (GoldSaleProto_Builder*) mergeFrom:(GoldSaleProto*) other {
+  if (other == [GoldSaleProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSaleId) {
+    [self setSaleId:other.saleId];
+  }
+  if (other.hasStartDate) {
+    [self setStartDate:other.startDate];
+  }
+  if (other.hasEndDate) {
+    [self setEndDate:other.endDate];
+  }
+  if (other.hasPackage1SaleIdentifier) {
+    [self setPackage1SaleIdentifier:other.package1SaleIdentifier];
+  }
+  if (other.hasPackage2SaleIdentifier) {
+    [self setPackage2SaleIdentifier:other.package2SaleIdentifier];
+  }
+  if (other.hasPackage3SaleIdentifier) {
+    [self setPackage3SaleIdentifier:other.package3SaleIdentifier];
+  }
+  if (other.hasPackage4SaleIdentifier) {
+    [self setPackage4SaleIdentifier:other.package4SaleIdentifier];
+  }
+  if (other.hasPackage5SaleIdentifier) {
+    [self setPackage5SaleIdentifier:other.package5SaleIdentifier];
+  }
+  if (other.hasGoldShoppeImageName) {
+    [self setGoldShoppeImageName:other.goldShoppeImageName];
+  }
+  if (other.hasGoldBarImageName) {
+    [self setGoldBarImageName:other.goldBarImageName];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (GoldSaleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (GoldSaleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setSaleId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setStartDate:[input readInt64]];
+        break;
+      }
+      case 24: {
+        [self setEndDate:[input readInt64]];
+        break;
+      }
+      case 34: {
+        [self setPackage1SaleIdentifier:[input readString]];
+        break;
+      }
+      case 42: {
+        [self setPackage2SaleIdentifier:[input readString]];
+        break;
+      }
+      case 50: {
+        [self setPackage3SaleIdentifier:[input readString]];
+        break;
+      }
+      case 58: {
+        [self setPackage4SaleIdentifier:[input readString]];
+        break;
+      }
+      case 66: {
+        [self setPackage5SaleIdentifier:[input readString]];
+        break;
+      }
+      case 74: {
+        [self setGoldShoppeImageName:[input readString]];
+        break;
+      }
+      case 82: {
+        [self setGoldBarImageName:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSaleId {
+  return result.hasSaleId;
+}
+- (int32_t) saleId {
+  return result.saleId;
+}
+- (GoldSaleProto_Builder*) setSaleId:(int32_t) value {
+  result.hasSaleId = YES;
+  result.saleId = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearSaleId {
+  result.hasSaleId = NO;
+  result.saleId = 0;
+  return self;
+}
+- (BOOL) hasStartDate {
+  return result.hasStartDate;
+}
+- (int64_t) startDate {
+  return result.startDate;
+}
+- (GoldSaleProto_Builder*) setStartDate:(int64_t) value {
+  result.hasStartDate = YES;
+  result.startDate = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearStartDate {
+  result.hasStartDate = NO;
+  result.startDate = 0L;
+  return self;
+}
+- (BOOL) hasEndDate {
+  return result.hasEndDate;
+}
+- (int64_t) endDate {
+  return result.endDate;
+}
+- (GoldSaleProto_Builder*) setEndDate:(int64_t) value {
+  result.hasEndDate = YES;
+  result.endDate = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearEndDate {
+  result.hasEndDate = NO;
+  result.endDate = 0L;
+  return self;
+}
+- (BOOL) hasPackage1SaleIdentifier {
+  return result.hasPackage1SaleIdentifier;
+}
+- (NSString*) package1SaleIdentifier {
+  return result.package1SaleIdentifier;
+}
+- (GoldSaleProto_Builder*) setPackage1SaleIdentifier:(NSString*) value {
+  result.hasPackage1SaleIdentifier = YES;
+  result.package1SaleIdentifier = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearPackage1SaleIdentifier {
+  result.hasPackage1SaleIdentifier = NO;
+  result.package1SaleIdentifier = @"";
+  return self;
+}
+- (BOOL) hasPackage2SaleIdentifier {
+  return result.hasPackage2SaleIdentifier;
+}
+- (NSString*) package2SaleIdentifier {
+  return result.package2SaleIdentifier;
+}
+- (GoldSaleProto_Builder*) setPackage2SaleIdentifier:(NSString*) value {
+  result.hasPackage2SaleIdentifier = YES;
+  result.package2SaleIdentifier = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearPackage2SaleIdentifier {
+  result.hasPackage2SaleIdentifier = NO;
+  result.package2SaleIdentifier = @"";
+  return self;
+}
+- (BOOL) hasPackage3SaleIdentifier {
+  return result.hasPackage3SaleIdentifier;
+}
+- (NSString*) package3SaleIdentifier {
+  return result.package3SaleIdentifier;
+}
+- (GoldSaleProto_Builder*) setPackage3SaleIdentifier:(NSString*) value {
+  result.hasPackage3SaleIdentifier = YES;
+  result.package3SaleIdentifier = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearPackage3SaleIdentifier {
+  result.hasPackage3SaleIdentifier = NO;
+  result.package3SaleIdentifier = @"";
+  return self;
+}
+- (BOOL) hasPackage4SaleIdentifier {
+  return result.hasPackage4SaleIdentifier;
+}
+- (NSString*) package4SaleIdentifier {
+  return result.package4SaleIdentifier;
+}
+- (GoldSaleProto_Builder*) setPackage4SaleIdentifier:(NSString*) value {
+  result.hasPackage4SaleIdentifier = YES;
+  result.package4SaleIdentifier = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearPackage4SaleIdentifier {
+  result.hasPackage4SaleIdentifier = NO;
+  result.package4SaleIdentifier = @"";
+  return self;
+}
+- (BOOL) hasPackage5SaleIdentifier {
+  return result.hasPackage5SaleIdentifier;
+}
+- (NSString*) package5SaleIdentifier {
+  return result.package5SaleIdentifier;
+}
+- (GoldSaleProto_Builder*) setPackage5SaleIdentifier:(NSString*) value {
+  result.hasPackage5SaleIdentifier = YES;
+  result.package5SaleIdentifier = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearPackage5SaleIdentifier {
+  result.hasPackage5SaleIdentifier = NO;
+  result.package5SaleIdentifier = @"";
+  return self;
+}
+- (BOOL) hasGoldShoppeImageName {
+  return result.hasGoldShoppeImageName;
+}
+- (NSString*) goldShoppeImageName {
+  return result.goldShoppeImageName;
+}
+- (GoldSaleProto_Builder*) setGoldShoppeImageName:(NSString*) value {
+  result.hasGoldShoppeImageName = YES;
+  result.goldShoppeImageName = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearGoldShoppeImageName {
+  result.hasGoldShoppeImageName = NO;
+  result.goldShoppeImageName = @"";
+  return self;
+}
+- (BOOL) hasGoldBarImageName {
+  return result.hasGoldBarImageName;
+}
+- (NSString*) goldBarImageName {
+  return result.goldBarImageName;
+}
+- (GoldSaleProto_Builder*) setGoldBarImageName:(NSString*) value {
+  result.hasGoldBarImageName = YES;
+  result.goldBarImageName = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearGoldBarImageName {
+  result.hasGoldBarImageName = NO;
+  result.goldBarImageName = @"";
+  return self;
+}
+@end
+
 @interface GroupChatMessageProto ()
 @property (retain) MinimumUserProto* sender;
 @property int64_t timeOfChat;
@@ -680,6 +1206,9 @@ static MarketplaceSearchEquipProto* defaultMarketplaceSearchEquipProtoInstance =
 @property (retain) NSString* eventName;
 @property (retain) FullEquipProto* prizeEquip;
 @property (retain) NSMutableArray* mutableItemsList;
+@property (retain) NSString* descriptionString;
+@property (retain) NSString* descriptionImageName;
+@property (retain) NSString* tagImageName;
 @end
 
 @implementation LockBoxEventProto
@@ -727,11 +1256,35 @@ static MarketplaceSearchEquipProto* defaultMarketplaceSearchEquipProtoInstance =
 }
 @synthesize prizeEquip;
 @synthesize mutableItemsList;
+- (BOOL) hasDescriptionString {
+  return !!hasDescriptionString_;
+}
+- (void) setHasDescriptionString:(BOOL) value {
+  hasDescriptionString_ = !!value;
+}
+@synthesize descriptionString;
+- (BOOL) hasDescriptionImageName {
+  return !!hasDescriptionImageName_;
+}
+- (void) setHasDescriptionImageName:(BOOL) value {
+  hasDescriptionImageName_ = !!value;
+}
+@synthesize descriptionImageName;
+- (BOOL) hasTagImageName {
+  return !!hasTagImageName_;
+}
+- (void) setHasTagImageName:(BOOL) value {
+  hasTagImageName_ = !!value;
+}
+@synthesize tagImageName;
 - (void) dealloc {
   self.lockBoxImageName = nil;
   self.eventName = nil;
   self.prizeEquip = nil;
   self.mutableItemsList = nil;
+  self.descriptionString = nil;
+  self.descriptionImageName = nil;
+  self.tagImageName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -742,6 +1295,9 @@ static MarketplaceSearchEquipProto* defaultMarketplaceSearchEquipProtoInstance =
     self.lockBoxImageName = @"";
     self.eventName = @"";
     self.prizeEquip = [FullEquipProto defaultInstance];
+    self.descriptionString = @"";
+    self.descriptionImageName = @"";
+    self.tagImageName = @"";
   }
   return self;
 }
@@ -789,6 +1345,15 @@ static LockBoxEventProto* defaultLockBoxEventProtoInstance = nil;
   for (LockBoxItemProto* element in self.itemsList) {
     [output writeMessage:7 value:element];
   }
+  if (self.hasDescriptionString) {
+    [output writeString:8 value:self.descriptionString];
+  }
+  if (self.hasDescriptionImageName) {
+    [output writeString:9 value:self.descriptionImageName];
+  }
+  if (self.hasTagImageName) {
+    [output writeString:10 value:self.tagImageName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -818,6 +1383,15 @@ static LockBoxEventProto* defaultLockBoxEventProtoInstance = nil;
   }
   for (LockBoxItemProto* element in self.itemsList) {
     size += computeMessageSize(7, element);
+  }
+  if (self.hasDescriptionString) {
+    size += computeStringSize(8, self.descriptionString);
+  }
+  if (self.hasDescriptionImageName) {
+    size += computeStringSize(9, self.descriptionImageName);
+  }
+  if (self.hasTagImageName) {
+    size += computeStringSize(10, self.tagImageName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -918,6 +1492,15 @@ static LockBoxEventProto* defaultLockBoxEventProtoInstance = nil;
     }
     [result.mutableItemsList addObjectsFromArray:other.mutableItemsList];
   }
+  if (other.hasDescriptionString) {
+    [self setDescriptionString:other.descriptionString];
+  }
+  if (other.hasDescriptionImageName) {
+    [self setDescriptionImageName:other.descriptionImageName];
+  }
+  if (other.hasTagImageName) {
+    [self setTagImageName:other.tagImageName];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -972,6 +1555,18 @@ static LockBoxEventProto* defaultLockBoxEventProtoInstance = nil;
         LockBoxItemProto_Builder* subBuilder = [LockBoxItemProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addItems:[subBuilder buildPartial]];
+        break;
+      }
+      case 66: {
+        [self setDescriptionString:[input readString]];
+        break;
+      }
+      case 74: {
+        [self setDescriptionImageName:[input readString]];
+        break;
+      }
+      case 82: {
+        [self setTagImageName:[input readString]];
         break;
       }
     }
@@ -1114,6 +1709,54 @@ static LockBoxEventProto* defaultLockBoxEventProtoInstance = nil;
     result.mutableItemsList = [NSMutableArray array];
   }
   [result.mutableItemsList addObject:value];
+  return self;
+}
+- (BOOL) hasDescriptionString {
+  return result.hasDescriptionString;
+}
+- (NSString*) descriptionString {
+  return result.descriptionString;
+}
+- (LockBoxEventProto_Builder*) setDescriptionString:(NSString*) value {
+  result.hasDescriptionString = YES;
+  result.descriptionString = value;
+  return self;
+}
+- (LockBoxEventProto_Builder*) clearDescriptionString {
+  result.hasDescriptionString = NO;
+  result.descriptionString = @"";
+  return self;
+}
+- (BOOL) hasDescriptionImageName {
+  return result.hasDescriptionImageName;
+}
+- (NSString*) descriptionImageName {
+  return result.descriptionImageName;
+}
+- (LockBoxEventProto_Builder*) setDescriptionImageName:(NSString*) value {
+  result.hasDescriptionImageName = YES;
+  result.descriptionImageName = value;
+  return self;
+}
+- (LockBoxEventProto_Builder*) clearDescriptionImageName {
+  result.hasDescriptionImageName = NO;
+  result.descriptionImageName = @"";
+  return self;
+}
+- (BOOL) hasTagImageName {
+  return result.hasTagImageName;
+}
+- (NSString*) tagImageName {
+  return result.tagImageName;
+}
+- (LockBoxEventProto_Builder*) setTagImageName:(NSString*) value {
+  result.hasTagImageName = YES;
+  result.tagImageName = value;
+  return self;
+}
+- (LockBoxEventProto_Builder*) clearTagImageName {
+  result.hasTagImageName = NO;
+  result.tagImageName = @"";
   return self;
 }
 @end

@@ -109,7 +109,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
   if (selected != _selected) {
     if ([selected isKindOfClass: [CritStructBuilding class]]) {
       [super setSelected:nil];
-      [[(CritStructBuilding *)selected critStruct] openMenu];
+      CritStructBuilding *csb = (CritStructBuilding *)selected;
+      [[csb critStruct] openMenu];
+      [csb removeArrowAnimated:YES];
     } else {
       [super setSelected:selected];
     }
@@ -131,7 +133,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
 }
 
 - (void) moveToCritStruct:(BazaarStructType)type {
-  CCSprite *csb = nil;
+  CritStructBuilding *csb = nil;
   for (CCNode *c in children_) {
     if ([c isKindOfClass:[CritStructBuilding class]]) {
       CritStructBuilding *check = (CritStructBuilding *)c;
@@ -141,7 +143,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
       }
     }
   }
-  [self moveToSprite:csb];
+  if (csb) {
+    [self moveToSprite:csb];
+    [csb displayArrow];
+  }
 }
 
 - (void) reloadAllies {

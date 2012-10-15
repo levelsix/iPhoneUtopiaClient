@@ -990,6 +990,7 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
 @property (retain) FullEquipProto* equipGained;
 @property int32_t expGained;
 @property int32_t eventIdOfLockBoxGained;
+@property BOOL shouldGiveKiipReward;
 @end
 
 @implementation BattleResponseProto
@@ -1057,6 +1058,18 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   hasEventIdOfLockBoxGained_ = !!value;
 }
 @synthesize eventIdOfLockBoxGained;
+- (BOOL) hasShouldGiveKiipReward {
+  return !!hasShouldGiveKiipReward_;
+}
+- (void) setHasShouldGiveKiipReward:(BOOL) value {
+  hasShouldGiveKiipReward_ = !!value;
+}
+- (BOOL) shouldGiveKiipReward {
+  return !!shouldGiveKiipReward_;
+}
+- (void) setShouldGiveKiipReward:(BOOL) value {
+  shouldGiveKiipReward_ = !!value;
+}
 - (void) dealloc {
   self.attacker = nil;
   self.defender = nil;
@@ -1075,6 +1088,7 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
     self.equipGained = [FullEquipProto defaultInstance];
     self.expGained = 0;
     self.eventIdOfLockBoxGained = 0;
+    self.shouldGiveKiipReward = NO;
   }
   return self;
 }
@@ -1121,6 +1135,9 @@ static BattleResponseProto* defaultBattleResponseProtoInstance = nil;
   if (self.hasEventIdOfLockBoxGained) {
     [output writeInt32:9 value:self.eventIdOfLockBoxGained];
   }
+  if (self.hasShouldGiveKiipReward) {
+    [output writeBool:10 value:self.shouldGiveKiipReward];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1156,6 +1173,9 @@ static BattleResponseProto* defaultBattleResponseProtoInstance = nil;
   }
   if (self.hasEventIdOfLockBoxGained) {
     size += computeInt32Size(9, self.eventIdOfLockBoxGained);
+  }
+  if (self.hasShouldGiveKiipReward) {
+    size += computeBoolSize(10, self.shouldGiveKiipReward);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1269,6 +1289,9 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
   if (other.hasEventIdOfLockBoxGained) {
     [self setEventIdOfLockBoxGained:other.eventIdOfLockBoxGained];
   }
+  if (other.hasShouldGiveKiipReward) {
+    [self setShouldGiveKiipReward:other.shouldGiveKiipReward];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1354,6 +1377,10 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
       }
       case 72: {
         [self setEventIdOfLockBoxGained:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setShouldGiveKiipReward:[input readBool]];
         break;
       }
     }
@@ -1557,6 +1584,22 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
 - (BattleResponseProto_Builder*) clearEventIdOfLockBoxGained {
   result.hasEventIdOfLockBoxGained = NO;
   result.eventIdOfLockBoxGained = 0;
+  return self;
+}
+- (BOOL) hasShouldGiveKiipReward {
+  return result.hasShouldGiveKiipReward;
+}
+- (BOOL) shouldGiveKiipReward {
+  return result.shouldGiveKiipReward;
+}
+- (BattleResponseProto_Builder*) setShouldGiveKiipReward:(BOOL) value {
+  result.hasShouldGiveKiipReward = YES;
+  result.shouldGiveKiipReward = value;
+  return self;
+}
+- (BattleResponseProto_Builder*) clearShouldGiveKiipReward {
+  result.hasShouldGiveKiipReward = NO;
+  result.shouldGiveKiipReward = NO;
   return self;
 }
 @end
@@ -3096,6 +3139,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableMktSearchEquipsList;
 @property (retain) NSMutableArray* mutableGlobalChatsList;
 @property (retain) NSMutableArray* mutableClanChatsList;
+@property (retain) NSMutableArray* mutableGoldSalesList;
 @end
 
 @implementation StartupResponseProto
@@ -3209,6 +3253,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableMktSearchEquipsList;
 @synthesize mutableGlobalChatsList;
 @synthesize mutableClanChatsList;
+@synthesize mutableGoldSalesList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3237,6 +3282,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableMktSearchEquipsList = nil;
   self.mutableGlobalChatsList = nil;
   self.mutableClanChatsList = nil;
+  self.mutableGoldSalesList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3408,6 +3454,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableClanChatsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) goldSalesList {
+  return mutableGoldSalesList;
+}
+- (GoldSaleProto*) goldSalesAtIndex:(int32_t) index {
+  id value = [mutableGoldSalesList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -3507,6 +3560,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (GroupChatMessageProto* element in self.clanChatsList) {
     [output writeMessage:32 value:element];
+  }
+  for (GoldSaleProto* element in self.goldSalesList) {
+    [output writeMessage:33 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3617,6 +3673,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (GroupChatMessageProto* element in self.clanChatsList) {
     size += computeMessageSize(32, element);
+  }
+  for (GoldSaleProto* element in self.goldSalesList) {
+    size += computeMessageSize(33, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5017,6 +5076,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
 @property (retain) StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
 @property (retain) StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
+@property (retain) StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
+@property int32_t numHoursBeforeReshowingGoldSale;
+@property int32_t numHoursBeforeReshowingLockBox;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5507,6 +5569,27 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasExpansionConstants_ = !!value;
 }
 @synthesize expansionConstants;
+- (BOOL) hasDownloadableNibConstants {
+  return !!hasDownloadableNibConstants_;
+}
+- (void) setHasDownloadableNibConstants:(BOOL) value {
+  hasDownloadableNibConstants_ = !!value;
+}
+@synthesize downloadableNibConstants;
+- (BOOL) hasNumHoursBeforeReshowingGoldSale {
+  return !!hasNumHoursBeforeReshowingGoldSale_;
+}
+- (void) setHasNumHoursBeforeReshowingGoldSale:(BOOL) value {
+  hasNumHoursBeforeReshowingGoldSale_ = !!value;
+}
+@synthesize numHoursBeforeReshowingGoldSale;
+- (BOOL) hasNumHoursBeforeReshowingLockBox {
+  return !!hasNumHoursBeforeReshowingLockBox_;
+}
+- (void) setHasNumHoursBeforeReshowingLockBox:(BOOL) value {
+  hasNumHoursBeforeReshowingLockBox_ = !!value;
+}
+@synthesize numHoursBeforeReshowingLockBox;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5521,6 +5604,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.goldmineConstants = nil;
   self.lockBoxConstants = nil;
   self.expansionConstants = nil;
+  self.downloadableNibConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -5594,6 +5678,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.goldmineConstants = [StartupResponseProto_StartupConstants_GoldmineConstants defaultInstance];
     self.lockBoxConstants = [StartupResponseProto_StartupConstants_LockBoxConstants defaultInstance];
     self.expansionConstants = [StartupResponseProto_StartupConstants_ExpansionConstants defaultInstance];
+    self.downloadableNibConstants = [StartupResponseProto_StartupConstants_DownloadableNibConstants defaultInstance];
+    self.numHoursBeforeReshowingGoldSale = 0;
+    self.numHoursBeforeReshowingLockBox = 0;
   }
   return self;
 }
@@ -5850,6 +5937,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasExpansionConstants) {
     [output writeMessage:82 value:self.expansionConstants];
   }
+  if (self.hasDownloadableNibConstants) {
+    [output writeMessage:83 value:self.downloadableNibConstants];
+  }
+  if (self.hasNumHoursBeforeReshowingGoldSale) {
+    [output writeInt32:84 value:self.numHoursBeforeReshowingGoldSale];
+  }
+  if (self.hasNumHoursBeforeReshowingLockBox) {
+    [output writeInt32:85 value:self.numHoursBeforeReshowingLockBox];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6085,6 +6181,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasExpansionConstants) {
     size += computeMessageSize(82, self.expansionConstants);
   }
+  if (self.hasDownloadableNibConstants) {
+    size += computeMessageSize(83, self.downloadableNibConstants);
+  }
+  if (self.hasNumHoursBeforeReshowingGoldSale) {
+    size += computeInt32Size(84, self.numHoursBeforeReshowingGoldSale);
+  }
+  if (self.hasNumHoursBeforeReshowingLockBox) {
+    size += computeInt32Size(85, self.numHoursBeforeReshowingLockBox);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -6115,6 +6220,379 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_DownloadableNibConstants ()
+@property (retain) NSString* threeCardMonteNibName;
+@property (retain) NSString* lockBoxNibName;
+@property (retain) NSString* mapNibName;
+@property (retain) NSString* goldMineNibName;
+@property (retain) NSString* expansionNibName;
+@property (retain) NSString* leaderboardNibName;
+@end
+
+@implementation StartupResponseProto_StartupConstants_DownloadableNibConstants
+
+- (BOOL) hasThreeCardMonteNibName {
+  return !!hasThreeCardMonteNibName_;
+}
+- (void) setHasThreeCardMonteNibName:(BOOL) value {
+  hasThreeCardMonteNibName_ = !!value;
+}
+@synthesize threeCardMonteNibName;
+- (BOOL) hasLockBoxNibName {
+  return !!hasLockBoxNibName_;
+}
+- (void) setHasLockBoxNibName:(BOOL) value {
+  hasLockBoxNibName_ = !!value;
+}
+@synthesize lockBoxNibName;
+- (BOOL) hasMapNibName {
+  return !!hasMapNibName_;
+}
+- (void) setHasMapNibName:(BOOL) value {
+  hasMapNibName_ = !!value;
+}
+@synthesize mapNibName;
+- (BOOL) hasGoldMineNibName {
+  return !!hasGoldMineNibName_;
+}
+- (void) setHasGoldMineNibName:(BOOL) value {
+  hasGoldMineNibName_ = !!value;
+}
+@synthesize goldMineNibName;
+- (BOOL) hasExpansionNibName {
+  return !!hasExpansionNibName_;
+}
+- (void) setHasExpansionNibName:(BOOL) value {
+  hasExpansionNibName_ = !!value;
+}
+@synthesize expansionNibName;
+- (BOOL) hasLeaderboardNibName {
+  return !!hasLeaderboardNibName_;
+}
+- (void) setHasLeaderboardNibName:(BOOL) value {
+  hasLeaderboardNibName_ = !!value;
+}
+@synthesize leaderboardNibName;
+- (void) dealloc {
+  self.threeCardMonteNibName = nil;
+  self.lockBoxNibName = nil;
+  self.mapNibName = nil;
+  self.goldMineNibName = nil;
+  self.expansionNibName = nil;
+  self.leaderboardNibName = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.threeCardMonteNibName = @"";
+    self.lockBoxNibName = @"";
+    self.mapNibName = @"";
+    self.goldMineNibName = @"";
+    self.expansionNibName = @"";
+    self.leaderboardNibName = @"";
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultStartupResponseProto_StartupConstants_DownloadableNibConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_DownloadableNibConstants class]) {
+    defaultStartupResponseProto_StartupConstants_DownloadableNibConstantsInstance = [[StartupResponseProto_StartupConstants_DownloadableNibConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_DownloadableNibConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_DownloadableNibConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasThreeCardMonteNibName) {
+    [output writeString:1 value:self.threeCardMonteNibName];
+  }
+  if (self.hasLockBoxNibName) {
+    [output writeString:2 value:self.lockBoxNibName];
+  }
+  if (self.hasMapNibName) {
+    [output writeString:3 value:self.mapNibName];
+  }
+  if (self.hasGoldMineNibName) {
+    [output writeString:4 value:self.goldMineNibName];
+  }
+  if (self.hasExpansionNibName) {
+    [output writeString:5 value:self.expansionNibName];
+  }
+  if (self.hasLeaderboardNibName) {
+    [output writeString:6 value:self.leaderboardNibName];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasThreeCardMonteNibName) {
+    size += computeStringSize(1, self.threeCardMonteNibName);
+  }
+  if (self.hasLockBoxNibName) {
+    size += computeStringSize(2, self.lockBoxNibName);
+  }
+  if (self.hasMapNibName) {
+    size += computeStringSize(3, self.mapNibName);
+  }
+  if (self.hasGoldMineNibName) {
+    size += computeStringSize(4, self.goldMineNibName);
+  }
+  if (self.hasExpansionNibName) {
+    size += computeStringSize(5, self.expansionNibName);
+  }
+  if (self.hasLeaderboardNibName) {
+    size += computeStringSize(6, self.leaderboardNibName);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_DownloadableNibConstants*)[[[StartupResponseProto_StartupConstants_DownloadableNibConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_DownloadableNibConstants*)[[[StartupResponseProto_StartupConstants_DownloadableNibConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_DownloadableNibConstants*)[[[StartupResponseProto_StartupConstants_DownloadableNibConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_DownloadableNibConstants*)[[[StartupResponseProto_StartupConstants_DownloadableNibConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_DownloadableNibConstants*)[[[StartupResponseProto_StartupConstants_DownloadableNibConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_DownloadableNibConstants*)[[[StartupResponseProto_StartupConstants_DownloadableNibConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_DownloadableNibConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_DownloadableNibConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_DownloadableNibConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_DownloadableNibConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_DownloadableNibConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_DownloadableNibConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_DownloadableNibConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_DownloadableNibConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_DownloadableNibConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasThreeCardMonteNibName) {
+    [self setThreeCardMonteNibName:other.threeCardMonteNibName];
+  }
+  if (other.hasLockBoxNibName) {
+    [self setLockBoxNibName:other.lockBoxNibName];
+  }
+  if (other.hasMapNibName) {
+    [self setMapNibName:other.mapNibName];
+  }
+  if (other.hasGoldMineNibName) {
+    [self setGoldMineNibName:other.goldMineNibName];
+  }
+  if (other.hasExpansionNibName) {
+    [self setExpansionNibName:other.expansionNibName];
+  }
+  if (other.hasLeaderboardNibName) {
+    [self setLeaderboardNibName:other.leaderboardNibName];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setThreeCardMonteNibName:[input readString]];
+        break;
+      }
+      case 18: {
+        [self setLockBoxNibName:[input readString]];
+        break;
+      }
+      case 26: {
+        [self setMapNibName:[input readString]];
+        break;
+      }
+      case 34: {
+        [self setGoldMineNibName:[input readString]];
+        break;
+      }
+      case 42: {
+        [self setExpansionNibName:[input readString]];
+        break;
+      }
+      case 50: {
+        [self setLeaderboardNibName:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasThreeCardMonteNibName {
+  return result.hasThreeCardMonteNibName;
+}
+- (NSString*) threeCardMonteNibName {
+  return result.threeCardMonteNibName;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setThreeCardMonteNibName:(NSString*) value {
+  result.hasThreeCardMonteNibName = YES;
+  result.threeCardMonteNibName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearThreeCardMonteNibName {
+  result.hasThreeCardMonteNibName = NO;
+  result.threeCardMonteNibName = @"";
+  return self;
+}
+- (BOOL) hasLockBoxNibName {
+  return result.hasLockBoxNibName;
+}
+- (NSString*) lockBoxNibName {
+  return result.lockBoxNibName;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setLockBoxNibName:(NSString*) value {
+  result.hasLockBoxNibName = YES;
+  result.lockBoxNibName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearLockBoxNibName {
+  result.hasLockBoxNibName = NO;
+  result.lockBoxNibName = @"";
+  return self;
+}
+- (BOOL) hasMapNibName {
+  return result.hasMapNibName;
+}
+- (NSString*) mapNibName {
+  return result.mapNibName;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setMapNibName:(NSString*) value {
+  result.hasMapNibName = YES;
+  result.mapNibName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearMapNibName {
+  result.hasMapNibName = NO;
+  result.mapNibName = @"";
+  return self;
+}
+- (BOOL) hasGoldMineNibName {
+  return result.hasGoldMineNibName;
+}
+- (NSString*) goldMineNibName {
+  return result.goldMineNibName;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setGoldMineNibName:(NSString*) value {
+  result.hasGoldMineNibName = YES;
+  result.goldMineNibName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearGoldMineNibName {
+  result.hasGoldMineNibName = NO;
+  result.goldMineNibName = @"";
+  return self;
+}
+- (BOOL) hasExpansionNibName {
+  return result.hasExpansionNibName;
+}
+- (NSString*) expansionNibName {
+  return result.expansionNibName;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setExpansionNibName:(NSString*) value {
+  result.hasExpansionNibName = YES;
+  result.expansionNibName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearExpansionNibName {
+  result.hasExpansionNibName = NO;
+  result.expansionNibName = @"";
+  return self;
+}
+- (BOOL) hasLeaderboardNibName {
+  return result.hasLeaderboardNibName;
+}
+- (NSString*) leaderboardNibName {
+  return result.leaderboardNibName;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setLeaderboardNibName:(NSString*) value {
+  result.hasLeaderboardNibName = YES;
+  result.leaderboardNibName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearLeaderboardNibName {
+  result.hasLeaderboardNibName = NO;
+  result.leaderboardNibName = @"";
+  return self;
 }
 @end
 
@@ -10605,6 +11083,15 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasExpansionConstants) {
     [self mergeExpansionConstants:other.expansionConstants];
   }
+  if (other.hasDownloadableNibConstants) {
+    [self mergeDownloadableNibConstants:other.downloadableNibConstants];
+  }
+  if (other.hasNumHoursBeforeReshowingGoldSale) {
+    [self setNumHoursBeforeReshowingGoldSale:other.numHoursBeforeReshowingGoldSale];
+  }
+  if (other.hasNumHoursBeforeReshowingLockBox) {
+    [self setNumHoursBeforeReshowingLockBox:other.numHoursBeforeReshowingLockBox];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -10964,6 +11451,23 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setExpansionConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 666: {
+        StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_DownloadableNibConstants builder];
+        if (self.hasDownloadableNibConstants) {
+          [subBuilder mergeFrom:self.downloadableNibConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setDownloadableNibConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 672: {
+        [self setNumHoursBeforeReshowingGoldSale:[input readInt32]];
+        break;
+      }
+      case 680: {
+        [self setNumHoursBeforeReshowingLockBox:[input readInt32]];
         break;
       }
     }
@@ -12302,6 +12806,68 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearExpansionConstants {
   result.hasExpansionConstants = NO;
   result.expansionConstants = [StartupResponseProto_StartupConstants_ExpansionConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasDownloadableNibConstants {
+  return result.hasDownloadableNibConstants;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) downloadableNibConstants {
+  return result.downloadableNibConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setDownloadableNibConstants:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) value {
+  result.hasDownloadableNibConstants = YES;
+  result.downloadableNibConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setDownloadableNibConstantsBuilder:(StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builderForValue {
+  return [self setDownloadableNibConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeDownloadableNibConstants:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) value {
+  if (result.hasDownloadableNibConstants &&
+      result.downloadableNibConstants != [StartupResponseProto_StartupConstants_DownloadableNibConstants defaultInstance]) {
+    result.downloadableNibConstants =
+      [[[StartupResponseProto_StartupConstants_DownloadableNibConstants builderWithPrototype:result.downloadableNibConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.downloadableNibConstants = value;
+  }
+  result.hasDownloadableNibConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearDownloadableNibConstants {
+  result.hasDownloadableNibConstants = NO;
+  result.downloadableNibConstants = [StartupResponseProto_StartupConstants_DownloadableNibConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasNumHoursBeforeReshowingGoldSale {
+  return result.hasNumHoursBeforeReshowingGoldSale;
+}
+- (int32_t) numHoursBeforeReshowingGoldSale {
+  return result.numHoursBeforeReshowingGoldSale;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setNumHoursBeforeReshowingGoldSale:(int32_t) value {
+  result.hasNumHoursBeforeReshowingGoldSale = YES;
+  result.numHoursBeforeReshowingGoldSale = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearNumHoursBeforeReshowingGoldSale {
+  result.hasNumHoursBeforeReshowingGoldSale = NO;
+  result.numHoursBeforeReshowingGoldSale = 0;
+  return self;
+}
+- (BOOL) hasNumHoursBeforeReshowingLockBox {
+  return result.hasNumHoursBeforeReshowingLockBox;
+}
+- (int32_t) numHoursBeforeReshowingLockBox {
+  return result.numHoursBeforeReshowingLockBox;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setNumHoursBeforeReshowingLockBox:(int32_t) value {
+  result.hasNumHoursBeforeReshowingLockBox = YES;
+  result.numHoursBeforeReshowingLockBox = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearNumHoursBeforeReshowingLockBox {
+  result.hasNumHoursBeforeReshowingLockBox = NO;
+  result.numHoursBeforeReshowingLockBox = 0;
   return self;
 }
 @end
@@ -15024,6 +15590,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableClanChatsList addObjectsFromArray:other.mutableClanChatsList];
   }
+  if (other.mutableGoldSalesList.count > 0) {
+    if (result.mutableGoldSalesList == nil) {
+      result.mutableGoldSalesList = [NSMutableArray array];
+    }
+    [result.mutableGoldSalesList addObjectsFromArray:other.mutableGoldSalesList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -15249,6 +15821,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         GroupChatMessageProto_Builder* subBuilder = [GroupChatMessageProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addClanChats:[subBuilder buildPartial]];
+        break;
+      }
+      case 266: {
+        GoldSaleProto_Builder* subBuilder = [GoldSaleProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addGoldSales:[subBuilder buildPartial]];
         break;
       }
     }
@@ -16110,6 +16688,35 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     result.mutableClanChatsList = [NSMutableArray array];
   }
   [result.mutableClanChatsList addObject:value];
+  return self;
+}
+- (NSArray*) goldSalesList {
+  if (result.mutableGoldSalesList == nil) { return [NSArray array]; }
+  return result.mutableGoldSalesList;
+}
+- (GoldSaleProto*) goldSalesAtIndex:(int32_t) index {
+  return [result goldSalesAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceGoldSalesAtIndex:(int32_t) index with:(GoldSaleProto*) value {
+  [result.mutableGoldSalesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllGoldSales:(NSArray*) values {
+  if (result.mutableGoldSalesList == nil) {
+    result.mutableGoldSalesList = [NSMutableArray array];
+  }
+  [result.mutableGoldSalesList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearGoldSalesList {
+  result.mutableGoldSalesList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addGoldSales:(GoldSaleProto*) value {
+  if (result.mutableGoldSalesList == nil) {
+    result.mutableGoldSalesList = [NSMutableArray array];
+  }
+  [result.mutableGoldSalesList addObject:value];
   return self;
 }
 @end
@@ -32357,6 +32964,7 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableNewlyAvailableQuestsList;
 @property QuestRedeemResponseProto_QuestRedeemStatus status;
 @property (retain) FullUserEquipProto* equipRewardFromQuest;
+@property BOOL shouldGiveKiipReward;
 @end
 
 @implementation QuestRedeemResponseProto
@@ -32383,6 +32991,18 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
   hasEquipRewardFromQuest_ = !!value;
 }
 @synthesize equipRewardFromQuest;
+- (BOOL) hasShouldGiveKiipReward {
+  return !!hasShouldGiveKiipReward_;
+}
+- (void) setHasShouldGiveKiipReward:(BOOL) value {
+  hasShouldGiveKiipReward_ = !!value;
+}
+- (BOOL) shouldGiveKiipReward {
+  return !!shouldGiveKiipReward_;
+}
+- (void) setShouldGiveKiipReward:(BOOL) value {
+  shouldGiveKiipReward_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.mutableNewlyAvailableQuestsList = nil;
@@ -32394,6 +33014,7 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
     self.sender = [MinimumUserProto defaultInstance];
     self.status = QuestRedeemResponseProto_QuestRedeemStatusSuccess;
     self.equipRewardFromQuest = [FullUserEquipProto defaultInstance];
+    self.shouldGiveKiipReward = NO;
   }
   return self;
 }
@@ -32432,6 +33053,9 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
   if (self.hasEquipRewardFromQuest) {
     [output writeMessage:4 value:self.equipRewardFromQuest];
   }
+  if (self.hasShouldGiveKiipReward) {
+    [output writeBool:5 value:self.shouldGiveKiipReward];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -32452,6 +33076,9 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
   }
   if (self.hasEquipRewardFromQuest) {
     size += computeMessageSize(4, self.equipRewardFromQuest);
+  }
+  if (self.hasShouldGiveKiipReward) {
+    size += computeBoolSize(5, self.shouldGiveKiipReward);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -32553,6 +33180,9 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   if (other.hasEquipRewardFromQuest) {
     [self mergeEquipRewardFromQuest:other.equipRewardFromQuest];
   }
+  if (other.hasShouldGiveKiipReward) {
+    [self setShouldGiveKiipReward:other.shouldGiveKiipReward];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -32605,6 +33235,10 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setEquipRewardFromQuest:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        [self setShouldGiveKiipReward:[input readBool]];
         break;
       }
     }
@@ -32713,6 +33347,22 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestRedeemResponseProto_Builder*) clearEquipRewardFromQuest {
   result.hasEquipRewardFromQuest = NO;
   result.equipRewardFromQuest = [FullUserEquipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasShouldGiveKiipReward {
+  return result.hasShouldGiveKiipReward;
+}
+- (BOOL) shouldGiveKiipReward {
+  return result.shouldGiveKiipReward;
+}
+- (QuestRedeemResponseProto_Builder*) setShouldGiveKiipReward:(BOOL) value {
+  result.hasShouldGiveKiipReward = YES;
+  result.shouldGiveKiipReward = value;
+  return self;
+}
+- (QuestRedeemResponseProto_Builder*) clearShouldGiveKiipReward {
+  result.hasShouldGiveKiipReward = NO;
+  result.shouldGiveKiipReward = NO;
   return self;
 }
 @end

@@ -18,6 +18,7 @@
 #import "AppDelegate.h"
 #import "BazaarMap.h"
 #import "HomeMap.h"
+#import "GoldShoppeViewController.h"
 
 #define TagLog(...)
 
@@ -81,6 +82,7 @@
 @synthesize staticPossessEquipJobs = _staticPossessEquipJobs;
 @synthesize staticUpgradeStructJobs = _staticUpgradeStructJobs;
 @synthesize staticLockBoxEvents = _staticLockBoxEvents;
+@synthesize staticGoldSales = _staticGoldSales;
 
 @synthesize carpenterStructs = _carpenterStructs;
 @synthesize armoryWeapons = _armoryWeapons;
@@ -121,6 +123,8 @@
 @synthesize mktSearchEquips = _mktSearchEquips;
 
 @synthesize userExpansion = _userExpansion;
+
+@synthesize goldSaleTimers = _goldSaleTimers;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
@@ -231,9 +235,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   
-  if (user.hasLastGoldmineRetrieval) {
-    self.lastGoldmineRetrieval = [NSDate dateWithTimeIntervalSince1970:user.lastGoldmineRetrieval/1000.0];
-  }
+  self.lastGoldmineRetrieval = user.hasLastGoldmineRetrieval ? [NSDate dateWithTimeIntervalSince1970:user.lastGoldmineRetrieval/1000.0] : nil;
   
   for (id<GameStateUpdate> gsu in _unrespondedUpdates) {
     if ([gsu respondsToSelector:@selector(update)]) {
@@ -365,6 +367,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToMyStructs:(NSArray *)structs {
   for (FullUserStructureProto *st in structs) {
     [self.myStructs addObject:[UserStruct userStructWithProto:st]];
+  }
+  
+  int x = -6, y = 5;
+  for (UserStruct *us in self.myStructs) {
+    if (us.coordinates.x == CENTER_TILE_X && us.coordinates.y == CENTER_TILE_Y) {
+      [[OutgoingEventController sharedOutgoingEventController] moveNormStruct:us atX:CENTER_TILE_X+x atY:CENTER_TILE_Y+y];
+      
+      switch (x) {
+        case -6:
+          x = -3;
+          break;
+        case -3:
+          x = 2;
+          break;
+        case 2:
+          x = 5;
+          break;
+        case 5:
+          x = -6;
+          y -= 3;
+          if (y == -1) y -= 2;
+          
+        default:
+          break;
+      }
+    }
   }
 }
 
@@ -815,7 +843,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   UserExpansion *ue = _userExpansion;
   
   if (ue.isExpanding) {
-    float seconds = [gl calculateNumMinutesForNewExpansion:ue];;
+    float seconds = [gl calculateNumMinutesForNewExpansion:ue]*60;
     NSDate *endTime = [ue.lastExpandTime dateByAddingTimeInterval:seconds];
     
     if ([endTime compare:[NSDate date]] == NSOrderedDescending) {
@@ -950,6 +978,68 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   LNLog(@"Updated lock box button..");
 }
 
+- (GoldSaleProto *) getCurrentGoldSale {
+  double curTime = [[NSDate date] timeIntervalSince1970]*1000.0;
+  for (GoldSaleProto *p in _staticGoldSales) {
+    if (curTime > p.startDate && curTime < p.endDate) {
+      return p;
+    }
+  }
+  return nil;
+}
+
+- (void) resetGoldSaleTimers {
+  [self stopAllGoldSaleTimers];
+  
+  if (_isTutorial) {
+    return;
+  }
+  
+  [self updateGoldSaleBadge];
+  
+  _goldSaleTimers = [[NSMutableArray array] retain];
+  for (GoldSaleProto *e in _staticGoldSales) {
+    NSTimer *timer;
+    NSTimeInterval timeInterval;
+    
+    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.startDate/1000.0] timeIntervalSinceNow];
+    if (timeInterval > 0) {
+      timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateGoldSaleBadge) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+      [_goldSaleTimers addObject:timer];
+    }
+    
+    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.endDate/1000.0] timeIntervalSinceNow];
+    if (timeInterval > 0) {
+      timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateGoldSaleBadge) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+      [_goldSaleTimers addObject:timer];
+    }
+  }
+}
+
+- (void) updateGoldSaleBadge {
+  if ([GoldShoppeViewController isInitialized]) {
+    [[GoldShoppeViewController sharedGoldShoppeViewController] update];
+  }
+  
+  if ([TopBar isInitialized]) {
+    TopBar *tb = [TopBar sharedTopBar];
+    if (tb.isStarted) {
+      [tb displayGoldSaleBadge];
+    }
+  }
+}
+
+- (void) stopAllGoldSaleTimers {
+  for (NSTimer *timer in _goldSaleTimers) {
+    [timer invalidate];
+  }
+  [_goldSaleTimers removeAllObjects];
+  [_goldSaleTimers release];
+  _goldSaleTimers = nil;
+}
+
 - (NSArray *) mktSearchEquipsSimilarToString:(NSString *)string {
   NSMutableArray *arr = [NSMutableArray array];
   for (MarketplaceSearchEquipProto *eq in _mktSearchEquips) {
@@ -1037,6 +1127,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.forgeAttempt = nil;
   
   [self stopAllLockBoxTimers];
+  [self stopAllGoldSaleTimers];
   
   [self stopExpansionTimer];
 }
@@ -1088,9 +1179,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.mktSearchEquips = nil;
   self.userExpansion = nil;
   [self stopAllLockBoxTimers];
-  self.lockBoxEventTimers = nil;
   [self stopForgeTimer];
   [self stopExpansionTimer];
+  [self stopAllGoldSaleTimers];
   [super dealloc];
 }
 

@@ -428,3 +428,69 @@
 }
 
 @end
+
+@implementation LockBoxInfoView
+
+@synthesize topLabel, descriptionLabel, equipNameLabel, attackLabel, defenseLabel;
+@synthesize item1Icon, item2Icon, item3Icon, item4Icon, item5Icon, prizeEquipIcon;
+@synthesize tagIcon, mainView, bgdView, descriptionImage;
+
+- (void) displayForCurrentLockBoxEvent {
+  GameState *gs = [GameState sharedGameState];
+  LockBoxEventProto *lbe = [gs getCurrentLockBoxEvent];
+  
+  self.topLabel.text = lbe.eventName;
+  self.descriptionLabel.text = lbe.descriptionString;
+  [Globals imageNamed:lbe.descriptionImageName withImageView:descriptionImage maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  prizeEquipIcon.equipId = lbe.prizeEquip.equipId;
+  [Globals imageNamed:lbe.tagImageName withImageView:tagIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  NSString *imgNames[5];
+  for (int i = 0; i < 5; i++) {
+    LockBoxItemProto *item = [lbe.itemsList objectAtIndex:i];
+    if (item) {
+      imgNames[i] = item.imageName;
+    }
+  }
+  [Globals imageNamed:imgNames[0] withImageView:item1Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:imgNames[1] withImageView:item2Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:imgNames[2] withImageView:item3Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:imgNames[3] withImageView:item4Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:imgNames[4] withImageView:item5Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  self.attackLabel.text = [Globals commafyNumber:lbe.prizeEquip.attackBoost];
+  self.defenseLabel.text = [Globals commafyNumber:lbe.prizeEquip.defenseBoost];
+  self.equipNameLabel.text = lbe.prizeEquip.name;
+  self.equipNameLabel.textColor = [Globals colorForRarity:lbe.prizeEquip.rarity];
+  
+  [Globals displayUIView:self];
+  [Globals bounceView:mainView fadeInBgdView:bgdView];
+}
+
+- (IBAction)closeClicked:(id)sender {
+  [Globals popOutView:mainView fadeOutBgdView:bgdView completion:^{
+    [self removeFromSuperview];
+  }];
+}
+
+- (void) dealloc {
+  self.topLabel = nil;
+  self.descriptionLabel = nil;
+  self.equipNameLabel = nil;
+  self.equipNameLabel = nil;
+  self.attackLabel = nil;
+  self.defenseLabel = nil;
+  self.item1Icon = nil;
+  self.item2Icon = nil;
+  self.item3Icon = nil;
+  self.item4Icon = nil;
+  self.item5Icon = nil;
+  self.prizeEquipIcon = nil;
+  self.tagIcon = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
+  self.descriptionImage = nil;
+  [super dealloc];
+}
+
+@end

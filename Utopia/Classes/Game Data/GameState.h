@@ -171,6 +171,7 @@
 @property (retain) NSMutableDictionary *staticPossessEquipJobs;
 @property (retain) NSMutableDictionary *staticUpgradeStructJobs;
 @property (retain) NSMutableArray *staticLockBoxEvents;
+@property (retain) NSMutableArray *staticGoldSales;
 
 @property (retain) NSArray *carpenterStructs;
 @property (retain) NSArray *armoryWeapons;
@@ -210,6 +211,8 @@
 @property (nonatomic, retain) NSArray *mktSearchEquips;
 
 @property (nonatomic, retain) UserExpansion *userExpansion;
+
+@property (retain) NSMutableArray *goldSaleTimers;
 
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
@@ -283,6 +286,9 @@
 - (void) resetLockBoxTimers;
 - (LockBoxEventProto *) getCurrentLockBoxEvent;
 - (void) addToNumLockBoxesForEvent:(int)eventId;
+
+- (void) resetGoldSaleTimers;
+- (GoldSaleProto *) getCurrentGoldSale;
 
 - (NSArray *) mktSearchEquipsSimilarToString:(NSString *)string;
 

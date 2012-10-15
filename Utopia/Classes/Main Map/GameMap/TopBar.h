@@ -63,6 +63,8 @@ typedef enum {
   
   CCSprite *_lockBoxBadge;
   
+  CCSprite *_goldSaleBanner;
+  
   // For faster comparisons of touch
   CGRect _enstBarRect;
   CGRect _coinBarRect;
@@ -125,6 +127,8 @@ typedef enum {
 - (void) stopQuestArrow;
 - (void) setQuestBadgeAnimated:(BOOL)animated;
 
+- (void) displayGoldSaleBadge;
+
 - (void) fadeInMenuOverChatView:(UIView *)view;
 - (void) fadeOutMenuOverChatView:(UIView *)view;
 
@@ -132,5 +136,6 @@ typedef enum {
 
 + (TopBar *) sharedTopBar;
 + (void) purgeSingleton;
++ (BOOL) isInitialized;
 
 @end

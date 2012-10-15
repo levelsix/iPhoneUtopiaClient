@@ -33,7 +33,8 @@
 - (void) startup;
 - (void) logout;
 - (void) reconnect;
-- (void) inAppPurchase: (NSString *) receipt goldAmt:(int)gold;
+
+- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold;
 
 - (void) retrieveMostRecentMarketplacePosts:(int)searchEquipId;
 - (void) retrieveMoreMarketplacePosts:(int)searchEquipId;

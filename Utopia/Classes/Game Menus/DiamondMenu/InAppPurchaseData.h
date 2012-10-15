@@ -17,7 +17,9 @@
 @property(nonatomic, readonly) NSString *secondaryTitle;
 @property(nonatomic, readonly) BOOL isGold;
 @property(nonatomic, readonly) NSString *price;
+@property(nonatomic, readonly) NSString *salePrice;
 @property(nonatomic, readonly) UIImage  *rewardPic;
+@property(nonatomic, readonly) int discount;
 
 -(void) makePurchaseWithViewController:(UIViewController *)controller;
 -(BOOL) purchaseAvailable;
@@ -25,6 +27,7 @@
 
 @interface InAppPurchaseData : NSObject<InAppPurchaseData> {
   SKProduct *_product;
+  SKProduct *_saleProduct;
 }
 
 +(NSString *) unknownPrice;
@@ -33,6 +36,6 @@
 +(void) postAdTakeoverResignedNotificationForSender:(id)sender;
 
 #pragma Factory Methods
-+(id<InAppPurchaseData>) createWithSKProduct:(SKProduct *)product;
++(id<InAppPurchaseData>) createWithProduct:(SKProduct *)product saleProduct:(SKProduct *)saleProduct;
 +(NSArray *) allSponsoredOffers;
 @end

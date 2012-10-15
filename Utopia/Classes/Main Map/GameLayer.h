@@ -21,6 +21,14 @@
 @class MissionMap;
 @class LoadNeutralCityResponseProto;
 
+@interface TravelingLoadingView : LoadingView
+
+@property (nonatomic, retain) IBOutlet UILabel *label;
+
+- (void) displayWithText:(NSString *)text;
+
+@end
+
 @interface WelcomeView : UIView
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
@@ -54,6 +62,7 @@
 @property (nonatomic, retain) MissionMap *missionMap;
 
 @property (nonatomic, retain) IBOutlet WelcomeView *welcomeView;
+@property (nonatomic, retain) IBOutlet TravelingLoadingView *loadingView;
 
 - (void) begin;
 - (void) loadHomeMap;

@@ -53,6 +53,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (id) initWithTMXFile:(NSString *)tmxFile {
+  _loading = YES;
   if ((self = [super initWithTMXFile:tmxFile])) {
     self.buildableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];
     
@@ -145,17 +146,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     collectMenu.alpha = 0.f;
     moveMenu.hidden = YES;
     
-    
-    _loading = YES;
-    
     _timers = [[NSMutableArray alloc] init];
+    
+    _loading = NO;
+    
+    [self refresh];
   }
   return self;
 }
 
 - (ExpansionView *)expansionView {
   if (!expansionView) {
-    [[NSBundle mainBundle] loadNibNamed:@"ExpansionView" owner:self options:nil];
+    Globals *gl = [Globals sharedGlobals];
+    [[Globals bundleNamed:gl.downloadableNibConstants.expansionNibName] loadNibNamed:@"ExpansionView" owner:self options:nil];
   }
   return expansionView;
 }
@@ -182,6 +185,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) refresh {
+  if (_loading) return;
   _constrBuilding = nil;
   _upgrBuilding = nil;
   _loading = YES;
@@ -411,7 +415,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (void) moveToCenter {
   // When this is called we want to move the player's sprite to the center too.
   // Also, center of home map should show gate
-  _myPlayer.location = CGRectMake(51, 51, 1, 1);
+  _myPlayer.location = CGRectMake(CENTER_TILE_X, CENTER_TILE_Y, 1, 1);
   [self moveToSprite:_myPlayer];
 }
 
@@ -422,7 +426,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
   
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
-  CGRect loc = CGRectMake(51, 51, fsp.xLength, fsp.yLength);
+  CGRect loc = CGRectMake(CENTER_TILE_X, CENTER_TILE_Y, fsp.xLength, fsp.yLength);
   _purchBuilding = [[MoneyBuilding alloc] initWithFile:[Globals imageNameForStruct:structId] location:loc map:self];
   _purchBuilding.verticalOffset = fsp.imgVerticalPixelOffset;
   
@@ -975,16 +979,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) dealloc {
-  [self.hbMenu removeFromSuperview];
+  [hbMenu removeFromSuperview];
   self.hbMenu = nil;
-  [self.collectMenu removeFromSuperview];
+  [collectMenu removeFromSuperview];
   self.collectMenu = nil;
-  [self.moveMenu removeFromSuperview];
+  [moveMenu removeFromSuperview];
   self.collectMenu = nil;
-  [self.upgradeMenu removeFromSuperview];
+  [upgradeMenu removeFromSuperview];
   self.upgradeMenu = nil;
   self.buildableData = nil;
-  [self.expansionView removeFromSuperview];
+  [expansionView removeFromSuperview];
   self.expansionView = nil;
   
   [self invalidateAllTimers];

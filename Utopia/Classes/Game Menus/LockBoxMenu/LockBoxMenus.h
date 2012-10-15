@@ -96,3 +96,29 @@
 - (void) beginPrizeAnimationForImageView:(NSArray *)startImgViews prize:(FullUserEquipProto *)fuep;
 
 @end
+
+@interface LockBoxInfoView : UIView
+
+@property (nonatomic, retain) IBOutlet UILabel *topLabel;
+@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
+@property (nonatomic, retain) IBOutlet UILabel *equipNameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *attackLabel;
+@property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
+
+@property (nonatomic, retain) IBOutlet UIImageView *item1Icon;
+@property (nonatomic, retain) IBOutlet UIImageView *item2Icon;
+@property (nonatomic, retain) IBOutlet UIImageView *item3Icon;
+@property (nonatomic, retain) IBOutlet UIImageView *item4Icon;
+@property (nonatomic, retain) IBOutlet UIImageView *item5Icon;
+@property (nonatomic, retain) IBOutlet EquipButton *prizeEquipIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *descriptionImage;
+@property (nonatomic, retain) IBOutlet UIImageView *tagIcon;
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+
+- (void) displayForCurrentLockBoxEvent;
+
+- (IBAction)closeClicked:(id)sender;
+
+@end

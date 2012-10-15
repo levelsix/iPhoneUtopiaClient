@@ -23,6 +23,7 @@
 
 #define SILVER_STACK_BOUNCE_DURATION 1.f
 #define DROP_LABEL_DURATION 3.f
+#define PICK_UP_WAIT_TIME 2.5f
 
 //CCMoveByCustom
 @interface CCMoveByCustom : CCMoveBy
@@ -210,6 +211,8 @@
                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
                   [CCEaseBounceOut actionWithAction:
                    [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-85+yPos)]],
+                  [CCDelayTime actionWithDuration:PICK_UP_WAIT_TIME],
+                  [CCCallFuncN actionWithTarget:self selector:@selector(pickUpSilverDrop:)],
                   nil],
                  [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],
                  nil]];
@@ -274,6 +277,8 @@
                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
                   [CCEaseBounceOut actionWithAction:
                    [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-85+yPos)]],
+                  [CCDelayTime actionWithDuration:PICK_UP_WAIT_TIME],
+                  [CCCallFuncN actionWithTarget:self selector:@selector(pickUpGoldDrop:)],
                   nil],
                  [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],
                  nil]];
@@ -336,6 +341,8 @@
                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
                   [CCEaseBounceOut actionWithAction:
                    [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-85+yPos)]],
+                  [CCDelayTime actionWithDuration:PICK_UP_WAIT_TIME],
+                  [CCCallFuncN actionWithTarget:self selector:@selector(pickUpEquipDrop:)],
                   nil],
                  [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],
                  nil]];
@@ -397,6 +404,8 @@
                      [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
                      [CCEaseBounceOut actionWithAction:
                       [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-85+yPos)]],
+                     [CCDelayTime actionWithDuration:PICK_UP_WAIT_TIME],
+                     [CCCallFuncN actionWithTarget:self selector:@selector(pickUpLockBoxDrop:)],
                      nil],
                     [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],
                     nil]];

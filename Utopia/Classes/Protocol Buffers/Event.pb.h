@@ -142,6 +142,8 @@
 @class GenerateAttackListRequestProto_Builder;
 @class GenerateAttackListResponseProto;
 @class GenerateAttackListResponseProto_Builder;
+@class GoldSaleProto;
+@class GoldSaleProto_Builder;
 @class GroupChatMessageProto;
 @class GroupChatMessageProto_Builder;
 @class InAppPurchaseRequestProto;
@@ -376,6 +378,8 @@
 @class StartupResponseProto_StartupConstants_CharacterModConstants_Builder;
 @class StartupResponseProto_StartupConstants_ClanConstants;
 @class StartupResponseProto_StartupConstants_ClanConstants_Builder;
+@class StartupResponseProto_StartupConstants_DownloadableNibConstants;
+@class StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder;
 @class StartupResponseProto_StartupConstants_ExpansionConstants;
 @class StartupResponseProto_StartupConstants_ExpansionConstants_Builder;
 @class StartupResponseProto_StartupConstants_ForgeConstants;
@@ -1397,6 +1401,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 
 @interface BattleResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasShouldGiveKiipReward_:1;
   BOOL hasCoinsGained_:1;
   BOOL hasExpGained_:1;
   BOOL hasEventIdOfLockBoxGained_:1;
@@ -1406,6 +1411,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   BOOL hasEquipGained_:1;
   BOOL hasStatus_:1;
   BOOL hasBattleResult_:1;
+  BOOL shouldGiveKiipReward_:1;
   int32_t coinsGained;
   int32_t expGained;
   int32_t eventIdOfLockBoxGained;
@@ -1425,6 +1431,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (BOOL) hasEquipGained;
 - (BOOL) hasExpGained;
 - (BOOL) hasEventIdOfLockBoxGained;
+- (BOOL) hasShouldGiveKiipReward;
 @property (readonly, retain) MinimumUserProto* attacker;
 @property (readonly, retain) MinimumUserProto* defender;
 @property (readonly) BattleResponseProto_BattleStatus status;
@@ -1434,6 +1441,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 @property (readonly, retain) FullEquipProto* equipGained;
 @property (readonly) int32_t expGained;
 @property (readonly) int32_t eventIdOfLockBoxGained;
+- (BOOL) shouldGiveKiipReward;
 
 + (BattleResponseProto*) defaultInstance;
 - (BattleResponseProto*) defaultInstance;
@@ -1521,6 +1529,11 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (int32_t) eventIdOfLockBoxGained;
 - (BattleResponseProto_Builder*) setEventIdOfLockBoxGained:(int32_t) value;
 - (BattleResponseProto_Builder*) clearEventIdOfLockBoxGained;
+
+- (BOOL) hasShouldGiveKiipReward;
+- (BOOL) shouldGiveKiipReward;
+- (BattleResponseProto_Builder*) setShouldGiveKiipReward:(BOOL) value;
+- (BattleResponseProto_Builder*) clearShouldGiveKiipReward;
 @end
 
 @interface VaultRequestProto : PBGeneratedMessage {
@@ -1908,9 +1921,10 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableMktSearchEquipsList;
   NSMutableArray* mutableGlobalChatsList;
+  NSMutableArray* mutableMktSearchEquipsList;
   NSMutableArray* mutableClanChatsList;
+  NSMutableArray* mutableGoldSalesList;
   NSMutableArray* mutableAlliesList;
   NSMutableArray* mutableUserLockBoxEventsList;
   NSMutableArray* mutableLockBoxEventsList;
@@ -1992,6 +2006,8 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (GroupChatMessageProto*) globalChatsAtIndex:(int32_t) index;
 - (NSArray*) clanChatsList;
 - (GroupChatMessageProto*) clanChatsAtIndex:(int32_t) index;
+- (NSArray*) goldSalesList;
+- (GoldSaleProto*) goldSalesAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -2322,18 +2338,18 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
-  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
-  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasCutOfVaultDepositTaken_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasHealthFormulaExponentBase_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
+  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
-  BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
-  BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
+  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
+  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
+  BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
+  BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
+  BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
   BOOL hasMaxCityRank_:1;
   BOOL hasArmoryImgVerticalPixelOffset_:1;
   BOOL hasVaultImgVerticalPixelOffset_:1;
@@ -2342,17 +2358,20 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   BOOL hasAviaryImgVerticalPixelOffset_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
-  BOOL hasMaxLengthOfChatString_:1;
   BOOL hasAverageSizeOfLevelBracket_:1;
-  BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
   BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
-  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
   BOOL hasMinNameLength_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasSizeOfAttackList_:1;
   BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
   BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
   BOOL hasMinBattlesRequiredForKdrconsideration_:1;
+  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
+  BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
+  BOOL hasMaxLengthOfChatString_:1;
+  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
+  BOOL hasNumHoursBeforeReshowingLockBox_:1;
+  BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasArmoryXlength_:1;
   BOOL hasArmoryYlength_:1;
@@ -2363,46 +2382,46 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   BOOL hasCarpenterXlength_:1;
   BOOL hasCarpenterYlength_:1;
   BOOL hasAviaryXlength_:1;
-  BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasAviaryYlength_:1;
   BOOL hasAttackBaseGain_:1;
   BOOL hasDefenseBaseGain_:1;
   BOOL hasEnergyBaseGain_:1;
+  BOOL hasMaxNumberOfMarketplacePosts_:1;
+  BOOL hasDiamondCostForFullEnergyRefill_:1;
+  BOOL hasDiamondCostForFullStaminaRefill_:1;
+  BOOL hasMinutesToRefillAstamina_:1;
   BOOL hasStaminaBaseGain_:1;
+  BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasAttackBaseCost_:1;
   BOOL hasDefenseBaseCost_:1;
   BOOL hasEnergyBaseCost_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasStaminaBaseCost_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasMaxLevelForStruct_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
-  BOOL hasMinutesToRefillAenergy_:1;
-  BOOL hasMinutesToRefillAstamina_:1;
-  BOOL hasDiamondCostForFullStaminaRefill_:1;
-  BOOL hasDiamondCostForFullEnergyRefill_:1;
-  BOOL hasMaxNumberOfMarketplacePosts_:1;
-  BOOL hasExpansionConstants_:1;
-  BOOL hasLockBoxConstants_:1;
   BOOL hasClanConstants_:1;
   BOOL hasThreeCardMonteConstants_:1;
   BOOL hasGoldmineConstants_:1;
+  BOOL hasLockBoxConstants_:1;
+  BOOL hasExpansionConstants_:1;
+  BOOL hasDownloadableNibConstants_:1;
   BOOL hasCharModConstants_:1;
   BOOL hasForgeConstants_:1;
   BOOL hasKiipRewardConditions_:1;
-  BOOL hasBattleConstants_:1;
   BOOL hasFormulaConstants_:1;
-  Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
-  Float64 percentReturnedToUserForSellingNormStructure;
-  Float64 cutOfVaultDepositTaken;
-  Float64 levelEquipBoostExponentBase;
+  BOOL hasBattleConstants_:1;
   Float64 healthFormulaExponentBase;
+  Float64 levelEquipBoostExponentBase;
+  Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingEquipInArmory;
-  int32_t numDaysLongMarketplaceLicenseLastsFor;
-  int32_t numDaysShortMarketplaceLicenseLastsFor;
-  int32_t diamondCostOfLongMarketplaceLicense;
+  Float64 percentReturnedToUserForSellingNormStructure;
+  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+  Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
   int32_t diamondCostOfShortMarketplaceLicense;
+  int32_t diamondCostOfLongMarketplaceLicense;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
+  int32_t numDaysShortMarketplaceLicenseLastsFor;
+  int32_t numDaysLongMarketplaceLicenseLastsFor;
   int32_t maxCityRank;
   int32_t armoryImgVerticalPixelOffset;
   int32_t vaultImgVerticalPixelOffset;
@@ -2411,17 +2430,20 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   int32_t aviaryImgVerticalPixelOffset;
   int32_t maxCharLengthForWallPost;
   int32_t playerWallPostsRetrieveCap;
-  int32_t maxLengthOfChatString;
   int32_t averageSizeOfLevelBracket;
-  int32_t diamondPriceForGroupChatPurchasePackage;
   int32_t adColonyVideosRequiredToRedeemDiamonds;
-  int32_t numChatsGivenPerGroupChatPurchasePackage;
   int32_t minNameLength;
   int32_t maxNameLength;
   int32_t sizeOfAttackList;
   int32_t maxNumTimesAttackedByOneInProtectionPeriod;
   int32_t hoursInAttackedByOneProtectionPeriod;
   int32_t minBattlesRequiredForKdrconsideration;
+  int32_t numChatsGivenPerGroupChatPurchasePackage;
+  int32_t diamondPriceForGroupChatPurchasePackage;
+  int32_t maxLengthOfChatString;
+  int32_t numHoursBeforeReshowingGoldSale;
+  int32_t numHoursBeforeReshowingLockBox;
+  int32_t maxLevelDifferenceForBattle;
   int32_t maxLevelForUser;
   int32_t armoryXlength;
   int32_t armoryYlength;
@@ -2432,34 +2454,34 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   int32_t carpenterXlength;
   int32_t carpenterYlength;
   int32_t aviaryXlength;
-  int32_t maxLevelDifferenceForBattle;
   int32_t aviaryYlength;
   int32_t attackBaseGain;
   int32_t defenseBaseGain;
   int32_t energyBaseGain;
+  int32_t maxNumberOfMarketplacePosts;
+  int32_t diamondCostForFullEnergyRefill;
+  int32_t diamondCostForFullStaminaRefill;
+  int32_t minutesToRefillAstamina;
   int32_t staminaBaseGain;
+  int32_t minutesToRefillAenergy;
   int32_t attackBaseCost;
   int32_t defenseBaseCost;
   int32_t energyBaseCost;
+  int32_t maxNumOfSingleStruct;
   int32_t staminaBaseCost;
   int32_t skillPointsGainedOnLevelup;
   int32_t maxLevelForStruct;
-  int32_t maxNumOfSingleStruct;
-  int32_t minutesToRefillAenergy;
-  int32_t minutesToRefillAstamina;
-  int32_t diamondCostForFullStaminaRefill;
-  int32_t diamondCostForFullEnergyRefill;
-  int32_t maxNumberOfMarketplacePosts;
-  StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
-  StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
   StartupResponseProto_StartupConstants_ThreeCardMonteConstants* threeCardMonteConstants;
   StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
+  StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
+  StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
+  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
   StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
   StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
-  StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
+  StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
@@ -2533,6 +2555,9 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (BOOL) hasGoldmineConstants;
 - (BOOL) hasLockBoxConstants;
 - (BOOL) hasExpansionConstants;
+- (BOOL) hasDownloadableNibConstants;
+- (BOOL) hasNumHoursBeforeReshowingGoldSale;
+- (BOOL) hasNumHoursBeforeReshowingLockBox;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2602,6 +2627,9 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 @property (readonly, retain) StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
 @property (readonly, retain) StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
 @property (readonly, retain) StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
+@property (readonly, retain) StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
+@property (readonly) int32_t numHoursBeforeReshowingGoldSale;
+@property (readonly) int32_t numHoursBeforeReshowingLockBox;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2624,6 +2652,99 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_DownloadableNibConstants : PBGeneratedMessage {
+@private
+  BOOL hasThreeCardMonteNibName_:1;
+  BOOL hasLockBoxNibName_:1;
+  BOOL hasMapNibName_:1;
+  BOOL hasGoldMineNibName_:1;
+  BOOL hasExpansionNibName_:1;
+  BOOL hasLeaderboardNibName_:1;
+  NSString* threeCardMonteNibName;
+  NSString* lockBoxNibName;
+  NSString* mapNibName;
+  NSString* goldMineNibName;
+  NSString* expansionNibName;
+  NSString* leaderboardNibName;
+}
+- (BOOL) hasThreeCardMonteNibName;
+- (BOOL) hasLockBoxNibName;
+- (BOOL) hasMapNibName;
+- (BOOL) hasGoldMineNibName;
+- (BOOL) hasExpansionNibName;
+- (BOOL) hasLeaderboardNibName;
+@property (readonly, retain) NSString* threeCardMonteNibName;
+@property (readonly, retain) NSString* lockBoxNibName;
+@property (readonly, retain) NSString* mapNibName;
+@property (readonly, retain) NSString* goldMineNibName;
+@property (readonly, retain) NSString* expansionNibName;
+@property (readonly, retain) NSString* leaderboardNibName;
+
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_DownloadableNibConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) build;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) other;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasThreeCardMonteNibName;
+- (NSString*) threeCardMonteNibName;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setThreeCardMonteNibName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearThreeCardMonteNibName;
+
+- (BOOL) hasLockBoxNibName;
+- (NSString*) lockBoxNibName;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setLockBoxNibName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearLockBoxNibName;
+
+- (BOOL) hasMapNibName;
+- (NSString*) mapNibName;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setMapNibName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearMapNibName;
+
+- (BOOL) hasGoldMineNibName;
+- (NSString*) goldMineNibName;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setGoldMineNibName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearGoldMineNibName;
+
+- (BOOL) hasExpansionNibName;
+- (NSString*) expansionNibName;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setExpansionNibName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearExpansionNibName;
+
+- (BOOL) hasLeaderboardNibName;
+- (NSString*) leaderboardNibName;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setLeaderboardNibName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearLeaderboardNibName;
 @end
 
 @interface StartupResponseProto_StartupConstants_ThreeCardMonteConstants : PBGeneratedMessage {
@@ -4082,6 +4203,23 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (StartupResponseProto_StartupConstants_Builder*) setExpansionConstantsBuilder:(StartupResponseProto_StartupConstants_ExpansionConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeExpansionConstants:(StartupResponseProto_StartupConstants_ExpansionConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearExpansionConstants;
+
+- (BOOL) hasDownloadableNibConstants;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) downloadableNibConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setDownloadableNibConstants:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setDownloadableNibConstantsBuilder:(StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeDownloadableNibConstants:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearDownloadableNibConstants;
+
+- (BOOL) hasNumHoursBeforeReshowingGoldSale;
+- (int32_t) numHoursBeforeReshowingGoldSale;
+- (StartupResponseProto_StartupConstants_Builder*) setNumHoursBeforeReshowingGoldSale:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearNumHoursBeforeReshowingGoldSale;
+
+- (BOOL) hasNumHoursBeforeReshowingLockBox;
+- (int32_t) numHoursBeforeReshowingLockBox;
+- (StartupResponseProto_StartupConstants_Builder*) setNumHoursBeforeReshowingLockBox:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearNumHoursBeforeReshowingLockBox;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -4863,6 +5001,13 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (StartupResponseProto_Builder*) addClanChats:(GroupChatMessageProto*) value;
 - (StartupResponseProto_Builder*) addAllClanChats:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearClanChatsList;
+
+- (NSArray*) goldSalesList;
+- (GoldSaleProto*) goldSalesAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceGoldSalesAtIndex:(int32_t) index with:(GoldSaleProto*) value;
+- (StartupResponseProto_Builder*) addGoldSales:(GoldSaleProto*) value;
+- (StartupResponseProto_Builder*) addAllGoldSales:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearGoldSalesList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
@@ -8667,9 +8812,11 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 
 @interface QuestRedeemResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasShouldGiveKiipReward_:1;
   BOOL hasSender_:1;
   BOOL hasEquipRewardFromQuest_:1;
   BOOL hasStatus_:1;
+  BOOL shouldGiveKiipReward_:1;
   MinimumUserProto* sender;
   FullUserEquipProto* equipRewardFromQuest;
   QuestRedeemResponseProto_QuestRedeemStatus status;
@@ -8678,9 +8825,11 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasEquipRewardFromQuest;
+- (BOOL) hasShouldGiveKiipReward;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) QuestRedeemResponseProto_QuestRedeemStatus status;
 @property (readonly, retain) FullUserEquipProto* equipRewardFromQuest;
+- (BOOL) shouldGiveKiipReward;
 - (NSArray*) newlyAvailableQuestsList;
 - (FullQuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index;
 
@@ -8743,6 +8892,11 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (QuestRedeemResponseProto_Builder*) setEquipRewardFromQuestBuilder:(FullUserEquipProto_Builder*) builderForValue;
 - (QuestRedeemResponseProto_Builder*) mergeEquipRewardFromQuest:(FullUserEquipProto*) value;
 - (QuestRedeemResponseProto_Builder*) clearEquipRewardFromQuest;
+
+- (BOOL) hasShouldGiveKiipReward;
+- (BOOL) shouldGiveKiipReward;
+- (QuestRedeemResponseProto_Builder*) setShouldGiveKiipReward:(BOOL) value;
+- (QuestRedeemResponseProto_Builder*) clearShouldGiveKiipReward;
 @end
 
 @interface UserQuestDetailsRequestProto : PBGeneratedMessage {

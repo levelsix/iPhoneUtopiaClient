@@ -35,11 +35,15 @@
 @property (nonatomic, retain) IBOutlet LockBoxPickView *pickView;
 @property (nonatomic, retain) IBOutlet LockBoxPrizeView *prizeView;
 
+@property (nonatomic, retain) IBOutlet LockBoxInfoView *lockBoxInfoView;
+
 @property (nonatomic, retain) NSTimer *timer;
 
 - (void) loadForCurrentEvent;
 - (void) updateLabels;
 - (void) flyItemToBottom:(LockBoxItemProto *)item prizeEquip:(FullUserEquipProto *)prizeEquip;
+
+- (IBAction)infoClicked:(id)sender;
 
 + (LockBoxMenuController *) sharedLockBoxMenuController;
 + (void) displayView;

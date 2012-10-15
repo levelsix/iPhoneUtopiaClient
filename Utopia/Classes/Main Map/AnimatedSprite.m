@@ -252,6 +252,11 @@
   }
 }
 
+- (void) displayArrow {
+  [super displayArrow];
+  _arrow.position = ccpAdd(_arrow.position, ccp(0, _aboveHeadMark.contentSize.height));
+}
+
 - (void) setQuestGiverState:(QuestGiverState)i {
   questGiverState = i;
   
@@ -260,10 +265,15 @@
   if (questGiverState == kInProgress) {
     _aboveHeadMark = [CCProgressTimer progressWithFile:@"questinprogress.png"];
     ((CCProgressTimer *) _aboveHeadMark).type = kCCProgressTimerTypeHorizontalBarLR;
+    [self removeArrowAnimated:YES];
   } else if (questGiverState == kAvailable) {
     _aboveHeadMark = [CCSprite spriteWithFile:@"questnew.png"];
+    [self displayArrow];
   } else if (questGiverState == kCompleted) {
     _aboveHeadMark = [CCSprite spriteWithFile:@"questcomplete.png"];
+    [self displayArrow];
+  } else {
+    [self removeArrowAnimated:YES];
   }
   
   if (_aboveHeadMark) {

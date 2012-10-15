@@ -33,10 +33,10 @@
   littleLabel.frame = rect;
   
   rect            = self.frame;
-  rect.size.width = bigLabel.frame.size.width 
+  rect.size.width = bigLabel.frame.size.width
   + littleLabel.frame.size.width;
   self.frame   = rect;
-  self.center  = CGPointMake(CGRectGetMidX(self.superview.bounds), 
+  self.center  = CGPointMake(CGRectGetMidX(self.superview.bounds),
                              self.center.y);
 }
 
@@ -78,8 +78,17 @@
 @synthesize productData;
 @synthesize pkgIcon, pkgGoldLabel, pkgNameLabel, priceLabel, coinIcon;
 @synthesize selectedView;
+@synthesize saleDiscountView, salePriceLabel, salePriceTagView;
+@synthesize discountLabel, notSalePriceTagView, slashedPriceLabel;
 
-- (void) updateForPurchaseData:(id<InAppPurchaseData>)product 
+- (void) awakeFromNib {
+  [selectedView.superview bringSubviewToFront:selectedView];
+  
+  notSalePriceTagView.frame = salePriceTagView.frame;
+  [salePriceTagView.superview addSubview:notSalePriceTagView];
+}
+
+- (void) updateForPurchaseData:(id<InAppPurchaseData>)product
 {
   // Set Free offer title
   self.pkgNameLabel.text = product.primaryTitle;
@@ -87,8 +96,24 @@
   // Set gold quantity text
   self.pkgGoldLabel.text = product.secondaryTitle;
   
-  // Set the price
-  self.priceLabel.price  = product.price;
+  NSString *salePrice = product.salePrice;
+  NSString *price = product.price;
+  if (salePrice) {
+    salePriceLabel.price = salePrice;
+    slashedPriceLabel.price = price;
+    
+    discountLabel.text = [NSString stringWithFormat:@"%d%%", product.discount];
+    
+    saleDiscountView.hidden = NO;
+    salePriceTagView.hidden = NO;
+    notSalePriceTagView.hidden = YES;
+  } else {
+    priceLabel.price = price;
+    
+    saleDiscountView.hidden = YES;
+    salePriceTagView.hidden = YES;
+    notSalePriceTagView.hidden = NO;
+  }
   
   // Set the icon
   self.coinIcon.highlighted = !product.isGold;
@@ -118,6 +143,12 @@
   self.pkgNameLabel = nil;
   self.priceLabel = nil;
   self.selectedView = nil;
+  self.saleDiscountView = nil;
+  self.salePriceLabel = nil;
+  self.salePriceTagView = nil;
+  self.slashedPriceLabel = nil;
+  self.discountLabel = nil;
+  self.notSalePriceTagView = nil;
   [super dealloc];
 }
 
@@ -257,18 +288,28 @@
 @synthesize state = _state;
 @synthesize topBar;
 @synthesize mainView, bgdView;
+@synthesize timer;
+@synthesize saleView, dayLabel, hrsLabel, minsLabel, secsLabel;
+@synthesize saleBackgroundView, curGoldView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 
 #pragma mark - View lifecycle
 
+- (void) setTimer:(NSTimer *)t {
+  if (timer != t) {
+    [timer invalidate];
+    [timer release];
+    timer = [t retain];
+  }
+}
 
 -(void) resetSponsoredOffers
 {
   // Initialize the Ad Sponsored deals
   [_sponsoredOffers release];
   _sponsoredOffers = [InAppPurchaseData allSponsoredOffers];
-  [_sponsoredOffers retain];  
+  [_sponsoredOffers retain];
 }
 
 - (void)viewDidLoad
@@ -285,23 +326,65 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   NSString *name = [InAppPurchaseData
                     adTakeoverResignedNotification];
   [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(refreshTableView) 
+                                           selector:@selector(refreshTableView)
                                                name:name
                                              object:self];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  [self update];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
-  [self update];
+- (void) viewDidDisappear:(BOOL)animated {
+  self.timer = nil;
 }
 
 - (void) update {
   [self.pkgTableView reloadData];
   
-  curGoldLabel.text = [Globals commafyNumber:[[GameState sharedGameState] gold]];
+  GameState *gs = [GameState sharedGameState];
+  curGoldLabel.text = [Globals commafyNumber:gs.gold];
+  
+  GoldSaleProto *sale = [gs getCurrentGoldSale];
+  if (sale) {
+    [self updateTimeLabels];
+    self.timer = [NSTimer timerWithTimeInterval:0.01f target:self selector:@selector(updateTimeLabels) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    
+    [Globals imageNamed:sale.goldShoppeImageName withImageView:saleBackgroundView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+    
+    self.saleView.hidden = NO;
+    
+    self.curGoldView.center = ccp(72, 262);
+  } else {
+    self.timer = nil;
+    
+    self.saleView.hidden = YES;
+    
+    self.curGoldView.center = ccp(72, 230);
+  }
+}
+
+- (void) updateTimeLabels {
+  GameState *gs = [GameState sharedGameState];
+  GoldSaleProto *sale = [gs getCurrentGoldSale];
+  
+  NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:sale.endDate/1000.];
+  NSTimeInterval timeInterval = [endDate timeIntervalSinceNow];
+  if (sale) {
+    int days = (int)(timeInterval/86400);
+    int hrs = (int)((timeInterval-86400*days)/3600);
+    int mins = (int)((timeInterval-86400*days-3600*hrs)/60);
+    float secs = timeInterval-86400*days-3600*hrs-60*mins;
+    dayLabel.text = [NSString stringWithFormat:@"%d Day%@", days, days == 1 ? @"" : @"s"];
+    hrsLabel.text = [NSString stringWithFormat:@"%d Hr%@", hrs, hrs == 1 ? @"" : @"s"];
+    minsLabel.text = [NSString stringWithFormat:@"%d Min%@", mins, mins == 1 ? @"" : @"s"];
+    secsLabel.text = [NSString stringWithFormat:@"%.02f", secs];
+  } else {
+    [self update];
+  }
 }
 
 - (void) setState:(GoldShoppeState)state {
@@ -313,8 +396,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
         [self.topBar clickButton:kGoldCoinsButton];
         break;
       case kEarnFreeState:
-//        [self.topBar unclickButton:kGoldCoinsButton];
-//        [self.topBar clickButton:kEarnFreeButton];
+        //        [self.topBar unclickButton:kGoldCoinsButton];
+        //        [self.topBar clickButton:kEarnFreeButton];
         
         [Globals popupMessage:@"Sorry, there are no free offers at this time."];
         self.state = kPackagesState;
@@ -335,9 +418,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 };
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  Globals *gl = [Globals sharedGlobals];
   switch (_state) {
     case kPackagesState:
-      return [[[IAPHelper sharedIAPHelper] products] count];
+      return gl.productIdentifiers.count;
     case kEarnFreeState:
       return [_sponsoredOffers count];
     default:
@@ -354,20 +438,23 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
     cell = self.itemView;
   }
   
-  id<InAppPurchaseData> cellData;
-  switch (_state) {
-    case kPackagesState:
-      cellData = [InAppPurchaseData createWithSKProduct:[[[IAPHelper sharedIAPHelper] products] 
-                                                         objectAtIndex:indexPath.row]];
-      break;
-    case kEarnFreeState:
-      cellData = [_sponsoredOffers objectAtIndex:indexPath.row];
-      break;
-    default:
-      break;
+  id<InAppPurchaseData> cellData = nil;
+  if (_state == kPackagesState) {
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    GoldSaleProto *sale = [gs getCurrentGoldSale];
+    NSDictionary *dict = [[IAPHelper sharedIAPHelper] products];
+    id arr[5] = {sale.package1SaleIdentifier, sale.package2SaleIdentifier, sale.package3SaleIdentifier, sale.package4SaleIdentifier, sale.package5SaleIdentifier};
+    NSString *productId = [gl.productIdentifiers objectAtIndex:indexPath.row];
+    NSString *saleProductId = arr[indexPath.row];
+    SKProduct *product = [dict objectForKey:productId];
+    SKProduct *saleProduct = [dict objectForKey:saleProductId];
+    cellData = [InAppPurchaseData createWithProduct:product saleProduct:saleProduct];
+  } else if (_state == kEarnFreeState) {
+    cellData = [_sponsoredOffers objectAtIndex:indexPath.row];
   }
   
-  cell.productData = cellData; 
+  cell.productData = cellData;
   
   [cell updateForPurchaseData:cellData];
   cell.pkgIcon.image = cellData.rewardPic;
@@ -375,7 +462,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  GoldPackageView *gpv = (GoldPackageView *)[tableView 
+  GoldPackageView *gpv = (GoldPackageView *)[tableView
                                              cellForRowAtIndexPath:indexPath];
   
   [gpv.productData makePurchaseWithViewController:self];
@@ -430,6 +517,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   self.topBar = nil;
   self.mainView = nil;
   self.bgdView = nil;
+  self.timer = nil;
+  self.saleView = nil;
+  self.minsLabel = nil;
+  self.hrsLabel = nil;
+  self.secsLabel = nil;
+  self.dayLabel = nil;
+  self.saleBackgroundView = nil;
+  self.curGoldView = nil;
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   
   [_sponsoredOffers release];

@@ -45,9 +45,12 @@
 }
 
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
-  GameMap *map = (GameMap *)self.parent;
-  [map pickUpSilverDrop:self];
-  _clicked = YES;
+  CCNode *n = self.parent;
+  if ([n isKindOfClass:[GameMap class]]) {
+    GameMap *map = (GameMap *)n;
+    [map pickUpSilverDrop:self];
+    _clicked = YES;
+  }
 }
 
 @end

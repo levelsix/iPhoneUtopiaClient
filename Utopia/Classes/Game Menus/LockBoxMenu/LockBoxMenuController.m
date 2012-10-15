@@ -21,9 +21,14 @@
 @synthesize goldLabel, silverLabel, topPickLabel, numBoxesLabel;
 @synthesize itemView1, itemView2, itemView3, itemView4, itemView5;
 @synthesize mainView, bgdView;
-@synthesize timer;
+@synthesize timer, lockBoxInfoView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
+
+- (id) init {
+  Globals *gl = [Globals sharedGlobals];
+  return [self initWithNibName:@"LockBoxMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.lockBoxNibName]];
+}
 
 - (void) viewDidLoad
 {
@@ -53,13 +58,27 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   }
 }
 
+- (LockBoxInfoView *) lockBoxInfoView {
+  if (!lockBoxInfoView) {
+    Globals *gl = [Globals sharedGlobals];
+    [[Globals bundleNamed:gl.downloadableNibConstants.lockBoxNibName] loadNibNamed:@"LockBoxInfoView" owner:self options:nil];
+  }
+  return lockBoxInfoView;
+}
+
 - (void) loadForCurrentEvent {
   GameState *gs = [GameState sharedGameState];
   LockBoxEventProto *lbe = [gs getCurrentLockBoxEvent];
+  
+  if (!lbe) {
+    [self closeClicked:nil];
+    self.timer = nil;
+    return;
+  }
+  
   UserLockBoxEventProto *ulbe = [gs.myLockBoxEvents objectForKey:[NSNumber numberWithInt:lbe.lockBoxEventId]];
   
   [Globals imageNamed:lbe.lockBoxImageName withImageView:chestIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  numBoxesLabel.text = [NSString stringWithFormat:@"x%d", ulbe.numLockBoxes];
   
   [self loadItems:lbe.itemsList userItems:ulbe.itemsList];
   
@@ -104,7 +123,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   LockBoxEventProto *lbe = [gs getCurrentLockBoxEvent];
+  
+  if (!lbe) {
+    [self loadForCurrentEvent];
+    return;
+  }
+  
   UserLockBoxEventProto *ulbe = [gs.myLockBoxEvents objectForKey:[NSNumber numberWithInt:lbe.lockBoxEventId]];
+  numBoxesLabel.text = [NSString stringWithFormat:@"x%d", ulbe.numLockBoxes];
   
   goldLabel.text = [Globals commafyNumber:gs.gold];
   silverLabel.text = [Globals commafyNumber:gs.silver];
@@ -175,6 +201,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   }];
 }
 
+- (IBAction)infoClicked:(id)sender {
+  [self.lockBoxInfoView displayForCurrentLockBoxEvent];
+}
+
 - (void) flyItemToBottom:(LockBoxItemProto *)item prizeEquip:(FullUserEquipProto *)prizeEquip {
   LockBoxItemView *iv = nil;
   for (LockBoxItemView *itemView in itemViews) {
@@ -222,6 +252,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   self.mainView = nil;
   self.bgdView = nil;
   self.timer = nil;
+  [lockBoxInfoView removeFromSuperview];
+  self.lockBoxInfoView = nil;
   [itemViews release];
 }
 

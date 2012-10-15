@@ -36,12 +36,20 @@ typedef enum {
 
 @property (nonatomic, retain) id<InAppPurchaseData> productData;
 
-@property (nonatomic, retain) IBOutlet UILabel     *pkgNameLabel;
-@property (nonatomic, retain) IBOutlet UILabel     *pkgGoldLabel;
-@property (nonatomic, retain) IBOutlet PriceLabel  *priceLabel;
+@property (nonatomic, retain) IBOutlet UILabel *pkgNameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *pkgGoldLabel;
+@property (nonatomic, retain) IBOutlet PriceLabel *priceLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *pkgIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *coinIcon;
-@property (nonatomic, retain) IBOutlet UIView      *selectedView;
+@property (nonatomic, retain) IBOutlet UIView *selectedView;
+
+@property (nonatomic, retain) IBOutlet PriceLabel *slashedPriceLabel;
+@property (nonatomic, retain) IBOutlet PriceLabel *salePriceLabel;
+@property (nonatomic, retain) IBOutlet UILabel *discountLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *salePriceTagView;
+@property (nonatomic, retain) IBOutlet UIView *saleDiscountView;
+@property (nonatomic, retain) IBOutlet UIView *notSalePriceTagView;
 
 - (void) updateForPurchaseData:(id<InAppPurchaseData>)product;
 @end
@@ -74,16 +82,26 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet GoldPackageView *itemView;
 @property (nonatomic, retain) IBOutlet UILabel *curGoldLabel;
 @property (nonatomic, retain) IBOutlet GoldShoppeBar *topBar;
+@property (nonatomic, retain) IBOutlet UIView *curGoldView;
 
 @property (nonatomic, assign) GoldShoppeState state;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
+@property (nonatomic, retain) IBOutlet UIImageView *saleBackgroundView;
+@property (nonatomic, retain) IBOutlet UIView *saleView;
+@property (nonatomic, retain) IBOutlet UILabel *dayLabel;
+@property (nonatomic, retain) IBOutlet UILabel *hrsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *minsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *secsLabel;
+@property (nonatomic, retain) NSTimer *timer;
+
 + (GoldShoppeViewController *)sharedGoldShoppeViewController;
 + (void) displayView;
 + (void) removeView;
 + (void) purgeSingleton;
++ (BOOL) isInitialized;
 
 - (void) update;
 - (IBAction)closeButtonClicked:(id)sender;

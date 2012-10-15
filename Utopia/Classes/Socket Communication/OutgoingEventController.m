@@ -1200,7 +1200,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) loadNeutralCity:(int)cityId {
   GameState *gs = [GameState sharedGameState];
   FullCityProto *city = [gs cityWithId:cityId];
-  MapViewController *mvc = [MapViewController sharedMapViewController];
+  MapViewController *mvc = [MapViewController isInitialized] ? [MapViewController sharedMapViewController] : nil;
   
   if (!city) {
     [Globals popupMessage:@"Trying to visit nil city"];
@@ -1216,7 +1216,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [[SocketCommunication sharedSocketCommunication] sendLoadNeutralCityMessage:city.cityId];
     
     if (![BattleLayer isInitialized] || ![[BattleLayer sharedBattleLayer] isRunning]) {
-      [mvc startLoadingWithText:[NSString stringWithFormat:@"Traveling to %@", city.name]];
+      [[[GameLayer sharedGameLayer] loadingView] displayWithText:[NSString stringWithFormat:@"Traveling to %@", city.name]];
     }
     
     // Load any tasks we don't have as well
@@ -1881,7 +1881,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gl.goldCostForGoldmineRestart]];
   }
   
-  [gs addUnrespondedUpdate:[GoldmineTimeUpdate updateWithTag:tag prevDate:gs.lastGoldmineRetrieval nextDate:[NSDate dateWithTimeIntervalSince1970:clientTime/1000.0]]];
+  NSDate *nextDate = reset ? nil : [NSDate dateWithTimeIntervalSince1970:clientTime/1000.0];
+  [gs addUnrespondedUpdate:[GoldmineTimeUpdate updateWithTag:tag prevDate:gs.lastGoldmineRetrieval nextDate:nextDate]];
   
   [gs beginGoldmineTimer];
 }
@@ -1974,7 +1975,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Attempting to speedup without enough gold"];
   } else if (!ue.isExpanding) {
     [Globals popupMessage:@"Attempting to complete expansion while not expanding"];
-  } else if (!speedUp && [[NSDate date] compare:[ue.lastExpandTime dateByAddingTimeInterval:[gl calculateNumMinutesForNewExpansion:ue]*60]] == NSOrderedDescending) {
+  } else if (!speedUp && [[NSDate date] compare:[ue.lastExpandTime dateByAddingTimeInterval:[gl calculateNumMinutesForNewExpansion:ue]*60]] == NSOrderedAscending) {
     [Globals popupMessage:@"Attempting to complete expansion before it is ready"];
   } else {
     uint64_t ms = [self getCurrentMilliseconds];
@@ -2011,9 +2012,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 -(void) playThreeCardMonte:(int)cardID {
+  Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendPlayThreeCardMonteMessage:cardID];
-  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+  
+  if (gs.gold < gl.diamondCostToPlayThreeCardMonte) {
+    [Globals popupMessage:@"Attempting to play three card monte without enough gold."];
+  } else {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendPlayThreeCardMonteMessage:cardID];
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gl.diamondCostToPlayThreeCardMonte]];
+  }
 }
 
 @end

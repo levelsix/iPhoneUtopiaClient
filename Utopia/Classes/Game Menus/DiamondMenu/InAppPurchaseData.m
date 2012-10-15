@@ -20,6 +20,8 @@
 @dynamic price;
 @dynamic rewardPic;
 @dynamic isGold;
+@dynamic salePrice;
+@dynamic discount;
 
 -(UIImage *) rewardPic
 {
@@ -32,8 +34,8 @@
 
 +(void) postAdTakeoverResignedNotificationForSender:(id)sender
 {
-  [[NSNotificationCenter defaultCenter] 
-   postNotificationName:[InAppPurchaseData adTakeoverResignedNotification] 
+  [[NSNotificationCenter defaultCenter]
+   postNotificationName:[InAppPurchaseData adTakeoverResignedNotification]
    object:sender];
 }
 
@@ -45,12 +47,12 @@
 #pragma InAppPurchaseData
 - (BOOL) purchaseAvailable
 {
-    return YES;
+  return YES;
 }
 
 -(void) makePurchaseWithViewController:(UIViewController *)controller
 {
-  [[IAPHelper sharedIAPHelper] buyProductIdentifier:_product];
+  [[IAPHelper sharedIAPHelper] buyProductIdentifier:_saleProduct ? _saleProduct : _product];
 }
 
 -(NSString *) primaryTitle
@@ -60,21 +62,26 @@
 
 -(NSString *) price
 {
-    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-    [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
-    [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-    
-    [numberFormatter setLocale:_product.priceLocale];
-    NSString *formattedString = [numberFormatter stringFromNumber:_product.price];
-    [numberFormatter release];
-    
-    return formattedString;
+  return [[IAPHelper sharedIAPHelper] priceForProduct:_product];
+}
+
+- (NSString *) salePrice {
+  return _saleProduct ? [[IAPHelper sharedIAPHelper] priceForProduct:_saleProduct] : nil;
+}
+
+- (int) discount {
+  if (_saleProduct) {
+    float normPrice = _product.price.floatValue;
+    float salePrice = _saleProduct.price.floatValue;
+    return (int)roundf((normPrice-salePrice)/normPrice*100.f);
+  }
+  return 0;
 }
 
 -(NSString *) secondaryTitle
 {
-  return [NSString stringWithFormat:@"%@", 
-          [[[Globals sharedGlobals] productIdentifiers] 
+  return [NSString stringWithFormat:@"%@",
+          [[[Globals sharedGlobals] productIdentifiersToGold]
            objectForKey:_product.productIdentifier]];
 }
 
@@ -91,12 +98,14 @@
 }
 
 #pragma mark  Create/Destroy
--(id) initWithSKProduct:(SKProduct *)product
+-(id) initWithProduct:(SKProduct *)product saleProduct:(SKProduct *)saleProduct
 {
   self = [super init];
   if (self) {
     _product  = product;
     [_product retain];
+    _saleProduct = saleProduct;
+    [_saleProduct retain];
   }
   return self;
 }
@@ -104,31 +113,32 @@
 -(void)dealloc
 {
   [_product release];
+  [_saleProduct release];
   
   [super dealloc];
 }
 
-+(id<InAppPurchaseData>) createWithSKProduct:(SKProduct *)product
++(id<InAppPurchaseData>) createWithProduct:(SKProduct *)product saleProduct:(SKProduct *)saleProduct
 {
-  InAppPurchaseData *offer = [[InAppPurchaseData alloc] initWithSKProduct:product];
+  InAppPurchaseData *offer = [[InAppPurchaseData alloc] initWithProduct:product saleProduct:saleProduct];
   [offer autorelease];
-  return offer;  
+  return offer;
 }
 
 +(NSArray *) allSponsoredOffers
 {
   NSMutableArray *offers = [NSMutableArray array];
-//  [offers addObject:[AdColonySponsoredOffer    create]];
-//  [offers addObject:[TapJoySponsoredOffer      create]];
-/*
- * Disabled Sponsored offers:(Short Term)
- *  
-  [offers addObject:[FlurryClipsSponsoredOffer create]];
-  [offers addObject:[TapJoySponsoredOffer      create]];
-  [offers addObject:[FacebookSponsoredOffer    create]];
-  [offers addObject:[TwitterSponsoredOffer     create]];
- *
- */
+  //  [offers addObject:[AdColonySponsoredOffer    create]];
+  //  [offers addObject:[TapJoySponsoredOffer      create]];
+  /*
+   * Disabled Sponsored offers:(Short Term)
+   *
+   [offers addObject:[FlurryClipsSponsoredOffer create]];
+   [offers addObject:[TapJoySponsoredOffer      create]];
+   [offers addObject:[FacebookSponsoredOffer    create]];
+   [offers addObject:[TwitterSponsoredOffer     create]];
+   *
+   */
   return offers;
 }
 @end

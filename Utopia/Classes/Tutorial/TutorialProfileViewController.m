@@ -37,7 +37,7 @@
   self.wallTabView.userInteractionEnabled = NO;
 }
 
-- (void) viewDidAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated {
   if (_justLoaded) {
     _justLoaded = NO;
     
@@ -66,6 +66,7 @@
     _tutorialEnding = YES;
     [self performSelector:@selector(arrowOnClose) withObject:nil afterDelay:1.f];
   }
+  [super viewWillAppear:animated];
 }
 
 - (IBAction)skillButtonClicked:(id)sender {
@@ -117,8 +118,12 @@
 }
 
 - (void) setState:(ProfileState)state {
-  [super setState:state];
-  if (state == kEquipState && _moveToEquipScreenPhase) {
+  if (_tutorialEnding) {
+    [super setState:kProfileState];
+  } else if (!_moveToEquipScreenPhase) {
+    [super setState:kSkillsState];
+  } else if (state == kEquipState && _moveToEquipScreenPhase) {
+    [super setState:state];
     [self.profileBar setUserInteractionEnabled:NO];
     
     _moveToEquipScreenPhase = NO;
@@ -138,6 +143,7 @@
     _arrow.center = CGPointMake(CGRectGetMinX(rect)-_arrow.frame.size.width/2, CGRectGetMidY(rect));
     [Globals animateUIArrow:_arrow atAngle:0];
   }
+  [super setState:_state];
 }
 
 - (IBAction)closeClicked:(id)sender {

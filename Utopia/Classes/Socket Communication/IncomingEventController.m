@@ -47,6 +47,8 @@
 #import "LockBoxMenuController.h"
 #import "ThreeCardMonteViewController.h"
 
+#define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
+
 @implementation IncomingEventController
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
@@ -424,6 +426,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [GenericPopupController displayConfirmationWithDescription:@"An update is available. Head over to the App Store to download it now!" title:@"Update Available" okayButton:@"Update" cancelButton:@"Later" target:gpc selector:@selector(openAppStoreLink)];
   }
   
+  // Must do gold sales before startup constants so that the product ids can be retrieved
+  gs.staticGoldSales = proto.goldSalesList.mutableCopy;
+  [gs resetGoldSaleTimers];
   [gl updateConstants:proto.startupConstants];
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
     // Update user before creating map
@@ -1300,6 +1305,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[BazaarMap sharedBazaarMap] reloadQuestGivers];
     [[HomeMap sharedHomeMap] reloadQuestGivers];
     [gs removeNonFullUserUpdatesForTag:tag];
+    
+    if (proto.shouldGiveKiipReward) {
+      [KiipDelegate postAchievementNotificationAchievement:QUEST_REDEEM_KIIP_REWARD
+                                                 andSender:nil];
+    }
   } else {
     [Globals popupMessage:@"Server failed to redeem quest"];
     [gs removeAndUndoAllUpdatesForTag:tag];

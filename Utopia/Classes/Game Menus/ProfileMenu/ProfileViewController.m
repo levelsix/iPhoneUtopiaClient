@@ -1775,6 +1775,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   staminaStatLabel.text = [NSString stringWithFormat:@"%d", gs.maxStamina];
   
   skillPointsLabel.text = [NSString stringWithFormat:@"%d", gs.skillPoints];
+  
+  [self refreshSkillPointsButtons];
 }
 
 - (void) openSkillsMenu {
@@ -1844,6 +1846,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   if (gs.gold >= cost) {
     [self.loadingView display:self.view];
     [[OutgoingEventController sharedOutgoingEventController] resetStats];
+    [self loadSkills];
     
     [Analytics statReset];
   } else {
@@ -1961,7 +1964,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     
     if ([levelupDict containsObject:[NSNumber numberWithInt:gs.level]]) {
       NSString *curAchievement = [NSString stringWithFormat:@"level_up_%d",
-                                  gs.level];      
+                                  gs.level];
       [KiipDelegate postAchievementNotificationAchievement:curAchievement 
                                                  andSender:nil];
     }

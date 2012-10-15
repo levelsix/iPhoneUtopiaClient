@@ -105,6 +105,9 @@
 
 @property (nonatomic, assign) int maxCharLengthForWallPost;
 
+@property (nonatomic, assign) int numHoursBeforeReshowingGoldSale;
+@property (nonatomic, assign) int numHoursBeforeReshowingLockBox;
+
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
 @property (nonatomic, assign) float forgeMinDiamondCostForGuarantee;
@@ -157,7 +160,8 @@
 @property (nonatomic, assign) float mediumMonteCardPercentageChance;
 @property (nonatomic, assign) float goodMonteCardPercentageChance;
 
-@property (nonatomic, retain) NSDictionary *productIdentifiers;
+@property (nonatomic, retain) NSArray *productIdentifiers;
+@property (nonatomic, retain) NSDictionary *productIdentifiersToGold;
 
 @property (nonatomic, retain) NSMutableDictionary *imageCache;
 @property (retain) NSMutableDictionary *imageViewsWaitingForDownloading;
@@ -165,6 +169,7 @@
 @property (nonatomic, retain) NSMutableDictionary *animatingSpriteOffsets;
 
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_KiipRewardConditions *kiipRewardConditions;
+@property (nonatomic, retain) StartupResponseProto_StartupConstants_DownloadableNibConstants *downloadableNibConstants;
 
 + (Globals *) sharedGlobals;
 + (void) purgeSingleton;
@@ -183,6 +188,7 @@
 + (NSString *) imageNameForStruct:(int)structId;
 + (NSString *) imageNameForEquip:(int)eqId;
 + (NSString *) pathToFile:(NSString *)fileName;
++ (NSBundle *) bundleNamed:(NSString *)bundleName;
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator;
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView;
 + (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;

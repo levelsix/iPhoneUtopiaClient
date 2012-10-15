@@ -32,6 +32,8 @@
 #define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
 #define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
 
+#define LAST_GOLD_SALE_POPUP_TIME_KEY @"Last Gold Sale Popup Time"
+#define LAST_LOCK_BOX_POPUP_TIME_KEY @"Lock Box Popup Time"
 
 #define FADE_ANIMATION_DURATION 0.2f
 
@@ -352,6 +354,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   }
   if (showActFeed) {
     [ActivityFeedController displayView];
+  }
+  
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  NSDate *curDate = [NSDate date];
+  [self displayGoldSaleBadge];
+  if ([gs getCurrentGoldSale] && gs.level >= 3) {
+    NSDate *date = [defaults objectForKey:LAST_GOLD_SALE_POPUP_TIME_KEY];
+    NSDate *nextShowDate = [date dateByAddingTimeInterval:3600*gl.numHoursBeforeReshowingGoldSale];
+    if (!date || [nextShowDate compare:curDate] == NSOrderedAscending) {
+      [GoldShoppeViewController displayView];
+      [defaults setObject:curDate forKey:LAST_GOLD_SALE_POPUP_TIME_KEY];
+    }
+  }
+  
+  if ([gs getCurrentLockBoxEvent] && gs.level >= 3) {
+    NSDate *date = [defaults objectForKey:LAST_LOCK_BOX_POPUP_TIME_KEY];
+    NSDate *nextShowDate = [date dateByAddingTimeInterval:3600*gl.numHoursBeforeReshowingLockBox];
+    if (!date || [nextShowDate compare:curDate] == NSOrderedAscending) {
+      [[LockBoxMenuController sharedLockBoxMenuController] infoClicked:nil];
+      [defaults setObject:curDate forKey:LAST_LOCK_BOX_POPUP_TIME_KEY];
+    }
   }
   
   if (gs.level >= gl.minLevelToDisplayThreeCardMonte && gl.minLevelToDisplayThreeCardMonte > 0) {
@@ -917,6 +940,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     view.alpha = 0.f;
     chatBottomView.alpha = 1.f;
   }];
+}
+
+- (void) displayGoldSaleBadge {
+  GameState *gs = [GameState sharedGameState];
+  GoldSaleProto *sale = [gs getCurrentGoldSale];
+  
+  if (_goldSaleBanner) {
+    if (!sale) {
+      [_goldSaleBanner runAction:[CCSequence actions:
+                                 [CCMoveTo actionWithDuration:0.3f position:ccp(_goldSaleBanner.position.x, _coinBar.contentSize.height/2-5)],
+                                 [CCCallBlock actionWithBlock:
+                                  ^{
+                                    [_goldSaleBanner removeFromParentAndCleanup:YES];
+                                    _goldSaleBanner = nil;
+                                  }], nil]];
+    }
+  } else {
+    if (sale) {
+      _goldSaleBanner = [CCSprite spriteWithFile:sale.goldBarImageName];
+      if (_goldSaleBanner) {
+        [_coinBar addChild:_goldSaleBanner z:-1];
+        _goldSaleBanner.position = ccp(_coinBar.contentSize.width/2-5, _coinBar.contentSize.height/2-5);
+        [_goldSaleBanner runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:0.7f position:ccp(0, -22)]]];
+      }
+    }
+  }
 }
 
 - (void) shouldDisplayLockBoxButton:(BOOL)button andBadge:(BOOL)badge {

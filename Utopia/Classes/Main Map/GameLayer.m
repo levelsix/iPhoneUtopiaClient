@@ -26,8 +26,28 @@
 #import "OutgoingEventController.h"
 #import "SoundEngine.h"
 #import "TutorialMissionMap.h"
-#import "MapViewController.h"
 #import "CarpenterMenuController.h"
+#import "MapViewController.h"
+
+@implementation TravelingLoadingView
+
+@synthesize label;
+
+- (void) awakeFromNib {
+  self.darkView.layer.cornerRadius = 10.f;
+}
+
+- (void) displayWithText:(NSString *)text {
+  [super display:[[[CCDirector sharedDirector] openGLView] superview]];
+  self.label.text = text;
+}
+
+- (void) dealloc {
+  self.label = nil;
+  [super dealloc];
+}
+
+@end
 
 @implementation WelcomeView
 
@@ -65,7 +85,7 @@
 
 @synthesize assetId, enemyType, currentCity;
 @synthesize missionMap = _missionMap;
-@synthesize welcomeView;
+@synthesize welcomeView, loadingView;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
@@ -94,6 +114,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [self begin];
   }
   return self;
+}
+
+- (TravelingLoadingView *)loadingView {
+  if (!loadingView) {
+    [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil];
+  }
+  return loadingView;
 }
 
 - (void) begin {
@@ -128,14 +155,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   //  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
   //  [EAGLContext setCurrentContext:k_context];
   
-  [self unloadCurrentMissionMap];
-  [self closeHomeMap];
-  [self closeBazaarMap];
-  
   MissionMap *m = [[MissionMap alloc] initWithProto:proto];
   GameState *gs = [GameState sharedGameState];
   FullCityProto *fcp = [gs cityWithId:proto.cityId];
   UserCity *uc = [gs myCityWithId:proto.cityId];
+  
+  [self unloadCurrentMissionMap];
+  [self closeHomeMap];
+  [self closeBazaarMap];
   
   [m moveToCenter];
   if (_shouldCenterOnEnemy) {
@@ -157,7 +184,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [[SoundEngine sharedSoundEngine] playMissionMapMusic];
   }
   
-  [[MapViewController sharedMapViewController] performSelectorOnMainThread:@selector(close) withObject:nil waitUntilDone:YES];
+  [self.loadingView stop];
+  if ([MapViewController isInitialized]) {
+    [[MapViewController sharedMapViewController] close];
+  }
   
   [welcomeView displayForName:fcp.name rank:uc.curRank];
 }
@@ -206,7 +236,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) loadHomeMap {
   if (!_homeMap.visible) {
-    [[MapViewController sharedMapViewController] startLoadingWithText:@"Traveling\nHome"];
+    [self.loadingView displayWithText:@"Traveling\nHome"];
     _loading = YES;
     // Do move in load so that other classes can move it elsewhere
     [_homeMap moveToCenter];
@@ -237,7 +267,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   }
   
   if (_loading) {
-    [[MapViewController sharedMapViewController] close];
+    [self.loadingView stop];
     _loading = NO;
   }
   
@@ -278,7 +308,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) loadBazaarMap {
   if (!_bazaarMap.parent) {
-    [[MapViewController sharedMapViewController] startLoadingWithText:@"Traveling to Bazaar"];
+    [self.loadingView displayWithText:@"Traveling\nTo Bazaar"];
     _loading = YES;
     // Do move in load so that other classes can move it elsewhere
     [_bazaarMap moveToCenter];
@@ -308,7 +338,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   }
   
   if (_loading) {
-    [[MapViewController sharedMapViewController] close];
+    [self.loadingView stop];
     _loading = NO;
   }
   
@@ -359,6 +389,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 - (void) dealloc {
   self.missionMap = nil;
   self.welcomeView = nil;
+  self.loadingView = nil;
   [super dealloc];
 }
 

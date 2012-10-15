@@ -41,7 +41,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize energyRefillWaitMinutes, staminaRefillWaitMinutes;
 @synthesize energyRefillCost, staminaRefillCost;
 @synthesize maxRepeatedNormStructs;
-@synthesize productIdentifiers;
+@synthesize productIdentifiers, productIdentifiersToGold;
 @synthesize imageCache, imageViewsWaitingForDownloading;
 @synthesize armoryXLength, armoryYLength, carpenterXLength, carpenterYLength, aviaryXLength;
 @synthesize aviaryYLength, marketplaceXLength, marketplaceYLength, vaultXLength, vaultYLength;
@@ -86,6 +86,8 @@ static NSMutableSet *_pulsingViews;
 @synthesize expansionPurchaseCostConstant, expansionPurchaseCostExponentBase, expansionWaitCompleteBaseMinutesToOneGold;
 @synthesize expansionWaitCompleteHourConstant, expansionWaitCompleteHourIncrementBase;
 @synthesize diamondCostToPlayThreeCardMonte, minLevelToDisplayThreeCardMonte;
+@synthesize downloadableNibConstants;
+@synthesize numHoursBeforeReshowingGoldSale, numHoursBeforeReshowingLockBox;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -123,7 +125,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants {
-  self.productIdentifiers = [NSDictionary dictionaryWithObjects:constants.productDiamondsGivenList forKeys:constants.productIdsList];
+  self.productIdentifiers = constants.productIdsList.copy;
+  NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjects:constants.productDiamondsGivenList forKeys:constants.productIdsList];
+  if (constants.productIdsList.count >= 5) {
+    GameState *gs = [GameState sharedGameState];
+    for (GoldSaleProto *p in gs.staticGoldSales) {
+      if (p.hasPackage1SaleIdentifier) [dict setObject:[constants.productDiamondsGivenList objectAtIndex:0] forKey:p.package1SaleIdentifier];
+      if (p.hasPackage2SaleIdentifier) [dict setObject:[constants.productDiamondsGivenList objectAtIndex:1] forKey:p.package2SaleIdentifier];
+      if (p.hasPackage3SaleIdentifier) [dict setObject:[constants.productDiamondsGivenList objectAtIndex:2] forKey:p.package3SaleIdentifier];
+      if (p.hasPackage4SaleIdentifier) [dict setObject:[constants.productDiamondsGivenList objectAtIndex:3] forKey:p.package4SaleIdentifier];
+      if (p.hasPackage5SaleIdentifier) [dict setObject:[constants.productDiamondsGivenList objectAtIndex:4] forKey:p.package5SaleIdentifier];
+    }
+  }
+  self.productIdentifiersToGold = dict;
+  
   self.maxLevelDiffForBattle = constants.maxLevelDifferenceForBattle;
   self.maxLevelForUser = constants.maxLevelForUser;
   self.armoryXLength = constants.armoryXlength;
@@ -172,6 +187,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.diamondPriceForGroupChatPurchasePackage = constants.diamondPriceForGroupChatPurchasePackage;
   self.numChatsGivenPerGroupChatPurchasePackage = constants.numChatsGivenPerGroupChatPurchasePackage;
   self.maxCharLengthForWallPost = constants.maxCharLengthForWallPost;
+  self.numHoursBeforeReshowingGoldSale = constants.numHoursBeforeReshowingGoldSale;
+  self.numHoursBeforeReshowingLockBox = constants.numHoursBeforeReshowingLockBox;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;
@@ -246,15 +263,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
   self.kiipRewardConditions = constants.kiipRewardConditions;
+  self.downloadableNibConstants = constants.downloadableNibConstants;
   
   for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto *aso in constants.animatedSpriteOffsetsList) {
     [self.animatingSpriteOffsets setObject:aso.offSet forKey:aso.imageName];
   }
 }
 
-- (void) setProductIdentifiers:(NSDictionary *)productIds {
-  [productIdentifiers release];
-  productIdentifiers = [productIds retain];
+- (void) setProductIdentifiersToGold:(NSDictionary *)productIds {
+  [productIdentifiersToGold release];
+  productIdentifiersToGold = [productIds retain];
   [[IAPHelper sharedIAPHelper] requestProducts];
 }
 
@@ -346,7 +364,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return [UIColor colorWithRed:138/255.f green:0/255.f blue:255/255.f alpha:1.f];
       
     case FullEquipProto_RarityLegendary:
-      return [UIColor colorWithRed:255/255.f green:102/255.f blue:0/255.f alpha:1.f];
+      return [UIColor colorWithRed:255/255.f green:49/255.f blue:49/255.f alpha:1.f];
       
     default:
       break;
@@ -662,6 +680,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return fullpath;
 }
 
++ (NSBundle *) bundleNamed:(NSString *)bundleName {
+  if (!bundleName) {
+    return nil;
+  }
+  NSString *cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+  NSString *fullPath = [cachesDirectory stringByAppendingPathComponent:bundleName];
+  
+  if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
+    [[Downloader sharedDownloader] syncDownloadBundle:bundleName];
+  }
+  
+  return [NSBundle bundleWithPath:fullPath];
+}
+
 + (UIImage *) imageNamed:(NSString *)path {
   if (!path) {
     return nil;
@@ -683,10 +715,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     // Image not in NSBundle: look in documents
     NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0];
-    fullpath = [documentsPath stringByAppendingPathComponent:resName];
     
-    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+    NSURL *directoryURL = [NSURL URLWithString:documentsPath];
+    
+    BOOL fileExists = NO;
+    if (directoryURL) {
+      NSArray *keys = [NSArray arrayWithObjects:
+                       NSURLIsDirectoryKey, NSURLIsPackageKey, NSURLLocalizedNameKey, nil];
+      
+      NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager]
+                                           enumeratorAtURL:directoryURL
+                                           includingPropertiesForKeys:keys
+                                           options:(NSDirectoryEnumerationSkipsPackageDescendants |
+                                                    NSDirectoryEnumerationSkipsHiddenFiles)
+                                           errorHandler:^(NSURL *url, NSError *error) {
+                                             // Handle the error.
+                                             // Return YES if the enumeration should continue after the error.
+                                             return YES;
+                                           }];
+      
+      for (NSURL *url in enumerator) {
+        if ([url.lastPathComponent isEqualToString:resName]) {
+          fullpath  = url.path;
+          fileExists = YES;
+          break;
+        }
+      }
+    }
+    
+    if (!fileExists) {
       // Image not in docs: download it
+      fullpath = [documentsPath stringByAppendingPathComponent:resName];
       [[Downloader sharedDownloader] syncDownloadFile:fullpath.lastPathComponent];
     }
   }
@@ -730,10 +789,36 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if (!fullpath) {
     // Image not in NSBundle: look in documents
     NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];
-    fullpath = [documentsPath stringByAppendingPathComponent:resName];
+    NSString *documentsPath = [paths objectAtIndex:0];\
+    NSURL *directoryURL = [NSURL URLWithString:documentsPath];
     
-    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+    BOOL fileExists = NO;
+    if (directoryURL) {
+      NSArray *keys = [NSArray arrayWithObjects:
+                       NSURLIsDirectoryKey, NSURLIsPackageKey, NSURLLocalizedNameKey, nil];
+      
+      NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager]
+                                           enumeratorAtURL:directoryURL
+                                           includingPropertiesForKeys:keys
+                                           options:(NSDirectoryEnumerationSkipsPackageDescendants |
+                                                    NSDirectoryEnumerationSkipsHiddenFiles)
+                                           errorHandler:^(NSURL *url, NSError *error) {
+                                             // Handle the error.
+                                             // Return YES if the enumeration should continue after the error.
+                                             return YES;
+                                           }];
+      
+      for (NSURL *url in enumerator) {
+        if ([url.lastPathComponent isEqualToString:resName]) {
+          fullpath  = url.path;
+          fileExists = YES;
+          break;
+        }
+      }
+    }
+    
+    if (!fileExists) {
+      fullpath = [documentsPath stringByAppendingPathComponent:resName];
       if (![view viewWithTag:150]) {
         UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:indicatorStyle];
         loadingView.tag = 150;
@@ -1778,11 +1863,12 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 }
 
 - (void) dealloc {
-  self.productIdentifiers = nil;
+  self.productIdentifiersToGold = nil;
   self.imageCache = nil;
   self.imageViewsWaitingForDownloading = nil;
   self.animatingSpriteOffsets = nil;
   self.kiipRewardConditions = nil;
+  self.downloadableNibConstants = nil;
   [super dealloc];
 }
 

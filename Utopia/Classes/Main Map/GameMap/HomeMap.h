@@ -10,6 +10,10 @@
 #import "HomeBuildingMenus.h"
 #import "AnimatedSprite.h"
 
+#define CENTER_TILE_X 51
+#define CENTER_TILE_Y 51
+#define ROAD_SIZE 2
+
 @class HomeBuildingMenu;
 
 @interface HomeMap : GameMap {

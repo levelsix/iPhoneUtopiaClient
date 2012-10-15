@@ -331,6 +331,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LeaderboardController);
 @synthesize spinner;
 @synthesize shouldReload;
 
+- (id) init {
+  Globals *gl = [Globals sharedGlobals];
+  return [self initWithNibName:@"LeaderboardController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.leaderboardNibName]];
+}
+
 - (void)viewDidLoad
 {
   [super viewDidLoad];

@@ -199,8 +199,8 @@
   label.font = self.font;
   label.backgroundColor = [UIColor clearColor];
   [Globals adjustFontSizeForUILabel:label];
-//  label.textColor = self.textColor;
-//  self.textColor = [UIColor whiteColor];
+  //  label.textColor = self.textColor;
+  //  self.textColor = [UIColor whiteColor];
   
   //Adjust frame a bit
   CGRect f = self.frame;
@@ -339,6 +339,10 @@
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  if (!equipId) {
+    return;
+  }
+  
   if (!darkOverlay.image && self.image) {
     darkOverlay.image = [Globals maskImage:self.image withColor:[UIColor colorWithWhite:0.f alpha:0.5f]];
   }
@@ -347,6 +351,9 @@
 }
 
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  if (!equipId) {
+    return;
+  }
   
   if (!darkOverlay.image && self.image) {
     darkOverlay.image = [Globals maskImage:self.image withColor:[UIColor colorWithWhite:0.f alpha:0.3f]];
@@ -362,9 +369,17 @@
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  if (!equipId) {
+    return;
+  }
+  
   self.darkOverlay.hidden = YES;
   
-  [self equipClicked];
+  UITouch *touch = [touches anyObject];
+  CGPoint loc = [touch locationInView:touch.view];
+  if ([self pointInside:loc withEvent:event]) {
+    [self equipClicked];
+  }
 }
 
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {

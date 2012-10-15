@@ -27,5 +27,6 @@
 
 - (void) syncDownloadFile:(NSString *)fileName;
 - (void) asyncDownloadFile:(NSString *)imageName completion:(void (^)(void))completed;
+- (void) syncDownloadBundle:(NSString *)bundleName;
 
 @end

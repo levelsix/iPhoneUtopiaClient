@@ -16,20 +16,9 @@ typedef enum {
   kEnemyButton = 1 << 1
 } MapBarButton;
 
-@interface MapLoadingView : UIView
-
-@property (nonatomic, retain) IBOutlet UIView *darkView;
-@property (nonatomic, retain) IBOutlet UILabel *label;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *actIndView;
-
-@end
-
-@interface MapViewController : UIViewController {
-  BOOL _isDisplayingLoadingView;
-}
+@interface MapViewController : UIViewController
 
 @property (nonatomic, retain) IBOutlet TravellingMissionMap *missionMap;
-@property (nonatomic, retain) IBOutlet MapLoadingView *loadingView;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 
 @property (nonatomic, retain) IBOutlet ProgressBar *enstBar;
@@ -42,6 +31,7 @@ typedef enum {
 + (void) displayView;
 + (void) removeView;
 + (void) purgeSingleton;
++ (BOOL) isInitialized;
 + (void) cleanupAndPurgeSingleton;
 
 + (void) displayMissionMap;
@@ -49,7 +39,5 @@ typedef enum {
 - (IBAction)closeClicked:(id)sender;
 
 - (void) close;
-- (void) startLoadingWithText:(NSString *)str;
-- (void) stopLoading;
 
 @end

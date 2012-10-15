@@ -2,11 +2,11 @@
 #import "StoreKit/StoreKit.h"
 
 @interface IAPHelper : NSObject <SKProductsRequestDelegate, SKPaymentTransactionObserver> {
-    NSArray * _products;
+    NSDictionary * _products;
     SKProductsRequest * _request;
 }
 
-@property (retain) NSArray * products;
+@property (retain) NSDictionary *products;
 @property (retain) SKProductsRequest *request;
 
 + (IAPHelper *) sharedIAPHelper;

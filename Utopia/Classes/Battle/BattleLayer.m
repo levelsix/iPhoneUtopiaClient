@@ -24,6 +24,7 @@
 #import "GenericPopupController.h"
 #import "ClanMenuController.h"
 #import "ChatMenuController.h"
+#import "KiipDelegate.h"
 
 #define FAKE_PLAYER_RAND 6
 #define NAME_LABEL_FONT_SIZE 11.f
@@ -37,6 +38,8 @@
 #define MAX_NUM_WINS 3
 
 #define BATTLE_USER_DEFAULTS_KEY [NSString stringWithFormat:@"Battle%d", _fup.userId]
+
+#define BATTLE_WON_KIIP_REWARD @"battle_win"
 
 @implementation BattleSummaryView
 
@@ -1374,6 +1377,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     return;
   }
   _clickedDone = YES;
+  
+  if (brp.shouldGiveKiipReward) {
+    [KiipDelegate postAchievementNotificationAchievement:BATTLE_WON_KIIP_REWARD
+                                               andSender:nil];
+  }
   
   _isBattling = NO;
   if (_left.opacity > 0) {

@@ -9,6 +9,7 @@
 #import "Downloader.h"
 #import "LNSynthesizeSingleton.h"
 #import "Globals.h"
+#import "SSZipArchive.h"
 
 #define URL_BASE @"https://s3.amazonaws.com/lvl6utopia/Resources/";
 
@@ -23,25 +24,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
     _queue = dispatch_queue_create("Image Downloader", NULL);
     _cacheDir = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] copy];
     
-    //    [[NSBundle mainBundle] loadNibNamed:@"DownloaderSpinner" owner:self options:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"DownloaderSpinner" owner:self options:nil];
   }
   return self;
 }
 
-- (void) downloadFile:(NSString *)imageName {
+- (NSString *) downloadFile:(NSString *)imageName {
   // LNLogs here are NOT thread safe, be careful
   NSString *urlBase = URL_BASE;
   NSURL *url = [[NSURL alloc] initWithString:[urlBase stringByAppendingString:imageName]];
   NSString *filePath = [[NSString alloc] initWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
+  BOOL success = YES;
   if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
     NSData *data = [[NSData alloc] initWithContentsOfURL:url];
     if (data) {
-      [data writeToFile:filePath atomically:YES];
+      success = [data writeToFile:filePath atomically:YES];
     }
     [data release];
   }
   [url release];
-  [filePath release];
+  return success ? [filePath autorelease] : nil;
 }
 
 - (void) asyncDownloadFile:(NSString *)imageName completion:(void (^)(void))completed {
@@ -53,32 +55,69 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
       if (completed) {
         completed();
       }
-        ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", imageName);
+      ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", imageName);
     });
   });
 }
 
 - (void) syncDownloadFile:(NSString *)fileName {
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning sync download of file %@", fileName);
+  [self beginLoading:fileName];
+  [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01f]];
   dispatch_sync(_queue, ^{
     [self downloadFile:fileName];
   });
+  [self stopLoading];
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", fileName);
 }
 
-//- (void) beginLoading {
-//  dispatch_async(dispatch_get_main_queue(), ^{
-//    [Globals displayUIView:loadingView];
-//    [loadingView.actIndView startAnimating];
-//  });
-//}
-//
-//- (void) stopLoading {
-//  dispatch_async(dispatch_get_main_queue(), ^{
-//    [loadingView removeFromSuperview];
-//    [loadingView.actIndView stopAnimating];
-//  });
-//}
+- (void) beginLoading:(NSString *)fileName {
+  NSString *f = fileName;
+  
+  NSRange range = [fileName rangeOfString:@"."];
+  if (range.length > 0) {
+    range.length = fileName.length-range.location;
+    f = [fileName stringByReplacingCharactersInRange:range withString:@""];
+  }
+  
+  range = [fileName rangeOfString:@"Walk"];
+  if (range.length > 0) {
+    range.length = fileName.length-range.location;
+    f = [fileName stringByReplacingCharactersInRange:range withString:@""];
+  }
+  
+  f = [f stringByReplacingOccurrencesOfString:@"@2x" withString:@""];
+  
+  NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:@"([a-z])([A-Z])" options:0 error:NULL];
+  f = [regexp stringByReplacingMatchesInString:f options:0 range:NSMakeRange(0, f.length) withTemplate:@"$1 $2"];
+  
+  f = [f capitalizedString];
+  loadingView.label.text = fileName ? [NSString stringWithFormat:@"Loading\n%@", f] : @"Loading Files";
+  [Globals displayUIView:loadingView];
+}
+
+- (void) stopLoading {
+  [loadingView removeFromSuperview];
+}
+
+- (void) downloadBundle:(NSString *)zipFile
+{
+  NSString *filePath = [self downloadFile:zipFile];
+  if (filePath) {
+    [SSZipArchive unzipFileAtPath:filePath toDestination:_cacheDir];
+  }
+}
+
+- (void) syncDownloadBundle:(NSString *)bundleName {
+  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning sync download of bundle %@", bundleName);
+  [self beginLoading:bundleName];
+  [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5f]];
+  dispatch_sync(_queue, ^{
+    [self downloadBundle:[bundleName stringByAppendingString:@".zip"]];
+  });
+  [self stopLoading];
+  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", bundleName);
+}
 
 - (void) dealloc {
   dispatch_release(_queue);

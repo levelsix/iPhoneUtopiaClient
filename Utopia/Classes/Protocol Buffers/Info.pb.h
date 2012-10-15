@@ -52,6 +52,8 @@
 @class FullUserQuestDataLargeProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GoldSaleProto;
+@class GoldSaleProto_Builder;
 @class GroupChatMessageProto;
 @class GroupChatMessageProto_Builder;
 @class LocationProto;
@@ -301,6 +303,135 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
 @end
 
+@interface GoldSaleProto : PBGeneratedMessage {
+@private
+  BOOL hasStartDate_:1;
+  BOOL hasEndDate_:1;
+  BOOL hasSaleId_:1;
+  BOOL hasPackage1SaleIdentifier_:1;
+  BOOL hasPackage2SaleIdentifier_:1;
+  BOOL hasPackage3SaleIdentifier_:1;
+  BOOL hasPackage4SaleIdentifier_:1;
+  BOOL hasPackage5SaleIdentifier_:1;
+  BOOL hasGoldShoppeImageName_:1;
+  BOOL hasGoldBarImageName_:1;
+  int64_t startDate;
+  int64_t endDate;
+  int32_t saleId;
+  NSString* package1SaleIdentifier;
+  NSString* package2SaleIdentifier;
+  NSString* package3SaleIdentifier;
+  NSString* package4SaleIdentifier;
+  NSString* package5SaleIdentifier;
+  NSString* goldShoppeImageName;
+  NSString* goldBarImageName;
+}
+- (BOOL) hasSaleId;
+- (BOOL) hasStartDate;
+- (BOOL) hasEndDate;
+- (BOOL) hasPackage1SaleIdentifier;
+- (BOOL) hasPackage2SaleIdentifier;
+- (BOOL) hasPackage3SaleIdentifier;
+- (BOOL) hasPackage4SaleIdentifier;
+- (BOOL) hasPackage5SaleIdentifier;
+- (BOOL) hasGoldShoppeImageName;
+- (BOOL) hasGoldBarImageName;
+@property (readonly) int32_t saleId;
+@property (readonly) int64_t startDate;
+@property (readonly) int64_t endDate;
+@property (readonly, retain) NSString* package1SaleIdentifier;
+@property (readonly, retain) NSString* package2SaleIdentifier;
+@property (readonly, retain) NSString* package3SaleIdentifier;
+@property (readonly, retain) NSString* package4SaleIdentifier;
+@property (readonly, retain) NSString* package5SaleIdentifier;
+@property (readonly, retain) NSString* goldShoppeImageName;
+@property (readonly, retain) NSString* goldBarImageName;
+
++ (GoldSaleProto*) defaultInstance;
+- (GoldSaleProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (GoldSaleProto_Builder*) builder;
++ (GoldSaleProto_Builder*) builder;
++ (GoldSaleProto_Builder*) builderWithPrototype:(GoldSaleProto*) prototype;
+
++ (GoldSaleProto*) parseFromData:(NSData*) data;
++ (GoldSaleProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (GoldSaleProto*) parseFromInputStream:(NSInputStream*) input;
++ (GoldSaleProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (GoldSaleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (GoldSaleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface GoldSaleProto_Builder : PBGeneratedMessage_Builder {
+@private
+  GoldSaleProto* result;
+}
+
+- (GoldSaleProto*) defaultInstance;
+
+- (GoldSaleProto_Builder*) clear;
+- (GoldSaleProto_Builder*) clone;
+
+- (GoldSaleProto*) build;
+- (GoldSaleProto*) buildPartial;
+
+- (GoldSaleProto_Builder*) mergeFrom:(GoldSaleProto*) other;
+- (GoldSaleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (GoldSaleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSaleId;
+- (int32_t) saleId;
+- (GoldSaleProto_Builder*) setSaleId:(int32_t) value;
+- (GoldSaleProto_Builder*) clearSaleId;
+
+- (BOOL) hasStartDate;
+- (int64_t) startDate;
+- (GoldSaleProto_Builder*) setStartDate:(int64_t) value;
+- (GoldSaleProto_Builder*) clearStartDate;
+
+- (BOOL) hasEndDate;
+- (int64_t) endDate;
+- (GoldSaleProto_Builder*) setEndDate:(int64_t) value;
+- (GoldSaleProto_Builder*) clearEndDate;
+
+- (BOOL) hasPackage1SaleIdentifier;
+- (NSString*) package1SaleIdentifier;
+- (GoldSaleProto_Builder*) setPackage1SaleIdentifier:(NSString*) value;
+- (GoldSaleProto_Builder*) clearPackage1SaleIdentifier;
+
+- (BOOL) hasPackage2SaleIdentifier;
+- (NSString*) package2SaleIdentifier;
+- (GoldSaleProto_Builder*) setPackage2SaleIdentifier:(NSString*) value;
+- (GoldSaleProto_Builder*) clearPackage2SaleIdentifier;
+
+- (BOOL) hasPackage3SaleIdentifier;
+- (NSString*) package3SaleIdentifier;
+- (GoldSaleProto_Builder*) setPackage3SaleIdentifier:(NSString*) value;
+- (GoldSaleProto_Builder*) clearPackage3SaleIdentifier;
+
+- (BOOL) hasPackage4SaleIdentifier;
+- (NSString*) package4SaleIdentifier;
+- (GoldSaleProto_Builder*) setPackage4SaleIdentifier:(NSString*) value;
+- (GoldSaleProto_Builder*) clearPackage4SaleIdentifier;
+
+- (BOOL) hasPackage5SaleIdentifier;
+- (NSString*) package5SaleIdentifier;
+- (GoldSaleProto_Builder*) setPackage5SaleIdentifier:(NSString*) value;
+- (GoldSaleProto_Builder*) clearPackage5SaleIdentifier;
+
+- (BOOL) hasGoldShoppeImageName;
+- (NSString*) goldShoppeImageName;
+- (GoldSaleProto_Builder*) setGoldShoppeImageName:(NSString*) value;
+- (GoldSaleProto_Builder*) clearGoldShoppeImageName;
+
+- (BOOL) hasGoldBarImageName;
+- (NSString*) goldBarImageName;
+- (GoldSaleProto_Builder*) setGoldBarImageName:(NSString*) value;
+- (GoldSaleProto_Builder*) clearGoldBarImageName;
+@end
+
 @interface GroupChatMessageProto : PBGeneratedMessage {
 @private
   BOOL hasTimeOfChat_:1;
@@ -433,12 +564,18 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasLockBoxEventId_:1;
   BOOL hasLockBoxImageName_:1;
   BOOL hasEventName_:1;
+  BOOL hasDescriptionString_:1;
+  BOOL hasDescriptionImageName_:1;
+  BOOL hasTagImageName_:1;
   BOOL hasPrizeEquip_:1;
   int64_t startDate;
   int64_t endDate;
   int32_t lockBoxEventId;
   NSString* lockBoxImageName;
   NSString* eventName;
+  NSString* descriptionString;
+  NSString* descriptionImageName;
+  NSString* tagImageName;
   FullEquipProto* prizeEquip;
   NSMutableArray* mutableItemsList;
 }
@@ -448,12 +585,18 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasLockBoxImageName;
 - (BOOL) hasEventName;
 - (BOOL) hasPrizeEquip;
+- (BOOL) hasDescriptionString;
+- (BOOL) hasDescriptionImageName;
+- (BOOL) hasTagImageName;
 @property (readonly) int32_t lockBoxEventId;
 @property (readonly) int64_t startDate;
 @property (readonly) int64_t endDate;
 @property (readonly, retain) NSString* lockBoxImageName;
 @property (readonly, retain) NSString* eventName;
 @property (readonly, retain) FullEquipProto* prizeEquip;
+@property (readonly, retain) NSString* descriptionString;
+@property (readonly, retain) NSString* descriptionImageName;
+@property (readonly, retain) NSString* tagImageName;
 - (NSArray*) itemsList;
 - (LockBoxItemProto*) itemsAtIndex:(int32_t) index;
 
@@ -529,6 +672,21 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (LockBoxEventProto_Builder*) addItems:(LockBoxItemProto*) value;
 - (LockBoxEventProto_Builder*) addAllItems:(NSArray*) values;
 - (LockBoxEventProto_Builder*) clearItemsList;
+
+- (BOOL) hasDescriptionString;
+- (NSString*) descriptionString;
+- (LockBoxEventProto_Builder*) setDescriptionString:(NSString*) value;
+- (LockBoxEventProto_Builder*) clearDescriptionString;
+
+- (BOOL) hasDescriptionImageName;
+- (NSString*) descriptionImageName;
+- (LockBoxEventProto_Builder*) setDescriptionImageName:(NSString*) value;
+- (LockBoxEventProto_Builder*) clearDescriptionImageName;
+
+- (BOOL) hasTagImageName;
+- (NSString*) tagImageName;
+- (LockBoxEventProto_Builder*) setTagImageName:(NSString*) value;
+- (LockBoxEventProto_Builder*) clearTagImageName;
 @end
 
 @interface LockBoxItemProto : PBGeneratedMessage {

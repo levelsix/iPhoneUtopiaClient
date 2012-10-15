@@ -142,6 +142,8 @@
 @class GenerateAttackListRequestProto_Builder;
 @class GenerateAttackListResponseProto;
 @class GenerateAttackListResponseProto_Builder;
+@class GoldSaleProto;
+@class GoldSaleProto_Builder;
 @class GroupChatMessageProto;
 @class GroupChatMessageProto_Builder;
 @class InAppPurchaseRequestProto;
@@ -376,6 +378,8 @@
 @class StartupResponseProto_StartupConstants_CharacterModConstants_Builder;
 @class StartupResponseProto_StartupConstants_ClanConstants;
 @class StartupResponseProto_StartupConstants_ClanConstants_Builder;
+@class StartupResponseProto_StartupConstants_DownloadableNibConstants;
+@class StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder;
 @class StartupResponseProto_StartupConstants_ExpansionConstants;
 @class StartupResponseProto_StartupConstants_ExpansionConstants_Builder;
 @class StartupResponseProto_StartupConstants_ForgeConstants;

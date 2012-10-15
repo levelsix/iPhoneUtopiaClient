@@ -182,7 +182,8 @@
 
 - (GoldMineView *) goldMineView {
   if (!goldMineView) {
-    [[NSBundle mainBundle] loadNibNamed:@"GoldMineView" owner:self options:nil];
+    Globals *gl = [Globals sharedGlobals];
+    [[Globals bundleNamed:gl.downloadableNibConstants.goldMineNibName] loadNibNamed:@"GoldMineView" owner:self options:nil];
   }
   return goldMineView;
 }

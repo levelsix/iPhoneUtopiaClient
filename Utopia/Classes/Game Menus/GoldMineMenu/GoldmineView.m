@@ -11,6 +11,7 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
+#import "RefillMenuController.h"
 
 @implementation GoldMineView
 
@@ -87,7 +88,9 @@
   secsToCollect = 3600.f*gl.numHoursBeforeGoldmineRetrieval;
   
   NSDate *date = [startTime dateByAddingTimeInterval:secsToCollect];
-  if ([date compare:[NSDate date]] == NSOrderedAscending) {
+  if (!date) {
+    [self displayForCurrentState];
+  } else if ([date compare:[NSDate date]] == NSOrderedAscending) {
     [self closeClicked:nil];
   } else {
     timeLeftLabel.text = [Globals convertTimeToString:date.timeIntervalSinceNow];
@@ -100,7 +103,17 @@
   Globals *gl = [Globals sharedGlobals];
   
   if (gs.lastGoldmineRetrieval) {
-    [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Would you like to restart the gold mine timer for %d gold?", gl.goldCostForGoldmineRestart] title:@"Restart Gold Mine?" okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(sendReset)];
+    [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Would you like to restart the gold mine timer for %d gold?", gl.goldCostForGoldmineRestart] title:@"Restart Gold Mine?" okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(checkIfEnoughGoldToReset)];
+  } else {
+    [self sendReset];
+  }
+}
+
+- (void) checkIfEnoughGoldToReset {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (gs.gold < gl.goldCostForGoldmineRestart) {
+    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.goldCostForGoldmineRestart];
   } else {
     [self sendReset];
   }
