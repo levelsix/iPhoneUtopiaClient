@@ -2,6 +2,23 @@ package com.lvl6.proto;
 
 option java_outer_classname = "InfoProto";
 
+message ClanTowerProto {
+	optional int32 towerId = 1;
+	optional string towerName = 2;
+	optional string towerImageName = 3;
+	optional int32 clanOwnerId = 4;
+	optional int64 ownedStartTime = 5;
+	optional int32 silverReward = 6;
+	optional int32 goldReward = 7;
+	optional int32 numHoursToCollect = 8;
+	optional int32 clanAttackerId = 9;
+	optional int64 attackStartTime = 10;
+	optional int32 ownerBattlesWin = 11;
+	optional int32 attackerBattlesWin = 12;
+}
+
+//---------------------------------------------------------------------------------------
+
 message GoldSaleProto {
 	optional int32 saleId = 1;
 	optional int64 startDate = 2;
@@ -232,7 +249,8 @@ enum SpecialQuestAction {
 	POST_TO_MARKETPLACE = 4;
 	DEPOSIT_IN_VAULT = 5;
 	WITHDRAW_FROM_VAULT = 6;
-	WRITE_ON_ENEMY_WALL = 7;	
+	WRITE_ON_ENEMY_WALL = 7;
+	REQUEST_JOIN_CLAN = 8;
 }
 
 //------------------------------------------------------------------------------------------
@@ -684,6 +702,7 @@ message FullQuestProto {
      
      optional string questGiverName = 21;
      optional string questGiverImageSuffix = 23;
+     optional int32 priority = 24;
 }
 
 //------------------------------------------------------------------------------------------

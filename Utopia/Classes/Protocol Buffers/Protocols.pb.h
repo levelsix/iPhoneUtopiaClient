@@ -48,6 +48,8 @@
 @class ChatResponseProto_Builder;
 @class ClanBulletinPostProto;
 @class ClanBulletinPostProto_Builder;
+@class ClanTowerProto;
+@class ClanTowerProto_Builder;
 @class CollectForgeEquipsRequestProto;
 @class CollectForgeEquipsRequestProto_Builder;
 @class CollectForgeEquipsResponseProto;

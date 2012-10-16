@@ -137,7 +137,7 @@ typedef enum {
 - (void) beginLoading:(int)tag;
 - (void) stopLoading:(int)tag;
 
-- (IBAction)closeClicked:(id)sender;
+- (void) close;
 
 + (BOOL) isInitialized;
 + (ClanMenuController *) sharedClanMenuController;

@@ -629,14 +629,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
 - (void) viewWillAppear:(BOOL)animated {
   [self updateGoldLabel];
   
-  [self setState:kMyClan];
-  
   [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:0];
   
   GameState *gs = [GameState sharedGameState];
   if (gs.clan) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:gs.clan.clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO beforeClanId:0];
     [[OutgoingEventController sharedOutgoingEventController] retrieveClanBulletinPosts:0];
+    
+    [self setState:kMyClan];
+  } else {
+    [self setState:kBrowseClans];
   }
   
   [self.view wakeup];
@@ -895,6 +897,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
 }
 
 - (IBAction)closeClicked:(id)sender {
+  [self close];
+}
+
+- (void) close {
   if (self.view.superview) {
     [self.view endEditing:YES];
     [UIView animateWithDuration:0.3f animations:^{

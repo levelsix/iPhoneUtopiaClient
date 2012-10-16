@@ -6,6 +6,8 @@
 @class BuildStructJobProto_Builder;
 @class ClanBulletinPostProto;
 @class ClanBulletinPostProto_Builder;
+@class ClanTowerProto;
+@class ClanTowerProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class DefeatTypeJobProto;
@@ -173,6 +175,7 @@ typedef enum {
   SpecialQuestActionDepositInVault = 5,
   SpecialQuestActionWithdrawFromVault = 6,
   SpecialQuestActionWriteOnEnemyWall = 7,
+  SpecialQuestActionRequestJoinClan = 8,
 } SpecialQuestAction;
 
 BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value);
@@ -301,6 +304,153 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
+@end
+
+@interface ClanTowerProto : PBGeneratedMessage {
+@private
+  BOOL hasOwnedStartTime_:1;
+  BOOL hasAttackStartTime_:1;
+  BOOL hasTowerId_:1;
+  BOOL hasClanOwnerId_:1;
+  BOOL hasSilverReward_:1;
+  BOOL hasGoldReward_:1;
+  BOOL hasNumHoursToCollect_:1;
+  BOOL hasClanAttackerId_:1;
+  BOOL hasOwnerBattlesWin_:1;
+  BOOL hasAttackerBattlesWin_:1;
+  BOOL hasTowerName_:1;
+  BOOL hasTowerImageName_:1;
+  int64_t ownedStartTime;
+  int64_t attackStartTime;
+  int32_t towerId;
+  int32_t clanOwnerId;
+  int32_t silverReward;
+  int32_t goldReward;
+  int32_t numHoursToCollect;
+  int32_t clanAttackerId;
+  int32_t ownerBattlesWin;
+  int32_t attackerBattlesWin;
+  NSString* towerName;
+  NSString* towerImageName;
+}
+- (BOOL) hasTowerId;
+- (BOOL) hasTowerName;
+- (BOOL) hasTowerImageName;
+- (BOOL) hasClanOwnerId;
+- (BOOL) hasOwnedStartTime;
+- (BOOL) hasSilverReward;
+- (BOOL) hasGoldReward;
+- (BOOL) hasNumHoursToCollect;
+- (BOOL) hasClanAttackerId;
+- (BOOL) hasAttackStartTime;
+- (BOOL) hasOwnerBattlesWin;
+- (BOOL) hasAttackerBattlesWin;
+@property (readonly) int32_t towerId;
+@property (readonly, retain) NSString* towerName;
+@property (readonly, retain) NSString* towerImageName;
+@property (readonly) int32_t clanOwnerId;
+@property (readonly) int64_t ownedStartTime;
+@property (readonly) int32_t silverReward;
+@property (readonly) int32_t goldReward;
+@property (readonly) int32_t numHoursToCollect;
+@property (readonly) int32_t clanAttackerId;
+@property (readonly) int64_t attackStartTime;
+@property (readonly) int32_t ownerBattlesWin;
+@property (readonly) int32_t attackerBattlesWin;
+
++ (ClanTowerProto*) defaultInstance;
+- (ClanTowerProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ClanTowerProto_Builder*) builder;
++ (ClanTowerProto_Builder*) builder;
++ (ClanTowerProto_Builder*) builderWithPrototype:(ClanTowerProto*) prototype;
+
++ (ClanTowerProto*) parseFromData:(NSData*) data;
++ (ClanTowerProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanTowerProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClanTowerProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanTowerProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanTowerProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ClanTowerProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ClanTowerProto* result;
+}
+
+- (ClanTowerProto*) defaultInstance;
+
+- (ClanTowerProto_Builder*) clear;
+- (ClanTowerProto_Builder*) clone;
+
+- (ClanTowerProto*) build;
+- (ClanTowerProto*) buildPartial;
+
+- (ClanTowerProto_Builder*) mergeFrom:(ClanTowerProto*) other;
+- (ClanTowerProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanTowerProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasTowerId;
+- (int32_t) towerId;
+- (ClanTowerProto_Builder*) setTowerId:(int32_t) value;
+- (ClanTowerProto_Builder*) clearTowerId;
+
+- (BOOL) hasTowerName;
+- (NSString*) towerName;
+- (ClanTowerProto_Builder*) setTowerName:(NSString*) value;
+- (ClanTowerProto_Builder*) clearTowerName;
+
+- (BOOL) hasTowerImageName;
+- (NSString*) towerImageName;
+- (ClanTowerProto_Builder*) setTowerImageName:(NSString*) value;
+- (ClanTowerProto_Builder*) clearTowerImageName;
+
+- (BOOL) hasClanOwnerId;
+- (int32_t) clanOwnerId;
+- (ClanTowerProto_Builder*) setClanOwnerId:(int32_t) value;
+- (ClanTowerProto_Builder*) clearClanOwnerId;
+
+- (BOOL) hasOwnedStartTime;
+- (int64_t) ownedStartTime;
+- (ClanTowerProto_Builder*) setOwnedStartTime:(int64_t) value;
+- (ClanTowerProto_Builder*) clearOwnedStartTime;
+
+- (BOOL) hasSilverReward;
+- (int32_t) silverReward;
+- (ClanTowerProto_Builder*) setSilverReward:(int32_t) value;
+- (ClanTowerProto_Builder*) clearSilverReward;
+
+- (BOOL) hasGoldReward;
+- (int32_t) goldReward;
+- (ClanTowerProto_Builder*) setGoldReward:(int32_t) value;
+- (ClanTowerProto_Builder*) clearGoldReward;
+
+- (BOOL) hasNumHoursToCollect;
+- (int32_t) numHoursToCollect;
+- (ClanTowerProto_Builder*) setNumHoursToCollect:(int32_t) value;
+- (ClanTowerProto_Builder*) clearNumHoursToCollect;
+
+- (BOOL) hasClanAttackerId;
+- (int32_t) clanAttackerId;
+- (ClanTowerProto_Builder*) setClanAttackerId:(int32_t) value;
+- (ClanTowerProto_Builder*) clearClanAttackerId;
+
+- (BOOL) hasAttackStartTime;
+- (int64_t) attackStartTime;
+- (ClanTowerProto_Builder*) setAttackStartTime:(int64_t) value;
+- (ClanTowerProto_Builder*) clearAttackStartTime;
+
+- (BOOL) hasOwnerBattlesWin;
+- (int32_t) ownerBattlesWin;
+- (ClanTowerProto_Builder*) setOwnerBattlesWin:(int32_t) value;
+- (ClanTowerProto_Builder*) clearOwnerBattlesWin;
+
+- (BOOL) hasAttackerBattlesWin;
+- (int32_t) attackerBattlesWin;
+- (ClanTowerProto_Builder*) setAttackerBattlesWin:(int32_t) value;
+- (ClanTowerProto_Builder*) clearAttackerBattlesWin;
 @end
 
 @interface GoldSaleProto : PBGeneratedMessage {
@@ -4927,46 +5077,48 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface FullQuestProto : PBGeneratedMessage {
 @private
-  BOOL hasQuestId_:1;
-  BOOL hasCityId_:1;
+  BOOL hasPriority_:1;
   BOOL hasNumComponentsForBad_:1;
-  BOOL hasAssetNumWithinCity_:1;
-  BOOL hasCoinsGained_:1;
-  BOOL hasDiamondsGained_:1;
-  BOOL hasExpGained_:1;
-  BOOL hasEquipIdGained_:1;
   BOOL hasNumComponentsForGood_:1;
   BOOL hasCoinRetrievalReq_:1;
-  BOOL hasQuestGiverImageSuffix_:1;
-  BOOL hasQuestGiverName_:1;
+  BOOL hasEquipIdGained_:1;
+  BOOL hasExpGained_:1;
+  BOOL hasDiamondsGained_:1;
+  BOOL hasQuestId_:1;
+  BOOL hasCityId_:1;
+  BOOL hasAssetNumWithinCity_:1;
+  BOOL hasCoinsGained_:1;
   BOOL hasDoneResponse_:1;
   BOOL hasDescription_:1;
   BOOL hasName_:1;
+  BOOL hasQuestGiverName_:1;
+  BOOL hasQuestGiverImageSuffix_:1;
   BOOL hasAcceptDialogue_:1;
   BOOL hasSpecialQuestActionReq_:1;
-  int32_t questId;
-  int32_t cityId;
+  int32_t priority;
   int32_t numComponentsForBad;
-  int32_t assetNumWithinCity;
-  int32_t coinsGained;
-  int32_t diamondsGained;
-  int32_t expGained;
-  int32_t equipIdGained;
   int32_t numComponentsForGood;
   int32_t coinRetrievalReq;
-  NSString* questGiverImageSuffix;
-  NSString* questGiverName;
+  int32_t equipIdGained;
+  int32_t expGained;
+  int32_t diamondsGained;
+  int32_t questId;
+  int32_t cityId;
+  int32_t assetNumWithinCity;
+  int32_t coinsGained;
   NSString* doneResponse;
   NSString* description;
   NSString* name;
+  NSString* questGiverName;
+  NSString* questGiverImageSuffix;
   DialogueProto* acceptDialogue;
   SpecialQuestAction specialQuestActionReq;
+  NSMutableArray* mutableQuestsRequiredForThisList;
+  NSMutableArray* mutableTaskReqsList;
   NSMutableArray* mutableUpgradeStructJobsReqsList;
   NSMutableArray* mutableBuildStructJobsReqsList;
   NSMutableArray* mutableDefeatTypeReqsList;
   NSMutableArray* mutablePossessEquipJobReqsList;
-  NSMutableArray* mutableTaskReqsList;
-  NSMutableArray* mutableQuestsRequiredForThisList;
 }
 - (BOOL) hasQuestId;
 - (BOOL) hasCityId;
@@ -4985,6 +5137,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasAcceptDialogue;
 - (BOOL) hasQuestGiverName;
 - (BOOL) hasQuestGiverImageSuffix;
+- (BOOL) hasPriority;
 @property (readonly) int32_t questId;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
@@ -5002,6 +5155,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) DialogueProto* acceptDialogue;
 @property (readonly, retain) NSString* questGiverName;
 @property (readonly, retain) NSString* questGiverImageSuffix;
+@property (readonly) int32_t priority;
 - (NSArray*) questsRequiredForThisList;
 - (int32_t) questsRequiredForThisAtIndex:(int32_t) index;
 - (NSArray*) taskReqsList;
@@ -5177,6 +5331,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (NSString*) questGiverImageSuffix;
 - (FullQuestProto_Builder*) setQuestGiverImageSuffix:(NSString*) value;
 - (FullQuestProto_Builder*) clearQuestGiverImageSuffix;
+
+- (BOOL) hasPriority;
+- (int32_t) priority;
+- (FullQuestProto_Builder*) setPriority:(int32_t) value;
+- (FullQuestProto_Builder*) clearPriority;
 @end
 
 @interface DialogueProto : PBGeneratedMessage {

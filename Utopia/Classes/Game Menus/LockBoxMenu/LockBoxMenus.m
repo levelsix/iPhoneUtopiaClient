@@ -338,7 +338,7 @@
   bgdView.alpha = 0.f;
   equipIcon.hidden = YES;
   mainView.transform = CGAffineTransformIdentity;
-  [UIView animateWithDuration:0.5f animations:^{
+  [UIView animateWithDuration:2.f animations:^{
     bgdView.alpha = 1.f;
     whiteCircle.alpha = 1.f;
     
@@ -352,7 +352,7 @@
     float scale = 0.3f;
     CABasicAnimation* spinAnimation = [CABasicAnimation
                                        animationWithKeyPath:@"transform.rotation"];
-    spinAnimation.toValue = [NSNumber numberWithFloat:10*2*M_PI];
+    spinAnimation.toValue = [NSNumber numberWithFloat:8*2*M_PI];
     spinAnimation.duration = duration;
     spinAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
     [mainView.layer addAnimation:spinAnimation forKey:@"spinAnimation"];
@@ -393,6 +393,7 @@
       stolenEquipView.bgdView.alpha = 1.f;
       self.stolenEquipView.titleLabel = [NSString stringWithFormat:@"%@ Created!", fep.name];
       [self insertSubview:self.stolenEquipView belowSubview:view];
+      [Globals bounceView:stolenEquipView.mainView fadeInBgdView:stolenEquipView.bgdView];
       self.bgdView.alpha = 0.f;
       
       [UIView animateWithDuration:0.2f animations:^{

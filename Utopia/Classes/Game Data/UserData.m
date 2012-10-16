@@ -507,6 +507,9 @@
         desc = @"Purchase 1 Item from the Marketplace";
         break;
         
+      case SpecialQuestActionRequestJoinClan:
+        desc = @"Request to Join 1 Clan";
+        
       default:
         break;
     }

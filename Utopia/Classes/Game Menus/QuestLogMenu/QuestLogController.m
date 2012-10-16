@@ -22,6 +22,7 @@
 #import "MarketplaceViewController.h"
 #import "ArmoryViewController.h"
 #import "AttackMenuController.h"
+#import "ClanMenuController.h"
 
 #define QUEST_LOG_TRANSITION_DURATION 0.4f
 
@@ -161,6 +162,7 @@
     [[VaultMenuController sharedVaultMenuController] close];
     [[MarketplaceViewController sharedMarketplaceViewController] close];
     [[ArmoryViewController sharedArmoryViewController] close];
+    [[ClanMenuController sharedClanMenuController] close];
   }
   
   if ([BattleLayer isInitialized] && [[BattleLayer sharedBattleLayer] isRunning]) {
@@ -275,6 +277,10 @@
       case SpecialQuestActionWriteOnEnemyWall:
         [AttackMenuController displayView];
         break;
+        
+      case SpecialQuestActionRequestJoinClan:
+        [glay loadBazaarMap];
+        [bm moveToCritStruct:BazaarStructTypeClanHouse];
         
       default:
         break;

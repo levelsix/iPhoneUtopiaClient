@@ -678,7 +678,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     }
     
     if ([ClanMenuController isInitialized]) {
-      [[ClanMenuController sharedClanMenuController] closeClicked:nil];
+      [[ClanMenuController sharedClanMenuController] close];
     }
     
     if ([ChatMenuController isInitialized]) {
