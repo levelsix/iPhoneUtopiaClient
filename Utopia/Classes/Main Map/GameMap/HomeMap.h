@@ -65,9 +65,9 @@
 - (void) updateTimersForBuilding:(HomeBuilding *)hb;
 - (void) invalidateAllTimers;
 
-- (void) moveToStruct:(int)structId;
+- (void) moveToStruct:(int)structId showArrow:(BOOL)showArrow;
 - (void) moveToTutorialGirl;
-- (void) moveToCarpenter;
+- (void) moveToCarpenterShowArrow:(BOOL)showArrow;
 
 - (void) beginTimers;
 

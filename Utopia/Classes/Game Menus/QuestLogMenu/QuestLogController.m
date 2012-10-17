@@ -233,10 +233,10 @@
   } else if (type == kUpgradeStructJob) {
     UpgradeStructJobProto *p = [gs.staticUpgradeStructJobs objectForKey:[NSNumber numberWithInt:jobId]];
     [[GameLayer sharedGameLayer] loadHomeMap];
-    [[HomeMap sharedHomeMap] moveToStruct:p.structId];
+    [[HomeMap sharedHomeMap] moveToStruct:p.structId showArrow:YES];
   } else if (type == kBuildStructJob) {
     [[GameLayer sharedGameLayer] loadHomeMap];
-    [[HomeMap sharedHomeMap] moveToCarpenter];
+    [[HomeMap sharedHomeMap] moveToCarpenterShowArrow:YES];
   } else if (type == kCoinRetrievalJob) {
     [[GameLayer sharedGameLayer] loadHomeMap];
   } else if (type == kSpecialJob) {

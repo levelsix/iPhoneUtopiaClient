@@ -375,7 +375,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   return arr;
 }
 
-- (void) moveToStruct:(int)structId {
+- (void) moveToStruct:(int)structId showArrow:(BOOL)showArrow {
   int baseTag = [self baseTagForStructId:structId];
   MoneyBuilding *mb = nil;
   for (int tag = baseTag; tag < baseTag+[[Globals sharedGlobals] maxRepeatedNormStructs]; tag++) {
@@ -391,8 +391,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   if (mb) {
     [self moveToSprite:mb];
+    if (showArrow) {
+      [mb displayArrow];
+    }
   } else {
-    [self moveToCarpenter];
+    [self moveToCarpenterShowArrow:YES];
   }
 }
 
@@ -400,8 +403,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self moveToSprite:_tutGirl];
 }
 
-- (void) moveToCarpenter {
+- (void) moveToCarpenterShowArrow:(BOOL)showArrow {
   [self moveToSprite:_carpenter];
+  if (showArrow) {
+    [_carpenter displayArrow];
+  }
 }
 
 - (void) doReorder {
@@ -468,9 +474,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   if (_selected != selected) {
     [super setSelected:selected];
     if ([selected isKindOfClass: [MoneyBuilding class]]) {
-      UserStruct *us = ((MoneyBuilding *) selected).userStruct;
+      MoneyBuilding *mb = (MoneyBuilding *) selected;
+      UserStruct *us = mb.userStruct;
       if (us.state == kUpgrading || us.state == kBuilding) {
         [self.upgradeMenu displayForUserStruct:us];
+        [mb removeArrowAnimated:YES];
       } else if (us.state == kRetrieving) {
         // Retrieve the cash!
         [self retrieveFromBuilding:((MoneyBuilding *) selected)];
@@ -480,6 +488,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [self.collectMenu updateForUserStruct:us];
         
         [self setViewForSelected:self.collectMenu];
+        [mb removeArrowAnimated:YES];
         
         [self doMenuAnimations];
       }

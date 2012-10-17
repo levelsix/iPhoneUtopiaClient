@@ -410,7 +410,7 @@
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
   if ((self = [super initWithFile:@"Carpenter.png" location:loc map:map])) {
-    CCSprite *carpIcon = [CCSprite spriteWithFile:@"carpentericon.png"];
+    carpIcon = [CCSprite spriteWithFile:@"carpentericon.png"];
     [self addChild:carpIcon];
     carpIcon.position = ccp(self.contentSize.width/2, self.contentSize.height+carpIcon.contentSize.height/2);
     
@@ -420,10 +420,16 @@
   return self;
 }
 
+- (void) displayArrow {
+  [super displayArrow];
+  _arrow.position = ccpAdd(_arrow.position, ccp(0, carpIcon.contentSize.height));
+}
+
 - (void) setIsSelected:(BOOL)isSelected {
   if (isSelected) {
     [CarpenterMenuController displayView];
     [_map setSelected:nil];
+    [self removeArrowAnimated:YES];
   }
 }
 

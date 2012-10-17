@@ -100,7 +100,9 @@ typedef enum {
 
 @end
 
-@interface Carpenter : AnimatedSprite
+@interface Carpenter : AnimatedSprite {
+  CCSprite *carpIcon;
+}
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
 
