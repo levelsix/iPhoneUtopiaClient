@@ -159,12 +159,14 @@ static float chatLabelWidth = 342.f;
 static float cellHeight = 66.f;
 static float cellLabelHeight = 19.f;
 static float cellLabelFontSize = 14.f;
+static float buttonInitialWidth = 159.f;
 
 - (void) awakeFromNib {
   chatLabelWidth = self.textLabel.frame.size.width;
   cellHeight = self.frame.size.height;
   cellLabelHeight = self.textLabel.frame.size.height;
   cellLabelFontSize = self.textLabel.font.pointSize;
+  buttonInitialWidth = self.nameButton.frame.size.width;
 }
 
 - (void) updateForChat:(ChatMessage *)msg {
@@ -177,7 +179,7 @@ static float cellLabelFontSize = 14.f;
   
   NSString *buttonText = [Globals fullNameWithName:msg.sender.name clanTag:msg.sender.clan.tag];
   [self.nameButton setTitle:buttonText forState:UIControlStateNormal];
-  CGSize buttonSize = [buttonText sizeWithFont:self.nameButton.titleLabel.font constrainedToSize:CGSizeMake(self.nameButton.frame.size.width, 999) lineBreakMode:self.nameButton.titleLabel.lineBreakMode];
+  CGSize buttonSize = [buttonText sizeWithFont:self.nameButton.titleLabel.font constrainedToSize:CGSizeMake(buttonInitialWidth, 999) lineBreakMode:self.nameButton.titleLabel.lineBreakMode];
   
   CGRect r = nameButton.frame;
   r.size.width = buttonSize.width;
@@ -332,11 +334,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   [self.chatTable reloadData];
   [self updateNumChatsLabel];
   
-  int numRows = [self.chatTable numberOfRowsInSection:0];
-  if (numRows > 0) {
-    [self.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:numRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-  }
-  
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
@@ -351,6 +348,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   [self.chatTable reloadData];
   [self.topBar loadForIsGlobal:isGlobal];
   [self updateNumChatsLabel];
+  
+  int numRows = [self.chatTable numberOfRowsInSection:0];
+  if (numRows > 0) {
+    [self.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:numRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+  }
 }
 
 - (NSArray *) arrayForState {

@@ -87,7 +87,8 @@ static NSMutableSet *_pulsingViews;
 @synthesize expansionWaitCompleteHourConstant, expansionWaitCompleteHourIncrementBase;
 @synthesize diamondCostToPlayThreeCardMonte, minLevelToDisplayThreeCardMonte;
 @synthesize downloadableNibConstants;
-@synthesize numHoursBeforeReshowingGoldSale, numHoursBeforeReshowingLockBox;
+@synthesize numHoursBeforeReshowingGoldSale, numHoursBeforeReshowingLockBox, levelToShowRateUsPopup;
+@synthesize reviewPageURL;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -189,6 +190,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxCharLengthForWallPost = constants.maxCharLengthForWallPost;
   self.numHoursBeforeReshowingGoldSale = constants.numHoursBeforeReshowingGoldSale;
   self.numHoursBeforeReshowingLockBox = constants.numHoursBeforeReshowingLockBox;
+  self.levelToShowRateUsPopup = constants.levelToShowRateUsPopup;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;
@@ -1862,6 +1864,36 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   }
 }
 
+#define RATE_US_POPUP_DEFAULT_KEY @"RateUsPopupKey"
+
++ (void) checkRateUsPopup {
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  BOOL hasSeen = NO;//[defaults boolForKey:RATE_US_POPUP_DEFAULT_KEY];
+  if (!hasSeen) {
+    [[Globals sharedGlobals] displayRateUsPopup];
+    [defaults setBool:YES forKey:RATE_US_POPUP_DEFAULT_KEY];
+  }
+}
+
+- (void) displayRateUsPopup {
+  GameState *gs = [GameState sharedGameState];
+  NSString *desc = [NSString stringWithFormat:@"Hey %@! Are you enjoying Age of Chaos?", gs.name];
+  [GenericPopupController displayConfirmationWithDescription:desc title:@"Enjoying AoC?" okayButton:@"Yes" cancelButton:@"No" okTarget:self okSelector:@selector(userClickedLike) cancelTarget:self cancelSelector:@selector(userClickedDislike)];
+}
+
+- (void) userClickedDislike {
+  [Globals popupMessage:@"Thank you for the feedback. Email support@lvl6.com with suggestions."];
+}
+
+- (void) userClickedLike {
+  NSString *desc = @"Awesome! Rate us 5 Stars in the App Store to keep the updates coming!";
+  [GenericPopupController displayConfirmationWithDescription:desc title:@"Rate Us!" okayButton:@"Rate" cancelButton:@"Later" target:self selector:@selector(rateUs)];
+}
+
+- (void) rateUs {
+  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.reviewPageURL]];
+}
+
 - (void) dealloc {
   self.productIdentifiersToGold = nil;
   self.imageCache = nil;
@@ -1869,6 +1901,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   self.animatingSpriteOffsets = nil;
   self.kiipRewardConditions = nil;
   self.downloadableNibConstants = nil;
+  self.reviewPageURL = nil;
   [super dealloc];
 }
 

@@ -422,9 +422,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     return;
   } else if (proto.updateStatus == StartupResponseProto_UpdateStatusMinorUpdate) {
     GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-    gpc.link = proto.appStoreUrl;
+    gpc.appStoreLink = proto.appStoreUrl;
     [GenericPopupController displayConfirmationWithDescription:@"An update is available. Head over to the App Store to download it now!" title:@"Update Available" okayButton:@"Update" cancelButton:@"Later" target:gpc selector:@selector(openAppStoreLink)];
   }
+  
+  gl.reviewPageURL = proto.reviewPageUrl;
   
   // Must do gold sales before startup constants so that the product ids can be retrieved
   gs.staticGoldSales = proto.goldSalesList.mutableCopy;

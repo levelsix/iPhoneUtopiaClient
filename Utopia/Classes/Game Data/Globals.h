@@ -108,6 +108,9 @@
 @property (nonatomic, assign) int numHoursBeforeReshowingGoldSale;
 @property (nonatomic, assign) int numHoursBeforeReshowingLockBox;
 
+@property (nonatomic, copy) NSString *reviewPageURL;
+@property (nonatomic, assign) int levelToShowRateUsPopup;
+
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
 @property (nonatomic, assign) float forgeMinDiamondCostForGuarantee;
@@ -272,6 +275,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (BOOL) validateUserName:(NSString *)name;
 
 + (NSString *) fullNameWithName:(NSString *)name clanTag:(NSString *)tag;
+
++ (void) checkRateUsPopup;
 
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;

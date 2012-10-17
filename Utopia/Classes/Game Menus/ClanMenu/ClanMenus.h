@@ -148,12 +148,14 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 
+@property (nonatomic, retain) IBOutlet UIView *postView;
 @property (nonatomic, retain) IBOutlet NiceFontTextField *boardTextField;
 @property (nonatomic, retain) IBOutlet UITableView *boardTableView;
 @property (nonatomic, retain) IBOutlet ClanBoardCell *boardCell;
 
 @property (nonatomic, retain) NSMutableArray *boardPosts;
 
+- (void) loadForCurrentClan;
 - (void) endEditing;
 - (void) displayNewBoardPost;
 

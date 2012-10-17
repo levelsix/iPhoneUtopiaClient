@@ -814,6 +814,7 @@
 
 @synthesize spinner;
 @synthesize boardCell, boardPosts, boardTableView;
+@synthesize postView;
 @synthesize boardTextField;
 
 - (void) awakeFromNib {
@@ -831,6 +832,29 @@
 
 - (void) cleanup {
   self.boardPosts = nil;
+}
+
+- (void) loadForCurrentClan {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.clan) {
+    if (gs.userId == gs.clan.ownerId) {
+      postView.hidden = NO;
+      
+      CGRect r = boardTableView.frame;
+      float newY = CGRectGetMaxY(postView.frame);
+      r.size.height = CGRectGetMaxY(r)-newY;
+      r.origin.y = newY;
+      boardTableView.frame = r;
+    } else {
+      postView.hidden = YES;
+      
+      CGRect r = boardTableView.frame;
+      float newY = CGRectGetMinY(postView.frame);
+      r.size.height = CGRectGetMaxY(r)-newY;
+      r.origin.y = newY;
+      boardTableView.frame = r;
+    }
+  }
 }
 
 - (void) setBoardPosts:(NSMutableArray *)w {
@@ -950,6 +974,7 @@
   self.boardTableView = nil;
   self.boardTextField = nil;
   self.boardCell = nil;
+  self.postView = nil;
   [super dealloc];
 }
 

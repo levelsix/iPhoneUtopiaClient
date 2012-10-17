@@ -1968,6 +1968,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       [KiipDelegate postAchievementNotificationAchievement:curAchievement 
                                                  andSender:nil];
     }
+    
+    // Show the level up popup here
+    Globals *gl = [Globals sharedGlobals];
+    if (gs.level >= gl.levelToShowRateUsPopup) {
+      [Globals checkRateUsPopup];
+    }
   }
 }
 

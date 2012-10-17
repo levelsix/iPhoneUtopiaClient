@@ -28,6 +28,7 @@
 #import "ClanMenuController.h"
 #import "LockBoxMenuController.h"
 #import "ThreeCardMonteViewController.h"
+#import "KPManager.h"
 
 #define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
 #define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
@@ -412,6 +413,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _curEnergy = 0;
   _curStamina = 0;
   _curExp = gs.expRequiredForCurrentLevel;
+  
+  
+  NSMutableDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:gs.name, @"alias", nil];
+  [[KPManager sharedManager] updateUserInfo:userInfo];
   
   [self schedule:@selector(update)];
 }

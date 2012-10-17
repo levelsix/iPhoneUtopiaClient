@@ -48,6 +48,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   self.products = d;
   self.request = nil;
   
+  [[GoldShoppeViewController sharedGoldShoppeViewController] update];
+  
   ContextLogWarn(LN_CONTEXT_IAP,@"Invalid product ids: %@", response.invalidProductIdentifiers);
   
   //  if (response.products.count == 0) {

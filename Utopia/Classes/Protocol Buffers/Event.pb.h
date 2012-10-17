@@ -16,6 +16,10 @@
 @class BattleRequestProto_Builder;
 @class BattleResponseProto;
 @class BattleResponseProto_Builder;
+@class BeginClanTowerWarRequestProto;
+@class BeginClanTowerWarRequestProto_Builder;
+@class BeginClanTowerWarResponseProto;
+@class BeginClanTowerWarResponseProto_Builder;
 @class BeginGoldmineTimerRequestProto;
 @class BeginGoldmineTimerRequestProto_Builder;
 @class BeginGoldmineTimerResponseProto;
@@ -1168,6 +1172,14 @@ typedef enum {
 
 BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProto_BossActionStatus value);
 
+typedef enum {
+  BeginClanTowerWarResponseProto_BeginClanTowerWarStatusSuccess = 0,
+  BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyInBattle = 1,
+  BeginClanTowerWarResponseProto_BeginClanTowerWarStatusOtherFail = 2,
+} BeginClanTowerWarResponseProto_BeginClanTowerWarStatus;
+
+BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginClanTowerWarResponseProto_BeginClanTowerWarStatus value);
+
 
 @interface EventRoot : NSObject {
 }
@@ -1902,6 +1914,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   BOOL hasExperienceRequiredForCurrentLevel_:1;
   BOOL hasExperienceRequiredForNextLevel_:1;
   BOOL hasAppStoreUrl_:1;
+  BOOL hasReviewPageUrl_:1;
   BOOL hasDailyBonusInfo_:1;
   BOOL hasUnhandledForgeAttempt_:1;
   BOOL hasForgeAttemptEquip_:1;
@@ -1914,6 +1927,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   int32_t experienceRequiredForCurrentLevel;
   int32_t experienceRequiredForNextLevel;
   NSString* appStoreUrl;
+  NSString* reviewPageUrl;
   StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
   UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
   FullEquipProto* forgeAttemptEquip;
@@ -1923,8 +1937,8 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableGlobalChatsList;
   NSMutableArray* mutableMktSearchEquipsList;
+  NSMutableArray* mutableGlobalChatsList;
   NSMutableArray* mutableClanChatsList;
   NSMutableArray* mutableGoldSalesList;
   NSMutableArray* mutableAlliesList;
@@ -1952,6 +1966,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (BOOL) hasExperienceRequiredForNextLevel;
 - (BOOL) hasExperienceRequiredForCurrentLevel;
 - (BOOL) hasAppStoreUrl;
+- (BOOL) hasReviewPageUrl;
 - (BOOL) hasDailyBonusInfo;
 - (BOOL) hasPlayerHasBoughtInAppPurchase;
 - (BOOL) hasUnhandledForgeAttempt;
@@ -1964,6 +1979,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 @property (readonly) int32_t experienceRequiredForNextLevel;
 @property (readonly) int32_t experienceRequiredForCurrentLevel;
 @property (readonly, retain) NSString* appStoreUrl;
+@property (readonly, retain) NSString* reviewPageUrl;
 @property (readonly, retain) StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
 - (BOOL) playerHasBoughtInAppPurchase;
 @property (readonly, retain) UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
@@ -2340,24 +2356,24 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasHealthFormulaExponentBase_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
-  BOOL hasCutOfVaultDepositTaken_:1;
-  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
+  BOOL hasHealthFormulaExponentBase_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
+  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
+  BOOL hasCutOfVaultDepositTaken_:1;
+  BOOL hasAviaryImgVerticalPixelOffset_:1;
+  BOOL hasCarpenterImgVerticalPixelOffset_:1;
+  BOOL hasMarketplaceImgVerticalPixelOffset_:1;
+  BOOL hasVaultImgVerticalPixelOffset_:1;
+  BOOL hasArmoryImgVerticalPixelOffset_:1;
+  BOOL hasMaxCityRank_:1;
+  BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
-  BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
   BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
-  BOOL hasMaxCityRank_:1;
-  BOOL hasArmoryImgVerticalPixelOffset_:1;
-  BOOL hasVaultImgVerticalPixelOffset_:1;
-  BOOL hasMarketplaceImgVerticalPixelOffset_:1;
-  BOOL hasCarpenterImgVerticalPixelOffset_:1;
-  BOOL hasAviaryImgVerticalPixelOffset_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
   BOOL hasAverageSizeOfLevelBracket_:1;
@@ -2373,6 +2389,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   BOOL hasMaxLengthOfChatString_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
   BOOL hasNumHoursBeforeReshowingLockBox_:1;
+  BOOL hasLevelToShowRateUsPopup_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasArmoryXlength_:1;
@@ -2392,44 +2409,44 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasMinutesToRefillAstamina_:1;
-  BOOL hasStaminaBaseGain_:1;
   BOOL hasMinutesToRefillAenergy_:1;
-  BOOL hasAttackBaseCost_:1;
-  BOOL hasDefenseBaseCost_:1;
-  BOOL hasEnergyBaseCost_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
-  BOOL hasStaminaBaseCost_:1;
-  BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasMaxLevelForStruct_:1;
-  BOOL hasClanConstants_:1;
-  BOOL hasThreeCardMonteConstants_:1;
-  BOOL hasGoldmineConstants_:1;
-  BOOL hasLockBoxConstants_:1;
-  BOOL hasExpansionConstants_:1;
+  BOOL hasSkillPointsGainedOnLevelup_:1;
+  BOOL hasStaminaBaseCost_:1;
+  BOOL hasEnergyBaseCost_:1;
+  BOOL hasStaminaBaseGain_:1;
+  BOOL hasDefenseBaseCost_:1;
+  BOOL hasAttackBaseCost_:1;
   BOOL hasDownloadableNibConstants_:1;
-  BOOL hasCharModConstants_:1;
-  BOOL hasForgeConstants_:1;
+  BOOL hasExpansionConstants_:1;
+  BOOL hasLockBoxConstants_:1;
+  BOOL hasGoldmineConstants_:1;
+  BOOL hasThreeCardMonteConstants_:1;
+  BOOL hasClanConstants_:1;
   BOOL hasKiipRewardConditions_:1;
-  BOOL hasFormulaConstants_:1;
   BOOL hasBattleConstants_:1;
-  Float64 healthFormulaExponentBase;
-  Float64 levelEquipBoostExponentBase;
-  Float64 cutOfVaultDepositTaken;
-  Float64 percentReturnedToUserForSellingEquipInArmory;
-  Float64 percentReturnedToUserForSellingNormStructure;
+  BOOL hasForgeConstants_:1;
+  BOOL hasFormulaConstants_:1;
+  BOOL hasCharModConstants_:1;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+  Float64 healthFormulaExponentBase;
+  Float64 levelEquipBoostExponentBase;
+  Float64 percentReturnedToUserForSellingNormStructure;
+  Float64 percentReturnedToUserForSellingEquipInArmory;
+  Float64 cutOfVaultDepositTaken;
+  int32_t aviaryImgVerticalPixelOffset;
+  int32_t carpenterImgVerticalPixelOffset;
+  int32_t marketplaceImgVerticalPixelOffset;
+  int32_t vaultImgVerticalPixelOffset;
+  int32_t armoryImgVerticalPixelOffset;
+  int32_t maxCityRank;
+  int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t diamondCostOfShortMarketplaceLicense;
   int32_t diamondCostOfLongMarketplaceLicense;
-  int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t numDaysShortMarketplaceLicenseLastsFor;
   int32_t numDaysLongMarketplaceLicenseLastsFor;
-  int32_t maxCityRank;
-  int32_t armoryImgVerticalPixelOffset;
-  int32_t vaultImgVerticalPixelOffset;
-  int32_t marketplaceImgVerticalPixelOffset;
-  int32_t carpenterImgVerticalPixelOffset;
-  int32_t aviaryImgVerticalPixelOffset;
   int32_t maxCharLengthForWallPost;
   int32_t playerWallPostsRetrieveCap;
   int32_t averageSizeOfLevelBracket;
@@ -2445,6 +2462,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   int32_t maxLengthOfChatString;
   int32_t numHoursBeforeReshowingGoldSale;
   int32_t numHoursBeforeReshowingLockBox;
+  int32_t levelToShowRateUsPopup;
   int32_t maxLevelDifferenceForBattle;
   int32_t maxLevelForUser;
   int32_t armoryXlength;
@@ -2464,26 +2482,26 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   int32_t diamondCostForFullEnergyRefill;
   int32_t diamondCostForFullStaminaRefill;
   int32_t minutesToRefillAstamina;
-  int32_t staminaBaseGain;
   int32_t minutesToRefillAenergy;
-  int32_t attackBaseCost;
-  int32_t defenseBaseCost;
-  int32_t energyBaseCost;
   int32_t maxNumOfSingleStruct;
-  int32_t staminaBaseCost;
-  int32_t skillPointsGainedOnLevelup;
   int32_t maxLevelForStruct;
-  StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-  StartupResponseProto_StartupConstants_ThreeCardMonteConstants* threeCardMonteConstants;
-  StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
-  StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
-  StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
+  int32_t skillPointsGainedOnLevelup;
+  int32_t staminaBaseCost;
+  int32_t energyBaseCost;
+  int32_t staminaBaseGain;
+  int32_t defenseBaseCost;
+  int32_t attackBaseCost;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
-  StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
-  StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
+  StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
+  StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
+  StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
+  StartupResponseProto_StartupConstants_ThreeCardMonteConstants* threeCardMonteConstants;
+  StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
   StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
-  StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
   StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
+  StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
+  StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
+  StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
@@ -2560,6 +2578,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (BOOL) hasDownloadableNibConstants;
 - (BOOL) hasNumHoursBeforeReshowingGoldSale;
 - (BOOL) hasNumHoursBeforeReshowingLockBox;
+- (BOOL) hasLevelToShowRateUsPopup;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2632,6 +2651,7 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 @property (readonly, retain) StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
 @property (readonly) int32_t numHoursBeforeReshowingGoldSale;
 @property (readonly) int32_t numHoursBeforeReshowingLockBox;
+@property (readonly) int32_t levelToShowRateUsPopup;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -4222,6 +4242,11 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (int32_t) numHoursBeforeReshowingLockBox;
 - (StartupResponseProto_StartupConstants_Builder*) setNumHoursBeforeReshowingLockBox:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearNumHoursBeforeReshowingLockBox;
+
+- (BOOL) hasLevelToShowRateUsPopup;
+- (int32_t) levelToShowRateUsPopup;
+- (StartupResponseProto_StartupConstants_Builder*) setLevelToShowRateUsPopup:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearLevelToShowRateUsPopup;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -4942,6 +4967,11 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (NSString*) appStoreUrl;
 - (StartupResponseProto_Builder*) setAppStoreUrl:(NSString*) value;
 - (StartupResponseProto_Builder*) clearAppStoreUrl;
+
+- (BOOL) hasReviewPageUrl;
+- (NSString*) reviewPageUrl;
+- (StartupResponseProto_Builder*) setReviewPageUrl:(NSString*) value;
+- (StartupResponseProto_Builder*) clearReviewPageUrl;
 
 - (NSArray*) alliesList;
 - (MinimumUserProtoWithLevel*) alliesAtIndex:(int32_t) index;
@@ -15017,5 +15047,123 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (int32_t) bossId;
 - (BossActionResponseProto_Builder*) setBossId:(int32_t) value;
 - (BossActionResponseProto_Builder*) clearBossId;
+@end
+
+@interface BeginClanTowerWarRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasTowerId_:1;
+  BOOL hasSender_:1;
+  int32_t towerId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasTowerId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t towerId;
+
++ (BeginClanTowerWarRequestProto*) defaultInstance;
+- (BeginClanTowerWarRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BeginClanTowerWarRequestProto_Builder*) builder;
++ (BeginClanTowerWarRequestProto_Builder*) builder;
++ (BeginClanTowerWarRequestProto_Builder*) builderWithPrototype:(BeginClanTowerWarRequestProto*) prototype;
+
++ (BeginClanTowerWarRequestProto*) parseFromData:(NSData*) data;
++ (BeginClanTowerWarRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginClanTowerWarRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (BeginClanTowerWarRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginClanTowerWarRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BeginClanTowerWarRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BeginClanTowerWarRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BeginClanTowerWarRequestProto* result;
+}
+
+- (BeginClanTowerWarRequestProto*) defaultInstance;
+
+- (BeginClanTowerWarRequestProto_Builder*) clear;
+- (BeginClanTowerWarRequestProto_Builder*) clone;
+
+- (BeginClanTowerWarRequestProto*) build;
+- (BeginClanTowerWarRequestProto*) buildPartial;
+
+- (BeginClanTowerWarRequestProto_Builder*) mergeFrom:(BeginClanTowerWarRequestProto*) other;
+- (BeginClanTowerWarRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BeginClanTowerWarRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BeginClanTowerWarRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BeginClanTowerWarRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginClanTowerWarRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BeginClanTowerWarRequestProto_Builder*) clearSender;
+
+- (BOOL) hasTowerId;
+- (int32_t) towerId;
+- (BeginClanTowerWarRequestProto_Builder*) setTowerId:(int32_t) value;
+- (BeginClanTowerWarRequestProto_Builder*) clearTowerId;
+@end
+
+@interface BeginClanTowerWarResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  BeginClanTowerWarResponseProto_BeginClanTowerWarStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) BeginClanTowerWarResponseProto_BeginClanTowerWarStatus status;
+
++ (BeginClanTowerWarResponseProto*) defaultInstance;
+- (BeginClanTowerWarResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BeginClanTowerWarResponseProto_Builder*) builder;
++ (BeginClanTowerWarResponseProto_Builder*) builder;
++ (BeginClanTowerWarResponseProto_Builder*) builderWithPrototype:(BeginClanTowerWarResponseProto*) prototype;
+
++ (BeginClanTowerWarResponseProto*) parseFromData:(NSData*) data;
++ (BeginClanTowerWarResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginClanTowerWarResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (BeginClanTowerWarResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginClanTowerWarResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BeginClanTowerWarResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BeginClanTowerWarResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BeginClanTowerWarResponseProto* result;
+}
+
+- (BeginClanTowerWarResponseProto*) defaultInstance;
+
+- (BeginClanTowerWarResponseProto_Builder*) clear;
+- (BeginClanTowerWarResponseProto_Builder*) clone;
+
+- (BeginClanTowerWarResponseProto*) build;
+- (BeginClanTowerWarResponseProto*) buildPartial;
+
+- (BeginClanTowerWarResponseProto_Builder*) mergeFrom:(BeginClanTowerWarResponseProto*) other;
+- (BeginClanTowerWarResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BeginClanTowerWarResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BeginClanTowerWarResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BeginClanTowerWarResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginClanTowerWarResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BeginClanTowerWarResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (BeginClanTowerWarResponseProto_BeginClanTowerWarStatus) status;
+- (BeginClanTowerWarResponseProto_Builder*) setStatus:(BeginClanTowerWarResponseProto_BeginClanTowerWarStatus) value;
+- (BeginClanTowerWarResponseProto_Builder*) clearStatus;
 @end
 

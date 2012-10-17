@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1536</int>
 		<string key="IBDocument.SystemVersion">11E53</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2840</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
 		<string key="IBDocument.AppKitVersion">1138.47</string>
 		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1926</string>
+			<string key="NS.object.0">1929</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -51,7 +51,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{0, 39}, {16, 16}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="161209503"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -67,7 +66,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{16, 39}, {361, 16}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="1065848868"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -83,7 +81,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{377, 39}, {16, 16}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
-										<reference key="NSWindow"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -98,7 +95,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{0, 16}, {16, 23}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="1030479175"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -114,7 +110,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{16, 16}, {361, 23}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="659739206"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -130,7 +125,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{377, 16}, {16, 23}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="552129304"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -146,7 +140,6 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrameSize">{16, 16}</string>
 										<reference key="NSSuperview" ref="944736344"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="821110141"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -162,7 +155,6 @@
 										<int key="NSvFlags">295</int>
 										<string key="NSFrame">{{16, 0}, {361, 16}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="171986732"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -178,7 +170,6 @@
 										<int key="NSvFlags">289</int>
 										<string key="NSFrame">{{377, 0}, {16, 16}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="29223100"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -194,7 +185,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{19, 25}, {288, 2}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="555508597"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -210,7 +200,6 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{219, 2}, {88, 21}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
-										<reference key="NSWindow"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -244,7 +233,6 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{20, 1}, {169, 25}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="694679123"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
@@ -276,7 +264,6 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{20, 29}, {357, 19}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="493582143"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
@@ -309,7 +296,6 @@
 								</array>
 								<string key="NSFrame">{{36, 4}, {393, 56}}</string>
 								<reference key="NSSuperview" ref="677857229"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="429316899"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="669300451">
@@ -323,7 +309,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{11, 26}, {27, 27}}</string>
 								<reference key="NSSuperview" ref="677857229"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="944736344"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -339,7 +324,6 @@
 								<int key="NSvFlags">256</int>
 								<string key="NSFrame">{{10, 29}, {29, 29}}</string>
 								<reference key="NSSuperview" ref="677857229"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="375775578"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -353,7 +337,6 @@
 						</array>
 						<string key="NSFrameSize">{438, 65}</string>
 						<reference key="NSSuperview" ref="614122729"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1056631760"/>
 						<string key="NSReuseIdentifierKey">_NS:11</string>
 						<reference key="IBUIBackgroundColor" ref="669300451"/>
@@ -366,7 +349,6 @@
 				</array>
 				<string key="NSFrameSize">{438, 66}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="677857229"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -695,200 +677,7 @@
 			<nil key="sourceID"/>
 			<int key="maxID">69</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">ChatCell</string>
-					<string key="superclassName">UITableViewCell</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="bubbleBotLeft">UIImageView</string>
-						<string key="bubbleBotMid">UIImageView</string>
-						<string key="bubbleBotRight">UIImageView</string>
-						<string key="bubbleMidLeft">UIImageView</string>
-						<string key="bubbleMidMid">UIImageView</string>
-						<string key="bubbleMidRight">UIImageView</string>
-						<string key="bubbleTopLeft">UIImageView</string>
-						<string key="bubbleTopMid">UIImageView</string>
-						<string key="bubbleTopRight">UIImageView</string>
-						<string key="bubbleView">UIView</string>
-						<string key="chatLine">UIImageView</string>
-						<string key="nameButton">UIButton</string>
-						<string key="textLabel">UILabel</string>
-						<string key="timeLabel">UILabel</string>
-						<string key="typeCircle">UIImageView</string>
-						<string key="typeIcon">UIButton</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="bubbleBotLeft">
-							<string key="name">bubbleBotLeft</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="bubbleBotMid">
-							<string key="name">bubbleBotMid</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="bubbleBotRight">
-							<string key="name">bubbleBotRight</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="bubbleMidLeft">
-							<string key="name">bubbleMidLeft</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="bubbleMidMid">
-							<string key="name">bubbleMidMid</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="bubbleMidRight">
-							<string key="name">bubbleMidRight</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="bubbleTopLeft">
-							<string key="name">bubbleTopLeft</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="bubbleTopMid">
-							<string key="name">bubbleTopMid</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="bubbleTopRight">
-							<string key="name">bubbleTopRight</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="bubbleView">
-							<string key="name">bubbleView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="chatLine">
-							<string key="name">chatLine</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="nameButton">
-							<string key="name">nameButton</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="textLabel">
-							<string key="name">textLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="timeLabel">
-							<string key="name">timeLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="typeCircle">
-							<string key="name">typeCircle</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="typeIcon">
-							<string key="name">typeIcon</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ChatCell.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">ChatMenuController</string>
-					<string key="superclassName">UIViewController</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="bgdView">UIView</string>
-						<string key="bottomView">UIView</string>
-						<string key="chatCell">ChatCell</string>
-						<string key="chatTable">UITableView</string>
-						<string key="mainView">UIView</string>
-						<string key="numChatsLabel">UILabel</string>
-						<string key="postTextField">UITextField</string>
-						<string key="topBar">ChatTopBar</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="bgdView">
-							<string key="name">bgdView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="bottomView">
-							<string key="name">bottomView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="chatCell">
-							<string key="name">chatCell</string>
-							<string key="candidateClassName">ChatCell</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="chatTable">
-							<string key="name">chatTable</string>
-							<string key="candidateClassName">UITableView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="mainView">
-							<string key="name">mainView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="numChatsLabel">
-							<string key="name">numChatsLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="postTextField">
-							<string key="name">postTextField</string>
-							<string key="candidateClassName">UITextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="topBar">
-							<string key="name">topBar</string>
-							<string key="candidateClassName">ChatTopBar</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ChatMenuController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">ChatTopBar</string>
-					<string key="superclassName">UIView</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="button1">UIImageView</string>
-						<string key="button2">UIImageView</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="button1">
-							<string key="name">button1</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="button2">
-							<string key="name">button2</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ChatTopBar.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NiceFontButton</string>
-					<string key="superclassName">UIButton</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NiceFontButton.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NiceFontLabel</string>
-					<string key="superclassName">UILabel</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NiceFontLabel.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NiceFontLabel7</string>
-					<string key="superclassName">UILabel</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NiceFontLabel7.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
@@ -906,6 +695,6 @@
 			<string key="chatheadcircle.png">{29, 29}</string>
 			<string key="chatline.png">{1, 2}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1926</string>
+		<string key="IBCocoaTouchPluginVersion">1929</string>
 	</data>
 </archive>

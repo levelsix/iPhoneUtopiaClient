@@ -684,6 +684,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
       [self.topBar loadMyClanConfiguration];
       if (gs.clan) {
         self.clanBoardView.hidden = NO;
+        [self.clanBoardView loadForCurrentClan];
         [self.clanInfoView loadForClan:self.myClan];
         [self.membersView loadForMembers:self.myClanMembers isMyClan:YES];
       } else {
@@ -1122,6 +1123,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   if (state == kMyClan) {
     [self.membersView loadForMembers:myClanMembers isMyClan:YES];
     [self.clanInfoView loadForClan:myClan];
+    [self.clanBoardView loadForCurrentClan];
     
     if (myClan.clan.owner.userId == gs.userId && (!self.membersView.hidden || !self.clanInfoView.hidden)) {
       self.editView.hidden = NO;

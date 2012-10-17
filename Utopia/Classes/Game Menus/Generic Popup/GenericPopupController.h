@@ -27,6 +27,7 @@
 @property (nonatomic, retain) NSInvocation *cancelInvocation;
 
 @property (nonatomic, assign) BOOL toAppStore;
+@property (nonatomic, assign) BOOL toReviewPage;
 
 - (void) close;
 - (IBAction)redOkayClicked:(id)sender;
@@ -37,7 +38,8 @@
 
 @interface GenericPopupController : UIViewController
 
-@property (nonatomic, retain) NSString *link;
+@property (nonatomic, retain) NSString *appStoreLink;
+@property (nonatomic, retain) NSString *reviewPageLink;
 @property (nonatomic, retain) IBOutlet GenericPopup *genPopup;
 
 + (id) sharedGenericPopupController;

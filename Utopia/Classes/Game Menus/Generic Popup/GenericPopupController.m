@@ -46,8 +46,8 @@
     [gpc openAppStoreLink];
   } else {
     [self.okInvocation invoke];
-    [self close];
   }
+  [self close];
 }
 
 - (IBAction)greenOkayClicked:(id)sender {
@@ -79,7 +79,7 @@
 @end
 
 @implementation GenericPopupController
-@synthesize link;
+@synthesize appStoreLink;
 @synthesize genPopup;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
@@ -164,7 +164,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   gp.titleLabel.text = @"Update Now";
   [GenericPopupController displayView];
   gp.toAppStore = YES;
-  gpc.link = appStoreLink;
+  gpc.appStoreLink = appStoreLink;
   
   gpc.view = nil;
   gpc.genPopup = nil;
@@ -223,11 +223,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
 }
 
 - (void) openAppStoreLink {
-  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.link]];
+  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.appStoreLink]];
 }
 
 - (void) dealloc {
-  self.link = nil;
+  self.appStoreLink = nil;
   [super dealloc];
 }
 

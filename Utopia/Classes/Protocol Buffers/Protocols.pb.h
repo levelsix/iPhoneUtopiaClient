@@ -16,6 +16,10 @@
 @class BattleRequestProto_Builder;
 @class BattleResponseProto;
 @class BattleResponseProto_Builder;
+@class BeginClanTowerWarRequestProto;
+@class BeginClanTowerWarRequestProto_Builder;
+@class BeginClanTowerWarResponseProto;
+@class BeginClanTowerWarResponseProto_Builder;
 @class BeginGoldmineTimerRequestProto;
 @class BeginGoldmineTimerRequestProto_Builder;
 @class BeginGoldmineTimerResponseProto;
@@ -513,6 +517,7 @@ typedef enum {
   EventProtocolRequestCCollectFromGoldmineEvent = 70,
   EventProtocolRequestCPickLockBoxEvent = 71,
   EventProtocolRequestCBossActionEvent = 72,
+  EventProtocolRequestCBeginClanTowerWar = 73,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -590,6 +595,7 @@ typedef enum {
   EventProtocolResponseSCollectFromGoldmineEvent = 70,
   EventProtocolResponseSPickLockBoxEvent = 71,
   EventProtocolResponseSBossActionEvent = 72,
+  EventProtocolResponseSBeginClanTowerWar = 73,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

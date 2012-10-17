@@ -840,6 +840,24 @@
 		CF2B4CDE162A5B2600758BC8 /* yellowdefenseshield.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2B4CD8162A5B2600758BC8 /* yellowdefenseshield.png */; };
 		CF2B4CE2162A63CB00758BC8 /* filtershadow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2B4CE0162A63CB00758BC8 /* filtershadow.png */; };
 		CF2B4CE3162A63CB00758BC8 /* filtershadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2B4CE1162A63CB00758BC8 /* filtershadow@2x.png */; };
+		CF2B4CF6162E64F600758BC8 /* attackpopupborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C65A15DB1C4E001AA587 /* attackpopupborder.png */; };
+		CF2B4CF7162E64F600758BC8 /* attackpopupborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C65B15DB1C4E001AA587 /* attackpopupborder@2x.png */; };
+		CF2B4CF8162E64F600758BC8 /* highesilveractive.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C65C15DB1C4E001AA587 /* highesilveractive.png */; };
+		CF2B4CF9162E64F600758BC8 /* highesilveractive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C65D15DB1C4E001AA587 /* highesilveractive@2x.png */; };
+		CF2B4CFA162E64F600758BC8 /* leaderboardheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C65E15DB1C4E001AA587 /* leaderboardheader.png */; };
+		CF2B4CFB162E64F600758BC8 /* leaderboardheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C65F15DB1C4E001AA587 /* leaderboardheader@2x.png */; };
+		CF2B4CFC162E64F600758BC8 /* leaderboardnav.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C66015DB1C4E001AA587 /* leaderboardnav.png */; };
+		CF2B4CFD162E64F600758BC8 /* leaderboardnav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C66115DB1C4E001AA587 /* leaderboardnav@2x.png */; };
+		CF2B4CFE162E64F600758BC8 /* leaderboardsearchbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C66215DB1C4E001AA587 /* leaderboardsearchbar.png */; };
+		CF2B4CFF162E64F600758BC8 /* leaderboardsearchbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C66315DB1C4E001AA587 /* leaderboardsearchbar@2x.png */; };
+		CF2B4D00162E64F600758BC8 /* leaderboardsearchx.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C66415DB1C4E001AA587 /* leaderboardsearchx.png */; };
+		CF2B4D01162E64F600758BC8 /* leaderboardsearchx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C66515DB1C4E001AA587 /* leaderboardsearchx@2x.png */; };
+		CF2B4D02162E64F600758BC8 /* netsilver.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C66615DB1C4E001AA587 /* netsilver.png */; };
+		CF2B4D03162E64F600758BC8 /* netsilver@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C66715DB1C4E001AA587 /* netsilver@2x.png */; };
+		CF2B4D04162E64F600758BC8 /* winsactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C66A15DB1C4E001AA587 /* winsactive.png */; };
+		CF2B4D05162E64F600758BC8 /* winsactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C66B15DB1C4E001AA587 /* winsactive@2x.png */; };
+		CF2B4D06162E64F600758BC8 /* wlratio.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C66C15DB1C4E001AA587 /* wlratio.png */; };
+		CF2B4D07162E64F600758BC8 /* wlratio@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48C66D15DB1C4E001AA587 /* wlratio@2x.png */; };
 		CF2CE24B161D051200DD6E9E /* tblockbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2CE249161D051200DD6E9E /* tblockbox@2x.png */; };
 		CF2CE24D161D26EC00DD6E9E /* tblockbox.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2CE24C161D26EC00DD6E9E /* tblockbox.png */; };
 		CF2CE256161D387C00DD6E9E /* MarketplaceFilterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF11CB2115EEFD37005A9FE1 /* MarketplaceFilterView.xib */; };
@@ -8882,6 +8900,24 @@
 				CF2B4CDE162A5B2600758BC8 /* yellowdefenseshield.png in Resources */,
 				CF2B4CE2162A63CB00758BC8 /* filtershadow.png in Resources */,
 				CF2B4CE3162A63CB00758BC8 /* filtershadow@2x.png in Resources */,
+				CF2B4CF6162E64F600758BC8 /* attackpopupborder.png in Resources */,
+				CF2B4CF7162E64F600758BC8 /* attackpopupborder@2x.png in Resources */,
+				CF2B4CF8162E64F600758BC8 /* highesilveractive.png in Resources */,
+				CF2B4CF9162E64F600758BC8 /* highesilveractive@2x.png in Resources */,
+				CF2B4CFA162E64F600758BC8 /* leaderboardheader.png in Resources */,
+				CF2B4CFB162E64F600758BC8 /* leaderboardheader@2x.png in Resources */,
+				CF2B4CFC162E64F600758BC8 /* leaderboardnav.png in Resources */,
+				CF2B4CFD162E64F600758BC8 /* leaderboardnav@2x.png in Resources */,
+				CF2B4CFE162E64F600758BC8 /* leaderboardsearchbar.png in Resources */,
+				CF2B4CFF162E64F600758BC8 /* leaderboardsearchbar@2x.png in Resources */,
+				CF2B4D00162E64F600758BC8 /* leaderboardsearchx.png in Resources */,
+				CF2B4D01162E64F600758BC8 /* leaderboardsearchx@2x.png in Resources */,
+				CF2B4D02162E64F600758BC8 /* netsilver.png in Resources */,
+				CF2B4D03162E64F600758BC8 /* netsilver@2x.png in Resources */,
+				CF2B4D04162E64F600758BC8 /* winsactive.png in Resources */,
+				CF2B4D05162E64F600758BC8 /* winsactive@2x.png in Resources */,
+				CF2B4D06162E64F600758BC8 /* wlratio.png in Resources */,
+				CF2B4D07162E64F600758BC8 /* wlratio@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
