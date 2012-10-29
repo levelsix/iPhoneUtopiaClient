@@ -260,7 +260,7 @@
 @implementation UserNotification
 
 @synthesize time, type, otherPlayer;
-@synthesize marketPost;
+@synthesize marketPost, sellerHadLicense;
 @synthesize battleResult, coinsStolen, stolenEquipId, stolenEquipLevel;
 @synthesize forgeEquipId;
 @synthesize wallPost;
@@ -286,6 +286,7 @@
     self.time = [NSDate dateWithTimeIntervalSince1970:proto.timeOfPurchase/1000.0];
     self.marketPost = proto.marketplacePost;
     self.type = kNotificationMarketplace;
+    self.sellerHadLicense = proto.sellerHadLicense;
   }
   return self;
 }
@@ -318,6 +319,7 @@
     self.time = [NSDate date];
     self.marketPost = proto.marketplacePost;
     self.type = kNotificationMarketplace;
+    self.sellerHadLicense = proto.sellerHadLicense;
   }
   return self;
 }
@@ -615,7 +617,7 @@
 
 - (id) initWithProto:(GroupChatMessageProto *)p {
   if ((self = [super init])) {
-    self.message = [p.content copy];
+    self.message = p.content;
     self.sender = p.sender;
     self.date = [NSDate dateWithTimeIntervalSince1970:p.timeOfChat/1000.];
   }

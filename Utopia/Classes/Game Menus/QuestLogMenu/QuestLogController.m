@@ -33,8 +33,12 @@
 
 @synthesize nameLabel, progressLabel, spinner;
 @synthesize inProgressView, availableView;
-@synthesize quest;
+@synthesize quest, priorityTag;
 @synthesize questGiverImageView;
+
+static float originalHeight = 0.f;
+static float originalImageWidth = 0.f;
+static float originalLabelX = 0.f;
 
 - (void) awakeFromNib {
   [self addSubview:availableView];
@@ -46,6 +50,45 @@
   UIColor *botColor = [UIColor colorWithRed:12/255.f green:12/255.f blue:12/255.f alpha:0.5f];
   gradient.colors = [NSArray arrayWithObjects:(id)[topColor CGColor], (id)[botColor CGColor], nil];
   [self.contentView.layer insertSublayer:gradient atIndex:0];
+  
+  originalHeight = self.frame.size.height;
+  originalImageWidth = self.questGiverImageView.frame.size.width;
+  originalLabelX = self.nameLabel.frame.origin.x;
+}
+
+- (void) layoutSubviews {
+  [super layoutSubviews];
+  
+  float diff = self.frame.size.height-originalHeight;
+  if (diff > 0) {
+    // This is the recommended quest
+    self.priorityTag.hidden = NO;
+    
+    CGRect r = questGiverImageView.frame;
+    r.size.width = originalImageWidth+diff;
+    questGiverImageView.frame = r;
+    
+    r = nameLabel.frame;
+    r.origin.x = originalLabelX+diff;
+    nameLabel.frame = r;
+    
+    nameLabel.textColor = [Globals goldColor];
+  } else {
+    self.priorityTag.hidden = YES;
+    
+    CGRect r = questGiverImageView.frame;
+    r.size.width = originalImageWidth;
+    questGiverImageView.frame = r;
+    
+    r = nameLabel.frame;
+    r.origin.x = originalLabelX;
+    nameLabel.frame = r;
+    
+    nameLabel.textColor = [Globals creamColor];
+  }
+  
+  CALayer *layer = [self.contentView.layer.sublayers objectAtIndex:0];
+  layer.frame = self.bounds;
 }
 
 - (IBAction)visitClicked:(id)sender {
@@ -64,6 +107,7 @@
   self.spinner = nil;
   self.quest = nil;
   self.questGiverImageView = nil;
+  self.priorityTag = nil;
   [super dealloc];
 }
 
@@ -159,10 +203,13 @@
   [[QuestLogController sharedQuestLogController] close];
   
   if (_cityId == 0 && _assetNum == 2) {
-    [[VaultMenuController sharedVaultMenuController] close];
-    [[MarketplaceViewController sharedMarketplaceViewController] close];
-    [[ArmoryViewController sharedArmoryViewController] close];
-    [[ClanMenuController sharedClanMenuController] close];
+    if ([VaultMenuController isInitialized]) [[VaultMenuController sharedVaultMenuController] close];
+    if ([MarketplaceViewController isInitialized]) [[MarketplaceViewController sharedMarketplaceViewController] close];
+    if ([ArmoryViewController isInitialized]) [[ArmoryViewController sharedArmoryViewController] close];
+    if ([ClanMenuController isInitialized]) [[ClanMenuController sharedClanMenuController] close];
+    if ([ProfileViewController isInitialized]) [[ProfileViewController sharedProfileViewController] closeClicked:nil];
+  } else if (_cityId == 0 && _assetNum == 1) {
+    [[[HomeMap sharedHomeMap] upgradeMenu] closeClicked:nil];
   }
   
   if ([BattleLayer isInitialized] && [[BattleLayer sharedBattleLayer] isRunning]) {
@@ -235,8 +282,9 @@
     [[GameLayer sharedGameLayer] loadHomeMap];
     [[HomeMap sharedHomeMap] moveToStruct:p.structId showArrow:YES];
   } else if (type == kBuildStructJob) {
+    BuildStructJobProto *p = [gs.staticBuildStructJobs objectForKey:[NSNumber numberWithInt:jobId]];
     [[GameLayer sharedGameLayer] loadHomeMap];
-    [[HomeMap sharedHomeMap] moveToCarpenterShowArrow:YES];
+    [[HomeMap sharedHomeMap] moveToCarpenterShowArrow:YES structId:p.structId];
   } else if (type == kCoinRetrievalJob) {
     [[GameLayer sharedGameLayer] loadHomeMap];
   } else if (type == kSpecialJob) {
@@ -306,20 +354,71 @@
 
 @implementation QuestListTableDelegate
 
-@synthesize questCell;
+@synthesize questCell, recommendedQuestHeader;
+@synthesize availableQuests, inProgressQuests, completedQuests, recommendedQuest;
+
+- (void) reloadArrays {
+  GameState *gs = [GameState sharedGameState];
+  
+  self.availableQuests = [[gs.availableQuests.allValues mutableCopy] autorelease];
+  self.completedQuests = [[gs.inProgressCompleteQuests.allValues mutableCopy] autorelease];
+  self.inProgressQuests = [[gs.inProgressIncompleteQuests.allValues mutableCopy] autorelease];
+  
+  NSComparator comp = ^NSComparisonResult(FullQuestProto *obj1, FullQuestProto *obj2) {
+    if (obj1 == nil && obj2 == nil) return NSOrderedSame;
+    else if (obj1 == nil) return NSOrderedDescending;
+    else if (obj2 == nil) return NSOrderedAscending;
+    
+    int32_t p1 = obj1.priority == 0 ? INT32_MAX : obj1.priority;
+    int32_t p2 = obj2.priority == 0 ? INT32_MAX : obj2.priority;
+    if (p1 > p2) {
+      return NSOrderedAscending;
+    } else if (p1 < p2) {
+      return NSOrderedDescending;
+    } else {
+      if (obj1.questId < obj2.questId) {
+        return NSOrderedAscending;
+      }
+        return NSOrderedDescending;
+    }
+  };
+  
+  [self.completedQuests sortUsingComparator:comp];
+  [self.availableQuests sortUsingComparator:comp];
+  [self.inProgressQuests sortUsingComparator:comp];
+  
+  // Grab recommended quest
+  FullQuestProto *q1 = self.availableQuests.count > 0 ? [self.availableQuests objectAtIndex:0] : nil;
+  FullQuestProto *q2 = self.inProgressQuests.count > 0 ? [self.inProgressQuests objectAtIndex:0] : nil;
+  NSComparisonResult result = comp(q1, q2);
+  if (result == NSOrderedAscending) {
+    self.recommendedQuest = q1;
+    [self.availableQuests removeObjectAtIndex:0];
+    recQuestIsInProgress = NO;
+  } else if (result == NSOrderedDescending) {
+    self.recommendedQuest = q2;
+    [self.inProgressQuests removeObjectAtIndex:0];
+    recQuestIsInProgress = YES;
+  } else {
+    self.recommendedQuest = nil;
+  }
+}
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  GameState *gs = [GameState sharedGameState];
   if (section == 0) {
-    if (gs.inProgressCompleteQuests.count <= 0) {
+    if (self.completedQuests.count <= 0) {
       return 0;
     }
   } else if (section == 1) {
-    if (gs.availableQuests.count <= 0) {
+    if (!self.recommendedQuest) {
       return 0;
     }
   } else if (section == 2) {
-    if (gs.inProgressIncompleteQuests.count <= 0) {
+    if (self.availableQuests.count <= 0) {
+      return 0;
+    }
+  } else if (section == 3) {
+    if (self.inProgressQuests.count <= 0) {
       return 0;
     }
   }
@@ -327,62 +426,76 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  UIImageView *headerView = [[[UIImageView alloc] initWithImage:[Globals imageNamed:@"questheadertop.png"]] autorelease];
-  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 1, 400, headerView.frame.size.height)];
-  label.font = [UIFont fontWithName:@"Trajan Pro" size:12];
-  label.backgroundColor = [UIColor clearColor];
-  [headerView addSubview:label];
-  [label release];
-  
-  GameState *gs = [GameState sharedGameState];
-  if (section == 0) {
-    if (gs.inProgressCompleteQuests.count <= 0) {
-      return nil;
+  if (section != 1) {
+    UIImageView *headerView = [[[UIImageView alloc] initWithImage:[Globals imageNamed:@"questheadertop.png"]] autorelease];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 1, 400, headerView.frame.size.height)];
+    label.font = [UIFont fontWithName:@"Trajan Pro" size:12];
+    label.backgroundColor = [UIColor clearColor];
+    [headerView addSubview:label];
+    [label release];
+    
+    GameState *gs = [GameState sharedGameState];
+    if (section == 0) {
+      if (gs.inProgressCompleteQuests.count <= 0) {
+        return nil;
+      }
+      label.text = @"Completed Quests";
+      label.textColor = [Globals orangeColor];
+    } else if (section == 2) {
+      if (gs.availableQuests.count <= 0) {
+        return nil;
+      }
+      label.text = @"New Quests";
+      label.textColor = [Globals greenColor];
+    } else if (section == 3) {
+      if (gs.inProgressIncompleteQuests.count <= 0) {
+        return nil;
+      }
+      label.text = @"Ongoing Quests";
+      label.textColor = [Globals creamColor];
     }
-    label.text = @"Completed Quests";
-    label.textColor = [Globals orangeColor];
-  } else if (section == 1) {
-    if (gs.availableQuests.count <= 0) {
-      return nil;
-    }
-    label.text = @"New Quests";
-    label.textColor = [Globals greenColor];
-  } else if (section == 2) {
-    if (gs.inProgressIncompleteQuests.count <= 0) {
-      return nil;
-    }
-    label.text = @"Ongoing Quests";
-    label.textColor = [Globals creamColor];
+    
+    return headerView;
+  } else {
+    return self.recommendedQuestHeader;
   }
-  
-  return headerView;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (indexPath.section == 1) {
+    return tableView.rowHeight+8.f;
+  }
+  return tableView.rowHeight;
 }
 
 - (int)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 3;
+  [self reloadArrays];
+  return 4;
 }
 
 - (int)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  GameState *gs = [GameState sharedGameState];
   if (section == 0) {
-    return gs.inProgressCompleteQuests.count;
+    return self.completedQuests.count;
   } else if (section == 1) {
-    return gs.availableQuests.count;
+    return recommendedQuest != nil;
   } else if (section == 2) {
-    return gs.inProgressIncompleteQuests.count;
+    return self.availableQuests.count;
+  } else if (section == 3) {
+    return self.inProgressQuests.count;
   }
   return 0;
 }
 
 - (FullQuestProto *)questForIndexPath:(NSIndexPath *)path {
-  GameState *gs = [GameState sharedGameState];
   NSArray *arr = nil;
   if (path.section == 0) {
-    arr = gs.inProgressCompleteQuests.allValues;
+    arr = self.completedQuests;
   } else if (path.section == 1) {
-    arr = gs.availableQuests.allValues;
+    return recommendedQuest;
   } else if (path.section == 2) {
-    arr = gs.inProgressIncompleteQuests.allValues;
+    arr = self.availableQuests;
+  } else if (path.section == 3) {
+    arr = self.inProgressQuests;
   }
   return arr.count > path.row ? [arr objectAtIndex:path.row] : nil;
 }
@@ -410,7 +523,11 @@
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[qc.questGiverImageView viewWithTag:150];
   loadingView.center = CGPointMake(qc.questGiverImageView.frame.size.width/2, qc.questGiverImageView.frame.size.height/2+3);
   
-  if (indexPath.section == 0) {
+  int section = indexPath.section;
+  
+  if (section == 1) section = recQuestIsInProgress ? 3 : 2;
+  
+  if (section == 0) {
     qc.availableView.hidden = YES;
     qc.inProgressView.hidden = NO;
     
@@ -419,10 +536,10 @@
     qc.progressLabel.hidden = NO;
     int total = [Globals userTypeIsGood:gs.type] ? fqp.numComponentsForGood : fqp.numComponentsForBad;
     qc.progressLabel.text = [NSString stringWithFormat:@"%d/%d", total, total];
-  } else if (indexPath.section == 1) {
+  } else if (section == 2) {
     qc.availableView.hidden = NO;
     qc.inProgressView.hidden = YES;
-  } else if (indexPath.section == 2) {
+  } else if (section == 3) {
     qc.availableView.hidden = YES;
     qc.inProgressView.hidden = NO;
     
@@ -458,18 +575,17 @@
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (indexPath.section == 0) {
-    [[QuestLogController sharedQuestLogController] questSelected:[self questForIndexPath:indexPath]];
-  } else if (indexPath.section == 1) {
+  if (indexPath.section == 2 || (indexPath.section == 1 && !recQuestIsInProgress)) {
     QuestCell *qc = (QuestCell *)[tableView cellForRowAtIndexPath:indexPath];
     [qc visitClicked:nil];
-  } else if (indexPath.section == 2) {
+  } else {
     [[QuestLogController sharedQuestLogController] questSelected:[self questForIndexPath:indexPath]];
   }
 }
 
 - (void) dealloc {
   self.questCell = nil;
+  self.recommendedQuestHeader = nil;
   [super dealloc];
 }
 
@@ -499,7 +615,7 @@
   if (section == 1 && _questRedeem) {
     return 0.f;
   }
-  return 19.f;
+  return 18.f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -715,6 +831,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 @synthesize taskListTitleLabel;
 @synthesize backButton;
 @synthesize questGiverImageView;
+@synthesize recommendedQuestHeader;
 
 - (void)viewDidLoad
 {
@@ -741,6 +858,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
   taskListTable.tableFooterView = view;
   [view release];
+  
+  questListDelegate.recommendedQuestHeader = self.recommendedQuestHeader;
+  self.recommendedQuestHeader = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -765,7 +885,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [[SoundEngine sharedSoundEngine] questLogOpened];
   
   GameState *gs = [GameState sharedGameState];
-  questGiverImageView.image = [Globals userTypeIsGood:gs.type] ? [Globals imageNamed:@"bigruby.png"] : [Globals imageNamed:@"bigadriana.png"];
+  questGiverImageView.image = [Globals userTypeIsGood:gs.type] ? [Globals imageNamed:@"bigruby2.png"] : [Globals imageNamed:@"bigadriana2.png"];
 }
 
 - (void) loadQuest:(FullQuestProto *)fqp {
@@ -781,6 +901,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   
   if (fqp.questGiverImageSuffix) {
     NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
+    file = [[file stringByReplacingOccurrencesOfString:@".png" withString:@""] stringByAppendingString:@"2.png"];
     [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   }
 }
@@ -802,6 +923,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   
   if (fqp.questGiverImageSuffix) {
     NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
+    file = [[file stringByReplacingOccurrencesOfString:@".png" withString:@""] stringByAppendingString:@"2.png"];
     [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   }
 }
@@ -893,7 +1015,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [taskListDelegate updateTasksForUserData:[NSArray arrayWithObject:questData]];
   
   GameState *gs = [GameState sharedGameState];
-  questGiverImageView.image = [Globals userTypeIsGood:gs.type] ? [Globals imageNamed:@"bigruby.png"] : [Globals imageNamed:@"bigadriana.png"];
+  questGiverImageView.image = [Globals userTypeIsGood:gs.type] ? [Globals imageNamed:@"bigruby2.png"] : [Globals imageNamed:@"bigadriana2.png"];
   
   [[SoundEngine sharedSoundEngine] questComplete];
 }
@@ -910,6 +1032,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   
   if (fqp.questGiverImageSuffix) {
     NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
+    file = [[file stringByReplacingOccurrencesOfString:@".png" withString:@""] stringByAppendingString:@"2.png"];
     [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   }
   
@@ -992,9 +1115,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [self showQuestListViewAnimated:YES];
 }
 
-- (void)viewDidUnload
+- (void)didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   self.mainView = nil;
   self.bgdView = nil;

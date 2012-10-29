@@ -10,9 +10,7 @@
 #import "Protocols.pb.h"
 #import "NibUtils.h"
 
-@interface DialogMenuController : UIViewController <UITextFieldDelegate> {
-  BOOL _isDisplayingLoadingView;
-}
+@interface DialogMenuController : UIViewController <UITextFieldDelegate>
 
 @property (nonatomic, retain) IBOutlet LoadingView *loadingView;
 

@@ -17,6 +17,8 @@
 #import "RefillMenuController.h"
 #import "SoundEngine.h"
 
+#define NUM_ENTRIES_PER_ROW 2
+
 #define ROW_HEIGHT 215
 
 #define TICKER_SEPERATION 1
@@ -326,6 +328,7 @@
 @synthesize coinBar;
 @synthesize mainView, bgdView;
 @synthesize spinner;
+@synthesize arrow;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
@@ -342,6 +345,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
   [self.carpTable addSubview:rightRope];
   [leftRope release];
   [rightRope release];
+  
+  arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -355,7 +360,24 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   
+  [self performSelector:@selector(scrollToStruct) withObject:nil afterDelay:0.1f];
+  
   [[SoundEngine sharedSoundEngine] carpenterEnter];
+}
+
+- (void) scrollToStruct {
+  if (_structIdToDisplayArrow > 0) {
+    for (int i = 0; i < structsList.count; i++) {
+      FullStructureProto *fsp = [structsList objectAtIndex:i];
+      if (fsp.structId == _structIdToDisplayArrow) {
+        [self.carpTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:i/NUM_ENTRIES_PER_ROW inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+      }
+    }
+  }
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  _structIdToDisplayArrow = 0;
 }
 
 - (void) reloadCarpenterStructs {
@@ -382,7 +404,28 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
     }
   }
   
+  [structsList sortUsingComparator:^NSComparisonResult(FullStructureProto *obj1, FullStructureProto *obj2) {
+    if (obj1.minLevel < obj2.minLevel) {
+      return NSOrderedAscending;
+    } else if (obj1.minLevel > obj2.minLevel) {
+      return NSOrderedDescending;
+    } else {
+      if (obj1.structId < obj2.structId) {
+        return NSOrderedAscending;
+      }
+      return NSOrderedDescending;
+    }
+  }];
+  
   [self.carpTable reloadData];
+  
+  if (self.view.superview) {
+    [self performSelector:@selector(scrollToStruct) withObject:nil afterDelay:0.1f];
+  }
+}
+
+- (void) displayArrowOnNextOpen:(int)structId {
+  _structIdToDisplayArrow = structId;
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -391,7 +434,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   NSArray *list = structsList;
-  int rows = (int)ceilf(list.count/2.f);
+  int rows = (int)ceilf((float)list.count/NUM_ENTRIES_PER_ROW);
   
   if (rows > 0) {
     tableView.scrollEnabled = YES;
@@ -413,10 +456,29 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
     cell = self.carpRow;
   }
   
-  int baseIndex = 2*indexPath.row;
+  int baseIndex = NUM_ENTRIES_PER_ROW*indexPath.row;
   int count = structsList.count;
-  cell.listing1.carpListing.fsp = baseIndex<count ? [structsList objectAtIndex:baseIndex] : nil;
-  cell.listing2.carpListing.fsp = baseIndex+1<count ? [structsList objectAtIndex:baseIndex+1] : nil;
+  
+  FullStructureProto *fsp1 = baseIndex<count ? [structsList objectAtIndex:baseIndex] : nil;
+  FullStructureProto *fsp2 = baseIndex+1<count ? [structsList objectAtIndex:baseIndex+1] : nil;
+  cell.listing1.carpListing.fsp = fsp1;
+  cell.listing2.carpListing.fsp = fsp2;
+  
+  if (_structIdToDisplayArrow) {
+    if (fsp1.structId == _structIdToDisplayArrow) {
+      [cell.listing1.superview addSubview:arrow];
+      arrow.center = CGPointMake(CGRectGetMaxX(cell.listing1.frame)+arrow.frame.size.width/2-5.f, cell.listing1.center.y);
+      [Globals animateUIArrow:arrow atAngle:M_PI];
+    } else if (fsp2.structId == _structIdToDisplayArrow) {
+      [cell.listing2.superview addSubview:arrow];
+      arrow.center = CGPointMake(CGRectGetMinX(cell.listing2.frame)-arrow.frame.size.width/2+5.f, cell.listing1.center.y);
+      [Globals animateUIArrow:arrow atAngle:0];
+    } else if (arrow.superview == cell.listing1.superview) {
+      [arrow removeFromSuperview];
+    }
+  } else {
+    [arrow removeFromSuperview];
+  }
   
   return cell;
 }
@@ -446,12 +508,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
   [coinBar updateLabels];
 }
 
-- (void) viewDidUnload {
-  [super viewDidUnload];
+- (void) didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
   self.carpRow = nil;
   self.coinBar = nil;
   self.carpTable = nil;
   self.structsList = nil;
+  self.arrow = nil;
 }
 
 @end

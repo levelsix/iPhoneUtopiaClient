@@ -21,6 +21,8 @@
 #import "LoggingContextFilter.h"
 #import "SoundEngine.h"
 #import "Crittercism.h"
+#import "Downloader.h"
+#import "GGEventLog.h"
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
 #define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
@@ -29,6 +31,8 @@
 #define APSALAR_API_KEY      @"lvl6"
 #define APSALAR_SECRET       @"K7kbMwwF"
 #define TEST_FLIGHT_API_KEY  @"83db3d95fe7af4e3511206c3e7254a5f_MTExODM4MjAxMi0wNy0xOCAyMTowNjoxOC41MjUzMjc"
+
+#define GIRAFFE_GRAPH_KEY    @"eee3b73ca3f9fc3322e11be77275c13a"
 
 #define SHOULD_VIDEO_USER    0
 
@@ -104,10 +108,6 @@
 
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	// Let the device know we want to receive push notifications
-	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-   (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
-  
 	// Init the window
   //	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   
@@ -181,6 +181,7 @@
   //    // Inform of location services off
   //  }
 #ifndef DEBUG
+  [GGEventLog initializeApiKey:GIRAFFE_GRAPH_KEY trackCampaignSource:YES];
   [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
 #endif
   [Analytics beganApp];
@@ -231,6 +232,12 @@
   return YES;
 }
 
+- (void) registerForPushNotifications {
+	// Let the device know we want to receive push notifications
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+   (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application {
   DDLogVerbose(@"will resign active");
 	[[CCDirector sharedDirector] pause];
@@ -263,6 +270,8 @@
   
   [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
   
+  [NSObject cancelPreviousPerformRequestsWithTarget:[Downloader sharedDownloader]];
+  
   if (![[GameState sharedGameState] isTutorial]) {
     [GameViewController releaseAllViews];
   }
@@ -274,8 +283,6 @@
 
 -(void) applicationWillEnterForeground:(UIApplication*)application {
   DDLogVerbose(@"will enter foreground");
-  [self removeLocalNotifications];
-  
   self.isActive = YES;
   
 #ifndef DEBUG
@@ -355,8 +362,9 @@
   NSDate *energyRefilled = [gs.lastEnergyRefill dateByAddingTimeInterval:gl.energyRefillWaitMinutes*60*(gs.maxEnergy-gs.currentEnergy)];
   NSDate *staminaRefilled = [gs.lastStaminaRefill dateByAddingTimeInterval:gl.staminaRefillWaitMinutes*60*(gs.maxStamina-gs.currentStamina)];
   
-  BOOL shouldSendEnergyNotification = gs.connected ? gs.maxEnergy > gs.currentEnergy : NO;
-  BOOL shouldSendStaminaNotification = gs.connected ? gs.maxStamina > gs.currentStamina : NO;
+  // Only send if energy and stamina are more than halfway used.
+  BOOL shouldSendEnergyNotification = gs.connected ? gs.maxEnergy > 2*gs.currentEnergy : NO;
+  BOOL shouldSendStaminaNotification = gs.connected ? gs.maxStamina > 2*gs.currentStamina : NO;
   
   if (shouldSendEnergyNotification) {
     // Stamina refilled
@@ -391,6 +399,26 @@
     if (timeInterval < timeToEndCollect) {
       NSString *text = @"The workers at the Gold Mine have gone on strike! Come back to settle them down!";
       [self scheduleNotificationWithText:text badge:1 date:[gs.lastGoldmineRetrieval dateByAddingTimeInterval:timeToEndCollect]];
+    }
+  }
+  
+  if (gs.userExpansion.isExpanding) {
+    NSString *text = @"Your expansion has completed! Come back to build a bigger city!";
+    int minutes = [gl calculateNumMinutesForNewExpansion:gs.userExpansion];
+    [self scheduleNotificationWithText:text badge:1 date:[gs.userExpansion.lastExpandTime dateByAddingTimeInterval:minutes*60.f]];
+  }
+  
+  for (UserStruct *us in gs.myStructs) {
+    if (us.state == kUpgrading) {
+      FullStructureProto *fsp = [gs structWithId:us.structId];
+      NSString *text = [NSString stringWithFormat:@"Your %@ has finished upgrading to Level %d!", fsp.name, us.level+1];
+      int minutes = [gl calculateMinutesToUpgrade:us];
+      [self scheduleNotificationWithText:text badge:1 date:[us.lastUpgradeTime dateByAddingTimeInterval:minutes*60.f]];
+    } else if (us.state == kBuilding) {
+      FullStructureProto *fsp = [gs structWithId:us.structId];
+      NSString *text = [NSString stringWithFormat:@"Your %@ has finished building!", fsp.name];
+      int minutes = fsp.minutesToBuild;
+      [self scheduleNotificationWithText:text badge:1 date:[us.purchaseTime dateByAddingTimeInterval:minutes*60.f]];
     }
   }
   

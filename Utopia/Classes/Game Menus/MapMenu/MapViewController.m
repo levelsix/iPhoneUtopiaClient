@@ -99,8 +99,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   }
 }
 
-- (void) viewDidUnload {
-  [super viewDidUnload];
+- (void) didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
   self.missionMap = nil;
   self.enstBar = nil;
   self.enstIcon = nil;

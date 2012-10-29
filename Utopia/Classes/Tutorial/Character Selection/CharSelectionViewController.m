@@ -19,6 +19,7 @@
 #import "TutorialStartLayer.h"
 #import "Downloader.h"
 #import "OutgoingEventController.h"
+#import "GameViewController.h"
 
 @implementation CharSelectionViewController
 
@@ -34,6 +35,7 @@
 @synthesize nameTextField;
 @synthesize submitButton;
 @synthesize loadingView;
+@synthesize cancelView;
 
 //SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CharSelectionViewController);
 
@@ -106,13 +108,14 @@
   titleLabel.alpha = 0.f;
   redGlow.alpha = 0.f;
   greenGlow.alpha = 0.f;
-  [self updateArrows];
-  [self animatePage];
+  
   _curPage = 0;
   
   submitButton.hidden = YES;
   
   nameTextField.label.textColor = [UIColor whiteColor];
+  
+  self.view.tag = CHAR_SELECTION_VIEW_TAG;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -120,6 +123,14 @@
   [UIView animateWithDuration:5.f delay:0.f options:UIViewAnimationOptionAllowUserInteraction animations:^{
     self.view.alpha = 1.f;
   } completion:nil];
+  
+  GameState *gs = [GameState sharedGameState];
+  self.cancelView.hidden = gs.isTutorial;
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  [self updateArrows];
+  [self animatePage];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -267,17 +278,36 @@
         view.hidden = YES;
       }
     }
+    chooseNameView.frame = self.view.bounds;
     [self.view addSubview:chooseNameView];
     
     [nameTextField becomeFirstResponder];
   } else {
-    [self.loadingView display:self.view];
-    [[OutgoingEventController sharedOutgoingEventController] changeUserType:_curPage];
-    
-    [Analytics typeChange];
-    
-    [self downloadNecessaryFiles];
+    if (gs.clan && ![Globals userType:gs.type isAlliesWith:_curPage]) {
+      [Globals popupMessage:@"You cannot switch sides without leaving your clan!"];
+    } else if (_curPage == gs.type) {
+      [Globals popupMessage:[NSString stringWithFormat:@"You are already a%@ %@ %@!", [Globals userTypeIsGood:gs.type] ? @"n" : @"", [Globals factionForUserType:gs.type], [Globals classForUserType:gs.type]]];
+    } else {
+      [self.loadingView display:self.view];
+      [[OutgoingEventController sharedOutgoingEventController] changeUserType:_curPage];
+      
+      [Analytics typeChange];
+      
+      [self downloadNecessaryFiles];
+      
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(fadeOut)
+                                                   name:CHAR_SELECTION_CLOSE_NOTIFICATION
+                                                 object:nil];
+      
+      [[GameViewController sharedGameViewController] allowRestartOfGame];
+    }
   }
+}
+
+- (void) fadeOut {
+  [self.loadingView stop];
+  [self cancelClicked:nil];
 }
 
 - (IBAction)backClicked:(id)sender {
@@ -285,6 +315,17 @@
   for (UIView *view in self.view.subviews) {
     view.hidden = NO;
   }
+  
+  GameState *gs = [GameState sharedGameState];
+  self.cancelView.hidden = gs.isTutorial;
+}
+
+- (IBAction)cancelClicked:(id)sender {
+  [UIView animateWithDuration:4.f animations:^{
+    self.view.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [self.view removeFromSuperview];
+  }];
 }
 
 - (IBAction)submitClicked:(id)sender {
@@ -386,6 +427,8 @@
   GameState *gs = [GameState sharedGameState];
   NSString *prefix = [Globals animatedSpritePrefix:gs.type];
   NSArray *files = [NSArray arrayWithObjects:
+                    [NSString stringWithFormat:@"%@GenericNF.plist", prefix],
+                    [NSString stringWithFormat:@"%@GenericNF.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@AttackLR.plist", prefix],
                     [NSString stringWithFormat:@"%@AttackLR.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@WalkUD.plist", prefix],
@@ -396,8 +439,6 @@
                     [NSString stringWithFormat:@"%@AttackUD.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@GenericLR.plist", prefix],
                     [NSString stringWithFormat:@"%@GenericLR.pvr.ccz", prefix],
-                    [NSString stringWithFormat:@"%@GenericNF.plist", prefix],
-                    [NSString stringWithFormat:@"%@GenericNF.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@GenericUD.plist", prefix],
                     [NSString stringWithFormat:@"%@GenericUD.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@WalkLR.plist", prefix],
@@ -433,9 +474,9 @@
   return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
 
-- (void)viewDidUnload
+- (void)didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.goodMageView = nil;
@@ -461,6 +502,7 @@
   self.nameTextField = nil;
   self.submitButton = nil;
   self.loadingView = nil;
+  self.cancelView = nil;
 }
 
 @end

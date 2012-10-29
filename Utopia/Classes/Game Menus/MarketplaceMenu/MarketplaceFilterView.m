@@ -323,6 +323,24 @@
   [handle addSubview:darkHandle];
   darkHandle.image = [Globals maskImage:handle.image withColor:[UIColor colorWithWhite:0.f alpha:0.2f]];
   darkHandle.hidden = YES;
+  
+  UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(turnOn)];
+  swipe.direction = UISwipeGestureRecognizerDirectionRight;
+  [self addGestureRecognizer:swipe];
+  [swipe release];
+  
+  swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(turnOff)];
+  swipe.direction = UISwipeGestureRecognizerDirectionLeft;
+  [self addGestureRecognizer:swipe];
+  [swipe release];
+}
+
+- (void) turnOn {
+  self.isOn = YES;
+}
+
+- (void) turnOff {
+  self.isOn = NO;
 }
 
 - (void) setIsOn:(BOOL)i {
@@ -332,6 +350,8 @@
   float oldX = r.origin.x;
   r.origin.x = isOn ? self.frame.size.width-r.size.width : 0;
   float dur = ABS(oldX-r.origin.x)/self.frame.size.width*0.3f;
+  
+  [handle.layer removeAllAnimations];
   [UIView animateWithDuration:dur delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
     handle.frame = r;
   } completion:nil];
@@ -365,7 +385,7 @@
   
   self.darkHandle.hidden = YES;
   
-  if (dist > 4.f) {
+  if (dist > 10.f) {
     if (handle.center.x < self.frame.size.width/2) {
       self.isOn = NO;
     } else {
@@ -392,7 +412,7 @@
 @implementation SliderBar
 
 @synthesize leftPin, rightPin, bar;
-@synthesize numNotches;
+@synthesize numNotches, allowsOverlap;
 
 - (void) awakeFromNib {
   leftPin.isLeft = YES;
@@ -427,14 +447,16 @@
   
   SliderPin *pin = isLeft ? leftPin : rightPin;
   [pin movedToNotch:notch];
+  
+  [self bringSubviewToFront:pin];
 }
 
 - (void) movePin:(BOOL)isLeft withTouchLoc:(CGPoint)pt fromPos:(CGPoint)initialTouch startX:(float)startX {
   float totalWidth = self.frame.size.width-leftPin.frame.size.width/2-rightPin.frame.size.width/2;
   float notchSize = totalWidth/(numNotches-1);
   
-  float minX = isLeft ? leftPin.frame.size.width/2 : leftPin.center.x+notchSize;
-  float maxX = isLeft ? rightPin.center.x-notchSize : self.frame.size.width-rightPin.frame.size.width/2;
+  float minX = isLeft ? leftPin.frame.size.width/2 : leftPin.center.x + (allowsOverlap ? 0 : notchSize);
+  float maxX = isLeft ? rightPin.center.x - (allowsOverlap ? 0 : notchSize) : self.frame.size.width-rightPin.frame.size.width/2;
   float diff = pt.x-initialTouch.x;
   float newX = clampf(startX+diff, minX, maxX);
   
@@ -486,14 +508,18 @@
 
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
   UITouch *touch = [touches anyObject];
+  
   // Use self.superview because it won't be moving
   CGPoint pt = [touch locationInView:self.superview];
   SliderBar *bar = (SliderBar *)self.superview;
-  
   [bar movePin:isLeft withTouchLoc:pt fromPos:_initialTouch startX:_originalX];
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self unclicked];
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
   [self unclicked];
 }
 
@@ -521,9 +547,9 @@
   int level = 0;
   
   if (self.isLeft) {
-    level = MAX(1, notch*EQUIP_LEVEL_NOTCH_LEVEL_DIFF);
+    level = notch*EQUIP_LEVEL_NOTCH_LEVEL_DIFF+1;
   } else {
-    level = notch*EQUIP_LEVEL_NOTCH_LEVEL_DIFF-1;
+    level = notch*EQUIP_LEVEL_NOTCH_LEVEL_DIFF;
   }
   
   self.levelLabel.text = [NSString stringWithFormat:@"%d", level];
@@ -544,7 +570,7 @@
 
 - (void) awakeFromNib {
   self.darkOverlay = [[[UIImageView alloc] initWithFrame:levelIcon.frame] autorelease];
-  self.darkOverlay.image = [Globals maskImage:self.levelIcon.image 
+  self.darkOverlay.image = [Globals maskImage:self.levelIcon.image
                                     withColor:[UIColor colorWithWhite:0.f alpha:0.3f]];
   
   [self addSubview:self.darkOverlay];
@@ -618,7 +644,7 @@
   self.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.2f];
 }
 
-- (void) setSearchEquip:(MarketplaceSearchEquipProto *)s {
+- (void) setSearchEquip:(FullEquipProto *)s {
   if (s != searchEquip) {
     [searchEquip release];
     searchEquip = [s retain];
@@ -640,7 +666,9 @@
 @synthesize searchTable, textField, searchEquips, searchCell, searchEquipId;
 
 - (void) awakeFromNib {
-  searchTable.backgroundColor = [UIColor colorWithPatternImage:[Globals imageNamed:@"livesearchbg.png"]];
+  Globals *gl = [Globals sharedGlobals];
+  NSString *base = gl.downloadableNibConstants.filtersNibName;
+  searchTable.backgroundColor = [UIColor colorWithPatternImage:[Globals imageNamed:[base stringByAppendingString:@"/livesearchbg.png"]]];
   
   searchTable.tableFooterView = [[[UIView alloc] init] autorelease];
 }
@@ -666,14 +694,21 @@
   return cell;
 }
 
+- (void) selectSearchEquip:(FullEquipProto *)equip {
+  if (searchEquipId != equip.equipId) {
+    textField.text = equip.name;
+    self.searchEquipId = equip.equipId;
+    [textField resignFirstResponder];
+    
+    [(MarketplaceFilterView *)self.superview updateBarsForEquip:equip];
+  }
+}
+
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
   
   MarketplaceSearchCell *cell = (MarketplaceSearchCell *)[tableView cellForRowAtIndexPath:indexPath];
-  textField.text = cell.searchEquip.name;
-  [textField resignFirstResponder];
-  
-  self.searchEquipId = cell.searchEquip.equipId;
+  [self selectSearchEquip:cell.searchEquip];
 }
 
 - (void) textFieldDidBeginEditing:(UITextField *)textField {
@@ -681,15 +716,15 @@
   CGRect r = self.frame;
   r.size.height = 0;
   self.frame = r;
-  [UIView animateWithDuration:0.2f animations:^{
+  [UIView animateWithDuration:0.1f animations:^{
     CGRect r = self.frame;
-    r.size.height = 125;
+    r.size.height = 114;
     self.frame = r;
   }];
 }
 
 - (void) textFieldDidEndEditing:(UITextField *)textField {
-  [UIView animateWithDuration:0.2f animations:^{
+  [UIView animateWithDuration:0.1f animations:^{
     CGRect r = self.frame;
     r.size.height = 0;
     self.frame = r;
@@ -737,9 +772,11 @@
   Globals *gl = [Globals sharedGlobals];
   self.equipLevelBar.numNotches = gl.maxLevelForUser/EQUIP_LEVEL_NOTCH_LEVEL_DIFF+2;
   self.forgeLevelBar.numNotches = gl.forgeMaxEquipLevel;
+  self.equipLevelBar.allowsOverlap = NO;
+  self.forgeLevelBar.allowsOverlap = YES;
   
   CGRect r = searchView.frame;
-  r.origin.y = 45;
+  r.origin.y = 44;
   searchView.frame = r;
   [self addSubview:self.searchView];
   self.searchView.hidden = YES;
@@ -817,6 +854,10 @@
 }
 
 - (IBAction)restoreDefaults:(id)sender {
+  [self restoreDefaults];
+}
+
+- (void) restoreDefaults {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   [defaults removeObjectForKey:FILTER_BAR_USER_DEFAULTS_KEY];
   [defaults removeObjectForKey:RARITY_BAR_USER_DEFAULTS_KEY];
@@ -830,6 +871,52 @@
   [self.searchView clearClicked:nil];
   
   [self loadFilterSettings];
+}
+
+- (void) updateBarsForEquip:(FullEquipProto *)equip {
+  int clickedButton = [self.filterBar clickedButton];
+  // If its not All, click the appropriate one
+  if (clickedButton != 0) {
+    equip.equipType == FullEquipProto_EquipTypeWeapon ? [filterBar clickButton:kWeapButton] : [filterBar unclickButton:kWeapButton];
+    equip.equipType == FullEquipProto_EquipTypeArmor ? [filterBar clickButton:kArmButton] : [filterBar unclickButton:kArmButton];
+    equip.equipType == FullEquipProto_EquipTypeAmulet ? [filterBar clickButton:kAmuButton] : [filterBar unclickButton:kAmuButton];
+  }
+  
+  int levelMin = self.equipLevelBar.leftPin.currentValue;
+  int levelMax = self.equipLevelBar.rightPin.currentValue;
+  if (levelMin > equip.minLevel) {
+    [self.equipLevelBar movePin:YES toNotch:equip.minLevel/EQUIP_LEVEL_NOTCH_LEVEL_DIFF];
+  }
+  if (levelMax < equip.minLevel) {
+    [self.equipLevelBar movePin:NO toNotch:(equip.minLevel+1)/EQUIP_LEVEL_NOTCH_LEVEL_DIFF];
+  }
+  
+  switch (equip.rarity) {
+    case FullEquipProto_RarityCommon:
+      [self.rarityBar.comTab tick];
+      break;
+    case FullEquipProto_RarityUncommon:
+      [self.rarityBar.uncTab tick];
+      break;
+    case FullEquipProto_RarityRare:
+      [self.rarityBar.rareTab tick];
+      break;
+    case FullEquipProto_RarityEpic:
+      [self.rarityBar.epicTab tick];
+      break;
+    case FullEquipProto_RarityLegendary:
+      [self.rarityBar.legTab tick];
+      break;
+    default:
+      break;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  if (self.switchButton.isOn) {
+    if (equip.classType != gs.type && equip.classType != EquipClassTypeAllAmulet) {
+      [self.switchButton turnOff];
+    }
+  }
 }
 
 - (IBAction)openSortOrder:(id)sender {

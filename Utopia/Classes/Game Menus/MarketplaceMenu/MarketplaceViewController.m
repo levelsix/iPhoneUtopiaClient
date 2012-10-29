@@ -34,16 +34,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize shouldReload;
 @synthesize state;
 @synthesize coinBar;
-@synthesize removePriceLabel, retractPriceIcon;
+@synthesize removePriceLabel, retractPriceIcon, removeDescriptionLabel;
 @synthesize doneButton, listAnItemButton;
-@synthesize redeemView, purchLicenseView;
+@synthesize redeemView;
 @synthesize redeemGoldLabel, redeemSilverLabel;
 @synthesize redeemTitleLabel;
 @synthesize ropeView, leftRope, rightRope, leftRopeFirstRow, rightRopeFirstRow;
-@synthesize shortLicenseCost, shortLicenseLength, longLicenseCost, longLicenseLength;
 @synthesize loadingView;
 @synthesize purchView;
-@synthesize licenseBgdView, licenseMainView;
 @synthesize armoryPriceIcon, armoryPriceView, armoryPriceLabel, armoryPriceBottomSubview;
 @synthesize bottomBar;
 @synthesize topBarLabel;
@@ -57,7 +55,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   t.delegate = self;
   t.dataSource = self;
   t.backgroundColor = [UIColor clearColor];
-  t.frame = CGRectMake(0, topBar.frame.origin.y, self.mainView.frame.size.width, self.mainView.frame.size.height-topBar.frame.origin.y);
+  t.frame = CGRectMake(self.mainView.frame.size.width/2-240.f, topBar.frame.origin.y, 480.f, self.mainView.frame.size.height-topBar.frame.origin.y);
   t.showsVerticalScrollIndicator = NO;
   t.rowHeight = 55;
   t.delaysContentTouches = NO;
@@ -66,14 +64,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [self.mainView insertSubview:t belowSubview:topBar];
   [self.mainView insertSubview:self.redeemView aboveSubview:self.topBar];
   
+  
   [super addPullToRefreshHeader:self.postsTableView];
+  
   [self.postsTableView addSubview:self.ropeView];
+  self.ropeView.center = CGPointMake(self.postsTableView.frame.size.width/2, self.ropeView.center.y);
   
   [self.postsTableView addSubview:self.removeView];
   
   UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]];
-  leftRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(15, 30, 3, 40)];
-  rightRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(463, 30, 3, 40)];
+  leftRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(self.postsTableView.frame.size.width/2-225.f, 30, 3, 40)];
+  rightRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(self.postsTableView.frame.size.width/2+223.f, 30, 3, 40)];
   leftRopeFirstRow.backgroundColor = c;
   rightRopeFirstRow.backgroundColor = c;
   [self.postsTableView insertSubview:leftRopeFirstRow belowSubview:self.ropeView];
@@ -81,24 +82,24 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   self.redeemView.hidden = YES;
   
-  Globals *gl = [Globals sharedGlobals];
-  shortLicenseCost.text = [NSString stringWithFormat:@"%d", gl.diamondCostOfShortMarketplaceLicense];
-  longLicenseCost.text = [NSString stringWithFormat:@"%d", gl.diamondCostOfLongMarketplaceLicense];
-  shortLicenseLength.text = [NSString stringWithFormat:@"%d days", gl.numDaysShortMarketplaceLicenseLastsFor];
-  longLicenseLength.text = [NSString stringWithFormat:@"%d days", gl.numDaysLongMarketplaceLicenseLastsFor];
-  
-  self.purchLicenseView.center = self.mainView.center;
-  
-  UILabel *retractLabel = (UILabel *)[self.mainView viewWithTag:15];
-  retractLabel.text = [NSString stringWithFormat:@"Removing items incurs a %d%% fee", (int)([[Globals sharedGlobals] retractPercentCut]*100)];
-  
   _swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(openFilterPage:)];
   [self.view addGestureRecognizer:_swipeGestureRecognizer];
+  
+  // Restore filter view defaults without loading nib
+  MarketplaceFilterView *f = [[MarketplaceFilterView alloc] init];
+  [f restoreDefaults];
+  [f release];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   self.postsTableView.scrollEnabled = YES;
+  
+  self.redeemView.frame = self.view.bounds;
+  self.purchView.frame = self.view.bounds;
+  
+  self.postsTableView.frame = CGRectMake(self.mainView.frame.size.width/2-240.f, topBar.frame.origin.y, 480.f, self.mainView.frame.size.height-topBar.frame.origin.y);
+  self.ropeView.center = CGPointMake(self.postsTableView.frame.size.width/2, self.ropeView.center.y);
   
   [self.loadingView stop];
   
@@ -112,9 +113,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.redeemView.hidden = YES;
   
   CGRect f = self.view.frame;
-  self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
+  self.view.center = CGPointMake(self.view.center.x, f.size.height*3/2);
   [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
-    self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
+    self.view.center = CGPointMake(self.view.center.x, f.size.height/2);
   } completion:^(BOOL finished) {
     [self displayRedeemView];
   }];
@@ -127,6 +128,33 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.armoryPriceView.alpha = 0.f;
 }
 
+- (void) searchForEquipId:(int)equipId level:(int)level {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *p = nil;
+  for (FullEquipProto *e in gs.mktSearchEquips) {
+    if (e.equipId == equipId) {
+      p = e;
+      break;
+    }
+  }
+  
+  [self.filterView restoreDefaults];
+  
+  if (p) {
+    [self.filterView.searchView selectSearchEquip:p];
+    
+    if (level > 0) {
+      [self.filterView.forgeLevelBar movePin:YES toNotch:level-1];
+      [self.filterView.forgeLevelBar movePin:NO toNotch:level-1];
+    }
+    
+    [self.filterView.pickerView setSortOrder:RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderPriceLowToHigh];
+  }
+  
+  [self.filterView saveFilterSettings];
+  [MarketplaceViewController displayView];
+}
+
 - (void) displayRedeemView {
   GameState *gs = [GameState sharedGameState];
   if (gs.marketplaceGoldEarnings || gs.marketplaceSilverEarnings) {
@@ -137,7 +165,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     self.redeemGoldLabel.text = [Globals commafyNumber:gs.marketplaceGoldEarnings];
     self.redeemSilverLabel.text = [Globals commafyNumber:gs.marketplaceSilverEarnings];
     
-    [UIView animateWithDuration:0.5 animations:^(void) {
+    [UIView animateWithDuration:0.3f animations:^(void) {
       CGRect tmp = self.redeemView.frame;
       tmp.origin.y = CGRectGetMaxY(self.navBar.frame)-13;
       self.redeemView.frame = tmp;
@@ -177,10 +205,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     
     CGRect f = self.view.frame;
     [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
-      self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
+      self.view.center = CGPointMake(self.view.center.x, f.size.height*3/2);
     } completion:^(BOOL finished) {
       [MarketplaceViewController removeView];
     }];
+    
+    [self.view endEditing:YES];
   }
 }
 
@@ -202,40 +232,27 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     return;
   }
   
-  if (gs.hasValidLicense) {
-    post.state = kSubmitState;
-    
-    if (self.selectedCell != post && self.selectedCell.state == kSubmitState) {
-      self.selectedCell.state = kListState;
-    }
-    self.selectedCell = post;
-    
-    if ([Globals sellsForGoldInMarketplace:fep]) {
-      post.submitPriceIcon.highlighted = YES;
-    } else {
-      post.submitPriceIcon.highlighted = NO;
-    }
-    
-    self.removeView.hidden = YES;
-    
-    [post.priceField becomeFirstResponder];
-    
-    [self updateArmoryPopupForEquipId:post.equip];
-    self.armoryPriceView.alpha = 0.f;
-    [UIView animateWithDuration:0.3f animations:^{
-      self.armoryPriceView.alpha = 1.f;
-    }];
-  } else {
-    [self.mainView addSubview:self.purchLicenseView];
-    [Globals bounceView:self.licenseMainView fadeInBgdView:self.licenseBgdView];
-    
-    [Analytics licensePopup];
+  post.state = kSubmitState;
+  
+  if (self.selectedCell != post && self.selectedCell.state == kSubmitState) {
+    self.selectedCell.state = kListState;
   }
-}
-
-- (IBAction)closePurchLicenseView:(id)sender {
-  [Globals popOutView:self.licenseMainView fadeOutBgdView:self.licenseBgdView completion:^(void) {
-    [purchLicenseView removeFromSuperview];
+  self.selectedCell = post;
+  
+  if ([Globals sellsForGoldInMarketplace:fep]) {
+    post.submitPriceIcon.highlighted = YES;
+  } else {
+    post.submitPriceIcon.highlighted = NO;
+  }
+  
+  self.removeView.hidden = YES;
+  
+  [post.priceField becomeFirstResponder];
+  
+  [self updateArmoryPopupForEquipId:post.equip];
+  self.armoryPriceView.alpha = 0.f;
+  [UIView animateWithDuration:0.3f animations:^{
+    self.armoryPriceView.alpha = 1.f;
   }];
 }
 
@@ -270,10 +287,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     
     if (!amount) {
       post.state = kListState;
-    } else {
+    } else if (![gs hasValidLicense]) {
       FullEquipProto *fep = [gs equipWithId:post.equip.equipId];
-      NSString *desc = [NSString stringWithFormat:@"Removing this posting will cost %d %@. Would you like to post it?", (int)ceilf(amount * gl.retractPercentCut), [Globals sellsForGoldInMarketplace:fep] ? @"Gold" : @"Silver"];
+      NSString *desc = [NSString stringWithFormat:@"Removing this post within %d days will cost %d %@. Post it?", gl.numDaysUntilFreeRetract, (int)ceilf(amount * gl.retractPercentCut), [Globals sellsForGoldInMarketplace:fep] ? @"Gold" : @"Silver"];
       [GenericPopupController displayConfirmationWithDescription:desc title:@"Post Item" okayButton:@"Post" cancelButton:nil target:self selector:@selector(submitItem)];
+    } else {
+      [self submitItem];
     }
   }
 }
@@ -285,13 +304,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [[OutgoingEventController sharedOutgoingEventController] equipPostToMarketplace:post.equip.userEquipId price:amount];
   post.state = kListState;
   
-  GameState *gs = [GameState sharedGameState];
-  if ([gs quantityOfEquip:post.equip.equipId] == 0) {
-    NSIndexPath *path = [postsTableView numberOfRowsInSection:0] <= 2 ? [NSIndexPath indexPathForRow:0 inSection:0] : nil;
-    [postsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:[postsTableView indexPathForCell:post], path, nil] withRowAnimation:UITableViewRowAnimationTop];
-  } else {
-    [post showEquipListing:post.equip];
-  }
+  NSIndexPath *path = [postsTableView numberOfRowsInSection:0] <= 2 ? [NSIndexPath indexPathForRow:0 inSection:0] : nil;
+  [postsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:[postsTableView indexPathForCell:post], path, nil] withRowAnimation:UITableViewRowAnimationTop];
   
   [Analytics successfulPost:post.equip.equipId];
   [coinBar updateLabels];
@@ -308,7 +322,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     self.selectedCell = post;
     
     CGRect tmp = self.removeView.frame;
-    tmp.origin = CGPointMake(post.frame.origin.x+70, post.frame.origin.y-5);
+    tmp.origin = CGPointMake(postsTableView.frame.origin.x+post.frame.origin.x+70, post.frame.origin.y-5);
     self.removeView.frame = tmp;
     
     self.removeView.hidden = NO;
@@ -316,12 +330,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     FullMarketplacePostProto *mkt = post.mktProto;
     Globals *gl = [Globals sharedGlobals];
     
-    if (mkt.diamondCost > 0) {
-      self.removePriceLabel.text = [Globals commafyNumber:(int)ceilf(mkt.diamondCost * gl.retractPercentCut)];
-      self.retractPriceIcon.highlighted = YES;
+    if ([gl canRetractMarketplacePostForFree:mkt]) {
+      removePriceLabel.text = @"0";
+      removeDescriptionLabel.text = [NSString stringWithFormat:@"You can remove this item for free."];
+      retractPriceIcon.highlighted = mkt.diamondCost > 0;
     } else {
-      self.removePriceLabel.text = [Globals commafyNumber:(int)ceilf(mkt.coinCost * gl.retractPercentCut)];
-      self.retractPriceIcon.highlighted = NO;
+      removeDescriptionLabel.text = [NSString stringWithFormat:@"Removing items incurs a %d%% fee:", (int)(gl.retractPercentCut*100)];
+      if (mkt.diamondCost > 0) {
+        self.removePriceLabel.text = [Globals commafyNumber:(int)ceilf(mkt.diamondCost * gl.retractPercentCut)];
+        self.retractPriceIcon.highlighted = YES;
+      } else {
+        self. removePriceLabel.text = [Globals commafyNumber:(int)ceilf(mkt.coinCost * gl.retractPercentCut)];
+        self.retractPriceIcon.highlighted = NO;
+      }
     }
     
     NSIndexPath *indexPath = [self.postsTableView indexPathForCell:post];
@@ -352,28 +373,30 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   Globals *gl = [Globals sharedGlobals];
   [Analytics attemptedRetract];
   
-  if (fmpp.diamondCost > 0) {
-    int amount = (int) ceilf(fmpp.diamondCost*gl.retractPercentCut);
-    if (gs.gold >= amount) {
-      [[OutgoingEventController sharedOutgoingEventController] retractMarketplacePost:fmpp.marketplacePostId];
-      [Analytics successfulRetract];
-      
-      [self.loadingView display:self.view];
+  BOOL canRetract = YES;
+  if (![gl canRetractMarketplacePostForFree:fmpp]) {
+    if (fmpp.diamondCost > 0) {
+      int amount = (int) ceilf(fmpp.diamondCost*gl.retractPercentCut);
+      if (gs.gold < amount) {
+        canRetract = NO;
+        [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fmpp.diamondCost];
+        [Analytics notEnoughGoldForMarketplaceRetract:fmpp.postedEquip.equipId cost:fmpp.diamondCost];
+      }
     } else {
-      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fmpp.diamondCost];
-      [Analytics notEnoughGoldForMarketplaceRetract:fmpp.postedEquip.equipId cost:fmpp.diamondCost];
+      int amount = (int) ceilf(fmpp.coinCost*gl.retractPercentCut);
+      if (gs.silver < amount) {
+        canRetract = NO;
+        [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+        [Analytics notEnoughSilverForMarketplaceRetract:fmpp.postedEquip.equipId cost:fmpp.coinCost];
+      }
     }
-  } else {
-    int amount = (int) ceilf(fmpp.coinCost*gl.retractPercentCut);
-    if (gs.silver >= amount) {
-      [[OutgoingEventController sharedOutgoingEventController] retractMarketplacePost:fmpp.marketplacePostId];
-      [Analytics successfulRetract];
-      
-      [self.loadingView display:self.view];
-    } else {
-      [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
-      [Analytics notEnoughSilverForMarketplaceRetract:fmpp.postedEquip.equipId cost:fmpp.coinCost];
-    }
+  }
+  
+  if (canRetract) {
+    [[OutgoingEventController sharedOutgoingEventController] retractMarketplacePost:fmpp.marketplacePostId];
+    [Analytics successfulRetract];
+    
+    [self.loadingView display:self.mainView];
   }
   
   // Looks choppy. change this by finding the correct table cell and updating that alone..
@@ -443,12 +466,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (IBAction)shortLicenseClicked:(id)sender {
+  Globals *gl = [Globals sharedGlobals];
+  NSString *desc = [NSString stringWithFormat:@"Would you like to buy a %d Day License for %d gold?", gl.numDaysShortMarketplaceLicenseLastsFor, gl.diamondCostOfShortMarketplaceLicense];
+  [GenericPopupController displayConfirmationWithDescription:desc title:@"Buy License?" okayButton:@"Buy" cancelButton:@"Cancel" target:self selector:@selector(purchaseLongLicense)];
+}
+
+- (void) purchaseShortLicense {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
   if (gs.gold >= gl.diamondCostOfShortMarketplaceLicense) {
     [[OutgoingEventController sharedOutgoingEventController] purchaseShortMarketplaceLicense];
-    [self licensePurchaseSuccessful];
+    [self.loadingView display:self.view];
     [Analytics boughtLicense:@"Short"];
   } else {
     [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.diamondCostOfShortMarketplaceLicense];
@@ -459,12 +488,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (IBAction)longLicenseClicked:(id)sender {
+  Globals *gl = [Globals sharedGlobals];
+  NSString *desc = [NSString stringWithFormat:@"Would you like to buy a %d Day License for %d gold?", gl.numDaysLongMarketplaceLicenseLastsFor, gl.diamondCostOfLongMarketplaceLicense];
+  [GenericPopupController displayConfirmationWithDescription:desc title:@"Buy License?" okayButton:@"Buy" cancelButton:@"Cancel" target:self selector:@selector(purchaseLongLicense)];
+}
+
+- (void) purchaseLongLicense {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
   if (gs.gold >= gl.diamondCostOfLongMarketplaceLicense) {
     [[OutgoingEventController sharedOutgoingEventController] purchaseLongMarketplaceLicense];
-    [self licensePurchaseSuccessful];
+    [self.loadingView display:self.view];
     [Analytics boughtLicense:@"Long"];
   } else {
     [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.diamondCostOfLongMarketplaceLicense];
@@ -474,15 +509,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [coinBar updateLabels];
 }
 
-- (void) licensePurchaseSuccessful {
-  self.purchLicenseView.hidden = YES;
-  
-  GameState *gs = [GameState sharedGameState];
-  if (gs.hasValidLicense) {
-    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-  }
-}
-
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   return 1;
@@ -490,8 +516,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   GameState *gs = [GameState sharedGameState];
+  
+  BOOL showsLicenseRow = YES;
+  
   NSArray *a = state == kEquipBuyingState ? gs.marketplaceEquipPosts : gs.marketplaceEquipPostsFromSender;
-  int extra = state == kEquipSellingState ? [[[GameState sharedGameState] myEquips] count] + ![[GameState sharedGameState] hasValidLicense]: 0;
+  int extra = state == kEquipSellingState ? [[[GameState sharedGameState] myEquips] count] + showsLicenseRow: 0;
   int rows = a.count+extra+1;
   if (rows > 1) {
     self.leftRope.alpha = 1.f;
@@ -514,13 +543,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   GameState *gs = [GameState sharedGameState];
-  BOOL displayLicense = self.state == kEquipSellingState ? ![gs hasValidLicense] : 0;
+  BOOL showsLicenseRow = self.state == kEquipSellingState;
   
   NSString *cellId;
   NSString *nibName = nil;
   if ([indexPath row] == 0) {
     cellId = @"Empty";
-  } else if (self.state == kEquipSellingState && indexPath.row == 1 && displayLicense) {
+  } else if (self.state == kEquipSellingState && indexPath.row == 1 && showsLicenseRow) {
     cellId = @"License";
     nibName = @"LicenseRow";
   } else {
@@ -533,13 +562,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     if (nibName) {
       [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil];
       cell = self.itemView;
-      if ([nibName isEqualToString:@"LicenseRow"]) {
-        Globals *gl = [Globals sharedGlobals];
-        shortLicenseCost.text = [NSString stringWithFormat:@"%d", gl.diamondCostOfShortMarketplaceLicense];
-        longLicenseCost.text = [NSString stringWithFormat:@"%d", gl.diamondCostOfLongMarketplaceLicense];
-        shortLicenseLength.text = [NSString stringWithFormat:@"%d days", gl.numDaysShortMarketplaceLicenseLastsFor];
-        longLicenseLength.text = [NSString stringWithFormat:@"%d days", gl.numDaysLongMarketplaceLicenseLastsFor];
-      }
     } else {
       cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId] autorelease];
     }
@@ -547,12 +569,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   if ([cell isKindOfClass:[ItemPostView class]]) {
     NSArray *a = state == kEquipBuyingState ? gs.marketplaceEquipPosts : gs.marketplaceEquipPostsFromSender;
-    if (state == kEquipSellingState && indexPath.row > (a.count+displayLicense)) {
-      NSLog(@"%d, %d", indexPath.row, a.count);
-      [(ItemPostView *)cell showEquipListing:[[gs myEquips] objectAtIndex:indexPath.row-a.count-displayLicense-1]];
+    if (state == kEquipSellingState && indexPath.row > (a.count+showsLicenseRow)) {
+      [(ItemPostView *)cell showEquipListing:[[gs myEquips] objectAtIndex:indexPath.row-a.count-showsLicenseRow-1]];
       return cell;
     }
-    FullMarketplacePostProto *p = [a objectAtIndex:indexPath.row-displayLicense-1];
+    FullMarketplacePostProto *p = [a objectAtIndex:indexPath.row-showsLicenseRow-1];
     
     switch (state) {
       case kEquipBuyingState:
@@ -566,11 +587,33 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
       default:
         break;
     }
+  } else if ([cell isKindOfClass:[LicenseRow class]]) {
+    [(LicenseRow *)cell loadCurrentState];
   }
   return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+static float mktCellHeight = 0.f;
+static float mktLicenseCellHeight = 0.f;
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (indexPath.row == 0) return tableView.rowHeight;
+  
+  BOOL showsLicenseRow = YES;
+  if (self.state == kEquipSellingState && indexPath.row == 1 && showsLicenseRow) {
+    if (mktLicenseCellHeight == 0.f) {
+      UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+      mktLicenseCellHeight = cell.frame.size.height;
+    }
+    return mktLicenseCellHeight;
+  } else if (mktCellHeight == 0.f) {
+    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    mktCellHeight = cell.frame.size.height;
+  }
+  return mktCellHeight;
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (self.state == kEquipBuyingState) {
     ItemPostView *cell = (ItemPostView *)[tableView cellForRowAtIndexPath:indexPath];
     
@@ -730,10 +773,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     start = 0;
   }
   for (int i = start; i < start+numRows; i++) {
-    [arr addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+    [arr addObject:path];
+    UITableViewCell *cell = [self.postsTableView cellForRowAtIndexPath:path];
+    [cell.superview sendSubviewToBack:cell];
   }
   if (arr.count > 0) {
-    [self.postsTableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationBottom];
+    [self.postsTableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationFade];
   }
   [arr release];
 }
@@ -797,7 +843,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 
 - (MarketplaceFilterView *) filterView {
   if (!filterView) {
-    [[NSBundle mainBundle] loadNibNamed:@"MarketplaceFilterView" owner:self options:nil];
+    Globals *gl = [Globals sharedGlobals];
+    NSBundle *bundle = [Globals bundleNamed:gl.downloadableNibConstants.filtersNibName];
+    [bundle loadNibNamed:@"MarketplaceFilterView" owner:self options:nil];
   }
   return filterView;
 }
@@ -820,6 +868,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     MarketplaceDragView *dragView = [[MarketplaceDragView alloc] initWithFrame:self.mainView.bounds];
     [self.mainView addSubview:dragView];
     dragView.tag = DRAG_VIEW_TAG;
+    [dragView release];
     
     _swipeGestureRecognizer.enabled = NO;
   }
@@ -853,8 +902,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   }
 }
 
-- (void) viewDidUnload {
-  [super viewDidUnload];
+- (void) receivedPurchaseMktLicenseResponse:(PurchaseMarketplaceLicenseResponseProto *)p {
+  [self.loadingView stop];
+  [self.postsTableView reloadData];
+  [self.coinBar updateLabels];
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self.view endEditing:YES];
+}
+
+- (void) didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
   self.navBar = nil;
   self.topBar = nil;
   self.itemView = nil;
@@ -868,7 +927,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.doneButton = nil;
   self.listAnItemButton = nil;
   self.redeemView = nil;
-  self.purchLicenseView = nil;
   self.redeemGoldLabel = nil;
   self.redeemSilverLabel = nil;
   self.redeemTitleLabel = nil;
@@ -877,17 +935,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.rightRope = nil;
   self.leftRopeFirstRow = nil;
   self.rightRopeFirstRow = nil;
-  self.shortLicenseCost = nil;
-  self.shortLicenseLength = nil;
-  self.longLicenseCost = nil;
-  self.longLicenseLength = nil;
   self.loadingView = nil;
   self.purchView = nil;
-  self.licenseBgdView = nil;
-  self.licenseMainView = nil;
   self.bottomBar = nil;
   self.filterView = nil;
   self.mainView = nil;
+  self.removeDescriptionLabel = nil;
+  self.removePriceLabel = nil;
+  self.retractPriceIcon = nil;
   [_swipeGestureRecognizer release];
 }
 

@@ -436,20 +436,31 @@
 
 - (void) awakeFromNib {
   self.darkView.layer.cornerRadius = 10.f;
+  self.darkView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 }
 
 - (void) display:(UIView *)view {
   [self.actIndView startAnimating];
   
   [view addSubview:self];
+  self.frame = view.bounds;
   _isDisplayingLoadingView = YES;
+  
+  self.alpha = 0.f;
+  [UIView animateWithDuration:0.15f animations:^{
+    self.alpha = 1.f;
+  }];
 }
 
 - (void) stop {
   if (_isDisplayingLoadingView) {
-    [self.actIndView stopAnimating];
-    [self removeFromSuperview];
-    _isDisplayingLoadingView = NO;
+    [UIView animateWithDuration:0.15f animations:^{
+      self.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [self.actIndView stopAnimating];
+      [self removeFromSuperview];
+      _isDisplayingLoadingView = NO;
+    }];
   }
 }
 

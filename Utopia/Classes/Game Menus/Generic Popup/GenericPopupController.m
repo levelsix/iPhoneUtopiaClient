@@ -60,6 +60,10 @@
   [self close];
 }
 
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self endEditing:YES];
+}
+
 - (void) dealloc {
   self.titleLabel = nil;
   self.descriptionLabel = nil;

@@ -310,5 +310,6 @@ typedef enum {
 + (void) purgeSingleton;
 + (void) displayView;
 + (void) removeView;
++ (BOOL) isInitialized;
 
 @end

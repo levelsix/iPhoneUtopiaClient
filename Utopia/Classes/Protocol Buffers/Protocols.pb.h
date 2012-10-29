@@ -52,6 +52,8 @@
 @class ChatResponseProto_Builder;
 @class ClanBulletinPostProto;
 @class ClanBulletinPostProto_Builder;
+@class ClanTierLevelProto;
+@class ClanTierLevelProto_Builder;
 @class ClanTowerProto;
 @class ClanTowerProto_Builder;
 @class CollectForgeEquipsRequestProto;
@@ -180,8 +182,6 @@
 @class LockBoxItemProto_Builder;
 @class LogoutRequestProto;
 @class LogoutRequestProto_Builder;
-@class MarketplaceSearchEquipProto;
-@class MarketplaceSearchEquipProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
@@ -420,6 +420,10 @@
 @class UnhandledBlacksmithAttemptProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
+@class UpgradeClanTierLevelRequestProto;
+@class UpgradeClanTierLevelRequestProto_Builder;
+@class UpgradeClanTierLevelResponseProto;
+@class UpgradeClanTierLevelResponseProto_Builder;
 @class UpgradeNormStructureRequestProto;
 @class UpgradeNormStructureRequestProto_Builder;
 @class UpgradeNormStructureResponseProto;
@@ -518,6 +522,7 @@ typedef enum {
   EventProtocolRequestCPickLockBoxEvent = 71,
   EventProtocolRequestCBossActionEvent = 72,
   EventProtocolRequestCBeginClanTowerWar = 73,
+  EventProtocolRequestCUpgradeClanTierEvent = 74,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -596,6 +601,7 @@ typedef enum {
   EventProtocolResponseSPickLockBoxEvent = 71,
   EventProtocolResponseSBossActionEvent = 72,
   EventProtocolResponseSBeginClanTowerWar = 73,
+  EventProtocolResponseSUpgradeClanTierEvent = 74,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

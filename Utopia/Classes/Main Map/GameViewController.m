@@ -52,6 +52,7 @@
 #import "ClanMenuController.h"
 #import "LockBoxMenuController.h"
 #import "ThreeCardMonteViewController.h"
+#import "CharSelectionViewController.h"
 
 #define DOOR_CLOSE_DURATION 1.5f
 #define DOOR_OPEN_DURATION 1.f
@@ -90,6 +91,8 @@
 @end
 
 @implementation GameViewController
+
+SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
 + (void) releaseAllViews {
   [[GameState sharedGameState] clearAllData];
@@ -138,7 +141,7 @@
   [EquipMenuController purgeSingleton];
   [ThreeCardMonteViewController removeView];
   [ThreeCardMonteViewController purgeSingleton];
-  [[HomeMap sharedHomeMap] invalidateAllTimers];
+  if ([HomeMap isInitialized]) [[HomeMap sharedHomeMap] invalidateAllTimers];
   [HomeMap purgeSingleton];
   [BazaarMap purgeSingleton];
   [BattleLayer purgeSingleton];
@@ -152,39 +155,35 @@
   [sharedGameViewController loadDefaultImage];
 }
 
-- (void) viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
-}
-
-- (void) viewDidDisappear:(BOOL)animated {
-  [super viewDidDisappear:animated];
-}
-
 - (void) removeAllSubviews {
   NSMutableArray *toRemove = [NSMutableArray array];
   for (UIView *view in sharedGameViewController.view.subviews) {
-    if (![view isKindOfClass:[EAGLView class]]) {
+    if (![view isKindOfClass:[EAGLView class]] && view.tag != CHAR_SELECTION_VIEW_TAG) {
       [toRemove addObject:view];
     }
   }
   for (UIView *view in toRemove) {
     [view removeFromSuperview];
   }
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:CHAR_SELECTION_CLOSE_NOTIFICATION object:nil];
 }
-
-SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
 - (void) fadeToLoadingScreen {
   [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
   
-  UIView *v = self.view;
+  UIView *v = [[UIView alloc] initWithFrame:self.view.bounds];
+  [self.view addSubview:v];
+  v.tag = KINGDOM_PNG_IMAGE_VIEW_TAG;
+  v.backgroundColor = [UIColor blackColor];
+  
   UIImageView *imgView = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"ageofchaos.png"]];
   imgView.transform = CGAffineTransformMakeRotation(M_PI/2);
-  imgView.tag = KINGDOM_PNG_IMAGE_VIEW_TAG;
   imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
   imgView.userInteractionEnabled = YES;
   [v addSubview:imgView];
   [imgView release];
+  [v release];
   
   UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
   // Remember to position at bottom right corner to account for the flip
@@ -193,9 +192,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [spinner startAnimating];
   [spinner release];
   
-  imgView.alpha = 0.f;
+  v.alpha = 0.f;
   [UIView animateWithDuration:1.5f delay:1.f options:UIViewAnimationOptionTransitionNone animations:^{
-    imgView.alpha = 1.f;
+    v.alpha = 1.f;
   } completion:^(BOOL finished) {
     [self removeSplashImageView];
   }];
@@ -226,11 +225,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   }];
 }
 
+- (void) allowRestartOfGame {
+  _startedGame = NO;
+}
+
 - (void) startGame {
-  GameState *gs = [GameState sharedGameState];
+  if (_startedGame) {
+    return;
+  }
+  _startedGame = YES;
   
-  [self removeSplashImageView];
-  [self removeKingdomImageView];
+  GameState *gs = [GameState sharedGameState];
   
   if (gs.isTutorial) {
     TutorialStartLayer *tsl = (TutorialStartLayer *)[[[CCDirector sharedDirector] runningScene] getChildByTag:5];
@@ -239,12 +244,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   } else {
     [[TopBar sharedTopBar] start];
   }
+  
+  [self removeSplashImageView];
+  [self removeKingdomImageView];
 }
 
 - (void)setupCocos2D {
+//  CGRect frame = CGRectMake(0, 0, 480, 320);
   EAGLView *glView = [EAGLView viewWithFrame:self.view.bounds
                                  pixelFormat:kEAGLColorFormatRGBA8	// kEAGLColorFormatRGBA8
                                  depthFormat:0];                       // GL_DEPTH_COMPONENT16_OES
+  
+//  glView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
   
   // Display link director is causing problems with uiscrollview and table view.
   //  [CCDirector setDirectorType:kCCDirectorTypeDisplayLink];
@@ -299,7 +310,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 - (void) loadView {
   CGRect rect = [[UIScreen mainScreen] bounds];
   CGSize size = rect.size;
-  rect.size = CGSizeMake(480, 320);
+  rect.size = CGSizeMake(rect.size.height, rect.size.width);//480, 320);
   rect.origin = CGPointMake((size.height-rect.size.width)/2, (size.width-rect.size.height)/2);
   GameView *v = [[GameView alloc] initWithFrame:rect];
   v.backgroundColor = [UIColor blackColor];
@@ -313,32 +324,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 }
 
 - (void) loadDefaultImage {
-  UIView *v = self.view;
+  UIView *v = [[UIView alloc] initWithFrame:self.view.bounds];
+  [self.view addSubview:v];
+  v.tag = DEFAULT_PNG_IMAGE_VIEW_TAG;
+  v.backgroundColor = [UIColor blackColor];
+  
   UIImageView *imgView = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"Default.png"]];
   imgView.transform = CGAffineTransformMakeRotation(M_PI/2);
-  imgView.tag = DEFAULT_PNG_IMAGE_VIEW_TAG;
   imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
   [v addSubview:imgView];
   [imgView release];
+  [v release];
+  
+  _startedGame = NO;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   BOOL should =  UIInterfaceOrientationIsLandscape(interfaceOrientation);
 	return should;
 }
-
-- (void)didReceiveMemoryWarning {
-  // Don't allow release of this
-  return;
-}
-
-- (void)viewDidUnload {
-  [super viewDidUnload];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  [[CCDirector sharedDirector] end];
-}
-
 
 - (void)dealloc {
   [super dealloc];

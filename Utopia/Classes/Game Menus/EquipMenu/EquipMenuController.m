@@ -148,7 +148,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
                           botColor:[Globals colorForRarity:fep.rarity]];
       
       [Globals popupView:testView 
-             onSuperView:self.view
+             onSuperView:self.mainView
                  atPoint:startLoc
      withCompletionBlock:nil];
       
@@ -157,9 +157,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   }
 }
 
-- (void)viewDidUnload
+- (void)didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.titleLabel = nil;

@@ -303,7 +303,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   NSString *key = IAP_DEFAULTS_KEY;
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   NSArray *arr = [defaults arrayForKey:key];
-  NSMutableArray *mut = arr ? [arr mutableCopy] : [NSMutableArray array];
+  NSMutableArray *mut = arr ? [[arr mutableCopy] autorelease] : [NSMutableArray array];
   [mut addObject:receipt];
   [defaults setObject:mut forKey:IAP_DEFAULTS_KEY];
   [defaults synchronize];
@@ -377,7 +377,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   [[[GameState sharedGameState] marketplaceEquipPostsFromSender] removeAllObjects];
   int tag = [sc sendRetrieveCurrentMarketplacePostsMessageFromSenderWithCurNumEntries:0];
-  [[MarketplaceViewController sharedMarketplaceViewController] deleteRows:1];
+  [[MarketplaceViewController sharedMarketplaceViewController] deleteRows:2];
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
@@ -394,8 +394,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (price <= 0) {
     [Globals popupMessage:@"You need to enter a price!"];
     return;
-  } else if (!gs.hasValidLicense) {
-    [Globals popupMessage:@"You need a license to make a post"];
   }
   
   UserEquip *eq = [gs myEquipWithUserEquipId:userEquipId];
@@ -427,29 +425,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if (proto.marketplacePostId == postId) {
       BOOL isGold = NO;
       int amount = 0;
-      if (proto.diamondCost > 0) {
-        isGold = YES;
-        amount = (int) ceilf(proto.diamondCost*gl.retractPercentCut);
-        if (gs.gold < amount)  {
-          [Globals popupMessage:@"Not enough gold to retract"];
-          return;
-        }
-      } else {
-        isGold = NO;
-        amount = (int) ceilf(proto.coinCost*gl.retractPercentCut);
-        if (gs.silver < amount) {
-          [Globals popupMessage:@"Not enough silver to retract"];
-          return;
+      if (![gl canRetractMarketplacePostForFree:proto]) {
+        if (proto.diamondCost > 0) {
+          isGold = YES;
+          amount = (int) ceilf(proto.diamondCost*gl.retractPercentCut);
+          if (gs.gold < amount)  {
+            [Globals popupMessage:@"Not enough gold to retract"];
+            return;
+          }
+        } else {
+          isGold = NO;
+          amount = (int) ceilf(proto.coinCost*gl.retractPercentCut);
+          if (gs.silver < amount) {
+            [Globals popupMessage:@"Not enough silver to retract"];
+            return;
+          }
         }
       }
-      int tag = [sc sendRetractMarketplacePostMessage:postId];
+      int tag = [sc sendRetractMarketplacePostMessage:postId curTime:[self getCurrentMilliseconds]];
       
+      [proto retain];
       [mktPostsFromSender removeObject:proto];
       // Might be in either list depending on current state
       [gs.marketplaceEquipPostsFromSender removeObject:proto];
       [gs.marketplaceEquipPosts removeObject:proto];
+      [proto release];
       
-      NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+![[GameState sharedGameState] hasValidLicense] inSection:0];
+      BOOL showsLicenseRow = YES;
+      NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+showsLicenseRow inSection:0];
       NSIndexPath *z = nil;
       if (mvc.state == kEquipBuyingState && mktPostsFromSender.count == 0) {
         z = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -457,7 +460,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         z = [NSIndexPath indexPathForRow:0 inSection:0];
       }
       NSArray *a = [NSArray arrayWithObjects:y, z, nil];
-      [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
+      [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationFade];
       
       FullUserUpdate *fuu = isGold ? [GoldUpdate updateWithTag:tag change:-amount] : [SilverUpdate updateWithTag:tag change:-amount];
       [gs addUnrespondedUpdate:fuu];
@@ -523,9 +526,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (gs.gold < gl.diamondCostOfShortMarketplaceLicense) {
     [Globals popupMessage:@"Trying to buy short license without enough gold"];
   } else {
-    NSDate *date = [NSDate date];
-    [sc sendPurchaseMarketplaceLicenseMessage:[date timeIntervalSince1970]*1000 type:PurchaseMarketplaceLicenseRequestProto_LicenseTypeShort];
-    gs.lastShortLicensePurchaseTime = date;
+    uint64_t curTime = [self getCurrentMilliseconds];
+    int tag = [sc sendPurchaseMarketplaceLicenseMessage:curTime type:PurchaseMarketplaceLicenseRequestProto_LicenseTypeShort];
+    gs.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:curTime/1000.];
+    
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gl.diamondCostOfShortMarketplaceLicense]];
   }
 }
 
@@ -539,9 +544,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (gs.gold < gl.diamondCostOfLongMarketplaceLicense) {
     [Globals popupMessage:@"Trying to buy long license without enough gold"];
   } else {
-    NSDate *date = [NSDate date];
-    [sc sendPurchaseMarketplaceLicenseMessage:[date timeIntervalSince1970]*1000 type:PurchaseMarketplaceLicenseRequestProto_LicenseTypeLong];
-    gs.lastLongLicensePurchaseTime = date;
+    uint64_t curTime = [self getCurrentMilliseconds];
+    int tag = [sc sendPurchaseMarketplaceLicenseMessage:curTime type:PurchaseMarketplaceLicenseRequestProto_LicenseTypeLong];
+    gs.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:curTime/1000.];
+    
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gl.diamondCostOfShortMarketplaceLicense]];
   }
 }
 
@@ -1157,7 +1164,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   if (shouldSend) {
-    int tag = [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:[rDefeatTypeJobs allObjects] possessEquipJobIds:[rPossessEquipJobs allObjects] upgradeStructJobIds:[rUpgradeStructJobs allObjects] lockBoxEvents:YES];
+    int tag = [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:[rDefeatTypeJobs allObjects] possessEquipJobIds:[rPossessEquipJobs allObjects] upgradeStructJobIds:[rUpgradeStructJobs allObjects] lockBoxEvents:YES clanTierLevels:NO];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
@@ -1166,7 +1173,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   NSNumber *n = [NSNumber numberWithInt:equipId];
   if (![gs.staticEquips objectForKey:n] && equipId != 0) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
@@ -1203,7 +1210,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   MapViewController *mvc = [MapViewController isInitialized] ? [MapViewController sharedMapViewController] : nil;
   
   if (!city) {
-    [Globals popupMessage:@"Trying to visit nil city"];
+    [Globals popupMessage:@"You are not high enough level to access this city!"];
     return;
   }
   if ([[GameLayer sharedGameLayer] currentCity] == city.cityId) {
@@ -1211,12 +1218,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return;
   }
   
-  
   if (city.minLevel <= gs.level) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendLoadNeutralCityMessage:city.cityId];
     
     if (![BattleLayer isInitialized] || ![[BattleLayer sharedBattleLayer] isRunning]) {
-      [[[GameLayer sharedGameLayer] loadingView] displayWithText:[NSString stringWithFormat:@"Traveling to %@", city.name]];
+      GameLayer *glay = [GameLayer sharedGameLayer];
+      [glay.currentMap pickUpAllDrops];
+      [glay.loadingView displayWithText:[NSString stringWithFormat:@"Traveling to %@", city.name]];
     }
     
     // Load any tasks we don't have as well
@@ -1229,7 +1237,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     if (rTasks.count > 0) {
-      [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
+      [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
     }
     
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
@@ -1639,7 +1647,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   
   int cost = gl.diamondCostToChangeCharacterType;
-  if (gs.gold >= cost) {
+  if (gs.clan && ![Globals userType:type isAlliesWith:gs.type]) {
+    [Globals popupMessage:@"Attempting to switch sides while in a clan."];
+  } else if (gs.type == type) {
+    [Globals popupMessage:@"Attempting to switch to same side."];
+  } else if (gs.gold >= cost) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendCharacterModWithType:CharacterModTypeChangeCharacterType newType:type newName:nil];;
     GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-cost];
     [gs addUnrespondedUpdate:gu];
@@ -1663,7 +1675,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   
   int cost = gl.diamondCostToResetCharacter;
-  if (gs.gold >= cost) {
+  if (gs.clan) {
+    [Globals popupMessage:@"Attempting to reset game while in a clan."];
+  } else if (gs.gold >= cost) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendCharacterModWithType:CharacterModTypeNewPlayer newType:0 newName:nil];
     GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-cost];
     [gs addUnrespondedUpdate:gu];
@@ -1860,6 +1874,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveClanBulletinPostsMessage:beforeThisPostId];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+}
+
+- (void) upgradeClanTierLevel {
+  GameState *gs = [GameState sharedGameState];
+  ClanTierLevelProto *p = [gs clanTierForLevel:gs.clan.currentTierLevel];
+  int cost = p.upgradeCost;
+  
+  if (gs.clan.ownerId != gs.userId) {
+    [Globals popupMessage:@"Attempting to upgrade clan tier level while not leader."];
+  } else if (gs.gold < cost) {
+    [Globals popupMessage:@"Attempting to upgrade clan tier level without enough gold."];
+  } else {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendUpgradeClanTierLevelMessage];
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-cost]];
+  }
 }
 
 - (void) beginGoldmineTimer {

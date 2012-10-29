@@ -40,14 +40,13 @@
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIImageView" id="11517145">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">256</int>
-						<string key="NSFrameSize">{480, 320}</string>
+						<int key="NSvFlags">303</int>
+						<string key="NSFrameSize">{568, 320}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="6754189"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage" id="381548570">
@@ -57,7 +56,7 @@
 					</object>
 					<object class="IBUIView" id="6754189">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">292</int>
+						<int key="NSvFlags">301</int>
 						<array class="NSMutableArray" key="NSSubviews">
 							<object class="IBUIImageView" id="219045182">
 								<reference key="NSNextResponder" ref="6754189"/>
@@ -478,6 +477,7 @@
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<bool key="IBUIEnabled">NO</bool>
 										<int key="IBUIContentHorizontalAlignment">0</int>
 										<int key="IBUIContentVerticalAlignment">0</int>
 										<reference key="IBUIHighlightedTitleColor" ref="289144257"/>
@@ -978,7 +978,7 @@
 								</object>
 							</object>
 						</array>
-						<string key="NSFrameSize">{480, 320}</string>
+						<string key="NSFrame">{{44, 0}, {480, 320}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="219045182"/>
@@ -987,7 +987,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</array>
-				<string key="NSFrameSize">{480, 320}</string>
+				<string key="NSFrameSize">{568, 320}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="11517145"/>
@@ -995,6 +995,23 @@
 				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 					<int key="IBUIInterfaceOrientation">3</int>
 					<int key="interfaceOrientation">3</int>
+				</object>
+				<object class="IBUIScreenMetrics" key="IBUISimulatedDestinationMetrics">
+					<string key="IBUISimulatedSizeMetricsClass">IBUIScreenMetrics</string>
+					<object class="NSMutableDictionary" key="IBUINormalizedOrientationToSizeMap">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<array key="dict.sortedKeys">
+							<integer value="1"/>
+							<integer value="3"/>
+						</array>
+						<array key="dict.values">
+							<string>{320, 568}</string>
+							<string>{568, 320}</string>
+						</array>
+					</object>
+					<string key="IBUITargetRuntime">IBCocoaTouchFramework</string>
+					<string key="IBUIDisplayName">Retina 4 Full Screen</string>
+					<int key="IBUIType">2</int>
 				</object>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
@@ -1004,21 +1021,20 @@
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIImageView" id="75706640">
 						<reference key="NSNextResponder" ref="877820378"/>
-						<int key="NSvFlags">256</int>
+						<int key="NSvFlags">303</int>
 						<string key="NSFrameSize">{480, 320}</string>
 						<reference key="NSSuperview" ref="877820378"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="540204233"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<reference key="IBUIImage" ref="381548570"/>
 					</object>
 					<object class="IBUIView" id="540204233">
 						<reference key="NSNextResponder" ref="877820378"/>
-						<int key="NSvFlags">292</int>
+						<int key="NSvFlags">301</int>
 						<array class="NSMutableArray" key="NSSubviews">
 							<object class="IBUIImageView" id="515450255">
 								<reference key="NSNextResponder" ref="540204233"/>
@@ -1690,21 +1706,20 @@
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIImageView" id="989206538">
 						<reference key="NSNextResponder" ref="570373065"/>
-						<int key="NSvFlags">256</int>
+						<int key="NSvFlags">303</int>
 						<string key="NSFrameSize">{480, 320}</string>
 						<reference key="NSSuperview" ref="570373065"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="506405143"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<reference key="IBUIImage" ref="381548570"/>
 					</object>
 					<object class="IBUIView" id="506405143">
 						<reference key="NSNextResponder" ref="570373065"/>
-						<int key="NSvFlags">292</int>
+						<int key="NSvFlags">301</int>
 						<array class="NSMutableArray" key="NSSubviews">
 							<object class="IBUIImageView" id="474418153">
 								<reference key="NSNextResponder" ref="506405143"/>
@@ -3058,6 +3073,104 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">LockBoxInfoView</string>
+					<string key="superclassName">UIView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">closeClicked:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">closeClicked:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">closeClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="attackLabel">UILabel</string>
+						<string key="bgdView">UIView</string>
+						<string key="defenseLabel">UILabel</string>
+						<string key="descriptionImage">UIImageView</string>
+						<string key="descriptionLabel">UILabel</string>
+						<string key="equipNameLabel">UILabel</string>
+						<string key="item1Icon">UIImageView</string>
+						<string key="item2Icon">UIImageView</string>
+						<string key="item3Icon">UIImageView</string>
+						<string key="item4Icon">UIImageView</string>
+						<string key="item5Icon">UIImageView</string>
+						<string key="mainView">UIView</string>
+						<string key="prizeEquipIcon">EquipButton</string>
+						<string key="tagIcon">UIImageView</string>
+						<string key="topLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="attackLabel">
+							<string key="name">attackLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bgdView">
+							<string key="name">bgdView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="defenseLabel">
+							<string key="name">defenseLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="descriptionImage">
+							<string key="name">descriptionImage</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="descriptionLabel">
+							<string key="name">descriptionLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="equipNameLabel">
+							<string key="name">equipNameLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="item1Icon">
+							<string key="name">item1Icon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="item2Icon">
+							<string key="name">item2Icon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="item3Icon">
+							<string key="name">item3Icon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="item4Icon">
+							<string key="name">item4Icon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="item5Icon">
+							<string key="name">item5Icon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="mainView">
+							<string key="name">mainView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="prizeEquipIcon">
+							<string key="name">prizeEquipIcon</string>
+							<string key="candidateClassName">EquipButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tagIcon">
+							<string key="name">tagIcon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="topLabel">
+							<string key="name">topLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/LockBoxInfoView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">LockBoxItemView</string>
 					<string key="superclassName">UIView</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
@@ -3104,12 +3217,12 @@
 						<string key="itemView3">LockBoxItemView</string>
 						<string key="itemView4">LockBoxItemView</string>
 						<string key="itemView5">LockBoxItemView</string>
+						<string key="lockBoxInfoView">LockBoxInfoView</string>
 						<string key="mainView">UIView</string>
 						<string key="numBoxesLabel">UILabel</string>
 						<string key="pickView">LockBoxPickView</string>
 						<string key="prizeView">LockBoxPrizeView</string>
 						<string key="silverLabel">UILabel</string>
-						<string key="stolenEquipView">StolenEquipView</string>
 						<string key="topPickLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -3153,6 +3266,10 @@
 							<string key="name">itemView5</string>
 							<string key="candidateClassName">LockBoxItemView</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="lockBoxInfoView">
+							<string key="name">lockBoxInfoView</string>
+							<string key="candidateClassName">LockBoxInfoView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="mainView">
 							<string key="name">mainView</string>
 							<string key="candidateClassName">UIView</string>
@@ -3172,10 +3289,6 @@
 						<object class="IBToOneOutletInfo" key="silverLabel">
 							<string key="name">silverLabel</string>
 							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="stolenEquipView">
-							<string key="name">stolenEquipView</string>
-							<string key="candidateClassName">StolenEquipView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="topPickLabel">
 							<string key="name">topPickLabel</string>

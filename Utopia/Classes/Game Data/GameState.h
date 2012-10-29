@@ -214,6 +214,8 @@
 
 @property (retain) NSMutableArray *goldSaleTimers;
 
+@property (retain) NSDictionary *clanTierLevels;
+
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
 
@@ -262,6 +264,10 @@
 - (void) addToStaticPossessEquipJobs:(NSArray *)arr;
 - (void) addToStaticUpgradeStructJobs:(NSArray *)arr;
 - (void) addNewStaticLockBoxEvents:(NSArray *)events;
+- (void) addToClanTierLevels:(NSArray *) tiers;
+
+- (ClanTierLevelProto *) clanTierForLevel:(int)level;
+- (int) maxClanTierLevel;
 
 - (void) addUnrespondedUpdate:(id<GameStateUpdate>)up;
 - (void) addUnrespondedUpdates:(id<GameStateUpdate>)field1, ... NS_REQUIRES_NIL_TERMINATION;
@@ -286,6 +292,7 @@
 - (void) resetLockBoxTimers;
 - (LockBoxEventProto *) getCurrentLockBoxEvent;
 - (void) addToNumLockBoxesForEvent:(int)eventId;
+- (void) updateLockBoxButton;
 
 - (void) resetGoldSaleTimers;
 - (GoldSaleProto *) getCurrentGoldSale;

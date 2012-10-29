@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "NibUtils.h"
 
+#define CHAR_SELECTION_VIEW_TAG 923
+#define CHAR_SELECTION_CLOSE_NOTIFICATION @"CharSelectionClose"
+
 @interface CharSelectionViewController : UIViewController <UIScrollViewDelegate, UITextFieldDelegate> {
   float _pageWidth;
   float _barWidth;
@@ -48,5 +51,7 @@
 @property (nonatomic, retain) IBOutlet NiceFontTextField *nameTextField;
 
 @property (nonatomic, retain) IBOutlet LoadingView *loadingView;
+
+@property (nonatomic, retain) IBOutlet UIView *cancelView;
 
 @end

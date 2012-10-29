@@ -47,6 +47,7 @@
 @property (nonatomic, retain) IBOutlet UIView *inProgressView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) IBOutlet UIImageView *questGiverImageView;
+@property (nonatomic, retain) IBOutlet UIImageView *priorityTag;
 
 @property (nonatomic, retain) FullQuestProto *quest;
 
@@ -64,9 +65,17 @@
 
 @end
 
-@interface QuestListTableDelegate : NSObject <UITableViewDelegate, UITableViewDataSource>
+@interface QuestListTableDelegate : NSObject <UITableViewDelegate, UITableViewDataSource> {
+  BOOL recQuestIsInProgress;
+}
 
 @property (nonatomic, retain) IBOutlet QuestCell *questCell;
+@property (nonatomic, retain) UIView *recommendedQuestHeader;
+
+@property (nonatomic, retain) NSMutableArray *completedQuests;
+@property (nonatomic, retain) NSMutableArray *inProgressQuests;
+@property (nonatomic, retain) NSMutableArray *availableQuests;
+@property (nonatomic, retain) FullQuestProto *recommendedQuest;
 
 @end
 
@@ -98,6 +107,8 @@
 @property (nonatomic, retain) IBOutlet UIView *backButton;
 
 @property (nonatomic, retain) IBOutlet UIImageView *questGiverImageView;
+
+@property (nonatomic, retain) IBOutlet UIView *recommendedQuestHeader;
 
 @property (nonatomic, retain) QuestListTableDelegate *questListDelegate;
 @property (nonatomic, retain) TaskListTableDelegate *taskListDelegate;

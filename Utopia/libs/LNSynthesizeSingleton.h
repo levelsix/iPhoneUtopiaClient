@@ -85,13 +85,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(controllername) \
 + (void) displayView {\
   controllername *c = [controllername shared##controllername];\
   if (!c.view.superview) {\
-    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:c.view];\
-    NSArray *versionCompatibility = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."]; \
-    if ( 5 > [[versionCompatibility objectAtIndex:0] intValue] ) { \
-      [c viewWillAppear:YES]; \
-    } \
+    [Globals displayUIView:c.view];\
   } else { \
-    [[[[CCDirector sharedDirector] openGLView] superview] bringSubviewToFront:c.view]; \
+    [c.view.superview bringSubviewToFront:c.view]; \
   }\
 }\
 \

@@ -12,6 +12,9 @@
 #import "InGameNotification.h"
 #import "ChatBottomView.h"
 
+#define ENST_BAR_TAG 165
+#define COIN_BAR_TAG 166
+
 typedef enum {
   kNotShowing = 1,
   kEnergy,

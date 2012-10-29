@@ -105,7 +105,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UITableViewCell *searchCell;
 @property (nonatomic, retain) IBOutlet UITableViewCell *loadingCell;
 
-@property (nonatomic, retain) NSString *searchString;
+@property (nonatomic, copy) NSString *searchString;
 
 @property (nonatomic, assign) BOOL shouldReload;
 
@@ -126,6 +126,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *foundedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *bottomButtonLabel;
 @property (nonatomic, retain) IBOutlet UIView *bottomButtonView;
+@property (nonatomic, retain) IBOutlet UIButton *upgradeTierButton;
 
 @property (nonatomic, retain) FullClanProtoWithClanSize *clan;
 

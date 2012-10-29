@@ -67,7 +67,7 @@
 
 - (void) moveToStruct:(int)structId showArrow:(BOOL)showArrow;
 - (void) moveToTutorialGirl;
-- (void) moveToCarpenterShowArrow:(BOOL)showArrow;
+- (void) moveToCarpenterShowArrow:(BOOL)showArrow structId:(int)structId;
 
 - (void) beginTimers;
 

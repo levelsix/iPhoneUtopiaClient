@@ -274,9 +274,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:forumLink]];
 }
 
-- (void)viewDidUnload
+- (void)didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.gameplayTextStrings = nil;

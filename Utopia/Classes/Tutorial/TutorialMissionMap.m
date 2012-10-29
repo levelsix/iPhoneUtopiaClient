@@ -131,10 +131,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     _canUnclick = YES;
     
     _ccArrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
-    [_questGiver addChild:_ccArrow];
-    _ccArrow.position = ccp(_questGiver.contentSize.width/2, _questGiver.contentSize.height+_ccArrow.contentSize.height+20);
-    
-    [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
+//    [_questGiver addChild:_ccArrow];
+//    _ccArrow.position = ccp(_questGiver.contentSize.width/2, _questGiver.contentSize.height+_ccArrow.contentSize.height+20);
+//    [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
     
     r = CGRectZero;
     r.origin = ccp(29,25);
@@ -521,9 +520,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
       // Move arrow back to task quest giver
       [_ccArrow removeFromParentAndCleanup:YES];
       _questGiver.questGiverState = kCompleted;
-      [_questGiver addChild:_ccArrow];
-      _ccArrow.position = ccp(_questGiver.contentSize.width/2, _questGiver.contentSize.height+_ccArrow.contentSize.height+20);
-      [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
+//      [_questGiver addChild:_ccArrow];
+//      _ccArrow.position = ccp(_questGiver.contentSize.width/2, _questGiver.contentSize.height+_ccArrow.contentSize.height+20);
+//      [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
       
       [Analytics tutorialTaskComplete];
     }

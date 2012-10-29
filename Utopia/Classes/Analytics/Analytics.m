@@ -12,6 +12,7 @@
 #import "GameState.h"
 #import <StoreKit/StoreKit.h>
 #import "Crittercism.h"
+#import "GGEventLog.h"
 
 #define OPENED_APP @"App: Opened"
 #define BEGAN_APP @"App: Began"
@@ -156,6 +157,7 @@
 #ifndef DEBUG
   [Apsalar event:event];
   [Crittercism leaveBreadcrumb:event];
+  [GGEventLog logEvent:event];
 #endif
 }
 
@@ -163,6 +165,7 @@
 #ifndef DEBUG
   [Apsalar event:event withArgs:args];
   [Crittercism leaveBreadcrumb:event];
+  [GGEventLog logEvent:event withCustomProperties:args];
 #endif
 }
 

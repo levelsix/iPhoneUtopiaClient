@@ -99,6 +99,7 @@ typedef enum {
 @property (nonatomic, assign) NotificationType type;
 @property (nonatomic, retain) NSDate *time;
 @property (nonatomic, retain) FullMarketplacePostProto *marketPost;
+@property (nonatomic, assign) BOOL sellerHadLicense;
 @property (nonatomic, assign) BattleResult battleResult;
 @property (nonatomic, assign) int coinsStolen;
 @property (nonatomic, assign) int stolenEquipId;
@@ -173,7 +174,7 @@ typedef enum {
 @interface ChatMessage : NSObject
 
 @property (nonatomic, retain) MinimumUserProto *sender;
-@property (nonatomic, retain) NSString *message;
+@property (nonatomic, copy) NSString *message;
 @property (nonatomic, retain) NSDate *date;
 
 - (id) initWithProto:(GroupChatMessageProto *)p;

@@ -315,6 +315,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     CCSprite *sprite = [CCSprite spriteWithFile:[self getAvailableBackground]];
     sprite.anchorPoint = ccp(0,0);
     [scene addChild:sprite];
+    sprite.scaleX = scene.contentSize.width/sprite.contentSize.width;
     
     [CCTexture2D setDefaultAlphaPixelFormat:oldPixelFormat];
     
@@ -575,23 +576,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   return gainedLockBoxView;
 }
 
-- (void) beginBattleAgainst:(FullUserProto *)user {
+- (BOOL) beginBattleAgainst:(FullUserProto *)user {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
   if (_isBattling) {
-    return;
+    return NO;
   }
   
   if (gs.currentStamina <= 0) {
     [[RefillMenuController sharedRefillMenuController] displayEnstView:NO];
     [Analytics notEnoughStaminaForBattle];
-    return;
+    return NO;
   }
   
   if (ABS(gs.level-user.level) > gl.maxLevelDiffForBattle) {
     [Globals popupMessage:@"The level difference is too much to start battle."];
-    return;
+    return NO;
   }
   
   if (_fup != user) {
@@ -601,7 +602,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   if (![self battleOkayThroughUserDefaults]) {
     [Globals popupMessage:[NSString stringWithFormat:@"%@ has run away. Try again later.", user.name]];
-    return;
+    return NO;
   }
   
   if (user.isFake) {
@@ -649,6 +650,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   CCDirector *dir = [CCDirector sharedDirector];
   if (!_isRunning) {
+    GameLayer *gameLayer = [GameLayer sharedGameLayer];
+    if (gameLayer.currentCity > 0) {
+      GameMap *gm = gameLayer.currentMap;
+      if ([gm enemyWithUserId:user.userId]) {
+        _cityId = gameLayer.currentCity;
+      }
+    }
+    
     _isRunning = YES;
     CCScene *scene = [BattleLayer scene];
     [dir pushScene:[CCTransitionFade transitionWithDuration:TRANSITION_DURATION scene:scene]];
@@ -730,6 +739,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                                                               createFromGameState]];
   [_battleCalculator retain];
   
+  return YES;
 }
 
 - (void) onEnterTransitionDidFinish {
@@ -737,9 +747,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [self startBattle];
 }
 
-- (void) beginBattleAgainst:(FullUserProto *)user inCity:(int) cityId {
-  [self beginBattleAgainst:user];
+- (BOOL) beginBattleAgainst:(FullUserProto *)user inCity:(int) cityId {
+  BOOL ret = [self beginBattleAgainst:user];
   _cityId = cityId;
+  return ret;
 }
 
 - (void) startBattle {
@@ -1336,7 +1347,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   NSString *key = BATTLE_USER_DEFAULTS_KEY;
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   NSArray *arr = [defaults arrayForKey:key];
-  NSMutableArray *mut = arr ? [arr mutableCopy] : [NSMutableArray array];
+  NSMutableArray *mut = arr ? [[arr mutableCopy] autorelease] : [NSMutableArray array];
   [mut addObject:[NSDate date]];
   [defaults setObject:mut forKey:BATTLE_USER_DEFAULTS_KEY];
   [defaults synchronize];
@@ -1346,7 +1357,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   Globals *gl = [Globals sharedGlobals];
   NSString *key = BATTLE_USER_DEFAULTS_KEY;
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSMutableArray *arr = [[defaults arrayForKey:key] mutableCopy];
+  NSMutableArray *arr = [[[defaults arrayForKey:key] mutableCopy] autorelease];
   int origCount = arr.count;
   int numTimes = 0;
   NSMutableArray *x = [NSMutableArray array];
@@ -1379,8 +1390,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _clickedDone = YES;
   
   if (brp.shouldGiveKiipReward) {
-    [KiipDelegate postAchievementNotificationAchievement:BATTLE_WON_KIIP_REWARD
-                                               andSender:nil];
+    [KiipDelegate postAchievementNotificationAchievement:BATTLE_WON_KIIP_REWARD];
+    
   }
   
   _isBattling = NO;

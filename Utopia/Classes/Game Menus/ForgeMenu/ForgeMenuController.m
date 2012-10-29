@@ -45,8 +45,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   
-  self.backMovingView = [[UIImageView alloc] init];
-  self.frontMovingView = [[UIImageView alloc] init];
+  self.backMovingView = [[[UIImageView alloc] init] autorelease];
+  self.frontMovingView = [[[UIImageView alloc] init] autorelease];
   self.backMovingView.contentMode = UIViewContentModeScaleAspectFit;
   self.frontMovingView.contentMode = UIViewContentModeScaleAspectFit;
   self.backMovingView.hidden = YES;
@@ -72,9 +72,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   upgrFrame = self.upgrItemView.frame;
 }
 
-- (void)viewDidUnload
+- (void)didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.topBar = nil;
@@ -805,7 +805,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 
 - (IBAction)goToMarketplaceClicked:(id)sender {
   [self closeClicked:nil];
-  [MarketplaceViewController displayView];
+  [[MarketplaceViewController sharedMarketplaceViewController] searchForEquipId:self.curItem.equipId level:self.curItem.level];
   
   [Analytics blacksmithGoToMarketplaceWithEquipId:self.curItem.equipId level:self.curItem.level];
 }
@@ -1033,10 +1033,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 
 - (void) receivedCollectForgeEquipsResponse:(CollectForgeEquipsResponseProto *)proto {
   if (proto.status == CollectForgeEquipsResponseProto_CollectForgeEquipsStatusSuccess) {
-    if (proto.newUserEquipsList.count == 2) {
-      [self forgeFailed:proto.newUserEquipsList];
-    } else if (proto.newUserEquipsList.count == 1) {
-      FullUserEquipProto *fuep = [proto.newUserEquipsList objectAtIndex:0];
+    if (proto.userEquipsList.count == 2) {
+      [self forgeFailed:proto.userEquipsList];
+    } else if (proto.userEquipsList.count == 1) {
+      FullUserEquipProto *fuep = [proto.userEquipsList objectAtIndex:0];
       [self forgeSucceeded:fuep.level];
       _forgedUserEquipId = fuep.userEquipId;  
     }

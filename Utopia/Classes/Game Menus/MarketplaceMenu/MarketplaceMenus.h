@@ -52,6 +52,25 @@ typedef enum {
 
 @end
 
+@interface LicenseRow : UITableViewCell
+
+@property (nonatomic, retain) IBOutlet UILabel *shortLicenseCost;
+@property (nonatomic, retain) IBOutlet UILabel *longLicenseCost;
+@property (nonatomic, retain) IBOutlet UILabel *shortLicenseLength;
+@property (nonatomic, retain) IBOutlet UILabel *longLicenseLength;
+
+@property (nonatomic, retain) IBOutlet UILabel *remainingTimeLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *hasLicenseView;
+@property (nonatomic, retain) IBOutlet UIView *noLicenseView;
+
+@property (nonatomic, retain) NSTimer *timer;
+
+- (void) loadCurrentState;
+- (IBAction)infoClicked:(id)sender;
+
+@end
+
 @interface MarketPurchaseView : UIView
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;

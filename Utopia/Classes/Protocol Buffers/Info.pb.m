@@ -1580,222 +1580,6 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
 }
 @end
 
-@interface MarketplaceSearchEquipProto ()
-@property int32_t equipId;
-@property (retain) NSString* name;
-@end
-
-@implementation MarketplaceSearchEquipProto
-
-- (BOOL) hasEquipId {
-  return !!hasEquipId_;
-}
-- (void) setHasEquipId:(BOOL) value {
-  hasEquipId_ = !!value;
-}
-@synthesize equipId;
-- (BOOL) hasName {
-  return !!hasName_;
-}
-- (void) setHasName:(BOOL) value {
-  hasName_ = !!value;
-}
-@synthesize name;
-- (void) dealloc {
-  self.name = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.equipId = 0;
-    self.name = @"";
-  }
-  return self;
-}
-static MarketplaceSearchEquipProto* defaultMarketplaceSearchEquipProtoInstance = nil;
-+ (void) initialize {
-  if (self == [MarketplaceSearchEquipProto class]) {
-    defaultMarketplaceSearchEquipProtoInstance = [[MarketplaceSearchEquipProto alloc] init];
-  }
-}
-+ (MarketplaceSearchEquipProto*) defaultInstance {
-  return defaultMarketplaceSearchEquipProtoInstance;
-}
-- (MarketplaceSearchEquipProto*) defaultInstance {
-  return defaultMarketplaceSearchEquipProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasEquipId) {
-    [output writeInt32:1 value:self.equipId];
-  }
-  if (self.hasName) {
-    [output writeString:2 value:self.name];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasEquipId) {
-    size += computeInt32Size(1, self.equipId);
-  }
-  if (self.hasName) {
-    size += computeStringSize(2, self.name);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (MarketplaceSearchEquipProto*) parseFromData:(NSData*) data {
-  return (MarketplaceSearchEquipProto*)[[[MarketplaceSearchEquipProto builder] mergeFromData:data] build];
-}
-+ (MarketplaceSearchEquipProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MarketplaceSearchEquipProto*)[[[MarketplaceSearchEquipProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (MarketplaceSearchEquipProto*) parseFromInputStream:(NSInputStream*) input {
-  return (MarketplaceSearchEquipProto*)[[[MarketplaceSearchEquipProto builder] mergeFromInputStream:input] build];
-}
-+ (MarketplaceSearchEquipProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MarketplaceSearchEquipProto*)[[[MarketplaceSearchEquipProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (MarketplaceSearchEquipProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (MarketplaceSearchEquipProto*)[[[MarketplaceSearchEquipProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (MarketplaceSearchEquipProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MarketplaceSearchEquipProto*)[[[MarketplaceSearchEquipProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (MarketplaceSearchEquipProto_Builder*) builder {
-  return [[[MarketplaceSearchEquipProto_Builder alloc] init] autorelease];
-}
-+ (MarketplaceSearchEquipProto_Builder*) builderWithPrototype:(MarketplaceSearchEquipProto*) prototype {
-  return [[MarketplaceSearchEquipProto builder] mergeFrom:prototype];
-}
-- (MarketplaceSearchEquipProto_Builder*) builder {
-  return [MarketplaceSearchEquipProto builder];
-}
-@end
-
-@interface MarketplaceSearchEquipProto_Builder()
-@property (retain) MarketplaceSearchEquipProto* result;
-@end
-
-@implementation MarketplaceSearchEquipProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[MarketplaceSearchEquipProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (MarketplaceSearchEquipProto_Builder*) clear {
-  self.result = [[[MarketplaceSearchEquipProto alloc] init] autorelease];
-  return self;
-}
-- (MarketplaceSearchEquipProto_Builder*) clone {
-  return [MarketplaceSearchEquipProto builderWithPrototype:result];
-}
-- (MarketplaceSearchEquipProto*) defaultInstance {
-  return [MarketplaceSearchEquipProto defaultInstance];
-}
-- (MarketplaceSearchEquipProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (MarketplaceSearchEquipProto*) buildPartial {
-  MarketplaceSearchEquipProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (MarketplaceSearchEquipProto_Builder*) mergeFrom:(MarketplaceSearchEquipProto*) other {
-  if (other == [MarketplaceSearchEquipProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasEquipId) {
-    [self setEquipId:other.equipId];
-  }
-  if (other.hasName) {
-    [self setName:other.name];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (MarketplaceSearchEquipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (MarketplaceSearchEquipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 8: {
-        [self setEquipId:[input readInt32]];
-        break;
-      }
-      case 18: {
-        [self setName:[input readString]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasEquipId {
-  return result.hasEquipId;
-}
-- (int32_t) equipId {
-  return result.equipId;
-}
-- (MarketplaceSearchEquipProto_Builder*) setEquipId:(int32_t) value {
-  result.hasEquipId = YES;
-  result.equipId = value;
-  return self;
-}
-- (MarketplaceSearchEquipProto_Builder*) clearEquipId {
-  result.hasEquipId = NO;
-  result.equipId = 0;
-  return self;
-}
-- (BOOL) hasName {
-  return result.hasName;
-}
-- (NSString*) name {
-  return result.name;
-}
-- (MarketplaceSearchEquipProto_Builder*) setName:(NSString*) value {
-  result.hasName = YES;
-  result.name = value;
-  return self;
-}
-- (MarketplaceSearchEquipProto_Builder*) clearName {
-  result.hasName = NO;
-  result.name = @"";
-  return self;
-}
-@end
-
 @interface LockBoxEventProto ()
 @property int32_t lockBoxEventId;
 @property int64_t startDate;
@@ -4883,6 +4667,259 @@ static ClanBulletinPostProto* defaultClanBulletinPostProtoInstance = nil;
 }
 @end
 
+@interface ClanTierLevelProto ()
+@property int32_t tierLevel;
+@property int32_t maxSize;
+@property int32_t upgradeCost;
+@end
+
+@implementation ClanTierLevelProto
+
+- (BOOL) hasTierLevel {
+  return !!hasTierLevel_;
+}
+- (void) setHasTierLevel:(BOOL) value {
+  hasTierLevel_ = !!value;
+}
+@synthesize tierLevel;
+- (BOOL) hasMaxSize {
+  return !!hasMaxSize_;
+}
+- (void) setHasMaxSize:(BOOL) value {
+  hasMaxSize_ = !!value;
+}
+@synthesize maxSize;
+- (BOOL) hasUpgradeCost {
+  return !!hasUpgradeCost_;
+}
+- (void) setHasUpgradeCost:(BOOL) value {
+  hasUpgradeCost_ = !!value;
+}
+@synthesize upgradeCost;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.tierLevel = 0;
+    self.maxSize = 0;
+    self.upgradeCost = 0;
+  }
+  return self;
+}
+static ClanTierLevelProto* defaultClanTierLevelProtoInstance = nil;
++ (void) initialize {
+  if (self == [ClanTierLevelProto class]) {
+    defaultClanTierLevelProtoInstance = [[ClanTierLevelProto alloc] init];
+  }
+}
++ (ClanTierLevelProto*) defaultInstance {
+  return defaultClanTierLevelProtoInstance;
+}
+- (ClanTierLevelProto*) defaultInstance {
+  return defaultClanTierLevelProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasTierLevel) {
+    [output writeInt32:1 value:self.tierLevel];
+  }
+  if (self.hasMaxSize) {
+    [output writeInt32:2 value:self.maxSize];
+  }
+  if (self.hasUpgradeCost) {
+    [output writeInt32:3 value:self.upgradeCost];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasTierLevel) {
+    size += computeInt32Size(1, self.tierLevel);
+  }
+  if (self.hasMaxSize) {
+    size += computeInt32Size(2, self.maxSize);
+  }
+  if (self.hasUpgradeCost) {
+    size += computeInt32Size(3, self.upgradeCost);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ClanTierLevelProto*) parseFromData:(NSData*) data {
+  return (ClanTierLevelProto*)[[[ClanTierLevelProto builder] mergeFromData:data] build];
+}
++ (ClanTierLevelProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanTierLevelProto*)[[[ClanTierLevelProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ClanTierLevelProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ClanTierLevelProto*)[[[ClanTierLevelProto builder] mergeFromInputStream:input] build];
+}
++ (ClanTierLevelProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanTierLevelProto*)[[[ClanTierLevelProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanTierLevelProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ClanTierLevelProto*)[[[ClanTierLevelProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ClanTierLevelProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanTierLevelProto*)[[[ClanTierLevelProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanTierLevelProto_Builder*) builder {
+  return [[[ClanTierLevelProto_Builder alloc] init] autorelease];
+}
++ (ClanTierLevelProto_Builder*) builderWithPrototype:(ClanTierLevelProto*) prototype {
+  return [[ClanTierLevelProto builder] mergeFrom:prototype];
+}
+- (ClanTierLevelProto_Builder*) builder {
+  return [ClanTierLevelProto builder];
+}
+@end
+
+@interface ClanTierLevelProto_Builder()
+@property (retain) ClanTierLevelProto* result;
+@end
+
+@implementation ClanTierLevelProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ClanTierLevelProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ClanTierLevelProto_Builder*) clear {
+  self.result = [[[ClanTierLevelProto alloc] init] autorelease];
+  return self;
+}
+- (ClanTierLevelProto_Builder*) clone {
+  return [ClanTierLevelProto builderWithPrototype:result];
+}
+- (ClanTierLevelProto*) defaultInstance {
+  return [ClanTierLevelProto defaultInstance];
+}
+- (ClanTierLevelProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ClanTierLevelProto*) buildPartial {
+  ClanTierLevelProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ClanTierLevelProto_Builder*) mergeFrom:(ClanTierLevelProto*) other {
+  if (other == [ClanTierLevelProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasTierLevel) {
+    [self setTierLevel:other.tierLevel];
+  }
+  if (other.hasMaxSize) {
+    [self setMaxSize:other.maxSize];
+  }
+  if (other.hasUpgradeCost) {
+    [self setUpgradeCost:other.upgradeCost];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ClanTierLevelProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ClanTierLevelProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setTierLevel:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setMaxSize:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setUpgradeCost:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasTierLevel {
+  return result.hasTierLevel;
+}
+- (int32_t) tierLevel {
+  return result.tierLevel;
+}
+- (ClanTierLevelProto_Builder*) setTierLevel:(int32_t) value {
+  result.hasTierLevel = YES;
+  result.tierLevel = value;
+  return self;
+}
+- (ClanTierLevelProto_Builder*) clearTierLevel {
+  result.hasTierLevel = NO;
+  result.tierLevel = 0;
+  return self;
+}
+- (BOOL) hasMaxSize {
+  return result.hasMaxSize;
+}
+- (int32_t) maxSize {
+  return result.maxSize;
+}
+- (ClanTierLevelProto_Builder*) setMaxSize:(int32_t) value {
+  result.hasMaxSize = YES;
+  result.maxSize = value;
+  return self;
+}
+- (ClanTierLevelProto_Builder*) clearMaxSize {
+  result.hasMaxSize = NO;
+  result.maxSize = 0;
+  return self;
+}
+- (BOOL) hasUpgradeCost {
+  return result.hasUpgradeCost;
+}
+- (int32_t) upgradeCost {
+  return result.upgradeCost;
+}
+- (ClanTierLevelProto_Builder*) setUpgradeCost:(int32_t) value {
+  result.hasUpgradeCost = YES;
+  result.upgradeCost = value;
+  return self;
+}
+- (ClanTierLevelProto_Builder*) clearUpgradeCost {
+  result.hasUpgradeCost = NO;
+  result.upgradeCost = 0;
+  return self;
+}
+@end
+
 @interface MinimumUserProtoForClans ()
 @property (retain) MinimumUserProtoWithBattleHistory* minUserProto;
 @property UserClanStatus clanStatus;
@@ -6087,6 +6124,7 @@ static MonteCardProto* defaultMonteCardProtoInstance = nil;
 @property (retain) NSString* description;
 @property (retain) NSString* tag;
 @property BOOL isGood;
+@property int32_t currentTierLevel;
 @end
 
 @implementation FullClanProto
@@ -6145,6 +6183,13 @@ static MonteCardProto* defaultMonteCardProtoInstance = nil;
 - (void) setIsGood:(BOOL) value {
   isGood_ = !!value;
 }
+- (BOOL) hasCurrentTierLevel {
+  return !!hasCurrentTierLevel_;
+}
+- (void) setHasCurrentTierLevel:(BOOL) value {
+  hasCurrentTierLevel_ = !!value;
+}
+@synthesize currentTierLevel;
 - (void) dealloc {
   self.name = nil;
   self.owner = nil;
@@ -6161,6 +6206,7 @@ static MonteCardProto* defaultMonteCardProtoInstance = nil;
     self.description = @"";
     self.tag = @"";
     self.isGood = NO;
+    self.currentTierLevel = 0;
   }
   return self;
 }
@@ -6201,6 +6247,9 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   if (self.hasIsGood) {
     [output writeBool:7 value:self.isGood];
   }
+  if (self.hasCurrentTierLevel) {
+    [output writeInt32:8 value:self.currentTierLevel];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6230,6 +6279,9 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   }
   if (self.hasIsGood) {
     size += computeBoolSize(7, self.isGood);
+  }
+  if (self.hasCurrentTierLevel) {
+    size += computeInt32Size(8, self.currentTierLevel);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6327,6 +6379,9 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   if (other.hasIsGood) {
     [self setIsGood:other.isGood];
   }
+  if (other.hasCurrentTierLevel) {
+    [self setCurrentTierLevel:other.currentTierLevel];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6379,6 +6434,10 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
       }
       case 56: {
         [self setIsGood:[input readBool]];
+        break;
+      }
+      case 64: {
+        [self setCurrentTierLevel:[input readInt32]];
         break;
       }
     }
@@ -6510,6 +6569,22 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   result.isGood = NO;
   return self;
 }
+- (BOOL) hasCurrentTierLevel {
+  return result.hasCurrentTierLevel;
+}
+- (int32_t) currentTierLevel {
+  return result.currentTierLevel;
+}
+- (FullClanProto_Builder*) setCurrentTierLevel:(int32_t) value {
+  result.hasCurrentTierLevel = YES;
+  result.currentTierLevel = value;
+  return self;
+}
+- (FullClanProto_Builder*) clearCurrentTierLevel {
+  result.hasCurrentTierLevel = NO;
+  result.currentTierLevel = 0;
+  return self;
+}
 @end
 
 @interface MinimumClanProto ()
@@ -6520,6 +6595,7 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
 @property (retain) NSString* description;
 @property (retain) NSString* tag;
 @property BOOL isGood;
+@property int32_t currentTierLevel;
 @end
 
 @implementation MinimumClanProto
@@ -6578,6 +6654,13 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
 - (void) setIsGood:(BOOL) value {
   isGood_ = !!value;
 }
+- (BOOL) hasCurrentTierLevel {
+  return !!hasCurrentTierLevel_;
+}
+- (void) setHasCurrentTierLevel:(BOOL) value {
+  hasCurrentTierLevel_ = !!value;
+}
+@synthesize currentTierLevel;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -6593,6 +6676,7 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
     self.description = @"";
     self.tag = @"";
     self.isGood = NO;
+    self.currentTierLevel = 0;
   }
   return self;
 }
@@ -6633,6 +6717,9 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   if (self.hasIsGood) {
     [output writeBool:7 value:self.isGood];
   }
+  if (self.hasCurrentTierLevel) {
+    [output writeInt32:8 value:self.currentTierLevel];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6662,6 +6749,9 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   }
   if (self.hasIsGood) {
     size += computeBoolSize(7, self.isGood);
+  }
+  if (self.hasCurrentTierLevel) {
+    size += computeInt32Size(8, self.currentTierLevel);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6759,6 +6849,9 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   if (other.hasIsGood) {
     [self setIsGood:other.isGood];
   }
+  if (other.hasCurrentTierLevel) {
+    [self setCurrentTierLevel:other.currentTierLevel];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6806,6 +6899,10 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
       }
       case 56: {
         [self setIsGood:[input readBool]];
+        break;
+      }
+      case 64: {
+        [self setCurrentTierLevel:[input readInt32]];
         break;
       }
     }
@@ -6921,6 +7018,22 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
 - (MinimumClanProto_Builder*) clearIsGood {
   result.hasIsGood = NO;
   result.isGood = NO;
+  return self;
+}
+- (BOOL) hasCurrentTierLevel {
+  return result.hasCurrentTierLevel;
+}
+- (int32_t) currentTierLevel {
+  return result.currentTierLevel;
+}
+- (MinimumClanProto_Builder*) setCurrentTierLevel:(int32_t) value {
+  result.hasCurrentTierLevel = YES;
+  result.currentTierLevel = value;
+  return self;
+}
+- (MinimumClanProto_Builder*) clearCurrentTierLevel {
+  result.hasCurrentTierLevel = NO;
+  result.currentTierLevel = 0;
   return self;
 }
 @end

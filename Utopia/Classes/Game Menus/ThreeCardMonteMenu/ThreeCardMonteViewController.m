@@ -61,17 +61,18 @@ typedef enum {
   Globals *gl = [Globals sharedGlobals];
   NSString *bottomLabelText = nil;
   UIColor *textColor = nil;
+  NSString *base = gl.downloadableNibConstants.threeCardMonteNibName;
   if (type == BAD) {
     bottomLabelText = @"Good";
-    cardFrontImageView.image = [Globals imageNamed:@"cardfrontsilver.png"];
+    cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfrontsilver.png"]];
     textColor = [UIColor colorWithWhite:0.15f alpha:1.f];
   } else if (type == MEDIUM) {
     bottomLabelText = @"Better";
-    cardFrontImageView.image = [Globals imageNamed:@"cardfrontblack.png"];
+    cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfrontblack.png"]];
     textColor = [Globals goldColor];
   } else if (type == GOOD) {
     bottomLabelText = @"Best";
-    cardFrontImageView.image = [Globals imageNamed:@"cardfront.png"];
+    cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfront.png"]];
     textColor = [UIColor colorWithRed:146/255.f green:49/255.f blue:13/255.f alpha:1.f];
   }
   
@@ -213,10 +214,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  self.mainView.center = CGPointMake(240, 480);
+  self.mainView.center = CGPointMake(self.view.frame.size.width/2, 3.f/2.f*self.view.frame.size.height);
   self.bgdView.alpha = 0.f;
   [UIView animateWithDuration:0.3f animations:^{
-    self.mainView.center = CGPointMake(240, 160);
+    self.mainView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2.f);
     self.bgdView.alpha = 1.f;
   }];
   
@@ -230,6 +231,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
   self.playView.hidden = YES;
   
   [self positionMonteCards];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateGoldLabel) name:IAP_SUCCESS_NOTIFICATION object:nil];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void) positionMonteCards {
@@ -455,7 +462,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
 
 - (IBAction)closeClicked:(id)sender {
   [UIView animateWithDuration:0.3f animations:^{
-    self.mainView.center = CGPointMake(240, 480);
+    self.mainView.center = CGPointMake(self.view.frame.size.width/2, 3.f/2.f*self.view.frame.size.height);
     self.bgdView.alpha = 0.f;
   } completion:^(BOOL finished) {
     [self.view removeFromSuperview];

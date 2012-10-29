@@ -219,7 +219,6 @@
     [Globals displayUIView:summaryMenu];
     [obMenu setMissionMap:self];
     obMenu.hidden = YES;
-    [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     
     summaryMenu.alpha = 0.f;
     
@@ -249,28 +248,23 @@
 }
 
 - (void) killEnemy:(int)userId {
-  for (CCNode *child in children_) {
-    if ([child isKindOfClass:[Enemy class]]) {
-      Enemy *enemy = (Enemy *)child;
-      if (enemy.user.userId == userId) {
-        [enemy kill];
+  Enemy *enemy = [self enemyWithUserId:userId];
+  
+  if (enemy) {
+    [enemy kill];
+    
+    // This will only actually display check if the arrow is there..
+    for (UserJob *job in _jobs) {
+      if (job.jobType == kDefeatTypeJob && job.numCompleted < job.total) {
+        DefeatTypeJobProto *dtj = [[[GameState sharedGameState] staticDefeatTypeJobs] objectForKey:[NSNumber numberWithInt:job.jobId]];
         
-        // This will only actually display check if the arrow is there..
-        for (UserJob *job in _jobs) {
-          if (job.jobType == kDefeatTypeJob && job.numCompleted < job.total) {
-            DefeatTypeJobProto *dtj = [[[GameState sharedGameState] staticDefeatTypeJobs] objectForKey:[NSNumber numberWithInt:job.jobId]];
-            
-            if (dtj.cityId == _cityId && (dtj.typeOfEnemy == enemy.user.userType || dtj.typeOfEnemy == DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide)) {
-              [enemy displayCheck];
-              job.numCompleted++;
-            }
-          }
+        if (dtj.cityId == _cityId && (dtj.typeOfEnemy == enemy.user.userType || dtj.typeOfEnemy == DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide)) {
+          [enemy displayCheck];
+          job.numCompleted++;
         }
-        [self updateEnemyQuestArrows];
-        
-        return;
       }
     }
+    [self updateEnemyQuestArrows];
   }
 }
 

@@ -30,8 +30,6 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *navBar;
 @property (nonatomic, retain) IBOutlet UIView *topBar;
 @property (nonatomic, retain) IBOutlet UITableViewCell *itemView;
-@property (nonatomic, retain) IBOutlet UIView *removeView;
-@property (nonatomic, retain) IBOutlet UILabel *removePriceLabel;
 @property (nonatomic, retain) IBOutlet UIButton *doneButton;
 @property (nonatomic, retain) IBOutlet UIButton *listAnItemButton;
 @property (nonatomic, retain) IBOutlet UIView *redeemView;
@@ -41,7 +39,6 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *ropeView;
 @property (nonatomic, retain) IBOutlet UIView *leftRope;
 @property (nonatomic, retain) IBOutlet UIView *rightRope;
-@property (nonatomic, retain) IBOutlet UIView *purchLicenseView;
 
 @property (nonatomic, retain) IBOutlet UILabel *topBarLabel;
 
@@ -49,14 +46,10 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet CoinBar *coinBar;
 
+@property (nonatomic, retain) IBOutlet UIView *removeView;
+@property (nonatomic, retain) IBOutlet UILabel *removeDescriptionLabel;
+@property (nonatomic, retain) IBOutlet UILabel *removePriceLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *retractPriceIcon;
-
-@property (nonatomic, retain) IBOutlet UIView *licenseMainView;
-@property (nonatomic, retain) IBOutlet UIView *licenseBgdView;
-@property (nonatomic, retain) IBOutlet UILabel *shortLicenseCost;
-@property (nonatomic, retain) IBOutlet UILabel *longLicenseCost;
-@property (nonatomic, retain) IBOutlet UILabel *shortLicenseLength;
-@property (nonatomic, retain) IBOutlet UILabel *longLicenseLength;
 
 @property (nonatomic, retain) IBOutlet MarketPurchaseView *purchView;
 @property (nonatomic, retain) IBOutlet MarketplaceBottomBar *bottomBar;
@@ -93,10 +86,13 @@ typedef enum {
 - (void) displayRedeemView;
 - (void) doneRefreshing;
 
-- (IBAction) closePurchLicenseView:(id)sender;
 - (IBAction) shortLicenseClicked:(id)sender;
 - (IBAction) longLicenseClicked:(id)sender;
 - (IBAction) backClicked:(id)sender;
+
+- (void) searchForEquipId:(int)equipId level:(int)level;
+
+- (void) receivedPurchaseMktLicenseResponse:(PurchaseMarketplaceLicenseResponseProto *)p;
 
 - (void) closeFilterPage;
 

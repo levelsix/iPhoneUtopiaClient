@@ -152,10 +152,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
     CGRect r = CGRectZero;
     r.size = img.size;
     r.origin.x = i*img.size.width + 2*i + 10*(i/3);
+    
     SBTickerView *tv = [[SBTickerView alloc] initWithFrame:r];
-    [tv setBackgroundColor:[UIColor clearColor]];
-    [tv setFrontView:[[[VaultTickView alloc] initWithImage:img] autorelease]];
-    [tv setBackView:[[[VaultTickView alloc] initWithImage:img] autorelease]];
+    
+    VaultTickView *tv1 = [[VaultTickView alloc] initWithImage:img];
+    VaultTickView *tv2 = [[VaultTickView alloc] initWithImage:img];
+    [tv setFrontView:tv1];
+    [tv setBackView:tv2];
+    [tv1 release];
+    [tv2 release];
+    
     tv.duration = TICK_DURATION;
     [tickerHolderView addSubview:tv];
     [m addObject:tv];
@@ -166,8 +172,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   self.bottomLabel.text = [NSString stringWithFormat:@"Bank Notice: There is a %d%% fee on deposits.", (int)([[Globals sharedGlobals] cutOfVaultDepositTaken]*100)];
 }
 
-- (void) viewDidUnload {
-  [super viewDidUnload];
+- (void) didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
   self.depositButton = nil;
   self.withdrawButton = nil;
   self.transferField = nil;
@@ -293,11 +299,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   }
   [[(NiceFontTextField *)textField label] setText:str];
   return YES;
-}
-
-- (void) dealloc {
-  self.tickers = nil;
-  [super dealloc];
 }
 
 @end

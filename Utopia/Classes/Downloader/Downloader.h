@@ -17,7 +17,8 @@
 @end
 
 @interface Downloader : NSObject {
-  dispatch_queue_t _queue;
+  dispatch_queue_t _syncQueue;
+  dispatch_queue_t _asyncQueue;
   NSString *_cacheDir;
 }
 
@@ -28,5 +29,6 @@
 - (void) syncDownloadFile:(NSString *)fileName;
 - (void) asyncDownloadFile:(NSString *)imageName completion:(void (^)(void))completed;
 - (void) syncDownloadBundle:(NSString *)bundleName;
+- (void) asyncDownloadBundle:(NSString *)bundleName;
 
 @end

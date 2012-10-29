@@ -126,6 +126,8 @@
 
 @synthesize goldSaleTimers = _goldSaleTimers;
 
+@synthesize clanTierLevels = _clanTierLevels;
+
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (id) init {
@@ -272,23 +274,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
       NSArray *arr = [NSArray arrayWithObject:[NSNumber numberWithInt:itemId]];
       if (dict == _staticStructs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:arr taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
+        [sc sendRetrieveStaticDataMessageWithStructIds:arr taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
       } else if (dict == _staticTasks) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:arr questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:arr questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
       } else if (dict == _staticQuests) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:arr cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:arr cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
       } else if (dict == _staticCities) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:arr equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:arr equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
       } else if (dict == _staticEquips) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:arr buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:arr buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
       } else if (dict == _staticBuildStructJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:arr defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:arr defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
       } else if (dict == _staticDefeatTypeJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:arr possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:arr possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
       } else if (dict == _staticPossessEquipJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:arr upgradeStructJobIds:nil lockBoxEvents:NO];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:arr upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
       } else if (dict == _staticUpgradeStructJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:arr lockBoxEvents:NO];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:arr lockBoxEvents:NO clanTierLevels:NO];
       }
     } else if (!ad.isActive || numTimes > 10000) {
       [dict release];
@@ -665,6 +667,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self resetLockBoxTimers];
 }
 
+- (void) addToClanTierLevels:(NSArray *) tiers {
+  NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:tiers.count];
+  for (ClanTierLevelProto *tier in tiers) {
+    [dict setObject:tier forKey:[NSNumber numberWithInt:tier.tierLevel]];
+  }
+  self.clanTierLevels = dict;
+}
+
+- (int) maxClanTierLevel {
+  int max = 1;
+  for (NSNumber *n in self.clanTierLevels.allKeys) {
+    if (n.intValue > max) {
+      max = n.intValue;
+    }
+  }
+  return max;
+}
+
+- (ClanTierLevelProto *) clanTierForLevel:(int)level {
+  return [self.clanTierLevels objectForKey:[NSNumber numberWithInt:level]];
+}
+
 - (FullQuestProto *) questForQuestId:(int)questId {
   NSNumber *num = [NSNumber numberWithInt:questId];
   FullQuestProto *fqp = [_availableQuests objectForKey:num];
@@ -674,22 +698,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (BOOL) hasValidLicense {
-  return YES;
-  //  Globals *gl = [Globals sharedGlobals];
-  //
-  //  NSTimeInterval shortLic = [self.lastShortLicensePurchaseTime timeIntervalSinceNow];
-  //  NSTimeInterval time = -((NSTimeInterval)gl.numDaysShortMarketplaceLicenseLastsFor)*24*60*60;
-  //  if (shortLic > time) {
-  //    return YES;
-  //  }
-  //
-  //  NSTimeInterval longLic = [self.lastLongLicensePurchaseTime timeIntervalSinceNow];
-  //  time = -gl.numDaysLongMarketplaceLicenseLastsFor*24l*60l*60l;
-  //  if (longLic > time) {
-  //    return YES;
-  //  }
-  //
-  //  return NO;
+  Globals *gl = [Globals sharedGlobals];
+
+  NSTimeInterval shortLic = [self.lastShortLicensePurchaseTime timeIntervalSinceNow];
+  NSTimeInterval time = -((NSTimeInterval)gl.numDaysShortMarketplaceLicenseLastsFor)*24*60*60;
+  if (shortLic > time) {
+    return YES;
+  }
+
+  NSTimeInterval longLic = [self.lastLongLicensePurchaseTime timeIntervalSinceNow];
+  time = -gl.numDaysLongMarketplaceLicenseLastsFor*24l*60l*60l;
+  if (longLic > time) {
+    return YES;
+  }
+
+  return NO;
 }
 
 - (void) addUnrespondedUpdate:(id<GameStateUpdate>)up {
@@ -824,8 +847,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       } else {
         csb.retrievable = NO;
       }
-      [un release];
     }
+    [un release];
   }
 }
 
@@ -974,8 +997,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   [[TopBar sharedTopBar] shouldDisplayLockBoxButton:shouldDisplayButton andBadge:shouldDisplayBadge];
-  
-  LNLog(@"Updated lock box button..");
 }
 
 - (GoldSaleProto *) getCurrentGoldSale {
@@ -1042,12 +1063,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (NSArray *) mktSearchEquipsSimilarToString:(NSString *)string {
   NSMutableArray *arr = [NSMutableArray array];
-  for (MarketplaceSearchEquipProto *eq in _mktSearchEquips) {
+  for (FullEquipProto *eq in _mktSearchEquips) {
     if ([eq.name rangeOfString:string options:NSCaseInsensitiveSearch].length > 0) {
       [arr addObject:eq];
     }
   }
-  [arr sortUsingComparator:^NSComparisonResult(MarketplaceSearchEquipProto *obj1, MarketplaceSearchEquipProto *obj2) {
+  [arr sortUsingComparator:^NSComparisonResult(FullEquipProto *obj1, FullEquipProto *obj2) {
     NSRange range1 = [obj1.name rangeOfString:string options:NSCaseInsensitiveSearch];
     NSRange range2 = [obj2.name rangeOfString:string options:NSCaseInsensitiveSearch];
     
@@ -1073,7 +1094,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) reretrieveStaticData {
-  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:_staticStructs.allKeys taskIds:_staticTasks.allKeys questIds:_staticQuests.allKeys cityIds:_staticCities.allKeys equipIds:_staticEquips.allKeys buildStructJobIds:_staticBuildStructJobs.allKeys defeatTypeJobIds:_staticDefeatTypeJobs.allKeys possessEquipJobIds:_staticPossessEquipJobs.allKeys upgradeStructJobIds:_staticUpgradeStructJobs.allKeys lockBoxEvents:YES];
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:_staticStructs.allKeys taskIds:_staticTasks.allKeys questIds:_staticQuests.allKeys cityIds:_staticCities.allKeys equipIds:_staticEquips.allKeys buildStructJobIds:_staticBuildStructJobs.allKeys defeatTypeJobIds:_staticDefeatTypeJobs.allKeys possessEquipJobIds:_staticPossessEquipJobs.allKeys upgradeStructJobIds:_staticUpgradeStructJobs.allKeys lockBoxEvents:YES clanTierLevels:YES];
   
   [_staticStructs removeAllObjects];
   [_staticEquips removeAllObjects];
@@ -1084,6 +1105,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [_staticDefeatTypeJobs removeAllObjects];
   [_staticPossessEquipJobs removeAllObjects];
   [_staticUpgradeStructJobs removeAllObjects];
+  self.clanTierLevels = nil;
 }
 
 - (void) clearAllData {
@@ -1122,6 +1144,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.mktSearchEquips = nil;
   
   self.userExpansion = nil;
+  
+  self.clanTierLevels = nil;
   
   [self stopForgeTimer];
   self.forgeAttempt = nil;

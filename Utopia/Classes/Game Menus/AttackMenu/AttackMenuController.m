@@ -260,9 +260,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   self.refreshHeaderView.center = ccp(self.attackTableView.frame.size.width/2, -self.refreshHeaderView.frame.size.height/2);
 }
 
-- (void)viewDidUnload
+- (void)didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   

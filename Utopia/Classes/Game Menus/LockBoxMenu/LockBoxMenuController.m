@@ -44,10 +44,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   [self.pickView removeFromSuperview];
   
   [Globals bounceView:mainView fadeInBgdView:bgdView];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLabels) name:IAP_SUCCESS_NOTIFICATION object:nil];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
   self.timer = nil;
+  
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void) setTimer:(NSTimer *)t {
@@ -88,9 +92,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
 }
 
 - (void) loadItems:(NSArray *)items userItems:(NSArray *)userItems {
-  NSMutableArray *a = [items mutableCopy];
+  NSMutableArray *a = [[items mutableCopy] autorelease];
   NSMutableArray *ordered = [NSMutableArray arrayWithCapacity:items.count];
-  NSMutableArray *ivs = itemViews.mutableCopy;
+  NSMutableArray *ivs = [itemViews.mutableCopy autorelease];
   
   // Order items by chance
   while (a.count > 0) {
@@ -235,8 +239,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   }
 }
 
-- (void) viewDidUnload {
-  [super viewDidUnload];
+- (void) didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
   self.bottomPickLabel = nil;
   self.chestIcon = nil;
   self.eventTimeLabel = nil;

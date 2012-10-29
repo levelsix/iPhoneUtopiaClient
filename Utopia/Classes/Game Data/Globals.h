@@ -23,6 +23,8 @@
 
 #define IAP_DEFAULTS_KEY @"Unresponded In Apps"
 
+#define IAP_SUCCESS_NOTIFICATION @"IapSuccessNotification"
+
 @interface Globals : NSObject <BattleConstants, EnemyBattleStats> {
   int _equipIdToWear;
 }
@@ -78,6 +80,7 @@
 @property (nonatomic, assign) int numDaysShortMarketplaceLicenseLastsFor;
 @property (nonatomic, assign) int diamondCostOfLongMarketplaceLicense;
 @property (nonatomic, assign) int diamondCostOfShortMarketplaceLicense;
+@property (nonatomic, assign) int numDaysUntilFreeRetract;
 
 @property (nonatomic, assign) int maxNumbersOfEnemiesToGenerateAtOnce;
 @property (nonatomic, assign) float percentReturnedToUserForSellingEquipInArmory;
@@ -110,6 +113,7 @@
 
 @property (nonatomic, copy) NSString *reviewPageURL;
 @property (nonatomic, assign) int levelToShowRateUsPopup;
+@property (nonatomic, copy) NSString *reviewPageConfirmationMessage;
 
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
@@ -163,7 +167,7 @@
 @property (nonatomic, assign) float mediumMonteCardPercentageChance;
 @property (nonatomic, assign) float goodMonteCardPercentageChance;
 
-@property (nonatomic, retain) NSArray *productIdentifiers;
+@property (nonatomic, copy) NSArray *productIdentifiers;
 @property (nonatomic, retain) NSDictionary *productIdentifiersToGold;
 
 @property (nonatomic, retain) NSMutableDictionary *imageCache;
@@ -192,6 +196,7 @@
 + (NSString *) imageNameForEquip:(int)eqId;
 + (NSString *) pathToFile:(NSString *)fileName;
 + (NSBundle *) bundleNamed:(NSString *)bundleName;
++ (void) asyncDownloadBundles;
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator;
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView;
 + (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
@@ -292,6 +297,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (float) calculateAttackForAttackStat:(int)attackStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet;
 - (float) calculateDefenseForDefenseStat:(int)defenseStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet;
 - (int) calculateHealthForLevel:(int)level;
+
+- (BOOL) canRetractMarketplacePostForFree:(FullMarketplacePostProto *)post;
 
 // Forging formulas
 - (int) calculateAttackForEquip:(int)equipId level:(int)level;

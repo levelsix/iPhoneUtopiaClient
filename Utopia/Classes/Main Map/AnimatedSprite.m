@@ -425,8 +425,17 @@
   _arrow.position = ccpAdd(_arrow.position, ccp(0, carpIcon.contentSize.height));
 }
 
+- (void) displayArrow:(int)structId {
+  [self displayArrow];
+  _structIdToShowArrow = structId;
+}
+
 - (void) setIsSelected:(BOOL)isSelected {
   if (isSelected) {
+    if (_structIdToShowArrow > 0) {
+      [[CarpenterMenuController sharedCarpenterMenuController] displayArrowOnNextOpen:_structIdToShowArrow];
+      _structIdToShowArrow = 0;
+    }
     [CarpenterMenuController displayView];
     [_map setSelected:nil];
     [self removeArrowAnimated:YES];

@@ -109,7 +109,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 {
 	if( (self=[super initWithColor:ccc4(75, 78, 29, 255)])) {
     [[NSBundle mainBundle] loadNibNamed:@"WelcomeView" owner:self options:nil];
-    [[[[CCDirector sharedDirector] openGLView] superview] insertSubview:self.welcomeView atIndex:1];
+    [Globals displayUIView:welcomeView];
+    
+    [welcomeView.superview sendSubviewToBack:welcomeView];
+    [welcomeView.superview sendSubviewToBack:[[CCDirector sharedDirector] openGLView]];
     
     [self begin];
   }
@@ -236,6 +239,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) loadHomeMap {
   if (!_homeMap.visible) {
+    [self.currentMap pickUpAllDrops];
+    
     [self.loadingView displayWithText:@"Traveling\nHome"];
     _loading = YES;
     // Do move in load so that other classes can move it elsewhere
@@ -308,6 +313,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) loadBazaarMap {
   if (!_bazaarMap.parent) {
+    [self.currentMap pickUpAllDrops];
+    
     [self.loadingView displayWithText:@"Traveling\nTo Bazaar"];
     _loading = YES;
     // Do move in load so that other classes can move it elsewhere

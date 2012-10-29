@@ -89,9 +89,12 @@
 }
 
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
-  GameMap *map = (GameMap *)self.parent;
-  [map pickUpGoldDrop:self];
-  _clicked = YES;
+  CCNode *n = self.parent;
+  if ([n isKindOfClass:[GameMap class]]) {
+    GameMap *map = (GameMap *)self.parent;
+    [map pickUpGoldDrop:self];
+    _clicked = YES;
+  }
 }
 
 @end
@@ -130,9 +133,12 @@
 }
 
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
-  GameMap *map = (GameMap *)self.parent;
-  [map pickUpEquipDrop:self];
-  _clicked = YES;
+  CCNode *n = self.parent;
+  if ([n isKindOfClass:[GameMap class]]) {
+    GameMap *map = (GameMap *)self.parent;
+    [map pickUpEquipDrop:self];
+    _clicked = YES;
+  }
 }
 
 @end
@@ -177,9 +183,12 @@
 }
 
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
-  GameMap *map = (GameMap *)self.parent;
-  [map pickUpLockBoxDrop:self];
-  _clicked = YES;
+  CCNode *n = self.parent;
+  if ([n isKindOfClass:[GameMap class]]) {
+    GameMap *map = (GameMap *)self.parent;
+    [map pickUpLockBoxDrop:self];
+    _clicked = YES;
+  }
 }
 
 @end

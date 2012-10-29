@@ -18,7 +18,7 @@
 @synthesize itemIcon, quantityLabel, maskedItemIcon, itemId = _itemId, quantity = _quantity;
 
 - (void) awakeFromNib {
-  self.maskedItemIcon = [[UIImageView alloc] initWithFrame:itemIcon.frame];
+  maskedItemIcon = [[UIImageView alloc] initWithFrame:itemIcon.frame];
   self.maskedItemIcon.contentMode = itemIcon.contentMode;
   [self insertSubview:maskedItemIcon aboveSubview:itemIcon];
 }
@@ -82,6 +82,8 @@
   pickOptionsView.hidden = NO;
   statusView.hidden = YES;
   okayView.alpha = 0.f;
+  
+  self.frame = view.bounds;
   
   [view addSubview:self];
   [Globals bounceView:mainView fadeInBgdView:bgdView];

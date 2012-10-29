@@ -12,6 +12,8 @@
 #import "LNSynthesizeSingleton.h"
 #import "GoldShoppeViewController.h"
 #import "OutgoingEventController.h"
+#import "RefillMenuController.h"
+#import "GenericPopupController.h"
 
 @implementation UIView (WakeupAndCleanup)
 
@@ -644,7 +646,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   [self.view wakeup];
   
   CGRect r = self.view.frame;
+  r.origin.x = 0;
   r.origin.y = r.size.height;
+  self.view.frame = r;
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateGoldLabel) name:IAP_SUCCESS_NOTIFICATION object:nil];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  CGRect r = self.view.frame;
+  r.origin.y = r.size.height;
+  r.origin.x = 0;
+  r.size.width = self.view.superview.frame.size.width;
   self.view.frame = r;
   [UIView animateWithDuration:0.3f animations:^{
     CGRect r = self.view.frame;
@@ -657,6 +670,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   [self.view cleanup];
   self.myClanMembers = nil;
   self.myClan = nil;
+  
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void) setState:(ClanState)s {
@@ -953,6 +968,37 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   }];
 }
 
+- (IBAction)upgradeClanClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  FullClanProtoWithClanSize *clan = self.clanInfoView.clan;
+  if (clan.clan.clanId == gs.clan.clanId) {
+    int maxTier = [gs maxClanTierLevel];
+    if (gs.clan.currentTierLevel >= maxTier) {
+      [Globals popupMessage:@"This clan is already at the max tier level!"];
+    } else {
+      int newSize = [gs clanTierForLevel:gs.clan.currentTierLevel+1].maxSize;
+      int upgradeCost = [gs clanTierForLevel:gs.clan.currentTierLevel].upgradeCost;
+      NSString *desc = [NSString stringWithFormat:@"Would you like to upgrade your clan to %d members for %d gold?", newSize, upgradeCost];
+      [GenericPopupController displayConfirmationWithDescription:desc title:@"Upgrade Clan?" okayButton:@"Upgrade" cancelButton:@"Cancel" target:self selector:@selector(upgradeClan)];
+    }
+  }
+}
+
+- (void) upgradeClan {
+  GameState *gs = [GameState sharedGameState];
+  ClanTierLevelProto *p = [gs clanTierForLevel:gs.clan.currentTierLevel];
+  int cost = p.upgradeCost;
+  
+  if (gs.gold < cost) {
+    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] upgradeClanTierLevel];
+    [self updateGoldLabel];
+    
+    [self.loadingView display:self.view];
+  }
+}
+
 - (void) beginLoading:(int)tag {
   if (tag != 0) {
     [self updateGoldLabel];
@@ -1021,7 +1067,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
       FullClanProtoWithClanSize *clan = proto.clanInfoList.lastObject;
       if (gs.clan.clanId == clan.clan.clanId) {
         self.myClan = clan;
-        self.myClanMembers = proto.membersList.mutableCopy;
+        self.myClanMembers = [proto.membersList.mutableCopy autorelease];
         
         if (state == kMyClan) {
           [self topBarButtonClicked:_lastButton];
@@ -1060,7 +1106,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
         [myClanMembers removeObject:m];
         [myClanMembers addObject:newMup];
         
-        self.myClan = [[[FullClanProtoWithClanSize builderWithPrototype:myClan] setClanSize:myClan.clanSize+1] build];
+        self.myClan = proto.fullClan;
+        if (state == kMyClan) {
+          [self.clanInfoView loadForClan:myClan];
+        }
       } else {
         [myClanMembers removeObject:m];
       }
@@ -1137,7 +1186,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
 - (void) receivedChangeDescriptionResponse:(ChangeClanDescriptionResponseProto *)proto {
   self.myClan = proto.fullClan;
   if (state == kMyClan) {
-    [self.membersView loadForMembers:myClanMembers isMyClan:YES];
     [self.clanInfoView loadForClan:myClan];
   }
 }
@@ -1155,7 +1203,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
     
     if (m) {
       [myClanMembers removeObject:m];
+      self.myClan = [[[FullClanProtoWithClanSize builderWithPrototype:myClan] setClanSize:myClan.clanSize-1] build];
       if (state == kMyClan) {
+        [self.clanInfoView loadForClan:self.myClan];
         [self.membersView loadForMembers:myClanMembers isMyClan:YES];
       }
     }
@@ -1186,7 +1236,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
     
     if (m) {
       [myClanMembers removeObject:m];
+      self.myClan = [[[FullClanProtoWithClanSize builderWithPrototype:myClan] setClanSize:myClan.clanSize-1] build];
       if (state == kMyClan) {
+        [self.clanInfoView loadForClan:self.myClan];
         [self.membersView loadForMembers:myClanMembers isMyClan:YES];
       }
     }
@@ -1213,12 +1265,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
 }
 
 - (void) receivedWallPosts:(RetrieveClanBulletinPostsResponseProto *)proto {
-  clanBoardView.boardPosts = proto.clanBulletinPostsList ? proto.clanBulletinPostsList.mutableCopy : [NSMutableArray array];
+  clanBoardView.boardPosts = proto.clanBulletinPostsList ? [proto.clanBulletinPostsList.mutableCopy autorelease] : [NSMutableArray array];
 }
 
-- (void)viewDidUnload
+- (void) receivedUpgradeClanTier:(UpgradeClanTierLevelResponseProto *)proto {
+  self.myClan = proto.fullClan;
+  if (state == kMyClan) {
+    [self.clanInfoView loadForClan:myClan];
+  }
+  [self.loadingView stop];
+}
+
+- (void)didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.clanBar = nil;

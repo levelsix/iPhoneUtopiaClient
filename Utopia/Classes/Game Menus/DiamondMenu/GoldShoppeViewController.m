@@ -472,7 +472,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   if (_state == kPackagesState) {
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate
                                               dateWithTimeIntervalSinceNow:0.07]];
-    [self startLoading];
+    [self.loadingView display:self.view];
   }
 }
 
@@ -488,26 +488,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   [self.pkgTableView reloadData];
 }
 
-- (void) startLoading {
-  [loadingView.actIndView startAnimating];
-  
-  [self.view addSubview:loadingView];
-  _isDisplayingLoadingView = YES;
-}
-
 - (void) stopLoading {
-  if (_isDisplayingLoadingView) {
-    [loadingView.actIndView stopAnimating];
-    [loadingView removeFromSuperview];
-    _isDisplayingLoadingView = NO;
-  }
-  
+  [self.loadingView stop];
   [self update];
 }
 
-- (void)viewDidUnload
+- (void)didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.loadingView = nil;

@@ -79,9 +79,9 @@
   
   GameState *gs = [GameState sharedGameState];
   if ([Globals userTypeIsGood:gs.type]) {
-    tutorialGirlView.image = [Globals imageNamed:@"bigruby.png"];
+    tutorialGirlView.image = [Globals imageNamed:@"bigruby2.png"];
   } else {
-    tutorialGirlView.image = [Globals imageNamed:@"bigadriana.png"];
+    tutorialGirlView.image = [Globals imageNamed:@"bigadriana2.png"];
   }
 }
 
@@ -143,9 +143,9 @@
   [self release];
 }
 
-- (void) viewDidUnload
+- (void) didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.levelUpResponse = nil;

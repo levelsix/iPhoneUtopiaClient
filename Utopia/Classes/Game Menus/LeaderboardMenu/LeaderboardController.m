@@ -561,9 +561,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LeaderboardController);
   }
 }
 
-- (void)viewDidUnload
+- (void)didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.topBar = nil;

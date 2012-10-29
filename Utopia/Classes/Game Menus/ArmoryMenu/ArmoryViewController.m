@@ -400,8 +400,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [rightRope release];
 }
 
-- (void) viewDidUnload {
-  [super viewDidUnload];
+- (void) didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
   
   self.armoryTableView = nil;
   self.armoryRow = nil;
@@ -424,9 +424,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [coinBar updateLabels];
   
   CGRect f = self.view.frame;
-  self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
+  self.view.center = CGPointMake(self.view.center.x, f.size.height*3/2);
   [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
-    self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
+    self.view.center = CGPointMake(self.view.center.x, f.size.height/2);
   }];
   
   [[SoundEngine sharedSoundEngine] armoryEnter];
@@ -734,7 +734,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   if (self.view.superview) {
     CGRect f = self.view.frame;
     [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
-      self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
+      self.view.center = CGPointMake(self.view.center.x, f.size.height*3/2);
     } completion:^(BOOL finished) {
       [ArmoryViewController removeView];
     }];

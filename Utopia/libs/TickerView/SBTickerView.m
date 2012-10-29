@@ -34,12 +34,12 @@
 #import "SBGradientOverlayLayer.h"
 
 @interface SBTickerView ()
-@property (nonatomic, strong) SBGradientOverlayLayer *topFaceLayer;
-@property (nonatomic, strong) SBGradientOverlayLayer *bottomFaceLayer;
-@property (nonatomic, strong) SBDoubleSidedLayer *tickLayer;
-@property (nonatomic, strong) CALayer *flipLayer;
+@property (nonatomic, retain) SBGradientOverlayLayer *topFaceLayer;
+@property (nonatomic, retain) SBGradientOverlayLayer *bottomFaceLayer;
+@property (nonatomic, retain) SBDoubleSidedLayer *tickLayer;
+@property (nonatomic, retain) CALayer *flipLayer;
 
-@property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
+@property (nonatomic, retain) UIPanGestureRecognizer *panGestureRecognizer;
 
 - (void)_setup;
 - (void)_initializeTick:(SBTickerViewTickDirection)direction;
@@ -88,6 +88,17 @@
   if ((self = [super init]))
     [self _setup];
   return self;
+}
+
+- (void) dealloc {
+  self.frontView = nil;
+  self.backView = nil;
+  self.topFaceLayer = nil;
+  self.bottomFaceLayer = nil;
+  self.tickLayer = nil;
+  self.flipLayer = nil;
+  self.panGestureRecognizer = nil;
+  [super dealloc];
 }
 
 - (void)layoutSubviews {
@@ -149,19 +160,19 @@
   
   // Face layers
   // Top
-  [self setTopFaceLayer:[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeFace
-                                                              segment:SBGradientOverlayLayerSegmentTop]];
+  [self setTopFaceLayer:[[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeFace
+                                                              segment:SBGradientOverlayLayerSegmentTop] autorelease]];
   
   [_topFaceLayer setFrame:CGRectMake(0., 0., _flipLayer.frame.size.width, floorf(_flipLayer.frame.size.height/2))];
   
   // Bottom
-  [self setBottomFaceLayer:[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeFace
-                                                                 segment:SBGradientOverlayLayerSegmentBottom]];
+  [self setBottomFaceLayer:[[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeFace
+                                                                 segment:SBGradientOverlayLayerSegmentBottom] autorelease]];
   
   [_bottomFaceLayer setFrame:CGRectMake(0., floorf(_flipLayer.frame.size.height / 2), _flipLayer.frame.size.width, floorf(_flipLayer.frame.size.height/2))];
   
   // Tick layer
-  [self setTickLayer:[[SBDoubleSidedLayer alloc] init]];
+  [self setTickLayer:[[[SBDoubleSidedLayer alloc] init] autorelease]];
   
   [_tickLayer setAnchorPoint:CGPointMake(1., 1.)];
   [_tickLayer setFrame:CGRectMake(0., 0., _flipLayer.frame.size.width, floorf(_flipLayer.frame.size.height/2))];

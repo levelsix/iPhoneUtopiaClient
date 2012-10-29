@@ -126,6 +126,7 @@
 - (int) bootPlayerFromClan:(int)playerId;
 - (ClanBulletinPostProto *) postOnClanBulletin:(NSString *)content;
 - (void) retrieveClanBulletinPosts:(int)beforeThisPostId;
+- (void) upgradeClanTierLevel;
 
 - (void) beginGoldmineTimer;
 - (void) collectFromGoldmine;

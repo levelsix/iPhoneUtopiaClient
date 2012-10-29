@@ -46,8 +46,8 @@
 - (int) sendRetrieveCurrentMarketplacePostsMessageWithCurNumEntries:(int)curNumEntries filter:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter)filter commonEquips:(BOOL)commonEquips uncommonEquips:(BOOL)uncommonEquips rareEquips:(BOOL)rareEquips epicEquips:(BOOL)epicEquips legendaryEquips:(BOOL)legendaryEquips myClassOnly:(BOOL)myClassOnly minEquipLevel:(int)minEquipLevel maxEquipLevel:(int)maxEquipLevel minForgeLevel:(int)minForgeLevel maxForgeLevel:(int)maxForgeLevel sortOrder:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder)sortOrder specificEquipId:(int)specificEquipId;
 - (int) sendRetrieveCurrentMarketplacePostsMessageFromSenderWithCurNumEntries:(int)curNumEntries;
 - (int) sendEquipPostToMarketplaceMessage:(int)equipId coins:(int)coins diamonds:(int)diamonds;
-- (int) sendRetractMarketplacePostMessage: (int)postId;
-- (int) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId;
+- (int) sendRetractMarketplacePostMessage:(int)postId curTime:(uint64_t)curTime;
+- (int) sendPurchaseFromMarketplaceMessage:(int)postId poster:(int)posterId;
 - (int) sendRedeemMarketplaceEarningsMessage;
 - (int) sendPurchaseMarketplaceLicenseMessage: (uint64_t)clientTime type:(PurchaseMarketplaceLicenseRequestProto_LicenseType)type;
 
@@ -71,7 +71,7 @@
 - (int) sendLoadPlayerCityMessage:(int)userId;
 - (int) sendLoadNeutralCityMessage:(int)cityId;
 
-- (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds lockBoxEvents:(BOOL)lockBoxEvents;
+- (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds lockBoxEvents:(BOOL)lockBoxEvents clanTierLevels:(BOOL)clanTierLevels;
 - (int) sendRetrieveStaticDataFromShopMessage:(RetrieveStaticDataForShopRequestProto_RetrieveForShopType)type;
 
 - (int) sendEquipEquipmentMessage:(int) equipId;
@@ -117,6 +117,7 @@
 - (int) sendBootPlayerFromClan:(int)playerId;
 - (int) sendPostOnClanBulletinMessage:(NSString *)content;
 - (int) sendRetrieveClanBulletinPostsMessage:(int)beforeThisClanId;
+- (int) sendUpgradeClanTierLevelMessage;
 
 - (int) sendBeginGoldmineTimerMessage:(uint64_t)clientTime reset:(BOOL)reset;
 - (int) sendCollectFromGoldmineMessage:(uint64_t)clientTime;

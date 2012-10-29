@@ -39,10 +39,12 @@
 - (void) setIsLocked:(BOOL)i {
   isLocked = i;
   
+  Globals *gl = [Globals sharedGlobals];
+  NSString *base = gl.downloadableNibConstants.mapNibName;
   if (!isLocked) {
-    [self setImage:[Globals imageNamed:@"opencity.png"] forState:UIControlStateNormal] ;
+    [self setImage:[Globals imageNamed:[base stringByAppendingString:@"/opencity.png"]] forState:UIControlStateNormal] ;
   } else {
-    [self setImage:[Globals imageNamed:@"lockedcity.png"] forState:UIControlStateNormal];
+    [self setImage:[Globals imageNamed:[base stringByAppendingString:@"/lockedcity.png"]] forState:UIControlStateNormal];
   }
 }
 

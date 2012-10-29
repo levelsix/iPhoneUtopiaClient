@@ -43,8 +43,8 @@ typedef enum {
 
 
 @interface SBTickerView : UIView
-@property (nonatomic, strong) UIView *frontView;
-@property (nonatomic, strong) UIView *backView;
+@property (nonatomic, retain) UIView *frontView;
+@property (nonatomic, retain) UIView *backView;
 @property (nonatomic, assign) CFTimeInterval duration; // default .5
 
 @property (nonatomic, assign) BOOL panning; // default NO. If set to YES, this view will get an UIPanGestureRecognizer

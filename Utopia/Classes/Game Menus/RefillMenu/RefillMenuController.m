@@ -15,6 +15,7 @@
 #import "VaultMenuController.h"
 #import "EquipDeltaView.h"
 #import "ChatMenuController.h"
+#import "SoundEngine.h"
 
 #define REQUIRES_EQUIP_VIEW_OFFSET 5.f
 #define EQUIPS_VIEW_SPACING 5.f
@@ -71,8 +72,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   spkrView.hidden = YES;
 }
 
-- (void) viewDidUnload {
-  [super viewDidUnload];
+- (void) didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
   self.goldView = nil;
   self.silverView = nil;
   self.itemsView = nil;
@@ -315,6 +316,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
       }
     }
     [self.loadingView display:self.view];
+    
+    [[SoundEngine sharedSoundEngine] armoryBuy];
   }
 }
 

@@ -75,7 +75,8 @@
     FullEquipProto *fep = [gs equipWithId:notification.marketPost.postedEquip.equipId];
     titleLabel.text = [NSString stringWithFormat:@"%@ bought your %@.", name, fep.name ];
     
-    NSString *coinStr = notification.marketPost.coinCost > 0 ? [NSString stringWithFormat:@"%d silver", (int)floorf(notification.marketPost.coinCost*(1-gl.purchasePercentCut))] : [NSString stringWithFormat:@"%d gold", (int)floorf(notification.marketPost.diamondCost*(1-gl.purchasePercentCut))];
+    float percentReceived = n.sellerHadLicense ? 1.f : (1-gl.purchasePercentCut);
+    NSString *coinStr = notification.marketPost.coinCost > 0 ? [NSString stringWithFormat:@"%d silver", (int)floorf(notification.marketPost.coinCost*percentReceived)] : [NSString stringWithFormat:@"%d gold", (int)floorf(notification.marketPost.diamondCost*(1-gl.purchasePercentCut))];
     
     subtitleLabel.text = [NSString stringWithFormat:@"You have %@ waiting for you.", coinStr];
     titleLabel.textColor = [Globals goldColor];
@@ -154,8 +155,10 @@
     }
     
     if (user) {
-      [[BattleLayer sharedBattleLayer] beginBattleAgainst:user];
-      [[ActivityFeedController sharedActivityFeedController] close];
+      BOOL success = [[BattleLayer sharedBattleLayer] beginBattleAgainst:user];
+      if (success) {
+        [[ActivityFeedController sharedActivityFeedController] close];
+      }
     }
     
     [Analytics clickedRevenge];
@@ -314,9 +317,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
   [self.activityTableView reloadData];
 }
 
-- (void)viewDidUnload
+- (void)didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.activityTableView = nil;

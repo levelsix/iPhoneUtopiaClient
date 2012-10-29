@@ -418,7 +418,7 @@
 @synthesize direction = _direction;
 
 - (id) initForDirection:(ExpansionDirection)direction location:(CGRect)location map:(GameMap *)map isExpanding:(BOOL)isExpanding {
-  NSString *file;
+  NSString *file = nil;
   if (direction == ExpansionDirectionFarLeft || direction == ExpansionDirectionNearRight) {
     file = @"leftexpand.png";
   } else if (direction == ExpansionDirectionFarRight || direction == ExpansionDirectionNearLeft) {

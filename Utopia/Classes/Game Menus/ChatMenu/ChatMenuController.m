@@ -155,7 +155,8 @@
 @synthesize typeCircle, timeLabel;
 @synthesize chatMessage;
 
-static float chatLabelWidth = 342.f;
+static BOOL chatCellLoaded = NO;
+static float chatLabelWidth = 0.f;
 static float cellHeight = 66.f;
 static float cellLabelHeight = 19.f;
 static float cellLabelFontSize = 14.f;
@@ -334,7 +335,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   [self.chatTable reloadData];
   [self updateNumChatsLabel];
   
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  self.mainView.center = CGPointMake(self.mainView.center.x, self.mainView.superview.frame.size.height+self.mainView.frame.size.height/2);
+  self.bgdView.alpha = 0.f;
+  [UIView animateWithDuration:0.2f animations:^{
+    self.mainView.center = CGPointMake(self.mainView.center.x, self.mainView.frame.size.height/2);
+    self.bgdView.alpha = 1.f;
+  }];
 }
 
 - (void) setIsGlobal:(BOOL)i {
@@ -386,6 +392,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 }
 
 - (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (!chatCellLoaded) {
+    [[NSBundle mainBundle] loadNibNamed:@"ChatCell" owner:self options:nil];
+    chatCellLoaded = YES;
+    self.chatCell = nil;
+  }
+  
   ChatMessage *cm = [[self arrayForState] objectAtIndex:indexPath.row];
   CGSize size = [cm.message sizeWithFont:[UIFont fontWithName:@"SanvitoPro-Semibold" size:cellLabelFontSize] constrainedToSize:CGSizeMake(chatLabelWidth, 999) lineBreakMode:UILineBreakModeWordWrap];
   
@@ -403,7 +415,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 
 - (void) close {
   if (self.view.superview) {
-    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {
+    [UIView animateWithDuration:0.2f animations:^{
+      self.mainView.center = CGPointMake(self.mainView.center.x, self.mainView.superview.frame.size.height+self.mainView.frame.size.height/2);
+      self.bgdView.alpha = 0.f;
+    } completion:^(BOOL finished) {
       [ChatMenuController removeView];
     }];
   }
@@ -495,9 +510,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   [postTextField resignFirstResponder];
 }
 
-- (void)viewDidUnload
+- (void)didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.chatCell = nil;

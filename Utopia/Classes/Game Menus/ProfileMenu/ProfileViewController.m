@@ -536,6 +536,7 @@
   }
   postedPriceTextField.text = @"";
   
+  self.frame = view.bounds;
   [view addSubview:self];
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   
@@ -557,6 +558,22 @@
     return NO;
   }
   return YES;
+}
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.mainView.center = ccpAdd(self.mainView.center, ccp(0, -75));
+  }];
+}
+
+- (void) textFieldDidEndEditing:(UITextField *)textField {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.mainView.center = ccpAdd(self.mainView.center, ccp(0, 75));
+  }];
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self endEditing:YES];
 }
 
 - (void) dealloc {
@@ -690,7 +707,7 @@
 //}
 
 - (IBAction)postClicked:(id)sender {
-  [self.mktPostView updateForEquip:userEquip andAddToSuperView:self];
+  [self.mktPostView updateForEquip:userEquip andAddToSuperView:self.superview];
 }
 
 - (IBAction)postOkayClicked:(id)sender
@@ -878,6 +895,7 @@
   int new = self.wallPosts.count;
   
   if (old+1 == new) {
+    self.wallTableView.contentOffset = ccp(0,0);
     [self.wallTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
   }
 }
@@ -1208,6 +1226,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [equipPopup updateForUserEquip:(UserEquip *)fuep];
     [self.view addSubview:equipPopup];
     [Globals bounceView:equipPopup.mainView fadeInBgdView:equipPopup.bgdView];
+    equipPopup.frame = self.view.bounds;
   } else {
     [EquipMenuController displayViewForEquip:fuep.equipId];
   }
@@ -1243,15 +1262,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 - (NSArray *) sortEquips:(NSArray *)equips {
   NSMutableArray *arr = [equips mutableCopy];
   NSMutableArray *toRet = [NSMutableArray arrayWithCapacity:equips.count];
-  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
   for (int i = 0; i < equips.count; i++) {
     UserEquip *bestFuep = [arr objectAtIndex:0];
-    FullEquipProto *bestFep = [gs equipWithId:bestFuep.equipId];
     for (int j = 1; j < arr.count; j++) {
       UserEquip *compFuep = [arr objectAtIndex:j];
-      FullEquipProto *compFep = [gs equipWithId:compFuep.equipId];
       
       int compAttack = [gl calculateAttackForEquip:compFuep.equipId level:compFuep.level];
       int compDefense = [gl calculateDefenseForEquip:compFuep.equipId level:compFuep.level];
@@ -1260,7 +1276,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       
       if (compAttack+compDefense > bestDefense+bestAttack) {
         bestFuep = compFuep;
-        bestFep = compFep;
       }
     }
     [toRet addObject:bestFuep];
@@ -1336,7 +1351,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     }
   }
   
-  equips = [[self sortEquips:equippables].mutableCopy arrayByAddingObjectsFromArray:[self sortEquips:unequippables]];
+  equips = [[[self sortEquips:equippables].mutableCopy autorelease] arrayByAddingObjectsFromArray:[self sortEquips:unequippables]];
   [self.equipsTableDelegate loadEquips:equips curWeapon:weapon curArmor:armor curAmulet:amulet];
   
   int i;
@@ -1574,7 +1589,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   if (proto.relevantUserId == userId) {
     // Wall Tab View will take control of updating the wall posts
     // Make sure to send empty list if there are no wall posts so that spinner stops..
-    wallTabView.wallPosts = proto.playerWallPostsList ? proto.playerWallPostsList.mutableCopy : [NSMutableArray array];
+    wallTabView.wallPosts = proto.playerWallPostsList ? [proto.playerWallPostsList.mutableCopy autorelease] : [NSMutableArray array];
   }
 }
 
@@ -1868,6 +1883,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   Globals *gl = [Globals sharedGlobals];
   int cost = gl.diamondCostToChangeCharacterType;
   if (gs.gold >= cost) {
+    // This will be released by the controller
     CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
     [Globals displayUIView:csvc.view];
   } else {
@@ -1888,7 +1904,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   int cost = gl.diamondCostToResetCharacter;
-  if (gs.gold >= cost) {
+  if (gs.clan) {
+    [Globals popupMessage:@"You must leave your clan before resetting the game."];
+  } else if (gs.gold >= cost) {
     [self.loadingView display:self.view];
     [[OutgoingEventController sharedOutgoingEventController] resetGame];
     
@@ -1933,6 +1951,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+  NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+  if ([str length] > [[Globals sharedGlobals] maxNameLength]) {
+    return NO;
+  }
+  return YES;
+}
+
 - (void) textFieldDidBeginEditing:(UITextField *)textField {
   [UIView animateWithDuration:0.3f animations:^{
     self.nameChangeView.superview.center = ccpAdd(self.nameChangeView.superview.center, ccp(0, -75));
@@ -1940,11 +1966,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
+  [textField resignFirstResponder]; 
+  return YES;
+}
+
+- (void) textFieldDidEndEditing:(UITextField *)textField {
   [UIView animateWithDuration:0.3f animations:^{
     self.nameChangeView.superview.center = ccpAdd(self.nameChangeView.superview.center, ccp(0, 75));
   }];
-  [textField resignFirstResponder]; 
-  return YES;
 }
 
 - (IBAction)closeClicked:(id)sender {
@@ -1965,13 +1994,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     if ([levelupDict containsObject:[NSNumber numberWithInt:gs.level]]) {
       NSString *curAchievement = [NSString stringWithFormat:@"level_up_%d",
                                   gs.level];
-      [KiipDelegate postAchievementNotificationAchievement:curAchievement 
-                                                 andSender:nil];
+      [KiipDelegate postAchievementNotificationAchievement:curAchievement];
     }
     
     // Show the level up popup here
     Globals *gl = [Globals sharedGlobals];
-    if (gs.level >= gl.levelToShowRateUsPopup) {
+    if (gs.level >= gl.levelToShowRateUsPopup && gl.levelToShowRateUsPopup > 0) {
       [Globals checkRateUsPopup];
     }
   }
@@ -1983,17 +2011,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (IBAction)attackClicked:(id)sender {
-  [[BattleLayer sharedBattleLayer] beginBattleAgainst:_fup];
-  [self closeClicked:nil];
+  BOOL success = [[BattleLayer sharedBattleLayer] beginBattleAgainst:_fup];
+  if (success) [self closeClicked:nil];
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [wallTabView endEditing];
 }
 
-- (void) viewDidUnload
+- (void) didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.fup = nil;

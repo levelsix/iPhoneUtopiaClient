@@ -15,6 +15,10 @@
 
 @synthesize goldLabel, silverLabel;
 
+- (void) awakeFromNib {
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLabels) name:IAP_SUCCESS_NOTIFICATION object:nil];
+}
+
 - (void) updateLabels {
   GameState *gs = [GameState sharedGameState];
   
@@ -29,6 +33,7 @@
 - (void) dealloc {
   self.goldLabel = nil;
   self.silverLabel = nil;
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
 }
 

@@ -15,7 +15,9 @@
 
 @end
 
-@interface GameViewController : UIViewController
+@interface GameViewController : UIViewController {
+  BOOL _startedGame;
+}
 
 - (void) fadeToLoadingScreen;
 - (void) connectedToHost;
@@ -23,6 +25,7 @@
 - (void) loadPlayerCityComplete;
 - (void) setupCocos2D;
 - (void) startGame;
+- (void) allowRestartOfGame;
 - (void) loadGame:(BOOL)isTutorial;
 
 + (GameViewController *) sharedGameViewController;

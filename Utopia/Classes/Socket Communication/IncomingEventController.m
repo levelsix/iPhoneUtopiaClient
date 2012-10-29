@@ -46,6 +46,7 @@
 #import "SocketCommunication.h"
 #import "LockBoxMenuController.h"
 #import "ThreeCardMonteViewController.h"
+#import "CharSelectionViewController.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -279,6 +280,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSPlayThreeCardMonteEvent:
       responseClass = [PlayThreeCardMonteResponseProto class];
       break;
+    case EventProtocolResponseSUpgradeClanTierEvent:
+      responseClass = [UpgradeClanTierLevelResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -427,15 +431,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   gl.reviewPageURL = proto.reviewPageUrl;
+  gl.reviewPageConfirmationMessage = proto.reviewPageConfirmationMessage;
   
   // Must do gold sales before startup constants so that the product ids can be retrieved
-  gs.staticGoldSales = proto.goldSalesList.mutableCopy;
+  gs.staticGoldSales = [proto.goldSalesList.mutableCopy autorelease];
   [gs resetGoldSaleTimers];
   [gl updateConstants:proto.startupConstants];
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
     // Update user before creating map
     [gs updateUser:proto.sender timestamp:0];
     [gs setPlayerHasBoughtInAppPurchase:proto.playerHasBoughtInAppPurchase];
+    
+    [Globals asyncDownloadBundles];
     
     OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
     
@@ -453,6 +460,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToInProgressCompleteQuests:proto.inProgressCompleteQuestsList];
     [gs.inProgressIncompleteQuests removeAllObjects];
     [gs addToInProgressIncompleteQuests:proto.inProgressIncompleteQuestsList];
+    [gs addToClanTierLevels:proto.clanTierLevelsList];
     [oec loadPlayerCity:gs.userId];
     [oec retrieveAllStaticData];
     [gs addNewStaticLockBoxEvents:proto.lockBoxEventsList];
@@ -506,7 +514,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [cm release];
     }
     
-    //Display daily bonus screen if its applicable
+    [(AppDelegate *)[[UIApplication sharedApplication] delegate] registerForPushNotifications];
+    [(AppDelegate *)[[UIApplication sharedApplication] delegate] removeLocalNotifications];
+    
+    //Display daily bonus screen if its  applicable
 //    StartupResponseProto_DailyBonusInfo *dbi = proto.dailyBonusInfo;
 //    if (dbi.firstTimeToday) {
 //      DailyBonusMenuController *dbmc = [[DailyBonusMenuController alloc] initWithNibName:nil bundle:nil];
@@ -523,11 +534,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     // Display generic popups for strings that haven't been seen before
     NSUserDefaults *standardDefault = [NSUserDefaults standardUserDefaults];
-    NSMutableArray *stringsStored = [[[NSUserDefaults standardUserDefaults]objectForKey:@"myCurrentString"]mutableCopy];
+    NSMutableArray *stringsStored = [[[[NSUserDefaults standardUserDefaults] objectForKey:@"myCurrentString"]mutableCopy] autorelease];
     NSMutableArray *incomingStrings = [NSMutableArray arrayWithArray:proto.noticesToPlayersList];
     
     if (stringsStored == NULL){
-      stringsStored = [[NSMutableArray alloc]init];
+      stringsStored = [[[NSMutableArray alloc]init] autorelease];
     }
     for(NSString *incomingString in incomingStrings){
       BOOL hasStringAlready = NO;
@@ -540,7 +551,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       if (!hasStringAlready) {
         [stringsStored addObject:incomingString];
         [Globals popupMessage:incomingString];
-        hasStringAlready = YES;
       }
     }
     
@@ -613,7 +623,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   NSString *key = IAP_DEFAULTS_KEY;
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSMutableArray *arr = [[defaults arrayForKey:key] mutableCopy];
+  NSMutableArray *arr = [[[defaults arrayForKey:key] mutableCopy] autorelease];
   int origCount = arr.count;
   NSString *x = nil;
   for (NSString *str in arr) {
@@ -636,6 +646,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
+    // Post notification so all UI with that bar can update
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil]];
     [gs removeNonFullUserUpdatesForTag:tag];
     [Analytics purchasedGoldPackage:proto.packageName price:proto.packagePrice goldAmount:proto.diamondsGained];
   }
@@ -736,8 +748,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         }
         [gs addToStaticEquips:staticEquips];
         
-        
-        [mvc insertRowsFrom:oldCount+![[GameState sharedGameState] hasValidLicense]+1];
+        BOOL showsLicenseRow = proto.fromSender;
+        [mvc insertRowsFrom:oldCount+showsLicenseRow+1];
       }
     }
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -786,6 +798,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.marketplaceGoldEarnings += (int)floorf(proto.marketplacePost.diamondCost * (1.f-gl.purchasePercentCut));
       gs.marketplaceSilverEarnings += (int)floorf(proto.marketplacePost.coinCost * (1.f-gl.purchasePercentCut));
       
+      [mvc displayRedeemView];
+      
       [Analytics receivedNotification];
     } else {
       [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.fullUserEquipOfBoughtItem]];
@@ -793,19 +807,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       NSMutableArray *mktPosts = mvc.arrayForCurrentState;
       [[Globals sharedGlobals] confirmWearEquip:proto.fullUserEquipOfBoughtItem.userEquipId];
       
-      for (int i = 0; i < mktPosts.count; i++) {
-        FullMarketplacePostProto *p = [mktPosts objectAtIndex:i];
-        if (p.marketplacePostId == proto.marketplacePost.marketplacePostId) {
-          if (mvc.view.superview) {
-            // Add one to account for the empty cell at the top
-            [mktPosts removeObject:p];
-            [gs.marketplaceEquipPosts removeObject:p];
-            NSIndexPath *y = [NSIndexPath indexPathForRow:i+1 inSection:0];
-            NSIndexPath *z = mktPosts.count == 0 ? [NSIndexPath indexPathForRow:0 inSection:0] : nil;
-            NSArray *a = [NSArray arrayWithObjects:y, z, nil];
-            [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
+      if (mvc.view.superview) {
+        for (int i = 0; i < mktPosts.count; i++) {
+          FullMarketplacePostProto *p = [mktPosts objectAtIndex:i];
+          if (p.marketplacePostId == proto.marketplacePost.marketplacePostId) {
+            if (mvc.view.superview) {
+              // Add one to account for the empty cell at the top
+              [mktPosts removeObject:p];
+              
+              BOOL showsLicenseRow = mvc.state == kEquipSellingState;
+              
+              NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+showsLicenseRow inSection:0];
+              NSIndexPath *z = mktPosts.count == 0 ? [NSIndexPath indexPathForRow:0 inSection:0] : nil;
+              NSArray *a = [NSArray arrayWithObjects:y, z, nil];
+              [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
+            }
+            break;
           }
-          break;
         }
       }
     }
@@ -863,6 +881,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to purchase marketplace license"];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
+    [[MarketplaceViewController sharedMarketplaceViewController] receivedPurchaseMktLicenseResponse:proto];
+    
     [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
@@ -1110,8 +1130,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
       
-      [[HomeMap sharedHomeMap] refresh];
-      [[GameViewController sharedGameViewController] startGame];
+      if (![[HomeMap sharedHomeMap] loading]) {
+        [[GameViewController sharedGameViewController] startGame];
+      }
+      
       [gs removeNonFullUserUpdatesForTag:tag];
       
       // Check for unresponded in app purchases
@@ -1175,6 +1197,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToStaticTasks:proto.tasksList];
     [gs addToStaticUpgradeStructJobs:proto.upgradeStructJobsList];
     
+    if (proto.clanTierLevelsList > 0) [gs addToClanTierLevels:proto.clanTierLevelsList];
     if (proto.lockBoxEventsList.count > 0) [gs addNewStaticLockBoxEvents:proto.lockBoxEventsList];
     
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
@@ -1309,8 +1332,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
     
     if (proto.shouldGiveKiipReward) {
-      [KiipDelegate postAchievementNotificationAchievement:QUEST_REDEEM_KIIP_REWARD
-                                                 andSender:nil];
+      [KiipDelegate postAchievementNotificationAchievement:QUEST_REDEEM_KIIP_REWARD];
     }
   } else {
     [Globals popupMessage:@"Server failed to redeem quest"];
@@ -1547,7 +1569,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == CollectForgeEquipsResponseProto_CollectForgeEquipsStatusSuccess) {
-    [gs addToMyEquips:proto.newUserEquipsList];
+    [gs addToMyEquips:proto.userEquipsList];
     gs.forgeAttempt = nil;
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1876,7 +1898,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to post on clan wall."];
+    [Globals popupMessage:@"Server failed to boot player from clan."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -1911,6 +1933,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to retrieve clan wall posts."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleUpgradeClanTierLevelResponseProto:(FullEvent *)fe {
+  UpgradeClanTierLevelResponseProto *proto = (UpgradeClanTierLevelResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Upgrade clan tier level response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatusSuccess) {
+    if (proto.hasMinClan) {
+      gs.clan = proto.minClan;
+      [[SocketCommunication sharedSocketCommunication] rebuildSender];
+    }
+    [[ClanMenuController sharedClanMenuController] receivedUpgradeClanTier:proto];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to upgrade clan tier level."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

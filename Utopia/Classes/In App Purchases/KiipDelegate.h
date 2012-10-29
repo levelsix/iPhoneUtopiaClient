@@ -13,8 +13,7 @@
   KPManager *kpManager;
 }
 
-+(void) postAchievementNotificationAchievement:(NSString *)achievement 
-                                     andSender:(id)sender;
++(void) postAchievementNotificationAchievement:(NSString *)achievement;
 +(id<KPManagerDelegate>) create;
 -(id)initWithKPManager:(KPManager *)manager;
 

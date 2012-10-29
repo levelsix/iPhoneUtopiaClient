@@ -177,12 +177,12 @@
     
     _overLayer = [CCSprite spriteWithFile:@"combowheellight.png"];
     [self addChild:_overLayer z:5];
-    _overLayer.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    _overLayer.position = ccp(_overLayer.contentSize.width/2, self.contentSize.height/2);
     
     CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap anywhere on the screen to engage your attack." dimensions:CGSizeMake(200, 53) alignment:UITextAlignmentLeft lineBreakMode:UILineBreakModeWordWrap fontName:@"DINCond-Black" fontSize:20.f];
     [_overLayer addChild:label];
     label.anchorPoint = ccp(0, 1.f);
-    label.position = ccp(self.contentSize.width/2, self.contentSize.height/2+15);
+    label.position = ccp(self.contentSize.width/2, self.contentSize.height/2+45);
     
     CCLabelTTF *label2 = [CCLabelTTF labelWithString:@"Aim for the max!" dimensions:CGSizeMake(150, 30) alignment:UITextAlignmentLeft lineBreakMode:UILineBreakModeWordWrap fontName:@"DINCond-Black" fontSize:20.f];
     label2.color = ccc3(255, 200, 0);

@@ -243,12 +243,14 @@
   ss.scale *= self.scale;
   [tb addChild:ss z:-1];
   
+  CCNode *coinBar = [tb getChildByTag:COIN_BAR_TAG];
+  
   [ss runAction:[CCSequence actions:
                  [CCSpawn actions:
                   [CCEaseSineIn actionWithAction:
                    [CCMoveToCustom actionWithDuration:0.5 position:ccp(ss.position.x,292)]],
                   [CCEaseSineOut actionWithAction:
-                   [CCMoveToCustom actionWithDuration:0.5 position:ccp(352,ss.position.y)]],
+                   [CCMoveToCustom actionWithDuration:0.5 position:ccp(coinBar.position.x-21.f,ss.position.y)]],
                   [CCScaleTo actionWithDuration:0.5 scale:0.5],
                   nil],
                  [CCCallBlock actionWithBlock:^{[ss removeFromParentAndCleanup:YES];}],
@@ -309,12 +311,14 @@
   ss.scale *= self.scale;
   [tb addChild:ss z:-1];
   
+  CCNode *coinBar = [tb getChildByTag:COIN_BAR_TAG];
+  
   [ss runAction:[CCSequence actions:
                  [CCSpawn actions:
                   [CCEaseSineIn actionWithAction:
                    [CCMoveToCustom actionWithDuration:0.5 position:ccp(ss.position.x,292)]],
                   [CCEaseSineOut actionWithAction:
-                   [CCMoveToCustom actionWithDuration:0.5 position:ccp(420,ss.position.y)]],
+                   [CCMoveToCustom actionWithDuration:0.5 position:ccp(coinBar.position.x+47.f,ss.position.y)]],
                   [CCScaleTo actionWithDuration:0.5 scale:0.5],
                   nil],
                  [CCCallBlock actionWithBlock:^{[ss removeFromParentAndCleanup:YES];}],
@@ -445,6 +449,28 @@
                   nil]];
 }
 
+- (void) pickUpDrop:(CCNode *)drop {
+  if ([drop isKindOfClass:[EquipDrop class]]) {
+    [self pickUpEquipDrop:(EquipDrop *)drop];
+  } else if ([drop isKindOfClass:[SilverStack class]]) {
+    [self pickUpSilverDrop:(SilverStack *)drop];
+  } else if ([drop isKindOfClass:[GoldStack class]]) {
+    [self pickUpGoldDrop:(GoldStack *)drop];
+  } else if ([drop isKindOfClass:[LockBoxDrop class]]) {
+    [self pickUpLockBoxDrop:(LockBoxDrop *)drop];
+  }
+}
+
+- (void) pickUpAllDrops {
+  NSMutableArray *toPickUp = [NSMutableArray array];
+  for (CCNode *n in children_) {
+    [toPickUp addObject:n];
+  }
+  for (CCNode *n in toPickUp) {
+    [self pickUpDrop:n];
+  }
+}
+
 - (BOOL) mapSprite:(MapSprite *)front isInFrontOfMapSprite: (MapSprite *)back {
   if (front == back) {
     return YES;
@@ -477,6 +503,18 @@
   //  } else {
   //    return frontLoc.origin.y <= backLoc.origin.y;
   //  }
+}
+
+- (Enemy *) enemyWithUserId:(int)userId {
+  for (CCNode *child in children_) {
+    if ([child isKindOfClass:[Enemy class]]) {
+      Enemy *enemy = (Enemy *)child;
+      if (enemy.user.userId == userId) {
+        return enemy;
+      }
+    }
+  }
+  return nil;
 }
 
 - (void) updateEnemyMenu {

@@ -91,9 +91,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ConvoMenuController);
   [self showCurrentSpeechSegment];
 }
 
-- (void) viewDidUnload
+- (void) didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.mainView = nil;

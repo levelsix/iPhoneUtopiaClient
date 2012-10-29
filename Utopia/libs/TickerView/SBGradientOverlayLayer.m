@@ -34,8 +34,8 @@
 @property (nonatomic, assign) CGFloat minimumOpacity;
 @property (nonatomic, assign) CGFloat maximumOpacity;
 
-@property (nonatomic, strong) CAGradientLayer *gradientLayer;
-@property (nonatomic, strong) CALayer *gradientMaskLayer;
+@property (nonatomic, retain) CAGradientLayer *gradientLayer;
+@property (nonatomic, retain) CALayer *gradientMaskLayer;
 @end
 
 @implementation SBGradientOverlayLayer

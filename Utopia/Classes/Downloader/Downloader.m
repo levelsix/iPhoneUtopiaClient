@@ -10,6 +10,7 @@
 #import "LNSynthesizeSingleton.h"
 #import "Globals.h"
 #import "SSZipArchive.h"
+#import "CharSelectionViewController.h"
 
 #define URL_BASE @"https://s3.amazonaws.com/lvl6utopia/Resources/";
 
@@ -21,7 +22,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 
 - (id) init {
   if ((self = [super init])) {
-    _queue = dispatch_queue_create("Image Downloader", NULL);
+    _syncQueue = dispatch_queue_create("Sync Downloader", NULL);
+    _asyncQueue = dispatch_queue_create("Async Downloader", NULL);
     _cacheDir = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] copy];
     
     [[NSBundle mainBundle] loadNibNamed:@"DownloaderSpinner" owner:self options:nil];
@@ -43,13 +45,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
     [data release];
   }
   [url release];
-  return success ? [filePath autorelease] : nil;
+  [filePath autorelease];
+  return success ? filePath : nil;
 }
 
 - (void) asyncDownloadFile:(NSString *)imageName completion:(void (^)(void))completed {
   // Get an image from the URL below
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning async download of %@", imageName);
-  dispatch_async(_queue, ^{
+  dispatch_async(_asyncQueue, ^{
     [self downloadFile:imageName];
     dispatch_async(dispatch_get_main_queue(), ^(void) {
       if (completed) {
@@ -64,7 +67,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning sync download of file %@", fileName);
   [self beginLoading:fileName];
   [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01f]];
-  dispatch_sync(_queue, ^{
+  dispatch_sync(_syncQueue, ^{
     [self downloadFile:fileName];
   });
   [self stopLoading];
@@ -74,16 +77,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 - (void) beginLoading:(NSString *)fileName {
   NSString *f = fileName;
   
-  NSRange range = [fileName rangeOfString:@"."];
-  if (range.length > 0) {
-    range.length = fileName.length-range.location;
-    f = [fileName stringByReplacingCharactersInRange:range withString:@""];
-  }
+  NSArray *removeStrings = [NSArray arrayWithObjects:@".", @"Walk", @"Generic", @"Attack", nil];
   
-  range = [fileName rangeOfString:@"Walk"];
-  if (range.length > 0) {
-    range.length = fileName.length-range.location;
-    f = [fileName stringByReplacingCharactersInRange:range withString:@""];
+  for (NSString *str in removeStrings) {
+    NSRange range = [fileName rangeOfString:str];
+    if (range.length > 0) {
+      range.length = fileName.length-range.location;
+      f = [fileName stringByReplacingCharactersInRange:range withString:@""];
+    }
   }
   
   f = [f stringByReplacingOccurrencesOfString:@"@2x" withString:@""];
@@ -94,6 +95,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   f = [f capitalizedString];
   loadingView.label.text = fileName ? [NSString stringWithFormat:@"Loading\n%@", f] : @"Loading Files";
   [Globals displayUIView:loadingView];
+  
+  // Put it under char selection view
+  UIView *cv = [loadingView.superview viewWithTag:CHAR_SELECTION_VIEW_TAG];
+  if (cv) {
+    [cv.superview bringSubviewToFront:cv];
+  }
 }
 
 - (void) stopLoading {
@@ -112,15 +119,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning sync download of bundle %@", bundleName);
   [self beginLoading:bundleName];
   [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5f]];
-  dispatch_sync(_queue, ^{
+  dispatch_sync(_syncQueue, ^{
     [self downloadBundle:[bundleName stringByAppendingString:@".zip"]];
   });
   [self stopLoading];
-  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", bundleName);
+  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of bundle %@ complete", bundleName);
+}
+
+- (void) asyncDownloadBundle:(NSString *)bundleName {
+  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning async download of bundle %@", bundleName);
+  dispatch_async(_asyncQueue, ^{
+    [self downloadBundle:[bundleName stringByAppendingString:@".zip"]];
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+      ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of bundle %@ complete", bundleName);
+    });
+  });
 }
 
 - (void) dealloc {
-  dispatch_release(_queue);
+  dispatch_release(_syncQueue);
+  dispatch_release(_asyncQueue);
   [_cacheDir release];
   self.loadingView = nil;
   [super dealloc];

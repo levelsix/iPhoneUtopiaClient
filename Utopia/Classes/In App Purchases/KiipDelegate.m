@@ -42,14 +42,13 @@
   return @"earnedAchievementNotification";
 }
 
-+(void) postAchievementNotificationAchievement:(NSString *)achievement 
-                                     andSender:(id)sender
++(void) postAchievementNotificationAchievement:(NSString *)achievement
 {
   NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
   [userInfo setObject:achievement forKey:[KiipDelegate earnedAchievementNotification]];
   NSNotification *notif = [NSNotification 
                            notificationWithName:[KiipDelegate earnedAchievementNotification]
-                                object:sender 
+                                object:nil
                               userInfo:userInfo];
    
   [[NSNotificationCenter defaultCenter] postNotification:notif];

@@ -15,11 +15,6 @@
 #import "ProfileViewController.h"
 #import "GenericPopupController.h"
 
-#define CLAN_POST_LABEL_MIN_Y 28.75
-#define CLAN_POST_CELL_OFFSET 5
-#define CLAN_POST_FONT [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:15]
-#define CLAN_POST_LABEL_WIDTH 399
-
 #define REFRESH_ROWS 20
 
 @implementation ClanCreateView
@@ -71,7 +66,7 @@
   buttonLabel.text = @"GO TO CLAN LIST";
   _goToMyClan = NO;
 }
- 
+
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
   NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
   Globals *gl = [Globals sharedGlobals];
@@ -161,7 +156,7 @@
   self.typeLabel.text = [NSString stringWithFormat:@"Level %d %@ %@", mupl.level, [Globals factionForUserType:mupl.minUserProto.userType], [Globals classForUserType:mupl.minUserProto.userType]];
   [userIcon setImage:[Globals squareImageForUser:mupl.minUserProto.userType] forState:UIControlStateNormal];
   
-  self.battleRecordLabel.text = [NSString stringWithFormat:@"W: %d - L: %d - F: %d", mup.minUserProto.battlesWon, mup.minUserProto.battlesLost, mup.minUserProto.battlesFled];
+  self.battleRecordLabel.text = [NSString stringWithFormat:@"W: %@ - L: %@ - F: %@", [Globals commafyNumber:mup.minUserProto.battlesWon], [Globals commafyNumber:mup.minUserProto.battlesLost], [Globals commafyNumber:mup.minUserProto.battlesFled]];
 }
 
 - (void) editMemberConfiguration {
@@ -193,8 +188,16 @@
 }
 
 - (IBAction)acceptClicked:(id)sender {
-  int tag = [[OutgoingEventController sharedOutgoingEventController] approveOrRejectRequestToJoinClan:user.minUserProto.minUserProtoWithLevel.minUserProto.userId accept:YES];
-  [[ClanMenuController sharedClanMenuController] beginLoading:tag];
+  GameState *gs = [GameState sharedGameState];
+  FullClanProtoWithClanSize *c = [[ClanMenuController sharedClanMenuController] myClan];
+  int maxClanSize = [gs clanTierForLevel:c.clan.currentTierLevel].maxSize;
+  
+  if (c.clanSize < maxClanSize) {
+    int tag = [[OutgoingEventController sharedOutgoingEventController] approveOrRejectRequestToJoinClan:user.minUserProto.minUserProtoWithLevel.minUserProto.userId accept:YES];
+    [[ClanMenuController sharedClanMenuController] beginLoading:tag];
+  } else {
+    [Globals popupMessage:@"Your clan is already at the max size! Go to the Clan Info Page to Upgrade."];
+  }
 }
 
 - (IBAction)rejectClicked:(id)sender {
@@ -284,6 +287,17 @@
       [r addObject:mup];
     }
   }
+  
+  [m sortUsingComparator:^NSComparisonResult(MinimumUserProtoForClans *obj1, MinimumUserProtoForClans *obj2) {
+    int score1 = obj1.minUserProto.battlesWon-obj1.minUserProto.battlesLost-obj1.minUserProto.battlesFled;
+    int score2 = obj2.minUserProto.battlesWon-obj2.minUserProto.battlesLost-obj2.minUserProto.battlesFled;
+    if (score1 > score2) {
+      return  NSOrderedAscending;
+    } else if (score1 < score2) {
+      return NSOrderedDescending;
+    }
+    return NSOrderedSame;
+  }];
   
   self.members = m;
   self.requesters = r;
@@ -392,7 +406,9 @@
 
 @synthesize clan, topLabel, botLabel;
 
-- (void) awakeFromNib {
+- (void) layoutSubviews {
+  [super layoutSubviews];
+  
   CAGradientLayer *gradient = [CAGradientLayer layer];
   gradient.frame = self.bounds;
   UIColor *topColor = [UIColor colorWithRed:35/255.f green:35/255.f blue:35/255.f alpha:0.5f];
@@ -598,7 +614,7 @@
       self.shouldReload = NO;
     }
   }
-//  [super scrollViewDidScroll:scrollView];
+  //  [super scrollViewDidScroll:scrollView];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
@@ -606,7 +622,7 @@
     [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:textField.text clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:0];
     [self.searchClans removeAllObjects];
     isSearching = YES;
-    self.searchString = [textField.text copy];
+    self.searchString = textField.text;
     [self.browseClansTable reloadData];
   }
   return YES;
@@ -634,6 +650,7 @@
 @synthesize foundedLabel, canEdit, clan;
 @synthesize spinner;
 @synthesize bottomButtonView;
+@synthesize upgradeTierButton;
 
 - (void) cleanup {
   [super cleanup];
@@ -645,9 +662,17 @@
   self.clan = c;
   if (c) {
     FullClanProto *fcp = c.clan;
+    int maxForTier = [gs clanTierForLevel:c.clan.currentTierLevel].maxSize;
+    
     textView.text = fcp.description;
     titleLabel.text = [NSString stringWithFormat:@"About %@ [%@]", fcp.name, fcp.tag];
-    membersLabel.text = [NSString stringWithFormat:@"Members: %d", c.clanSize];
+    membersLabel.text = [NSString stringWithFormat:@"Members: %d (%d max)", c.clanSize, maxForTier];
+    
+    if (c.clanSize >= maxForTier) {
+      membersLabel.textColor = [Globals redColor];
+    } else {
+      membersLabel.textColor = [Globals creamColor];
+    }
     
     [self.typeIcon setImage:[Globals imageNamed:[Globals headshotImageNameForUser:fcp.owner.userType]] forState:UIControlStateNormal];
     [self.leaderButton setTitle:fcp.owner.name forState:UIControlStateNormal];
@@ -656,9 +681,16 @@
     [dateFormatter setDateStyle:NSDateFormatterShortStyle];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:fcp.createTime/1000.0];
     foundedLabel.text = [NSString stringWithFormat:@"Founded: %@", [dateFormatter stringFromDate:date]];
+    [dateFormatter release];
     
     [self.spinner stopAnimating];
     self.spinner.hidden = YES;
+    
+    if (gs.clan.clanId == c.clan.clanId && c.clan.owner.userId == gs.userId) {
+      self.upgradeTierButton.hidden = NO;
+    } else {
+      self.upgradeTierButton.hidden = YES;
+    }
     
     if (gs.clan) {
       if (gs.clan.clanId == c.clan.clanId) {
@@ -677,7 +709,7 @@
       if ((isGood && c.clan.isGood) || (!isGood && !c.clan.isGood)) {
         bottomButtonView.hidden = NO;
         if ([gs.requestedClans containsObject:[NSNumber numberWithInt:c.clan.clanId]]) {
-          bottomButtonLabel.text = @"CANCEL INVITE";
+          bottomButtonLabel.text = @"CANCEL REQUEST";
         } else {
           bottomButtonLabel.text = @"REQUEST INVITE";
         }
@@ -693,6 +725,7 @@
     [self.leaderButton setTitle:nil forState:UIControlStateNormal];
     foundedLabel.text = nil;
     bottomButtonView.hidden = YES;
+    upgradeTierButton.hidden = YES;
     
     [self.spinner startAnimating];
     self.spinner.hidden = NO;
@@ -762,18 +795,22 @@
   self.clan = nil;
   self.spinner = nil;
   self.bottomButtonView = nil;
+  self.upgradeTierButton = nil;
   [super dealloc];
 }
 
 @end
-
 
 @implementation ClanBoardCell
 
 @synthesize postLabel, playerIcon, nameLabel, timeLabel;
 @synthesize gradientLayer;
 
-- (void) awakeFromNib {
+- (void) layoutSubviews {
+  [super layoutSubviews];
+  
+  [self.gradientLayer removeFromSuperlayer];
+  
   self.gradientLayer = [CAGradientLayer layer];
   gradientLayer.frame = self.bounds;
   UIColor *topColor = [UIColor colorWithRed:35/255.f green:35/255.f blue:35/255.f alpha:0.3f];
@@ -795,8 +832,6 @@
   CGRect rect = postLabel.frame;
   rect.size.height = size.height;
   postLabel.frame = rect;
-  
-  gradientLayer.frame = CGRectMake(0, 0, self.frame.size.width, CGRectGetMaxY(postLabel.frame)+CLAN_POST_CELL_OFFSET);
 }
 
 - (void) dealloc {
@@ -901,6 +936,10 @@
     cell = self.boardCell;
   }
   
+  CGRect r = cell.frame;
+  r.size.width = tableView.frame.size.width;
+  cell.frame = r;
+  
   [cell updateForBoardPost:[self.boardPosts objectAtIndex:indexPath.row]];
   
   return cell;
@@ -908,15 +947,34 @@
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
   [self endEditing];
-} 
+}
+
+static BOOL clanBoardCellLoaded = NO;
+static float clanPostLabelMinY = 28.75f;
+static UIFont *clanPostFont = nil;
+static float clanPostCellOffset = 5.f;
+static float clanPostLabelWidth = 10.f;
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (!clanBoardCellLoaded) {
+    [[NSBundle mainBundle] loadNibNamed:@"ClanBoardCell" owner:self options:nil];
+    clanBoardCellLoaded = YES;
+    
+    CGRect r = boardCell.frame;
+    r.size.width = tableView.frame.size.width;
+    boardCell.frame = r;
+    
+    clanPostLabelMinY = boardCell.postLabel.frame.origin.y;
+    clanPostFont = [boardCell.postLabel.font retain];
+    clanPostLabelWidth = boardCell.postLabel.frame.size.width;
+  }
+  
   ClanBulletinPostProto *boardPost = [self.boardPosts objectAtIndex:indexPath.row];
   
-  CGSize size = CGSizeMake(CLAN_POST_LABEL_WIDTH, 9999);
-  size = [boardPost.content sizeWithFont:CLAN_POST_FONT constrainedToSize:size];
+  CGSize size = CGSizeMake(clanPostLabelWidth, 9999);
+  size = [boardPost.content sizeWithFont:clanPostFont constrainedToSize:size];
   
-  return CLAN_POST_LABEL_MIN_Y+size.height+CLAN_POST_CELL_OFFSET;
+  return clanPostLabelMinY+size.height+clanPostCellOffset;
 }
 
 - (IBAction)postToBoard:(id)sender {

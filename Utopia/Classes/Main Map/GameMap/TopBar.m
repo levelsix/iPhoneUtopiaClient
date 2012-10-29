@@ -29,6 +29,7 @@
 #import "LockBoxMenuController.h"
 #import "ThreeCardMonteViewController.h"
 #import "KPManager.h"
+#import "GGEventLog.h"
 
 #define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
 #define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
@@ -80,7 +81,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 - (id) init {
   if ((self = [super init])) {
     _enstBgd = [CCSprite spriteWithFile:@"enstbg.png"];
-    [self addChild:_enstBgd z:2];
+    [self addChild:_enstBgd z:2 tag:ENST_BAR_TAG];
     _enstBgd.visible = YES;
     
     // Make the progress bars and place them on top of the background image
@@ -103,7 +104,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [_enstBgd addChild:s z:1 tag:2];
     
     _coinBar = [CCSprite spriteWithFile:@"coinbar.png"];
-    [self addChild:_coinBar z:2];
+    [self addChild:_coinBar z:2 tag:COIN_BAR_TAG];
     
     NSString *fontName = [Globals font];
     _silverLabel = [CCLabelTTF labelWithString:@"0" fontName:fontName fontSize:12];
@@ -270,7 +271,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [[NSBundle mainBundle] loadNibNamed:@"ChatBottomView" owner:self options:nil];
     // Put chatBottomView right above openGlView
     [[[[CCDirector sharedDirector] openGLView] superview] insertSubview:self.chatBottomView atIndex:1];
-    chatBottomView.center = CGPointMake(chatBottomView.frame.size.width/2+5.f, chatBottomView.superview.frame.size.height-chatBottomView.frame.size.height/2-2.f);
+//    chatBottomView.center = CGPointMake(chatBottomView.frame.size.width/2+5.f, chatBottomView.superview.frame.size.height-chatBottomView.frame.size.height/2-2.f);
+    
+    CGRect r = chatBottomView.frame;
+    r.origin.x = BOTTOM_BUTTON_OFFSET;
+    r.origin.y = chatBottomView.superview.frame.size.height-r.size.height-BOTTOM_BUTTON_OFFSET;
+    r.size.width = attackButton.position.x-attackButton.contentSize.width/2-2*BOTTOM_BUTTON_OFFSET;
+    chatBottomView.frame = r;
+    
     chatBottomView.hidden = YES;
   }
   return self;
@@ -321,8 +329,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  _enstBgd.position = ccp(197, self.contentSize.height+_enstBgd.contentSize.height/2);
-  _coinBar.position = ccp(373, self.contentSize.height+_coinBar.contentSize.height/2);
+  _enstBgd.position = ccp(self.contentSize.width-283.f, self.contentSize.height+_enstBgd.contentSize.height/2);
+  _coinBar.position = ccp(self.contentSize.width-107.f, self.contentSize.height+_coinBar.contentSize.height/2);
   
   // At this point, the bars are still above the screen so subtract 3/2 * width
   _enstBarRect = CGRectMake(_enstBgd.position.x-_enstBgd.contentSize.width/2, _enstBgd.position.y-3*_enstBgd.contentSize.height/2, _enstBgd.contentSize.width, _enstBgd.contentSize.height);
@@ -335,26 +343,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
   [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
   
-  if (![[GameState sharedGameState] isTutorial]) {
-    [[HomeMap sharedHomeMap] beginTimers];
-    chatBottomView.hidden = NO;
-  }
-  
 //  if (dbmc) {
 //    [Globals displayUIView:dbmc.view];
 //    self.dbmc = nil;
 //  }
   
   BOOL showActFeed = NO;
+  BOOL showThreeCardMonte = NO;
+  BOOL showGoldSale = NO;
+  BOOL showLockBox = NO;
+  
   NSArray *notifications = [[GameState sharedGameState] notifications];
   for (UserNotification *un in notifications) {
     if (!un.hasBeenViewed) {
       showActFeed = YES;
       break;
     }
-  }
-  if (showActFeed) {
-    [ActivityFeedController displayView];
   }
   
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -364,7 +368,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     NSDate *date = [defaults objectForKey:LAST_GOLD_SALE_POPUP_TIME_KEY];
     NSDate *nextShowDate = [date dateByAddingTimeInterval:3600*gl.numHoursBeforeReshowingGoldSale];
     if (!date || [nextShowDate compare:curDate] == NSOrderedAscending) {
-      [GoldShoppeViewController displayView];
+      showGoldSale = YES;
       [defaults setObject:curDate forKey:LAST_GOLD_SALE_POPUP_TIME_KEY];
     }
   }
@@ -373,21 +377,42 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     NSDate *date = [defaults objectForKey:LAST_LOCK_BOX_POPUP_TIME_KEY];
     NSDate *nextShowDate = [date dateByAddingTimeInterval:3600*gl.numHoursBeforeReshowingLockBox];
     if (!date || [nextShowDate compare:curDate] == NSOrderedAscending) {
-      [[LockBoxMenuController sharedLockBoxMenuController] infoClicked:nil];
+      [LockBoxMenuController sharedLockBoxMenuController];
+       showLockBox = YES;
       [defaults setObject:curDate forKey:LAST_LOCK_BOX_POPUP_TIME_KEY];
     }
   }
   
   if (gs.level >= gl.minLevelToDisplayThreeCardMonte && gl.minLevelToDisplayThreeCardMonte > 0) {
+    [ThreeCardMonteViewController sharedThreeCardMonteViewController];
+    showThreeCardMonte = YES;
+  }
+  
+  // Display the views: Will have downloaded by now
+  if (showActFeed) {
+    [ActivityFeedController displayView];
+  } if (showGoldSale) {
+    [GoldShoppeViewController displayView];
+  } if (showLockBox) {
+    [[LockBoxMenuController sharedLockBoxMenuController] infoClicked:nil];
+  } if (showThreeCardMonte) {
     [ThreeCardMonteViewController displayView];
+  }
+  
+  [[GameState sharedGameState] resetLockBoxTimers];
+  
+  if (![[GameState sharedGameState] isTutorial]) {
+    [[HomeMap sharedHomeMap] refresh];
+    [[HomeMap sharedHomeMap] beginTimers];
+    chatBottomView.hidden = NO;
   }
   
   self.isStarted = YES;
   
-  
 #ifndef DEBUG
   [Crittercism setUsername:gs.name];
   [Crittercism setValue:gs.referralCode forKey:@"Referral Code"];
+  [GGEventLog setUserId:[NSString stringWithFormat:@"%d", gs.userId]];
 #endif
   
   if (gs.availableQuests.count > 0) {
@@ -932,7 +957,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (void) fadeInMenuOverChatView:(UIView *)view {
   view.alpha = 0.f;
-  view.center = self.chatBottomView.center;
+  
+  CGRect r = view.frame;
+  r.origin = chatBottomView.frame.origin;
+  view.frame = r;
   
   [UIView animateWithDuration:0.3f animations:^{
     view.alpha = 1.f;

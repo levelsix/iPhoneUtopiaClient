@@ -16,6 +16,92 @@
 #import "SoundEngine.h"
 #import "EquipDeltaView.h"
 
+@implementation LicenseRow
+
+@synthesize shortLicenseCost, shortLicenseLength, longLicenseCost, longLicenseLength;
+@synthesize remainingTimeLabel;
+@synthesize hasLicenseView, noLicenseView;
+@synthesize timer;
+
+- (void) awakeFromNib {
+  Globals *gl = [Globals sharedGlobals];
+  shortLicenseCost.text = [NSString stringWithFormat:@"%d", gl.diamondCostOfShortMarketplaceLicense];
+  longLicenseCost.text = [NSString stringWithFormat:@"%d", gl.diamondCostOfLongMarketplaceLicense];
+  shortLicenseLength.text = [NSString stringWithFormat:@"%d Day License", gl.numDaysShortMarketplaceLicenseLastsFor];
+  longLicenseLength.text = [NSString stringWithFormat:@"%d Day License", gl.numDaysLongMarketplaceLicenseLastsFor];
+  
+  hasLicenseView.frame = noLicenseView.frame;
+  [noLicenseView.superview addSubview:hasLicenseView];
+}
+
+- (IBAction)infoClicked:(id)sender {
+  [Globals popupMessage:@"Pay No Market Fees (Selling Tax and Retracting Fee)."];
+}
+
+- (void) setTimer:(NSTimer *)t {
+  if (timer != t) {
+    [timer invalidate];
+    [timer release];
+    timer = [t retain];
+  }
+}
+
+- (void) loadCurrentState {
+  GameState *gs = [GameState sharedGameState];
+  
+  if ([gs hasValidLicense]) {
+    hasLicenseView.hidden = NO;
+    noLicenseView.hidden = YES;
+    
+    [self updateLabel];
+    self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabel) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+  } else {
+    hasLicenseView.hidden = YES;
+    noLicenseView.hidden = NO;
+    
+    self.timer = nil;
+  }
+}
+
+- (void) updateLabel {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+
+  NSTimeInterval time = gl.numDaysShortMarketplaceLicenseLastsFor*24*60*60;
+  NSDate *expirationDate = [gs.lastShortLicensePurchaseTime dateByAddingTimeInterval:time];
+  NSTimeInterval timeInterval = expirationDate.timeIntervalSinceNow;
+  if (timeInterval < 0) {
+    time = gl.numDaysLongMarketplaceLicenseLastsFor*24*60*60;
+    expirationDate = [gs.lastLongLicensePurchaseTime dateByAddingTimeInterval:time];
+    timeInterval = expirationDate.timeIntervalSinceNow;
+  }
+
+  if (timeInterval > 0) {
+    int days = (int)(timeInterval/86400);
+    int hrs = (int)((timeInterval-86400*days)/3600);
+    int mins = (int)((timeInterval-86400*days-3600*hrs)/60);
+    
+    remainingTimeLabel.text = [NSString stringWithFormat:@"You have %d days, %d hours, and %d minutes left on your license.", days, hrs, mins];
+  } else {
+    [self loadCurrentState];
+  }
+}
+
+- (void) dealloc {
+  self.shortLicenseCost = nil;
+  self.shortLicenseLength = nil;
+  self.longLicenseCost = nil;
+  self.longLicenseLength = nil;
+  self.remainingTimeLabel = nil;
+  self.hasLicenseView = nil;
+  self.noLicenseView = nil;
+  self.timer = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation ItemPostView
 
 @synthesize postTitle;
@@ -385,6 +471,7 @@
 
 #define OPEN_CLOSE_BAR_DURATION 0.5f
 #define ROTATION_DEGREES M_PI_4 * 11.f
+#define MKT_BOTTOM_BAR_CLOSED_KEY @"MarketBottomBarClosed"
 
 @implementation MarketplaceBottomBar
 
@@ -395,6 +482,14 @@
 
 - (void) awakeFromNib {
   isOpen = YES;
+  
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  BOOL isClosed = [defaults boolForKey:MKT_BOTTOM_BAR_CLOSED_KEY];
+  if (isClosed) {
+    [self doClose];
+  } else {
+    [self doOpen];
+  }
 }
 
 - (void) updateLabels {
@@ -456,11 +551,13 @@
   [openCloseButton.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
   openCloseButton.layer.transform = CATransform3DMakeRotation(ROTATION_DEGREES, 0.f, 0.f, 1.f);
   
-  [UIView animateWithDuration:1.f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+  [UIView animateWithDuration:OPEN_CLOSE_BAR_DURATION delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
     CGRect r = self.frame;
     r.origin.x = self.superview.frame.size.width - 30;
     self.frame = r;
   } completion:nil];
+  
+  [[NSUserDefaults standardUserDefaults] setBool:YES forKey:MKT_BOTTOM_BAR_CLOSED_KEY];
 }
 
 - (void) doOpen {
@@ -476,11 +573,13 @@
   [openCloseButton.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
   openCloseButton.layer.transform = CATransform3DIdentity;
   
-  [UIView animateWithDuration:1.f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+  [UIView animateWithDuration:OPEN_CLOSE_BAR_DURATION delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
     CGRect r = self.frame;
     r.origin.x = 0;
     self.frame = r;
   } completion:nil];
+  
+  [[NSUserDefaults standardUserDefaults] setBool:YES forKey:MKT_BOTTOM_BAR_CLOSED_KEY];
 }
 
 - (void) dealloc {

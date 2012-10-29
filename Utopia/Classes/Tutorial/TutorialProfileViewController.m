@@ -184,7 +184,7 @@
 }
 
 - (void) arrowOnClose {
-  [self.view addSubview:_arrow];
+  [self.mainView addSubview:_arrow];
   UIView *close = [self.view viewWithTag:20];
   _arrow.center = CGPointMake(CGRectGetMinX(close.frame)-_arrow.frame.size.width/2, close.center.y);
   [Globals animateUIArrow:_arrow atAngle:0];

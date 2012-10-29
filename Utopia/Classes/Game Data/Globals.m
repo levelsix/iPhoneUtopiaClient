@@ -23,6 +23,8 @@
 #define SHAKE_DURATION 0.05f
 #define PULSE_TIME 0.8f
 
+#define BUNDLE_SCHEDULE_INTERVAL 30
+
 @implementation Globals
 
 static NSString *fontName = @"AJensonPro-BoldCapt";
@@ -87,8 +89,9 @@ static NSMutableSet *_pulsingViews;
 @synthesize expansionWaitCompleteHourConstant, expansionWaitCompleteHourIncrementBase;
 @synthesize diamondCostToPlayThreeCardMonte, minLevelToDisplayThreeCardMonte;
 @synthesize downloadableNibConstants;
-@synthesize numHoursBeforeReshowingGoldSale, numHoursBeforeReshowingLockBox, levelToShowRateUsPopup;
-@synthesize reviewPageURL;
+@synthesize numHoursBeforeReshowingGoldSale, numHoursBeforeReshowingLockBox;
+@synthesize reviewPageURL, reviewPageConfirmationMessage, levelToShowRateUsPopup;
+@synthesize numDaysUntilFreeRetract;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -121,12 +124,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     imageCache = [[NSMutableDictionary alloc] init];
     imageViewsWaitingForDownloading = [[NSMutableDictionary alloc] init];
     animatingSpriteOffsets = [[NSMutableDictionary alloc] init];
+    
+    self.downloadableNibConstants =
+    [[[[[[[[StartupResponseProto_StartupConstants_DownloadableNibConstants builder]
+          setGoldMineNibName:@"GoldMine.2"]
+         setLockBoxNibName:@"LockBox.2"]
+        setMapNibName:@"TravelingMap.2"]
+       setThreeCardMonteNibName:@"ThreeCardMonte.2"]
+      setExpansionNibName:@"Expansion.2"]
+     setFiltersNibName:@"MarketplaceFilters.2"]
+     build];
+    
   }
   return self;
 }
 
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants {
-  self.productIdentifiers = constants.productIdsList.copy;
+  self.productIdentifiers = constants.productIdsList;
   NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjects:constants.productDiamondsGivenList forKeys:constants.productIdsList];
   if (constants.productIdsList.count >= 5) {
     GameState *gs = [GameState sharedGameState];
@@ -190,6 +204,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxCharLengthForWallPost = constants.maxCharLengthForWallPost;
   self.numHoursBeforeReshowingGoldSale = constants.numHoursBeforeReshowingGoldSale;
   self.numHoursBeforeReshowingLockBox = constants.numHoursBeforeReshowingLockBox;
+  self.numDaysUntilFreeRetract = constants.numDaysUntilFreeRetract;
   self.levelToShowRateUsPopup = constants.levelToShowRateUsPopup;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
@@ -265,10 +280,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
   self.kiipRewardConditions = constants.kiipRewardConditions;
-  self.downloadableNibConstants = constants.downloadableNibConstants;
+  
+  if (constants.hasDownloadableNibConstants) {
+    self.downloadableNibConstants = constants.downloadableNibConstants;
+  }
   
   for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto *aso in constants.animatedSpriteOffsetsList) {
     [self.animatingSpriteOffsets setObject:aso.offSet forKey:aso.imageName];
+  }
+}
+
++ (void) asyncDownloadBundles {
+  Globals *gl = [Globals sharedGlobals];
+  StartupResponseProto_StartupConstants_DownloadableNibConstants *n = gl.downloadableNibConstants;
+  NSArray *bundleNames = [NSArray arrayWithObjects:n.filtersNibName, n.mapNibName, n.goldMineNibName, n.threeCardMonteNibName, n.expansionNibName, n.lockBoxNibName, nil];
+  Downloader *dl = [Downloader sharedDownloader];
+  
+  int i = BUNDLE_SCHEDULE_INTERVAL;
+  for (NSString *name in bundleNames) {
+    if (![self bundleExists:name]) {
+      [dl performSelector:@selector(asyncDownloadBundle:) withObject:name afterDelay:i];
+      LNLog(@"Scheduled download of bundle %@ in %d seconds", name, i);
+      i += BUNDLE_SCHEDULE_INTERVAL;
+    }
   }
 }
 
@@ -351,7 +385,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [UIColor colorWithWhite:87/256.f alpha:1.f];
 }
 
-+ (UIColor *) colorForRarity:(FullEquipProto_Rarity)rarity {  
++ (UIColor *) colorForRarity:(FullEquipProto_Rarity)rarity {
   switch (rarity) {
     case FullEquipProto_RarityCommon:
       return [UIColor colorWithRed:236/255.f green:230/255.f blue:195/255.f alpha:1.f];
@@ -474,7 +508,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int interval = 1;
   if (time < interval*60) {
     return [NSString stringWithFormat:@"%d second%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
-  } 
+  }
   
   interval *= 60;
   if (time < interval*60) {
@@ -512,7 +546,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (BOOL) canEquip:(FullEquipProto *)fep {
   GameState *gs = [GameState sharedGameState];
-  return fep.minLevel <= gs.level && [self class:gs.type canEquip:fep.classType]; 
+  return fep.minLevel <= gs.level && [self class:gs.type canEquip:fep.classType];
 }
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText {
@@ -654,7 +688,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) displayUIView:(UIView *)view {
-  [[[GameViewController sharedGameViewController] view] addSubview:view];
+  UIView *sv = [[GameViewController sharedGameViewController] view];
+  
+  CGRect r = view.frame;
+  r.size.width = MIN(r.size.width, sv.frame.size.width);
+  view.frame = r;
+  
+  view.center = CGPointMake(sv.frame.size.width/2, sv.frame.size.height/2);
+  
+  [sv addSubview:view];
 }
 
 + (NSString *) pathToFile:(NSString *)fileName {
@@ -682,14 +724,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return fullpath;
 }
 
++ (NSString *) pathToBundle:(NSString *)bundleName {
+  NSString *cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+  NSString *fullPath = [cachesDirectory stringByAppendingPathComponent:bundleName];
+  return fullPath;
+}
+
++ (BOOL) bundleExists:(NSString *)bundleName {
+  return [[NSFileManager defaultManager] fileExistsAtPath:[self pathToBundle:bundleName]];
+}
+
 + (NSBundle *) bundleNamed:(NSString *)bundleName {
   if (!bundleName) {
     return nil;
   }
-  NSString *cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-  NSString *fullPath = [cachesDirectory stringByAppendingPathComponent:bundleName];
+  NSString *fullPath = [self pathToBundle:bundleName];
   
-  if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
+  if (![self bundleExists:bundleName]) {
     [[Downloader sharedDownloader] syncDownloadBundle:bundleName];
   }
   
@@ -718,36 +769,41 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0];
     
-    NSURL *directoryURL = [NSURL URLWithString:documentsPath];
-    
     BOOL fileExists = NO;
-    if (directoryURL) {
-      NSArray *keys = [NSArray arrayWithObjects:
-                       NSURLIsDirectoryKey, NSURLIsPackageKey, NSURLLocalizedNameKey, nil];
-      
-      NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager]
-                                           enumeratorAtURL:directoryURL
-                                           includingPropertiesForKeys:keys
-                                           options:(NSDirectoryEnumerationSkipsPackageDescendants |
-                                                    NSDirectoryEnumerationSkipsHiddenFiles)
-                                           errorHandler:^(NSURL *url, NSError *error) {
-                                             // Handle the error.
-                                             // Return YES if the enumeration should continue after the error.
-                                             return YES;
-                                           }];
-      
-      for (NSURL *url in enumerator) {
-        if ([url.lastPathComponent isEqualToString:resName]) {
-          fullpath  = url.path;
-          fileExists = YES;
-          break;
-        }
-      }
+    
+    //    NSURL *directoryURL = [NSURL URLWithString:documentsPath];
+    //
+    //    if (directoryURL) {
+    //      NSArray *keys = [NSArray arrayWithObjects:
+    //                       NSURLIsDirectoryKey, NSURLIsPackageKey, NSURLLocalizedNameKey, nil];
+    //
+    //      NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager]
+    //                                           enumeratorAtURL:directoryURL
+    //                                           includingPropertiesForKeys:keys
+    //                                           options:(NSDirectoryEnumerationSkipsPackageDescendants |
+    //                                                    NSDirectoryEnumerationSkipsHiddenFiles)
+    //                                           errorHandler:^(NSURL *url, NSError *error) {
+    //                                             // Handle the error.
+    //                                             // Return YES if the enumeration should continue after the error.
+    //                                             return YES;
+    //                                           }];
+    //
+    //      for (NSURL *url in enumerator) {
+    //        if ([url.lastPathComponent isEqualToString:resName]) {
+    //          fullpath  = url.path;
+    //          fileExists = YES;
+    //          break;
+    //        }
+    //      }
+    //    } else {
+    fullpath = [documentsPath stringByAppendingPathComponent:resName];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+      fileExists = YES;
     }
+    //    }
     
     if (!fileExists) {
       // Image not in docs: download it
-      fullpath = [documentsPath stringByAppendingPathComponent:resName];
       [[Downloader sharedDownloader] syncDownloadFile:fullpath.lastPathComponent];
     }
   }
@@ -791,36 +847,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if (!fullpath) {
     // Image not in NSBundle: look in documents
     NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];\
-    NSURL *directoryURL = [NSURL URLWithString:documentsPath];
+    NSString *documentsPath = [paths objectAtIndex:0];
     
-    BOOL fileExists = NO;
-    if (directoryURL) {
-      NSArray *keys = [NSArray arrayWithObjects:
-                       NSURLIsDirectoryKey, NSURLIsPackageKey, NSURLLocalizedNameKey, nil];
-      
-      NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager]
-                                           enumeratorAtURL:directoryURL
-                                           includingPropertiesForKeys:keys
-                                           options:(NSDirectoryEnumerationSkipsPackageDescendants |
-                                                    NSDirectoryEnumerationSkipsHiddenFiles)
-                                           errorHandler:^(NSURL *url, NSError *error) {
-                                             // Handle the error.
-                                             // Return YES if the enumeration should continue after the error.
-                                             return YES;
-                                           }];
-      
-      for (NSURL *url in enumerator) {
-        if ([url.lastPathComponent isEqualToString:resName]) {
-          fullpath  = url.path;
-          fileExists = YES;
-          break;
-        }
-      }
-    }
-    
-    if (!fileExists) {
-      fullpath = [documentsPath stringByAppendingPathComponent:resName];
+    fullpath = [documentsPath stringByAppendingPathComponent:resName];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
       if (![view viewWithTag:150]) {
         UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:indicatorStyle];
         loadingView.tag = 150;
@@ -849,7 +879,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
           NSString *resName = [CCFileUtils getDoubleResolutionImage:imageName validate:NO];
           NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
           NSString *documentsPath = [paths objectAtIndex:0];
-          NSString *fullpath = [documentsPath stringByAppendingPathComponent:resName]; 
+          NSString *fullpath = [documentsPath stringByAppendingPathComponent:resName];
           UIImage *img = [UIImage imageWithContentsOfFile:fullpath];
           
           if (img) {
@@ -1047,31 +1077,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (NSString *) imageNameForBigDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker {
   switch (speaker) {
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadTutorialGirl:
-      return @"bigadriana.png";
+      return @"bigadriana2.png";
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerBazaar:
-      return @"bigben.png";
+      return @"bigben2.png";
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodTutorialGirl:
-      return @"bigruby.png";
+      return @"bigruby2.png";
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType:
-      return [self imageNameForDialogueUserType:[[GameState sharedGameState] type]];
+      return nil;
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver1:
-      return @"bigmitch.png";
+      return @"bigmitch2.png";
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2:
-      return @"bigriz.png";
+      return @"bigriz2.png";
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3:
-      return @"bigsean.png";
+      return @"bigsean2.png";
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
-      return @"bigriz.png";
+      return @"bigriz2.png";
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver5:
-      return @"bigsteve.png";
+      return @"bigsteve2.png";
       break;
     default:
       return nil;
@@ -1447,7 +1477,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int weaponAttack = weapon ? [self calculateAttackForEquip:weapon.equipId level:weapon.level] : 0;
   int armorAttack = armor ? [self calculateAttackForEquip:armor.equipId level:armor.level] : 0;
   int amuletAttack = amulet ? [self calculateAttackForEquip:amulet.equipId level:amulet.level] : 0;
-
+  
   return (weaponAttack+armorAttack+amuletAttack);
 }
 
@@ -1519,6 +1549,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return (int)(expansionPurchaseCostConstant*powf(expansionPurchaseCostExponentBase, ue.numCompletedExpansions));
 }
 
+- (BOOL) canRetractMarketplacePostForFree:(FullMarketplacePostProto *)post {
+  GameState *gs = [GameState sharedGameState];
+  if ([gs hasValidLicense]) {
+    return YES;
+  } else {
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.+numDaysUntilFreeRetract*24.*60*60];
+    if (date.timeIntervalSinceNow < 0) {
+      return YES;
+    }
+    return NO;
+  }
+}
+
 + (void) popupView:(UIView *)targetView
        onSuperView:(UIView *)superView
            atPoint:(CGPoint)point
@@ -1526,7 +1569,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 {
   [superView addSubview:targetView];
   [superView bringSubviewToFront:targetView];
-
+  
   void(^bounceBlock)(BOOL) = ^(BOOL finished) {
     void (^animationBlock)() = ^(void) {
       targetView.alpha = 0;
@@ -1535,12 +1578,12 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
       [targetView setFrame:newFrame];
     };
     
-    [UIView animateWithDuration:2.0 
-                     animations:animationBlock 
+    [UIView animateWithDuration:2.0
+                     animations:animationBlock
                      completion:completionBlock];
   };
-
-  [Globals bounceView:targetView 
+  
+  [Globals bounceView:targetView
   withCompletionBlock:bounceBlock];
 }
 
@@ -1554,34 +1597,34 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 {
   UIImage *coloredImage = [Globals imageNamed:@"round_glow.png"];
   if (glowColor) {
-     coloredImage = [Globals maskImage:coloredImage withColor:glowColor];
+    coloredImage = [Globals maskImage:coloredImage withColor:glowColor];
   }
   return coloredImage;
 }
 
-+ (void) pulse:(BOOL)shouldBrighten onView:(UIView *)view 
++ (void) pulse:(BOOL)shouldBrighten onView:(UIView *)view
 {
   // We must check if this view was signaled to stop glowing
   if ([_donePulsingViews containsObject:view.superview]) {
     [_donePulsingViews removeObject:view.superview];
     [view removeFromSuperview];
-
+    
     return;
   }
-
+  
   // One block either glows or fades
   void (^pulseBlock)() = ^(void) {
     view.alpha = shouldBrighten;
   };
-
-  // The other block repeats the animation in 
+  
+  // The other block repeats the animation in
   // the opposite direction
   void(^completionBlock)(BOOL) = ^(BOOL finished) {
     [self pulse:!shouldBrighten onView:view];
   };
   
   // Run the animation
-  [UIView animateWithDuration:PULSE_TIME 
+  [UIView animateWithDuration:PULSE_TIME
                         delay:0
                       options:UIViewAnimationOptionCurveEaseInOut
                    animations:pulseBlock
@@ -1609,12 +1652,12 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 }
 
 +(void)beginPulseForView:(UIView *)view andColor:(UIColor *)glowColor {
-
+  
   [Globals setupPulseAnimation];
   [Globals clearPulsingViews];
-
+  
   if (![_pulsingViews    containsObject:view]) {
-    UIImageView *glow = [[UIImageView alloc] 
+    UIImageView *glow = [[UIImageView alloc]
                          initWithImage:[Globals roundGlowForColor:glowColor]];
     CGRect frame = view.frame;
     frame.origin.x = 0;
@@ -1623,7 +1666,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
     [view addSubview:glow];
     [glow release];
     [view bringSubviewToFront:glow];
-
+    
     [_pulsingViews addObject:view];
     [self pulse:0 onView:glow];
   }
@@ -1631,7 +1674,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 
 +(void)endPulseForView:(UIView *)view {
   [Globals setupPulseAnimation];
-
+  
   if ([_pulsingViews    containsObject:view]) {
     [_donePulsingViews  addObject:view];
     [_pulsingViews      removeObject:view];
@@ -1640,7 +1683,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 
 #pragma mark Bounce View
 + (void) bounceView: (UIView *) view
-withCompletionBlock:(void(^)(BOOL))completionBlock 
+withCompletionBlock:(void(^)(BOOL))completionBlock
 {
   view.layer.transform = CATransform3DMakeScale(0.3, 0.3, 1.0);
   
@@ -1659,7 +1702,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
                               [NSNumber numberWithFloat:1.0], nil];
   
   bounceAnimation.timingFunctions = [NSArray arrayWithObjects:
-                                     [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut], 
+                                     [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut], nil];
   
@@ -1781,9 +1824,9 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
                                                           [CCScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:1.f scaleY:1.f],
                                                           nil]];
   CCMoveBy *downAction = [CCEaseSineInOut actionWithAction:[CCSpawn actions:
-                                                          [CCMoveTo actionWithDuration:ARROW_ANIMATION_DURATION position:arrow.position],
-                                                          [CCScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:1.f scaleY:0.9f],
-                                                          nil]];
+                                                            [CCMoveTo actionWithDuration:ARROW_ANIMATION_DURATION position:arrow.position],
+                                                            [CCScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:1.f scaleY:0.9f],
+                                                            nil]];
   [arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, downAction, nil]]];
 }
 
@@ -1819,7 +1862,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
     int newDefense = [gl calculateDefenseForEquip:equip.equipId level:equip.level];
     
     if (newAttack > curAttack || newDefense > curDefense) {
-      [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Would you like to equip this %@?", 
+      [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Would you like to equip this %@?",
                                                                   fep.name]
                                                            title:@"Equip Item?"
                                                       okayButton:@"Equip Item"
@@ -1864,14 +1907,16 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   }
 }
 
-#define RATE_US_POPUP_DEFAULT_KEY @"RateUsPopupKey"
+#define RATE_US_POPUP_DEFAULT_KEY @"RateUsLastPopupTimeKey"
+#define RATE_US_CLICKED_LATER @"RateUsClickedLater"
+#define RATE_US_CLICKED_REVIEW @"RateUsClickedReview"
 
 + (void) checkRateUsPopup {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  BOOL hasSeen = NO;//[defaults boolForKey:RATE_US_POPUP_DEFAULT_KEY];
-  if (!hasSeen) {
+  NSDate *lastSeen = [defaults objectForKey:RATE_US_POPUP_DEFAULT_KEY];
+  if (!lastSeen) {
     [[Globals sharedGlobals] displayRateUsPopup];
-    [defaults setBool:YES forKey:RATE_US_POPUP_DEFAULT_KEY];
+    [defaults setObject:[NSDate date] forKey:RATE_US_POPUP_DEFAULT_KEY];
   }
 }
 
@@ -1886,12 +1931,17 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 }
 
 - (void) userClickedLike {
-  NSString *desc = @"Awesome! Rate us 5 Stars in the App Store to keep the updates coming!";
-  [GenericPopupController displayConfirmationWithDescription:desc title:@"Rate Us!" okayButton:@"Rate" cancelButton:@"Later" target:self selector:@selector(rateUs)];
+  NSString *desc = self.reviewPageConfirmationMessage;
+  [GenericPopupController displayConfirmationWithDescription:desc title:@"Rate Us!" okayButton:@"Rate" cancelButton:@"Later" okTarget:self okSelector:@selector(rateUs) cancelTarget:self cancelSelector:@selector(later)];
 }
 
 - (void) rateUs {
   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.reviewPageURL]];
+  [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RATE_US_CLICKED_REVIEW];
+}
+
+- (void) later {
+  [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RATE_US_CLICKED_LATER];
 }
 
 - (void) dealloc {
@@ -1902,6 +1952,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   self.kiipRewardConditions = nil;
   self.downloadableNibConstants = nil;
   self.reviewPageURL = nil;
+  self.reviewPageConfirmationMessage = nil;
   [super dealloc];
 }
 

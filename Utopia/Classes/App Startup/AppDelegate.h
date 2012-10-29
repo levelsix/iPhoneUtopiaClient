@@ -21,4 +21,8 @@
 @property (nonatomic, assign) int isActive;
 
 @property (nonatomic, retain) UIWindow *window;
+
+- (void) registerForPushNotifications;
+- (void) removeLocalNotifications;
+
 @end

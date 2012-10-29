@@ -89,6 +89,9 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet SliderPin *leftPin;
 @property (nonatomic, retain) IBOutlet SliderPin *rightPin;
 @property (nonatomic, retain) IBOutlet UIImageView *bar;
+@property (nonatomic, assign) BOOL allowsOverlap;
+
+- (void) movePin:(BOOL)isLeft toNotch:(int)notch;
 
 @end
 
@@ -135,7 +138,7 @@ typedef enum {
 
 @interface MarketplaceSearchCell : UITableViewCell
 
-@property (nonatomic, retain) MarketplaceSearchEquipProto *searchEquip;
+@property (nonatomic, retain) FullEquipProto *searchEquip;
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 
@@ -152,6 +155,8 @@ typedef enum {
 
 @property (nonatomic, assign) int searchEquipId;
 
+- (void) selectSearchEquip:(FullEquipProto *)equip;
+
 @end
 
 @interface MarketplaceFilterView : UIView
@@ -166,6 +171,9 @@ typedef enum {
 
 - (void) loadFilterSettings;
 - (void) saveFilterSettings;
+- (void) restoreDefaults;
+
+- (void) updateBarsForEquip:(FullEquipProto *)equip;
 
 @end
 

@@ -161,8 +161,8 @@
 + (BattleLayer *) sharedBattleLayer;
 + (BOOL) isInitialized;
 + (void) purgeSingleton;
-- (void) beginBattleAgainst:(FullUserProto *)user;
-- (void) beginBattleAgainst:(FullUserProto *)user inCity:(int) cityId;
+- (BOOL) beginBattleAgainst:(FullUserProto *)user;
+- (BOOL) beginBattleAgainst:(FullUserProto *)user inCity:(int) cityId;
 - (void) doAttackAnimation;
 
 - (IBAction)stolenEquipOkayClicked:(id)sender;

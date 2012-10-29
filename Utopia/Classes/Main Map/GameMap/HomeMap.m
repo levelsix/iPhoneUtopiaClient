@@ -19,6 +19,8 @@
 #import "GenericPopupController.h"
 #import "SoundEngine.h"
 #import "TopBar.h"
+#import "GameViewController.h"
+#import "CarpenterMenuController.h"
 
 #define HOME_BUILDING_TAG_OFFSET 123456
 
@@ -151,6 +153,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     _loading = NO;
     
     [self refresh];
+    [self moveToCenter];
+    
+    // Will only actually start game if its not yet started
+    GameState *gs = [GameState sharedGameState];
+    if (gs.connected) {
+      [[GameViewController sharedGameViewController] startGame];
+    }
+    
   }
   return self;
 }
@@ -214,6 +224,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
     
     FullStructureProto *fsp = [gs structWithId:s.structId];
+    if (!fsp) {return;}
     CGRect loc = CGRectMake(s.coordinates.x, s.coordinates.y, fsp.xLength, fsp.yLength);
     if (!moneyBuilding) {
       NSString *imgName = [Globals imageNameForStruct:s.structId];
@@ -286,43 +297,47 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (NSArray *) refreshForExpansion {
+  Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *arr = [NSMutableArray array];
   UserExpansion *ue = gs.userExpansion;
   
-  CGRect r = CGRectZero;
-  r.size = CGSizeMake(3, 1);
-  r.origin = FAR_LEFT_EXPANSION_BOARD_START_POSITION;
-  r.origin.y += ue.farLeftExpansions*EXPANSION_EXTRA_TILES;
-  BOOL isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionFarLeft);
-  ExpansionBoard *eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionFarLeft location:r map:self isExpanding:isExpanding];
-  [self addChild:eb];
-  [arr addObject:eb];
-  [eb release];
-  
-  r.origin = FAR_RIGHT_EXPANSION_BOARD_START_POSITION;
-  r.origin.x += ue.farRightExpansions*EXPANSION_EXTRA_TILES;
-  isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionFarRight);
-  eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionFarRight location:r map:self isExpanding:isExpanding];
-  [self addChild:eb];
-  [arr addObject:eb];
-  [eb release];
-  
-  r.origin = NEAR_LEFT_EXPANSION_BOARD_START_POSITION;
-  r.origin.x -= ue.nearLeftExpansions*EXPANSION_EXTRA_TILES;
-  isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionNearLeft);
-  eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionNearLeft location:r map:self isExpanding:isExpanding];
-  [self addChild:eb];
-  [arr addObject:eb];
-  [eb release];
-  
-  r.origin = NEAR_RIGHT_EXPANSION_BOARD_START_POSITION;
-  r.origin.y -= ue.nearRightExpansions*EXPANSION_EXTRA_TILES;
-  isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionNearRight);
-  eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionNearRight location:r map:self isExpanding:isExpanding];
-  [self addChild:eb];
-  [arr addObject:eb];
-  [eb release];
+  // Only display expansion signs if server supports it
+  if (gl.expansionPurchaseCostExponentBase > 0) {
+    CGRect r = CGRectZero;
+    r.size = CGSizeMake(3, 1);
+    r.origin = FAR_LEFT_EXPANSION_BOARD_START_POSITION;
+    r.origin.y += ue.farLeftExpansions*EXPANSION_EXTRA_TILES;
+    BOOL isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionFarLeft);
+    ExpansionBoard *eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionFarLeft location:r map:self isExpanding:isExpanding];
+    [self addChild:eb];
+    [arr addObject:eb];
+    [eb release];
+    
+    r.origin = FAR_RIGHT_EXPANSION_BOARD_START_POSITION;
+    r.origin.x += ue.farRightExpansions*EXPANSION_EXTRA_TILES;
+    isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionFarRight);
+    eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionFarRight location:r map:self isExpanding:isExpanding];
+    [self addChild:eb];
+    [arr addObject:eb];
+    [eb release];
+    
+    r.origin = NEAR_LEFT_EXPANSION_BOARD_START_POSITION;
+    r.origin.x -= ue.nearLeftExpansions*EXPANSION_EXTRA_TILES;
+    isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionNearLeft);
+    eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionNearLeft location:r map:self isExpanding:isExpanding];
+    [self addChild:eb];
+    [arr addObject:eb];
+    [eb release];
+    
+    r.origin = NEAR_RIGHT_EXPANSION_BOARD_START_POSITION;
+    r.origin.y -= ue.nearRightExpansions*EXPANSION_EXTRA_TILES;
+    isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionNearRight);
+    eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionNearRight location:r map:self isExpanding:isExpanding];
+    [self addChild:eb];
+    [arr addObject:eb];
+    [eb release];
+  }
   
   int left = NEAR_LEFT_EXPANSION_START-EXPANSION_EXTRA_TILES*ue.nearLeftExpansions;
   int right = FAR_RIGHT_EXPANSION_START+EXPANSION_EXTRA_TILES*ue.farRightExpansions;
@@ -395,7 +410,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [mb displayArrow];
     }
   } else {
-    [self moveToCarpenterShowArrow:YES];
+    [self moveToCarpenterShowArrow:YES structId:structId];
   }
 }
 
@@ -403,10 +418,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self moveToSprite:_tutGirl];
 }
 
-- (void) moveToCarpenterShowArrow:(BOOL)showArrow {
+- (void) moveToCarpenterShowArrow:(BOOL)showArrow structId:(int)structId {
   [self moveToSprite:_carpenter];
   if (showArrow) {
-    [_carpenter displayArrow];
+    [_carpenter displayArrow:structId];
   }
 }
 

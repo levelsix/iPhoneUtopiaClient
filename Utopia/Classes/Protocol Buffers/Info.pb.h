@@ -6,6 +6,8 @@
 @class BuildStructJobProto_Builder;
 @class ClanBulletinPostProto;
 @class ClanBulletinPostProto_Builder;
+@class ClanTierLevelProto;
+@class ClanTierLevelProto_Builder;
 @class ClanTowerProto;
 @class ClanTowerProto_Builder;
 @class CoordinateProto;
@@ -64,8 +66,6 @@
 @class LockBoxEventProto_Builder;
 @class LockBoxItemProto;
 @class LockBoxItemProto_Builder;
-@class MarketplaceSearchEquipProto;
-@class MarketplaceSearchEquipProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
@@ -648,63 +648,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (NSString*) content;
 - (GroupChatMessageProto_Builder*) setContent:(NSString*) value;
 - (GroupChatMessageProto_Builder*) clearContent;
-@end
-
-@interface MarketplaceSearchEquipProto : PBGeneratedMessage {
-@private
-  BOOL hasEquipId_:1;
-  BOOL hasName_:1;
-  int32_t equipId;
-  NSString* name;
-}
-- (BOOL) hasEquipId;
-- (BOOL) hasName;
-@property (readonly) int32_t equipId;
-@property (readonly, retain) NSString* name;
-
-+ (MarketplaceSearchEquipProto*) defaultInstance;
-- (MarketplaceSearchEquipProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (MarketplaceSearchEquipProto_Builder*) builder;
-+ (MarketplaceSearchEquipProto_Builder*) builder;
-+ (MarketplaceSearchEquipProto_Builder*) builderWithPrototype:(MarketplaceSearchEquipProto*) prototype;
-
-+ (MarketplaceSearchEquipProto*) parseFromData:(NSData*) data;
-+ (MarketplaceSearchEquipProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MarketplaceSearchEquipProto*) parseFromInputStream:(NSInputStream*) input;
-+ (MarketplaceSearchEquipProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MarketplaceSearchEquipProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (MarketplaceSearchEquipProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface MarketplaceSearchEquipProto_Builder : PBGeneratedMessage_Builder {
-@private
-  MarketplaceSearchEquipProto* result;
-}
-
-- (MarketplaceSearchEquipProto*) defaultInstance;
-
-- (MarketplaceSearchEquipProto_Builder*) clear;
-- (MarketplaceSearchEquipProto_Builder*) clone;
-
-- (MarketplaceSearchEquipProto*) build;
-- (MarketplaceSearchEquipProto*) buildPartial;
-
-- (MarketplaceSearchEquipProto_Builder*) mergeFrom:(MarketplaceSearchEquipProto*) other;
-- (MarketplaceSearchEquipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (MarketplaceSearchEquipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasEquipId;
-- (int32_t) equipId;
-- (MarketplaceSearchEquipProto_Builder*) setEquipId:(int32_t) value;
-- (MarketplaceSearchEquipProto_Builder*) clearEquipId;
-
-- (BOOL) hasName;
-- (NSString*) name;
-- (MarketplaceSearchEquipProto_Builder*) setName:(NSString*) value;
-- (MarketplaceSearchEquipProto_Builder*) clearName;
 @end
 
 @interface LockBoxEventProto : PBGeneratedMessage {
@@ -1468,6 +1411,72 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (ClanBulletinPostProto_Builder*) clearContent;
 @end
 
+@interface ClanTierLevelProto : PBGeneratedMessage {
+@private
+  BOOL hasTierLevel_:1;
+  BOOL hasMaxSize_:1;
+  BOOL hasUpgradeCost_:1;
+  int32_t tierLevel;
+  int32_t maxSize;
+  int32_t upgradeCost;
+}
+- (BOOL) hasTierLevel;
+- (BOOL) hasMaxSize;
+- (BOOL) hasUpgradeCost;
+@property (readonly) int32_t tierLevel;
+@property (readonly) int32_t maxSize;
+@property (readonly) int32_t upgradeCost;
+
++ (ClanTierLevelProto*) defaultInstance;
+- (ClanTierLevelProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ClanTierLevelProto_Builder*) builder;
++ (ClanTierLevelProto_Builder*) builder;
++ (ClanTierLevelProto_Builder*) builderWithPrototype:(ClanTierLevelProto*) prototype;
+
++ (ClanTierLevelProto*) parseFromData:(NSData*) data;
++ (ClanTierLevelProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanTierLevelProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClanTierLevelProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanTierLevelProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanTierLevelProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ClanTierLevelProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ClanTierLevelProto* result;
+}
+
+- (ClanTierLevelProto*) defaultInstance;
+
+- (ClanTierLevelProto_Builder*) clear;
+- (ClanTierLevelProto_Builder*) clone;
+
+- (ClanTierLevelProto*) build;
+- (ClanTierLevelProto*) buildPartial;
+
+- (ClanTierLevelProto_Builder*) mergeFrom:(ClanTierLevelProto*) other;
+- (ClanTierLevelProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanTierLevelProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasTierLevel;
+- (int32_t) tierLevel;
+- (ClanTierLevelProto_Builder*) setTierLevel:(int32_t) value;
+- (ClanTierLevelProto_Builder*) clearTierLevel;
+
+- (BOOL) hasMaxSize;
+- (int32_t) maxSize;
+- (ClanTierLevelProto_Builder*) setMaxSize:(int32_t) value;
+- (ClanTierLevelProto_Builder*) clearMaxSize;
+
+- (BOOL) hasUpgradeCost;
+- (int32_t) upgradeCost;
+- (ClanTierLevelProto_Builder*) setUpgradeCost:(int32_t) value;
+- (ClanTierLevelProto_Builder*) clearUpgradeCost;
+@end
+
 @interface MinimumUserProtoForClans : PBGeneratedMessage {
 @private
   BOOL hasMinUserProto_:1;
@@ -1770,6 +1779,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasIsGood_:1;
   BOOL hasCreateTime_:1;
   BOOL hasClanId_:1;
+  BOOL hasCurrentTierLevel_:1;
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   BOOL hasTag_:1;
@@ -1777,6 +1787,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL isGood_:1;
   int64_t createTime;
   int32_t clanId;
+  int32_t currentTierLevel;
   NSString* name;
   NSString* description;
   NSString* tag;
@@ -1789,6 +1800,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasDescription;
 - (BOOL) hasTag;
 - (BOOL) hasIsGood;
+- (BOOL) hasCurrentTierLevel;
 @property (readonly) int32_t clanId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) MinimumUserProto* owner;
@@ -1796,6 +1808,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) NSString* description;
 @property (readonly, retain) NSString* tag;
 - (BOOL) isGood;
+@property (readonly) int32_t currentTierLevel;
 
 + (FullClanProto*) defaultInstance;
 - (FullClanProto*) defaultInstance;
@@ -1867,6 +1880,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) isGood;
 - (FullClanProto_Builder*) setIsGood:(BOOL) value;
 - (FullClanProto_Builder*) clearIsGood;
+
+- (BOOL) hasCurrentTierLevel;
+- (int32_t) currentTierLevel;
+- (FullClanProto_Builder*) setCurrentTierLevel:(int32_t) value;
+- (FullClanProto_Builder*) clearCurrentTierLevel;
 @end
 
 @interface MinimumClanProto : PBGeneratedMessage {
@@ -1875,6 +1893,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasCreateTime_:1;
   BOOL hasClanId_:1;
   BOOL hasOwnerId_:1;
+  BOOL hasCurrentTierLevel_:1;
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   BOOL hasTag_:1;
@@ -1882,6 +1901,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int64_t createTime;
   int32_t clanId;
   int32_t ownerId;
+  int32_t currentTierLevel;
   NSString* name;
   NSString* description;
   NSString* tag;
@@ -1893,6 +1913,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasDescription;
 - (BOOL) hasTag;
 - (BOOL) hasIsGood;
+- (BOOL) hasCurrentTierLevel;
 @property (readonly) int32_t clanId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t ownerId;
@@ -1900,6 +1921,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) NSString* description;
 @property (readonly, retain) NSString* tag;
 - (BOOL) isGood;
+@property (readonly) int32_t currentTierLevel;
 
 + (MinimumClanProto*) defaultInstance;
 - (MinimumClanProto*) defaultInstance;
@@ -1969,6 +1991,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) isGood;
 - (MinimumClanProto_Builder*) setIsGood:(BOOL) value;
 - (MinimumClanProto_Builder*) clearIsGood;
+
+- (BOOL) hasCurrentTierLevel;
+- (int32_t) currentTierLevel;
+- (MinimumClanProto_Builder*) setCurrentTierLevel:(int32_t) value;
+- (MinimumClanProto_Builder*) clearCurrentTierLevel;
 @end
 
 @interface MinimumUserProto : PBGeneratedMessage {

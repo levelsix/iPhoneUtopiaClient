@@ -93,6 +93,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCPickLockBoxEvent:
     case EventProtocolRequestCBossActionEvent:
     case EventProtocolRequestCBeginClanTowerWar:
+    case EventProtocolRequestCUpgradeClanTierEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
@@ -173,6 +174,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSPickLockBoxEvent:
     case EventProtocolResponseSBossActionEvent:
     case EventProtocolResponseSBeginClanTowerWar:
+    case EventProtocolResponseSUpgradeClanTierEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

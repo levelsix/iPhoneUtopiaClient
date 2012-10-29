@@ -102,9 +102,12 @@ typedef enum {
 
 @interface Carpenter : AnimatedSprite {
   CCSprite *carpIcon;
+  int _structIdToShowArrow;
 }
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
+
+- (void) displayArrow:(int)structId;
 
 @end
 

@@ -77,10 +77,11 @@ static NSString *udid = nil;
 - (void) socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port {
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Connected to host");
   
-  if (![[GameState sharedGameState] connected]) {
+  GameState *gs = [GameState sharedGameState];
+  if (!gs.connected) {
     [[OutgoingEventController sharedOutgoingEventController] startup];
     [[GameViewController sharedGameViewController] connectedToHost];
-  } else {
+  } else if (!gs.isTutorial) {
     [[OutgoingEventController sharedOutgoingEventController] reconnect];
   }
   [self readHeader];
@@ -357,10 +358,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCPostToMarketplaceEvent];
 }
 
-- (int) sendRetractMarketplacePostMessage: (int)postId {
-  RetractMarketplacePostRequestProto *req = [[[[RetractMarketplacePostRequestProto builder]
-                                               setSender:_sender]
-                                              setMarketplacePostId:postId]
+- (int) sendRetractMarketplacePostMessage:(int)postId curTime:(uint64_t)curTime {
+  RetractMarketplacePostRequestProto *req = [[[[[RetractMarketplacePostRequestProto builder]
+                                                setSender:_sender]
+                                               setMarketplacePostId:postId]
+                                              setCurTime:curTime]
                                              build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRetractPostFromMarketplaceEvent];
@@ -531,7 +533,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCLoadPlayerCityEvent];
 }
 
-- (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds lockBoxEvents:(BOOL)lockBoxEvents {
+- (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds lockBoxEvents:(BOOL)lockBoxEvents clanTierLevels:(BOOL)clanTierLevels {
   RetrieveStaticDataRequestProto_Builder *blder = [RetrieveStaticDataRequestProto builder];
   
   if (structIds) {
@@ -563,6 +565,9 @@ static NSString *udid = nil;
   }
   if (lockBoxEvents) {
     [blder setCurrentLockBoxEvents:YES];
+  }
+  if (clanTierLevels) {
+    [blder setClanTierLevels:YES];
   }
   
   [blder setSender:_sender];
@@ -798,9 +803,9 @@ static NSString *udid = nil;
 
 - (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg clientTime:(uint64_t)clientTime {
   SendGroupChatRequestProto *req = [[[[[[SendGroupChatRequestProto builder]
-                                       setScope:scope]
-                                      setChatMessage:msg]
-                                     setSender:_sender]
+                                        setScope:scope]
+                                       setChatMessage:msg]
+                                      setSender:_sender]
                                      setClientTime:clientTime]
                                     build];
   
@@ -905,9 +910,9 @@ static NSString *udid = nil;
 
 - (int) sendPostOnClanBulletinMessage:(NSString *)content {
   PostOnClanBulletinRequestProto *req = [[[[PostOnClanBulletinRequestProto builder]
-                                       setSender:_sender]
-                                      setContent:content]
-                                     build];
+                                           setSender:_sender]
+                                          setContent:content]
+                                         build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCPostOnClanBulletinEvent];
 }
@@ -921,6 +926,15 @@ static NSString *udid = nil;
   
   RetrieveClanInfoRequestProto *req = [bldr build];
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveClanBulletinPostsEvent];
+}
+
+- (int) sendUpgradeClanTierLevelMessage {
+  UpgradeClanTierLevelRequestProto *req = [[[[UpgradeClanTierLevelRequestProto builder]
+                                             setSender:_sender]
+                                            setClanId:_sender.clan.clanId]
+                                           build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCUpgradeClanTierEvent];
 }
 
 - (int) sendBeginGoldmineTimerMessage:(uint64_t)clientTime reset:(BOOL)reset {
@@ -944,10 +958,10 @@ static NSString *udid = nil;
 
 - (int) sendPickLockBoxMessage:(int)eventId method:(PickLockBoxRequestProto_PickLockBoxMethod)method clientTime:(uint64_t)clientTime {
   PickLockBoxRequestProto *req = [[[[[[PickLockBoxRequestProto builder]
-                                     setSender:_sender]
-                                    setMethod:method]
-                                   setClientTime:clientTime]
-                                  setLockBoxEventId:eventId]
+                                      setSender:_sender]
+                                     setMethod:method]
+                                    setClientTime:clientTime]
+                                   setLockBoxEventId:eventId]
                                   build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCPickLockBoxEvent];

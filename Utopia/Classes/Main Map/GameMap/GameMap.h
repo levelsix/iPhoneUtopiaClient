@@ -66,6 +66,8 @@
 - (SelectableSprite *) selectableForPt:(CGPoint)pt;
 - (void) layerWillDisappear;
 
+- (Enemy *) enemyWithUserId:(int)userId;
+
 - (void) moveToCenter;
 - (void) moveToSprite:(CCSprite *)spr;
 - (void) moveToEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type;
@@ -81,6 +83,7 @@
 - (void) pickUpEquipDrop:(EquipDrop *)ed;
 - (void) addLockBoxDrop:(int)eventId fromSprite:(MapSprite *)sprite;
 - (void) pickUpLockBoxDrop:(LockBoxDrop *)lbd;
+- (void) pickUpAllDrops;
 
 - (IBAction)attackClicked:(id)sender;
 - (IBAction)enemyProfileClicked:(id)sender;

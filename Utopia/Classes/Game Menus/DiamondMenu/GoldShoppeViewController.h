@@ -72,7 +72,6 @@ typedef enum {
 @interface GoldShoppeViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
   UIScrollView    *_scrollView;
   GoldPackageView *_itemView;
-  BOOL            _isDisplayingLoadingView;
   GoldShoppeState _state;
   NSArray         *_sponsoredOffers;
 }

@@ -52,6 +52,8 @@
 @class ChatResponseProto_Builder;
 @class ClanBulletinPostProto;
 @class ClanBulletinPostProto_Builder;
+@class ClanTierLevelProto;
+@class ClanTierLevelProto_Builder;
 @class ClanTowerProto;
 @class ClanTowerProto_Builder;
 @class CollectForgeEquipsRequestProto;
@@ -180,8 +182,6 @@
 @class LockBoxItemProto_Builder;
 @class LogoutRequestProto;
 @class LogoutRequestProto_Builder;
-@class MarketplaceSearchEquipProto;
-@class MarketplaceSearchEquipProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
@@ -420,6 +420,10 @@
 @class UnhandledBlacksmithAttemptProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
+@class UpgradeClanTierLevelRequestProto;
+@class UpgradeClanTierLevelRequestProto_Builder;
+@class UpgradeClanTierLevelResponseProto;
+@class UpgradeClanTierLevelResponseProto_Builder;
 @class UpgradeNormStructureRequestProto;
 @class UpgradeNormStructureRequestProto_Builder;
 @class UpgradeNormStructureResponseProto;
@@ -1037,6 +1041,16 @@ typedef enum {
 } RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus;
 
 BOOL RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusIsValidValue(RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus value);
+
+typedef enum {
+  UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatusSuccess = 0,
+  UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatusNotEnoughGold = 1,
+  UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatusNotClanLeader = 2,
+  UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatusAlreadyAtMaxTier = 3,
+  UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatusOtherFail = 4,
+} UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatus;
+
+BOOL UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatusIsValidValue(UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatus value);
 
 typedef enum {
   ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess = 0,
@@ -1915,6 +1929,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   BOOL hasExperienceRequiredForNextLevel_:1;
   BOOL hasAppStoreUrl_:1;
   BOOL hasReviewPageUrl_:1;
+  BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasDailyBonusInfo_:1;
   BOOL hasUnhandledForgeAttempt_:1;
   BOOL hasForgeAttemptEquip_:1;
@@ -1928,6 +1943,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   int32_t experienceRequiredForNextLevel;
   NSString* appStoreUrl;
   NSString* reviewPageUrl;
+  NSString* reviewPageConfirmationMessage;
   StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
   UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
   FullEquipProto* forgeAttemptEquip;
@@ -1941,6 +1957,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   NSMutableArray* mutableGlobalChatsList;
   NSMutableArray* mutableClanChatsList;
   NSMutableArray* mutableGoldSalesList;
+  NSMutableArray* mutableClanTierLevelsList;
   NSMutableArray* mutableAlliesList;
   NSMutableArray* mutableUserLockBoxEventsList;
   NSMutableArray* mutableLockBoxEventsList;
@@ -1967,6 +1984,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BOOL) hasExperienceRequiredForCurrentLevel;
 - (BOOL) hasAppStoreUrl;
 - (BOOL) hasReviewPageUrl;
+- (BOOL) hasReviewPageConfirmationMessage;
 - (BOOL) hasDailyBonusInfo;
 - (BOOL) hasPlayerHasBoughtInAppPurchase;
 - (BOOL) hasUnhandledForgeAttempt;
@@ -1980,6 +1998,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 @property (readonly) int32_t experienceRequiredForCurrentLevel;
 @property (readonly, retain) NSString* appStoreUrl;
 @property (readonly, retain) NSString* reviewPageUrl;
+@property (readonly, retain) NSString* reviewPageConfirmationMessage;
 @property (readonly, retain) StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
 - (BOOL) playerHasBoughtInAppPurchase;
 @property (readonly, retain) UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
@@ -2019,13 +2038,15 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (NSArray*) noticesToPlayersList;
 - (NSString*) noticesToPlayersAtIndex:(int32_t) index;
 - (NSArray*) mktSearchEquipsList;
-- (MarketplaceSearchEquipProto*) mktSearchEquipsAtIndex:(int32_t) index;
+- (FullEquipProto*) mktSearchEquipsAtIndex:(int32_t) index;
 - (NSArray*) globalChatsList;
 - (GroupChatMessageProto*) globalChatsAtIndex:(int32_t) index;
 - (NSArray*) clanChatsList;
 - (GroupChatMessageProto*) clanChatsAtIndex:(int32_t) index;
 - (NSArray*) goldSalesList;
 - (GoldSaleProto*) goldSalesAtIndex:(int32_t) index;
+- (NSArray*) clanTierLevelsList;
+- (ClanTierLevelProto*) clanTierLevelsAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -2123,9 +2144,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 
 @interface StartupResponseProto_MarketplacePostPurchasedNotificationProto : PBGeneratedMessage {
 @private
+  BOOL hasSellerHadLicense_:1;
   BOOL hasTimeOfPurchase_:1;
   BOOL hasMarketplacePost_:1;
   BOOL hasBuyer_:1;
+  BOOL sellerHadLicense_:1;
   int64_t timeOfPurchase;
   FullMarketplacePostProto* marketplacePost;
   MinimumUserProto* buyer;
@@ -2133,9 +2156,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BOOL) hasMarketplacePost;
 - (BOOL) hasBuyer;
 - (BOOL) hasTimeOfPurchase;
+- (BOOL) hasSellerHadLicense;
 @property (readonly, retain) FullMarketplacePostProto* marketplacePost;
 @property (readonly, retain) MinimumUserProto* buyer;
 @property (readonly) int64_t timeOfPurchase;
+- (BOOL) sellerHadLicense;
 
 + (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) defaultInstance;
 - (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) defaultInstance;
@@ -2189,6 +2214,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (int64_t) timeOfPurchase;
 - (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) setTimeOfPurchase:(int64_t) value;
 - (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) clearTimeOfPurchase;
+
+- (BOOL) hasSellerHadLicense;
+- (BOOL) sellerHadLicense;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) setSellerHadLicense:(BOOL) value;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) clearSellerHadLicense;
 @end
 
 @interface StartupResponseProto_AttackedNotificationProto : PBGeneratedMessage {
@@ -2370,10 +2400,10 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   BOOL hasArmoryImgVerticalPixelOffset_:1;
   BOOL hasMaxCityRank_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
+  BOOL hasNumDaysUntilFreeRetract_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
-  BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
   BOOL hasAverageSizeOfLevelBracket_:1;
@@ -2405,6 +2435,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   BOOL hasAttackBaseGain_:1;
   BOOL hasDefenseBaseGain_:1;
   BOOL hasEnergyBaseGain_:1;
+  BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
   BOOL hasMaxNumberOfMarketplacePosts_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
@@ -2414,8 +2445,8 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   BOOL hasMaxLevelForStruct_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasStaminaBaseCost_:1;
-  BOOL hasEnergyBaseCost_:1;
   BOOL hasStaminaBaseGain_:1;
+  BOOL hasEnergyBaseCost_:1;
   BOOL hasDefenseBaseCost_:1;
   BOOL hasAttackBaseCost_:1;
   BOOL hasDownloadableNibConstants_:1;
@@ -2424,10 +2455,10 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   BOOL hasGoldmineConstants_:1;
   BOOL hasThreeCardMonteConstants_:1;
   BOOL hasClanConstants_:1;
-  BOOL hasKiipRewardConditions_:1;
   BOOL hasBattleConstants_:1;
-  BOOL hasForgeConstants_:1;
+  BOOL hasKiipRewardConditions_:1;
   BOOL hasFormulaConstants_:1;
+  BOOL hasForgeConstants_:1;
   BOOL hasCharModConstants_:1;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
@@ -2443,10 +2474,10 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   int32_t armoryImgVerticalPixelOffset;
   int32_t maxCityRank;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
+  int32_t numDaysUntilFreeRetract;
   int32_t diamondCostOfShortMarketplaceLicense;
   int32_t diamondCostOfLongMarketplaceLicense;
   int32_t numDaysShortMarketplaceLicenseLastsFor;
-  int32_t numDaysLongMarketplaceLicenseLastsFor;
   int32_t maxCharLengthForWallPost;
   int32_t playerWallPostsRetrieveCap;
   int32_t averageSizeOfLevelBracket;
@@ -2478,6 +2509,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   int32_t attackBaseGain;
   int32_t defenseBaseGain;
   int32_t energyBaseGain;
+  int32_t numDaysLongMarketplaceLicenseLastsFor;
   int32_t maxNumberOfMarketplacePosts;
   int32_t diamondCostForFullEnergyRefill;
   int32_t diamondCostForFullStaminaRefill;
@@ -2487,8 +2519,8 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   int32_t maxLevelForStruct;
   int32_t skillPointsGainedOnLevelup;
   int32_t staminaBaseCost;
-  int32_t energyBaseCost;
   int32_t staminaBaseGain;
+  int32_t energyBaseCost;
   int32_t defenseBaseCost;
   int32_t attackBaseCost;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
@@ -2497,10 +2529,10 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
   StartupResponseProto_StartupConstants_ThreeCardMonteConstants* threeCardMonteConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
   StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
-  StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
+  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
   StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
+  StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
   StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
@@ -2542,6 +2574,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BOOL) hasNumDaysShortMarketplaceLicenseLastsFor;
 - (BOOL) hasDiamondCostOfLongMarketplaceLicense;
 - (BOOL) hasDiamondCostOfShortMarketplaceLicense;
+- (BOOL) hasNumDaysUntilFreeRetract;
 - (BOOL) hasMaxNumbersOfEnemiesToGenerateAtOnce;
 - (BOOL) hasPercentReturnedToUserForSellingEquipInArmory;
 - (BOOL) hasMaxCityRank;
@@ -2615,6 +2648,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 @property (readonly) int32_t numDaysShortMarketplaceLicenseLastsFor;
 @property (readonly) int32_t diamondCostOfLongMarketplaceLicense;
 @property (readonly) int32_t diamondCostOfShortMarketplaceLicense;
+@property (readonly) int32_t numDaysUntilFreeRetract;
 @property (readonly) int32_t maxNumbersOfEnemiesToGenerateAtOnce;
 @property (readonly) Float64 percentReturnedToUserForSellingEquipInArmory;
 @property (readonly) int32_t maxCityRank;
@@ -2683,26 +2717,26 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   BOOL hasMapNibName_:1;
   BOOL hasGoldMineNibName_:1;
   BOOL hasExpansionNibName_:1;
-  BOOL hasLeaderboardNibName_:1;
+  BOOL hasFiltersNibName_:1;
   NSString* threeCardMonteNibName;
   NSString* lockBoxNibName;
   NSString* mapNibName;
   NSString* goldMineNibName;
   NSString* expansionNibName;
-  NSString* leaderboardNibName;
+  NSString* filtersNibName;
 }
 - (BOOL) hasThreeCardMonteNibName;
 - (BOOL) hasLockBoxNibName;
 - (BOOL) hasMapNibName;
 - (BOOL) hasGoldMineNibName;
 - (BOOL) hasExpansionNibName;
-- (BOOL) hasLeaderboardNibName;
+- (BOOL) hasFiltersNibName;
 @property (readonly, retain) NSString* threeCardMonteNibName;
 @property (readonly, retain) NSString* lockBoxNibName;
 @property (readonly, retain) NSString* mapNibName;
 @property (readonly, retain) NSString* goldMineNibName;
 @property (readonly, retain) NSString* expansionNibName;
-@property (readonly, retain) NSString* leaderboardNibName;
+@property (readonly, retain) NSString* filtersNibName;
 
 + (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
@@ -2763,10 +2797,10 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setExpansionNibName:(NSString*) value;
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearExpansionNibName;
 
-- (BOOL) hasLeaderboardNibName;
-- (NSString*) leaderboardNibName;
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setLeaderboardNibName:(NSString*) value;
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearLeaderboardNibName;
+- (BOOL) hasFiltersNibName;
+- (NSString*) filtersNibName;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setFiltersNibName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearFiltersNibName;
 @end
 
 @interface StartupResponseProto_StartupConstants_ThreeCardMonteConstants : PBGeneratedMessage {
@@ -4034,6 +4068,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (StartupResponseProto_StartupConstants_Builder*) setDiamondCostOfShortMarketplaceLicense:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostOfShortMarketplaceLicense;
 
+- (BOOL) hasNumDaysUntilFreeRetract;
+- (int32_t) numDaysUntilFreeRetract;
+- (StartupResponseProto_StartupConstants_Builder*) setNumDaysUntilFreeRetract:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearNumDaysUntilFreeRetract;
+
 - (BOOL) hasMaxNumbersOfEnemiesToGenerateAtOnce;
 - (int32_t) maxNumbersOfEnemiesToGenerateAtOnce;
 - (StartupResponseProto_StartupConstants_Builder*) setMaxNumbersOfEnemiesToGenerateAtOnce:(int32_t) value;
@@ -4973,6 +5012,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (StartupResponseProto_Builder*) setReviewPageUrl:(NSString*) value;
 - (StartupResponseProto_Builder*) clearReviewPageUrl;
 
+- (BOOL) hasReviewPageConfirmationMessage;
+- (NSString*) reviewPageConfirmationMessage;
+- (StartupResponseProto_Builder*) setReviewPageConfirmationMessage:(NSString*) value;
+- (StartupResponseProto_Builder*) clearReviewPageConfirmationMessage;
+
 - (NSArray*) alliesList;
 - (MinimumUserProtoWithLevel*) alliesAtIndex:(int32_t) index;
 - (StartupResponseProto_Builder*) replaceAlliesAtIndex:(int32_t) index with:(MinimumUserProtoWithLevel*) value;
@@ -5014,9 +5058,9 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (StartupResponseProto_Builder*) clearNoticesToPlayersList;
 
 - (NSArray*) mktSearchEquipsList;
-- (MarketplaceSearchEquipProto*) mktSearchEquipsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceMktSearchEquipsAtIndex:(int32_t) index with:(MarketplaceSearchEquipProto*) value;
-- (StartupResponseProto_Builder*) addMktSearchEquips:(MarketplaceSearchEquipProto*) value;
+- (FullEquipProto*) mktSearchEquipsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceMktSearchEquipsAtIndex:(int32_t) index with:(FullEquipProto*) value;
+- (StartupResponseProto_Builder*) addMktSearchEquips:(FullEquipProto*) value;
 - (StartupResponseProto_Builder*) addAllMktSearchEquips:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearMktSearchEquipsList;
 
@@ -5040,6 +5084,13 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (StartupResponseProto_Builder*) addGoldSales:(GoldSaleProto*) value;
 - (StartupResponseProto_Builder*) addAllGoldSales:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearGoldSalesList;
+
+- (NSArray*) clanTierLevelsList;
+- (ClanTierLevelProto*) clanTierLevelsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceClanTierLevelsAtIndex:(int32_t) index with:(ClanTierLevelProto*) value;
+- (StartupResponseProto_Builder*) addClanTierLevels:(ClanTierLevelProto*) value;
+- (StartupResponseProto_Builder*) addAllClanTierLevels:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearClanTierLevelsList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
@@ -7230,8 +7281,8 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder sortOrder;
 }
 - (BOOL) hasSender;
-- (BOOL) hasFromSender;
 - (BOOL) hasCurrentNumOfEntries;
+- (BOOL) hasFromSender;
 - (BOOL) hasFilter;
 - (BOOL) hasCommonEquips;
 - (BOOL) hasUncommonEquips;
@@ -7246,8 +7297,8 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BOOL) hasSortOrder;
 - (BOOL) hasSpecificEquipId;
 @property (readonly, retain) MinimumUserProto* sender;
-- (BOOL) fromSender;
 @property (readonly) int32_t currentNumOfEntries;
+- (BOOL) fromSender;
 @property (readonly) RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter filter;
 - (BOOL) commonEquips;
 - (BOOL) uncommonEquips;
@@ -7303,15 +7354,15 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSender;
 
-- (BOOL) hasFromSender;
-- (BOOL) fromSender;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setFromSender:(BOOL) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearFromSender;
-
 - (BOOL) hasCurrentNumOfEntries;
 - (int32_t) currentNumOfEntries;
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setCurrentNumOfEntries:(int32_t) value;
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearCurrentNumOfEntries;
+
+- (BOOL) hasFromSender;
+- (BOOL) fromSender;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setFromSender:(BOOL) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearFromSender;
 
 - (BOOL) hasFilter;
 - (RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter) filter;
@@ -7604,15 +7655,19 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 
 @interface RetractMarketplacePostRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasCurTime_:1;
   BOOL hasMarketplacePostId_:1;
   BOOL hasSender_:1;
+  int64_t curTime;
   int32_t marketplacePostId;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasMarketplacePostId;
+- (BOOL) hasCurTime;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t marketplacePostId;
+@property (readonly) int64_t curTime;
 
 + (RetractMarketplacePostRequestProto*) defaultInstance;
 - (RetractMarketplacePostRequestProto*) defaultInstance;
@@ -7659,6 +7714,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (int32_t) marketplacePostId;
 - (RetractMarketplacePostRequestProto_Builder*) setMarketplacePostId:(int32_t) value;
 - (RetractMarketplacePostRequestProto_Builder*) clearMarketplacePostId;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (RetractMarketplacePostRequestProto_Builder*) setCurTime:(int64_t) value;
+- (RetractMarketplacePostRequestProto_Builder*) clearCurTime;
 @end
 
 @interface RetractMarketplacePostResponseProto : PBGeneratedMessage {
@@ -7733,9 +7793,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 
 @interface PurchaseFromMarketplaceRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasCurTime_:1;
   BOOL hasMarketplacePostId_:1;
   BOOL hasPosterId_:1;
   BOOL hasSender_:1;
+  int64_t curTime;
   int32_t marketplacePostId;
   int32_t posterId;
   MinimumUserProto* sender;
@@ -7743,9 +7805,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BOOL) hasSender;
 - (BOOL) hasMarketplacePostId;
 - (BOOL) hasPosterId;
+- (BOOL) hasCurTime;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t marketplacePostId;
 @property (readonly) int32_t posterId;
+@property (readonly) int64_t curTime;
 
 + (PurchaseFromMarketplaceRequestProto*) defaultInstance;
 - (PurchaseFromMarketplaceRequestProto*) defaultInstance;
@@ -7797,15 +7861,22 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (int32_t) posterId;
 - (PurchaseFromMarketplaceRequestProto_Builder*) setPosterId:(int32_t) value;
 - (PurchaseFromMarketplaceRequestProto_Builder*) clearPosterId;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (PurchaseFromMarketplaceRequestProto_Builder*) setCurTime:(int64_t) value;
+- (PurchaseFromMarketplaceRequestProto_Builder*) clearCurTime;
 @end
 
 @interface PurchaseFromMarketplaceResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasSellerHadLicense_:1;
   BOOL hasPosterId_:1;
   BOOL hasPurchaser_:1;
   BOOL hasMarketplacePost_:1;
   BOOL hasFullUserEquipOfBoughtItem_:1;
   BOOL hasStatus_:1;
+  BOOL sellerHadLicense_:1;
   int32_t posterId;
   MinimumUserProto* purchaser;
   FullMarketplacePostProto* marketplacePost;
@@ -7816,11 +7887,13 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BOOL) hasPosterId;
 - (BOOL) hasMarketplacePost;
 - (BOOL) hasFullUserEquipOfBoughtItem;
+- (BOOL) hasSellerHadLicense;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* purchaser;
 @property (readonly) int32_t posterId;
 @property (readonly, retain) FullMarketplacePostProto* marketplacePost;
 @property (readonly, retain) FullUserEquipProto* fullUserEquipOfBoughtItem;
+- (BOOL) sellerHadLicense;
 @property (readonly) PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus status;
 
 + (PurchaseFromMarketplaceResponseProto*) defaultInstance;
@@ -7882,6 +7955,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (PurchaseFromMarketplaceResponseProto_Builder*) setFullUserEquipOfBoughtItemBuilder:(FullUserEquipProto_Builder*) builderForValue;
 - (PurchaseFromMarketplaceResponseProto_Builder*) mergeFullUserEquipOfBoughtItem:(FullUserEquipProto*) value;
 - (PurchaseFromMarketplaceResponseProto_Builder*) clearFullUserEquipOfBoughtItem;
+
+- (BOOL) hasSellerHadLicense;
+- (BOOL) sellerHadLicense;
+- (PurchaseFromMarketplaceResponseProto_Builder*) setSellerHadLicense:(BOOL) value;
+- (PurchaseFromMarketplaceResponseProto_Builder*) clearSellerHadLicense;
 
 - (BOOL) hasStatus;
 - (PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus) status;
@@ -9062,9 +9140,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 @interface RetrieveStaticDataRequestProto : PBGeneratedMessage {
 @private
   BOOL hasCurrentLockBoxEvents_:1;
+  BOOL hasClanTierLevels_:1;
   BOOL hasLevelForExpRequiredRequest_:1;
   BOOL hasSender_:1;
   BOOL currentLockBoxEvents_:1;
+  BOOL clanTierLevels_:1;
   int32_t levelForExpRequiredRequest;
   MinimumUserProto* sender;
   NSMutableArray* mutableStructIdsList;
@@ -9080,9 +9160,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BOOL) hasSender;
 - (BOOL) hasLevelForExpRequiredRequest;
 - (BOOL) hasCurrentLockBoxEvents;
+- (BOOL) hasClanTierLevels;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t levelForExpRequiredRequest;
 - (BOOL) currentLockBoxEvents;
+- (BOOL) clanTierLevels;
 - (NSArray*) structIdsList;
 - (int32_t) structIdsAtIndex:(int32_t) index;
 - (NSArray*) taskIdsList;
@@ -9215,6 +9297,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BOOL) currentLockBoxEvents;
 - (RetrieveStaticDataRequestProto_Builder*) setCurrentLockBoxEvents:(BOOL) value;
 - (RetrieveStaticDataRequestProto_Builder*) clearCurrentLockBoxEvents;
+
+- (BOOL) hasClanTierLevels;
+- (BOOL) clanTierLevels;
+- (RetrieveStaticDataRequestProto_Builder*) setClanTierLevels:(BOOL) value;
+- (RetrieveStaticDataRequestProto_Builder*) clearClanTierLevels;
 @end
 
 @interface RetrieveStaticDataResponseProto : PBGeneratedMessage {
@@ -9235,6 +9322,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   NSMutableArray* mutablePossessEquipJobsList;
   NSMutableArray* mutableUpgradeStructJobsList;
   NSMutableArray* mutableLockBoxEventsList;
+  NSMutableArray* mutableClanTierLevelsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasExpRequiredForRequestedLevel;
@@ -9262,6 +9350,8 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (UpgradeStructJobProto*) upgradeStructJobsAtIndex:(int32_t) index;
 - (NSArray*) lockBoxEventsList;
 - (LockBoxEventProto*) lockBoxEventsAtIndex:(int32_t) index;
+- (NSArray*) clanTierLevelsList;
+- (ClanTierLevelProto*) clanTierLevelsAtIndex:(int32_t) index;
 
 + (RetrieveStaticDataResponseProto*) defaultInstance;
 - (RetrieveStaticDataResponseProto*) defaultInstance;
@@ -9378,6 +9468,13 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (RetrieveStaticDataResponseProto_Builder*) addLockBoxEvents:(LockBoxEventProto*) value;
 - (RetrieveStaticDataResponseProto_Builder*) addAllLockBoxEvents:(NSArray*) values;
 - (RetrieveStaticDataResponseProto_Builder*) clearLockBoxEventsList;
+
+- (NSArray*) clanTierLevelsList;
+- (ClanTierLevelProto*) clanTierLevelsAtIndex:(int32_t) index;
+- (RetrieveStaticDataResponseProto_Builder*) replaceClanTierLevelsAtIndex:(int32_t) index with:(ClanTierLevelProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addClanTierLevels:(ClanTierLevelProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addAllClanTierLevels:(NSArray*) values;
+- (RetrieveStaticDataResponseProto_Builder*) clearClanTierLevelsList;
 
 - (BOOL) hasStatus;
 - (RetrieveStaticDataResponseProto_RetrieveStaticDataStatus) status;
@@ -11881,14 +11978,14 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   CollectForgeEquipsResponseProto_CollectForgeEquipsStatus status;
-  NSMutableArray* mutableNewUserEquipsList;
+  NSMutableArray* mutableUserEquipsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) CollectForgeEquipsResponseProto_CollectForgeEquipsStatus status;
-- (NSArray*) newUserEquipsList;
-- (FullUserEquipProto*) newUserEquipsAtIndex:(int32_t) index;
+- (NSArray*) userEquipsList;
+- (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index;
 
 + (CollectForgeEquipsResponseProto*) defaultInstance;
 - (CollectForgeEquipsResponseProto*) defaultInstance;
@@ -11931,12 +12028,12 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (CollectForgeEquipsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (CollectForgeEquipsResponseProto_Builder*) clearSender;
 
-- (NSArray*) newUserEquipsList;
-- (FullUserEquipProto*) newUserEquipsAtIndex:(int32_t) index;
-- (CollectForgeEquipsResponseProto_Builder*) replaceNewUserEquipsAtIndex:(int32_t) index with:(FullUserEquipProto*) value;
-- (CollectForgeEquipsResponseProto_Builder*) addNewUserEquips:(FullUserEquipProto*) value;
-- (CollectForgeEquipsResponseProto_Builder*) addAllNewUserEquips:(NSArray*) values;
-- (CollectForgeEquipsResponseProto_Builder*) clearNewUserEquipsList;
+- (NSArray*) userEquipsList;
+- (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index;
+- (CollectForgeEquipsResponseProto_Builder*) replaceUserEquipsAtIndex:(int32_t) index with:(FullUserEquipProto*) value;
+- (CollectForgeEquipsResponseProto_Builder*) addUserEquips:(FullUserEquipProto*) value;
+- (CollectForgeEquipsResponseProto_Builder*) addAllUserEquips:(NSArray*) values;
+- (CollectForgeEquipsResponseProto_Builder*) clearUserEquipsList;
 
 - (BOOL) hasStatus;
 - (CollectForgeEquipsResponseProto_CollectForgeEquipsStatus) status;
@@ -13125,6 +13222,146 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (RetractRequestJoinClanResponseProto_Builder*) clearClanId;
 @end
 
+@interface UpgradeClanTierLevelRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClanId_:1;
+  BOOL hasSender_:1;
+  int32_t clanId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasClanId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t clanId;
+
++ (UpgradeClanTierLevelRequestProto*) defaultInstance;
+- (UpgradeClanTierLevelRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UpgradeClanTierLevelRequestProto_Builder*) builder;
++ (UpgradeClanTierLevelRequestProto_Builder*) builder;
++ (UpgradeClanTierLevelRequestProto_Builder*) builderWithPrototype:(UpgradeClanTierLevelRequestProto*) prototype;
+
++ (UpgradeClanTierLevelRequestProto*) parseFromData:(NSData*) data;
++ (UpgradeClanTierLevelRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpgradeClanTierLevelRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (UpgradeClanTierLevelRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpgradeClanTierLevelRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UpgradeClanTierLevelRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UpgradeClanTierLevelRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UpgradeClanTierLevelRequestProto* result;
+}
+
+- (UpgradeClanTierLevelRequestProto*) defaultInstance;
+
+- (UpgradeClanTierLevelRequestProto_Builder*) clear;
+- (UpgradeClanTierLevelRequestProto_Builder*) clone;
+
+- (UpgradeClanTierLevelRequestProto*) build;
+- (UpgradeClanTierLevelRequestProto*) buildPartial;
+
+- (UpgradeClanTierLevelRequestProto_Builder*) mergeFrom:(UpgradeClanTierLevelRequestProto*) other;
+- (UpgradeClanTierLevelRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UpgradeClanTierLevelRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (UpgradeClanTierLevelRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (UpgradeClanTierLevelRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UpgradeClanTierLevelRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (UpgradeClanTierLevelRequestProto_Builder*) clearSender;
+
+- (BOOL) hasClanId;
+- (int32_t) clanId;
+- (UpgradeClanTierLevelRequestProto_Builder*) setClanId:(int32_t) value;
+- (UpgradeClanTierLevelRequestProto_Builder*) clearClanId;
+@end
+
+@interface UpgradeClanTierLevelResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasFullClan_:1;
+  BOOL hasMinClan_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  FullClanProtoWithClanSize* fullClan;
+  MinimumClanProto* minClan;
+  UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasFullClan;
+- (BOOL) hasMinClan;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatus status;
+@property (readonly, retain) FullClanProtoWithClanSize* fullClan;
+@property (readonly, retain) MinimumClanProto* minClan;
+
++ (UpgradeClanTierLevelResponseProto*) defaultInstance;
+- (UpgradeClanTierLevelResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UpgradeClanTierLevelResponseProto_Builder*) builder;
++ (UpgradeClanTierLevelResponseProto_Builder*) builder;
++ (UpgradeClanTierLevelResponseProto_Builder*) builderWithPrototype:(UpgradeClanTierLevelResponseProto*) prototype;
+
++ (UpgradeClanTierLevelResponseProto*) parseFromData:(NSData*) data;
++ (UpgradeClanTierLevelResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpgradeClanTierLevelResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (UpgradeClanTierLevelResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpgradeClanTierLevelResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UpgradeClanTierLevelResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UpgradeClanTierLevelResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UpgradeClanTierLevelResponseProto* result;
+}
+
+- (UpgradeClanTierLevelResponseProto*) defaultInstance;
+
+- (UpgradeClanTierLevelResponseProto_Builder*) clear;
+- (UpgradeClanTierLevelResponseProto_Builder*) clone;
+
+- (UpgradeClanTierLevelResponseProto*) build;
+- (UpgradeClanTierLevelResponseProto*) buildPartial;
+
+- (UpgradeClanTierLevelResponseProto_Builder*) mergeFrom:(UpgradeClanTierLevelResponseProto*) other;
+- (UpgradeClanTierLevelResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UpgradeClanTierLevelResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (UpgradeClanTierLevelResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (UpgradeClanTierLevelResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UpgradeClanTierLevelResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (UpgradeClanTierLevelResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatus) status;
+- (UpgradeClanTierLevelResponseProto_Builder*) setStatus:(UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatus) value;
+- (UpgradeClanTierLevelResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasFullClan;
+- (FullClanProtoWithClanSize*) fullClan;
+- (UpgradeClanTierLevelResponseProto_Builder*) setFullClan:(FullClanProtoWithClanSize*) value;
+- (UpgradeClanTierLevelResponseProto_Builder*) setFullClanBuilder:(FullClanProtoWithClanSize_Builder*) builderForValue;
+- (UpgradeClanTierLevelResponseProto_Builder*) mergeFullClan:(FullClanProtoWithClanSize*) value;
+- (UpgradeClanTierLevelResponseProto_Builder*) clearFullClan;
+
+- (BOOL) hasMinClan;
+- (MinimumClanProto*) minClan;
+- (UpgradeClanTierLevelResponseProto_Builder*) setMinClan:(MinimumClanProto*) value;
+- (UpgradeClanTierLevelResponseProto_Builder*) setMinClanBuilder:(MinimumClanProto_Builder*) builderForValue;
+- (UpgradeClanTierLevelResponseProto_Builder*) mergeMinClan:(MinimumClanProto*) value;
+- (UpgradeClanTierLevelResponseProto_Builder*) clearMinClan;
+@end
+
 @interface ApproveOrRejectRequestToJoinClanRequestProto : PBGeneratedMessage {
 @private
   BOOL hasAccept_:1;
@@ -13199,11 +13436,13 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   BOOL hasRequesterId_:1;
   BOOL hasSender_:1;
   BOOL hasMinClan_:1;
+  BOOL hasFullClan_:1;
   BOOL hasStatus_:1;
   BOOL accept_:1;
   int32_t requesterId;
   MinimumUserProto* sender;
   MinimumClanProto* minClan;
+  FullClanProtoWithClanSize* fullClan;
   ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus status;
 }
 - (BOOL) hasSender;
@@ -13211,11 +13450,13 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BOOL) hasRequesterId;
 - (BOOL) hasAccept;
 - (BOOL) hasMinClan;
+- (BOOL) hasFullClan;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus status;
 @property (readonly) int32_t requesterId;
 - (BOOL) accept;
 @property (readonly, retain) MinimumClanProto* minClan;
+@property (readonly, retain) FullClanProtoWithClanSize* fullClan;
 
 + (ApproveOrRejectRequestToJoinClanResponseProto*) defaultInstance;
 - (ApproveOrRejectRequestToJoinClanResponseProto*) defaultInstance;
@@ -13279,6 +13520,13 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) setMinClanBuilder:(MinimumClanProto_Builder*) builderForValue;
 - (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) mergeMinClan:(MinimumClanProto*) value;
 - (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearMinClan;
+
+- (BOOL) hasFullClan;
+- (FullClanProtoWithClanSize*) fullClan;
+- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) setFullClan:(FullClanProtoWithClanSize*) value;
+- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) setFullClanBuilder:(FullClanProtoWithClanSize_Builder*) builderForValue;
+- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) mergeFullClan:(FullClanProtoWithClanSize*) value;
+- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearFullClan;
 @end
 
 @interface RetrieveClanInfoRequestProto : PBGeneratedMessage {

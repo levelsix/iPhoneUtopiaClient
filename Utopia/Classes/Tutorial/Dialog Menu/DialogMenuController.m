@@ -35,6 +35,10 @@
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 
+- (void) viewWillAppear:(BOOL)animated {
+  self.view.alpha = 0.f;
+}
+
 + (void) displayViewForText:(NSString *)str {
   DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
   dmc.label.text = str;
@@ -47,8 +51,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   dmc.view.center = ccp(dmc.view.frame.size.width/2, dmc.view.frame.size.height/2);
   
   [DialogMenuController displayView];
-  dmc.view.alpha = 0.f;
   
+  // Alpha will only start at 0 if it is not already there
   CGPoint oldCenter = dmc.speechBubble.center;
   dmc.speechBubble.center = CGPointMake(oldCenter.x-30, oldCenter.y);
   dmc.speechBubble.transform = CGAffineTransformMakeScale(SPEECH_BUBBLE_SCALE, SPEECH_BUBBLE_SCALE);
@@ -78,25 +82,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   }
 }
 
-- (void) startLoading {
-  [loadingView.actIndView startAnimating];
-  
-  [Globals displayUIView:loadingView];
-  _isDisplayingLoadingView = YES;
-}
-
-- (void) stopLoading:(BOOL)continueTut {
-  if (_isDisplayingLoadingView) {
-    [loadingView.actIndView stopAnimating];
-    [loadingView removeFromSuperview];
-    _isDisplayingLoadingView = NO;
-    
-    if (continueTut) {
-      [(TutorialTopBar *)[TutorialTopBar sharedTopBar] beginQuestsPhase];
-    }
-  }
-}
-
 - (void) textFieldDidBeginEditing:(UITextField *)textField {
   [UIView animateWithDuration:0.3f animations:^{
     self.view.center = CGPointMake(self.view.center.x, self.view.center.y-WIN_HEIGHT/2);
@@ -118,7 +103,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 - (void) createUser {
   [[OutgoingEventController sharedOutgoingEventController] createUser];
   
-  [self startLoading];
+  [self.loadingView display:self.view];
 }
 
 - (void) receivedUserCreateResponse:(UserCreateResponseProto *)ucrp {
@@ -136,9 +121,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   }
 }
 
-- (void) viewDidUnload
+- (void) stopLoading:(BOOL)continueTut {
+  [self.loadingView stop];
+  
+  if (continueTut) {
+    [(TutorialTopBar *)[TutorialTopBar sharedTopBar] beginQuestsPhase];
+  }
+}
+
+- (void) didReceiveMemoryWarning
 {
-  [super viewDidUnload];
+  [super didReceiveMemoryWarning];
   // Release any retained subviews of the main view.
   self.label = nil;
   self.nameLabel = nil;

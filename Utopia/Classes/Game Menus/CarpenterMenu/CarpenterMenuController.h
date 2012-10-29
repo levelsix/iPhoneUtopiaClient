@@ -72,7 +72,9 @@ typedef enum {
 
 @end
 
-@interface CarpenterMenuController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface CarpenterMenuController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+  int _structIdToDisplayArrow;
+}
 
 @property (nonatomic, retain) IBOutlet CarpenterRow *carpRow;
 @property (nonatomic, retain) IBOutlet UITableView *carpTable;
@@ -80,12 +82,15 @@ typedef enum {
 
 @property (nonatomic, retain) NSMutableArray *structsList;
 
+@property (nonatomic, retain) UIImageView *arrow;
+
 @property (nonatomic, retain) IBOutlet CoinBar *coinBar;
 
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 
 - (void) reloadCarpenterStructs;
+- (void) displayArrowOnNextOpen:(int)structId;
 
 - (IBAction)closeClicked:(id)sender;
 + (CarpenterMenuController *) sharedCarpenterMenuController;
