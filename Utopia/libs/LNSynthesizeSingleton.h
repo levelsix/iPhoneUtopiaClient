@@ -37,6 +37,7 @@ static classname *shared##classname = nil; \
 		if (shared##classname == nil) \
 		{ \
 			shared##classname = [[self alloc] init]; \
+      LNLog(@"Created singleton for %@", NSStringFromClass([self class])); \
 		} \
 	} \
   \

@@ -179,6 +179,14 @@ static float buttonInitialWidth = 159.f;
   CGSize size = [msg.message sizeWithFont:self.textLabel.font constrainedToSize:CGSizeMake(chatLabelWidth, 999) lineBreakMode:self.textLabel.lineBreakMode];
   
   NSString *buttonText = [Globals fullNameWithName:msg.sender.name clanTag:msg.sender.clan.tag];
+  
+  if (msg.isAdmin) {
+    buttonText = [buttonText stringByAppendingString:@" (Admin)"];
+    [self.nameButton setTitleColor:[Globals redColor] forState:UIControlStateNormal];
+  } else {
+    [self.nameButton setTitleColor:[Globals goldColor] forState:UIControlStateNormal];
+  }
+  
   [self.nameButton setTitle:buttonText forState:UIControlStateNormal];
   CGSize buttonSize = [buttonText sizeWithFont:self.nameButton.titleLabel.font constrainedToSize:CGSizeMake(buttonInitialWidth, 999) lineBreakMode:self.nameButton.titleLabel.lineBreakMode];
   
@@ -404,6 +412,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   return cellHeight + (size.height-cellLabelHeight);
 }
 
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  [self.postTextField resignFirstResponder];
+}
+
 - (void) scrollViewWillBeginDragging:(UIScrollView *)scrollView {
   [self.postTextField resignFirstResponder];
 }
@@ -448,19 +460,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 }
 
 - (void) send {
-//  GameState *gs = [GameState sharedGameState];
+  //  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSString *msg = self.postTextField.text;
-//  if ((isGlobal && gs.numGroupChatsRemaining > 0) || !isGlobal) {
-    if (msg.length > 0 && msg.length <= gl.maxLengthOfChatString) {
-      GroupChatScope scope = self.isGlobal ? GroupChatScopeGlobal : GroupChatScopeClan;
-      [[OutgoingEventController sharedOutgoingEventController] sendGroupChat:scope message:msg];
-      [self updateNumChatsLabel]; 
-    }
-    self.postTextField.text = nil;
-//  } else {
-//    [self addChatsClicked:nil];
-//  }
+  //  if ((isGlobal && gs.numGroupChatsRemaining > 0) || !isGlobal) {
+  if (msg.length > 0 && msg.length <= gl.maxLengthOfChatString) {
+    GroupChatScope scope = self.isGlobal ? GroupChatScopeGlobal : GroupChatScopeClan;
+    [[OutgoingEventController sharedOutgoingEventController] sendGroupChat:scope message:msg];
+    [self updateNumChatsLabel];
+  }
+  self.postTextField.text = nil;
+  //  } else {
+  //    [self addChatsClicked:nil];
+  //  }
   [self.postTextField resignFirstResponder];
 }
 
@@ -513,16 +525,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  self.chatCell = nil;
-  self.chatTable = nil;
-  self.numChatsLabel = nil;
-  self.bottomView = nil;
-  self.postTextField = nil;
-  self.bgdView = nil;
-  self.mainView = nil;
-  self.topBar = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.chatCell = nil;
+    self.chatTable = nil;
+    self.numChatsLabel = nil;
+    self.bottomView = nil;
+    self.postTextField = nil;
+    self.bgdView = nil;
+    self.mainView = nil;
+    self.topBar = nil;
+  }
 }
 
 @end

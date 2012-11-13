@@ -477,32 +477,35 @@
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  self.goodMageView = nil;
-  self.goodArcherView = nil;
-  self.goodWarriorView = nil;
-  self.badMageView = nil;
-  self.badArcherView = nil;
-  self.badWarriorView = nil;
-  self.leftArrowButton = nil;
-  self.rightArrowButton = nil;
-  self.charScrollView = nil;
-  self.smallAttBar = nil;
-  self.medAttBar = nil;
-  self.bigAttBar = nil;
-  self.smallDefBar = nil;
-  self.medDefBar = nil;
-  self.bigDefBar = nil;
-  self.titleLabel = nil;
-  self.greenGlow = nil;
-  self.redGlow = nil;
-  self.bottomBar = nil;
-  self.chooseNameView = nil;
-  self.nameTextField = nil;
-  self.submitButton = nil;
-  self.loadingView = nil;
-  self.cancelView = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.goodMageView = nil;
+    self.goodArcherView = nil;
+    self.goodWarriorView = nil;
+    self.badMageView = nil;
+    self.badArcherView = nil;
+    self.badWarriorView = nil;
+    self.leftArrowButton = nil;
+    self.rightArrowButton = nil;
+    self.charScrollView = nil;
+    self.smallAttBar = nil;
+    self.medAttBar = nil;
+    self.bigAttBar = nil;
+    self.smallDefBar = nil;
+    self.medDefBar = nil;
+    self.bigDefBar = nil;
+    self.titleLabel = nil;
+    self.greenGlow = nil;
+    self.redGlow = nil;
+    self.bottomBar = nil;
+    self.chooseNameView = nil;
+    self.nameTextField = nil;
+    self.submitButton = nil;
+    self.loadingView = nil;
+    self.cancelView = nil;
+  }
 }
 
 @end

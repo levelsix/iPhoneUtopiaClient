@@ -117,6 +117,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *amuletAttackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *amuletDefenseLabel;
 
+- (void) reload;
 - (void) updateLabels;
 
 @end

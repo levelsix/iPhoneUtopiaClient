@@ -88,7 +88,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
     [[SoundEngine sharedSoundEngine] vaultLeave];
     
     [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-      [VaultMenuController removeView];       
+      [VaultMenuController removeView];
     }];
   }
 }
@@ -174,15 +174,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 
 - (void) didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
-  self.depositButton = nil;
-  self.withdrawButton = nil;
-  self.transferField = nil;
-  self.bottomLabel = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
-  self.tickers = nil;
-  self.tickerHolderView = nil;
-  self.vaultBalance = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    self.depositButton = nil;
+    self.withdrawButton = nil;
+    self.transferField = nil;
+    self.bottomLabel = nil;
+    self.mainView = nil;
+    self.bgdView = nil;
+    self.tickers = nil;
+    self.tickerHolderView = nil;
+    self.vaultBalance = nil;
+  }
 }
 
 - (void) viewWillAppear:(BOOL)animated {

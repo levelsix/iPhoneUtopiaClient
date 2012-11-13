@@ -518,12 +518,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [(AppDelegate *)[[UIApplication sharedApplication] delegate] removeLocalNotifications];
     
     //Display daily bonus screen if its  applicable
-//    StartupResponseProto_DailyBonusInfo *dbi = proto.dailyBonusInfo;
-//    if (dbi.firstTimeToday) {
-//      DailyBonusMenuController *dbmc = [[DailyBonusMenuController alloc] initWithNibName:nil bundle:nil];
-//      [dbmc loadForDay:dbi.numConsecutiveDaysPlayed silver:dbi.coinBonus equip:dbi.userEquipBonus];
-//      [[TopBar sharedTopBar] setDbmc:dbmc];
-//    }
+    //    StartupResponseProto_DailyBonusInfo *dbi = proto.dailyBonusInfo;
+    //    if (dbi.firstTimeToday) {
+    //      DailyBonusMenuController *dbmc = [[DailyBonusMenuController alloc] initWithNibName:nil bundle:nil];
+    //      [dbmc loadForDay:dbi.numConsecutiveDaysPlayed silver:dbi.coinBonus equip:dbi.userEquipBonus];
+    //      [[TopBar sharedTopBar] setDbmc:dbmc];
+    //    }
     
     // This means we just finished tutorial
     if (gs.isTutorial) {
@@ -600,7 +600,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     // This will be released after the level up controller closes
     LevelUpViewController *vc = [[LevelUpViewController alloc] initWithLevelUpResponse:proto];
-    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+    [Globals displayUIView:vc.view];
     
     [[Crittercism sharedInstance] addVote];
     [[Crittercism sharedInstance] updateVotes];
@@ -685,7 +685,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       // This will be released after the level up controller closes
       CityRankupViewController *vc = [[CityRankupViewController alloc] initWithRank:city.curRank coins:proto.coinBonusIfCityRankup exp:proto.expBonusIfCityRankup];
-      [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+      [Globals displayUIView:vc.view];
       
       if (gLay.currentCity == cityId) {
         NSArray *sprites = [[gLay missionMap] mapSprites];
@@ -829,7 +829,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to purchase from marketplace."];
+    if (proto.status == PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusPostNoLongerExists) {
+      [Globals popupMessage:@"Sorry, this item has already been bought!"];
+    } else {
+      [Globals popupMessage:@"Server failed to purchase from marketplace."];
+    }
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
   [mvc.loadingView stop];
@@ -1387,11 +1391,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve user equip response received.");
   
   OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
+  NSMutableArray *arr = [NSMutableArray array];
   for (FullUserEquipProto *fuep in proto.userEquipsList) {
-    [oec retrieveStaticEquip:fuep.equipId];
+    [arr addObject:[NSNumber numberWithInt:fuep.equipId]];
   }
   
-  [[BattleLayer sharedBattleLayer] receivedUserEquips:proto];
+  [oec retrieveStaticEquips:arr];
+  
+  if ([BattleLayer isInitialized]) {
+    [[BattleLayer sharedBattleLayer] receivedUserEquips:proto];
+  }
   [[ProfileViewController sharedProfileViewController] receivedEquips:proto];
   
   GameState *gs = [GameState sharedGameState];
@@ -1617,6 +1626,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gvc loadGame:NO];
       [gvc startGame];
       [gvc removeAllSubviews];
+      gs.armoryAmulets = nil;
+      gs.armoryArmor = nil;
+      gs.armoryWeapons = nil;
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1636,11 +1648,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gvc loadGame:NO];
       [gvc startGame];
       [gvc removeAllSubviews];
+      gs.armoryAmulets = nil;
+      gs.armoryArmor = nil;
+      gs.armoryWeapons = nil;
     }
     [Globals popupMessage:@"Server failed to modify character."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
+  
+  [[SocketCommunication sharedSocketCommunication] rebuildSender];
 }
 
 - (void) handleRetrieveLeaderboardResponseProto:(FullEvent *)fe {
@@ -1695,7 +1712,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   // Chats sent from this user will be faked.
   GameState *gs = [GameState sharedGameState];
   if (proto.sender.userId != gs.userId) {
-    [gs addChatMessage:proto.sender message:proto.chatMessage scope:proto.scope];
+    [gs addChatMessage:proto.sender message:proto.chatMessage scope:proto.scope isAdmin:proto.isAdmin];
   }
 }
 
@@ -1719,9 +1736,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
-  
-  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
-  [[ClanMenuController sharedClanMenuController] receivedClanCreateResponse:proto];
+  if ([ClanMenuController isInitialized]) {
+    [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+    [[ClanMenuController sharedClanMenuController] receivedClanCreateResponse:proto];
+  }
 }
 
 - (void) handleRetrieveClanInfoResponseProto:(FullEvent *)fe {
@@ -1731,7 +1749,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveClanInfoResponseProto_RetrieveClanInfoStatusSuccess) {
-    [[ClanMenuController sharedClanMenuController] receivedRetrieveClanInfoResponse:proto];
+    if ([ClanMenuController isInitialized])
+      [[ClanMenuController sharedClanMenuController] receivedRetrieveClanInfoResponse:proto];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1746,7 +1765,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Approve or reject request to join clan response received with status %d.", proto.status);
   
-  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  if ([ClanMenuController isInitialized])
+    [[ClanMenuController sharedClanMenuController] stopLoading:tag];
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
@@ -1757,7 +1777,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         [[SocketCommunication sharedSocketCommunication] rebuildSender];
       }
     }
-    [[ClanMenuController sharedClanMenuController] receivedRejectOrAcceptResponse:proto];
+    if ([ClanMenuController isInitialized])
+      [[ClanMenuController sharedClanMenuController] receivedRejectOrAcceptResponse:proto];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1772,7 +1793,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Leave clan response received with status %d.", proto.status);
   
-  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  if ([ClanMenuController isInitialized])
+    [[ClanMenuController sharedClanMenuController] stopLoading:tag];
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
@@ -1781,7 +1803,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
     }
     
-    [[ClanMenuController sharedClanMenuController] receivedLeaveResponse:proto];
+    if ([ClanMenuController isInitialized])
+      [[ClanMenuController sharedClanMenuController] receivedLeaveResponse:proto];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1796,14 +1819,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Request join clan response received with status %d.", proto.status);
   
-  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  if ([ClanMenuController isInitialized])
+    [[ClanMenuController sharedClanMenuController] stopLoading:tag];
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccess) {
     if (proto.sender.userId == gs.userId) {
       [gs.requestedClans addObject:[NSNumber numberWithInt:proto.clanId]];
     }
-    [[ClanMenuController sharedClanMenuController] receivedRequestJoinClanResponse:proto];
+    if ([ClanMenuController isInitialized])
+      [[ClanMenuController sharedClanMenuController] receivedRequestJoinClanResponse:proto];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1818,14 +1843,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retract request to join clan response received with status %d.", proto.status);
   
-  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  if ([ClanMenuController isInitialized])
+    [[ClanMenuController sharedClanMenuController] stopLoading:tag];
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess) {
     if (proto.sender.userId == gs.userId) {
       [gs.requestedClans removeObject:[NSNumber numberWithInt:proto.clanId]];
     }
-    [[ClanMenuController sharedClanMenuController] receivedRetractRequestJoinClanResponse:proto];
+    if ([ClanMenuController isInitialized])
+      [[ClanMenuController sharedClanMenuController] receivedRetractRequestJoinClanResponse:proto];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1840,7 +1867,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Transfer clan ownership response received with status %d.", proto.status);
   
-  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  if ([ClanMenuController isInitialized])
+    [[ClanMenuController sharedClanMenuController] stopLoading:tag];
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == TransferClanOwnershipResponseProto_TransferClanOwnershipStatusSuccess) {
@@ -1848,7 +1876,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.clan = proto.minClan;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
     }
-    [[ClanMenuController sharedClanMenuController] receivedTransferOwnershipResponse:proto];
+    if ([ClanMenuController isInitialized])
+      [[ClanMenuController sharedClanMenuController] receivedTransferOwnershipResponse:proto];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1863,7 +1892,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Change clan description response received with status %d.", proto.status);
   
-  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  if ([ClanMenuController isInitialized])
+    [[ClanMenuController sharedClanMenuController] stopLoading:tag];
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ChangeClanDescriptionResponseProto_ChangeClanDescriptionStatusSuccess) {
@@ -1871,7 +1901,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.clan = proto.minClan;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
     }
-    [[ClanMenuController sharedClanMenuController] receivedChangeDescriptionResponse:proto];
+    if ([ClanMenuController isInitialized])
+      [[ClanMenuController sharedClanMenuController] receivedChangeDescriptionResponse:proto];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1894,7 +1925,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.clan = nil;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
     }
-    [[ClanMenuController sharedClanMenuController] receivedBootPlayerResponse:proto];
+    if ([ClanMenuController isInitialized])
+      [[ClanMenuController sharedClanMenuController] receivedBootPlayerResponse:proto];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1911,7 +1943,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess) {
-    [[ClanMenuController sharedClanMenuController] receivedPostOnWall:proto];
+    if ([ClanMenuController isInitialized])
+      [[ClanMenuController sharedClanMenuController] receivedPostOnWall:proto];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

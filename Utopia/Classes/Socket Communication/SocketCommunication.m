@@ -47,6 +47,10 @@ static NSString *udid = nil;
   NSString *host  = HOST_NAME;
   uint16_t port = HOST_PORT;
   
+  if ([_asyncSocket isConnected]) {
+    [_asyncSocket disconnect];
+  }
+  
   // Make connection to host
   if (![_asyncSocket connectToHost:host onPort:port withTimeout:20.f error:&error]) {
     ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to connect to due to invalid configuration: %@", error);

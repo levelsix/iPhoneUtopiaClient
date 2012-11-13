@@ -127,8 +127,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   for (FullTaskProto_FullTaskEquipReqProto *equipReq in ftp.equipReqsList) {
-    int quantity = [gs quantityOfEquip:equipReq.equipId];
-    if (quantity < equipReq.quantity) {
+    NSArray *myEquips = [gs myEquipsWithEquipId:equipReq.equipId];
+    int i = 0;
+    for (UserEquip *ue in myEquips) {
+      i += pow(2, ue.level-1);
+      
+      if (i >= equipReq.quantity) {
+        break;
+      }
+    }
+    if (i < equipReq.quantity) {
       [Globals popupMessage:@"Attempting to do task without required equipment"];
       return NO;
     }
@@ -548,7 +556,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [sc sendPurchaseMarketplaceLicenseMessage:curTime type:PurchaseMarketplaceLicenseRequestProto_LicenseTypeLong];
     gs.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:curTime/1000.];
     
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gl.diamondCostOfShortMarketplaceLicense]];
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gl.diamondCostOfLongMarketplaceLicense]];
   }
 }
 
@@ -653,6 +661,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     LastEnergyRefillUpdate *leru = [LastEnergyRefillUpdate updateWithTag:tag prevDate:gs.lastEnergyRefill nextDate:nextDate];
     [gs addUnrespondedUpdates:eu, leru, nil];
   } else {
+    LNLog(@"Refilling energy before time. Seconds since last refill: %f", tInt);
     [Globals popupMessage:@"Trying to refill energy before time.."];
   }
 }
@@ -726,7 +735,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   // Check that no other building is being built
   for (UserStruct *u in gs.myStructs) {
     if (u.state == kBuilding) {
-      [Globals popupMessage:@"Already constructing a building"];
+      [Globals popupMessage:@"You can only construct one building at a time!"];
       return us;
     }
   }
@@ -923,7 +932,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   // Check that no other building is being upgraded
   for (UserStruct *us in gs.myStructs) {
     if (us.state == kUpgrading) {
-      [Globals popupMessage:@"Already upgrading a building"];
+      [Globals popupMessage:@"You can only upgrade one building at a time!"];
       return;
     }
   }
@@ -1178,6 +1187,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) retrieveStaticEquips:(NSArray *)equipIds {
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:equipIds buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+}
+
 - (void) retrieveStaticEquipsForUser:(FullUserProto *)fup {
   [self retrieveStaticEquip:fup.weaponEquippedUserEquip.equipId];
   [self retrieveStaticEquip:fup.armorEquippedUserEquip.equipId];
@@ -1250,15 +1265,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (cityId == 0) {
     if (assetId == 1) {
       [[GameLayer sharedGameLayer] loadHomeMap];
-      [[HomeMap sharedHomeMap] moveToTutorialGirl];
+      [[HomeMap sharedHomeMap] moveToTutorialGirlAnimated:YES];
     } else if (assetId == 2) {
       [[GameLayer sharedGameLayer] loadBazaarMap];
-      [[BazaarMap sharedBazaarMap] moveToQuestGiver];
+      [[BazaarMap sharedBazaarMap] moveToQuestGiverAnimated:YES];
     }
   } else {
     if ([[GameLayer sharedGameLayer] currentCity] == cityId) {
       if (assetId != 0) {
-        [[[GameLayer sharedGameLayer] missionMap] moveToAssetId:assetId];
+        [[[GameLayer sharedGameLayer] missionMap] moveToAssetId:assetId animated:YES];
       }
     } else {
       [[GameLayer sharedGameLayer] setAssetId: assetId];
@@ -1272,7 +1287,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   FullCityProto *city = [gs cityWithId:cityId];
   
   if ([[GameLayer sharedGameLayer] currentCity] == city.cityId) {
-    [[[GameLayer sharedGameLayer] missionMap] moveToEnemyType:type];
+    [[[GameLayer sharedGameLayer] missionMap] moveToEnemyType:type animated:YES];
   } else {
     [[GameLayer sharedGameLayer] setEnemyType:type];
     [self loadNeutralCity:cityId];
@@ -1709,7 +1724,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-      [gs addChatMessage:gs.minUser message:msg scope:scope];
+      [gs addChatMessage:gs.minUser message:msg scope:scope isAdmin:gs.isAdmin];
     });
 //  } else {
 //    [Globals popupMessage:@"Attempting to send chat without any speakers"];

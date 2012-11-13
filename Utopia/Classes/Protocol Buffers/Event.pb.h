@@ -12535,9 +12535,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 
 @interface ReceivedGroupChatResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasIsAdmin_:1;
   BOOL hasChatMessage_:1;
   BOOL hasSender_:1;
   BOOL hasScope_:1;
+  BOOL isAdmin_:1;
   NSString* chatMessage;
   MinimumUserProto* sender;
   GroupChatScope scope;
@@ -12545,9 +12547,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BOOL) hasSender;
 - (BOOL) hasChatMessage;
 - (BOOL) hasScope;
+- (BOOL) hasIsAdmin;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly, retain) NSString* chatMessage;
 @property (readonly) GroupChatScope scope;
+- (BOOL) isAdmin;
 
 + (ReceivedGroupChatResponseProto*) defaultInstance;
 - (ReceivedGroupChatResponseProto*) defaultInstance;
@@ -12599,6 +12603,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (GroupChatScope) scope;
 - (ReceivedGroupChatResponseProto_Builder*) setScope:(GroupChatScope) value;
 - (ReceivedGroupChatResponseProto_Builder*) clearScope;
+
+- (BOOL) hasIsAdmin;
+- (BOOL) isAdmin;
+- (ReceivedGroupChatResponseProto_Builder*) setIsAdmin:(BOOL) value;
+- (ReceivedGroupChatResponseProto_Builder*) clearIsAdmin;
 @end
 
 @interface PurchaseGroupChatRequestProto : PBGeneratedMessage {

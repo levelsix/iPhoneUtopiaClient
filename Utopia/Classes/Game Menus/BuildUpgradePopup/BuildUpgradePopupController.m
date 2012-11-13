@@ -30,19 +30,19 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   
-    FullStructureProto *fsp = [[GameState sharedGameState] structWithId:_userStruct.structId];
-    BOOL upgrade = _userStruct.level > 1;
-    
-    if (upgrade) {
-      self.titleLabel.text = @"Upgrade Complete!";
-      self.descriptionLabel.text = [NSString stringWithFormat:@"The carpenter has finished upgrading your %@ to Rank %d!", fsp.name, _userStruct.level];
-    } else {
-      self.titleLabel.text = @"Build Complete!";
-      self.descriptionLabel.text = [NSString stringWithFormat:@"The carpenter has finished building your %@!", fsp.name];
-    }
-    self.structIcon.image = [Globals imageForStruct:_userStruct.structId];
-    
-    self.rankLabel.text = [NSString stringWithFormat:@"rank: %d", _userStruct.level];
+  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:_userStruct.structId];
+  BOOL upgrade = _userStruct.level > 1;
+  
+  if (upgrade) {
+    self.titleLabel.text = @"Upgrade Complete!";
+    self.descriptionLabel.text = [NSString stringWithFormat:@"The carpenter has finished upgrading your %@ to Rank %d!", fsp.name, _userStruct.level];
+  } else {
+    self.titleLabel.text = @"Build Complete!";
+    self.descriptionLabel.text = [NSString stringWithFormat:@"The carpenter has finished building your %@!", fsp.name];
+  }
+  self.structIcon.image = [Globals imageForStruct:_userStruct.structId];
+  
+  self.rankLabel.text = [NSString stringWithFormat:@"rank: %d", _userStruct.level];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -65,14 +65,17 @@
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  [_userStruct release];
-  self.titleLabel = nil;
-  self.descriptionLabel = nil;
-  self.structIcon = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    [_userStruct release];
+    self.titleLabel = nil;
+    self.descriptionLabel = nil;
+    self.structIcon = nil;
+    self.mainView = nil;
+    self.bgdView = nil;
+  }
 }
 
 @end

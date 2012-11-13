@@ -104,6 +104,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 	return scene;
 }
 
+static BOOL shake_once = NO;
+
 // on "init" you need to initialize your instance
 -(id) init
 {
@@ -115,6 +117,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [welcomeView.superview sendSubviewToBack:[[CCDirector sharedDirector] openGLView]];
     
     [self begin];
+    
+//    self.isAccelerometerEnabled = YES;
+//    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
+//    shake_once = NO;
   }
   return self;
 }
@@ -167,12 +173,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [self closeHomeMap];
   [self closeBazaarMap];
   
-  [m moveToCenter];
+  [m moveToCenterAnimated:NO];
   if (_shouldCenterOnEnemy) {
-    [m moveToEnemyType:enemyType];
+    [m moveToEnemyType:enemyType animated:NO];
     _shouldCenterOnEnemy = NO;
   } else if (assetId != 0) {
-    [m moveToAssetId:assetId];
+    [m moveToAssetId:assetId animated:NO];
     self.assetId = 0;
   }
   
@@ -216,7 +222,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   currentCity = 1;
   _missionMap = map;
   
-  [_missionMap moveToCenter];
+  [_missionMap moveToCenterAnimated:NO];
   [_topBar loadNormalConfiguration];
   
   [self addChild:_missionMap z:1];
@@ -232,7 +238,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   if (!_homeMap) {
     _homeMap = [HomeMap sharedHomeMap];
     [self addChild:_homeMap z:1 tag:2];
-    [_homeMap moveToCenter];
+    [_homeMap moveToCenterAnimated:NO];
     _homeMap.visible = NO;
   }
 }
@@ -244,7 +250,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [self.loadingView displayWithText:@"Traveling\nHome"];
     _loading = YES;
     // Do move in load so that other classes can move it elsewhere
-    [_homeMap moveToCenter];
+    [_homeMap moveToCenterAnimated:NO];
     [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCCallFunc actionWithTarget:self selector:@selector(displayHomeMap)], nil]];
   }
   
@@ -307,7 +313,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 - (void) checkBazaarMapExists {
   if (!_bazaarMap) {
     _bazaarMap = [BazaarMap sharedBazaarMap];
-    [_bazaarMap moveToCenter];
+    [_bazaarMap moveToCenterAnimated:NO];
   }
 }
 
@@ -318,7 +324,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [self.loadingView displayWithText:@"Traveling\nTo Bazaar"];
     _loading = YES;
     // Do move in load so that other classes can move it elsewhere
-    [_bazaarMap moveToCenter];
+    [_bazaarMap moveToCenterAnimated:NO];
     [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCCallFunc actionWithTarget:self selector:@selector(displayBazaarMap)], nil]];
   }
   
@@ -391,6 +397,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 - (void) closeMenus {
   _missionMap.selected = nil;
   _homeMap.selected = nil;
+}
+
+-(void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration {
+  float THRESHOLD = 1.3;
+  
+  if (acceleration.x > THRESHOLD || acceleration.x < -THRESHOLD ||
+      acceleration.y > THRESHOLD || acceleration.y < -THRESHOLD ||
+      acceleration.z > THRESHOLD || acceleration.z < -THRESHOLD) {
+    
+    if (!shake_once) {
+      if ([self.currentMap isKindOfClass:[HomeMap class]]) {
+        HomeMap *hm = (HomeMap *)self.currentMap;
+        [hm collectAllIncome];
+      }
+      shake_once = true;
+    }
+  }
+  else {
+    shake_once = false;
+  }
 }
 
 - (void) dealloc {

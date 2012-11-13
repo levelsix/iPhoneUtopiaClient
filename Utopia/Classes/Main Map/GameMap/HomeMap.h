@@ -65,10 +65,12 @@
 - (void) updateTimersForBuilding:(HomeBuilding *)hb;
 - (void) invalidateAllTimers;
 
-- (void) moveToStruct:(int)structId showArrow:(BOOL)showArrow;
-- (void) moveToTutorialGirl;
-- (void) moveToCarpenterShowArrow:(BOOL)showArrow structId:(int)structId;
+- (void) moveToStruct:(int)structId showArrow:(BOOL)showArrow animated:(BOOL)animated;
+- (void) moveToTutorialGirlAnimated:(BOOL)animated;
+- (void) moveToCarpenterShowArrow:(BOOL)showArrow structId:(int)structId animated:(BOOL)animated;
 
 - (void) beginTimers;
+
+- (void) collectAllIncome;
 
 @end

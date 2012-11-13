@@ -584,9 +584,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface GroupChatMessageProto : PBGeneratedMessage {
 @private
+  BOOL hasIsAdmin_:1;
   BOOL hasTimeOfChat_:1;
   BOOL hasContent_:1;
   BOOL hasSender_:1;
+  BOOL isAdmin_:1;
   int64_t timeOfChat;
   NSString* content;
   MinimumUserProto* sender;
@@ -594,9 +596,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasSender;
 - (BOOL) hasTimeOfChat;
 - (BOOL) hasContent;
+- (BOOL) hasIsAdmin;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t timeOfChat;
 @property (readonly, retain) NSString* content;
+- (BOOL) isAdmin;
 
 + (GroupChatMessageProto*) defaultInstance;
 - (GroupChatMessageProto*) defaultInstance;
@@ -648,6 +652,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (NSString*) content;
 - (GroupChatMessageProto_Builder*) setContent:(NSString*) value;
 - (GroupChatMessageProto_Builder*) clearContent;
+
+- (BOOL) hasIsAdmin;
+- (BOOL) isAdmin;
+- (GroupChatMessageProto_Builder*) setIsAdmin:(BOOL) value;
+- (GroupChatMessageProto_Builder*) clearIsAdmin;
 @end
 
 @interface LockBoxEventProto : PBGeneratedMessage {

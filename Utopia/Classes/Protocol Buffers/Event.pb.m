@@ -48925,6 +48925,7 @@ BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatRes
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSString* chatMessage;
 @property GroupChatScope scope;
+@property BOOL isAdmin;
 @end
 
 @implementation ReceivedGroupChatResponseProto
@@ -48950,6 +48951,18 @@ BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatRes
   hasScope_ = !!value;
 }
 @synthesize scope;
+- (BOOL) hasIsAdmin {
+  return !!hasIsAdmin_;
+}
+- (void) setHasIsAdmin:(BOOL) value {
+  hasIsAdmin_ = !!value;
+}
+- (BOOL) isAdmin {
+  return !!isAdmin_;
+}
+- (void) setIsAdmin:(BOOL) value {
+  isAdmin_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.chatMessage = nil;
@@ -48960,6 +48973,7 @@ BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatRes
     self.sender = [MinimumUserProto defaultInstance];
     self.chatMessage = @"";
     self.scope = GroupChatScopeGlobal;
+    self.isAdmin = NO;
   }
   return self;
 }
@@ -48988,6 +49002,9 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
   if (self.hasScope) {
     [output writeEnum:3 value:self.scope];
   }
+  if (self.hasIsAdmin) {
+    [output writeBool:4 value:self.isAdmin];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -49005,6 +49022,9 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
   }
   if (self.hasScope) {
     size += computeEnumSize(3, self.scope);
+  }
+  if (self.hasIsAdmin) {
+    size += computeBoolSize(4, self.isAdmin);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -49090,6 +49110,9 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
   if (other.hasScope) {
     [self setScope:other.scope];
   }
+  if (other.hasIsAdmin) {
+    [self setIsAdmin:other.isAdmin];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -49131,6 +49154,10 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
         } else {
           [unknownFields mergeVarintField:3 value:value];
         }
+        break;
+      }
+      case 32: {
+        [self setIsAdmin:[input readBool]];
         break;
       }
     }
@@ -49196,6 +49223,22 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
 - (ReceivedGroupChatResponseProto_Builder*) clearScope {
   result.hasScope = NO;
   result.scope = GroupChatScopeGlobal;
+  return self;
+}
+- (BOOL) hasIsAdmin {
+  return result.hasIsAdmin;
+}
+- (BOOL) isAdmin {
+  return result.isAdmin;
+}
+- (ReceivedGroupChatResponseProto_Builder*) setIsAdmin:(BOOL) value {
+  result.hasIsAdmin = YES;
+  result.isAdmin = value;
+  return self;
+}
+- (ReceivedGroupChatResponseProto_Builder*) clearIsAdmin {
+  result.hasIsAdmin = NO;
+  result.isAdmin = NO;
   return self;
 }
 @end

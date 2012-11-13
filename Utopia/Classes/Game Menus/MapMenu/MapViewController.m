@@ -57,12 +57,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
 //- (void) setState:(MapState)state {
 //  _state = state;
-//  
+//
 //  switch (state) {
 //    case kAttackMap:
 //      missionMap.hidden = YES;
 //      _mapView.hidden = NO;
-//      
+//
 //      if ([CLLocationManager locationServicesEnabled]) {
 //        _mapView.showsUserLocation = YES;
 //      } else {
@@ -70,14 +70,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 //      }
 //      titleLabel.text = @"Rivals";
 //      break;
-//      
+//
 //    case kMissionMap:
 //      missionMap.hidden = NO;
 //      _mapView.hidden = YES;
 //      _mapView.showsUserLocation = NO;
 //      titleLabel.text = @"World Map";
 //      break;
-//      
+//
 //    default:
 //      break;
 //  }
@@ -101,9 +101,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
 - (void) didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
-  self.missionMap = nil;
-  self.enstBar = nil;
-  self.enstIcon = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    self.missionMap = nil;
+    self.enstBar = nil;
+    self.enstIcon = nil;
+  }
 }
 
 + (void) cleanupAndPurgeSingleton {

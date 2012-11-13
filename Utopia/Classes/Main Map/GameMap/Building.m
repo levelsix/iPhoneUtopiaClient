@@ -105,9 +105,9 @@
       _isConstructing = isConstructing;
       
       CCSprite *sprite = [CCSprite spriteWithFile:[Globals imageNameForConstructionWithSize:self.location.size]];
-      [self addChild:sprite z:1 tag:CONSTRUCTION_TAG];
       sprite.anchorPoint = ccp(0.5, 0.f);
       sprite.position = ccp(self.contentSize.width/2, 0);
+      [self addChild:sprite z:1 tag:CONSTRUCTION_TAG];
     } else {
       _isConstructing = isConstructing;
       self.opacity = 255;

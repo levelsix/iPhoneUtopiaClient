@@ -146,22 +146,25 @@
 - (void) didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  self.levelUpResponse = nil;
-  self.congratsLabel = nil;
-  self.itemView = nil;
-  self.itemLabel = nil;
-  self.itemIcon = nil;
-  self.itemBackground = nil;
-  self.cityUnlocked = nil;
-  self.staminaView = nil;
-  self.energyView = nil;
-  self.statsView = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
-  self.glowingStars = nil;
-  self.scrollView = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.levelUpResponse = nil;
+    self.congratsLabel = nil;
+    self.itemView = nil;
+    self.itemLabel = nil;
+    self.itemIcon = nil;
+    self.itemBackground = nil;
+    self.cityUnlocked = nil;
+    self.staminaView = nil;
+    self.energyView = nil;
+    self.statsView = nil;
+    self.mainView = nil;
+    self.bgdView = nil;
+    self.glowingStars = nil;
+    self.scrollView = nil;
+  }
 }
 
 - (void) dealloc {

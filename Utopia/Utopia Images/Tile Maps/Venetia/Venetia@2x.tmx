@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="19" height="19" tilewidth="128" tileheight="64">
+ <tileset firstgid="1" name="NEW_Universal_Pack" tilewidth="128" tileheight="112">
+  <image source="NEW_Universal_Pack.png" width="2048" height="2048"/>
+  <tile id="15">
+   <properties>
+    <property name="Walkable " value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="85">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="289" name="NEW_Tree_Pack" tilewidth="128" tileheight="148">
+  <image source="NEW_Tree_Pack.png" width="1024" height="512"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="19" height="19">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgwA7skTAjDjXEAnskmppmDQQQRMLofHyYGH8LQNURg4kxi4EIM0g1CxvAZxa6fQIM+P1ADXeF4TALn5nYzBLAYxap7hJAYpNrFjXiEZdeUtIXvjROjlm0BpSWOQNtFgDDnSR6pAUAAA==
+  </data>
+ </layer>
+ <layer name="Road" width="19" height="19">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA7WT0QmAMAxEUwTBD0F38csNXMCVXUsKBmJM0mvVwH3UHo+cSYn+qalwRj2RLzWy5gqx32OhPPZ62fh+AISyOqdvrj5g6YzM2g1plsz9lvVlX7kS3femxCLC+tJzbslo7bA1R+2z/r3HGpW8b0hG760gey/7qnmLEYuM+3w+QG8ta720BSw9D5nHYi30zH0CcVFrbaQFAAA=
+  </data>
+ </layer>
+ <layer name="Buildable" width="19" height="19">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA82USwqAMAwFH1jt3s/9D+PKhXeSQgMhTWp/ggMPKrVjkoIegFci0d7JBXh3Sa/1ncAeI5lj+JqepWdSzpdi9VLLgbS31rq+dPXOizhZRtW1Dqir17UgnX0r5BpRF+ePPZbe41XpCnFx37EQm5Kcy/o/3bDnobk4NS7OA/JLaDOkBQAA
+  </data>
+ </layer>
+ <layer name="Gates/Borders" width="19" height="19">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgwA6WQ+m9QHwWiskFtDBrHxXMWopGkwtOEoGJBcT4h1g/DzazzqLRpJp1GAmT4y5s+gnZSY6akWLWYQbMMMUmNtCAkjJiMAAAO2ou8qQFAAA=
+  </data>
+ </layer>
+ <layer name="Moar Gates" width="19" height="19">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgwA4OQukFOORJAdQ06wAVzRoF5IHdSHgPBeYcROPvpbFZZ6lo1mEkTKlZo2AU4AMAP+3rLKQFAAA=
+  </data>
+ </layer>
+ <layer name="Gates/Borders" width="19" height="19">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgIAzOEqGGWDCYzFqKxD5MoVmDFewC4t1Y8B4yzDqIQ3zvqFk4zdoPxQxIbHLMOoCk/yASfx8ZZo2CoQUAe04rWaQFAAA=
+  </data>
+ </layer>
+ <layer name="Tree Pack!" width="19" height="19">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA9NmZGDQAmIQQKeRgSJUHYjWhsprQ/kwNrkAm33EmqlIQI0Wkntx2TNQgJDbSQGUhD86wOcubSrEN7kAlt6wxeNAuIcYuwfSXYMtvYMAtdykxYiaTqlhLrH5UQtHGsSmjhg1hNIIAAP5LUWkBQAA
+  </data>
+ </layer>
+</map>

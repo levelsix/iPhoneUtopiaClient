@@ -62,6 +62,7 @@
 @synthesize lastLongLicensePurchaseTime = _lastLongLicensePurchaseTime;
 @synthesize numAdColonyVideosWatched = _numAdColonyVideosWatched;
 @synthesize numGroupChatsRemaining = _numGroupChatsRemaining;
+@synthesize isAdmin = _isAdmin;
 
 @synthesize deviceToken = _deviceToken;
 
@@ -225,6 +226,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.weaponEquipped = user.weaponEquippedUserEquip.userEquipId;
   self.armorEquipped = user.armorEquippedUserEquip.userEquipId;
   self.amuletEquipped = user.amuletEquippedUserEquip.userEquipId;
+  self.isAdmin = user.isAdmin;
   self.location = CLLocationCoordinate2DMake(user.userLocation.latitude, user.userLocation.longitude);
   
   NSTimeInterval t = user.lastEnergyRefillTime/1000.0;
@@ -263,12 +265,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   NSNumber *num = [NSNumber numberWithInt:itemId];
   id p = [dict objectForKey:num];
   int numTimes = 1;
+//  if (dict == _staticEquips && numTimes % 10 == 1) {
+//    NSLog(@"Looking for equip %d. Iter: %d", itemId, numTimes);
+//    if (numTimes == 1 && dict.count > 0) {
+//      NSArray *arr = [dict allKeys];
+//      NSMutableString *str = [NSMutableString stringWithFormat:@"{%d", [[arr objectAtIndex:0] intValue]];
+//      for (int i = 1; i < arr.count; i++) {
+//        [str appendString:[NSString stringWithFormat:@", %d", [[arr objectAtIndex:i] intValue]]];
+//      }
+//      NSLog(@"Eq: %@}", str);
+//    }
+//  }
+//  if (dict == _staticStructs && numTimes % 10 == 1) {
+//    NSLog(@"Looking for struct %d. Iter: %d", itemId, numTimes);
+//    if (numTimes == 1 && dict.count > 0) {
+//      NSArray *arr = [dict allKeys];
+//      NSMutableString *str = [NSMutableString stringWithFormat:@"{%d", [[arr objectAtIndex:0] intValue]];
+//      for (int i = 1; i < arr.count; i++) {
+//        [str appendString:[NSString stringWithFormat:@", %d", [[arr objectAtIndex:i] intValue]]];
+//      }
+//      NSLog(@"St: %@}", str);
+//    }
+//  }
   while (!p) {
     numTimes++;
-    if (numTimes == 500 || (numTimes %= 1500) == 0) {
+    if (numTimes == 50 || (numTimes %= 100) == 0) {
       ContextLogWarn(LN_CONTEXT_GAMESTATE, @"Lotsa wait time for this. Re-retrieving.");
       
-      LNLog(@"Looking for item: %d\nCurrent keys: %@", itemId, dict.allKeys);
+      LNLog(@"Re-retrieving item: %d", itemId);
       
       // Lets try to retrieve the data by forcing a call
       SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
@@ -297,7 +321,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       return nil;
     }
     //    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
     // Need this in case game state gets deallocated while waiting for static data
     p = [dict objectForKey:num];
   }
@@ -496,11 +520,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(GroupChatScope)scope {
+- (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin {
   ChatMessage *cm = [[ChatMessage alloc] init];
   cm.sender = sender;
   cm.message = msg;
   cm.date = [NSDate date];
+  cm.isAdmin = isAdmin;
   [self addChatMessage:cm scope:scope];
   [cm release];
 }
@@ -586,6 +611,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   return quantity;
+}
+
+- (NSArray *) myEquipsWithEquipId:(int)equipId {
+  NSMutableArray *array = [NSMutableArray array];
+  for (UserEquip *ue in self.myEquips) {
+    if (ue.equipId == equipId) {
+      [array addObject:ue];
+    }
+  }
+  return array;
 }
 
 - (UserStruct *) myStructWithId:(int)structId {
@@ -1136,6 +1171,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.availableQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressCompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressIncompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
+  
+  self.carpenterStructs = nil;
+  self.armoryAmulets = nil;
+  self.armoryArmor = nil;
+  self.armoryWeapons = nil;
   
   self.unrespondedUpdates = [[[NSMutableArray alloc] init] autorelease];
   

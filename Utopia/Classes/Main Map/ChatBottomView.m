@@ -19,7 +19,7 @@
   self.hasBeenUsed = YES;
   self.factionLabel.text = [Globals userTypeIsGood:chat.sender.userType] ? @"[A]" : @"[L]";
   self.factionLabel.textColor = [Globals userTypeIsGood:chat.sender.userType] ? [Globals blueColor] : [Globals redColor];
-  self.textLabel.text = [NSString stringWithFormat:@"%@: %@", [Globals fullNameWithName:chat.sender.name clanTag:chat.sender.clan.tag], chat.message];
+  self.textLabel.text = [NSString stringWithFormat:@"%@%@: %@", [Globals fullNameWithName:chat.sender.name clanTag:chat.sender.clan.tag], chat.isAdmin ? @" (A)" : @"", chat.message];
 }
 
 - (void) updateForNotification:(NSString *)string {

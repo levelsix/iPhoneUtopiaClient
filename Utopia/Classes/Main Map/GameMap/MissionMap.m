@@ -227,7 +227,7 @@
     _taskProgBar.visible = NO;
     
     _myPlayer.location = CGRectMake(fcp.center.x, fcp.center.y, 1, 1);
-    [self moveToSprite:_myPlayer];
+    [self moveToSprite:_myPlayer animated:NO];
   }
   return self;
 }
@@ -313,8 +313,8 @@
   return [self getChildByTag:assetId+ASSET_TAG_BASE];
 }
 
-- (void) moveToAssetId:(int)a {
-  [self moveToSprite:[self assetWithId:a]];
+- (void) moveToAssetId:(int)a animated:(BOOL)animated {
+  [self moveToSprite:[self assetWithId:a] animated:animated];
 }
 
 - (void) updateMissionBuildingMenu {
@@ -343,14 +343,21 @@
       NSMutableArray *arr = [NSMutableArray array];
       BOOL satisfiesReqs = YES;
       for (FullTaskProto_FullTaskEquipReqProto *equipReq in ftp.equipReqsList) {
-        int quantity = [gs quantityOfEquip:equipReq.equipId];
+        NSArray *myEquips = [gs myEquipsWithEquipId:equipReq.equipId];
         int i = 0;
-        for (; i < quantity && i < equipReq.quantity; i++) {
-          [arr addObject:[NSNumber numberWithInt:equipReq.equipId]];
+        for (UserEquip *ue in myEquips) {
+          [arr addObject:[NSNumber numberWithInt:ue.equipId]];
+          [arr addObject:[NSNumber numberWithInt:ue.level]];
           [arr addObject:[NSNumber numberWithBool:YES]];
+          i += pow(2, ue.level-1);
+          
+          if (i >= equipReq.quantity) {
+            break;
+          }
         }
         for (; i < equipReq.quantity; i++) {
           [arr addObject:[NSNumber numberWithInt:equipReq.equipId]];
+          [arr addObject:[NSNumber numberWithInt:1]];
           [arr addObject:[NSNumber numberWithBool:NO]];
           satisfiesReqs = NO;
         }

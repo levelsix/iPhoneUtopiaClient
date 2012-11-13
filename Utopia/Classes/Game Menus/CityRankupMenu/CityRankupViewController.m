@@ -56,13 +56,16 @@
 - (void) didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  self.rankupLabel = nil;
-  self.expLabel = nil;
-  self.coinLabel = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.rankupLabel = nil;
+    self.expLabel = nil;
+    self.coinLabel = nil;
+    self.mainView = nil;
+    self.bgdView = nil;
+  }
 }
 
 @end

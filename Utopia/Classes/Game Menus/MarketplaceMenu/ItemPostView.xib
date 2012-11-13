@@ -372,6 +372,7 @@
 										<string key="NSFrame">{{15, 4}, {69, 22}}</string>
 										<reference key="NSSuperview" ref="73586500"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -420,6 +421,7 @@
 						<string key="NSFrameSize">{480, 54}</string>
 						<reference key="NSSuperview" ref="400043074"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="112670488"/>
 						<string key="NSReuseIdentifierKey">_NS:395</string>
 						<reference key="IBUIBackgroundColor" ref="100657742"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -438,7 +440,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<int key="IBUISelectionStyle">0</int>
 				<reference key="IBUIContentView" ref="382439755"/>
-				<string key="IBUIReuseIdentifier">Cell</string>
+				<string key="IBUIReuseIdentifier">ItemPostView</string>
 				<real value="55" key="IBUIRowHeight"/>
 			</object>
 			<object class="IBUIView" id="543668207">
@@ -476,6 +478,7 @@
 						<string key="NSFrame">{{1, 3}, {97, 22}}</string>
 						<reference key="NSSuperview" ref="543668207"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -543,6 +546,7 @@
 						<string key="NSFrame">{{70, 0}, {30, 30}}</string>
 						<reference key="NSSuperview" ref="1056539006"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -630,6 +634,7 @@
 						<string key="NSFrame">{{33, 4}, {64, 22}}</string>
 						<reference key="NSSuperview" ref="697480060"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:328</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -748,6 +753,7 @@
 						<string key="NSFrame">{{86, 12}, {56, 20}}</string>
 						<reference key="NSSuperview" ref="1035562811"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -1683,25 +1689,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">MarketplaceFilterView</string>
 					<string key="superclassName">UIView</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="closeSortOrder:">id</string>
-						<string key="openSortOrder:">id</string>
-						<string key="restoreDefaults:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="closeSortOrder:">
-							<string key="name">closeSortOrder:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openSortOrder:">
-							<string key="name">openSortOrder:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="restoreDefaults:">
-							<string key="name">restoreDefaults:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="equipLevelBar">SliderBar</string>
 						<string key="filterBar">FilterBar</string>
@@ -1749,17 +1736,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">MarketplaceLiveSearchView</string>
 					<string key="superclassName">UIView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">clearClicked:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">clearClicked:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">clearClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="searchCell">MarketplaceSearchCell</string>
 						<string key="searchEquips">NSArray</string>
@@ -1835,20 +1811,80 @@
 					<string key="superclassName">PullRefreshTableViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="backClicked:">id</string>
+						<string key="cancelRemoveClicked:">id</string>
+						<string key="closeFilterPage:">id</string>
+						<string key="collectClicked:">id</string>
+						<string key="doneClicked:">id</string>
+						<string key="listAnItemClicked:">id</string>
+						<string key="listButtonClicked:">id</string>
 						<string key="longLicenseClicked:">id</string>
+						<string key="minusButtonClicked:">id</string>
+						<string key="openFilterPage:">id</string>
+						<string key="removeItemClicked:">id</string>
+						<string key="searchBarClicked:">id</string>
 						<string key="shortLicenseClicked:">id</string>
+						<string key="submitClicked:">id</string>
+						<string key="submitCloseClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="backClicked:">
 							<string key="name">backClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="cancelRemoveClicked:">
+							<string key="name">cancelRemoveClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="closeFilterPage:">
+							<string key="name">closeFilterPage:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="collectClicked:">
+							<string key="name">collectClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doneClicked:">
+							<string key="name">doneClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="listAnItemClicked:">
+							<string key="name">listAnItemClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="listButtonClicked:">
+							<string key="name">listButtonClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="longLicenseClicked:">
 							<string key="name">longLicenseClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="minusButtonClicked:">
+							<string key="name">minusButtonClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="openFilterPage:">
+							<string key="name">openFilterPage:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="removeItemClicked:">
+							<string key="name">removeItemClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="searchBarClicked:">
+							<string key="name">searchBarClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="shortLicenseClicked:">
 							<string key="name">shortLicenseClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="submitClicked:">
+							<string key="name">submitClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="submitCloseClicked:">
+							<string key="name">submitCloseClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

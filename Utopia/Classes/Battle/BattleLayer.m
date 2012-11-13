@@ -449,6 +449,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     CCMenuItemSprite *fleeButton = [CCMenuItemSprite itemFromNormalSprite:flee selectedSprite:nil target:self selector:@selector(fleeClicked)];
     fleeButton.anchorPoint = ccp(0,0);
     
+//    NSLog(@"%@, %@", )
+    
     _bottomMenu = [CCMenu menuWithItems:pauseButton, fleeButton, nil];
     _bottomMenu.position = ccp(self.contentSize.width/2, 0);
     [self addChild:_bottomMenu];
@@ -1459,9 +1461,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) displaySummary {
-  UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
   [summaryView loadBattleSummaryForBattleResponse:brp enemy:_fup];
-  [view addSubview:summaryView];
+  [Globals displayUIView:summaryView];
   [Globals bounceView:summaryView.mainView fadeInBgdView:summaryView.bgdView];
 }
 

@@ -564,29 +564,32 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LeaderboardController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  self.topBar = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
-  self.youHeaderView = nil;
-  self.topPlayersHeaderView = nil;
-  self.kdrList = nil;
-  self.winsList = nil;
-  self.levelList = nil;
-  self.silverList = nil;
-  self.kdrMup = nil;
-  self.winsMup = nil;
-  self.levelMup = nil;
-  self.silverMup = nil;
-  self.leaderboardTable = nil;
-  self.leaderboardCell = nil;
-  self.spinner = nil;
-  self.refreshArrow = nil;
-  self.refreshHeaderView = nil;
-  self.refreshLabel = nil;
-  self.refreshSpinner = nil;
-  self.loadingCell = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.topBar = nil;
+    self.mainView = nil;
+    self.bgdView = nil;
+    self.youHeaderView = nil;
+    self.topPlayersHeaderView = nil;
+    self.kdrList = nil;
+    self.winsList = nil;
+    self.levelList = nil;
+    self.silverList = nil;
+    self.kdrMup = nil;
+    self.winsMup = nil;
+    self.levelMup = nil;
+    self.silverMup = nil;
+    self.leaderboardTable = nil;
+    self.leaderboardCell = nil;
+    self.spinner = nil;
+    self.refreshArrow = nil;
+    self.refreshHeaderView = nil;
+    self.refreshLabel = nil;
+    self.refreshSpinner = nil;
+    self.loadingCell = nil;
+  }
 }
 
 @end

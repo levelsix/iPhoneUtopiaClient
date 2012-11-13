@@ -76,7 +76,7 @@
     titleLabel.text = [NSString stringWithFormat:@"%@ bought your %@.", name, fep.name ];
     
     float percentReceived = n.sellerHadLicense ? 1.f : (1-gl.purchasePercentCut);
-    NSString *coinStr = notification.marketPost.coinCost > 0 ? [NSString stringWithFormat:@"%d silver", (int)floorf(notification.marketPost.coinCost*percentReceived)] : [NSString stringWithFormat:@"%d gold", (int)floorf(notification.marketPost.diamondCost*(1-gl.purchasePercentCut))];
+    NSString *coinStr = notification.marketPost.coinCost > 0 ? [NSString stringWithFormat:@"%d silver", (int)floorf(notification.marketPost.coinCost*percentReceived)] : [NSString stringWithFormat:@"%d gold", (int)floorf(notification.marketPost.diamondCost*percentReceived)];
     
     subtitleLabel.text = [NSString stringWithFormat:@"You have %@ waiting for you.", coinStr];
     titleLabel.textColor = [Globals goldColor];
@@ -167,7 +167,7 @@
     [[ActivityFeedController sharedActivityFeedController] close];
   } else if (notification.type == kNotificationGoldmine) {
     [[GameLayer sharedGameLayer] loadBazaarMap];
-    [[BazaarMap sharedBazaarMap] moveToCritStruct:BazaarStructTypeGoldMine];
+    [[BazaarMap sharedBazaarMap] moveToCritStruct:BazaarStructTypeGoldMine animated:YES];
     [[ActivityFeedController sharedActivityFeedController] close];
   }
 }
@@ -192,8 +192,6 @@
       [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:notification.otherPlayer withState:kProfileState];
     }
     [ProfileViewController displayView];
-    
-    [[ActivityFeedController sharedActivityFeedController] close];
   }
 }
 
@@ -320,13 +318,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  self.activityTableView = nil;
-  self.actCell = nil;
-  self.users = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.activityTableView = nil;
+    self.actCell = nil;
+    self.users = nil;
+    self.mainView = nil;
+    self.bgdView = nil;
+  }
 }
 
 @end

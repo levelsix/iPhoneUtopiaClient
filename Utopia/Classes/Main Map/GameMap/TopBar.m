@@ -271,7 +271,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [[NSBundle mainBundle] loadNibNamed:@"ChatBottomView" owner:self options:nil];
     // Put chatBottomView right above openGlView
     [[[[CCDirector sharedDirector] openGLView] superview] insertSubview:self.chatBottomView atIndex:1];
-//    chatBottomView.center = CGPointMake(chatBottomView.frame.size.width/2+5.f, chatBottomView.superview.frame.size.height-chatBottomView.frame.size.height/2-2.f);
     
     CGRect r = chatBottomView.frame;
     r.origin.x = BOTTOM_BUTTON_OFFSET;
@@ -491,7 +490,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   // Only fire timers if it is less than the current time
   if (gs.currentEnergy < gs.maxEnergy) {
-    NSTimeInterval energyComplete = gs.lastEnergyRefill.timeIntervalSinceNow+60*gl.energyRefillWaitMinutes;
+    NSTimeInterval energyComplete = gs.lastEnergyRefill.timeIntervalSinceNow+60*gl.energyRefillWaitMinutes+0.1;
     _energyTimer = [NSTimer timerWithTimeInterval:energyComplete target:self selector:@selector(energyRefillWaitComplete) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_energyTimer forMode:NSRunLoopCommonModes];
     DDLogVerbose(@"Firing up energy timer with time %f. Cur: %d, Max: %d", energyComplete, gs.currentEnergy, gs.maxEnergy);
@@ -518,7 +517,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   }
   
   if (gs.currentStamina < gs.maxStamina) {
-    NSTimeInterval staminaComplete = gs.lastStaminaRefill.timeIntervalSinceNow+60*gl.staminaRefillWaitMinutes;
+    NSTimeInterval staminaComplete = gs.lastStaminaRefill.timeIntervalSinceNow+60*gl.staminaRefillWaitMinutes+0.1;
     _staminaTimer = [NSTimer timerWithTimeInterval:staminaComplete target:self selector:@selector(staminaRefillWaitComplete) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_staminaTimer forMode:NSRunLoopCommonModes];
     DDLogVerbose(@"Firing up stamina timer with time %f. Cur: %d, Max: %d", staminaComplete, gs.currentStamina, gs.maxStamina);

@@ -40,7 +40,7 @@
 
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto;
 - (id) assetWithId:(int)assetId;
-- (void) moveToAssetId:(int)a;
+- (void) moveToAssetId:(int)a animated:(BOOL)animated;
 - (void) performCurrentTask;
 - (void) receivedTaskResponse:(TaskActionResponseProto *)tarp;
 - (void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk;

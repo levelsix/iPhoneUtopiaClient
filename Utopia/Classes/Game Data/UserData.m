@@ -613,13 +613,14 @@
 
 @implementation ChatMessage
 
-@synthesize message, sender, date;
+@synthesize message, sender, date, isAdmin;
 
 - (id) initWithProto:(GroupChatMessageProto *)p {
   if ((self = [super init])) {
     self.message = p.content;
     self.sender = p.sender;
     self.date = [NSDate dateWithTimeIntervalSince1970:p.timeOfChat/1000.];
+    self.isAdmin = p.isAdmin;
   }
   return self;
 }

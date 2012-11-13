@@ -176,6 +176,7 @@ typedef enum {
 @property (nonatomic, retain) MinimumUserProto *sender;
 @property (nonatomic, copy) NSString *message;
 @property (nonatomic, retain) NSDate *date;
+@property (nonatomic, assign) BOOL isAdmin;
 
 - (id) initWithProto:(GroupChatMessageProto *)p;
 

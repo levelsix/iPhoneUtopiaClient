@@ -75,53 +75,56 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  self.topBar = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
-  self.itemView = nil;
-  self.forgeItems = nil;
-  self.forgeTableView = nil;
-  self.backOldItemView = nil;
-  self.backOldEquipIcon = nil;
-  self.backOldDefenseLabel = nil;
-  self.backOldAttackLabel = nil;
-  self.backOldStatsView = nil;
-  self.frontOldItemView = nil;
-  self.frontOldEquipIcon = nil;
-  self.frontOldDefenseLabel = nil;
-  self.frontOldAttackLabel = nil;
-  self.frontOldStatsView = nil;
-  self.upgrDefenseLabel = nil;
-  self.upgrAttackLabel = nil;
-  self.upgrEquipIcon = nil;
-  self.upgrItemView = nil;
-  self.chanceOfSuccessLabel = nil;
-  self.forgeTimeLabel = nil;
-  self.backMovingView = nil;
-  self.frontMovingView = nil;
-  self.notForgingMiddleView = nil;
-  self.progressView = nil;
-  self.progressView = nil;
-  self.curItem = nil;
-  self.forgeButton = nil;
-  self.collectButton = nil;
-  self.okayButton = nil;
-  self.frontOldForgingPlacerView = nil;
-  self.backOldForgingPlacerView = nil;
-  self.equalPlusSign = nil;
-  self.finishNowButton = nil;
-  self.loadingView = nil;
-  self.statusView = nil;
-  self.bottomLabel = nil;
-  self.twinkleIcon = nil;
-  self.notEnoughQuantityView = nil;
-  self.coinBar = nil;
-  self.goToMarketplaceButton = nil;
-  self.buyOneView = nil;
-  self.buyOneCoinIcon = nil;
-  self.buyOneLabel = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.topBar = nil;
+    self.mainView = nil;
+    self.bgdView = nil;
+    self.itemView = nil;
+    self.forgeItems = nil;
+    self.forgeTableView = nil;
+    self.backOldItemView = nil;
+    self.backOldEquipIcon = nil;
+    self.backOldDefenseLabel = nil;
+    self.backOldAttackLabel = nil;
+    self.backOldStatsView = nil;
+    self.frontOldItemView = nil;
+    self.frontOldEquipIcon = nil;
+    self.frontOldDefenseLabel = nil;
+    self.frontOldAttackLabel = nil;
+    self.frontOldStatsView = nil;
+    self.upgrDefenseLabel = nil;
+    self.upgrAttackLabel = nil;
+    self.upgrEquipIcon = nil;
+    self.upgrItemView = nil;
+    self.chanceOfSuccessLabel = nil;
+    self.forgeTimeLabel = nil;
+    self.backMovingView = nil;
+    self.frontMovingView = nil;
+    self.notForgingMiddleView = nil;
+    self.progressView = nil;
+    self.progressView = nil;
+    self.curItem = nil;
+    self.forgeButton = nil;
+    self.collectButton = nil;
+    self.okayButton = nil;
+    self.frontOldForgingPlacerView = nil;
+    self.backOldForgingPlacerView = nil;
+    self.equalPlusSign = nil;
+    self.finishNowButton = nil;
+    self.loadingView = nil;
+    self.statusView = nil;
+    self.bottomLabel = nil;
+    self.twinkleIcon = nil;
+    self.notEnoughQuantityView = nil;
+    self.coinBar = nil;
+    self.goToMarketplaceButton = nil;
+    self.buyOneView = nil;
+    self.buyOneCoinIcon = nil;
+    self.buyOneLabel = nil;
+  }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -212,7 +215,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
         best = item;
       } else if (item.level >= maxLevel && best.level < maxLevel) {
         // Keep old best
-      } 
+      }
       
       // First, prioritize items with quantity >= 2
       // Then, priotitize based on attack+defense
@@ -351,7 +354,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (void) loadRightViewForNotEnoughQuantity:(ForgeItem *)fi fromItemView:(ForgeItemView *)fiv {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-//  FullEquipProto *fep = [gs equipWithId:fi.equipId];
+  //  FullEquipProto *fep = [gs equipWithId:fi.equipId];
   
   int oldAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level];
   int oldDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level];
@@ -458,7 +461,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (void) loadRightViewForForgeItem:(ForgeItem *)fi fromItemView:(ForgeItemView *)fiv {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-//  FullEquipProto *fep = [gs equipWithId:fi.equipId];
+  //  FullEquipProto *fep = [gs equipWithId:fi.equipId];
   if (self.curItem != fi) {
     self.curItem = fi;
     
@@ -598,20 +601,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   if (gs.forgeAttempt) {
     if (gs.forgeAttempt.isComplete) {
       NSString *desc = @"You have a completed forge waiting to be collected. Go there now?";
-      [GenericPopupController displayConfirmationWithDescription:desc 
-                                                           title:nil 
-                                                      okayButton:@"Yes" 
-                                                    cancelButton:@"No" 
-                                                          target:self 
+      [GenericPopupController displayConfirmationWithDescription:desc
+                                                           title:nil
+                                                      okayButton:@"Yes"
+                                                    cancelButton:@"No"
+                                                          target:self
                                                         selector:@selector(loadForgeAttempt)];
     } else {
       int gold = [gl calculateGoldCostToSpeedUpForging:gs.forgeAttempt.equipId level:gs.forgeAttempt.level];
       NSString *desc = [NSString stringWithFormat:@"You are already forging an item. Speed it up for %d gold?", gold];
-      [GenericPopupController displayConfirmationWithDescription:desc 
-                                                           title:nil 
-                                                      okayButton:@"Yes" 
-                                                    cancelButton:@"No" 
-                                                          target:self 
+      [GenericPopupController displayConfirmationWithDescription:desc
+                                                           title:nil
+                                                      okayButton:@"Yes"
+                                                    cancelButton:@"No"
+                                                          target:self
                                                         selector:@selector(finishNow)];
     }
   } else if ([gs quantityOfEquip:self.curItem.equipId level:self.curItem.level] >= 2) {
@@ -621,13 +624,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
       
       int gold = [gl calculateGoldCostToGuaranteeForgingSuccess:self.curItem.equipId level:self.curItem.level];
       NSString *desc = [NSString stringWithFormat:@"Would you like to guarantee success for %d gold?", gold];
-      [GenericPopupController displayConfirmationWithDescription:desc 
-                                                           title:nil 
-                                                      okayButton:@"Yes" 
+      [GenericPopupController displayConfirmationWithDescription:desc
+                                                           title:nil
+                                                      okayButton:@"Yes"
                                                     cancelButton:@"No"
-                                                        okTarget:self 
-                                                      okSelector:@selector(submitWithGuarantee) 
-                                                    cancelTarget:self 
+                                                        okTarget:self
+                                                      okSelector:@selector(submitWithGuarantee)
+                                                    cancelTarget:self
                                                   cancelSelector:@selector(submitWithoutGuarantee)];
     }
     
@@ -668,7 +671,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
         
         [Analytics blacksmithFailedToGuaranteeForgeWithEquipId:curItem.equipId level:curItem.level cost:gold];
         return;
-      } 
+      }
       
       [Analytics blacksmithGuaranteedForgeWithEquipId:curItem.equipId level:curItem.level];
     } else {
@@ -705,11 +708,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   
   int gold = [gl calculateGoldCostToSpeedUpForging:gs.forgeAttempt.equipId level:gs.forgeAttempt.level];
   NSString *desc = [NSString stringWithFormat:@"Would you like to speed up forging for %d gold?", gold];
-  [GenericPopupController displayConfirmationWithDescription:desc 
-                                                       title:nil 
-                                                  okayButton:@"Yes" 
-                                                cancelButton:@"No" 
-                                                      target:self 
+  [GenericPopupController displayConfirmationWithDescription:desc
+                                                       title:nil
+                                                  okayButton:@"Yes"
+                                                cancelButton:@"No"
+                                                      target:self
                                                     selector:@selector(finishNow)];
 }
 
@@ -1038,7 +1041,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     } else if (proto.userEquipsList.count == 1) {
       FullUserEquipProto *fuep = [proto.userEquipsList objectAtIndex:0];
       [self forgeSucceeded:fuep.level];
-      _forgedUserEquipId = fuep.userEquipId;  
+      _forgedUserEquipId = fuep.userEquipId;
     }
     
     self.okayButton.hidden = NO;
@@ -1063,15 +1066,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
       int price = fep.diamondPrice > 0 ? fep.diamondPrice : fep.coinPrice;
       CGPoint startLoc = ccp(forgeButton.center.x, CGRectGetMinY(forgeButton.frame));
       
-      UIView *testView = [EquipDeltaView 
-                          createForUpperString:[NSString stringWithFormat:@"- %d %@", 
-                                                price, fep.diamondPrice ? @"Gold" : @"Silver"] 
-                          andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name] 
+      UIView *testView = [EquipDeltaView
+                          createForUpperString:[NSString stringWithFormat:@"- %d %@",
+                                                price, fep.diamondPrice ? @"Gold" : @"Silver"]
+                          andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name]
                           andCenter:startLoc
-                          topColor:[Globals redColor] 
+                          topColor:[Globals redColor]
                           botColor:[Globals colorForRarity:fep.rarity]];
       
-      [Globals popupView:testView 
+      [Globals popupView:testView
              onSuperView:self.mainView
                  atPoint:startLoc
      withCompletionBlock:nil];

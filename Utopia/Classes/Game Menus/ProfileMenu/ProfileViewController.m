@@ -675,7 +675,7 @@
 //  GameState *gs = [GameState sharedGameState];
 //  FullEquipProto *fep = [gs equipWithId:userEquip.equipId];
 //  int sellAmt = fep.coinPrice ? [[Globals sharedGlobals] calculateEquipSilverSellCost:userEquip] : [[Globals sharedGlobals] calculateEquipGoldSellCost:userEquip];
-//  NSString *str = [NSString stringWithFormat:@"Sell for %d %@?", sellAmt, fep.coinPrice ? @"silver" : @"gold"]; 
+//  NSString *str = [NSString stringWithFormat:@"Sell for %d %@?", sellAmt, fep.coinPrice ? @"silver" : @"gold"];
 //  [GenericPopupController displayConfirmationWithDescription:str title:nil okayButton:@"Sell" cancelButton:nil target:self selector:@selector(sellItem)];
 //}
 
@@ -683,24 +683,24 @@
 //  [[OutgoingEventController sharedOutgoingEventController] sellEquip:userEquip.equipId];
 //  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:userEquip.equipId];
 //  Globals *gl = [Globals sharedGlobals];
-//  
+//
 //  int price = fep.coinPrice > 0 ? [gl calculateEquipSilverSellCost:userEquip] : [gl calculateEquipGoldSellCost:userEquip];
 //  CGPoint startLoc = equipIcon.center;
 //  startLoc = [self.superview convertPoint:startLoc fromView:self];
-//  
+//
 //  UIView *testView = [EquipDeltaView
-//                      createForUpperString:[NSString stringWithFormat:@"+ %d", 
-//                                            price] 
-//                      andLowerString:[NSString stringWithFormat:@"-1 %@", fep.name] 
+//                      createForUpperString:[NSString stringWithFormat:@"+ %d",
+//                                            price]
+//                      andLowerString:[NSString stringWithFormat:@"-1 %@", fep.name]
 //                      andCenter:startLoc
-//                      topColor:[Globals greenColor] 
+//                      topColor:[Globals greenColor]
 //                      botColor:[Globals colorForRarity:fep.rarity]];
-//  
-//  [Globals popupView:testView 
+//
+//  [Globals popupView:testView
 //         onSuperView:self.superview
 //             atPoint:startLoc
 // withCompletionBlock:nil];
-//  
+//
 //  if (userEquip.quantity <= 0) {
 //    [self closeClicked:nil];
 //  }
@@ -850,7 +850,7 @@
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
   [self endEditing];
-} 
+}
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   PlayerWallPostProto *wallPost = [self.wallPosts objectAtIndex:indexPath.row];
@@ -864,6 +864,7 @@
 - (IBAction)postToWall:(id)sender {
   if (!wallPosts) {
     [Globals popupMessage:@"Please wait! Retrieving current wall posts."];
+    [self endEditing];
     return;
   }
   
@@ -972,7 +973,7 @@
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return _equipsForScope.count;
 }
-
+int x = 0;
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   EquipView *cell = [tableView dequeueReusableCellWithIdentifier:@"EquipView"];
   
@@ -1261,29 +1262,24 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (NSArray *) sortEquips:(NSArray *)equips {
   NSMutableArray *arr = [equips mutableCopy];
-  NSMutableArray *toRet = [NSMutableArray arrayWithCapacity:equips.count];
   Globals *gl = [Globals sharedGlobals];
   
-  for (int i = 0; i < equips.count; i++) {
-    UserEquip *bestFuep = [arr objectAtIndex:0];
-    for (int j = 1; j < arr.count; j++) {
-      UserEquip *compFuep = [arr objectAtIndex:j];
-      
-      int compAttack = [gl calculateAttackForEquip:compFuep.equipId level:compFuep.level];
-      int compDefense = [gl calculateDefenseForEquip:compFuep.equipId level:compFuep.level];
-      int bestAttack = [gl calculateAttackForEquip:bestFuep.equipId level:bestFuep.level];
-      int bestDefense = [gl calculateDefenseForEquip:bestFuep.equipId level:bestFuep.level];
-      
-      if (compAttack+compDefense > bestDefense+bestAttack) {
-        bestFuep = compFuep;
-      }
+  [arr sortUsingComparator:^NSComparisonResult(UserEquip *obj1, UserEquip *obj2) {
+    int compAttack = [gl calculateAttackForEquip:obj1.equipId level:obj1.level];
+    int compDefense = [gl calculateDefenseForEquip:obj1.equipId level:obj1.level];
+    int bestAttack = [gl calculateAttackForEquip:obj2.equipId level:obj2.level];
+    int bestDefense = [gl calculateDefenseForEquip:obj2.equipId level:obj2.level];
+    
+    if (compAttack+compDefense > bestDefense+bestAttack) {
+      return NSOrderedAscending;
+    } else if (compAttack+compDefense < bestDefense+bestAttack) {
+      return NSOrderedDescending;
+    } else {
+      return NSOrderedSame;
     }
-    [toRet addObject:bestFuep];
-    [arr removeObject:bestFuep];
-  }
-  [arr release];
+  }];
   
-  return toRet;
+  return arr;
 }
 
 - (void) updateScrollViewForCurrentScope {
@@ -1606,11 +1602,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (void) updateEquips:(NSArray *)equips {
   if (_waitingForEquips) {
+    // Make sure to create UserEquip array
+    _waitingForEquips = NO;
+    [self loadEquips:[self userEquipArrayFromFullUserEquipProtos:equips] curWeapon:_fup.weaponEquippedUserEquip.userEquipId curArmor:_fup.armorEquippedUserEquip.userEquipId curAmulet:_fup.amuletEquippedUserEquip.userEquipId];
+    
     self.spinner.hidden = YES;
     [self.spinner stopAnimating];
-    // Make sure to create UserEquip array
-    [self loadEquips:[self userEquipArrayFromFullUserEquipProtos:equips] curWeapon:_fup.weaponEquippedUserEquip.userEquipId curArmor:_fup.armorEquippedUserEquip.userEquipId curAmulet:_fup.amuletEquippedUserEquip.userEquipId];
-    _waitingForEquips = NO;
     
     Globals *gl = [Globals sharedGlobals];
     UserEquip *weapon = _fup.hasWeaponEquippedUserEquip ? (UserEquip *)_fup.weaponEquippedUserEquip : nil;
@@ -1756,8 +1753,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   if (stateCost <= gs.skillPoints) {
     curButton.enabled = YES;
     UIColor *pulseColor = [UIColor colorWithRed:156/255.f
-                                          green:202/255.f 
-                                           blue:16/255.f 
+                                          green:202/255.f
+                                           blue:16/255.f
                                           alpha:0.8f];
     
     [Globals beginPulseForView:curButton andColor:pulseColor];
@@ -1825,15 +1822,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   if (sender == attackStatButton) {
     [oec addAttackSkillPoint];
     [Analytics addedSkillPoint:@"Attack"];
-  } 
+  }
   else if (sender == defenseStatButton) {
     [oec addDefenseSkillPoint];
     [Analytics addedSkillPoint:@"Defense"];
-  } 
+  }
   else if (sender == energyStatButton) {
     [oec addEnergySkillPoint];
     [Analytics addedSkillPoint:@"Energy"];
-  } 
+  }
   else if (sender == staminaStatButton) {
     [oec addStaminaSkillPoint];
     [Analytics addedSkillPoint:@"Stamina"];
@@ -1928,7 +1925,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   realStr = [realStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
   
   Globals *gl = [Globals sharedGlobals];
-  if ([gl validateUserName:realStr]) {  
+  if ([gl validateUserName:realStr]) {
     int cost = gl.diamondCostToChangeName;
     NSString *str = [NSString stringWithFormat:@"Would you like to change your name%@?", cost > 0 ? [NSString stringWithFormat:@" for %d gold", cost] : @""];
     [GenericPopupController displayConfirmationWithDescription:str title:nil okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(putName)];
@@ -1966,7 +1963,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
-  [textField resignFirstResponder]; 
+  [textField resignFirstResponder];
   return YES;
 }
 
@@ -2022,63 +2019,66 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 - (void) didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  self.fup = nil;
-  self.userNameLabel = nil;
-  self.typeLabel = nil;
-  self.levelLabel = nil;
-  self.attackLabel = nil;
-  self.defenseLabel = nil;
-  self.codeLabel = nil;
-  self.winsLabel = nil;
-  self.lossesLabel = nil;
-  self.fleesLabel = nil;
-  self.curArmorView = nil;
-  self.curAmuletView = nil;
-  self.curWeaponView = nil;
-  self.profilePicture = nil;
-  self.profileBar = nil;
-  self.equipsTableView = nil;
-  self.equippingView = nil;
-  self.equipTabView = nil;
-  self.skillTabView = nil;
-  self.wallTabView = nil;
-  self.attackStatLabel = nil;
-  self.defenseStatLabel = nil;
-  self.staminaStatLabel = nil;
-  self.energyStatLabel = nil;
-  self.attackStatButton = nil;
-  self.defenseStatButton = nil;
-  self.staminaStatButton = nil;
-  self.energyStatButton = nil;
-  self.enemyAttackLabel = nil;
-  self.enemyMiddleView = nil;
-  self.staminaCostLabel = nil;
-  self.skillPointsLabel = nil;
-  self.selfLeftView = nil;
-  self.enemyLeftView = nil;
-  self.friendLeftView = nil;
-  self.visitButton = nil;
-  self.smallAttackButton = nil;
-  self.bigAttackButton = nil;
-  self.equipsTableDelegate = nil;
-  self.spinner = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
-  self.equipPopup = nil;
-  self.specialTabView = nil;
-  self.profileTabView = nil;
-  self.nameChangeView = nil;
-  self.nameChangeTextField = nil;
-  self.equipHeaderLabel = nil;
-  self.noEquipButtonView = nil;
-  self.noEquipLabel = nil;
-  self.noEquipMiddleView = nil;
-  self.clanButton = nil;
-  self.clanView = nil;
-  [_queuedEquips release];
-  _queuedEquips = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.fup = nil;
+    self.userNameLabel = nil;
+    self.typeLabel = nil;
+    self.levelLabel = nil;
+    self.attackLabel = nil;
+    self.defenseLabel = nil;
+    self.codeLabel = nil;
+    self.winsLabel = nil;
+    self.lossesLabel = nil;
+    self.fleesLabel = nil;
+    self.curArmorView = nil;
+    self.curAmuletView = nil;
+    self.curWeaponView = nil;
+    self.profilePicture = nil;
+    self.profileBar = nil;
+    self.equipsTableView = nil;
+    self.equippingView = nil;
+    self.equipTabView = nil;
+    self.skillTabView = nil;
+    self.wallTabView = nil;
+    self.attackStatLabel = nil;
+    self.defenseStatLabel = nil;
+    self.staminaStatLabel = nil;
+    self.energyStatLabel = nil;
+    self.attackStatButton = nil;
+    self.defenseStatButton = nil;
+    self.staminaStatButton = nil;
+    self.energyStatButton = nil;
+    self.enemyAttackLabel = nil;
+    self.enemyMiddleView = nil;
+    self.staminaCostLabel = nil;
+    self.skillPointsLabel = nil;
+    self.selfLeftView = nil;
+    self.enemyLeftView = nil;
+    self.friendLeftView = nil;
+    self.visitButton = nil;
+    self.smallAttackButton = nil;
+    self.bigAttackButton = nil;
+    self.equipsTableDelegate = nil;
+    self.spinner = nil;
+    self.mainView = nil;
+    self.bgdView = nil;
+    self.equipPopup = nil;
+    self.specialTabView = nil;
+    self.profileTabView = nil;
+    self.nameChangeView = nil;
+    self.nameChangeTextField = nil;
+    self.equipHeaderLabel = nil;
+    self.noEquipButtonView = nil;
+    self.noEquipLabel = nil;
+    self.noEquipMiddleView = nil;
+    self.clanButton = nil;
+    self.clanView = nil;
+    [_queuedEquips release];
+    _queuedEquips = nil;
+  }
 }
 
 @end

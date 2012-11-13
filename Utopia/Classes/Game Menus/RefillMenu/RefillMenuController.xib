@@ -767,6 +767,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
 						<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
+						<bool key="IBUICanCancelContentTouches">NO</bool>
 					</object>
 					<object class="IBUIButton" id="376879442">
 						<reference key="NSNextResponder" ref="882796534"/>
@@ -825,6 +826,7 @@
 						<reference key="NSNextKeyView" ref="455683389"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="654925392"/>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<object class="IBUIImageView" id="174237927">
@@ -1836,12 +1838,6 @@
 						<reference key="parent" ref="882796534"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">79</int>
-						<reference key="object" ref="473034579"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="882796534"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">85</int>
 						<reference key="object" ref="1038947560"/>
 						<reference key="parent" ref="882796534"/>
@@ -2033,6 +2029,11 @@
 						<int key="objectID">186</int>
 						<reference key="object" ref="740304630"/>
 						<reference key="parent" ref="355375692"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">79</int>
+						<reference key="object" ref="473034579"/>
+						<reference key="parent" ref="882796534"/>
 					</object>
 				</array>
 			</object>

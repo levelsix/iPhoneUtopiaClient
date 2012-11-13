@@ -148,6 +148,7 @@
 @property (retain) NSDate *lastStaminaRefill;
 @property (assign) int numAdColonyVideosWatched;
 @property (assign) int numGroupChatsRemaining;
+@property (assign) BOOL isAdmin;
 
 @property (retain) NSString *deviceToken;
 
@@ -243,11 +244,12 @@
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests;
 - (void) addNotification:(UserNotification *)un;
 - (void) addWallPost:(PlayerWallPostProto *)wallPost;
-- (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(GroupChatScope)scope;
+- (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin;
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope;
 
 - (UserEquip *) myEquipWithId:(int)equipId level:(int)level;
 - (NSArray *) myEquipsWithId:(int)equipId level:(int)level;
+- (NSArray *) myEquipsWithEquipId:(int)equipId;
 - (UserEquip *) myEquipWithUserEquipId:(int)userEquipId;  
 - (int) quantityOfEquip:(int)equipId;
 - (int) quantityOfEquip:(int)equipId level:(int)level;

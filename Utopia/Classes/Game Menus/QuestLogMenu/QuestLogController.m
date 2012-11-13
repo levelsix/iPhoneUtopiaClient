@@ -280,11 +280,11 @@ static float originalLabelX = 0.f;
   } else if (type == kUpgradeStructJob) {
     UpgradeStructJobProto *p = [gs.staticUpgradeStructJobs objectForKey:[NSNumber numberWithInt:jobId]];
     [[GameLayer sharedGameLayer] loadHomeMap];
-    [[HomeMap sharedHomeMap] moveToStruct:p.structId showArrow:YES];
+    [[HomeMap sharedHomeMap] moveToStruct:p.structId showArrow:YES animated:YES];
   } else if (type == kBuildStructJob) {
     BuildStructJobProto *p = [gs.staticBuildStructJobs objectForKey:[NSNumber numberWithInt:jobId]];
     [[GameLayer sharedGameLayer] loadHomeMap];
-    [[HomeMap sharedHomeMap] moveToCarpenterShowArrow:YES structId:p.structId];
+    [[HomeMap sharedHomeMap] moveToCarpenterShowArrow:YES structId:p.structId animated:YES];
   } else if (type == kCoinRetrievalJob) {
     [[GameLayer sharedGameLayer] loadHomeMap];
   } else if (type == kSpecialJob) {
@@ -294,32 +294,32 @@ static float originalLabelX = 0.f;
     switch (fqp.specialQuestActionReq) {
       case SpecialQuestActionSellToArmory:
         [glay loadBazaarMap];
-        [bm moveToCritStruct:BazaarStructTypeArmory];
+        [bm moveToCritStruct:BazaarStructTypeArmory animated:YES];
         break;
         
       case SpecialQuestActionDepositInVault:
         [glay loadBazaarMap];
-        [bm moveToCritStruct:BazaarStructTypeVault];
+        [bm moveToCritStruct:BazaarStructTypeVault animated:YES];
         break;
         
       case SpecialQuestActionWithdrawFromVault:
         [glay loadBazaarMap];
-        [bm moveToCritStruct:BazaarStructTypeVault];
+        [bm moveToCritStruct:BazaarStructTypeVault animated:YES];
         break;
         
       case SpecialQuestActionPostToMarketplace:
         [glay loadBazaarMap];
-        [bm moveToCritStruct:BazaarStructTypeMarketplace];
+        [bm moveToCritStruct:BazaarStructTypeMarketplace animated:YES];
         break;
         
       case SpecialQuestActionPurchaseFromMarketplace:
         [glay loadBazaarMap];
-        [bm moveToCritStruct:BazaarStructTypeMarketplace];
+        [bm moveToCritStruct:BazaarStructTypeMarketplace animated:YES];
         break;
         
       case SpecialQuestActionPurchaseFromArmory:
         [glay loadBazaarMap];
-        [bm moveToCritStruct:BazaarStructTypeArmory];
+        [bm moveToCritStruct:BazaarStructTypeArmory animated:YES];
         break;
         
       case SpecialQuestActionWriteOnEnemyWall:
@@ -328,7 +328,7 @@ static float originalLabelX = 0.f;
         
       case SpecialQuestActionRequestJoinClan:
         [glay loadBazaarMap];
-        [bm moveToCritStruct:BazaarStructTypeClanHouse];
+        [bm moveToCritStruct:BazaarStructTypeClanHouse animated:YES];
         
       default:
         break;
@@ -379,7 +379,7 @@ static float originalLabelX = 0.f;
       if (obj1.questId < obj2.questId) {
         return NSOrderedAscending;
       }
-        return NSOrderedDescending;
+      return NSOrderedDescending;
     }
   };
   
@@ -1007,7 +1007,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [QuestLogController displayView];
   [self showTaskListViewAnimated:NO];
   
-  FullUserQuestDataLargeProto *questData = [[[[FullUserQuestDataLargeProto builder] 
+  FullUserQuestDataLargeProto *questData = [[[[FullUserQuestDataLargeProto builder]
                                               setIsComplete:YES]
                                              setQuestId:fqp.questId]
                                             build];
@@ -1118,19 +1118,22 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  self.mainView = nil;
-  self.bgdView = nil;
-  self.questListTable = nil;
-  self.taskListTable = nil;
-  self.questListView = nil;
-  self.taskListView = nil;
-  self.questListDelegate = nil;
-  self.taskListDelegate = nil;
-  self.userLogData = nil;
-  self.taskListTitleLabel = nil;
-  self.backButton = nil;
-  self.questGiverImageView = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    self.mainView = nil;
+    self.bgdView = nil;
+    self.questListTable = nil;
+    self.taskListTable = nil;
+    self.questListView = nil;
+    self.taskListView = nil;
+    self.questListDelegate = nil;
+    self.taskListDelegate = nil;
+    self.userLogData = nil;
+    self.taskListTitleLabel = nil;
+    self.backButton = nil;
+    self.questGiverImageView = nil;
+  }
 }
 
 @end

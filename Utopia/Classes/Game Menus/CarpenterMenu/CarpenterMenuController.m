@@ -350,7 +350,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  if (structsList.count <= 0) {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.carpenterStructs.count <= 0) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveStructStore];
   }
   
@@ -510,11 +511,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
 - (void) didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
+  if (!self.view.superview) {
+    self.view = nil;
   self.carpRow = nil;
   self.coinBar = nil;
   self.carpTable = nil;
   self.structsList = nil;
-  self.arrow = nil;
+    self.arrow = nil;
+  }
 }
 
 @end

@@ -9,6 +9,7 @@
 #import "SoundEngine.h"
 #import "LNSynthesizeSingleton.h"
 #import "SimpleAudioEngine.h"
+#import "Globals.h"
 
 @implementation SoundEngine
 

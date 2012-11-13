@@ -238,7 +238,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
     controller.mailComposeDelegate = self;
     [controller setToRecipients:[NSArray arrayWithObject:@"support@lvl6.com"]];
     
-    [controller setMessageBody:messageBody isHTML:NO]; 
+    [controller setMessageBody:messageBody isHTML:NO];
     if (controller) [[GameViewController sharedGameViewController] presentModalViewController:controller animated:YES];
     [controller release];
   } else {
@@ -252,7 +252,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
 }
 
 // Dismisses the email composition interface when users tap Cancel or Send. Proceeds to update the message field with the result of the operation.
-- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
 	[controller.presentingViewController dismissModalViewControllerAnimated:YES];
 }
@@ -277,12 +277,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  self.gameplayTextStrings = nil;
-  self.faqTextStrings = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.gameplayTextStrings = nil;
+    self.faqTextStrings = nil;
+    self.mainView = nil;
+    self.bgdView = nil;
+  }
 }
 
 @end

@@ -481,15 +481,8 @@
 @synthesize openCloseButton;
 
 - (void) awakeFromNib {
-  isOpen = YES;
-  
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  BOOL isClosed = [defaults boolForKey:MKT_BOTTOM_BAR_CLOSED_KEY];
-  if (isClosed) {
-    [self doClose];
-  } else {
-    [self doOpen];
-  }
+  isOpen = ![defaults boolForKey:MKT_BOTTOM_BAR_CLOSED_KEY];
 }
 
 - (void) updateLabels {
@@ -528,6 +521,14 @@
     amuletAttackLabel.text = @"0";
     amuletDefenseLabel.text = @"0";
   }
+}
+
+- (void) reload {
+    if (isOpen) {
+      [self doOpen];
+    } else {
+      [self doClose];
+    }
 }
 
 - (IBAction)openCloseButtonClicked:(id)sender {

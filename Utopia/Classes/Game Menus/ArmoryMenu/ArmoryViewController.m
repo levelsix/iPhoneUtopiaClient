@@ -376,8 +376,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   
-  [[OutgoingEventController sharedOutgoingEventController] retrieveEquipStore];
-  
   buyButton.text = @"Buy";
   sellButton.text = @"Sell";
   _originalBuySellSize = buySellView.frame.size;
@@ -402,22 +400,30 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 
 - (void) didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
-  
-  self.armoryTableView = nil;
-  self.armoryRow = nil;
-  self.buySellView = nil;
-  self.sellButton = nil;
-  self.buyButton = nil;
-  self.numOwnedLabel = nil;
-  self.equipDescriptionLabel = nil;
-  self.cantEquipView = nil;
-  self.cantEquipLabel = nil;
-  self.cantBuyLabel = nil;
-  self.armoryBar = nil;
-  self.coinBar = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    
+    self.armoryTableView = nil;
+    self.armoryRow = nil;
+    self.buySellView = nil;
+    self.sellButton = nil;
+    self.buyButton = nil;
+    self.numOwnedLabel = nil;
+    self.equipDescriptionLabel = nil;
+    self.cantEquipView = nil;
+    self.cantEquipLabel = nil;
+    self.cantBuyLabel = nil;
+    self.armoryBar = nil;
+    self.coinBar = nil;
+  }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.armoryWeapons.count <= 0) {
+    [[OutgoingEventController sharedOutgoingEventController] retrieveEquipStore];
+  }
+  
   [self refresh];
   [self closeBuySellViewClicked:nil];
   [self.loadingView stop];

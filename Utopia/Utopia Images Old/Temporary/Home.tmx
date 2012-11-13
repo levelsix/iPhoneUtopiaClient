@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="16" height="16" tilewidth="64" tileheight="32">
+ <tileset firstgid="1" name="NEW_Universal_Pack" tilewidth="64" tileheight="56">
+  <image source="NEW_Universal_Pack.png" width="2048" height="2048"/>
+  <tile id="141">
+   <properties>
+    <property name="Buildable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="142">
+   <properties>
+    <property name="Buildable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="143">
+   <properties>
+    <property name="Buildable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="144">
+   <properties>
+    <property name="Buildable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="145">
+   <properties>
+    <property name="Buildable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="146">
+   <properties>
+    <property name="Buildable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="147">
+   <properties>
+    <property name="Buildable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="148">
+   <properties>
+    <property name="Buildable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="149">
+   <properties>
+    <property name="Buildable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="150">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="153">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="156">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="157">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="289" name="NEW_Tree_Pack" tilewidth="64" tileheight="74">
+  <image source="NEW_Tree_Pack.png" width="1024" height="512"/>
+ </tileset>
+ <layer name="Road" width="16" height="16">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgwA6mQzEuYA/FuMCofuL0z8KB50IxLvl5UEypfkrdP6p/aOsHACGd2/oABAAA
+  </data>
+ </layer>
+ <layer name="Buildable" width="16" height="16">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+tjYGDoQ8OTGBBgGhb5PiR5bHIjSf8ULHgykvxUHGoGC5iABU9Eku/HoQYGBjr8R/VTph8AzqeH2wAEAAA=
+  </data>
+ </layer>
+ <layer name="Fence" width="16" height="16">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGF5gGYX6lwPxUgr1jwLigMJAO2AUMAAALY7x1gAEAAA=
+  </data>
+ </layer>
+ <layer name="Treez" width="16" height="16">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgIB/oMVKgGQh0KNSvS6F+fQr1U+p/Su0f6YDS8KM0/Qx0/FPD/QAADcZQAAQAAA==
+  </data>
+ </layer>
+</map>

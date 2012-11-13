@@ -253,10 +253,6 @@
 										<int key="IBUILineBreakMode">4</int>
 										<string key="IBUITitleShadowOffset">{0, 1}</string>
 										<string key="IBUINormalTitle">Meepert</string>
-										<object class="NSColor" key="IBUIHighlightedTitleColor">
-											<int key="NSColorSpace">1</int>
-											<bytes key="NSRGB">MC44MDM5MjE1Njg2IDAuNTg4MjM1Mjk0MSAwAA</bytes>
-										</object>
 										<object class="NSColor" key="IBUINormalTitleColor">
 											<int key="NSColorSpace">1</int>
 											<bytes key="NSRGB">MSAwLjc4NDMxMzcyNTUgMAA</bytes>
@@ -280,7 +276,6 @@
 										<reference key="NSNextKeyView" ref="493582143"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
-										<bool key="IBUIClipsSubviews">YES</bool>
 										<int key="IBUIContentMode">7</int>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>

@@ -1310,6 +1310,7 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
 @property (retain) MinimumUserProto* sender;
 @property int64_t timeOfChat;
 @property (retain) NSString* content;
+@property BOOL isAdmin;
 @end
 
 @implementation GroupChatMessageProto
@@ -1335,6 +1336,18 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
   hasContent_ = !!value;
 }
 @synthesize content;
+- (BOOL) hasIsAdmin {
+  return !!hasIsAdmin_;
+}
+- (void) setHasIsAdmin:(BOOL) value {
+  hasIsAdmin_ = !!value;
+}
+- (BOOL) isAdmin {
+  return !!isAdmin_;
+}
+- (void) setIsAdmin:(BOOL) value {
+  isAdmin_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.content = nil;
@@ -1345,6 +1358,7 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
     self.sender = [MinimumUserProto defaultInstance];
     self.timeOfChat = 0L;
     self.content = @"";
+    self.isAdmin = NO;
   }
   return self;
 }
@@ -1373,6 +1387,9 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
   if (self.hasContent) {
     [output writeString:3 value:self.content];
   }
+  if (self.hasIsAdmin) {
+    [output writeBool:4 value:self.isAdmin];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1390,6 +1407,9 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
   }
   if (self.hasContent) {
     size += computeStringSize(3, self.content);
+  }
+  if (self.hasIsAdmin) {
+    size += computeBoolSize(4, self.isAdmin);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1475,6 +1495,9 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
   if (other.hasContent) {
     [self setContent:other.content];
   }
+  if (other.hasIsAdmin) {
+    [self setIsAdmin:other.isAdmin];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1511,6 +1534,10 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
       }
       case 26: {
         [self setContent:[input readString]];
+        break;
+      }
+      case 32: {
+        [self setIsAdmin:[input readBool]];
         break;
       }
     }
@@ -1576,6 +1603,22 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
 - (GroupChatMessageProto_Builder*) clearContent {
   result.hasContent = NO;
   result.content = @"";
+  return self;
+}
+- (BOOL) hasIsAdmin {
+  return result.hasIsAdmin;
+}
+- (BOOL) isAdmin {
+  return result.isAdmin;
+}
+- (GroupChatMessageProto_Builder*) setIsAdmin:(BOOL) value {
+  result.hasIsAdmin = YES;
+  result.isAdmin = value;
+  return self;
+}
+- (GroupChatMessageProto_Builder*) clearIsAdmin {
+  result.hasIsAdmin = NO;
+  result.isAdmin = NO;
   return self;
 }
 @end

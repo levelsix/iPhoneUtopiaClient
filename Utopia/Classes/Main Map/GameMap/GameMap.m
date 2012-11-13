@@ -169,7 +169,7 @@
     [decLayer release];
     
     [[NSBundle mainBundle] loadNibNamed:@"EnemyPopupView" owner:self options:nil];
-    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:self.enemyMenu];
+    [Globals displayUIView:self.enemyMenu];
     [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     
     enemyMenu.hidden = YES;
@@ -842,7 +842,7 @@
   return point;
 }
 
-- (void) moveToCenter {
+- (void) moveToCenterAnimated:(BOOL)animated {
   // move map to the center of the screen
   CGSize ms = [self mapSize];
   CGSize ts = [self tileSizeInPoints];
@@ -850,10 +850,15 @@
   
   float x = -ms.width*ts.width/2*scaleX_+size.width/2;
   float y = -ms.height*ts.height/2*scaleY_+size.height/2;
-  self.position = ccp(x,y);
+  CGPoint newPos = ccp(x,y);
+  if (animated) {
+    [self runAction:[CCMoveTo actionWithDuration:0.2f position:newPos]];
+  } else {
+    self.position = newPos;
+  }
 }
 
-- (void) moveToSprite:(CCSprite *)spr {
+- (void) moveToSprite:(CCSprite *)spr animated:(BOOL)animated {
   if (spr) {
     CGPoint pt = spr.position;
     CGSize size = [[CCDirector sharedDirector] winSize];
@@ -861,7 +866,13 @@
     // Since all sprites have anchor point ccp(0.5,0) adjust accordingly
     float x = -pt.x*scaleX_+size.width/2;
     float y = (-pt.y-spr.contentSize.height*3/4)*scaleY_+size.height/2;
-    self.position = ccp(x,y);
+    CGPoint newPos = ccp(x,y);
+    if (animated) {
+      float dur = ccpDistance(newPos, self.position)/1000.f;
+      [self runAction:[CCEaseSineInOut actionWithAction:[CCMoveTo actionWithDuration:dur position:newPos]]];
+    } else {
+      self.position = newPos;
+    }
   }
 }
 
@@ -894,7 +905,7 @@
   NSAssert(NO, @"Implement questAccepted: in map");
 }
 
-- (void) moveToEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type {
+- (void) moveToEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type animated:(BOOL)animated {
   Enemy *enemyWithType = nil;
   for (CCNode *child in children_) {
     if ([child isKindOfClass:[Enemy class]]) {
@@ -905,7 +916,7 @@
       }
     }
   }
-  [self moveToSprite:enemyWithType];
+  [self moveToSprite:enemyWithType animated:animated];
 }
 
 - (void) onExit {

@@ -270,11 +270,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 }
 
 - (void) centerOnQuestGiver {
-  [self moveToSprite:_questGiver];
+  [self moveToSprite:_questGiver animated:NO];
   self.position = ccpAdd(self.position, ccp(120, 0));
 }
 
-- (void) moveToAssetId:(int)a {
+- (void) moveToAssetId:(int)a animated:(BOOL)animated {
   if (a == _questGiver.tag-ASSET_TAG_BASE) {
     [self centerOnQuestGiver];
     
@@ -353,8 +353,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   _questGiver.questGiverState = kInProgress;
 }
 
-- (void) moveToEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type {
-  [self moveToSprite:_enemy];
+- (void) moveToEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type animated:(BOOL)animated {
+  [self moveToSprite:_enemy animated:NO];
   self.position = ccpAdd(self.position, ccp(120, 0));
   [_ccArrow removeFromParentAndCleanup:YES];
   [_enemy addChild:_ccArrow];
@@ -381,7 +381,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   _doTaskPhase = YES;
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [self moveToSprite:[self assetWithId:tc.tutorialQuest.assetNumWithinCity]];
+  [self moveToSprite:[self assetWithId:tc.tutorialQuest.assetNumWithinCity] animated:NO];
   [_enemy removeFromParentAndCleanup:YES];
   
   // Move arrow to task
@@ -401,7 +401,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 - (void) centerOnTask {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   CCSprite *spr = [self assetWithId:tc.tutorialQuest.firstTaskGood.assetNumWithinCity];
-  [self moveToSprite:spr];
+  [self moveToSprite:spr animated:NO];
   self.position = ccpAdd(self.position, ccp(120, 0));
 }
 

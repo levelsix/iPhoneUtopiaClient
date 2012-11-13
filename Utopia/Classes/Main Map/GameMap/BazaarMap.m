@@ -132,11 +132,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
   [super scale:recognizer node:node];
 }
 
-- (void) moveToQuestGiver {
-  [self moveToSprite:_questGiver];
+- (void) moveToQuestGiverAnimated:(BOOL)animated {
+  [self moveToSprite:_questGiver animated:animated];
 }
 
-- (void) moveToCritStruct:(BazaarStructType)type {
+- (void) moveToCritStruct:(BazaarStructType)type animated:(BOOL)animated {
   CritStructBuilding *csb = nil;
   for (CCNode *c in children_) {
     if ([c isKindOfClass:[CritStructBuilding class]]) {
@@ -148,7 +148,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     }
   }
   if (csb) {
-    [self moveToSprite:csb];
+    [self moveToSprite:csb animated:animated];
     [csb displayArrow];
   }
 }

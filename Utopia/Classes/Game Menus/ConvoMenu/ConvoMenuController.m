@@ -94,15 +94,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ConvoMenuController);
 - (void) didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
-  self.prevButton = nil;
-  self.speechLabel = nil;
-  self.speakerImageView = nil;
-  self.speakerNameLabel = nil;
-  self.quest = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.mainView = nil;
+    self.bgdView = nil;
+    self.prevButton = nil;
+    self.speechLabel = nil;
+    self.speakerImageView = nil;
+    self.speakerNameLabel = nil;
+    self.quest = nil;
+  }
 }
 
 @end

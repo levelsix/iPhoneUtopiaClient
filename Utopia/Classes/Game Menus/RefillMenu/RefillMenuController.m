@@ -74,29 +74,32 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 
 - (void) didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
-  self.goldView = nil;
-  self.silverView = nil;
-  self.itemsView = nil;
-  self.enstView = nil;
-  self.curGoldLabel = nil;
-  self.needGoldLabel = nil;
-  self.enstTitleLabel = nil;
-  self.enstImageView = nil;
-  self.enstGoldCostLabel = nil;
-  self.fillEnstLabel = nil;
-  self.enstHintLabel = nil;
-  self.itemsCostView = nil;
-  self.itemsSilverLabel = nil;
-  self.itemsScrollView = nil;
-  self.itemsContainerView = nil;
-  self.bgdView = nil;
-  self.rev = nil;
-  self.loadingView = nil;
-  self.silverDescLabel = nil;
-  self.spkrPkgLabel = nil;
-  self.spkrGoldCostLabel = nil;
-  self.spkrDescLabel = nil;
-  self.spkrView = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    self.goldView = nil;
+    self.silverView = nil;
+    self.itemsView = nil;
+    self.enstView = nil;
+    self.curGoldLabel = nil;
+    self.needGoldLabel = nil;
+    self.enstTitleLabel = nil;
+    self.enstImageView = nil;
+    self.enstGoldCostLabel = nil;
+    self.fillEnstLabel = nil;
+    self.enstHintLabel = nil;
+    self.itemsCostView = nil;
+    self.itemsSilverLabel = nil;
+    self.itemsScrollView = nil;
+    self.itemsContainerView = nil;
+    self.bgdView = nil;
+    self.rev = nil;
+    self.loadingView = nil;
+    self.silverDescLabel = nil;
+    self.spkrPkgLabel = nil;
+    self.spkrGoldCostLabel = nil;
+    self.spkrDescLabel = nil;
+    self.spkrView = nil;
+  }
 }
 
 - (void) displayEnstView:(BOOL)isEnergy {
@@ -163,17 +166,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   int totalCost = 0;
   
   // Format of array will be EquipId, Owned repeated
-  for (int i = 0; i+1 < equipIds.count; i += 2) {
+  for (int i = 0; i+2 < equipIds.count; i += 3) {
     [[NSBundle mainBundle] loadNibNamed:@"RequiredEquipView" owner:self options:nil];
     
     CGRect r = rev.frame;
-    r.origin.x = i/2*(r.size.width+EQUIPS_VIEW_SPACING);
+    r.origin.x = i/3*(r.size.width+EQUIPS_VIEW_SPACING);
     r.origin.y = itemsContainerView.frame.size.height/2-r.size.height/2;
     rev.frame = r;
     
     int equipId = [[equipIds objectAtIndex:i] intValue];
-    BOOL owned = [[equipIds objectAtIndex:i+1] boolValue];
-    [rev loadWithEquipId:equipId level:1 owned:owned];
+    int level = [[equipIds objectAtIndex:i+1] intValue];
+    BOOL owned = [[equipIds objectAtIndex:i+2] boolValue];
+    [rev loadWithEquipId:equipId level:level owned:owned];
     
     [self.itemsContainerView addSubview:rev];
     
@@ -242,9 +246,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
       view.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
       view.alpha = 0.f;
       // If this is the last view we must fade out bgd view as well
-      if ((view == goldView || goldView.hidden) && 
-          (view == enstView || enstView.hidden) && 
-          (view == itemsView || itemsView.hidden) && 
+      if ((view == goldView || goldView.hidden) &&
+          (view == enstView || enstView.hidden) &&
+          (view == itemsView || itemsView.hidden) &&
           (view == silverView || silverView.hidden)) {
         bgdView.alpha = 0.f;
       }
@@ -339,14 +343,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
       CGPoint startLoc = contView.center;
       
       UIView *testView = [EquipDeltaView
-                          createForUpperString:[NSString stringWithFormat:@"- %d %@", 
-                                                price, fep.diamondPrice ? @"Gold" : @"Silver"] 
-                          andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name] 
+                          createForUpperString:[NSString stringWithFormat:@"- %d %@",
+                                                price, fep.diamondPrice ? @"Gold" : @"Silver"]
+                          andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name]
                           andCenter:startLoc
-                          topColor:[Globals redColor] 
+                          topColor:[Globals redColor]
                           botColor:[Globals colorForRarity:fep.rarity]];
       
-      [Globals popupView:testView 
+      [Globals popupView:testView
              onSuperView:contView
                  atPoint:startLoc
      withCompletionBlock:nil];

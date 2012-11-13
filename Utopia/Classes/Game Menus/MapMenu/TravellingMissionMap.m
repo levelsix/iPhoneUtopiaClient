@@ -98,7 +98,7 @@
     cityPopup.hidden = NO;
   } else {
     FullCityProto *fcp = cv.fcp;
-    [Globals popupMessage:[NSString stringWithFormat:@"%@ is unlocked at Level %d", fcp.name, fcp.minLevel]];
+    [Globals popupMessage:[NSString stringWithFormat:@"%@ is unlocked at Level %d.", fcp.name, fcp.minLevel]];
     [Globals shakeView:cv duration:SHAKE_DURATION offset:SHAKE_OFFSET];
   }
 }

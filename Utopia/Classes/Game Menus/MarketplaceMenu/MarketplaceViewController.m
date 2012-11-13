@@ -125,6 +125,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   [[SoundEngine sharedSoundEngine] marketplaceEnter];
   
+  [bottomBar reload];
+  
   self.armoryPriceView.alpha = 0.f;
 }
 
@@ -468,7 +470,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 - (IBAction)shortLicenseClicked:(id)sender {
   Globals *gl = [Globals sharedGlobals];
   NSString *desc = [NSString stringWithFormat:@"Would you like to buy a %d Day License for %d gold?", gl.numDaysShortMarketplaceLicenseLastsFor, gl.diamondCostOfShortMarketplaceLicense];
-  [GenericPopupController displayConfirmationWithDescription:desc title:@"Buy License?" okayButton:@"Buy" cancelButton:@"Cancel" target:self selector:@selector(purchaseLongLicense)];
+  [GenericPopupController displayConfirmationWithDescription:desc title:@"Buy License?" okayButton:@"Buy" cancelButton:@"Cancel" target:self selector:@selector(purchaseShortLicense)];
 }
 
 - (void) purchaseShortLicense {
@@ -550,10 +552,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   if ([indexPath row] == 0) {
     cellId = @"Empty";
   } else if (self.state == kEquipSellingState && indexPath.row == 1 && showsLicenseRow) {
-    cellId = @"License";
+    cellId = @"LicenseRow";
     nibName = @"LicenseRow";
   } else {
-    cellId = @"Cell";
+    cellId = @"ItemPostView";
     nibName = @"ItemPostView";
   }
   
@@ -730,15 +732,16 @@ static float mktLicenseCellHeight = 0.f;
       default:
         break;
     }
-    [self stopLoading];
     self.postsTableView.contentOffset = CGPointMake(0, 0);
     [self resetAllRows];
+    [self stopLoading];
     self.removeView.hidden = YES;
   }
 }
 
 - (void) insertRowsFrom:(int)start {
-  NSMutableArray *arr = [[NSMutableArray alloc] init];
+  NSMutableArray *insertRows = [[NSMutableArray alloc] init];
+  NSMutableArray *reloadRows = [[NSMutableArray alloc] init];
   
   int new = [self tableView:self.postsTableView numberOfRowsInSection:0];
   int old = [self.postsTableView numberOfRowsInSection:0];
@@ -749,15 +752,23 @@ static float mktLicenseCellHeight = 0.f;
     start = 1;
     numRows -= 1;
   }
-  for (int i = start; i < start+numRows; i++) {
-    [arr addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+  int i = start;
+  for (; i < start+numRows && i < start+6; i++) {
+    [insertRows addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+  }
+  for (; i < start+numRows; i++) {
+    [reloadRows addObject:[NSIndexPath indexPathForRow:i inSection:0]];
   }
   
-  if (arr.count > 0) {
-    [self.postsTableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationTop];
+  if (insertRows.count > 0) {
+    [self.postsTableView insertRowsAtIndexPaths:insertRows withRowAnimation:UITableViewRowAnimationTop];
+  }
+  if (reloadRows.count > 0) {
+    [self.postsTableView insertRowsAtIndexPaths:reloadRows withRowAnimation:UITableViewRowAnimationNone];
   }
   [self.postsTableView endUpdates];
-  [arr release];
+  [insertRows release];
+  [reloadRows release];
   self.shouldReload = YES;
 }
 
@@ -914,36 +925,39 @@ static float mktLicenseCellHeight = 0.f;
 
 - (void) didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
-  self.navBar = nil;
-  self.topBar = nil;
-  self.itemView = nil;
-  self.postsTableView = nil;
-  self.selectedCell = nil;
-  self.removeView = nil;
-  self.curField = nil;
-  self.coinBar = nil;
-  self.removePriceLabel = nil;
-  self.retractPriceIcon = nil;
-  self.doneButton = nil;
-  self.listAnItemButton = nil;
-  self.redeemView = nil;
-  self.redeemGoldLabel = nil;
-  self.redeemSilverLabel = nil;
-  self.redeemTitleLabel = nil;
-  self.ropeView = nil;
-  self.leftRope = nil;
-  self.rightRope = nil;
-  self.leftRopeFirstRow = nil;
-  self.rightRopeFirstRow = nil;
-  self.loadingView = nil;
-  self.purchView = nil;
-  self.bottomBar = nil;
-  self.filterView = nil;
-  self.mainView = nil;
-  self.removeDescriptionLabel = nil;
-  self.removePriceLabel = nil;
-  self.retractPriceIcon = nil;
-  [_swipeGestureRecognizer release];
+  if ([self isViewLoaded] && !self.view.superview) {
+    self.view = nil;
+    self.navBar = nil;
+    self.topBar = nil;
+    self.itemView = nil;
+    self.postsTableView = nil;
+    self.selectedCell = nil;
+    self.removeView = nil;
+    self.curField = nil;
+    self.coinBar = nil;
+    self.removePriceLabel = nil;
+    self.retractPriceIcon = nil;
+    self.doneButton = nil;
+    self.listAnItemButton = nil;
+    self.redeemView = nil;
+    self.redeemGoldLabel = nil;
+    self.redeemSilverLabel = nil;
+    self.redeemTitleLabel = nil;
+    self.ropeView = nil;
+    self.leftRope = nil;
+    self.rightRope = nil;
+    self.leftRopeFirstRow = nil;
+    self.rightRopeFirstRow = nil;
+    self.loadingView = nil;
+    self.purchView = nil;
+    self.bottomBar = nil;
+    self.filterView = nil;
+    self.mainView = nil;
+    self.removeDescriptionLabel = nil;
+    self.removePriceLabel = nil;
+    self.retractPriceIcon = nil;
+    [_swipeGestureRecognizer release];
+  }
 }
 
 #pragma mark FILTERMETHODS

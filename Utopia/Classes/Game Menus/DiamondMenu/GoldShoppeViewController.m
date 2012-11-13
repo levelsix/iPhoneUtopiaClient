@@ -496,26 +496,30 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  self.loadingView = nil;
-  self.itemView = nil;
-  self.pkgTableView = nil;
-  self.curGoldLabel = nil;
-  self.topBar = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
-  self.timer = nil;
-  self.saleView = nil;
-  self.minsLabel = nil;
-  self.hrsLabel = nil;
-  self.secsLabel = nil;
-  self.dayLabel = nil;
-  self.saleBackgroundView = nil;
-  self.curGoldView = nil;
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  
-  [_sponsoredOffers release];
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.loadingView = nil;
+    self.itemView = nil;
+    self.pkgTableView = nil;
+    self.curGoldLabel = nil;
+    self.topBar = nil;
+    self.mainView = nil;
+    self.bgdView = nil;
+    self.timer = nil;
+    self.saleView = nil;
+    self.minsLabel = nil;
+    self.hrsLabel = nil;
+    self.secsLabel = nil;
+    self.dayLabel = nil;
+    self.saleBackgroundView = nil;
+    self.curGoldView = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [_sponsoredOffers release];
+    _sponsoredOffers = nil;
+  }
 }
 
 @end

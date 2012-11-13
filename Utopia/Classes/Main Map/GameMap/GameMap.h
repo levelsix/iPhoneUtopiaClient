@@ -68,9 +68,9 @@
 
 - (Enemy *) enemyWithUserId:(int)userId;
 
-- (void) moveToCenter;
-- (void) moveToSprite:(CCSprite *)spr;
-- (void) moveToEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type;
+- (void) moveToCenterAnimated:(BOOL)animatedr;
+- (void) moveToSprite:(CCSprite *)spr animated:(BOOL)animated;
+- (void) moveToEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type animated:(BOOL)animated;
 
 - (CGPoint) randomWalkablePosition;
 - (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt;

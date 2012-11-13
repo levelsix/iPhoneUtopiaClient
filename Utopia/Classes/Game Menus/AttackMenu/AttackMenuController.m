@@ -260,26 +260,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   self.refreshHeaderView.center = ccp(self.attackTableView.frame.size.width/2, -self.refreshHeaderView.frame.size.height/2);
 }
 
-- (void)didReceiveMemoryWarning
+- (void) didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  
-  self.mapView.delegate = nil;
-  self.mapView = nil;
-  self.mapSpinner = nil;
-  self.listSpinner = nil;
-  self.listTabView = nil;
-  self.locationTabView = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
-  self.listCell = nil;
-  self.attackTableView = nil;
-  self.refreshHeaderView = nil;
-  self.refreshLabel = nil;
-  self.refreshSpinner = nil;
-  self.refreshArrow = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    self.mapView.delegate = nil;
+    self.mapView = nil;
+    self.mapSpinner = nil;
+    self.listSpinner = nil;
+    self.listTabView = nil;
+    self.locationTabView = nil;
+    self.mainView = nil;
+    self.bgdView = nil;
+    self.listCell = nil;
+    self.attackTableView = nil;
+    self.refreshHeaderView = nil;
+    self.refreshLabel = nil;
+    self.refreshSpinner = nil;
+    self.refreshArrow = nil;
+  }
 }
 
 - (void) viewWillAppear:(BOOL)animated {

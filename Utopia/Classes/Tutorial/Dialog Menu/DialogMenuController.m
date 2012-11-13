@@ -132,12 +132,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 - (void) didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  self.label = nil;
-  self.nameLabel = nil;
-  self.girlImageView = nil;
-  self.loadingView = nil;
-  self.label = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    self.label = nil;
+    self.nameLabel = nil;
+    self.girlImageView = nil;
+    self.loadingView = nil;
+    self.label = nil;
+  }
 }
 
 @end

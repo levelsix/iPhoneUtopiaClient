@@ -1,4 +1,4 @@
-  //
+//
 //  LockBoxMenuController.m
 //  Utopia
 //
@@ -241,24 +241,27 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
 
 - (void) didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
-  self.bottomPickLabel = nil;
-  self.chestIcon = nil;
-  self.eventTimeLabel = nil;
-  self.goldLabel = nil;
-  self.silverLabel = nil;
-  self.topPickLabel = nil;
-  self.numBoxesLabel = nil;
-  self.itemView1 = nil;
-  self.itemView2 = nil;
-  self.itemView3 = nil;
-  self.itemView4 = nil;
-  self.itemView5 = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
-  self.timer = nil;
-  [lockBoxInfoView removeFromSuperview];
-  self.lockBoxInfoView = nil;
-  [itemViews release];
+  if (!self.view.superview) {
+    self.view = nil;
+    self.bottomPickLabel = nil;
+    self.chestIcon = nil;
+    self.eventTimeLabel = nil;
+    self.goldLabel = nil;
+    self.silverLabel = nil;
+    self.topPickLabel = nil;
+    self.numBoxesLabel = nil;
+    self.itemView1 = nil;
+    self.itemView2 = nil;
+    self.itemView3 = nil;
+    self.itemView4 = nil;
+    self.itemView5 = nil;
+    self.mainView = nil;
+    self.bgdView = nil;
+    self.timer = nil;
+    [lockBoxInfoView removeFromSuperview];
+    self.lockBoxInfoView = nil;
+    [itemViews release];
+  }
 }
 
 @end

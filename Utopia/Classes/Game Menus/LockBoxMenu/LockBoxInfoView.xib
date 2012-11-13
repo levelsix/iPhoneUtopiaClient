@@ -1350,30 +1350,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">LockBoxPickView</string>
 					<string key="superclassName">UIView</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="closeClicked:">id</string>
-						<string key="freePickClicked:">id</string>
-						<string key="goldPickClicked:">id</string>
-						<string key="silverPickClicked:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="closeClicked:">
-							<string key="name">closeClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="freePickClicked:">
-							<string key="name">freePickClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="goldPickClicked:">
-							<string key="name">goldPickClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="silverPickClicked:">
-							<string key="name">silverPickClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="bgdView">UIView</string>
 						<string key="chestIcon">UIImageView</string>
@@ -1451,17 +1427,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">LockBoxPrizeView</string>
 					<string key="superclassName">UIView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">stolenEquipOkayClicked:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">stolenEquipOkayClicked:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">stolenEquipOkayClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="bgdView">UIView</string>
 						<string key="equipIcon">UIImageView</string>

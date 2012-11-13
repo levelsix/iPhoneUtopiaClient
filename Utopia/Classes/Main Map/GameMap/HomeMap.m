@@ -104,20 +104,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     [self refreshForExpansion];
     
     // Create the attack gate
-//    MapSprite *mid = [[MapSprite alloc] initWithFile:@"centergate.png" location:CGRectMake(47, 23, 3, 1) map:self];
-//    [self addChild:mid];
-//    [mid release];
-//    
-//    for (int i = 1; i < 9; i++) {
-//      MapSprite *left = [[MapSprite alloc] initWithFile:@"leftgate.png" location:CGRectMake(47-3*i, 23, 3, 1) map:self];
-//      [self addChild:left];
-//      [left release];
-//    }
-//    for (int i = 1; i < 9; i++) {
-//      MapSprite *right = [[MapSprite alloc] initWithFile:@"rightgate.png" location:CGRectMake(47+3*i, 23, 3, 1) map:self];
-//      [self addChild:right];
-//      [right release];
-//    }
+    //    MapSprite *mid = [[MapSprite alloc] initWithFile:@"centergate.png" location:CGRectMake(47, 23, 3, 1) map:self];
+    //    [self addChild:mid];
+    //    [mid release];
+    //
+    //    for (int i = 1; i < 9; i++) {
+    //      MapSprite *left = [[MapSprite alloc] initWithFile:@"leftgate.png" location:CGRectMake(47-3*i, 23, 3, 1) map:self];
+    //      [self addChild:left];
+    //      [left release];
+    //    }
+    //    for (int i = 1; i < 9; i++) {
+    //      MapSprite *right = [[MapSprite alloc] initWithFile:@"rightgate.png" location:CGRectMake(47+3*i, 23, 3, 1) map:self];
+    //      [self addChild:right];
+    //      [right release];
+    //    }
     
     CGRect r = CGRectZero;
     r = CGRectZero;
@@ -153,7 +153,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     _loading = NO;
     
     [self refresh];
-    [self moveToCenter];
+    [self moveToCenterAnimated:NO];
     
     // Will only actually start game if its not yet started
     GameState *gs = [GameState sharedGameState];
@@ -205,7 +205,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   NSMutableArray *arr = [NSMutableArray array];
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  
   [arr addObjectsFromArray:[self refreshForExpansion]];
   
   for (UserStruct *s in [gs myStructs]) {
@@ -273,14 +272,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [arr addObject:_myPlayer];
   
   CCNode *c;
+  NSMutableArray *toRemove = [NSMutableArray array];
   CCARRAY_FOREACH(self.children, c) {
     if ([c isKindOfClass:[SelectableSprite class]] && ![arr containsObject:c]) {
-      if ([c isKindOfClass:[HomeBuilding class]]) {
-        [(HomeBuilding *)c liftBlock];
-      }
-      [self removeChild:c cleanup:YES];
+      [toRemove addObject:c];
     }
   }
+  
+  for (SelectableSprite *c in toRemove) {
+    if ([c isKindOfClass:[HomeBuilding class]]) {
+      [(HomeBuilding *)c liftBlock];
+    }
+    [self removeChild:c cleanup:YES];
+  }
+  
+  
   
   for (CCNode *node in arr) {
     if ([node isKindOfClass:[HomeBuilding class]]) {
@@ -390,7 +396,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   return arr;
 }
 
-- (void) moveToStruct:(int)structId showArrow:(BOOL)showArrow {
+- (void) moveToStruct:(int)structId showArrow:(BOOL)showArrow animated:(BOOL)animated {
   int baseTag = [self baseTagForStructId:structId];
   MoneyBuilding *mb = nil;
   for (int tag = baseTag; tag < baseTag+[[Globals sharedGlobals] maxRepeatedNormStructs]; tag++) {
@@ -405,21 +411,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
   
   if (mb) {
-    [self moveToSprite:mb];
+    [self moveToSprite:mb animated:animated];
     if (showArrow) {
       [mb displayArrow];
     }
   } else {
-    [self moveToCarpenterShowArrow:YES structId:structId];
+    [self moveToCarpenterShowArrow:YES structId:structId animated:animated];
   }
 }
 
-- (void) moveToTutorialGirl {
-  [self moveToSprite:_tutGirl];
+- (void) moveToTutorialGirlAnimated:(BOOL)animated {
+  [self moveToSprite:_tutGirl animated:animated];
 }
 
-- (void) moveToCarpenterShowArrow:(BOOL)showArrow structId:(int)structId {
-  [self moveToSprite:_carpenter];
+- (void) moveToCarpenterShowArrow:(BOOL)showArrow structId:(int)structId animated:(BOOL)animated {
+  [self moveToSprite:_carpenter animated:animated];
   if (showArrow) {
     [_carpenter displayArrow:structId];
   }
@@ -433,11 +439,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
 }
 
-- (void) moveToCenter {
+- (void) moveToCenterAnimated:(BOOL)animated {
   // When this is called we want to move the player's sprite to the center too.
   // Also, center of home map should show gate
   _myPlayer.location = CGRectMake(CENTER_TILE_X, CENTER_TILE_Y, 1, 1);
-  [self moveToSprite:_myPlayer];
+  [self moveToSprite:_myPlayer animated:animated];
 }
 
 - (void) preparePurchaseOfStruct:(int)structId {
@@ -474,7 +480,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   [self doReorder];
   
-  [self moveToSprite:_purchBuilding];
+  [self moveToSprite:_purchBuilding animated:YES];
   [self openMoveMenuOnSelected];
 }
 
@@ -945,7 +951,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (void) displayUpgradeBuildPopupForUserStruct:(UserStruct *)us {
   // This will be released after the view closes
   BuildUpgradePopupController *vc = [[BuildUpgradePopupController alloc] initWithUserStruct:us];
-  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+  [Globals displayUIView:vc.view];
 }
 
 - (void) reloadQuestGivers {
@@ -994,6 +1000,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     QuestGiver *qg = _tutGirl;
     qg.quest = nil;
     qg.questGiverState = kNoQuest;
+  }
+}
+
+- (void) collectAllIncome {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (CCNode *node in self.children) {
+    if ([node isKindOfClass:[MoneyBuilding class]]) {
+      [arr addObject:node];
+    }
+  }
+  
+  for (MoneyBuilding *mb in arr) {
+    if (mb.userStruct.state == kRetrieving) {
+      [self retrieveFromBuilding:mb];
+    }
   }
 }
 

@@ -1279,26 +1279,29 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  self.clanBar = nil;
-  self.goldLabel = nil;
-  self.loadingView = nil;
-  self.clanCreateView = nil;
-  self.membersView = nil;
-  self.clanInfoView = nil;
-  self.goldView = nil;
-  self.editView = nil;
-  self.backView = nil;
-  self.titleLabel = nil;
-  self.topBar = nil;
-  self.editLabel = nil;
-  self.myClan = nil;
-  self.myClanMembers = nil;
-  self.containerView = nil;
-  self.secondTopBar = nil;
-  self.clanBoardView = nil;
-  self.backLabel = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.clanBar = nil;
+    self.goldLabel = nil;
+    self.loadingView = nil;
+    self.clanCreateView = nil;
+    self.membersView = nil;
+    self.clanInfoView = nil;
+    self.goldView = nil;
+    self.editView = nil;
+    self.backView = nil;
+    self.titleLabel = nil;
+    self.topBar = nil;
+    self.editLabel = nil;
+    self.myClan = nil;
+    self.myClanMembers = nil;
+    self.containerView = nil;
+    self.secondTopBar = nil;
+    self.clanBoardView = nil;
+    self.backLabel = nil;
+  }
 }
 
 @end

@@ -82,7 +82,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
     priceLabel.text = [Globals commafyNumber:fep.coinPrice];
     buyButton.enabled = YES;
     buyLabel.alpha = 1.f;
-  } 
+  }
   
   [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
   
@@ -140,14 +140,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
       CGPoint startLoc = equipIcon.center;
       
       UIView *testView = [EquipDeltaView
-                          createForUpperString:[NSString stringWithFormat:@"- %d %@", 
-                                                price, fep.diamondPrice ? @"Gold" : @"Silver"] 
-                          andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name] 
+                          createForUpperString:[NSString stringWithFormat:@"- %d %@",
+                                                price, fep.diamondPrice ? @"Gold" : @"Silver"]
+                          andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name]
                           andCenter:startLoc
-                          topColor:[Globals redColor] 
+                          topColor:[Globals redColor]
                           botColor:[Globals colorForRarity:fep.rarity]];
       
-      [Globals popupView:testView 
+      [Globals popupView:testView
              onSuperView:self.mainView
                  atPoint:startLoc
      withCompletionBlock:nil];
@@ -160,25 +160,28 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  self.titleLabel = nil;
-  self.classLabel = nil;
-  self.attackLabel = nil;
-  self.defenseLabel = nil;
-  self.typeLabel = nil;
-  self.levelLabel = nil;
-  self.equipIcon = nil;
-  self.priceLabel = nil;
-  self.priceIcon = nil;
-  self.descriptionLabel = nil;
-  self.wrongClassView = nil;
-  self.tooLowLevelView = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
-  self.buyButton = nil;
-  self.buyLabel = nil;
-  self.loadingView = nil;
+  if (!self.view.superview) {
+    self.view = nil;
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.titleLabel = nil;
+    self.classLabel = nil;
+    self.attackLabel = nil;
+    self.defenseLabel = nil;
+    self.typeLabel = nil;
+    self.levelLabel = nil;
+    self.equipIcon = nil;
+    self.priceLabel = nil;
+    self.priceIcon = nil;
+    self.descriptionLabel = nil;
+    self.wrongClassView = nil;
+    self.tooLowLevelView = nil;
+    self.mainView = nil;
+    self.bgdView = nil;
+    self.buyButton = nil;
+    self.buyLabel = nil;
+    self.loadingView = nil;
+  }
 }
 
 @end

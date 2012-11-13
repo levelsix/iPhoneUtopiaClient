@@ -52,7 +52,7 @@
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController displayViewForText:tc.beforeCarpenterText];
   
-  [self moveToSprite:_carpenter];
+  [self moveToSprite:_carpenter animated:NO];
   self.position = ccpAdd(self.position, ccp(120, 0));
   
   _ccArrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
