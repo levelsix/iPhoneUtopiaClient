@@ -206,7 +206,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   [arr addObjectsFromArray:[self refreshForExpansion]];
-  NSLog(@"%@", gs.myStructs);
+  
   for (UserStruct *s in [gs myStructs]) {
     int tag = [self baseTagForStructId:s.structId];
     MoneyBuilding *moneyBuilding = (MoneyBuilding *)[self getChildByTag:tag];
