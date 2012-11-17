@@ -17,6 +17,7 @@
 #import "FullEvent.h"
 #import "GameViewController.h"
 #import "GenericPopupController.h"
+#import "AMQPConnection.h"
 
 // Tags for keeping state
 #define READING_HEADER_TAG -1

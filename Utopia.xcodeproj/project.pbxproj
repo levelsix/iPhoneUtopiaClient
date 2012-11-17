@@ -795,6 +795,15 @@
 		CF15BA4B1651CDAD00A51F85 /* warredbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA391651CDAD00A51F85 /* warredbar@2x.png */; };
 		CF15BA4C1651CDAD00A51F85 /* warticker.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA3A1651CDAD00A51F85 /* warticker.png */; };
 		CF15BA4D1651CDAD00A51F85 /* warticker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA3B1651CDAD00A51F85 /* warticker@2x.png */; };
+		CF15BA7F16572A8400A51F85 /* AMQPChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA6D16572A8400A51F85 /* AMQPChannel.m */; };
+		CF15BA8016572A8400A51F85 /* AMQPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA6F16572A8400A51F85 /* AMQPConnection.m */; };
+		CF15BA8116572A8400A51F85 /* AMQPConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7116572A8400A51F85 /* AMQPConsumer.m */; };
+		CF15BA8216572A8400A51F85 /* AMQPConsumerThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7316572A8400A51F85 /* AMQPConsumerThread.m */; };
+		CF15BA8316572A8400A51F85 /* AMQPExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7616572A8400A51F85 /* AMQPExchange.m */; };
+		CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7816572A8400A51F85 /* AMQPMessage.m */; };
+		CF15BA8516572A8400A51F85 /* AMQPObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7A16572A8400A51F85 /* AMQPObject.m */; };
+		CF15BA8616572A8400A51F85 /* AMQPQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7C16572A8400A51F85 /* AMQPQueue.m */; };
+		CF15BA8716572A8400A51F85 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA7E16572A8400A51F85 /* README.md */; };
 		CF15EDE81580541C00A8AAC1 /* tutorialbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDE21580541C00A8AAC1 /* tutorialbubble.png */; };
 		CF15EDE91580541C00A8AAC1 /* tutorialbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDE31580541C00A8AAC1 /* tutorialbubble@2x.png */; };
 		CF15EDF0158064D900A8AAC1 /* attackbuttonlight.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDEC158064D900A8AAC1 /* attackbuttonlight.png */; };
@@ -2884,6 +2893,25 @@
 		CF15BA391651CDAD00A51F85 /* warredbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warredbar@2x.png"; sourceTree = "<group>"; };
 		CF15BA3A1651CDAD00A51F85 /* warticker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warticker.png; sourceTree = "<group>"; };
 		CF15BA3B1651CDAD00A51F85 /* warticker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warticker@2x.png"; sourceTree = "<group>"; };
+		CF15BA6C16572A8400A51F85 /* AMQPChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPChannel.h; sourceTree = "<group>"; };
+		CF15BA6D16572A8400A51F85 /* AMQPChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPChannel.m; sourceTree = "<group>"; };
+		CF15BA6E16572A8400A51F85 /* AMQPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnection.h; sourceTree = "<group>"; };
+		CF15BA6F16572A8400A51F85 /* AMQPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnection.m; sourceTree = "<group>"; };
+		CF15BA7016572A8400A51F85 /* AMQPConsumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConsumer.h; sourceTree = "<group>"; };
+		CF15BA7116572A8400A51F85 /* AMQPConsumer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConsumer.m; sourceTree = "<group>"; };
+		CF15BA7216572A8400A51F85 /* AMQPConsumerThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConsumerThread.h; sourceTree = "<group>"; };
+		CF15BA7316572A8400A51F85 /* AMQPConsumerThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConsumerThread.m; sourceTree = "<group>"; };
+		CF15BA7416572A8400A51F85 /* AMQPConsumerThreadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConsumerThreadDelegate.h; sourceTree = "<group>"; };
+		CF15BA7516572A8400A51F85 /* AMQPExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPExchange.h; sourceTree = "<group>"; };
+		CF15BA7616572A8400A51F85 /* AMQPExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPExchange.m; sourceTree = "<group>"; };
+		CF15BA7716572A8400A51F85 /* AMQPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPMessage.h; sourceTree = "<group>"; };
+		CF15BA7816572A8400A51F85 /* AMQPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPMessage.m; sourceTree = "<group>"; };
+		CF15BA7916572A8400A51F85 /* AMQPObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPObject.h; sourceTree = "<group>"; };
+		CF15BA7A16572A8400A51F85 /* AMQPObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPObject.m; sourceTree = "<group>"; };
+		CF15BA7B16572A8400A51F85 /* AMQPQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPQueue.h; sourceTree = "<group>"; };
+		CF15BA7C16572A8400A51F85 /* AMQPQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPQueue.m; sourceTree = "<group>"; };
+		CF15BA7D16572A8400A51F85 /* AMQPWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPWrapper.h; sourceTree = "<group>"; };
+		CF15BA7E16572A8400A51F85 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		CF15EDE21580541C00A8AAC1 /* tutorialbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorialbubble.png; sourceTree = "<group>"; };
 		CF15EDE31580541C00A8AAC1 /* tutorialbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialbubble@2x.png"; sourceTree = "<group>"; };
 		CF15EDEC158064D900A8AAC1 /* attackbuttonlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attackbuttonlight.png; sourceTree = "<group>"; };
@@ -4697,6 +4725,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CF15BA6B16572A8300A51F85 /* rabbitmq */,
 				CF03F11D163BC7020076E89E /* GiraffeGraph */,
 				CF28BBED1628EEB00012F1C1 /* SSZipArchive */,
 				CFC02E47161188D3007B052F /* AdColony */,
@@ -6269,6 +6298,32 @@
 				CF15BA3B1651CDAD00A51F85 /* warticker@2x.png */,
 			);
 			path = "Clan Tower images";
+			sourceTree = "<group>";
+		};
+		CF15BA6B16572A8300A51F85 /* rabbitmq */ = {
+			isa = PBXGroup;
+			children = (
+				CF15BA6C16572A8400A51F85 /* AMQPChannel.h */,
+				CF15BA6D16572A8400A51F85 /* AMQPChannel.m */,
+				CF15BA6E16572A8400A51F85 /* AMQPConnection.h */,
+				CF15BA6F16572A8400A51F85 /* AMQPConnection.m */,
+				CF15BA7016572A8400A51F85 /* AMQPConsumer.h */,
+				CF15BA7116572A8400A51F85 /* AMQPConsumer.m */,
+				CF15BA7216572A8400A51F85 /* AMQPConsumerThread.h */,
+				CF15BA7316572A8400A51F85 /* AMQPConsumerThread.m */,
+				CF15BA7416572A8400A51F85 /* AMQPConsumerThreadDelegate.h */,
+				CF15BA7516572A8400A51F85 /* AMQPExchange.h */,
+				CF15BA7616572A8400A51F85 /* AMQPExchange.m */,
+				CF15BA7716572A8400A51F85 /* AMQPMessage.h */,
+				CF15BA7816572A8400A51F85 /* AMQPMessage.m */,
+				CF15BA7916572A8400A51F85 /* AMQPObject.h */,
+				CF15BA7A16572A8400A51F85 /* AMQPObject.m */,
+				CF15BA7B16572A8400A51F85 /* AMQPQueue.h */,
+				CF15BA7C16572A8400A51F85 /* AMQPQueue.m */,
+				CF15BA7D16572A8400A51F85 /* AMQPWrapper.h */,
+				CF15BA7E16572A8400A51F85 /* README.md */,
+			);
+			path = rabbitmq;
 			sourceTree = "<group>";
 		};
 		CF1AD20415635BB700DED5A6 /* EquipMenu */ = {
@@ -8955,6 +9010,7 @@
 				CF15BA4B1651CDAD00A51F85 /* warredbar@2x.png in Resources */,
 				CF15BA4C1651CDAD00A51F85 /* warticker.png in Resources */,
 				CF15BA4D1651CDAD00A51F85 /* warticker@2x.png in Resources */,
+				CF15BA8716572A8400A51F85 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9206,6 +9262,14 @@
 				CF03F132163BC7020076E89E /* GGCJSONSerializer.m in Sources */,
 				CF03F133163BC7020076E89E /* GGEventLog.m in Sources */,
 				CF03F134163BC7020076E89E /* GGLocationManagerDelegate.m in Sources */,
+				CF15BA7F16572A8400A51F85 /* AMQPChannel.m in Sources */,
+				CF15BA8016572A8400A51F85 /* AMQPConnection.m in Sources */,
+				CF15BA8116572A8400A51F85 /* AMQPConsumer.m in Sources */,
+				CF15BA8216572A8400A51F85 /* AMQPConsumerThread.m in Sources */,
+				CF15BA8316572A8400A51F85 /* AMQPExchange.m in Sources */,
+				CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */,
+				CF15BA8516572A8400A51F85 /* AMQPObject.m in Sources */,
+				CF15BA8616572A8400A51F85 /* AMQPQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
