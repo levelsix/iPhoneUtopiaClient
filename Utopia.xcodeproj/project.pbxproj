@@ -1512,7 +1512,6 @@
 		CFC02E501612B867007B052F /* TheGoldMine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC02E4C1612B867007B052F /* TheGoldMine@2x.png */; };
 		CFC02E591612C2F7007B052F /* GoldMineView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC02E581612C2F7007B052F /* GoldMineView.m */; };
 		CFC02E5B1612C307007B052F /* GoldMineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC02E5A1612C307007B052F /* GoldMineView.xib */; };
-		CFC141821657484A0060188D /* .dirstamp in Resources */ = {isa = PBXBuildFile; fileRef = CFC1414F1657484A0060188D /* .dirstamp */; };
 		CFC141831657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141501657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.Plo */; };
 		CFC141841657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141511657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.Plo */; };
 		CFC141851657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141521657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.Plo */; };
@@ -1520,7 +1519,6 @@
 		CFC141871657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141541657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.Plo */; };
 		CFC141881657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141551657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.Plo */; };
 		CFC141891657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141561657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.Plo */; };
-		CFC1418A1657484A0060188D /* .dirstamp in Resources */ = {isa = PBXBuildFile; fileRef = CFC141571657484A0060188D /* .dirstamp */; };
 		CFC1418B1657484A0060188D /* librabbitmq.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC141591657484A0060188D /* librabbitmq.1.dylib */; };
 		CFC1418C1657484A0060188D /* librabbitmq.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC1415A1657484A0060188D /* librabbitmq.dylib */; };
 		CFC1418D1657484A0060188D /* librabbitmq.la in Resources */ = {isa = PBXBuildFile; fileRef = CFC1415B1657484A0060188D /* librabbitmq.la */; };
@@ -1532,17 +1530,7 @@
 		CFC141931657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.o in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC141611657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.o */; };
 		CFC141941657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.o in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC141621657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.o */; };
 		CFC141951657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.o in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC141631657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.o */; };
-		CFC1419F1657484A0060188D /* librabbitmq.la in Resources */ = {isa = PBXBuildFile; fileRef = CFC141701657484A0060188D /* librabbitmq.la */; };
-		CFC141A01657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141711657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.lo */; };
-		CFC141A11657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141721657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.lo */; };
-		CFC141A21657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141731657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.lo */; };
-		CFC141A31657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141741657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.lo */; };
-		CFC141A41657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141751657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.lo */; };
-		CFC141A51657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141761657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.lo */; };
-		CFC141A61657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141771657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.lo */; };
-		CFC141A71657484A0060188D /* .dirstamp in Resources */ = {isa = PBXBuildFile; fileRef = CFC1417A1657484A0060188D /* .dirstamp */; };
 		CFC141A81657484A0060188D /* librabbitmq_librabbitmq_la-socket.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC1417B1657484A0060188D /* librabbitmq_librabbitmq_la-socket.Plo */; };
-		CFC141A91657484A0060188D /* .dirstamp in Resources */ = {isa = PBXBuildFile; fileRef = CFC1417C1657484A0060188D /* .dirstamp */; };
 		CFC141AA1657484A0060188D /* librabbitmq_librabbitmq_la-socket.o in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC1417E1657484A0060188D /* librabbitmq_librabbitmq_la-socket.o */; };
 		CFC141AB1657484A0060188D /* librabbitmq_librabbitmq_la-socket.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC1417F1657484A0060188D /* librabbitmq_librabbitmq_la-socket.lo */; };
 		CFC141AC1657484A0060188D /* socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141801657484A0060188D /* socket.c */; };
@@ -3758,7 +3746,6 @@
 		CFC02E641612C407007B052F /* noworktape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noworktape@2x.png"; sourceTree = "<group>"; };
 		CFC02E651612C407007B052F /* resetbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resetbutton.png; sourceTree = "<group>"; };
 		CFC02E661612C407007B052F /* resetbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "resetbutton@2x.png"; sourceTree = "<group>"; };
-		CFC1414F1657484A0060188D /* .dirstamp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CFC141501657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_api.Plo"; sourceTree = "<group>"; };
 		CFC141511657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_connection.Plo"; sourceTree = "<group>"; };
 		CFC141521657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_framing.Plo"; sourceTree = "<group>"; };
@@ -3766,7 +3753,6 @@
 		CFC141541657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_socket.Plo"; sourceTree = "<group>"; };
 		CFC141551657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_table.Plo"; sourceTree = "<group>"; };
 		CFC141561657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_url.Plo"; sourceTree = "<group>"; };
-		CFC141571657484A0060188D /* .dirstamp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CFC141591657484A0060188D /* librabbitmq.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = librabbitmq.1.dylib; sourceTree = "<group>"; };
 		CFC1415A1657484A0060188D /* librabbitmq.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = librabbitmq.dylib; sourceTree = "<group>"; };
 		CFC1415B1657484A0060188D /* librabbitmq.la */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = librabbitmq.la; sourceTree = "<group>"; };
@@ -3781,21 +3767,12 @@
 		CFC141641657484A0060188D /* amqp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp.h; sourceTree = "<group>"; };
 		CFC141681657484A0060188D /* amqp_framing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_framing.h; sourceTree = "<group>"; };
 		CFC1416A1657484A0060188D /* amqp_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_private.h; sourceTree = "<group>"; };
-		CFC141701657484A0060188D /* librabbitmq.la */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = librabbitmq.la; sourceTree = "<group>"; };
-		CFC141711657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_api.lo"; sourceTree = "<group>"; };
-		CFC141721657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_connection.lo"; sourceTree = "<group>"; };
-		CFC141731657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_framing.lo"; sourceTree = "<group>"; };
-		CFC141741657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_mem.lo"; sourceTree = "<group>"; };
-		CFC141751657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_socket.lo"; sourceTree = "<group>"; };
-		CFC141761657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_table.lo"; sourceTree = "<group>"; };
-		CFC141771657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_url.lo"; sourceTree = "<group>"; };
-		CFC1417A1657484A0060188D /* .dirstamp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CFC1417B1657484A0060188D /* librabbitmq_librabbitmq_la-socket.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-socket.Plo"; sourceTree = "<group>"; };
-		CFC1417C1657484A0060188D /* .dirstamp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CFC1417E1657484A0060188D /* librabbitmq_librabbitmq_la-socket.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "librabbitmq_librabbitmq_la-socket.o"; sourceTree = "<group>"; };
 		CFC1417F1657484A0060188D /* librabbitmq_librabbitmq_la-socket.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-socket.lo"; sourceTree = "<group>"; };
 		CFC141801657484A0060188D /* socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = socket.c; sourceTree = "<group>"; };
 		CFC141811657484A0060188D /* socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socket.h; sourceTree = "<group>"; };
+		CFC141C516574C9A0060188D /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		CFC38FA5156EF9A000A6A217 /* HomeBuildingMenus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeBuildingMenus.h; sourceTree = "<group>"; };
 		CFC38FA6156EF9A000A6A217 /* HomeBuildingMenus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeBuildingMenus.m; sourceTree = "<group>"; };
 		CFC38FA8156F1B8000A6A217 /* UpgradeBuildingMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradeBuildingMenu.xib; sourceTree = "<group>"; };
@@ -7315,20 +7292,12 @@
 		CFC1414D1657484A0060188D /* librabbitmq */ = {
 			isa = PBXGroup;
 			children = (
+				CFC141C516574C9A0060188D /* config.h */,
 				CFC1414E1657484A0060188D /* .deps */,
-				CFC141571657484A0060188D /* .dirstamp */,
 				CFC141581657484A0060188D /* .libs */,
 				CFC141641657484A0060188D /* amqp.h */,
 				CFC141681657484A0060188D /* amqp_framing.h */,
 				CFC1416A1657484A0060188D /* amqp_private.h */,
-				CFC141701657484A0060188D /* librabbitmq.la */,
-				CFC141711657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.lo */,
-				CFC141721657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.lo */,
-				CFC141731657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.lo */,
-				CFC141741657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.lo */,
-				CFC141751657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.lo */,
-				CFC141761657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.lo */,
-				CFC141771657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.lo */,
 				CFC141781657484A0060188D /* unix */,
 			);
 			path = librabbitmq;
@@ -7337,7 +7306,6 @@
 		CFC1414E1657484A0060188D /* .deps */ = {
 			isa = PBXGroup;
 			children = (
-				CFC1414F1657484A0060188D /* .dirstamp */,
 				CFC141501657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.Plo */,
 				CFC141511657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.Plo */,
 				CFC141521657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.Plo */,
@@ -7371,7 +7339,6 @@
 			isa = PBXGroup;
 			children = (
 				CFC141791657484A0060188D /* .deps */,
-				CFC1417C1657484A0060188D /* .dirstamp */,
 				CFC1417D1657484A0060188D /* .libs */,
 				CFC1417F1657484A0060188D /* librabbitmq_librabbitmq_la-socket.lo */,
 				CFC141801657484A0060188D /* socket.c */,
@@ -7383,7 +7350,6 @@
 		CFC141791657484A0060188D /* .deps */ = {
 			isa = PBXGroup;
 			children = (
-				CFC1417A1657484A0060188D /* .dirstamp */,
 				CFC1417B1657484A0060188D /* librabbitmq_librabbitmq_la-socket.Plo */,
 			);
 			path = .deps;
@@ -9175,7 +9141,6 @@
 				CF15BA4B1651CDAD00A51F85 /* warredbar@2x.png in Resources */,
 				CF15BA4C1651CDAD00A51F85 /* warticker.png in Resources */,
 				CF15BA4D1651CDAD00A51F85 /* warticker@2x.png in Resources */,
-				CFC141821657484A0060188D /* .dirstamp in Resources */,
 				CFC141831657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.Plo in Resources */,
 				CFC141841657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.Plo in Resources */,
 				CFC141851657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.Plo in Resources */,
@@ -9183,20 +9148,9 @@
 				CFC141871657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.Plo in Resources */,
 				CFC141881657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.Plo in Resources */,
 				CFC141891657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.Plo in Resources */,
-				CFC1418A1657484A0060188D /* .dirstamp in Resources */,
 				CFC1418D1657484A0060188D /* librabbitmq.la in Resources */,
 				CFC1418E1657484A0060188D /* librabbitmq.lai in Resources */,
-				CFC1419F1657484A0060188D /* librabbitmq.la in Resources */,
-				CFC141A01657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.lo in Resources */,
-				CFC141A11657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.lo in Resources */,
-				CFC141A21657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.lo in Resources */,
-				CFC141A31657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.lo in Resources */,
-				CFC141A41657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.lo in Resources */,
-				CFC141A51657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.lo in Resources */,
-				CFC141A61657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.lo in Resources */,
-				CFC141A71657484A0060188D /* .dirstamp in Resources */,
 				CFC141A81657484A0060188D /* librabbitmq_librabbitmq_la-socket.Plo in Resources */,
-				CFC141A91657484A0060188D /* .dirstamp in Resources */,
 				CFC141AB1657484A0060188D /* librabbitmq_librabbitmq_la-socket.lo in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
