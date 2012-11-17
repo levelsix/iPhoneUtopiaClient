@@ -23,6 +23,7 @@
   BOOL _animating;
   int _index;
   int _numTicksComplete;
+  int _defaultValue;
 }
 
 @property (nonatomic, retain) IBOutlet LabelButton *depositButton;
@@ -42,6 +43,8 @@
 + (void) removeView;
 + (void) purgeSingleton;
 + (BOOL) isInitialized;
+
+- (void) setDefaultValue:(int)val;
 
 - (void) close;
 

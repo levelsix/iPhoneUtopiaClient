@@ -499,7 +499,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
     [self closeClicked:nil];
   } else {
     if (carp.fsp.coinPrice) {
-      [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+      [[RefillMenuController sharedRefillMenuController] displayBuySilverView:carp.fsp.coinPrice];
       [Analytics notEnoughSilverInCarpenter:carp.fsp.structId];
     } else {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:carp.fsp.diamondPrice];

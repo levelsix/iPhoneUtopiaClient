@@ -404,7 +404,7 @@
     [self closeClicked:nil];
     [mvc.coinBar updateLabels];
   } else if (mktPost.coinCost > gs.silver) {
-    [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+    [[RefillMenuController sharedRefillMenuController] displayBuySilverView:mktPost.coinCost];
     [Analytics notEnoughSilverForMarketplaceBuy:mktPost.postedEquip.equipId
                                            cost:mktPost.coinCost];
     [self closeClicked:nil];

@@ -291,6 +291,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   return responseClass;
 }
 
+- (void) handleTimeOutOfSync {
+  [Globals popupMessage:@"Your time is out of sync! Please fix in Settings->General->Date & Time."];
+}
+
 - (void) handleUserCreateResponseProto:(FullEvent *)fe {
   UserCreateResponseProto *proto = (UserCreateResponseProto *)fe.event;
   int tag = fe.tag;
@@ -452,8 +456,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToMyCities:proto.userCityInfosList];
     [gs.staticCities removeAllObjects];
     [gs addToStaticCities:proto.allCitiesList];
-    [gs.staticEquips removeAllObjects];
-    [gs addToStaticEquips:proto.equipsList];
     [gs.availableQuests removeAllObjects];
     [gs addToAvailableQuests:proto.availableQuestsList];
     [gs.inProgressCompleteQuests removeAllObjects];
@@ -465,7 +467,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [oec retrieveAllStaticData];
     [gs addNewStaticLockBoxEvents:proto.lockBoxEventsList];
     [gs addToMyLockBoxEvents:proto.userLockBoxEventsList];
-    [gs setMktSearchEquips:proto.mktSearchEquipsList];
+    [gs setMktSearchEquips:proto.staticEquipsList.count > 0 ? proto.staticEquipsList : proto.mktSearchEquipsList];
+    [gs.staticEquips removeAllObjects];
+    [gs addToStaticEquips:proto.staticEquipsList.count > 0 ? proto.staticEquipsList : proto.equipsList];
+    [gs.staticStructs removeAllObjects];
+    [gs addToStaticStructs:proto.staticStructsList];
     
     [gs addToRequestedClans:proto.userClanInfoList];
     
@@ -690,16 +696,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       if (gLay.currentCity == cityId) {
         NSArray *sprites = [[gLay missionMap] mapSprites];
         for (MapSprite *spr in sprites) {
-          if ([spr isKindOfClass:[MissionBuilding class]]) {
-            MissionBuilding *mb = (MissionBuilding *)spr;
-            mb.numTimesActedForTask = 0;
+          if ([spr conformsToProtocol:@protocol(TaskElement)]) {
+            id<TaskElement> te = (id<TaskElement>)spr;
+            te.numTimesActedForTask = 0;
           }
         }
       }
     }
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to complete task"];
+    if (proto.status == TaskActionResponseProto_TaskActionStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to complete task"];
+    }
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
@@ -882,7 +892,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusSuccess) {
-    [Globals popupMessage:@"Server failed to purchase marketplace license"];
+    if (proto.status == PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to purchase marketplace license"];
+    }
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
     [[MarketplaceViewController sharedMarketplaceViewController] receivedPurchaseMktLicenseResponse:proto];
@@ -945,7 +959,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusSuccess) {
-    [Globals popupMessage:@"Server failed to refill stat."];
+    if (proto.status == RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to refill stat."];
+    }
     [gs removeAndUndoAllUpdatesForTag:tag];
     [[TopBar sharedTopBar] setUpEnergyTimer];
     [[TopBar sharedTopBar] setUpStaminaTimer];
@@ -1000,7 +1018,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to purchase building."];
+    if (proto.status == PurchaseNormStructureResponseProto_PurchaseNormStructureStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to purchase building."];
+    }
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
@@ -1031,7 +1053,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to upgrade building."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
+    if (proto.status == UpgradeNormStructureResponseProto_UpgradeNormStructureStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [gs removeNonFullUserUpdatesForTag:tag];
+    }
   }
 }
 
@@ -1046,7 +1072,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to complete normal structure wait time."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
+    if (proto.status == NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [gs removeNonFullUserUpdatesForTag:tag];
+    }
   }
 }
 
@@ -1061,7 +1091,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to speed up normal structure wait time."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
+    if (proto.status == FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [gs removeNonFullUserUpdatesForTag:tag];
+    }
   }
 }
 
@@ -1073,10 +1107,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess) {
-    [Globals popupMessage:@"Server failed to retrieve from normal structure."];
+    if (proto.status == RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to retrieve from normal structure."];
+    }
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
+    if (proto.status == RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [gs removeNonFullUserUpdatesForTag:tag];
+    }
   }
 }
 
@@ -1414,12 +1456,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve user ids for user received.");
   
   OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
-  for (FullUserProto *fup in proto.requestedUsersList) {
-    [oec retrieveStaticEquipsForUser:fup];
-  }
+  [oec retrieveStaticEquipsForUsers:proto.requestedUsersList];
   
-  [[ActivityFeedController sharedActivityFeedController] receivedUsers:proto];
-  [[ProfileViewController sharedProfileViewController] receivedFullUserProtos:proto.requestedUsersList];
+  if ([ActivityFeedController isInitialized]) {
+    [[ActivityFeedController sharedActivityFeedController] receivedUsers:proto];
+  }
+  if ([ProfileViewController isInitialized]) {
+    [[ProfileViewController sharedProfileViewController] receivedFullUserProtos:proto.requestedUsersList];
+  }
   
   GameState *gs = [GameState sharedGameState];
   [gs removeNonFullUserUpdatesForTag:tag];
@@ -1529,7 +1573,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to submit equips to blacksmith."];
+    if (proto.status == SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to submit equips to blacksmith."];
+    }
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
   
@@ -1549,7 +1597,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to complete wait time for forge attempt."];
+    if (proto.status == ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to complete wait time for forge attempt."];
+    }
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
@@ -1565,7 +1617,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to finish forge attempt with diamonds."];
+    if (proto.status == FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to finish forge attempt with diamonds."];
+    }
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
@@ -1623,9 +1679,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [[ProfileViewController sharedProfileViewController] loadMyProfile];
     } else if (proto.modType == CharacterModTypeChangeCharacterType) {
       GameViewController *gvc = [GameViewController sharedGameViewController];
+      [gvc removeAllSubviews];
       [gvc loadGame:NO];
       [gvc startGame];
-      [gvc removeAllSubviews];
       gs.armoryAmulets = nil;
       gs.armoryArmor = nil;
       gs.armoryWeapons = nil;
@@ -1732,8 +1788,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to create clan."];
-    
+    // Clan controller will print the messages
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
   if ([ClanMenuController isInitialized]) {
@@ -2002,7 +2057,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to retrieve begin goldmine timer."];
+    if (proto.status == BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to retrieve begin goldmine timer."];
+    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -2017,7 +2076,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == CollectFromGoldmineResponseProto_CollectFromGoldmineStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to collect from goldmine."];
+    if (proto.status == CollectFromGoldmineResponseProto_CollectFromGoldmineStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to collect from goldmine."];
+    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -2087,7 +2150,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to pick lock box."];
+    if (proto.status == PickLockBoxResponseProto_PickLockBoxStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to pick lock box."];
+    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -2102,7 +2169,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to complete expansion wait time."];
+    if (proto.status == ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to complete expansion wait time."];
+    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -2117,7 +2188,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to purchase city expansion."];
+    if (proto.status == PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to purchase city expansion."];
+    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

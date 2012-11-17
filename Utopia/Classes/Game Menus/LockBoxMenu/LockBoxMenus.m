@@ -113,7 +113,7 @@
   if (gs.gold < goldCost) {
     [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
   } else if (gs.silver < silverCost) {
-    [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+    [[RefillMenuController sharedRefillMenuController] displayBuySilverView:silverCost];
   } else {
     LockBoxEventProto *lbe = [gs getCurrentLockBoxEvent];
     [[OutgoingEventController sharedOutgoingEventController] pickLockBox:lbe.lockBoxEventId method:method];
@@ -394,6 +394,7 @@
       stolenEquipView.mainView.alpha = 1.f;
       stolenEquipView.bgdView.alpha = 1.f;
       self.stolenEquipView.titleLabel = [NSString stringWithFormat:@"%@ Created!", fep.name];
+      self.stolenEquipView.frame = view.bounds;
       [self insertSubview:self.stolenEquipView belowSubview:view];
       [Globals bounceView:stolenEquipView.mainView fadeInBgdView:stolenEquipView.bgdView];
       self.bgdView.alpha = 0.f;

@@ -232,6 +232,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
   
   [self positionMonteCards];
   
+  _numPlays = 0;
+  self.pattern = nil;
+  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateGoldLabel) name:IAP_SUCCESS_NOTIFICATION object:nil];
 }
 
@@ -303,6 +306,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
     
     self.bottomButton.enabled = NO;
     self.closeButton.enabled = NO;
+    
+    _numPlays++;
+    self.pattern = _pattern ? [_pattern stringByAppendingFormat:@", %d", cardId] : [NSString stringWithFormat:@"%d", cardId];
   }
 }
 
@@ -432,6 +438,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
   self.loadingView.hidden = YES;
   self.bottomButton.enabled = YES;
   self.playView.hidden = NO;
+  
+  [Analytics threeCardMonteImpression:badCard.cardId];
 }
 
 - (IBAction)bottomButtonClicked:(id)sender {
@@ -467,6 +475,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
   } completion:^(BOOL finished) {
     [self.view removeFromSuperview];
   }];
+  
+  if (_numPlays > 0) {
+    [Analytics threeCardMonteConversion:badCard.cardId numPlays:_numPlays pattern:self.pattern];
+  }
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {

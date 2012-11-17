@@ -400,7 +400,7 @@
   if (!ue || !ue.isExpanding) {
     int silverCost = [gl calculateSilverCostForNewExpansion:ue];
     if (gs.silver < silverCost) {
-      [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+      [[RefillMenuController sharedRefillMenuController] displayBuySilverView:silverCost];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] purchaseCityExpansion:_direction];
       [self displayForDirection:_direction];

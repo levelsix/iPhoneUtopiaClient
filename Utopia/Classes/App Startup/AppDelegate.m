@@ -423,28 +423,23 @@
   }
   
   int curBadgeCount = 1;//shouldSendEnergyNotification + shouldSendStaminaNotification + 1;
-  NSString *text = [NSString stringWithFormat:@"%@, come back and reclaim the world for the all powerful %@!", gs.name, [Globals factionForUserType:gs.type]];
-  NSDate *date = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
+  NSString *text = [NSString stringWithFormat:@"A kingdom cannot survive without a leader! %@, your people need you!", gs.name];
+  NSDate *date = [NSDate dateWithTimeIntervalSinceNow:12*60*60];
   [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
   
 //  curBadgeCount++;
   text = [NSString stringWithFormat:@"%@, the %@ needs you! Come back and prevent the %@ from taking over", gs.name, [Globals factionForUserType:gs.type] , [Globals factionForUserType:(gs.type+3)%6]];
-  date = [NSDate dateWithTimeIntervalSinceNow:5*24*60*60];
+  date = [NSDate dateWithTimeIntervalSinceNow:2*24*60*60];
   [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
   
 //  curBadgeCount++;
   text = [NSString stringWithFormat:@"%@, come back and reclaim the world for the all powerful %@!", gs.name, [Globals factionForUserType:gs.type]];
-  date = [NSDate dateWithTimeIntervalSinceNow:7*24*60*60];
+  date = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
   [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
   
 //  curBadgeCount++;
   text = [NSString stringWithFormat:@"%@, the %@ needs you! Come back and prevent the %@ from taking over", gs.name, [Globals factionForUserType:gs.type] , [Globals factionForUserType:(gs.type+3)%6]];
-  date = [NSDate dateWithTimeIntervalSinceNow:14*24*60*60];
-  [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
-  
-//  curBadgeCount++;
-  text = [NSString stringWithFormat:@"%@, come back and reclaim the world for the all powerful %@!", gs.name, [Globals factionForUserType:gs.type]];
-  date = [NSDate dateWithTimeIntervalSinceNow:30*24*60*60];
+  date = [NSDate dateWithTimeIntervalSinceNow:6*24*60*60];
   [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
 }
 

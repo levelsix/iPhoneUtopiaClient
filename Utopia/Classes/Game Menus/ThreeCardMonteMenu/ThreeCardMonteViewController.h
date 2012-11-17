@@ -56,6 +56,8 @@
   BOOL _allowPicking;
   BOOL _shouldRestart;
   
+  int _numPlays;
+  
   MonteCardView *_winningCardView;
 }
 
@@ -84,6 +86,8 @@
 @property (nonatomic, retain) MonteCardProto *goodCard;
 
 @property (nonatomic, retain) UIImageView *winningGlow;
+
+@property (nonatomic, retain) NSString *pattern;
 
 - (void) monteCardPicked:(MonteCardView *)mcv;
 

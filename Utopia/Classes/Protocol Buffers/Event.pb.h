@@ -1953,11 +1953,13 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableMktSearchEquipsList;
-  NSMutableArray* mutableGlobalChatsList;
   NSMutableArray* mutableClanChatsList;
+  NSMutableArray* mutableGlobalChatsList;
+  NSMutableArray* mutableMktSearchEquipsList;
   NSMutableArray* mutableGoldSalesList;
   NSMutableArray* mutableClanTierLevelsList;
+  NSMutableArray* mutableStaticStructsList;
+  NSMutableArray* mutableStaticEquipsList;
   NSMutableArray* mutableAlliesList;
   NSMutableArray* mutableUserLockBoxEventsList;
   NSMutableArray* mutableLockBoxEventsList;
@@ -2047,6 +2049,10 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (GoldSaleProto*) goldSalesAtIndex:(int32_t) index;
 - (NSArray*) clanTierLevelsList;
 - (ClanTierLevelProto*) clanTierLevelsAtIndex:(int32_t) index;
+- (NSArray*) staticStructsList;
+- (FullStructureProto*) staticStructsAtIndex:(int32_t) index;
+- (NSArray*) staticEquipsList;
+- (FullEquipProto*) staticEquipsAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -5091,6 +5097,20 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (StartupResponseProto_Builder*) addClanTierLevels:(ClanTierLevelProto*) value;
 - (StartupResponseProto_Builder*) addAllClanTierLevels:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearClanTierLevelsList;
+
+- (NSArray*) staticStructsList;
+- (FullStructureProto*) staticStructsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceStaticStructsAtIndex:(int32_t) index with:(FullStructureProto*) value;
+- (StartupResponseProto_Builder*) addStaticStructs:(FullStructureProto*) value;
+- (StartupResponseProto_Builder*) addAllStaticStructs:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearStaticStructsList;
+
+- (NSArray*) staticEquipsList;
+- (FullEquipProto*) staticEquipsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceStaticEquipsAtIndex:(int32_t) index with:(FullEquipProto*) value;
+- (StartupResponseProto_Builder*) addStaticEquips:(FullEquipProto*) value;
+- (StartupResponseProto_Builder*) addAllStaticEquips:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearStaticEquipsList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {

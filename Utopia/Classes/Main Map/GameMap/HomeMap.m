@@ -206,7 +206,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   [arr addObjectsFromArray:[self refreshForExpansion]];
-  
+  NSLog(@"%@", gs.myStructs);
   for (UserStruct *s in [gs myStructs]) {
     int tag = [self baseTagForStructId:s.structId];
     MoneyBuilding *moneyBuilding = (MoneyBuilding *)[self getChildByTag:tag];
@@ -836,7 +836,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     BOOL isGoldBuilding = fsp.diamondPrice > 0;
     if (!isGoldBuilding) {
       if (cost > gs.silver) {
-        [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+        [[RefillMenuController sharedRefillMenuController] displayBuySilverView:cost];
         [Analytics notEnoughSilverForUpgrade:us.structId cost:cost];
         self.selected = nil;
       } else {

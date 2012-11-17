@@ -24,6 +24,8 @@
   BOOL _isEnergy;
   
   int _numArmoryResponsesExpected;
+  
+  int _silverNeeded;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *goldView;
@@ -58,7 +60,7 @@
 @property (nonatomic, retain) IBOutlet RequiresEquipView *rev;
 
 - (void) displayBuyGoldView:(int)needsGold;
-- (void) displayBuySilverView;
+- (void) displayBuySilverView:(int)needsSilver;
 - (void) displayEnstView:(BOOL)isEnergy;
 - (void) displayEquipsView:(NSArray *)equipIds;
 - (void) displayBuySpeakersView;

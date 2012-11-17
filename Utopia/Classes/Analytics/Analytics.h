@@ -127,6 +127,9 @@
 + (void) attemptedResetGame;
 + (void) resetGame;
 
++ (void) threeCardMonteImpression:(int)badCardId;
++ (void) threeCardMonteConversion:(int)badCardId numPlays:(int)numPlays pattern:(NSString *)pattern;
+
 + (void) blacksmithGuaranteedForgeWithEquipId:(int)equipId level:(int)level;
 + (void) blacksmithNotGuaranteedForgeWithEquipId:(int)equipId level:(int)level;
 + (void) blacksmithSpeedUpWithEquipId:(int)equipId level:(int)level;

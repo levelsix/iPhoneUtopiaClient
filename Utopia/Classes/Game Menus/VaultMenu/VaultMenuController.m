@@ -188,12 +188,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   }
 }
 
+- (void) setDefaultValue:(int)val {
+  _defaultValue = val;
+}
+
 - (void) viewWillAppear:(BOOL)animated {
   vaultBalance = @"000000000";
   [tickers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     ((VaultTickView *)[(SBTickerView *)obj frontView]).num = 0;
   }];
-  transferField.text = [NSString stringWithFormat:@"%d", [[GameState sharedGameState] silver]];
+  transferField.text = [NSString stringWithFormat:@"%d", _defaultValue == 0 ? [[GameState sharedGameState] silver] : _defaultValue];
   
   [self performSelector:@selector(updateBalance) withObject:nil afterDelay:0.5];
   

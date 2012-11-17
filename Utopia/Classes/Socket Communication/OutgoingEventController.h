@@ -71,6 +71,7 @@
 - (void) retrieveStaticEquip:(int)equipId;
 - (void) retrieveStaticEquips:(NSArray *)equipIds;
 - (void) retrieveStaticEquipsForUser:(FullUserProto *)fup;
+- (void) retrieveStaticEquipsForUsers:(NSArray *)users;
 - (void) retrieveStructStore;
 - (void) retrieveEquipStore;
 

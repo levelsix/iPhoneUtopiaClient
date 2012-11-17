@@ -133,8 +133,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   [self openView:goldView];
 }
 
-- (void) displayBuySilverView {
+- (void) displayBuySilverView:(int)needsSilver {
   GameState *gs = [GameState sharedGameState];
+  _silverNeeded = needsSilver;
   silverDescLabel.text = [NSString stringWithFormat:@"You have %@ silver in the vault.", [Globals commafyNumber:gs.vaultBalance]];
   
   [self openView:silverView];
@@ -308,7 +309,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   int amount = [itemsSilverLabel.text stringByReplacingOccurrencesOfString:@"," withString:@""].intValue;
   
   if (amount > gs.silver) {
-    [self displayBuySilverView];
+    [self displayBuySilverView:amount];
   } else {
     // Buy items
     _numArmoryResponsesExpected = 0;
@@ -361,6 +362,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 - (IBAction) goToAviaryClicked:(id)sender {
   [self closeView:silverView];
   [self closeView:itemsView];
+  GameState *gs = [GameState sharedGameState];
+  [[VaultMenuController sharedVaultMenuController] setDefaultValue:_silverNeeded-gs.silver];
   [VaultMenuController displayView];
   [Analytics clickedGetMoreSilver];
 }

@@ -65,6 +65,10 @@
 
 @end
 
+@interface NiceFontTextView2 : UITextView
+
+@end
+
 @interface FlipImageView : UIImageView
 
 @end

@@ -1340,6 +1340,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   for (UserEquip *ue in equips) {
     FullEquipProto *fep = [gs equipWithId:ue.equipId];
+    // this will prevent a crash..
+    if (!fep) return;
     if ([Globals canEquip:fep]) {
       [equippables addObject:ue];
     } else {

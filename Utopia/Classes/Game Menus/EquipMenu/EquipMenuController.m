@@ -118,7 +118,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   FullEquipProto *fep = [gs equipWithId:equipId];
   
   if (fep.coinPrice > gs.silver) {
-    [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+    [[RefillMenuController sharedRefillMenuController] displayBuySilverView:fep.coinPrice];
   } else if (fep.diamondPrice > gs.gold) {
     [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fep.diamondPrice];
   } else {

@@ -233,6 +233,14 @@
 
 @end
 
+@implementation NiceFontTextView2
+
+- (void) awakeFromNib {
+  self.font = [UIFont fontWithName:@"SanvitoPro-Semibold" size:self.font.pointSize];
+}
+
+@end
+
 @implementation FlipImageView
 
 - (void) awakeFromNib {

@@ -388,7 +388,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
       int amount = (int) ceilf(fmpp.coinCost*gl.retractPercentCut);
       if (gs.silver < amount) {
         canRetract = NO;
-        [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+        [[RefillMenuController sharedRefillMenuController] displayBuySilverView:amount];
         [Analytics notEnoughSilverForMarketplaceRetract:fmpp.postedEquip.equipId cost:fmpp.coinCost];
       }
     }
@@ -426,18 +426,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (IBAction)listAnItemClicked:(id)sender {
-  if (!_refreshing) {
+//  if (!_refreshing) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePostsFromSender];
     
     if (self.state == kEquipBuyingState) {
       self.state = kEquipSellingState;
     }
     [Analytics clickedListAnItem];
-  }
+//  }
 }
 
 - (IBAction)doneClicked:(id)sender{
-  if (!_refreshing) {
+//  if (!_refreshing) {
     if (self.listing) {
       [self disableEditing];
     } else {
@@ -447,7 +447,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
       
       [self refresh];
     }
-  }
+//  }
 }
 
 - (IBAction)collectClicked:(id)sender {
@@ -680,6 +680,7 @@ static float mktLicenseCellHeight = 0.f;
     textField.text = [Globals commafyNumber:textField.text.intValue];
   }
   self.curField = nil;
+  self.postsTableView.scrollEnabled = YES;
   
   // Close the armory popup
   [UIView animateWithDuration:0.3f animations:^{
@@ -697,7 +698,6 @@ static float mktLicenseCellHeight = 0.f;
 
 - (void) disableEditing {
   [self.curField resignFirstResponder];
-  self.postsTableView.scrollEnabled = YES;
   self.listing = NO;
   self.curField = nil;
   
@@ -740,59 +740,66 @@ static float mktLicenseCellHeight = 0.f;
 }
 
 - (void) insertRowsFrom:(int)start {
-  NSMutableArray *insertRows = [[NSMutableArray alloc] init];
-  NSMutableArray *reloadRows = [[NSMutableArray alloc] init];
-  
-  int new = [self tableView:self.postsTableView numberOfRowsInSection:0];
-  int old = [self.postsTableView numberOfRowsInSection:0];
-  int numRows = new - old;
-  [self.postsTableView beginUpdates];
-  if (old == 0 && new > 0) {
-    [self.postsTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-    start = 1;
-    numRows -= 1;
-  }
-  int i = start;
-  for (; i < start+numRows && i < start+6; i++) {
-    [insertRows addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-  }
-  for (; i < start+numRows; i++) {
-    [reloadRows addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-  }
-  
-  if (insertRows.count > 0) {
-    [self.postsTableView insertRowsAtIndexPaths:insertRows withRowAnimation:UITableViewRowAnimationTop];
-  }
-  if (reloadRows.count > 0) {
-    [self.postsTableView insertRowsAtIndexPaths:reloadRows withRowAnimation:UITableViewRowAnimationNone];
-  }
-  [self.postsTableView endUpdates];
-  [insertRows release];
-  [reloadRows release];
+//  NSMutableArray *insertRows = [[NSMutableArray alloc] init];
+//  NSMutableArray *reloadRows = [[NSMutableArray alloc] init];
+//  
+//  int new = [self tableView:self.postsTableView numberOfRowsInSection:0];
+//  int old = [self.postsTableView numberOfRowsInSection:0];
+//  int numRows = new - old;
+//  NSLog(@"Begin Updates: %d", numRows);
+//  [self.postsTableView beginUpdates];
+//  if (old == 0 && new > 0) {
+//    [self.postsTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+//    start = 1;
+//    numRows -= 1;
+//  }
+//  int i = start;
+//  for (; i < start+numRows && i < start+0; i++) {
+//    [insertRows addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+//  }
+//  for (; i < start+numRows; i++) {
+//    [reloadRows addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+//  }
+//  
+//  if (insertRows.count > 0) {
+//    [self.postsTableView insertRowsAtIndexPaths:insertRows withRowAnimation:UITableViewRowAnimationTop];
+//  }
+//  if (reloadRows.count > 0) {
+//    [self.postsTableView insertRowsAtIndexPaths:reloadRows withRowAnimation:UITableViewRowAnimationNone];
+//  }
+//  [self.postsTableView endUpdates];
+//  NSLog(@"End Updates: %d", numRows);
+//  [insertRows release];
+//  [reloadRows release];
+  [self disableEditing];
+  [self.postsTableView reloadData];
   self.shouldReload = YES;
 }
 
 - (void) deleteRows:(int)start {
   _refreshing = YES;
-  NSMutableArray *arr = [[NSMutableArray alloc] init];
+//  NSMutableArray *arr = [[NSMutableArray alloc] init];
+//  
+//  int new = [self tableView:self.postsTableView numberOfRowsInSection:0];
+//  int old = [self.postsTableView numberOfRowsInSection:0];
+//  int numRows = old - new;
+//  
+//  if (new == 0) {
+//    start = 0;
+//  }
+//  for (int i = start; i < start+numRows; i++) {
+//    NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+//    [arr addObject:path];
+//    UITableViewCell *cell = [self.postsTableView cellForRowAtIndexPath:path];
+//    [cell.superview sendSubviewToBack:cell];
+//  }
+//  if (arr.count > 0) {
+//    [self.postsTableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationFade];
+//  }
+//  [arr release];
   
-  int new = [self tableView:self.postsTableView numberOfRowsInSection:0];
-  int old = [self.postsTableView numberOfRowsInSection:0];
-  int numRows = old - new;
-  
-  if (new == 0) {
-    start = 0;
-  }
-  for (int i = start; i < start+numRows; i++) {
-    NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
-    [arr addObject:path];
-    UITableViewCell *cell = [self.postsTableView cellForRowAtIndexPath:path];
-    [cell.superview sendSubviewToBack:cell];
-  }
-  if (arr.count > 0) {
-    [self.postsTableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationFade];
-  }
-  [arr release];
+  [self disableEditing];
+  [self.postsTableView reloadData];
 }
 
 - (void) resetAllRows {
@@ -829,11 +836,13 @@ static float mktLicenseCellHeight = 0.f;
     [self.postsTableView insertRowsAtIndexPaths:insNoAnim withRowAnimation:UITableViewRowAnimationNone];
   }
   [self.postsTableView endUpdates];
-  [self.postsTableView setContentOffset:ccp(0,0) animated:NO];
   [delAnim release];
   [delNoAnim release];
   [insAnim release];
   [insNoAnim release];
+  
+  [self.postsTableView setContentOffset:ccp(0,0) animated:NO];
+//  [self.postsTableView reloadData];
 }
 
 - (void) doneRefreshing {
@@ -848,7 +857,7 @@ static float mktLicenseCellHeight = 0.f;
   }
   [self displayLoading];
   [self.postsTableView reloadData];
-  self.shouldReload = YES;
+  self.shouldReload = NO;
   _refreshing = YES;
 }
 
@@ -969,16 +978,6 @@ static float mktLicenseCellHeight = 0.f;
     return [[GameState sharedGameState] marketplaceEquipPostsFromSender];
   }
   return nil;
-}
-
-@end
-
-@implementation UITextField (DisableCopyPaste)
-
--(BOOL)canPerformAction:(SEL)action withSender:(id)sender
-{
-  [UIMenuController sharedMenuController].menuVisible = NO;
-  return NO;
 }
 
 @end

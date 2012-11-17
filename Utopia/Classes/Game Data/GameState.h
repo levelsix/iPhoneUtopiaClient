@@ -209,7 +209,7 @@
 @property (retain) MinimumClanProto *clan;
 @property (retain) NSMutableArray *requestedClans;
 
-@property (nonatomic, retain) NSArray *mktSearchEquips;
+@property (nonatomic, copy) NSArray *mktSearchEquips;
 
 @property (nonatomic, retain) UserExpansion *userExpansion;
 

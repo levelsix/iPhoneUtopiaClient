@@ -118,7 +118,8 @@
     CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hit attack before the timer runs out!" dimensions:CGSizeMake(150, 53) alignment:UITextAlignmentLeft lineBreakMode:UILineBreakModeWordWrap fontName:@"DINCond-Black" fontSize:20.f];
     [_overLayer addChild:label];
     label.anchorPoint = ccp(0, 0.5f);
-    label.position = ccp(self.contentSize.width/2+75, self.contentSize.height/2+15);
+    label.position = ccp(_overLayer.contentSize.width/2+75, _overLayer.contentSize.height/2+15);
+    NSLog(@"%f", label.position.x);
     
     CCMenuItem *okay = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"visitbutton.png"] selectedSprite:nil block:^(id sender) {
       [_overLayer removeFromParentAndCleanup:YES];
@@ -390,6 +391,8 @@
   gs.currentStamina -= 1;
   gs.silver += tutQuest.firstDefeatTypeJobBattleCoinGain;
   gs.battlesWon = 1;
+  gs.battlesLost = 0;
+  gs.flees = 0;
   
   [Analytics tutorialBattleComplete];
 }

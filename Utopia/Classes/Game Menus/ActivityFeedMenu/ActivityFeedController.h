@@ -44,6 +44,7 @@
 + (void) displayView;
 + (void) removeView;
 + (void) purgeSingleton;
++ (BOOL) isInitialized;
 
 - (void) close;
 

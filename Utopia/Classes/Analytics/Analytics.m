@@ -95,6 +95,9 @@
 #define POSTED_TO_ENEMY_PROFILE @"Wall: Posted to Enemy Profile"
 #define POSTED_TO_ALLY_PROFILE @"Wall: Posted to Ally Profile"
 
+#define TCM_IMPRESSION @"TCM Impression: %d"
+#define TCM_CONVERSION @"TCM Conversion: %d"
+
 #define CHARMOD_ATTEMPTED_NAME @"CharMod: Attempted Name"
 #define CHARMOD_CHANGED_NAME @"CharMod: Changed Name"
 #define CHARMOD_ATTEMPTED_STATS @"CharMod: Attempted Stats"
@@ -788,6 +791,18 @@
 
 + (void) resetGame {
   [Analytics event:CHARMOD_RESET_GAME];
+}
+
++ (void) threeCardMonteImpression:(int)badCardId {
+  [Analytics event:[NSString stringWithFormat:TCM_IMPRESSION, badCardId]];
+}
+
++ (void) threeCardMonteConversion:(int)badCardId numPlays:(int)numPlays pattern:(NSString *)pattern {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:numPlays], @"num plays",
+                        pattern, @"pattern",
+                        nil];
+  [Analytics event:[NSString stringWithFormat:TCM_CONVERSION, badCardId] withArgs:args];
 }
 
 + (void) blacksmithGuaranteedForgeWithEquipId:(int)equipId level:(int)level {

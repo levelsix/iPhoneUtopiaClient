@@ -3143,6 +3143,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableClanChatsList;
 @property (retain) NSMutableArray* mutableGoldSalesList;
 @property (retain) NSMutableArray* mutableClanTierLevelsList;
+@property (retain) NSMutableArray* mutableStaticStructsList;
+@property (retain) NSMutableArray* mutableStaticEquipsList;
 @end
 
 @implementation StartupResponseProto
@@ -3272,6 +3274,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableClanChatsList;
 @synthesize mutableGoldSalesList;
 @synthesize mutableClanTierLevelsList;
+@synthesize mutableStaticStructsList;
+@synthesize mutableStaticEquipsList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3304,6 +3308,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableClanChatsList = nil;
   self.mutableGoldSalesList = nil;
   self.mutableClanTierLevelsList = nil;
+  self.mutableStaticStructsList = nil;
+  self.mutableStaticEquipsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3491,6 +3497,20 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableClanTierLevelsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) staticStructsList {
+  return mutableStaticStructsList;
+}
+- (FullStructureProto*) staticStructsAtIndex:(int32_t) index {
+  id value = [mutableStaticStructsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) staticEquipsList {
+  return mutableStaticEquipsList;
+}
+- (FullEquipProto*) staticEquipsAtIndex:(int32_t) index {
+  id value = [mutableStaticEquipsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -3602,6 +3622,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (ClanTierLevelProto* element in self.clanTierLevelsList) {
     [output writeMessage:36 value:element];
+  }
+  for (FullStructureProto* element in self.staticStructsList) {
+    [output writeMessage:37 value:element];
+  }
+  for (FullEquipProto* element in self.staticEquipsList) {
+    [output writeMessage:38 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3724,6 +3750,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (ClanTierLevelProto* element in self.clanTierLevelsList) {
     size += computeMessageSize(36, element);
+  }
+  for (FullStructureProto* element in self.staticStructsList) {
+    size += computeMessageSize(37, element);
+  }
+  for (FullEquipProto* element in self.staticEquipsList) {
+    size += computeMessageSize(38, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -15775,6 +15807,18 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableClanTierLevelsList addObjectsFromArray:other.mutableClanTierLevelsList];
   }
+  if (other.mutableStaticStructsList.count > 0) {
+    if (result.mutableStaticStructsList == nil) {
+      result.mutableStaticStructsList = [NSMutableArray array];
+    }
+    [result.mutableStaticStructsList addObjectsFromArray:other.mutableStaticStructsList];
+  }
+  if (other.mutableStaticEquipsList.count > 0) {
+    if (result.mutableStaticEquipsList == nil) {
+      result.mutableStaticEquipsList = [NSMutableArray array];
+    }
+    [result.mutableStaticEquipsList addObjectsFromArray:other.mutableStaticEquipsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -16020,6 +16064,18 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         ClanTierLevelProto_Builder* subBuilder = [ClanTierLevelProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addClanTierLevels:[subBuilder buildPartial]];
+        break;
+      }
+      case 298: {
+        FullStructureProto_Builder* subBuilder = [FullStructureProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addStaticStructs:[subBuilder buildPartial]];
+        break;
+      }
+      case 306: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addStaticEquips:[subBuilder buildPartial]];
         break;
       }
     }
@@ -16971,6 +17027,64 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     result.mutableClanTierLevelsList = [NSMutableArray array];
   }
   [result.mutableClanTierLevelsList addObject:value];
+  return self;
+}
+- (NSArray*) staticStructsList {
+  if (result.mutableStaticStructsList == nil) { return [NSArray array]; }
+  return result.mutableStaticStructsList;
+}
+- (FullStructureProto*) staticStructsAtIndex:(int32_t) index {
+  return [result staticStructsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceStaticStructsAtIndex:(int32_t) index with:(FullStructureProto*) value {
+  [result.mutableStaticStructsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllStaticStructs:(NSArray*) values {
+  if (result.mutableStaticStructsList == nil) {
+    result.mutableStaticStructsList = [NSMutableArray array];
+  }
+  [result.mutableStaticStructsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearStaticStructsList {
+  result.mutableStaticStructsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addStaticStructs:(FullStructureProto*) value {
+  if (result.mutableStaticStructsList == nil) {
+    result.mutableStaticStructsList = [NSMutableArray array];
+  }
+  [result.mutableStaticStructsList addObject:value];
+  return self;
+}
+- (NSArray*) staticEquipsList {
+  if (result.mutableStaticEquipsList == nil) { return [NSArray array]; }
+  return result.mutableStaticEquipsList;
+}
+- (FullEquipProto*) staticEquipsAtIndex:(int32_t) index {
+  return [result staticEquipsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceStaticEquipsAtIndex:(int32_t) index with:(FullEquipProto*) value {
+  [result.mutableStaticEquipsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllStaticEquips:(NSArray*) values {
+  if (result.mutableStaticEquipsList == nil) {
+    result.mutableStaticEquipsList = [NSMutableArray array];
+  }
+  [result.mutableStaticEquipsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearStaticEquipsList {
+  result.mutableStaticEquipsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addStaticEquips:(FullEquipProto*) value {
+  if (result.mutableStaticEquipsList == nil) {
+    result.mutableStaticEquipsList = [NSMutableArray array];
+  }
+  [result.mutableStaticEquipsList addObject:value];
   return self;
 }
 @end

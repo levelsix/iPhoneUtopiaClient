@@ -657,6 +657,11 @@
   self.clan = nil;
 }
 
+- (void) setCanEdit:(BOOL)c {
+  canEdit = c;
+  textView.editable = canEdit;
+}
+
 - (void) loadForClan:(FullClanProtoWithClanSize *)c {
   GameState *gs = [GameState sharedGameState];
   self.clan = c;
@@ -740,10 +745,6 @@
     return NO;
   }
   return YES;
-}
-
-- (BOOL) textViewShouldBeginEditing:(UITextView *)textView {
-  return self.canEdit;
 }
 
 - (IBAction)bottomButtonClicked:(id)sender {

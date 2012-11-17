@@ -84,6 +84,7 @@
 										<string key="NSFrame">{{377, 39}, {16, 16}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -99,7 +100,7 @@
 										<string key="NSFrame">{{0, 16}, {16, 23}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="1030479175"/>
+										<reference key="NSNextKeyView"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -211,6 +212,7 @@
 										<string key="NSFrame">{{219, 2}, {88, 21}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="694679123"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -245,7 +247,7 @@
 										<string key="NSFrame">{{20, 1}, {169, 25}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="694679123"/>
+										<reference key="NSNextKeyView" ref="633337606"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -688,7 +690,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">69</int>
+			<int key="maxID">71</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -707,6 +709,7 @@
 						<string key="bubbleTopRight">UIImageView</string>
 						<string key="bubbleView">UIView</string>
 						<string key="chatLine">UIImageView</string>
+						<string key="chatTextView">UITextView</string>
 						<string key="nameButton">UIButton</string>
 						<string key="textLabel">UILabel</string>
 						<string key="timeLabel">UILabel</string>
@@ -757,6 +760,10 @@
 						<object class="IBToOneOutletInfo" key="chatLine">
 							<string key="name">chatLine</string>
 							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="chatTextView">
+							<string key="name">chatTextView</string>
+							<string key="candidateClassName">UITextView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="nameButton">
 							<string key="name">nameButton</string>

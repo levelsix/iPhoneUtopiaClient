@@ -819,7 +819,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   
   if (fep.coinPrice) {
     if (fep.coinPrice > gs.silver) {
-      [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+      [[RefillMenuController sharedRefillMenuController] displayBuySilverView:fep.coinPrice];
       return;
     }
   } else {

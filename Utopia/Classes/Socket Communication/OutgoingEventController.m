@@ -1189,14 +1189,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) retrieveStaticEquips:(NSArray *)equipIds {
   GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:equipIds buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
+  
+  NSMutableArray *arr = [NSMutableArray arrayWithCapacity:equipIds.count];
+  for (NSNumber *n in arr) {
+    if (![gs.staticEquips objectForKey:n] && n != 0) {
+      [arr addObject:equipIds];
+    }
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:arr buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) retrieveStaticEquipsForUser:(FullUserProto *)fup {
-  [self retrieveStaticEquip:fup.weaponEquippedUserEquip.equipId];
-  [self retrieveStaticEquip:fup.armorEquippedUserEquip.equipId];
-  [self retrieveStaticEquip:fup.amuletEquippedUserEquip.equipId];
+  [self retrieveStaticEquips:[NSArray arrayWithObjects:
+                              [NSNumber numberWithInt:fup.weaponEquippedUserEquip.equipId],
+                              [NSNumber numberWithInt:fup.armorEquippedUserEquip.equipId],
+                              [NSNumber numberWithInt:fup.amuletEquippedUserEquip.equipId],
+                              nil]];
+}
+
+- (void) retrieveStaticEquipsForUsers:(NSArray *)users {
+  NSMutableSet *ids = [NSMutableSet set];
+  for (FullUserProto *fup in users) {
+    [ids addObject:[NSNumber numberWithInt:fup.weaponEquippedUserEquip.equipId]];
+    [ids addObject:[NSNumber numberWithInt:fup.armorEquippedUserEquip.equipId]];
+    [ids addObject:[NSNumber numberWithInt:fup.amuletEquippedUserEquip.equipId]];
+  }
+  [self retrieveStaticEquips:[ids allObjects]];
 }
 
 - (void) retrieveStructStore {

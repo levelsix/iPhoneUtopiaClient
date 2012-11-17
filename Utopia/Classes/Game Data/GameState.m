@@ -189,6 +189,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _lastUserUpdate = time;
   }
   
+  LNLog(@"Before, Energy: %@, Stamina: %@", self.lastEnergyRefill, self.lastStaminaRefill);
+  
   // Copy over data from full user proto
   if (_userId != user.userId || ![_name isEqualToString:user.name] || _type != user.userType || (user.hasClan && ![self.clan.data isEqualToData:user.clan.data]) || (!user.hasClan && self.clan)) {
     self.userId = user.userId;
@@ -241,11 +243,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   self.lastGoldmineRetrieval = user.hasLastGoldmineRetrieval ? [NSDate dateWithTimeIntervalSince1970:user.lastGoldmineRetrieval/1000.0] : nil;
   
+  LNLog(@"Medium, Energy: %@, Stamina: %@", self.lastEnergyRefill, self.lastStaminaRefill);
+  
   for (id<GameStateUpdate> gsu in _unrespondedUpdates) {
     if ([gsu respondsToSelector:@selector(update)]) {
       [gsu update];
     }
   }
+  
+  LNLog(@"After, Energy: %@, Stamina: %@", self.lastEnergyRefill, self.lastStaminaRefill);
   
   [[TopBar sharedTopBar] setUpEnergyTimer];
   [[TopBar sharedTopBar] setUpStaminaTimer];
@@ -292,30 +298,45 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     if (numTimes == 50 || (numTimes %= 100) == 0) {
       ContextLogWarn(LN_CONTEXT_GAMESTATE, @"Lotsa wait time for this. Re-retrieving.");
       
-      LNLog(@"Re-retrieving item: %d", itemId);
+      LNLog(@"Re-retrieving item: %d. Current things:", itemId);
+      
+      NSString *s = @"(";
+      for (NSNumber *num in dict.allKeys) {
+        s = [s stringByAppendingFormat:@"%d,", num.intValue];
+      }
       
       // Lets try to retrieve the data by forcing a call
       SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
       NSArray *arr = [NSArray arrayWithObject:[NSNumber numberWithInt:itemId]];
       if (dict == _staticStructs) {
         [sc sendRetrieveStaticDataMessageWithStructIds:arr taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
+        LNLog(@"Structures");
       } else if (dict == _staticTasks) {
         [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:arr questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
+        LNLog(@"Tasks");
       } else if (dict == _staticQuests) {
         [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:arr cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
+        LNLog(@"Quests");
       } else if (dict == _staticCities) {
         [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:arr equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
+        LNLog(@"Cities");
       } else if (dict == _staticEquips) {
         [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:arr buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
+        LNLog(@"Equips");
       } else if (dict == _staticBuildStructJobs) {
         [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:arr defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
+        LNLog(@"Build Struct Jobs");
       } else if (dict == _staticDefeatTypeJobs) {
         [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:arr possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
+        LNLog(@"Defeat Type Jobs");
       } else if (dict == _staticPossessEquipJobs) {
         [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:arr upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO];
+        LNLog(@"Possess Equip Jobs");
       } else if (dict == _staticUpgradeStructJobs) {
         [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:arr lockBoxEvents:NO clanTierLevels:NO];
+        LNLog(@"Upgrade Struct Jobs");
       }
+      LNLog(@"%@)", s);
     } else if (!ad.isActive || numTimes > 10000) {
       [dict release];
       return nil;
