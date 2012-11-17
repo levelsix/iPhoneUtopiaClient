@@ -198,6 +198,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
     ((VaultTickView *)[(SBTickerView *)obj frontView]).num = 0;
   }];
   transferField.text = [NSString stringWithFormat:@"%d", _defaultValue == 0 ? [[GameState sharedGameState] silver] : _defaultValue];
+  _defaultValue = 0;
   
   [self performSelector:@selector(updateBalance) withObject:nil afterDelay:0.5];
   
