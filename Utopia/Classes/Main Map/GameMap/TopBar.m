@@ -387,6 +387,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     showThreeCardMonte = YES;
   }
   
+  [[GameState sharedGameState] resetLockBoxTimers];
+  
+  if (![[GameState sharedGameState] isTutorial]) {
+    [[HomeMap sharedHomeMap] refresh];
+    [[HomeMap sharedHomeMap] beginTimers];
+    chatBottomView.hidden = NO;
+  }
+  
   // Display the views: Will have downloaded by now
   if (showActFeed) {
     [ActivityFeedController displayView];
@@ -396,14 +404,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [[LockBoxMenuController sharedLockBoxMenuController] infoClicked:nil];
   } if (showThreeCardMonte) {
     [ThreeCardMonteViewController displayView];
-  }
-  
-  [[GameState sharedGameState] resetLockBoxTimers];
-  
-  if (![[GameState sharedGameState] isTutorial]) {
-    [[HomeMap sharedHomeMap] refresh];
-    [[HomeMap sharedHomeMap] beginTimers];
-    chatBottomView.hidden = NO;
   }
   
   self.isStarted = YES;
