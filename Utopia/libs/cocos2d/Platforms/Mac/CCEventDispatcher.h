@@ -29,7 +29,7 @@
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 #elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 #import "MacGLView.h"
 #import "../../Support/uthash.h"	// hack: uthash needs to be imported before utlist to prevent warning

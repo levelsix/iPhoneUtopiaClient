@@ -28,7 +28,7 @@
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 #elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 
 @interface MacWindow : NSWindow

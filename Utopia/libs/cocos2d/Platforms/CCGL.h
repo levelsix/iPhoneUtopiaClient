@@ -39,7 +39,7 @@
 #elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
 #import <OpenGL/gl.h>
 #import <OpenGL/glu.h>
-#import <Cocoa/Cocoa.h>	// needed for NSOpenGLView
+#import <Foundation/Foundation.h>	// needed for NSOpenGLView
 #import "Mac/MacGLView.h"
 #endif
 

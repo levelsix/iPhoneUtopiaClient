@@ -17,7 +17,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 # import <amqp.h>
 # import <amqp_framing.h>
@@ -34,13 +34,13 @@
 	NSString *contentType;
 	NSString *contentEncoding;
 	amqp_table_t headers;
-	uint8 deliveryMode;
-	uint8 priority;
+	uint8_t deliveryMode;
+	uint8_t priority;
 	NSString *correlationID;
 	NSString *replyToQueueName;
 	NSString *expiration;
 	NSString *messageID;
-	uint64 timestamp;
+	uint64_t timestamp;
 	NSString *type;
 	NSString *userID;
 	NSString *appID;
@@ -48,7 +48,7 @@
 	
 	//from method
 	NSString *consumerTag;
-	uint64 deliveryTag;
+	uint64_t deliveryTag;
 	BOOL redelivered;
 	NSString *exchangeName;
 	NSString *routingKey;
@@ -62,20 +62,20 @@
 @property (readonly) NSString *contentType;
 @property (readonly) NSString *contentEncoding;
 @property (readonly) amqp_table_t headers;
-@property (readonly) uint8 deliveryMode;
-@property (readonly) uint8 priority;
+@property (readonly) uint8_t deliveryMode;
+@property (readonly) uint8_t priority;
 @property (readonly) NSString *correlationID;
 @property (readonly) NSString *replyToQueueName;
 @property (readonly) NSString *expiration;
 @property (readonly) NSString *messageID;
-@property (readonly) uint64 timestamp;
+@property (readonly) uint64_t timestamp;
 @property (readonly) NSString *type;
 @property (readonly) NSString *userID;
 @property (readonly) NSString *appID;
 @property (readonly) NSString *clusterID;
 
 @property (readonly) NSString *consumerTag;
-@property (readonly) uint64 deliveryTag;
+@property (readonly) uint64_t deliveryTag;
 @property (readonly) BOOL redelivered;
 @property (readonly) NSString *exchangeName;
 @property (readonly) NSString *routingKey;

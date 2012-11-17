@@ -803,7 +803,6 @@
 		CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7816572A8400A51F85 /* AMQPMessage.m */; };
 		CF15BA8516572A8400A51F85 /* AMQPObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7A16572A8400A51F85 /* AMQPObject.m */; };
 		CF15BA8616572A8400A51F85 /* AMQPQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7C16572A8400A51F85 /* AMQPQueue.m */; };
-		CF15BA8716572A8400A51F85 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA7E16572A8400A51F85 /* README.md */; };
 		CF15EDE81580541C00A8AAC1 /* tutorialbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDE21580541C00A8AAC1 /* tutorialbubble.png */; };
 		CF15EDE91580541C00A8AAC1 /* tutorialbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDE31580541C00A8AAC1 /* tutorialbubble@2x.png */; };
 		CF15EDF0158064D900A8AAC1 /* attackbuttonlight.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDEC158064D900A8AAC1 /* attackbuttonlight.png */; };
@@ -1200,7 +1199,6 @@
 		CF689C1C15C3B89400F2E50E /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1415C3B89400F2E50E /* SBJsonBase.m */; };
 		CF689C1D15C3B89400F2E50E /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1615C3B89400F2E50E /* SBJsonParser.m */; };
 		CF689C1E15C3B89400F2E50E /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1815C3B89400F2E50E /* SBJsonWriter.m */; };
-		CF689C2515C3B96E00F2E50E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CF689C2315C3B96E00F2E50E /* README.md */; };
 		CF6BDC75156AFDA80056B45B /* submittomarketbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC74156AFDA80056B45B /* submittomarketbg@2x.png */; };
 		CF6BDC77156AFDAE0056B45B /* submittomarketbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC76156AFDAE0056B45B /* submittomarketbg.png */; };
 		CF6BDC87156C1D800056B45B /* expstars@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC86156C1D800056B45B /* expstars@2x.png */; };
@@ -1514,6 +1512,40 @@
 		CFC02E501612B867007B052F /* TheGoldMine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC02E4C1612B867007B052F /* TheGoldMine@2x.png */; };
 		CFC02E591612C2F7007B052F /* GoldMineView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC02E581612C2F7007B052F /* GoldMineView.m */; };
 		CFC02E5B1612C307007B052F /* GoldMineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC02E5A1612C307007B052F /* GoldMineView.xib */; };
+		CFC141821657484A0060188D /* .dirstamp in Resources */ = {isa = PBXBuildFile; fileRef = CFC1414F1657484A0060188D /* .dirstamp */; };
+		CFC141831657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141501657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.Plo */; };
+		CFC141841657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141511657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.Plo */; };
+		CFC141851657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141521657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.Plo */; };
+		CFC141861657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141531657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.Plo */; };
+		CFC141871657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141541657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.Plo */; };
+		CFC141881657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141551657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.Plo */; };
+		CFC141891657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141561657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.Plo */; };
+		CFC1418A1657484A0060188D /* .dirstamp in Resources */ = {isa = PBXBuildFile; fileRef = CFC141571657484A0060188D /* .dirstamp */; };
+		CFC1418B1657484A0060188D /* librabbitmq.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC141591657484A0060188D /* librabbitmq.1.dylib */; };
+		CFC1418C1657484A0060188D /* librabbitmq.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC1415A1657484A0060188D /* librabbitmq.dylib */; };
+		CFC1418D1657484A0060188D /* librabbitmq.la in Resources */ = {isa = PBXBuildFile; fileRef = CFC1415B1657484A0060188D /* librabbitmq.la */; };
+		CFC1418E1657484A0060188D /* librabbitmq.lai in Resources */ = {isa = PBXBuildFile; fileRef = CFC1415C1657484A0060188D /* librabbitmq.lai */; };
+		CFC1418F1657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.o in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC1415D1657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.o */; };
+		CFC141901657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.o in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC1415E1657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.o */; };
+		CFC141911657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.o in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC1415F1657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.o */; };
+		CFC141921657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.o in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC141601657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.o */; };
+		CFC141931657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.o in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC141611657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.o */; };
+		CFC141941657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.o in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC141621657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.o */; };
+		CFC141951657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.o in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC141631657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.o */; };
+		CFC1419F1657484A0060188D /* librabbitmq.la in Resources */ = {isa = PBXBuildFile; fileRef = CFC141701657484A0060188D /* librabbitmq.la */; };
+		CFC141A01657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141711657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.lo */; };
+		CFC141A11657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141721657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.lo */; };
+		CFC141A21657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141731657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.lo */; };
+		CFC141A31657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141741657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.lo */; };
+		CFC141A41657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141751657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.lo */; };
+		CFC141A51657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141761657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.lo */; };
+		CFC141A61657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC141771657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.lo */; };
+		CFC141A71657484A0060188D /* .dirstamp in Resources */ = {isa = PBXBuildFile; fileRef = CFC1417A1657484A0060188D /* .dirstamp */; };
+		CFC141A81657484A0060188D /* librabbitmq_librabbitmq_la-socket.Plo in Resources */ = {isa = PBXBuildFile; fileRef = CFC1417B1657484A0060188D /* librabbitmq_librabbitmq_la-socket.Plo */; };
+		CFC141A91657484A0060188D /* .dirstamp in Resources */ = {isa = PBXBuildFile; fileRef = CFC1417C1657484A0060188D /* .dirstamp */; };
+		CFC141AA1657484A0060188D /* librabbitmq_librabbitmq_la-socket.o in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC1417E1657484A0060188D /* librabbitmq_librabbitmq_la-socket.o */; };
+		CFC141AB1657484A0060188D /* librabbitmq_librabbitmq_la-socket.lo in Resources */ = {isa = PBXBuildFile; fileRef = CFC1417F1657484A0060188D /* librabbitmq_librabbitmq_la-socket.lo */; };
+		CFC141AC1657484A0060188D /* socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141801657484A0060188D /* socket.c */; };
 		CFC38FA7156EF9A100A6A217 /* HomeBuildingMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC38FA6156EF9A000A6A217 /* HomeBuildingMenus.m */; };
 		CFC38FA9156F1B8000A6A217 /* UpgradeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC38FA8156F1B8000A6A217 /* UpgradeBuildingMenu.xib */; };
 		CFC38FAB156F1BA400A6A217 /* HomeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC38FAA156F1BA400A6A217 /* HomeBuildingMenu.xib */; };
@@ -3726,6 +3758,44 @@
 		CFC02E641612C407007B052F /* noworktape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noworktape@2x.png"; sourceTree = "<group>"; };
 		CFC02E651612C407007B052F /* resetbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resetbutton.png; sourceTree = "<group>"; };
 		CFC02E661612C407007B052F /* resetbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "resetbutton@2x.png"; sourceTree = "<group>"; };
+		CFC1414F1657484A0060188D /* .dirstamp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
+		CFC141501657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_api.Plo"; sourceTree = "<group>"; };
+		CFC141511657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_connection.Plo"; sourceTree = "<group>"; };
+		CFC141521657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_framing.Plo"; sourceTree = "<group>"; };
+		CFC141531657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_mem.Plo"; sourceTree = "<group>"; };
+		CFC141541657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_socket.Plo"; sourceTree = "<group>"; };
+		CFC141551657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_table.Plo"; sourceTree = "<group>"; };
+		CFC141561657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_url.Plo"; sourceTree = "<group>"; };
+		CFC141571657484A0060188D /* .dirstamp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
+		CFC141591657484A0060188D /* librabbitmq.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = librabbitmq.1.dylib; sourceTree = "<group>"; };
+		CFC1415A1657484A0060188D /* librabbitmq.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = librabbitmq.dylib; sourceTree = "<group>"; };
+		CFC1415B1657484A0060188D /* librabbitmq.la */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = librabbitmq.la; sourceTree = "<group>"; };
+		CFC1415C1657484A0060188D /* librabbitmq.lai */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = librabbitmq.lai; sourceTree = "<group>"; };
+		CFC1415D1657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "librabbitmq_librabbitmq_la-amqp_api.o"; sourceTree = "<group>"; };
+		CFC1415E1657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "librabbitmq_librabbitmq_la-amqp_connection.o"; sourceTree = "<group>"; };
+		CFC1415F1657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "librabbitmq_librabbitmq_la-amqp_framing.o"; sourceTree = "<group>"; };
+		CFC141601657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "librabbitmq_librabbitmq_la-amqp_mem.o"; sourceTree = "<group>"; };
+		CFC141611657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "librabbitmq_librabbitmq_la-amqp_socket.o"; sourceTree = "<group>"; };
+		CFC141621657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "librabbitmq_librabbitmq_la-amqp_table.o"; sourceTree = "<group>"; };
+		CFC141631657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "librabbitmq_librabbitmq_la-amqp_url.o"; sourceTree = "<group>"; };
+		CFC141641657484A0060188D /* amqp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp.h; sourceTree = "<group>"; };
+		CFC141681657484A0060188D /* amqp_framing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_framing.h; sourceTree = "<group>"; };
+		CFC1416A1657484A0060188D /* amqp_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_private.h; sourceTree = "<group>"; };
+		CFC141701657484A0060188D /* librabbitmq.la */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = librabbitmq.la; sourceTree = "<group>"; };
+		CFC141711657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_api.lo"; sourceTree = "<group>"; };
+		CFC141721657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_connection.lo"; sourceTree = "<group>"; };
+		CFC141731657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_framing.lo"; sourceTree = "<group>"; };
+		CFC141741657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_mem.lo"; sourceTree = "<group>"; };
+		CFC141751657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_socket.lo"; sourceTree = "<group>"; };
+		CFC141761657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_table.lo"; sourceTree = "<group>"; };
+		CFC141771657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-amqp_url.lo"; sourceTree = "<group>"; };
+		CFC1417A1657484A0060188D /* .dirstamp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
+		CFC1417B1657484A0060188D /* librabbitmq_librabbitmq_la-socket.Plo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-socket.Plo"; sourceTree = "<group>"; };
+		CFC1417C1657484A0060188D /* .dirstamp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
+		CFC1417E1657484A0060188D /* librabbitmq_librabbitmq_la-socket.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "librabbitmq_librabbitmq_la-socket.o"; sourceTree = "<group>"; };
+		CFC1417F1657484A0060188D /* librabbitmq_librabbitmq_la-socket.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "librabbitmq_librabbitmq_la-socket.lo"; sourceTree = "<group>"; };
+		CFC141801657484A0060188D /* socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = socket.c; sourceTree = "<group>"; };
+		CFC141811657484A0060188D /* socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socket.h; sourceTree = "<group>"; };
 		CFC38FA5156EF9A000A6A217 /* HomeBuildingMenus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeBuildingMenus.h; sourceTree = "<group>"; };
 		CFC38FA6156EF9A000A6A217 /* HomeBuildingMenus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeBuildingMenus.m; sourceTree = "<group>"; };
 		CFC38FA8156F1B8000A6A217 /* UpgradeBuildingMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradeBuildingMenu.xib; sourceTree = "<group>"; };
@@ -3991,6 +4061,16 @@
 				CF19297F157EEC4C00D51C70 /* libApsalar.a in Frameworks */,
 				459A9135157D3E62004B7014 /* libKiip.a in Frameworks */,
 				CFC02DFD16118115007B052F /* libCrittercism_v3_3_4.a in Frameworks */,
+				CFC1418B1657484A0060188D /* librabbitmq.1.dylib in Frameworks */,
+				CFC1418C1657484A0060188D /* librabbitmq.dylib in Frameworks */,
+				CFC1418F1657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.o in Frameworks */,
+				CFC141901657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.o in Frameworks */,
+				CFC141911657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.o in Frameworks */,
+				CFC141921657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.o in Frameworks */,
+				CFC141931657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.o in Frameworks */,
+				CFC141941657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.o in Frameworks */,
+				CFC141951657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.o in Frameworks */,
+				CFC141AA1657484A0060188D /* librabbitmq_librabbitmq_la-socket.o in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4725,6 +4805,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CFC1414D1657484A0060188D /* librabbitmq */,
 				CF15BA6B16572A8300A51F85 /* rabbitmq */,
 				CF03F11D163BC7020076E89E /* GiraffeGraph */,
 				CF28BBED1628EEB00012F1C1 /* SSZipArchive */,
@@ -7231,6 +7312,91 @@
 			path = "Gold mine images";
 			sourceTree = "<group>";
 		};
+		CFC1414D1657484A0060188D /* librabbitmq */ = {
+			isa = PBXGroup;
+			children = (
+				CFC1414E1657484A0060188D /* .deps */,
+				CFC141571657484A0060188D /* .dirstamp */,
+				CFC141581657484A0060188D /* .libs */,
+				CFC141641657484A0060188D /* amqp.h */,
+				CFC141681657484A0060188D /* amqp_framing.h */,
+				CFC1416A1657484A0060188D /* amqp_private.h */,
+				CFC141701657484A0060188D /* librabbitmq.la */,
+				CFC141711657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.lo */,
+				CFC141721657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.lo */,
+				CFC141731657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.lo */,
+				CFC141741657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.lo */,
+				CFC141751657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.lo */,
+				CFC141761657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.lo */,
+				CFC141771657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.lo */,
+				CFC141781657484A0060188D /* unix */,
+			);
+			path = librabbitmq;
+			sourceTree = "<group>";
+		};
+		CFC1414E1657484A0060188D /* .deps */ = {
+			isa = PBXGroup;
+			children = (
+				CFC1414F1657484A0060188D /* .dirstamp */,
+				CFC141501657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.Plo */,
+				CFC141511657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.Plo */,
+				CFC141521657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.Plo */,
+				CFC141531657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.Plo */,
+				CFC141541657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.Plo */,
+				CFC141551657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.Plo */,
+				CFC141561657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.Plo */,
+			);
+			path = .deps;
+			sourceTree = "<group>";
+		};
+		CFC141581657484A0060188D /* .libs */ = {
+			isa = PBXGroup;
+			children = (
+				CFC141591657484A0060188D /* librabbitmq.1.dylib */,
+				CFC1415A1657484A0060188D /* librabbitmq.dylib */,
+				CFC1415B1657484A0060188D /* librabbitmq.la */,
+				CFC1415C1657484A0060188D /* librabbitmq.lai */,
+				CFC1415D1657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.o */,
+				CFC1415E1657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.o */,
+				CFC1415F1657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.o */,
+				CFC141601657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.o */,
+				CFC141611657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.o */,
+				CFC141621657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.o */,
+				CFC141631657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.o */,
+			);
+			path = .libs;
+			sourceTree = "<group>";
+		};
+		CFC141781657484A0060188D /* unix */ = {
+			isa = PBXGroup;
+			children = (
+				CFC141791657484A0060188D /* .deps */,
+				CFC1417C1657484A0060188D /* .dirstamp */,
+				CFC1417D1657484A0060188D /* .libs */,
+				CFC1417F1657484A0060188D /* librabbitmq_librabbitmq_la-socket.lo */,
+				CFC141801657484A0060188D /* socket.c */,
+				CFC141811657484A0060188D /* socket.h */,
+			);
+			path = unix;
+			sourceTree = "<group>";
+		};
+		CFC141791657484A0060188D /* .deps */ = {
+			isa = PBXGroup;
+			children = (
+				CFC1417A1657484A0060188D /* .dirstamp */,
+				CFC1417B1657484A0060188D /* librabbitmq_librabbitmq_la-socket.Plo */,
+			);
+			path = .deps;
+			sourceTree = "<group>";
+		};
+		CFC1417D1657484A0060188D /* .libs */ = {
+			isa = PBXGroup;
+			children = (
+				CFC1417E1657484A0060188D /* librabbitmq_librabbitmq_la-socket.o */,
+			);
+			path = .libs;
+			sourceTree = "<group>";
+		};
 		CFC38FA3156EF92900A6A217 /* HomeMap */ = {
 			isa = PBXGroup;
 			children = (
@@ -8616,7 +8782,6 @@
 				CF689C0715C3A69400F2E50E /* ForgeEnter.m4a in Resources */,
 				CF689C0815C3A69400F2E50E /* ForgeFail.m4a in Resources */,
 				CF689C0A15C3AA4E00F2E50E /* KirinVillage@2x.tmx in Resources */,
-				CF689C2515C3B96E00F2E50E /* README.md in Resources */,
 				CF10775715C8E3A400409312 /* badgeforquests.png in Resources */,
 				CF10775815C8E3A400409312 /* badgeforquests@2x.png in Resources */,
 				CF10775B15C9060D00409312 /* VillaMontalvo@2x.tmx in Resources */,
@@ -9010,7 +9175,29 @@
 				CF15BA4B1651CDAD00A51F85 /* warredbar@2x.png in Resources */,
 				CF15BA4C1651CDAD00A51F85 /* warticker.png in Resources */,
 				CF15BA4D1651CDAD00A51F85 /* warticker@2x.png in Resources */,
-				CF15BA8716572A8400A51F85 /* README.md in Resources */,
+				CFC141821657484A0060188D /* .dirstamp in Resources */,
+				CFC141831657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.Plo in Resources */,
+				CFC141841657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.Plo in Resources */,
+				CFC141851657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.Plo in Resources */,
+				CFC141861657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.Plo in Resources */,
+				CFC141871657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.Plo in Resources */,
+				CFC141881657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.Plo in Resources */,
+				CFC141891657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.Plo in Resources */,
+				CFC1418A1657484A0060188D /* .dirstamp in Resources */,
+				CFC1418D1657484A0060188D /* librabbitmq.la in Resources */,
+				CFC1418E1657484A0060188D /* librabbitmq.lai in Resources */,
+				CFC1419F1657484A0060188D /* librabbitmq.la in Resources */,
+				CFC141A01657484A0060188D /* librabbitmq_librabbitmq_la-amqp_api.lo in Resources */,
+				CFC141A11657484A0060188D /* librabbitmq_librabbitmq_la-amqp_connection.lo in Resources */,
+				CFC141A21657484A0060188D /* librabbitmq_librabbitmq_la-amqp_framing.lo in Resources */,
+				CFC141A31657484A0060188D /* librabbitmq_librabbitmq_la-amqp_mem.lo in Resources */,
+				CFC141A41657484A0060188D /* librabbitmq_librabbitmq_la-amqp_socket.lo in Resources */,
+				CFC141A51657484A0060188D /* librabbitmq_librabbitmq_la-amqp_table.lo in Resources */,
+				CFC141A61657484A0060188D /* librabbitmq_librabbitmq_la-amqp_url.lo in Resources */,
+				CFC141A71657484A0060188D /* .dirstamp in Resources */,
+				CFC141A81657484A0060188D /* librabbitmq_librabbitmq_la-socket.Plo in Resources */,
+				CFC141A91657484A0060188D /* .dirstamp in Resources */,
+				CFC141AB1657484A0060188D /* librabbitmq_librabbitmq_la-socket.lo in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9270,6 +9457,7 @@
 				CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */,
 				CF15BA8516572A8400A51F85 /* AMQPObject.m in Sources */,
 				CF15BA8616572A8400A51F85 /* AMQPQueue.m in Sources */,
+				CFC141AC1657484A0060188D /* socket.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9429,7 +9617,10 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Utopia/libs/Headers\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Utopia/libs/Headers\"",
+					"$(SRCROOT)/Utopia/libs/**",
+				);
 				INFOPLIST_FILE = "Utopia/Utopia-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -9438,6 +9629,8 @@
 					"\"$(SRCROOT)/Utopia/libs/Kiip/$(PLATFORM_NAME)\"",
 					"\"$(SRCROOT)/Utopia/libs/CrittercismSDK\"",
 					"\"$(SRCROOT)/Utopia/libs/AdColony\"",
+					"$(SRCROOT)/Utopia/libs/**",
+					"\"$(SRCROOT)/Utopia/libs/librabbitmq/.libs\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -9475,7 +9668,10 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Utopia/libs/Headers\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Utopia/libs/Headers\"",
+					"$(SRCROOT)/Utopia/libs/**",
+				);
 				INFOPLIST_FILE = "Utopia/Utopia-Info.plist";
 				INSTALL_OWNER = "$(USER)";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -9485,6 +9681,8 @@
 					"\"$(SRCROOT)/Utopia/libs/Kiip/$(PLATFORM_NAME)\"",
 					"\"$(SRCROOT)/Utopia/libs/CrittercismSDK\"",
 					"\"$(SRCROOT)/Utopia/libs/AdColony\"",
+					"$(SRCROOT)/Utopia/libs/**",
+					"\"$(SRCROOT)/Utopia/libs/librabbitmq/.libs\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

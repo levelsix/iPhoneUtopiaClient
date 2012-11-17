@@ -695,6 +695,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     if ([ChatMenuController isInitialized]) {
       [[ChatMenuController sharedChatMenuController] close];
     }
+    
+    if ([ActivityFeedController isInitialized]) {
+      [[ActivityFeedController sharedActivityFeedController] close];
+    }
   } else {
     [self startBattle];
   }
