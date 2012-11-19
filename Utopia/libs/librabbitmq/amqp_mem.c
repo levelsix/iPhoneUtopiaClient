@@ -30,9 +30,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "amqp_private.h"
 #include <assert.h>

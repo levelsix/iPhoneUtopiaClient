@@ -21,6 +21,7 @@
 
 # import "AMQPConsumer.h"
 # import "AMQPMessage.h"
+# import "AMQPChannel.h"
 
 @implementation AMQPConsumerThread
 
@@ -50,11 +51,13 @@
 	{
 		localPool = [[NSAutoreleasePool alloc] init];
 		
-		AMQPMessage *message = [consumer pop];
-		if(message)
-		{
-			[delegate performSelectorOnMainThread:@selector(amqpConsumerThreadReceivedNewMessage:) withObject:message waitUntilDone:NO];
-		}
+//    if (amqp_data_in_buffer(consumer.channel.connection.internalConnection)) {
+      AMQPMessage *message = [consumer pop];
+      if(message)
+      {
+        [delegate performSelectorOnMainThread:@selector(amqpConsumerThreadReceivedNewMessage:) withObject:message waitUntilDone:NO];
+      }
+//    }
 		
 		[localPool drain];
 	}

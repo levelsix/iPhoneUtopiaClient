@@ -444,6 +444,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
     // Update user before creating map
     [gs updateUser:proto.sender timestamp:0];
+    
+    // Setup the userid queue
+    [[SocketCommunication sharedSocketCommunication] initUserIdMessageQueue];
+    
     [gs setPlayerHasBoughtInAppPurchase:proto.playerHasBoughtInAppPurchase];
     
     [Globals asyncDownloadBundles];

@@ -28,7 +28,7 @@
 
 @interface AMQPMessage : NSObject
 {
-	NSString *body;
+	NSData *body;
 	
 	// from properties
 	NSString *contentType;
@@ -57,7 +57,7 @@
 	NSDate *receivedAt;
 }
 
-@property (readonly) NSString *body;
+@property (readonly) NSData *body;
 
 @property (readonly) NSString *contentType;
 @property (readonly) NSString *contentEncoding;

@@ -65,7 +65,7 @@
 	
 	if(self = [super init])
 	{
-		body = AMQP_BYTES_TO_NSSTRING(theBody);
+		body = [[NSData alloc] initWithBytes:theBody.bytes length:theBody.len];
 		
 		consumerTag = AMQP_BYTES_TO_NSSTRING(theDeliveryProperties->consumer_tag);
 		deliveryTag = theDeliveryProperties->delivery_tag;

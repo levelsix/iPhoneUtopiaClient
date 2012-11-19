@@ -25,6 +25,10 @@
 # import "config.h"
 # import "AMQPChannel.h"
 
+#define AMQP_EXCHANGE_TYPE_DIRECT @"direct"
+#define AMQP_EXCHANGE_TYPE_FANOUT @"fanout"
+#define AMQP_EXCHANGE_TYPE_TOPIC @"topic"
+
 @implementation AMQPExchange
 
 @synthesize internalExchange = exchange;
@@ -43,17 +47,17 @@
 	
 	return self;
 }
-- (id)initDirectExchangeWithName:(NSString*)theName onChannel:(AMQPChannel*)theChannel isPassive:(BOOL)passive isDurable:(BOOL)durable getsAutoDeleted:(BOOL)autoDelete
+- (id)initDirectExchangeWithName:(NSString*)theName onChannel:(AMQPChannel*)theChannel isPassive:(BOOL)passive isDurable:(BOOL)durable
 {
-	return [self initExchangeOfType:AMQP_EXCHANGE_TYPE_DIRECT withName:theName onChannel:theChannel isPassive:passive isDurable:durable getsAutoDeleted:autoDelete];
+	return [self initExchangeOfType:AMQP_EXCHANGE_TYPE_DIRECT withName:theName onChannel:theChannel isPassive:passive isDurable:durable];
 }
-- (id)initFanoutExchangeWithName:(NSString*)theName onChannel:(AMQPChannel*)theChannel isPassive:(BOOL)passive isDurable:(BOOL)durable getsAutoDeleted:(BOOL)autoDelete
+- (id)initFanoutExchangeWithName:(NSString*)theName onChannel:(AMQPChannel*)theChannel isPassive:(BOOL)passive isDurable:(BOOL)durable
 {
-	return [self initExchangeOfType:AMQP_EXCHANGE_TYPE_FANOUT withName:theName onChannel:theChannel isPassive:passive isDurable:durable getsAutoDeleted:autoDelete];
+	return [self initExchangeOfType:AMQP_EXCHANGE_TYPE_FANOUT withName:theName onChannel:theChannel isPassive:passive isDurable:durable];
 }
-- (id)initTopicExchangeWithName:(NSString*)theName onChannel:(AMQPChannel*)theChannel isPassive:(BOOL)passive isDurable:(BOOL)durable getsAutoDeleted:(BOOL)autoDelete
+- (id)initTopicExchangeWithName:(NSString*)theName onChannel:(AMQPChannel*)theChannel isPassive:(BOOL)passive isDurable:(BOOL)durable
 {
-	return [self initExchangeOfType:AMQP_EXCHANGE_TYPE_TOPIC withName:theName onChannel:theChannel isPassive:passive isDurable:durable getsAutoDeleted:autoDelete];
+	return [self initExchangeOfType:AMQP_EXCHANGE_TYPE_TOPIC withName:theName onChannel:theChannel isPassive:passive isDurable:durable];
 }
 - (void)dealloc
 {
@@ -63,9 +67,19 @@
 	[super dealloc];
 }
 
-- (void)publishMessage:(NSString*)body usingRoutingKey:(NSString*)theRoutingKey
+- (void)publishMessageWithString:(NSString*)body usingRoutingKey:(NSString*)theRoutingKey
 {
 	amqp_basic_publish(channel.connection.internalConnection, channel.internalChannel, exchange, amqp_cstring_bytes([theRoutingKey UTF8String]), NO, NO, NULL, amqp_cstring_bytes([body UTF8String]));
+	
+	[channel.connection checkLastOperation:@"Failed to publish message"];
+}
+
+- (void)publishMessageWithData:(NSData*)body usingRoutingKey:(NSString*)theRoutingKey
+{
+  amqp_bytes_t data;
+  data.len = body.length;
+  data.bytes = (void *)body.bytes;
+	amqp_basic_publish(channel.connection.internalConnection, channel.internalChannel, exchange, amqp_cstring_bytes([theRoutingKey UTF8String]), NO, NO, NULL, data);
 	
 	[channel.connection checkLastOperation:@"Failed to publish message"];
 }

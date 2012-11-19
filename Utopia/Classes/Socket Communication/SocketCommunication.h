@@ -11,22 +11,30 @@
 #import "Event.pb.h"
 #import "Protocols.pb.h"
 
-@interface SocketCommunication : NSObject <GCDAsyncSocketDelegate, UIAlertViewDelegate> {
-	GCDAsyncSocket *_asyncSocket;
+#import "AMQPWrapper.h"
+
+@interface SocketCommunication : NSObject <UIAlertViewDelegate, AMQPConsumerThreadDelegate> {
   BOOL _shouldReconnect;
   MinimumUserProto *_sender;
   int _currentTagNum;
   int _nextMsgType;
   
   int _numDisconnects;
+  
+  AMQPExchange *_exchange;
+  AMQPConnection *_connection;
+  AMQPQueue *_udidQueue;
+  AMQPQueue *_useridQueue;
+  AMQPConsumerThread *_udidThread;
+  AMQPConsumerThread *_useridThread;
 }
 
 - (void) rebuildSender;
 
 + (SocketCommunication *)sharedSocketCommunication;
 - (void) initNetworkCommunication;
+- (void) initUserIdMessageQueue;
 - (void) closeDownConnection;
-- (void) readHeader;
 - (void) messageReceived:(NSData *)buffer withType:(EventProtocolResponse)eventType tag:(int)tag;
 
 // Send different event messages

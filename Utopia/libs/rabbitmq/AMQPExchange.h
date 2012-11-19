@@ -35,11 +35,12 @@
 @property (readonly) amqp_bytes_t internalExchange;
 
 - (id)initExchangeOfType:(NSString*)theType withName:(NSString*)theName onChannel:(AMQPChannel*)theChannel  isPassive:(BOOL)passive isDurable:(BOOL)durable;
-- (id)initDirectExchangeWithName:(NSString*)theName onChannel:(AMQPChannel*)theChannel isPassive:(BOOL)passive isDurable:(BOOL)durable getsAutoDeleted:(BOOL)autoDelete;
-- (id)initFanoutExchangeWithName:(NSString*)theName onChannel:(AMQPChannel*)theChannel isPassive:(BOOL)passive isDurable:(BOOL)durable getsAutoDeleted:(BOOL)autoDelete;
-- (id)initTopicExchangeWithName:(NSString*)theName onChannel:(AMQPChannel*)theChannel isPassive:(BOOL)passive isDurable:(BOOL)durable getsAutoDeleted:(BOOL)autoDelete;
+- (id)initDirectExchangeWithName:(NSString*)theName onChannel:(AMQPChannel*)theChannel isPassive:(BOOL)passive isDurable:(BOOL)durable;
+- (id)initFanoutExchangeWithName:(NSString*)theName onChannel:(AMQPChannel*)theChannel isPassive:(BOOL)passive isDurable:(BOOL)durable;
+- (id)initTopicExchangeWithName:(NSString*)theName onChannel:(AMQPChannel*)theChannel isPassive:(BOOL)passive isDurable:(BOOL)durable;
 - (void)dealloc;
 
-- (void)publishMessage:(NSString*)body usingRoutingKey:(NSString*)theRoutingKey;
+- (void)publishMessageWithString:(NSString*)body usingRoutingKey:(NSString*)theRoutingKey;
+- (void)publishMessageWithData:(NSData*)body usingRoutingKey:(NSString*)theRoutingKey;
 
 @end
