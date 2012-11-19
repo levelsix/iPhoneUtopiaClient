@@ -1520,6 +1520,7 @@
 		CFC142011658B70D0060188D /* amqp_socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141FA1658B70B0060188D /* amqp_socket.c */; };
 		CFC142021658B70D0060188D /* amqp_table.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141FB1658B70C0060188D /* amqp_table.c */; };
 		CFC142031658B70D0060188D /* amqp_url.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141FC1658B70C0060188D /* amqp_url.c */; };
+		CFC1421E1659C31A0060188D /* AMQPConnectionThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC1421D1659C31A0060188D /* AMQPConnectionThread.m */; };
 		CFC38FA7156EF9A100A6A217 /* HomeBuildingMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC38FA6156EF9A000A6A217 /* HomeBuildingMenus.m */; };
 		CFC38FA9156F1B8000A6A217 /* UpgradeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC38FA8156F1B8000A6A217 /* UpgradeBuildingMenu.xib */; };
 		CFC38FAB156F1BA400A6A217 /* HomeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC38FAA156F1BA400A6A217 /* HomeBuildingMenu.xib */; };
@@ -3745,6 +3746,8 @@
 		CFC141FA1658B70B0060188D /* amqp_socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_socket.c; sourceTree = "<group>"; };
 		CFC141FB1658B70C0060188D /* amqp_table.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_table.c; sourceTree = "<group>"; };
 		CFC141FC1658B70C0060188D /* amqp_url.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_url.c; sourceTree = "<group>"; };
+		CFC1421C1659C31A0060188D /* AMQPConnectionThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionThread.h; sourceTree = "<group>"; };
+		CFC1421D1659C31A0060188D /* AMQPConnectionThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnectionThread.m; sourceTree = "<group>"; };
 		CFC38FA5156EF9A000A6A217 /* HomeBuildingMenus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeBuildingMenus.h; sourceTree = "<group>"; };
 		CFC38FA6156EF9A000A6A217 /* HomeBuildingMenus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeBuildingMenus.m; sourceTree = "<group>"; };
 		CFC38FA8156F1B8000A6A217 /* UpgradeBuildingMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradeBuildingMenu.xib; sourceTree = "<group>"; };
@@ -4685,6 +4688,8 @@
 				CF1265D41538ACC400E0C1AD /* SocketCommunication.m */,
 				CFEB284515951ADA00B622FC /* FullEvent.h */,
 				CFEB284615951ADB00B622FC /* FullEvent.m */,
+				CFC1421C1659C31A0060188D /* AMQPConnectionThread.h */,
+				CFC1421D1659C31A0060188D /* AMQPConnectionThread.m */,
 			);
 			path = "Socket Communication";
 			sourceTree = "<group>";
@@ -9324,6 +9329,7 @@
 				CFC142011658B70D0060188D /* amqp_socket.c in Sources */,
 				CFC142021658B70D0060188D /* amqp_table.c in Sources */,
 				CFC142031658B70D0060188D /* amqp_url.c in Sources */,
+				CFC1421E1659C31A0060188D /* AMQPConnectionThread.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

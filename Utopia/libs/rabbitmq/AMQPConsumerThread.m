@@ -50,14 +50,16 @@
 	while(![self isCancelled])
 	{
 		localPool = [[NSAutoreleasePool alloc] init];
+//    NSLog(@"Next");
 		
-//    if (amqp_data_in_buffer(consumer.channel.connection.internalConnection)) {
+    amqp_connection_state_t conn = consumer.channel.connection.internalConnection;
+    if (amqp_data_in_buffer(conn) || amqp_frames_enqueued(conn)) {
       AMQPMessage *message = [consumer pop];
       if(message)
       {
         [delegate performSelectorOnMainThread:@selector(amqpConsumerThreadReceivedNewMessage:) withObject:message waitUntilDone:NO];
       }
-//    }
+    }
 		
 		[localPool drain];
 	}
