@@ -183,6 +183,16 @@ amqp_boolean_t amqp_data_in_buffer(amqp_connection_state_t state) {
   return (state->sock_inbound_offset < state->sock_inbound_limit);
 }
 
+amqp_boolean_t amqp_data_available(amqp_connection_state_t state) {
+  fd_set fd;
+  FD_ZERO(&fd);
+  FD_SET( state->sockfd, &fd );
+  struct timeval tv = { 0, 0 };
+  
+  int result = select(state->sockfd+1, &fd, NULL, NULL, &tv);
+  return result > 0;
+}
+
 static int wait_frame_inner(amqp_connection_state_t state,
                             amqp_frame_t *decoded_frame)
 {

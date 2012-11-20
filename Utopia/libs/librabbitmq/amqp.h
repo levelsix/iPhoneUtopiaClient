@@ -410,6 +410,10 @@ amqp_boolean_t
 AMQP_CALL amqp_frames_enqueued(amqp_connection_state_t state);
 
 AMQP_PUBLIC_FUNCTION
+amqp_boolean_t
+AMQP_CALL amqp_data_available(amqp_connection_state_t state);
+
+AMQP_PUBLIC_FUNCTION
 int
 AMQP_CALL amqp_simple_wait_frame(amqp_connection_state_t state,
 		       amqp_frame_t *decoded_frame);

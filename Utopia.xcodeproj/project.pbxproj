@@ -1241,6 +1241,7 @@
 		CF7F17F015C26F47005ED86F /* TutorialGuideWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17EC15C26F47005ED86F /* TutorialGuideWalkNF.pvr.ccz */; };
 		CF7F17F115C26F47005ED86F /* TutorialGuideWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17ED15C26F47005ED86F /* TutorialGuideWalkNF@2x.plist */; };
 		CF7F17F215C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17EE15C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz */; };
+		CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */; };
 		CF7F596315D37B5B0048CB77 /* equippedborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7F596115D37B5B0048CB77 /* equippedborder.png */; };
 		CF7F596415D37B5B0048CB77 /* equippedborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7F596215D37B5B0048CB77 /* equippedborder@2x.png */; };
 		CF7F596715D48AD50048CB77 /* marketplacenavbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7F596515D48AD40048CB77 /* marketplacenavbg.png */; };
@@ -1520,7 +1521,6 @@
 		CFC142011658B70D0060188D /* amqp_socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141FA1658B70B0060188D /* amqp_socket.c */; };
 		CFC142021658B70D0060188D /* amqp_table.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141FB1658B70C0060188D /* amqp_table.c */; };
 		CFC142031658B70D0060188D /* amqp_url.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141FC1658B70C0060188D /* amqp_url.c */; };
-		CFC1421E1659C31A0060188D /* AMQPConnectionThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC1421D1659C31A0060188D /* AMQPConnectionThread.m */; };
 		CFC38FA7156EF9A100A6A217 /* HomeBuildingMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC38FA6156EF9A000A6A217 /* HomeBuildingMenus.m */; };
 		CFC38FA9156F1B8000A6A217 /* UpgradeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC38FA8156F1B8000A6A217 /* UpgradeBuildingMenu.xib */; };
 		CFC38FAB156F1BA400A6A217 /* HomeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC38FAA156F1BA400A6A217 /* HomeBuildingMenu.xib */; };
@@ -3402,6 +3402,9 @@
 		CF7F17EC15C26F47005ED86F /* TutorialGuideWalkNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = TutorialGuideWalkNF.pvr.ccz; sourceTree = "<group>"; };
 		CF7F17ED15C26F47005ED86F /* TutorialGuideWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TutorialGuideWalkNF@2x.plist"; sourceTree = "<group>"; };
 		CF7F17EE15C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TutorialGuideWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
+		CF7F27D1165B36CF00D967DC /* AMQPConnectionThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionThread.h; sourceTree = "<group>"; };
+		CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnectionThread.m; sourceTree = "<group>"; };
+		CF7F27D4165B371500D967DC /* AMQPConnectionThreadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionThreadDelegate.h; sourceTree = "<group>"; };
 		CF7F596115D37B5B0048CB77 /* equippedborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equippedborder.png; sourceTree = "<group>"; };
 		CF7F596215D37B5B0048CB77 /* equippedborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equippedborder@2x.png"; sourceTree = "<group>"; };
 		CF7F596515D48AD40048CB77 /* marketplacenavbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = marketplacenavbg.png; sourceTree = "<group>"; };
@@ -3746,8 +3749,6 @@
 		CFC141FA1658B70B0060188D /* amqp_socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_socket.c; sourceTree = "<group>"; };
 		CFC141FB1658B70C0060188D /* amqp_table.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_table.c; sourceTree = "<group>"; };
 		CFC141FC1658B70C0060188D /* amqp_url.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_url.c; sourceTree = "<group>"; };
-		CFC1421C1659C31A0060188D /* AMQPConnectionThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionThread.h; sourceTree = "<group>"; };
-		CFC1421D1659C31A0060188D /* AMQPConnectionThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnectionThread.m; sourceTree = "<group>"; };
 		CFC38FA5156EF9A000A6A217 /* HomeBuildingMenus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeBuildingMenus.h; sourceTree = "<group>"; };
 		CFC38FA6156EF9A000A6A217 /* HomeBuildingMenus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeBuildingMenus.m; sourceTree = "<group>"; };
 		CFC38FA8156F1B8000A6A217 /* UpgradeBuildingMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradeBuildingMenu.xib; sourceTree = "<group>"; };
@@ -4688,8 +4689,9 @@
 				CF1265D41538ACC400E0C1AD /* SocketCommunication.m */,
 				CFEB284515951ADA00B622FC /* FullEvent.h */,
 				CFEB284615951ADB00B622FC /* FullEvent.m */,
-				CFC1421C1659C31A0060188D /* AMQPConnectionThread.h */,
-				CFC1421D1659C31A0060188D /* AMQPConnectionThread.m */,
+				CF7F27D1165B36CF00D967DC /* AMQPConnectionThread.h */,
+				CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */,
+				CF7F27D4165B371500D967DC /* AMQPConnectionThreadDelegate.h */,
 			);
 			path = "Socket Communication";
 			sourceTree = "<group>";
@@ -9329,7 +9331,7 @@
 				CFC142011658B70D0060188D /* amqp_socket.c in Sources */,
 				CFC142021658B70D0060188D /* amqp_table.c in Sources */,
 				CFC142031658B70D0060188D /* amqp_url.c in Sources */,
-				CFC1421E1659C31A0060188D /* AMQPConnectionThread.m in Sources */,
+				CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

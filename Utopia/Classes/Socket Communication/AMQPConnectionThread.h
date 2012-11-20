@@ -2,22 +2,25 @@
 //  AMQPConnectionThread.h
 //  Utopia
 //
-//  Created by Ashwin Kamath on 11/18/12.
+//  Created by Ashwin Kamath on 11/19/12.
 //  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
-#import "AMQPConsumerThread.h"
+#import <Foundation/Foundation.h>
 #import "AMQPWrapper.h"
+#import "AMQPConnectionThreadDelegate.h"
 
 @interface AMQPConnectionThread : NSThread {
   AMQPExchange *_exchange;
   AMQPConnection *_connection;
   AMQPQueue *_udidQueue;
   AMQPQueue *_useridQueue;
-  AMQPConsumerThread *_udidThread;
-  AMQPConsumerThread *_useridThread;
+  AMQPConsumer *_udidConsumer;
+  AMQPConsumer *_useridConsumer;
 }
 
-- (void) connect;
+@property (assign) NSObject<AMQPConnectionThreadDelegate> *delegate;
+
+@property (copy) NSString *udid;
 
 @end
