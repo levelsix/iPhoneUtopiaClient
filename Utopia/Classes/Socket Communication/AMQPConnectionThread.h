@@ -23,4 +23,10 @@
 
 @property (copy) NSString *udid;
 
+- (void) connect:(NSString *)udid;
+- (void) sendData:(NSData *)data;
+- (void) startUserIdQueue;
+- (void) closeDownConnection;
+- (void) end;
+
 @end

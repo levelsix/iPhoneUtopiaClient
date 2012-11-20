@@ -12,21 +12,18 @@
 #import "Protocols.pb.h"
 
 #import "AMQPWrapper.h"
+#import "AMQPConnectionThread.h"
+#import "AMQPConnectionThreadDelegate.h"
 
-@interface SocketCommunication : NSObject <UIAlertViewDelegate, AMQPConsumerThreadDelegate> {
+@interface SocketCommunication : NSObject <UIAlertViewDelegate, AMQPConnectionThreadDelegate> {
   BOOL _shouldReconnect;
   MinimumUserProto *_sender;
   int _currentTagNum;
   int _nextMsgType;
   
-  int _numDisconnects;
+  AMQPConnectionThread *_connectionThread;
   
-  AMQPExchange *_exchange;
-  AMQPConnection *_connection;
-  AMQPQueue *_udidQueue;
-  AMQPQueue *_useridQueue;
-  AMQPConsumerThread *_udidThread;
-  AMQPConsumerThread *_useridThread;
+  int _numDisconnects;
 }
 
 - (void) rebuildSender;

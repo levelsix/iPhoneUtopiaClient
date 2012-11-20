@@ -14,5 +14,6 @@
 
 @optional
 - (void) connectedToHost;
+- (void) unableToConnectToHost:(NSString *)error;
 
 @end

@@ -25,18 +25,25 @@
 
 - (void) initConnection {
   NSLog(@"Initializing connection..");
-  _connection = [[AMQPConnection alloc] init];
-  [_connection connectToHost:@"robot.lvl6.com" onPort:5672];
-  [_connection loginAsUser:@"lvl6client" withPassword:@"devclient" onVHost:@"devageofchaos"];
-  _exchange = [[AMQPExchange alloc] initDirectExchangeWithName:@"gamemessages" onChannel:[_connection openChannel] isPassive:NO isDurable:YES];
-  
-  NSString *udidKey = UDID_KEY;
-  _udidQueue = [[AMQPQueue alloc] initWithName:[udidKey stringByAppendingString:@"_queue"] onChannel:[_connection openChannel] isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
-  [_udidQueue bindToExchange:_exchange withKey:udidKey];
-  _udidConsumer = [[_udidQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES] retain];
-  
-  if ([_delegate respondsToSelector:@selector(connectedToHost)]) {
-    [_delegate performSelectorOnMainThread:@selector(connectedToHost) withObject:nil waitUntilDone:NO];
+  @try {
+    [self endConnection];
+    _connection = [[AMQPConnection alloc] init];
+    [_connection connectToHost:@"robot.lvl6.com" onPort:5672];
+    [_connection loginAsUser:@"lvl6client" withPassword:@"devclient" onVHost:@"devageofchaos"];
+    _exchange = [[AMQPExchange alloc] initDirectExchangeWithName:@"gamemessages" onChannel:[_connection openChannel] isPassive:NO isDurable:YES];
+    
+    NSString *udidKey = UDID_KEY;
+    _udidQueue = [[AMQPQueue alloc] initWithName:[udidKey stringByAppendingString:@"_queue"] onChannel:[_connection openChannel] isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
+    [_udidQueue bindToExchange:_exchange withKey:udidKey];
+    _udidConsumer = [[_udidQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES] retain];
+    
+    if ([_delegate respondsToSelector:@selector(connectedToHost)]) {
+      [_delegate performSelectorOnMainThread:@selector(connectedToHost) withObject:nil waitUntilDone:NO];
+    }
+  } @catch (NSException *exception) {
+    if ([_delegate respondsToSelector:@selector(unableToConnectToHost:)]) {
+      [_delegate performSelectorOnMainThread:@selector(unableToConnectToHost:) withObject:exception.reason waitUntilDone:NO];
+    }
   }
 }
 
@@ -49,7 +56,7 @@
   NSString *useridKey = USER_ID_KEY;
   _useridQueue = [[AMQPQueue alloc] initWithName:[useridKey stringByAppendingString:@"_queue"] onChannel:[_connection openChannel] isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
   [_useridQueue bindToExchange:_exchange withKey:useridKey];
-  _useridConsumer = [_useridQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES];
+  _useridConsumer = [[_useridQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES] retain];
   
   LNLog(@"Created user id queue");
 }
@@ -77,6 +84,8 @@
   [_exchange release];
   [_connection release];
   
+  _useridConsumer = nil;
+  _udidConsumer = nil;
   _useridQueue = nil;
   _udidQueue = nil;
   _exchange = nil;
@@ -85,7 +94,7 @@
 
 - (void) end {
   [self closeDownConnection];
-  //  [self cancel];
+  [self cancel];
 }
 
 - (void)main

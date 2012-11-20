@@ -1,4 +1,4 @@
-	//
+//
 //  SocketCommunication.m
 //  Utopia
 //
@@ -17,7 +17,6 @@
 #import "FullEvent.h"
 #import "GameViewController.h"
 #import "GenericPopupController.h"
-#import "AMQPWrapper.h"
 
 // Tags for keeping state
 #define READING_HEADER_TAG -1
@@ -25,9 +24,6 @@
 
 #define RECONNECT_TIMEOUT 0.5f
 #define NUM_SILENT_RECONNECTS 5
-
-#define UDID_KEY [NSString stringWithFormat:@"client_udid_%@", udid]
-#define USER_ID_KEY [NSString stringWithFormat:@"client_userid_%d", gs.userId]
 
 @implementation SocketCommunication
 
@@ -53,76 +49,57 @@ static NSString *udid = nil;
 }
 
 - (void) initNetworkCommunication {
-  _connection = [[AMQPConnection alloc] init];
-  [_connection connectToHost:@"robot.lvl6.com" onPort:5672];
-  [_connection loginAsUser:@"lvl6client" withPassword:@"devclient" onVHost:@"devageofchaos"];
-  _exchange = [[AMQPExchange alloc] initDirectExchangeWithName:@"gamemessages" onChannel:[_connection openChannel] isPassive:NO isDurable:YES];
-  
-  NSString *udidKey = UDID_KEY;
-  _udidQueue = [[AMQPQueue alloc] initWithName:[udidKey stringByAppendingString:@"_queue"] onChannel:[_connection openChannel] isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
-  [_udidQueue bindToExchange:_exchange withKey:udidKey];
-  AMQPConsumer *consumer = [_udidQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES];
-  _udidThread = [[AMQPConsumerThread alloc] initWithConsumer:consumer];
-  _udidThread.delegate = self;
-  [_udidThread start];
-  
-  LNLog(@"Connected to host");
+  _connectionThread = [[AMQPConnectionThread alloc] init];
+  [_connectionThread start];
+  _connectionThread.delegate = self;
+  [_connectionThread connect:udid];
   
   [self rebuildSender];
   _currentTagNum = 1;
   _shouldReconnect = YES;
   _numDisconnects = 0;
+}
+
+- (void) connectedToHost {
+  LNLog(@"Connected to host");
   
-  [[OutgoingEventController sharedOutgoingEventController] startup];
+  GameState *gs = [GameState sharedGameState];
+  if (!gs.connected) {
+    [[OutgoingEventController sharedOutgoingEventController] startup];
+    [[GameViewController sharedGameViewController] connectedToHost];
+  } else if (!gs.isTutorial) {
+    [[OutgoingEventController sharedOutgoingEventController] reconnect];
+  }
+  
+  _numDisconnects = 0;
 }
 
 - (void) initUserIdMessageQueue {
-  GameState *gs = [GameState sharedGameState];
-  NSString *useridKey = USER_ID_KEY;
-  _useridQueue = [[AMQPQueue alloc] initWithName:[useridKey stringByAppendingString:@"_queue"] onChannel:[_connection openChannel] isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
-  [_useridQueue bindToExchange:_exchange withKey:useridKey];
-  AMQPConsumer *consumer = [_useridQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES];
-  _useridThread = [[AMQPConsumerThread alloc] initWithConsumer:consumer];
-  _useridThread.delegate = self;
-  [_useridThread start];
+  [_connectionThread startUserIdQueue];
   
   LNLog(@"Created user id queue");
 }
 
-//- (void) socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port {
-//  LNLog(@"Connected to host");
-//  
-//  GameState *gs = [GameState sharedGameState];
-//  if (!gs.connected) {
-//    [[OutgoingEventController sharedOutgoingEventController] startup];
-//    [[GameViewController sharedGameViewController] connectedToHost];
-//  } else if (!gs.isTutorial) {
-//    [[OutgoingEventController sharedOutgoingEventController] reconnect];
-//  }
-//  [self readHeader];
-//  
-//  _numDisconnects = 0;
-//}
-//
-//- (void) socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
-//{
-//	ContextLogError(LN_CONTEXT_COMMUNICATION, @"socketDidDisconnect:withError: \"%@\"", err);
-//  
-//  if (err != nil) {
-//    if (_shouldReconnect) {
-//      _numDisconnects++;
-//      if (_numDisconnects > NUM_SILENT_RECONNECTS) {
-//        ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Asking to reconnect..");
-//        [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(tryReconnect)];
-//        _numDisconnects = 0;
-//      } else {
-//        ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Silently reconnecting..");
-//#warning
-////        [self tryReconnect];
-//      }
-//    }
-//  }
-//}
+- (void) tryReconnect {
+  [_connectionThread connect:udid];
+}
+
+- (void) unableToConnectToHost:(NSString *)error
+{
+	ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to connect: %@", error);
+
+  if (_shouldReconnect) {
+    _numDisconnects++;
+    if (_numDisconnects > NUM_SILENT_RECONNECTS) {
+      ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Asking to reconnect..");
+      [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(tryReconnect)];
+      _numDisconnects = 0;
+    } else {
+      ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Silently reconnecting..");
+      [self tryReconnect];
+    }
+  }
+}
 
 - (int) sendData:(PBGeneratedMessage *)msg withMessageType: (int) type {
   NSMutableData *messageWithHeader = [NSMutableData data];
@@ -153,7 +130,7 @@ static NSString *udid = nil;
   [messageWithHeader appendBytes:header length:sizeof(header)];
   [messageWithHeader appendData:data];
   
-  [_exchange publishMessageWithData:messageWithHeader usingRoutingKey:@"messagesFromPlayers"];
+  [_connectionThread sendData:messageWithHeader];
   
   int tag = _currentTagNum;
   _currentTagNum++;
@@ -166,7 +143,7 @@ static NSString *udid = nil;
   // Get the next 4 bytes for the payload size
   int nextMsgType = *(int *)(header);
   int tag = *(int *)(header+4);
-//  int size = *(int *)(header+8); // No longer used
+  //  int size = *(int *)(header+8); // No longer used
   NSData *payload = [data subdataWithRange:NSMakeRange(HEADER_SIZE, data.length-HEADER_SIZE)];
   
   [self messageReceived:payload withType:nextMsgType tag:tag];
@@ -233,7 +210,7 @@ static NSString *udid = nil;
                               build];
   
   LNLog(@"Sent over udid: %@", udid);
-//  [self sendAMQPData:req withMessageType:EventProtocolRequestCStartupEvent];
+  //  [self sendAMQPData:req withMessageType:EventProtocolRequestCStartupEvent];
   return [self sendData:req withMessageType:EventProtocolRequestCStartupEvent];
 }
 
@@ -1000,20 +977,8 @@ static NSString *udid = nil;
 }
 
 - (void) closeDownConnection {
-  GameState *gs = [GameState sharedGameState];
-  [_useridThread cancel];
-  [_udidThread cancel];
-  [_udidQueue unbindFromExchange:_exchange withKey:UDID_KEY];
-  [_useridQueue unbindFromExchange:_exchange withKey:USER_ID_KEY];
-  [_udidQueue release];
-  [_useridQueue release];
-  [_exchange release];
-  [_connection release];
-  
-  _useridQueue = nil;
-  _udidQueue = nil;
-  _exchange = nil;
-  _connection = nil;
+  [_connectionThread end];
+  _connectionThread = nil;
   
   LNLog(@"Disconnected from host..");
 }

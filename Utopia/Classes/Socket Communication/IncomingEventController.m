@@ -771,8 +771,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to retrieve current marketplace posts."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
+  [mvc stopLoading];
   [mvc doneRefreshing];
-  [mvc performSelector:@selector(stopLoading) withObject:nil afterDelay:0.6];
 }
 
 - (void) handlePostToMarketplaceResponseProto:(FullEvent *)fe {
