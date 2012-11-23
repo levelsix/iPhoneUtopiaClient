@@ -43,9 +43,15 @@ static NSString *udid = nil;
 }
 
 - (void) rebuildSender {
+  int oldClanId = _sender.clan.clanId;
   [_sender release];
   GameState *gs = [GameState sharedGameState];
   _sender = [gs.minUser retain];
+  
+  // if clan changes, reload the queue
+  if (oldClanId != _sender.clan.clanId) {
+    [self reloadClanMessageQueue];
+  }
 }
 
 - (void) initNetworkCommunication {
@@ -58,6 +64,10 @@ static NSString *udid = nil;
   _currentTagNum = 1;
   _shouldReconnect = YES;
   _numDisconnects = 0;
+}
+
+- (void) reloadClanMessageQueue {
+  [_connectionThread reloadClanMessageQueue];
 }
 
 - (void) connectedToHost {
@@ -87,7 +97,7 @@ static NSString *udid = nil;
 - (void) unableToConnectToHost:(NSString *)error
 {
 	ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to connect: %@", error);
-
+  
   if (_shouldReconnect) {
     _numDisconnects++;
     if (_numDisconnects > NUM_SILENT_RECONNECTS) {

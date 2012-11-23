@@ -14,9 +14,12 @@
 
 #define UDID_KEY [NSString stringWithFormat:@"client_udid_%@", _udid]
 #define USER_ID_KEY [NSString stringWithFormat:@"client_userid_%d", gs.userId]
-
+#define CHAT_KEY @"chat_global"
+#define CLAN_KEY [NSString stringWithFormat:@"clan_%d", gs.clan.clanId]
 
 @implementation AMQPConnectionThread
+
+static int sessionId;
 
 - (void) connect:(NSString *)udid {
   self.udid = udid;
@@ -26,15 +29,20 @@
 - (void) initConnection {
   NSLog(@"Initializing connection..");
   @try {
+    sessionId = arc4random();
     [self endConnection];
+    
     _connection = [[AMQPConnection alloc] init];
     [_connection connectToHost:@"robot.lvl6.com" onPort:5672];
     [_connection loginAsUser:@"lvl6client" withPassword:@"devclient" onVHost:@"devageofchaos"];
-    _exchange = [[AMQPExchange alloc] initDirectExchangeWithName:@"gamemessages" onChannel:[_connection openChannel] isPassive:NO isDurable:YES];
+    AMQPChannel *channel = [_connection openChannel];
+    _directExchange = [[AMQPExchange alloc] initDirectExchangeWithName:@"gamemessages" onChannel:channel isPassive:NO isDurable:YES];
+    
+    _topicExchange = [[AMQPExchange alloc] initTopicExchangeWithName:@"chatmessages" onChannel:channel isPassive:NO isDurable:YES];
     
     NSString *udidKey = UDID_KEY;
-    _udidQueue = [[AMQPQueue alloc] initWithName:[udidKey stringByAppendingString:@"_queue"] onChannel:[_connection openChannel] isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
-    [_udidQueue bindToExchange:_exchange withKey:udidKey];
+    _udidQueue = [[AMQPQueue alloc] initWithName:[udidKey stringByAppendingFormat:@"%d_queue", sessionId] onChannel:channel isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
+    [_udidQueue bindToExchange:_directExchange withKey:udidKey];
     _udidConsumer = [[_udidQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES] retain];
     
     if ([_delegate respondsToSelector:@selector(connectedToHost)]) {
@@ -54,11 +62,40 @@
 - (void) initUserIdMessageQueue {
   GameState *gs = [GameState sharedGameState];
   NSString *useridKey = USER_ID_KEY;
-  _useridQueue = [[AMQPQueue alloc] initWithName:[useridKey stringByAppendingString:@"_queue"] onChannel:[_connection openChannel] isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
-  [_useridQueue bindToExchange:_exchange withKey:useridKey];
+  _useridQueue = [[AMQPQueue alloc] initWithName:[useridKey stringByAppendingFormat:@"%d_queue", sessionId]  onChannel:_udidConsumer.channel  isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
+  [_useridQueue bindToExchange:_directExchange withKey:useridKey];
   _useridConsumer = [[_useridQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES] retain];
   
-  LNLog(@"Created user id queue");
+  NSString *udidKey = USER_ID_KEY;
+  _chatQueue = [[AMQPQueue alloc] initWithName:[udidKey stringByAppendingFormat:@"%d_chat_queue", sessionId] onChannel:[_connection openChannel] isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
+  [_chatQueue bindToExchange:_topicExchange withKey:CHAT_KEY];
+  _chatConsumer = [[_chatQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES] retain];
+  
+  [self initClanMessageQueue];
+  
+  LNLog(@"Created queues");
+}
+
+- (void) reloadClanMessageQueue {
+  [self performSelector:@selector(initClanMessageQueue) onThread:self withObject:nil waitUntilDone:NO];
+}
+
+- (void) initClanMessageQueue {
+  GameState *gs = [GameState sharedGameState];
+  [self destroyClanMessageQueue];
+  if (gs.clan.clanId) {
+    NSString *useridKey = USER_ID_KEY;
+    self.lastClanKey = CLAN_KEY;
+    _clanQueue = [[AMQPQueue alloc] initWithName:[useridKey stringByAppendingFormat:@"%d_clan_queue", sessionId] onChannel:[_connection openChannel] isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
+    [_clanQueue bindToExchange:_topicExchange withKey:self.lastClanKey];
+    _clanConsumer = [[_clanQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES] retain];
+  }
+}
+  
+- (void) destroyClanMessageQueue {
+  [_clanConsumer release];
+  [_clanQueue release];
+  _clanQueue = nil;
 }
 
 - (void) sendData:(NSData *)data {
@@ -66,7 +103,7 @@
 }
 
 - (void) postDataToExchange:(NSData *)data {
-  [_exchange publishMessageWithData:data usingRoutingKey:@"messagesFromPlayers"];
+  [_directExchange publishMessageWithData:data usingRoutingKey:@"messagesFromPlayers"];
 }
 
 - (void) closeDownConnection {
@@ -74,21 +111,29 @@
 }
 
 - (void) endConnection {
-  GameState *gs = [GameState sharedGameState];
+  [self destroyClanMessageQueue];
   [_useridConsumer release];
   [_udidConsumer release];
-  [_udidQueue unbindFromExchange:_exchange withKey:UDID_KEY];
-  [_useridQueue unbindFromExchange:_exchange withKey:USER_ID_KEY];
+  [_chatConsumer release];
+//  GameState *gs = [GameState sharedGameState];
+//  [_udidQueue unbindFromExchange:_directExchange withKey:UDID_KEY];
+//  [_useridQueue unbindFromExchange:_directExchange withKey:USER_ID_KEY];
+//  [_chatQueue unbindFromExchange:_topicExchange withKey:CHAT_KEY];
   [_udidQueue release];
   [_useridQueue release];
-  [_exchange release];
+  [_chatQueue release];
+  [_directExchange release];
+  [_topicExchange release];
   [_connection release];
   
+  _chatConsumer = nil;
+  _chatQueue = nil;
   _useridConsumer = nil;
   _udidConsumer = nil;
   _useridQueue = nil;
   _udidQueue = nil;
-  _exchange = nil;
+  _directExchange = nil;
+  _topicExchange = nil;
   _connection = nil;
 }
 
@@ -104,7 +149,6 @@
 	while(![self isCancelled])
 	{
 		localPool = [[NSAutoreleasePool alloc] init];
-    //    NSLog(@"Next");
 		
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     

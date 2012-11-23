@@ -26,6 +26,7 @@
   int _numDisconnects;
 }
 
+- (void) reloadClanMessageQueue;
 - (void) rebuildSender;
 
 + (SocketCommunication *)sharedSocketCommunication;
