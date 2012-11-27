@@ -301,10 +301,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
-- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold {
+- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold product:(SKProduct *)product {
   GameState *gs = [GameState sharedGameState];
   if (gs.connected) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt product:product];
     [[GameState sharedGameState] addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
   }
   

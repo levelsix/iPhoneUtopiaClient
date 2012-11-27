@@ -861,6 +861,10 @@ message LevelUpResponseProto {
 message InAppPurchaseRequestProto {
 	optional MinimumUserProto sender = 1;
 	optional string receipt = 2;
+	optional string localcents = 3;
+	optional string localcurrency = 4;
+	optional string locale = 5;
+	optional string ipaddr = 6;
 }
 
 																						//DONE
@@ -1921,6 +1925,7 @@ message ApproveOrRejectRequestToJoinClanResponseProto {
 		OTHER_FAIL = 1;
 		NOT_OWNER = 2;
 		NOT_A_REQUESTER = 3;
+		ALREADY_IN_A_CLAN = 4;
 	}	
 }
 

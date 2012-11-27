@@ -295,7 +295,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 //  }
   while (!p) {
     numTimes++;
-    if (numTimes == 50 || (numTimes %= 100) == 0) {
+    if (numTimes == 50 || (numTimes %= 100) == 99) {
       ContextLogWarn(LN_CONTEXT_GAMESTATE, @"Lotsa wait time for this. Re-retrieving.");
       
       LNLog(@"Re-retrieving item: %d. Current things:", itemId);

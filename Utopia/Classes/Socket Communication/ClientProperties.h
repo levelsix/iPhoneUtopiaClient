@@ -17,7 +17,7 @@
 
 #else
 
-#define HOST_NAME @"production.lvl6.com"
+#define HOST_NAME @"192.168.1.6"
 #define HOST_PORT 10001
 
 #define UDID [OpenUDID value]

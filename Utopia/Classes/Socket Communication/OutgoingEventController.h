@@ -10,6 +10,7 @@
 #import "Protocols.pb.h"
 #import "UserData.h"
 #import <CoreLocation/CoreLocation.h>
+#import "StoreKit/StoreKit.h"
 
 @interface OutgoingEventController : NSObject
 
@@ -34,7 +35,7 @@
 - (void) logout;
 - (void) reconnect;
 
-- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold;
+- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold product:(SKProduct *)product;
 
 - (void) retrieveMostRecentMarketplacePosts:(int)searchEquipId;
 - (void) retrieveMoreMarketplacePosts:(int)searchEquipId;

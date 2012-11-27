@@ -23,6 +23,7 @@
 #import "Crittercism.h"
 #import "Downloader.h"
 #import "GGEventLog.h"
+#import <MobileAppTracker/MobileAppTracker.h>
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
 #define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
@@ -31,6 +32,9 @@
 #define APSALAR_API_KEY      @"lvl6"
 #define APSALAR_SECRET       @"K7kbMwwF"
 #define TEST_FLIGHT_API_KEY  @"83db3d95fe7af4e3511206c3e7254a5f_MTExODM4MjAxMi0wNy0xOCAyMTowNjoxOC41MjUzMjc"
+
+#define MAT_ADVERTISER_ID    @"885"
+#define MAT_APP_KEY          @"ba62d2918dc7b537cbeaca833085ce89"
 
 #define GIRAFFE_GRAPH_KEY    @"eee3b73ca3f9fc3322e11be77275c13a"
 
@@ -96,6 +100,16 @@
 {
   [Crittercism initWithAppID:@"5029a2f0eeaf4125dd000001"
     andMainViewController:nil];
+}
+
+- (void) setUpMobileAppTracker {
+  [[MobileAppTracker sharedManager] startTrackerWithAdvertiserId:MAT_ADVERTISER_ID
+                                                   advertiserKey:MAT_APP_KEY
+                                                       withError:nil];
+  
+  [[MobileAppTracker sharedManager] setDeviceId:[[UIDevice currentDevice] uniqueIdentifier]];
+  
+  [[MobileAppTracker sharedManager] trackInstallWithUpdateOnly:NO];
 }
 
 -(void) setUpDelightio

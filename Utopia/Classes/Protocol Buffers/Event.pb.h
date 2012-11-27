@@ -1057,6 +1057,7 @@ typedef enum {
   ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusOtherFail = 1,
   ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusNotOwner = 2,
   ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusNotARequester = 3,
+  ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusAlreadyInAClan = 4,
 } ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus;
 
 BOOL ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusIsValidValue(ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus value);
@@ -7055,14 +7056,30 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 @interface InAppPurchaseRequestProto : PBGeneratedMessage {
 @private
   BOOL hasReceipt_:1;
+  BOOL hasLocalcents_:1;
+  BOOL hasLocalcurrency_:1;
+  BOOL hasLocale_:1;
+  BOOL hasIpaddr_:1;
   BOOL hasSender_:1;
   NSString* receipt;
+  NSString* localcents;
+  NSString* localcurrency;
+  NSString* locale;
+  NSString* ipaddr;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasReceipt;
+- (BOOL) hasLocalcents;
+- (BOOL) hasLocalcurrency;
+- (BOOL) hasLocale;
+- (BOOL) hasIpaddr;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly, retain) NSString* receipt;
+@property (readonly, retain) NSString* localcents;
+@property (readonly, retain) NSString* localcurrency;
+@property (readonly, retain) NSString* locale;
+@property (readonly, retain) NSString* ipaddr;
 
 + (InAppPurchaseRequestProto*) defaultInstance;
 - (InAppPurchaseRequestProto*) defaultInstance;
@@ -7109,6 +7126,26 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (NSString*) receipt;
 - (InAppPurchaseRequestProto_Builder*) setReceipt:(NSString*) value;
 - (InAppPurchaseRequestProto_Builder*) clearReceipt;
+
+- (BOOL) hasLocalcents;
+- (NSString*) localcents;
+- (InAppPurchaseRequestProto_Builder*) setLocalcents:(NSString*) value;
+- (InAppPurchaseRequestProto_Builder*) clearLocalcents;
+
+- (BOOL) hasLocalcurrency;
+- (NSString*) localcurrency;
+- (InAppPurchaseRequestProto_Builder*) setLocalcurrency:(NSString*) value;
+- (InAppPurchaseRequestProto_Builder*) clearLocalcurrency;
+
+- (BOOL) hasLocale;
+- (NSString*) locale;
+- (InAppPurchaseRequestProto_Builder*) setLocale:(NSString*) value;
+- (InAppPurchaseRequestProto_Builder*) clearLocale;
+
+- (BOOL) hasIpaddr;
+- (NSString*) ipaddr;
+- (InAppPurchaseRequestProto_Builder*) setIpaddr:(NSString*) value;
+- (InAppPurchaseRequestProto_Builder*) clearIpaddr;
 @end
 
 @interface InAppPurchaseResponseProto : PBGeneratedMessage {

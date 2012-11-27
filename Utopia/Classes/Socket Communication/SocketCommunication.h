@@ -10,6 +10,7 @@
 
 #import "Event.pb.h"
 #import "Protocols.pb.h"
+#import "StoreKit/StoreKit.h"
 
 @interface SocketCommunication : NSObject <GCDAsyncSocketDelegate, UIAlertViewDelegate> {
 	GCDAsyncSocket *_asyncSocket;
@@ -40,7 +41,7 @@
 - (int) sendReconnectMessage;
 - (int) sendLogoutMessage;
 - (int) sendTaskActionMessage:(int) taskId curTime:(uint64_t)clientTime ;
-- (int) sendInAppPurchaseMessage: (NSString *) receipt;
+- (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product;
 
 // Marketplace messages
 - (int) sendRetrieveCurrentMarketplacePostsMessageWithCurNumEntries:(int)curNumEntries filter:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter)filter commonEquips:(BOOL)commonEquips uncommonEquips:(BOOL)uncommonEquips rareEquips:(BOOL)rareEquips epicEquips:(BOOL)epicEquips legendaryEquips:(BOOL)legendaryEquips myClassOnly:(BOOL)myClassOnly minEquipLevel:(int)minEquipLevel maxEquipLevel:(int)maxEquipLevel minForgeLevel:(int)minForgeLevel maxForgeLevel:(int)maxForgeLevel sortOrder:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder)sortOrder specificEquipId:(int)specificEquipId;

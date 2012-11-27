@@ -1,10 +1,13 @@
-	//
+//
 //  SocketCommunication.m
 //  Utopia
 //
 //  Created by Ashwin Kamath on 12/21/11.
 //  Copyright (c) 2011 LVL6. All rights reserved.
 //
+
+#include <ifaddrs.h>
+#include <arpa/inet.h>
 
 #import "SocketCommunication.h"
 #import "LNSynthesizeSingleton.h"
@@ -30,6 +33,19 @@
 SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 
 static NSString *udid = nil;
+
+- (NSString *)getIPAddress
+{
+  NSURL *url = [[NSURL alloc] initWithString:@"http://checkip.dyndns.com/"];
+  NSString *contents = [NSString stringWithContentsOfURL:url encoding:NSStringEncodingConversionAllowLossy error:nil];
+  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\d+\\.\\d+\\.\\d+\\.\\d+" options:NSRegularExpressionCaseInsensitive error:nil];
+  NSRange rangeOfFirstMatch = [regex rangeOfFirstMatchInString:contents options:0 range:NSMakeRange(0, [contents length])];
+  if (!NSEqualRanges(rangeOfFirstMatch, NSMakeRange(NSNotFound, 0))) {
+    NSString *substringForFirstMatch = [contents substringWithRange:rangeOfFirstMatch];
+    LNLog(@"IP Address: %@", substringForFirstMatch);
+  }
+  return nil;
+}
 
 - (id) init {
   if ((self = [super init])) {
@@ -311,10 +327,14 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCTaskActionEvent];
 }
 
-- (int) sendInAppPurchaseMessage:(NSString *)receipt {
-  InAppPurchaseRequestProto *req = [[[[InAppPurchaseRequestProto builder]
-                                      setReceipt:receipt]
-                                     setSender:_sender]
+- (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product {
+  InAppPurchaseRequestProto *req = [[[[[[[[InAppPurchaseRequestProto builder]
+                                          setReceipt:receipt]
+                                         setLocalcents:[NSString stringWithFormat:@"%d", (int)(product.price.doubleValue*100.)]]
+                                        setLocalcurrency:[product.priceLocale objectForKey:NSLocaleCurrencyCode]]
+                                       setLocale:[product.priceLocale objectForKey:NSLocaleCountryCode]]
+                                      setSender:_sender]
+                                     setIpaddr:[self getIPAddress]]
                                     build];
   return [self sendData:req withMessageType:EventProtocolRequestCInAppPurchaseEvent];
 }

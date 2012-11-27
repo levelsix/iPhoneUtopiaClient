@@ -90,6 +90,12 @@
 
 - (void) updateForPurchaseData:(id<InAppPurchaseData>)product
 {
+  if (!product.primaryTitle) {
+    self.hidden = YES;
+  } else {
+    self.hidden = NO;
+  }
+  
   // Set Free offer title
   self.pkgNameLabel.text = product.primaryTitle;
   

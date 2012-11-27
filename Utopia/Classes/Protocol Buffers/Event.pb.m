@@ -25389,6 +25389,10 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 @interface InAppPurchaseRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSString* receipt;
+@property (retain) NSString* localcents;
+@property (retain) NSString* localcurrency;
+@property (retain) NSString* locale;
+@property (retain) NSString* ipaddr;
 @end
 
 @implementation InAppPurchaseRequestProto
@@ -25407,15 +25411,51 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
   hasReceipt_ = !!value;
 }
 @synthesize receipt;
+- (BOOL) hasLocalcents {
+  return !!hasLocalcents_;
+}
+- (void) setHasLocalcents:(BOOL) value {
+  hasLocalcents_ = !!value;
+}
+@synthesize localcents;
+- (BOOL) hasLocalcurrency {
+  return !!hasLocalcurrency_;
+}
+- (void) setHasLocalcurrency:(BOOL) value {
+  hasLocalcurrency_ = !!value;
+}
+@synthesize localcurrency;
+- (BOOL) hasLocale {
+  return !!hasLocale_;
+}
+- (void) setHasLocale:(BOOL) value {
+  hasLocale_ = !!value;
+}
+@synthesize locale;
+- (BOOL) hasIpaddr {
+  return !!hasIpaddr_;
+}
+- (void) setHasIpaddr:(BOOL) value {
+  hasIpaddr_ = !!value;
+}
+@synthesize ipaddr;
 - (void) dealloc {
   self.sender = nil;
   self.receipt = nil;
+  self.localcents = nil;
+  self.localcurrency = nil;
+  self.locale = nil;
+  self.ipaddr = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.receipt = @"";
+    self.localcents = @"";
+    self.localcurrency = @"";
+    self.locale = @"";
+    self.ipaddr = @"";
   }
   return self;
 }
@@ -25441,6 +25481,18 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   if (self.hasReceipt) {
     [output writeString:2 value:self.receipt];
   }
+  if (self.hasLocalcents) {
+    [output writeString:3 value:self.localcents];
+  }
+  if (self.hasLocalcurrency) {
+    [output writeString:4 value:self.localcurrency];
+  }
+  if (self.hasLocale) {
+    [output writeString:5 value:self.locale];
+  }
+  if (self.hasIpaddr) {
+    [output writeString:6 value:self.ipaddr];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -25455,6 +25507,18 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   }
   if (self.hasReceipt) {
     size += computeStringSize(2, self.receipt);
+  }
+  if (self.hasLocalcents) {
+    size += computeStringSize(3, self.localcents);
+  }
+  if (self.hasLocalcurrency) {
+    size += computeStringSize(4, self.localcurrency);
+  }
+  if (self.hasLocale) {
+    size += computeStringSize(5, self.locale);
+  }
+  if (self.hasIpaddr) {
+    size += computeStringSize(6, self.ipaddr);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -25537,6 +25601,18 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   if (other.hasReceipt) {
     [self setReceipt:other.receipt];
   }
+  if (other.hasLocalcents) {
+    [self setLocalcents:other.localcents];
+  }
+  if (other.hasLocalcurrency) {
+    [self setLocalcurrency:other.localcurrency];
+  }
+  if (other.hasLocale) {
+    [self setLocale:other.locale];
+  }
+  if (other.hasIpaddr) {
+    [self setIpaddr:other.ipaddr];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -25569,6 +25645,22 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
       }
       case 18: {
         [self setReceipt:[input readString]];
+        break;
+      }
+      case 26: {
+        [self setLocalcents:[input readString]];
+        break;
+      }
+      case 34: {
+        [self setLocalcurrency:[input readString]];
+        break;
+      }
+      case 42: {
+        [self setLocale:[input readString]];
+        break;
+      }
+      case 50: {
+        [self setIpaddr:[input readString]];
         break;
       }
     }
@@ -25618,6 +25710,70 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 - (InAppPurchaseRequestProto_Builder*) clearReceipt {
   result.hasReceipt = NO;
   result.receipt = @"";
+  return self;
+}
+- (BOOL) hasLocalcents {
+  return result.hasLocalcents;
+}
+- (NSString*) localcents {
+  return result.localcents;
+}
+- (InAppPurchaseRequestProto_Builder*) setLocalcents:(NSString*) value {
+  result.hasLocalcents = YES;
+  result.localcents = value;
+  return self;
+}
+- (InAppPurchaseRequestProto_Builder*) clearLocalcents {
+  result.hasLocalcents = NO;
+  result.localcents = @"";
+  return self;
+}
+- (BOOL) hasLocalcurrency {
+  return result.hasLocalcurrency;
+}
+- (NSString*) localcurrency {
+  return result.localcurrency;
+}
+- (InAppPurchaseRequestProto_Builder*) setLocalcurrency:(NSString*) value {
+  result.hasLocalcurrency = YES;
+  result.localcurrency = value;
+  return self;
+}
+- (InAppPurchaseRequestProto_Builder*) clearLocalcurrency {
+  result.hasLocalcurrency = NO;
+  result.localcurrency = @"";
+  return self;
+}
+- (BOOL) hasLocale {
+  return result.hasLocale;
+}
+- (NSString*) locale {
+  return result.locale;
+}
+- (InAppPurchaseRequestProto_Builder*) setLocale:(NSString*) value {
+  result.hasLocale = YES;
+  result.locale = value;
+  return self;
+}
+- (InAppPurchaseRequestProto_Builder*) clearLocale {
+  result.hasLocale = NO;
+  result.locale = @"";
+  return self;
+}
+- (BOOL) hasIpaddr {
+  return result.hasIpaddr;
+}
+- (NSString*) ipaddr {
+  return result.ipaddr;
+}
+- (InAppPurchaseRequestProto_Builder*) setIpaddr:(NSString*) value {
+  result.hasIpaddr = YES;
+  result.ipaddr = value;
+  return self;
+}
+- (InAppPurchaseRequestProto_Builder*) clearIpaddr {
+  result.hasIpaddr = NO;
+  result.ipaddr = @"";
   return self;
 }
 @end
@@ -53002,6 +53158,7 @@ BOOL ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinC
     case ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusOtherFail:
     case ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusNotOwner:
     case ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusNotARequester:
+    case ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusAlreadyInAClan:
       return YES;
     default:
       return NO;

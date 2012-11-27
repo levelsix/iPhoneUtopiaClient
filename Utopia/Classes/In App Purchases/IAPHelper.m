@@ -106,10 +106,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   Globals *gl = [Globals sharedGlobals];
   NSString *encodedReceipt = [self base64forData:transaction.transactionReceipt];
   NSString *productId = transaction.payment.productIdentifier;
-  
   NSNumber *goldAmt = [gl.productIdentifiersToGold objectForKey:productId];
+  SKProduct *prod = [self.products objectForKey:productId];
   
-  [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt.intValue];
+  [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt.intValue product:prod];
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 

@@ -1234,6 +1234,8 @@
 		CF7F17F015C26F47005ED86F /* TutorialGuideWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17EC15C26F47005ED86F /* TutorialGuideWalkNF.pvr.ccz */; };
 		CF7F17F115C26F47005ED86F /* TutorialGuideWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17ED15C26F47005ED86F /* TutorialGuideWalkNF@2x.plist */; };
 		CF7F17F215C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17EE15C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz */; };
+		CF7F27D6165DE2DD00D967DC /* MobileAppTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7F27D5165DE2DB00D967DC /* MobileAppTracker.framework */; };
+		CF7F27D8165EC8CB00D967DC /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7F27D7165EC8CA00D967DC /* AdSupport.framework */; };
 		CF7F596315D37B5B0048CB77 /* equippedborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7F596115D37B5B0048CB77 /* equippedborder.png */; };
 		CF7F596415D37B5B0048CB77 /* equippedborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7F596215D37B5B0048CB77 /* equippedborder@2x.png */; };
 		CF7F596715D48AD50048CB77 /* marketplacenavbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7F596515D48AD40048CB77 /* marketplacenavbg.png */; };
@@ -3367,6 +3369,8 @@
 		CF7F17EC15C26F47005ED86F /* TutorialGuideWalkNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = TutorialGuideWalkNF.pvr.ccz; sourceTree = "<group>"; };
 		CF7F17ED15C26F47005ED86F /* TutorialGuideWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TutorialGuideWalkNF@2x.plist"; sourceTree = "<group>"; };
 		CF7F17EE15C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TutorialGuideWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
+		CF7F27D5165DE2DB00D967DC /* MobileAppTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MobileAppTracker.framework; sourceTree = "<group>"; };
+		CF7F27D7165EC8CA00D967DC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		CF7F596115D37B5B0048CB77 /* equippedborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equippedborder.png; sourceTree = "<group>"; };
 		CF7F596215D37B5B0048CB77 /* equippedborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equippedborder@2x.png"; sourceTree = "<group>"; };
 		CF7F596515D48AD40048CB77 /* marketplacenavbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = marketplacenavbg.png; sourceTree = "<group>"; };
@@ -3935,6 +3939,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF7F27D8165EC8CB00D967DC /* AdSupport.framework in Frameworks */,
 				45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */,
 				45857341157D3B6A0086F70C /* MobileCoreServices.framework in Frameworks */,
 				4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */,
@@ -3963,6 +3968,7 @@
 				CF19297F157EEC4C00D51C70 /* libApsalar.a in Frameworks */,
 				459A9135157D3E62004B7014 /* libKiip.a in Frameworks */,
 				CFC02DFD16118115007B052F /* libCrittercism_v3_3_4.a in Frameworks */,
+				CF7F27D6165DE2DD00D967DC /* MobileAppTracker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4206,6 +4212,7 @@
 		CF1256451538A94D00E0C1AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CF7F27D7165EC8CA00D967DC /* AdSupport.framework */,
 				454E624A15670A15004EB7E9 /* CoreTelephony.framework */,
 				454E6248156709F9004EB7E9 /* MediaPlayer.framework */,
 				45857342157D3BB80086F70C /* libxml2.dylib */,
@@ -4697,6 +4704,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CF7F27D5165DE2DB00D967DC /* MobileAppTracker.framework */,
 				CF03F11D163BC7020076E89E /* GiraffeGraph */,
 				CF28BBED1628EEB00012F1C1 /* SSZipArchive */,
 				CFC02E47161188D3007B052F /* AdColony */,

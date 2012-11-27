@@ -1189,7 +1189,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [defaults removeObjectForKey:key];
       for (NSString *receipt in arr) {
         LNLog(@"Sending over unresponded receipt.");
-        [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0];
+        [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0 product:nil];
       }
     }
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
