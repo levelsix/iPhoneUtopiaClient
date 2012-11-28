@@ -1241,9 +1241,9 @@
 		CF7F17F015C26F47005ED86F /* TutorialGuideWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17EC15C26F47005ED86F /* TutorialGuideWalkNF.pvr.ccz */; };
 		CF7F17F115C26F47005ED86F /* TutorialGuideWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17ED15C26F47005ED86F /* TutorialGuideWalkNF@2x.plist */; };
 		CF7F17F215C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17EE15C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz */; };
+		CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */; };
 		CF7F27D6165DE2DD00D967DC /* MobileAppTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7F27D5165DE2DB00D967DC /* MobileAppTracker.framework */; };
 		CF7F27D8165EC8CB00D967DC /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7F27D7165EC8CA00D967DC /* AdSupport.framework */; };
-		CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */; };
 		CF7F596315D37B5B0048CB77 /* equippedborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7F596115D37B5B0048CB77 /* equippedborder.png */; };
 		CF7F596415D37B5B0048CB77 /* equippedborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7F596215D37B5B0048CB77 /* equippedborder@2x.png */; };
 		CF7F596715D48AD50048CB77 /* marketplacenavbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7F596515D48AD40048CB77 /* marketplacenavbg.png */; };
@@ -3404,11 +3404,11 @@
 		CF7F17EC15C26F47005ED86F /* TutorialGuideWalkNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = TutorialGuideWalkNF.pvr.ccz; sourceTree = "<group>"; };
 		CF7F17ED15C26F47005ED86F /* TutorialGuideWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TutorialGuideWalkNF@2x.plist"; sourceTree = "<group>"; };
 		CF7F17EE15C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TutorialGuideWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CF7F27D5165DE2DB00D967DC /* MobileAppTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MobileAppTracker.framework; sourceTree = "<group>"; };
-		CF7F27D7165EC8CA00D967DC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		CF7F27D1165B36CF00D967DC /* AMQPConnectionThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionThread.h; sourceTree = "<group>"; };
 		CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnectionThread.m; sourceTree = "<group>"; };
 		CF7F27D4165B371500D967DC /* AMQPConnectionThreadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionThreadDelegate.h; sourceTree = "<group>"; };
+		CF7F27D5165DE2DB00D967DC /* MobileAppTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MobileAppTracker.framework; sourceTree = "<group>"; };
+		CF7F27D7165EC8CA00D967DC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		CF7F596115D37B5B0048CB77 /* equippedborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equippedborder.png; sourceTree = "<group>"; };
 		CF7F596215D37B5B0048CB77 /* equippedborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equippedborder@2x.png"; sourceTree = "<group>"; };
 		CF7F596515D48AD40048CB77 /* marketplacenavbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = marketplacenavbg.png; sourceTree = "<group>"; };

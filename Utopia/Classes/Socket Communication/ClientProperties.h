@@ -14,7 +14,7 @@
 
 #else
 
-//#define USE_PROD
+#define USE_PROD
 
 #endif
 
