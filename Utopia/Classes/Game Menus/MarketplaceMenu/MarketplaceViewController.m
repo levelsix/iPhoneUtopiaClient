@@ -426,28 +426,25 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (IBAction)listAnItemClicked:(id)sender {
-//  if (!_refreshing) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePostsFromSender];
-    
-    if (self.state == kEquipBuyingState) {
-      self.state = kEquipSellingState;
-    }
-    [Analytics clickedListAnItem];
-//  }
+  if (self.state == kEquipBuyingState) {
+    self.state = kEquipSellingState;
+  }
+  
+  [self refresh];
+  
+  [Analytics clickedListAnItem];
 }
 
 - (IBAction)doneClicked:(id)sender{
-//  if (!_refreshing) {
-    if (self.listing) {
-      [self disableEditing];
-    } else {
-      if (self.state == kEquipSellingState) {
-        self.state = kEquipBuyingState;
-      }
-      
-      [self refresh];
+  if (self.listing) {
+    [self disableEditing];
+  } else {
+    if (self.state == kEquipSellingState) {
+      self.state = kEquipBuyingState;
     }
-//  }
+    
+    [self refresh];
+  }
 }
 
 - (IBAction)collectClicked:(id)sender {
@@ -697,18 +694,20 @@ static float mktLicenseCellHeight = 0.f;
 }
 
 - (void) disableEditing {
-  [self.curField resignFirstResponder];
-  self.listing = NO;
-  self.curField = nil;
-  
-  if (self.postsTableView.contentSize.height < self.postsTableView.frame.size.height) {
-    [self.postsTableView setContentOffset:CGPointMake(0, 0) animated:YES];
-  } else if (self.postsTableView.contentOffset.y+self.postsTableView.frame.size.height > self.postsTableView.contentSize.height) {
-    // Screen has scrolled too far down, need to move back up
-    [self.postsTableView setContentOffset:CGPointMake(0, self.postsTableView.contentSize.height - self.postsTableView.frame.size.height) animated:YES];
-  } else if (0 > self.postsTableView.contentOffset.y) {
-    // Screen has scrolled too far up, need to move back down
-    [self.postsTableView setContentOffset:CGPointMake(0, 0) animated:YES];
+  if ([self.curField isFirstResponder]) {
+    [self.curField resignFirstResponder];
+    self.listing = NO;
+    self.curField = nil;
+    
+    if (self.postsTableView.contentSize.height < self.postsTableView.frame.size.height) {
+      [self.postsTableView setContentOffset:CGPointMake(0, 0) animated:YES];
+    } else if (self.postsTableView.contentOffset.y+self.postsTableView.frame.size.height > self.postsTableView.contentSize.height) {
+      // Screen has scrolled too far down, need to move back up
+      [self.postsTableView setContentOffset:CGPointMake(0, self.postsTableView.contentSize.height - self.postsTableView.frame.size.height) animated:YES];
+    } else if (0 > self.postsTableView.contentOffset.y) {
+      // Screen has scrolled too far up, need to move back down
+      [self.postsTableView setContentOffset:CGPointMake(0, 0) animated:YES];
+    }
   }
 }
 
@@ -734,69 +733,67 @@ static float mktLicenseCellHeight = 0.f;
     }
     self.postsTableView.contentOffset = CGPointMake(0, 0);
     [self resetAllRows];
-    [self stopLoading];
     self.removeView.hidden = YES;
   }
 }
 
 - (void) insertRowsFrom:(int)start {
-//  NSMutableArray *insertRows = [[NSMutableArray alloc] init];
-//  NSMutableArray *reloadRows = [[NSMutableArray alloc] init];
-//  
-//  int new = [self tableView:self.postsTableView numberOfRowsInSection:0];
-//  int old = [self.postsTableView numberOfRowsInSection:0];
-//  int numRows = new - old;
-//  NSLog(@"Begin Updates: %d", numRows);
-//  [self.postsTableView beginUpdates];
-//  if (old == 0 && new > 0) {
-//    [self.postsTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-//    start = 1;
-//    numRows -= 1;
-//  }
-//  int i = start;
-//  for (; i < start+numRows && i < start+0; i++) {
-//    [insertRows addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-//  }
-//  for (; i < start+numRows; i++) {
-//    [reloadRows addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-//  }
-//  
-//  if (insertRows.count > 0) {
-//    [self.postsTableView insertRowsAtIndexPaths:insertRows withRowAnimation:UITableViewRowAnimationTop];
-//  }
-//  if (reloadRows.count > 0) {
-//    [self.postsTableView insertRowsAtIndexPaths:reloadRows withRowAnimation:UITableViewRowAnimationNone];
-//  }
-//  [self.postsTableView endUpdates];
-//  NSLog(@"End Updates: %d", numRows);
-//  [insertRows release];
-//  [reloadRows release];
-  [self disableEditing];
+  //  NSMutableArray *insertRows = [[NSMutableArray alloc] init];
+  //  NSMutableArray *reloadRows = [[NSMutableArray alloc] init];
+  //
+  //  int new = [self tableView:self.postsTableView numberOfRowsInSection:0];
+  //  int old = [self.postsTableView numberOfRowsInSection:0];
+  //  int numRows = new - old;
+  //  NSLog(@"Begin Updates: %d", numRows);
+  //  [self.postsTableView beginUpdates];
+  //  if (old == 0 && new > 0) {
+  //    [self.postsTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+  //    start = 1;
+  //    numRows -= 1;
+  //  }
+  //  int i = start;
+  //  for (; i < start+numRows && i < start+0; i++) {
+  //    [insertRows addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+  //  }
+  //  for (; i < start+numRows; i++) {
+  //    [reloadRows addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+  //  }
+  //
+  //  if (insertRows.count > 0) {
+  //    [self.postsTableView insertRowsAtIndexPaths:insertRows withRowAnimation:UITableViewRowAnimationTop];
+  //  }
+  //  if (reloadRows.count > 0) {
+  //    [self.postsTableView insertRowsAtIndexPaths:reloadRows withRowAnimation:UITableViewRowAnimationNone];
+  //  }
+  //  [self.postsTableView endUpdates];
+  //  NSLog(@"End Updates: %d", numRows);
+  //  [insertRows release];
+  //  [reloadRows release];
   [self.postsTableView reloadData];
   self.shouldReload = YES;
 }
 
 - (void) deleteRows:(int)start {
   _refreshing = YES;
-//  NSMutableArray *arr = [[NSMutableArray alloc] init];
-//  
-//  int new = [self tableView:self.postsTableView numberOfRowsInSection:0];
-//  int old = [self.postsTableView numberOfRowsInSection:0];
-//  int numRows = old - new;
-//  
-//  if (new == 0) {
-//    start = 0;
-//  }
-//  for (int i = start; i < start+numRows; i++) {
-//    NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
-//    [arr addObject:path];
-//    UITableViewCell *cell = [self.postsTableView cellForRowAtIndexPath:path];
-//    [cell.superview sendSubviewToBack:cell];
-//  }
-//  if (arr.count > 0) {
-//    [self.postsTableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationFade];
-//  }
-//  [arr release];
+  //  NSMutableArray *arr = [[NSMutableArray alloc] init];
+  //
+  //  int new = [self tableView:self.postsTableView numberOfRowsInSection:0];
+  //  int old = [self.postsTableView numberOfRowsInSection:0];
+  //  int numRows = old - new;
+  //
+  //  if (new == 0) {
+  //    start = 0;
+  //  }
+  //  for (int i = start; i < start+numRows; i++) {
+  //    NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+  //    [arr addObject:path];
+  //    UITableViewCell *cell = [self.postsTableView cellForRowAtIndexPath:path];
+  //    [cell.superview sendSubviewToBack:cell];
+  //  }
+  //  if (arr.count > 0) {
+  //    [self.postsTableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationFade];
+  //  }
+  //  [arr release];
   
   [self disableEditing];
   [self.postsTableView reloadData];
@@ -840,9 +837,6 @@ static float mktLicenseCellHeight = 0.f;
   [delNoAnim release];
   [insAnim release];
   [insNoAnim release];
-  
-  [self.postsTableView setContentOffset:ccp(0,0) animated:NO];
-//  [self.postsTableView reloadData];
 }
 
 - (void) doneRefreshing {
@@ -856,7 +850,7 @@ static float mktLicenseCellHeight = 0.f;
     [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePostsFromSender];
   }
   [self displayLoading];
-  [self.postsTableView reloadData];
+//  [self.postsTableView reloadData];
   self.shouldReload = NO;
   _refreshing = YES;
 }

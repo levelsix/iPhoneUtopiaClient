@@ -10,17 +10,33 @@
 
 #ifndef DEBUG
 
-#define HOST_NAME @"production.lvl6.com"
-#define HOST_PORT 10001
+#define USE_PROD
+
+#else
+
+//#define USE_PROD
+
+#endif
+
+#ifdef USE_PROD
+
+#define HOST_NAME @"amqp.lvl6.com"
+#define HOST_PORT 5672
+#define MQ_USERNAME @"lvl6client"
+#define MQ_PASSWORD @"LvL6Pr0dCl!3nT"
+#define MQ_VHOST @"prodageofchaos"
 
 #define UDID [OpenUDID value]
 
 #else
 
-#define HOST_NAME @"192.168.1.6"
-#define HOST_PORT 10001
+#define HOST_NAME @"robot.lvl6.com"
+#define HOST_PORT 5672
+#define MQ_USERNAME @"lvl6client"
+#define MQ_PASSWORD @"devclient"
+#define MQ_VHOST @"devageofchaos"
 
 #define UDID [OpenUDID value]
-//#define FORCE_TUTORIAL 
+//#define FORCE_TUTORIAL
 
 #endif

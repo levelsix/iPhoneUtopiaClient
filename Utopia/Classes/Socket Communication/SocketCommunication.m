@@ -58,44 +58,36 @@ static NSString *udid = nil;
   return self;
 }
 
-- (void) connectToSocket {
-  NSError *error = nil;
-  NSString *host  = HOST_NAME;
-  uint16_t port = HOST_PORT;
-  
-  if ([_asyncSocket isConnected]) {
-    [_asyncSocket disconnect];
-  }
-  
-  // Make connection to host
-  if (![_asyncSocket connectToHost:host onPort:port withTimeout:20.f error:&error]) {
-    ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to connect to due to invalid configuration: %@", error);
-  } else {
-    ContextLogInfo(LN_CONTEXT_COMMUNICATION, @"Connecting to \"%@\" on port %hu...", host, port);
-  }
-}
-
 - (void) rebuildSender {
+  int oldClanId = _sender.clan.clanId;
   [_sender release];
   GameState *gs = [GameState sharedGameState];
   _sender = [gs.minUser retain];
+  
+  // if clan changes, reload the queue
+  if (oldClanId != _sender.clan.clanId) {
+    [self reloadClanMessageQueue];
+  }
 }
 
 - (void) initNetworkCommunication {
-  _asyncSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-  [self connectToSocket];
-  _currentTagNum = 1;
+  _connectionThread = [[AMQPConnectionThread alloc] init];
+  [_connectionThread start];
+  _connectionThread.delegate = self;
+  [_connectionThread connect:udid];
+  
   [self rebuildSender];
+  _currentTagNum = 1;
   _shouldReconnect = YES;
   _numDisconnects = 0;
 }
 
-- (void) readHeader {
-  [_asyncSocket readDataToLength:HEADER_SIZE withTimeout:-1 tag:READING_HEADER_TAG];
+- (void) reloadClanMessageQueue {
+  [_connectionThread reloadClanMessageQueue];
 }
 
-- (void) socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port {
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Connected to host");
+- (void) connectedToHost {
+  LNLog(@"Connected to host");
   
   GameState *gs = [GameState sharedGameState];
   if (!gs.connected) {
@@ -104,74 +96,34 @@ static NSString *udid = nil;
   } else if (!gs.isTutorial) {
     [[OutgoingEventController sharedOutgoingEventController] reconnect];
   }
-  [self readHeader];
   
   _numDisconnects = 0;
 }
 
-- (void) socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
-  if (sock != _asyncSocket) {
-    ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Found data with different socket..");
-    return;
-  }
+- (void) initUserIdMessageQueue {
+  [_connectionThread startUserIdQueue];
   
-  if (tag == READING_HEADER_TAG) {
-    uint8_t *header = (uint8_t *)[data bytes];
-    // Get the next 4 bytes for the payload size
-    _nextMsgType = *(int *)(header);
-    [_asyncSocket readDataToLength:*(int *)(header+8) withTimeout:-1 tag:*(int *)(header+4)];
-  } else {
-    [self messageReceived:data withType:_nextMsgType tag:tag];
-    _nextMsgType = -1;
-    [self readHeader];
-  }
-}
-
-- (void) socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
-{
-	ContextLogError(LN_CONTEXT_COMMUNICATION, @"socketDidDisconnect:withError: \"%@\"", err);
-  
-  if (err != nil) {
-    if (_shouldReconnect) {
-      _numDisconnects++;
-      if (_numDisconnects > NUM_SILENT_RECONNECTS) {
-        ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Asking to reconnect..");
-        [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(tryReconnect)];
-        _numDisconnects = 0;
-      } else {
-        ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Silently reconnecting..");
-        [self tryReconnect];
-      }
-    }
-  }
+  LNLog(@"Created user id queue");
 }
 
 - (void) tryReconnect {
-  [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
+  [_connectionThread connect:udid];
 }
 
--(void) messageReceived:(NSData *)data withType:(EventProtocolResponse)eventType tag:(int)tag {
-  if (!_asyncSocket) {
-    return;
-  }
+- (void) unableToConnectToHost:(NSString *)error
+{
+	ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to connect: %@", error);
   
-  IncomingEventController *iec = [IncomingEventController sharedIncomingEventController];
-  
-  // Get the proto class for this event type
-  Class typeClass = [iec getClassForType:eventType];
-  if (!typeClass) {
-    ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to find controller for event type: %d", eventType);
-    return;
-  }
-  
-  // Call handle<Proto Class> method in event controller
-  NSString *selectorStr = [NSString stringWithFormat:@"handle%@:", [typeClass description]];
-  SEL handleMethod = NSSelectorFromString(selectorStr);
-  if ([iec respondsToSelector:handleMethod]) {
-    FullEvent *fe = [FullEvent createWithEvent:(PBGeneratedMessage *)[typeClass parseFromData:data] tag:tag];
-    [iec performSelectorOnMainThread:handleMethod withObject:fe waitUntilDone:NO];
-  } else {
-    ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to find %@ in IncomingEventController", selectorStr);
+  if (_shouldReconnect) {
+    _numDisconnects++;
+    if (_numDisconnects > NUM_SILENT_RECONNECTS) {
+      ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Asking to reconnect..");
+      [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(tryReconnect)];
+      _numDisconnects = 0;
+    } else {
+      ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Silently reconnecting..");
+      [self tryReconnect];
+    }
   }
 }
 
@@ -204,11 +156,44 @@ static NSString *udid = nil;
   [messageWithHeader appendBytes:header length:sizeof(header)];
   [messageWithHeader appendData:data];
   
-  int tag = _currentTagNum;
-  [_asyncSocket writeData:messageWithHeader withTimeout:-1 tag:_currentTagNum];
+  [_connectionThread sendData:messageWithHeader];
   
+  int tag = _currentTagNum;
   _currentTagNum++;
   return tag;
+}
+
+- (void) amqpConsumerThreadReceivedNewMessage:(AMQPMessage *)theMessage {
+  NSData *data = theMessage.body;
+  uint8_t *header = (uint8_t *)[data bytes];
+  // Get the next 4 bytes for the payload size
+  int nextMsgType = *(int *)(header);
+  int tag = *(int *)(header+4);
+  //  int size = *(int *)(header+8); // No longer used
+  NSData *payload = [data subdataWithRange:NSMakeRange(HEADER_SIZE, data.length-HEADER_SIZE)];
+  
+  [self messageReceived:payload withType:nextMsgType tag:tag];
+}
+
+-(void) messageReceived:(NSData *)data withType:(EventProtocolResponse)eventType tag:(int)tag {
+  IncomingEventController *iec = [IncomingEventController sharedIncomingEventController];
+  
+  // Get the proto class for this event type
+  Class typeClass = [iec getClassForType:eventType];
+  if (!typeClass) {
+    ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to find controller for event type: %d", eventType);
+    return;
+  }
+  
+  // Call handle<Proto Class> method in event controller
+  NSString *selectorStr = [NSString stringWithFormat:@"handle%@:", [typeClass description]];
+  SEL handleMethod = NSSelectorFromString(selectorStr);
+  if ([iec respondsToSelector:handleMethod]) {
+    FullEvent *fe = [FullEvent createWithEvent:(PBGeneratedMessage *)[typeClass parseFromData:data] tag:tag];
+    [iec performSelectorOnMainThread:handleMethod withObject:fe waitUntilDone:NO];
+  } else {
+    ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to find %@ in IncomingEventController", selectorStr);
+  }
 }
 
 - (int) sendUserCreateMessageWithName:(NSString *)name type:(UserType)type lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense energy:(int)energy stamina:(int)stamina timeOfStructPurchase:(uint64_t)timeOfStructPurchase timeOfStructBuild:(uint64_t)timeOfStructBuild structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild {
@@ -250,8 +235,8 @@ static NSString *udid = nil;
                                setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
                               build];
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Sent over udid: %@", udid);
-  
+  LNLog(@"Sent over udid: %@", udid);
+  //  [self sendAMQPData:req withMessageType:EventProtocolRequestCStartupEvent];
   return [self sendData:req withMessageType:EventProtocolRequestCStartupEvent];
 }
 
@@ -1022,13 +1007,10 @@ static NSString *udid = nil;
 }
 
 - (void) closeDownConnection {
-  if (_asyncSocket) {
-    _shouldReconnect = NO;
-    [_asyncSocket disconnectAfterReadingAndWriting];
-    ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Disconnected from socket..");
-    [_asyncSocket release];
-    _asyncSocket = nil;
-  }
+  [_connectionThread end];
+  _connectionThread = nil;
+  
+  LNLog(@"Disconnected from host..");
 }
 
 - (void) dealloc {

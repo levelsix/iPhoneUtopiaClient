@@ -444,6 +444,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
     // Update user before creating map
     [gs updateUser:proto.sender timestamp:0];
+    
+    // Setup the userid queue
+    [[SocketCommunication sharedSocketCommunication] initUserIdMessageQueue];
+    
     [gs setPlayerHasBoughtInAppPurchase:proto.playerHasBoughtInAppPurchase];
     
     [Globals asyncDownloadBundles];
@@ -767,8 +771,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to retrieve current marketplace posts."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
+  [mvc stopLoading];
   [mvc doneRefreshing];
-  [mvc performSelector:@selector(stopLoading) withObject:nil afterDelay:0.6];
 }
 
 - (void) handlePostToMarketplaceResponseProto:(FullEvent *)fe {

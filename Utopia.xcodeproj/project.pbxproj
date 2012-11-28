@@ -795,6 +795,14 @@
 		CF15BA4B1651CDAD00A51F85 /* warredbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA391651CDAD00A51F85 /* warredbar@2x.png */; };
 		CF15BA4C1651CDAD00A51F85 /* warticker.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA3A1651CDAD00A51F85 /* warticker.png */; };
 		CF15BA4D1651CDAD00A51F85 /* warticker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA3B1651CDAD00A51F85 /* warticker@2x.png */; };
+		CF15BA7F16572A8400A51F85 /* AMQPChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA6D16572A8400A51F85 /* AMQPChannel.m */; };
+		CF15BA8016572A8400A51F85 /* AMQPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA6F16572A8400A51F85 /* AMQPConnection.m */; };
+		CF15BA8116572A8400A51F85 /* AMQPConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7116572A8400A51F85 /* AMQPConsumer.m */; };
+		CF15BA8216572A8400A51F85 /* AMQPConsumerThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7316572A8400A51F85 /* AMQPConsumerThread.m */; };
+		CF15BA8316572A8400A51F85 /* AMQPExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7616572A8400A51F85 /* AMQPExchange.m */; };
+		CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7816572A8400A51F85 /* AMQPMessage.m */; };
+		CF15BA8516572A8400A51F85 /* AMQPObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7A16572A8400A51F85 /* AMQPObject.m */; };
+		CF15BA8616572A8400A51F85 /* AMQPQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7C16572A8400A51F85 /* AMQPQueue.m */; };
 		CF15EDE81580541C00A8AAC1 /* tutorialbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDE21580541C00A8AAC1 /* tutorialbubble.png */; };
 		CF15EDE91580541C00A8AAC1 /* tutorialbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDE31580541C00A8AAC1 /* tutorialbubble@2x.png */; };
 		CF15EDF0158064D900A8AAC1 /* attackbuttonlight.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDEC158064D900A8AAC1 /* attackbuttonlight.png */; };
@@ -1191,7 +1199,6 @@
 		CF689C1C15C3B89400F2E50E /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1415C3B89400F2E50E /* SBJsonBase.m */; };
 		CF689C1D15C3B89400F2E50E /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1615C3B89400F2E50E /* SBJsonParser.m */; };
 		CF689C1E15C3B89400F2E50E /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1815C3B89400F2E50E /* SBJsonWriter.m */; };
-		CF689C2515C3B96E00F2E50E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CF689C2315C3B96E00F2E50E /* README.md */; };
 		CF6BDC75156AFDA80056B45B /* submittomarketbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC74156AFDA80056B45B /* submittomarketbg@2x.png */; };
 		CF6BDC77156AFDAE0056B45B /* submittomarketbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC76156AFDAE0056B45B /* submittomarketbg.png */; };
 		CF6BDC87156C1D800056B45B /* expstars@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC86156C1D800056B45B /* expstars@2x.png */; };
@@ -1236,6 +1243,7 @@
 		CF7F17F215C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17EE15C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz */; };
 		CF7F27D6165DE2DD00D967DC /* MobileAppTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7F27D5165DE2DB00D967DC /* MobileAppTracker.framework */; };
 		CF7F27D8165EC8CB00D967DC /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7F27D7165EC8CA00D967DC /* AdSupport.framework */; };
+		CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */; };
 		CF7F596315D37B5B0048CB77 /* equippedborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7F596115D37B5B0048CB77 /* equippedborder.png */; };
 		CF7F596415D37B5B0048CB77 /* equippedborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7F596215D37B5B0048CB77 /* equippedborder@2x.png */; };
 		CF7F596715D48AD50048CB77 /* marketplacenavbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7F596515D48AD40048CB77 /* marketplacenavbg.png */; };
@@ -1507,6 +1515,14 @@
 		CFC02E501612B867007B052F /* TheGoldMine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC02E4C1612B867007B052F /* TheGoldMine@2x.png */; };
 		CFC02E591612C2F7007B052F /* GoldMineView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC02E581612C2F7007B052F /* GoldMineView.m */; };
 		CFC02E5B1612C307007B052F /* GoldMineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC02E5A1612C307007B052F /* GoldMineView.xib */; };
+		CFC141AC1657484A0060188D /* socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141801657484A0060188D /* socket.c */; };
+		CFC141FD1658B70D0060188D /* amqp_api.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141F61658B70B0060188D /* amqp_api.c */; };
+		CFC141FE1658B70D0060188D /* amqp_connection.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141F71658B70B0060188D /* amqp_connection.c */; };
+		CFC141FF1658B70D0060188D /* amqp_framing.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141F81658B70B0060188D /* amqp_framing.c */; };
+		CFC142001658B70D0060188D /* amqp_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141F91658B70B0060188D /* amqp_mem.c */; };
+		CFC142011658B70D0060188D /* amqp_socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141FA1658B70B0060188D /* amqp_socket.c */; };
+		CFC142021658B70D0060188D /* amqp_table.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141FB1658B70C0060188D /* amqp_table.c */; };
+		CFC142031658B70D0060188D /* amqp_url.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141FC1658B70C0060188D /* amqp_url.c */; };
 		CFC38FA7156EF9A100A6A217 /* HomeBuildingMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC38FA6156EF9A000A6A217 /* HomeBuildingMenus.m */; };
 		CFC38FA9156F1B8000A6A217 /* UpgradeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC38FA8156F1B8000A6A217 /* UpgradeBuildingMenu.xib */; };
 		CFC38FAB156F1BA400A6A217 /* HomeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC38FAA156F1BA400A6A217 /* HomeBuildingMenu.xib */; };
@@ -2886,6 +2902,25 @@
 		CF15BA391651CDAD00A51F85 /* warredbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warredbar@2x.png"; sourceTree = "<group>"; };
 		CF15BA3A1651CDAD00A51F85 /* warticker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warticker.png; sourceTree = "<group>"; };
 		CF15BA3B1651CDAD00A51F85 /* warticker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warticker@2x.png"; sourceTree = "<group>"; };
+		CF15BA6C16572A8400A51F85 /* AMQPChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPChannel.h; sourceTree = "<group>"; };
+		CF15BA6D16572A8400A51F85 /* AMQPChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPChannel.m; sourceTree = "<group>"; };
+		CF15BA6E16572A8400A51F85 /* AMQPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnection.h; sourceTree = "<group>"; };
+		CF15BA6F16572A8400A51F85 /* AMQPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnection.m; sourceTree = "<group>"; };
+		CF15BA7016572A8400A51F85 /* AMQPConsumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConsumer.h; sourceTree = "<group>"; };
+		CF15BA7116572A8400A51F85 /* AMQPConsumer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConsumer.m; sourceTree = "<group>"; };
+		CF15BA7216572A8400A51F85 /* AMQPConsumerThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConsumerThread.h; sourceTree = "<group>"; };
+		CF15BA7316572A8400A51F85 /* AMQPConsumerThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConsumerThread.m; sourceTree = "<group>"; };
+		CF15BA7416572A8400A51F85 /* AMQPConsumerThreadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConsumerThreadDelegate.h; sourceTree = "<group>"; };
+		CF15BA7516572A8400A51F85 /* AMQPExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPExchange.h; sourceTree = "<group>"; };
+		CF15BA7616572A8400A51F85 /* AMQPExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPExchange.m; sourceTree = "<group>"; };
+		CF15BA7716572A8400A51F85 /* AMQPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPMessage.h; sourceTree = "<group>"; };
+		CF15BA7816572A8400A51F85 /* AMQPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPMessage.m; sourceTree = "<group>"; };
+		CF15BA7916572A8400A51F85 /* AMQPObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPObject.h; sourceTree = "<group>"; };
+		CF15BA7A16572A8400A51F85 /* AMQPObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPObject.m; sourceTree = "<group>"; };
+		CF15BA7B16572A8400A51F85 /* AMQPQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPQueue.h; sourceTree = "<group>"; };
+		CF15BA7C16572A8400A51F85 /* AMQPQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPQueue.m; sourceTree = "<group>"; };
+		CF15BA7D16572A8400A51F85 /* AMQPWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPWrapper.h; sourceTree = "<group>"; };
+		CF15BA7E16572A8400A51F85 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		CF15EDE21580541C00A8AAC1 /* tutorialbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorialbubble.png; sourceTree = "<group>"; };
 		CF15EDE31580541C00A8AAC1 /* tutorialbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialbubble@2x.png"; sourceTree = "<group>"; };
 		CF15EDEC158064D900A8AAC1 /* attackbuttonlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attackbuttonlight.png; sourceTree = "<group>"; };
@@ -3371,6 +3406,9 @@
 		CF7F17EE15C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TutorialGuideWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
 		CF7F27D5165DE2DB00D967DC /* MobileAppTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MobileAppTracker.framework; sourceTree = "<group>"; };
 		CF7F27D7165EC8CA00D967DC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		CF7F27D1165B36CF00D967DC /* AMQPConnectionThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionThread.h; sourceTree = "<group>"; };
+		CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnectionThread.m; sourceTree = "<group>"; };
+		CF7F27D4165B371500D967DC /* AMQPConnectionThreadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionThreadDelegate.h; sourceTree = "<group>"; };
 		CF7F596115D37B5B0048CB77 /* equippedborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equippedborder.png; sourceTree = "<group>"; };
 		CF7F596215D37B5B0048CB77 /* equippedborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equippedborder@2x.png"; sourceTree = "<group>"; };
 		CF7F596515D48AD40048CB77 /* marketplacenavbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = marketplacenavbg.png; sourceTree = "<group>"; };
@@ -3702,6 +3740,19 @@
 		CFC02E641612C407007B052F /* noworktape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noworktape@2x.png"; sourceTree = "<group>"; };
 		CFC02E651612C407007B052F /* resetbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resetbutton.png; sourceTree = "<group>"; };
 		CFC02E661612C407007B052F /* resetbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "resetbutton@2x.png"; sourceTree = "<group>"; };
+		CFC141641657484A0060188D /* amqp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp.h; sourceTree = "<group>"; };
+		CFC141681657484A0060188D /* amqp_framing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_framing.h; sourceTree = "<group>"; };
+		CFC1416A1657484A0060188D /* amqp_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_private.h; sourceTree = "<group>"; };
+		CFC141801657484A0060188D /* socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = socket.c; sourceTree = "<group>"; };
+		CFC141811657484A0060188D /* socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socket.h; sourceTree = "<group>"; };
+		CFC141C516574C9A0060188D /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		CFC141F61658B70B0060188D /* amqp_api.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_api.c; sourceTree = "<group>"; };
+		CFC141F71658B70B0060188D /* amqp_connection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_connection.c; sourceTree = "<group>"; };
+		CFC141F81658B70B0060188D /* amqp_framing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_framing.c; sourceTree = "<group>"; };
+		CFC141F91658B70B0060188D /* amqp_mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_mem.c; sourceTree = "<group>"; };
+		CFC141FA1658B70B0060188D /* amqp_socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_socket.c; sourceTree = "<group>"; };
+		CFC141FB1658B70C0060188D /* amqp_table.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_table.c; sourceTree = "<group>"; };
+		CFC141FC1658B70C0060188D /* amqp_url.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_url.c; sourceTree = "<group>"; };
 		CFC38FA5156EF9A000A6A217 /* HomeBuildingMenus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeBuildingMenus.h; sourceTree = "<group>"; };
 		CFC38FA6156EF9A000A6A217 /* HomeBuildingMenus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeBuildingMenus.m; sourceTree = "<group>"; };
 		CFC38FA8156F1B8000A6A217 /* UpgradeBuildingMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradeBuildingMenu.xib; sourceTree = "<group>"; };
@@ -4645,6 +4696,9 @@
 				CF1265D41538ACC400E0C1AD /* SocketCommunication.m */,
 				CFEB284515951ADA00B622FC /* FullEvent.h */,
 				CFEB284615951ADB00B622FC /* FullEvent.m */,
+				CF7F27D1165B36CF00D967DC /* AMQPConnectionThread.h */,
+				CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */,
+				CF7F27D4165B371500D967DC /* AMQPConnectionThreadDelegate.h */,
 			);
 			path = "Socket Communication";
 			sourceTree = "<group>";
@@ -4705,6 +4759,8 @@
 			isa = PBXGroup;
 			children = (
 				CF7F27D5165DE2DB00D967DC /* MobileAppTracker.framework */,
+				CFC1414D1657484A0060188D /* librabbitmq */,
+				CF15BA6B16572A8300A51F85 /* rabbitmq */,
 				CF03F11D163BC7020076E89E /* GiraffeGraph */,
 				CF28BBED1628EEB00012F1C1 /* SSZipArchive */,
 				CFC02E47161188D3007B052F /* AdColony */,
@@ -6279,6 +6335,32 @@
 			path = "Clan Tower images";
 			sourceTree = "<group>";
 		};
+		CF15BA6B16572A8300A51F85 /* rabbitmq */ = {
+			isa = PBXGroup;
+			children = (
+				CF15BA6C16572A8400A51F85 /* AMQPChannel.h */,
+				CF15BA6D16572A8400A51F85 /* AMQPChannel.m */,
+				CF15BA6E16572A8400A51F85 /* AMQPConnection.h */,
+				CF15BA6F16572A8400A51F85 /* AMQPConnection.m */,
+				CF15BA7016572A8400A51F85 /* AMQPConsumer.h */,
+				CF15BA7116572A8400A51F85 /* AMQPConsumer.m */,
+				CF15BA7216572A8400A51F85 /* AMQPConsumerThread.h */,
+				CF15BA7316572A8400A51F85 /* AMQPConsumerThread.m */,
+				CF15BA7416572A8400A51F85 /* AMQPConsumerThreadDelegate.h */,
+				CF15BA7516572A8400A51F85 /* AMQPExchange.h */,
+				CF15BA7616572A8400A51F85 /* AMQPExchange.m */,
+				CF15BA7716572A8400A51F85 /* AMQPMessage.h */,
+				CF15BA7816572A8400A51F85 /* AMQPMessage.m */,
+				CF15BA7916572A8400A51F85 /* AMQPObject.h */,
+				CF15BA7A16572A8400A51F85 /* AMQPObject.m */,
+				CF15BA7B16572A8400A51F85 /* AMQPQueue.h */,
+				CF15BA7C16572A8400A51F85 /* AMQPQueue.m */,
+				CF15BA7D16572A8400A51F85 /* AMQPWrapper.h */,
+				CF15BA7E16572A8400A51F85 /* README.md */,
+			);
+			path = rabbitmq;
+			sourceTree = "<group>";
+		};
 		CF1AD20415635BB700DED5A6 /* EquipMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -7182,6 +7264,34 @@
 				CFC02E661612C407007B052F /* resetbutton@2x.png */,
 			);
 			path = "Gold mine images";
+			sourceTree = "<group>";
+		};
+		CFC1414D1657484A0060188D /* librabbitmq */ = {
+			isa = PBXGroup;
+			children = (
+				CFC141F61658B70B0060188D /* amqp_api.c */,
+				CFC141F71658B70B0060188D /* amqp_connection.c */,
+				CFC141F81658B70B0060188D /* amqp_framing.c */,
+				CFC141F91658B70B0060188D /* amqp_mem.c */,
+				CFC141FA1658B70B0060188D /* amqp_socket.c */,
+				CFC141FB1658B70C0060188D /* amqp_table.c */,
+				CFC141FC1658B70C0060188D /* amqp_url.c */,
+				CFC141C516574C9A0060188D /* config.h */,
+				CFC141641657484A0060188D /* amqp.h */,
+				CFC141681657484A0060188D /* amqp_framing.h */,
+				CFC1416A1657484A0060188D /* amqp_private.h */,
+				CFC141781657484A0060188D /* unix */,
+			);
+			path = librabbitmq;
+			sourceTree = "<group>";
+		};
+		CFC141781657484A0060188D /* unix */ = {
+			isa = PBXGroup;
+			children = (
+				CFC141801657484A0060188D /* socket.c */,
+				CFC141811657484A0060188D /* socket.h */,
+			);
+			path = unix;
 			sourceTree = "<group>";
 		};
 		CFC38FA3156EF92900A6A217 /* HomeMap */ = {
@@ -8569,7 +8679,6 @@
 				CF689C0715C3A69400F2E50E /* ForgeEnter.m4a in Resources */,
 				CF689C0815C3A69400F2E50E /* ForgeFail.m4a in Resources */,
 				CF689C0A15C3AA4E00F2E50E /* KirinVillage@2x.tmx in Resources */,
-				CF689C2515C3B96E00F2E50E /* README.md in Resources */,
 				CF10775715C8E3A400409312 /* badgeforquests.png in Resources */,
 				CF10775815C8E3A400409312 /* badgeforquests@2x.png in Resources */,
 				CF10775B15C9060D00409312 /* VillaMontalvo@2x.tmx in Resources */,
@@ -9214,6 +9323,23 @@
 				CF03F132163BC7020076E89E /* GGCJSONSerializer.m in Sources */,
 				CF03F133163BC7020076E89E /* GGEventLog.m in Sources */,
 				CF03F134163BC7020076E89E /* GGLocationManagerDelegate.m in Sources */,
+				CF15BA7F16572A8400A51F85 /* AMQPChannel.m in Sources */,
+				CF15BA8016572A8400A51F85 /* AMQPConnection.m in Sources */,
+				CF15BA8116572A8400A51F85 /* AMQPConsumer.m in Sources */,
+				CF15BA8216572A8400A51F85 /* AMQPConsumerThread.m in Sources */,
+				CF15BA8316572A8400A51F85 /* AMQPExchange.m in Sources */,
+				CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */,
+				CF15BA8516572A8400A51F85 /* AMQPObject.m in Sources */,
+				CF15BA8616572A8400A51F85 /* AMQPQueue.m in Sources */,
+				CFC141AC1657484A0060188D /* socket.c in Sources */,
+				CFC141FD1658B70D0060188D /* amqp_api.c in Sources */,
+				CFC141FE1658B70D0060188D /* amqp_connection.c in Sources */,
+				CFC141FF1658B70D0060188D /* amqp_framing.c in Sources */,
+				CFC142001658B70D0060188D /* amqp_mem.c in Sources */,
+				CFC142011658B70D0060188D /* amqp_socket.c in Sources */,
+				CFC142021658B70D0060188D /* amqp_table.c in Sources */,
+				CFC142031658B70D0060188D /* amqp_url.c in Sources */,
+				CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9373,7 +9499,10 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Utopia/libs/Headers\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Utopia/libs/Headers\"",
+					"$(SRCROOT)/Utopia/libs/**",
+				);
 				INFOPLIST_FILE = "Utopia/Utopia-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -9382,6 +9511,8 @@
 					"\"$(SRCROOT)/Utopia/libs/Kiip/$(PLATFORM_NAME)\"",
 					"\"$(SRCROOT)/Utopia/libs/CrittercismSDK\"",
 					"\"$(SRCROOT)/Utopia/libs/AdColony\"",
+					"$(SRCROOT)/Utopia/libs/**",
+					"\"$(SRCROOT)/Utopia/libs/librabbitmq/.libs\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -9419,7 +9550,10 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Utopia/libs/Headers\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Utopia/libs/Headers\"",
+					"$(SRCROOT)/Utopia/libs/**",
+				);
 				INFOPLIST_FILE = "Utopia/Utopia-Info.plist";
 				INSTALL_OWNER = "$(USER)";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -9429,6 +9563,8 @@
 					"\"$(SRCROOT)/Utopia/libs/Kiip/$(PLATFORM_NAME)\"",
 					"\"$(SRCROOT)/Utopia/libs/CrittercismSDK\"",
 					"\"$(SRCROOT)/Utopia/libs/AdColony\"",
+					"$(SRCROOT)/Utopia/libs/**",
+					"\"$(SRCROOT)/Utopia/libs/librabbitmq/.libs\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

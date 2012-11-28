@@ -715,7 +715,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addNewStaticLockBoxEvents:(NSArray *)events {
-  [_staticLockBoxEvents removeAllObjects];
+  self.staticLockBoxEvents = [NSMutableArray array];
   for (LockBoxEventProto *p in events) {
     [_staticLockBoxEvents addObject:p];
     [self.staticEquips setObject:p.prizeEquip forKey:[NSNumber numberWithInt:p.prizeEquip.equipId]];
@@ -1152,15 +1152,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) reretrieveStaticData {
   [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:_staticStructs.allKeys taskIds:_staticTasks.allKeys questIds:_staticQuests.allKeys cityIds:_staticCities.allKeys equipIds:_staticEquips.allKeys buildStructJobIds:_staticBuildStructJobs.allKeys defeatTypeJobIds:_staticDefeatTypeJobs.allKeys possessEquipJobIds:_staticPossessEquipJobs.allKeys upgradeStructJobIds:_staticUpgradeStructJobs.allKeys lockBoxEvents:YES clanTierLevels:YES];
   
-  [_staticStructs removeAllObjects];
-  [_staticEquips removeAllObjects];
-  [_staticTasks removeAllObjects];
-  [_staticCities removeAllObjects];
-  [_staticQuests removeAllObjects];
-  [_staticBuildStructJobs removeAllObjects];
-  [_staticDefeatTypeJobs removeAllObjects];
-  [_staticPossessEquipJobs removeAllObjects];
-  [_staticUpgradeStructJobs removeAllObjects];
+  self.staticTasks = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticCities = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticEquips = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticQuests = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticStructs = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticDefeatTypeJobs = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticBuildStructJobs = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticPossessEquipJobs = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticUpgradeStructJobs = [[[NSMutableDictionary alloc] init] autorelease];
   self.clanTierLevels = nil;
 }
 
