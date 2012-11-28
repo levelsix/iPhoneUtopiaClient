@@ -11,6 +11,7 @@
 #import "amqp.h"
 #import "amqp_framing.h"
 #import "Gamestate.h"
+#import "ClientProperties.h"
 
 #define UDID_KEY [NSString stringWithFormat:@"client_udid_%@", _udid]
 #define USER_ID_KEY [NSString stringWithFormat:@"client_userid_%d", gs.userId]
@@ -33,8 +34,8 @@ static int sessionId;
     [self endConnection];
     
     _connection = [[AMQPConnection alloc] init];
-    [_connection connectToHost:@"robot.lvl6.com" onPort:5672];
-    [_connection loginAsUser:@"lvl6client" withPassword:@"devclient" onVHost:@"devageofchaos"];
+    [_connection connectToHost:HOST_NAME onPort:HOST_PORT];
+    [_connection loginAsUser:MQ_USERNAME withPassword:MQ_PASSWORD onVHost:MQ_VHOST];
     AMQPChannel *channel = [_connection openChannel];
     _directExchange = [[AMQPExchange alloc] initDirectExchangeWithName:@"gamemessages" onChannel:channel isPassive:NO isDurable:YES];
     
@@ -49,6 +50,7 @@ static int sessionId;
       [_delegate performSelectorOnMainThread:@selector(connectedToHost) withObject:nil waitUntilDone:NO];
     }
   } @catch (NSException *exception) {
+    _connection = nil;
     if ([_delegate respondsToSelector:@selector(unableToConnectToHost:)]) {
       [_delegate performSelectorOnMainThread:@selector(unableToConnectToHost:) withObject:exception.reason waitUntilDone:NO];
     }
