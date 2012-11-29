@@ -263,6 +263,7 @@ typedef enum {
   NeutralCityElementProto_NeutralCityElemTypeBuilding = 1,
   NeutralCityElementProto_NeutralCityElemTypeDecoration = 2,
   NeutralCityElementProto_NeutralCityElemTypePersonNeutralEnemy = 3,
+  NeutralCityElementProto_NeutralCityElemTypeBoss = 4,
 } NeutralCityElementProto_NeutralCityElemType;
 
 BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementProto_NeutralCityElemType value);

@@ -15396,6 +15396,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
     case NeutralCityElementProto_NeutralCityElemTypeBuilding:
     case NeutralCityElementProto_NeutralCityElemTypeDecoration:
     case NeutralCityElementProto_NeutralCityElemTypePersonNeutralEnemy:
+    case NeutralCityElementProto_NeutralCityElemTypeBoss:
       return YES;
     default:
       return NO;

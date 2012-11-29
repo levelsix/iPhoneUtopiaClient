@@ -88,7 +88,8 @@
   
   float fullWidth = progressBar.image.size.width;
   CGRect r = progressBar.frame;
-  r.size.width = fullWidth * uc.numTasksComplete / _fcp.taskIdsList.count;
+  int total = _fcp.taskIdsList.count > 0 ? _fcp.taskIdsList.count : 1;
+  r.size.width = fullWidth * uc.numTasksComplete / total;
   progressBar.frame = r;
 }
 
