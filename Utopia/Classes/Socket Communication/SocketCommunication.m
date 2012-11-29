@@ -43,6 +43,7 @@ static NSString *udid = nil;
   if (!NSEqualRanges(rangeOfFirstMatch, NSMakeRange(NSNotFound, 0))) {
     NSString *substringForFirstMatch = [contents substringWithRange:rangeOfFirstMatch];
     LNLog(@"IP Address: %@", substringForFirstMatch);
+    return substringForFirstMatch;
   }
   return nil;
 }
@@ -169,10 +170,8 @@ static NSString *udid = nil;
   // Get the next 4 bytes for the payload size
   int nextMsgType = *(int *)(header);
   int tag = *(int *)(header+4);
-  int size = *(int *)(header+8); // No longer used
+//  int size = *(int *)(header+8); // No longer used
   NSData *payload = [data subdataWithRange:NSMakeRange(HEADER_SIZE, data.length-HEADER_SIZE)];
-  
-  NSLog(@"%d, %d", theMessage.body.length, size);
   
   [self messageReceived:payload withType:nextMsgType tag:tag];
 }

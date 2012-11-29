@@ -358,6 +358,8 @@
 @class SellNormStructureRequestProto_Builder;
 @class SellNormStructureResponseProto;
 @class SellNormStructureResponseProto_Builder;
+@class SendAdminMessageResponseProto;
+@class SendAdminMessageResponseProto_Builder;
 @class SendGroupChatRequestProto;
 @class SendGroupChatRequestProto_Builder;
 @class SendGroupChatResponseProto;
@@ -607,6 +609,7 @@ typedef enum {
   EventProtocolResponseSReferralCodeUsedEvent = 103,
   EventProtocolResponseSPurgeStaticDataEvent = 104,
   EventProtocolResponseSReceivedGroupChatEvent = 105,
+  EventProtocolResponseSSendAdminMessageEvent = 106,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

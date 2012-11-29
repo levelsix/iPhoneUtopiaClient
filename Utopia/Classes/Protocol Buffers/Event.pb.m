@@ -41709,6 +41709,222 @@ static PurgeClientStaticDataResponseProto* defaultPurgeClientStaticDataResponseP
 }
 @end
 
+@interface SendAdminMessageResponseProto ()
+@property int32_t senderId;
+@property (retain) NSString* message;
+@end
+
+@implementation SendAdminMessageResponseProto
+
+- (BOOL) hasSenderId {
+  return !!hasSenderId_;
+}
+- (void) setHasSenderId:(BOOL) value {
+  hasSenderId_ = !!value;
+}
+@synthesize senderId;
+- (BOOL) hasMessage {
+  return !!hasMessage_;
+}
+- (void) setHasMessage:(BOOL) value {
+  hasMessage_ = !!value;
+}
+@synthesize message;
+- (void) dealloc {
+  self.message = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.senderId = 0;
+    self.message = @"";
+  }
+  return self;
+}
+static SendAdminMessageResponseProto* defaultSendAdminMessageResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [SendAdminMessageResponseProto class]) {
+    defaultSendAdminMessageResponseProtoInstance = [[SendAdminMessageResponseProto alloc] init];
+  }
+}
++ (SendAdminMessageResponseProto*) defaultInstance {
+  return defaultSendAdminMessageResponseProtoInstance;
+}
+- (SendAdminMessageResponseProto*) defaultInstance {
+  return defaultSendAdminMessageResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSenderId) {
+    [output writeInt32:1 value:self.senderId];
+  }
+  if (self.hasMessage) {
+    [output writeString:2 value:self.message];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSenderId) {
+    size += computeInt32Size(1, self.senderId);
+  }
+  if (self.hasMessage) {
+    size += computeStringSize(2, self.message);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SendAdminMessageResponseProto*) parseFromData:(NSData*) data {
+  return (SendAdminMessageResponseProto*)[[[SendAdminMessageResponseProto builder] mergeFromData:data] build];
+}
++ (SendAdminMessageResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SendAdminMessageResponseProto*)[[[SendAdminMessageResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SendAdminMessageResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SendAdminMessageResponseProto*)[[[SendAdminMessageResponseProto builder] mergeFromInputStream:input] build];
+}
++ (SendAdminMessageResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SendAdminMessageResponseProto*)[[[SendAdminMessageResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SendAdminMessageResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SendAdminMessageResponseProto*)[[[SendAdminMessageResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SendAdminMessageResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SendAdminMessageResponseProto*)[[[SendAdminMessageResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SendAdminMessageResponseProto_Builder*) builder {
+  return [[[SendAdminMessageResponseProto_Builder alloc] init] autorelease];
+}
++ (SendAdminMessageResponseProto_Builder*) builderWithPrototype:(SendAdminMessageResponseProto*) prototype {
+  return [[SendAdminMessageResponseProto builder] mergeFrom:prototype];
+}
+- (SendAdminMessageResponseProto_Builder*) builder {
+  return [SendAdminMessageResponseProto builder];
+}
+@end
+
+@interface SendAdminMessageResponseProto_Builder()
+@property (retain) SendAdminMessageResponseProto* result;
+@end
+
+@implementation SendAdminMessageResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SendAdminMessageResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SendAdminMessageResponseProto_Builder*) clear {
+  self.result = [[[SendAdminMessageResponseProto alloc] init] autorelease];
+  return self;
+}
+- (SendAdminMessageResponseProto_Builder*) clone {
+  return [SendAdminMessageResponseProto builderWithPrototype:result];
+}
+- (SendAdminMessageResponseProto*) defaultInstance {
+  return [SendAdminMessageResponseProto defaultInstance];
+}
+- (SendAdminMessageResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SendAdminMessageResponseProto*) buildPartial {
+  SendAdminMessageResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SendAdminMessageResponseProto_Builder*) mergeFrom:(SendAdminMessageResponseProto*) other {
+  if (other == [SendAdminMessageResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSenderId) {
+    [self setSenderId:other.senderId];
+  }
+  if (other.hasMessage) {
+    [self setMessage:other.message];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SendAdminMessageResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SendAdminMessageResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setSenderId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        [self setMessage:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSenderId {
+  return result.hasSenderId;
+}
+- (int32_t) senderId {
+  return result.senderId;
+}
+- (SendAdminMessageResponseProto_Builder*) setSenderId:(int32_t) value {
+  result.hasSenderId = YES;
+  result.senderId = value;
+  return self;
+}
+- (SendAdminMessageResponseProto_Builder*) clearSenderId {
+  result.hasSenderId = NO;
+  result.senderId = 0;
+  return self;
+}
+- (BOOL) hasMessage {
+  return result.hasMessage;
+}
+- (NSString*) message {
+  return result.message;
+}
+- (SendAdminMessageResponseProto_Builder*) setMessage:(NSString*) value {
+  result.hasMessage = YES;
+  result.message = value;
+  return self;
+}
+- (SendAdminMessageResponseProto_Builder*) clearMessage {
+  result.hasMessage = NO;
+  result.message = @"";
+  return self;
+}
+@end
+
 @interface RetrieveUsersForUserIdsRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableRequestedUserIdsList;

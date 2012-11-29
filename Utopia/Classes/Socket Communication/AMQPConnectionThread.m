@@ -73,8 +73,6 @@ static int sessionId;
   [_chatQueue bindToExchange:_topicExchange withKey:CHAT_KEY];
   _chatConsumer = [[_chatQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES] retain];
   
-  [self initClanMessageQueue];
-  
   LNLog(@"Created queues");
 }
 
@@ -117,6 +115,7 @@ static int sessionId;
   [_useridConsumer release];
   [_udidConsumer release];
   [_chatConsumer release];
+  
 //  GameState *gs = [GameState sharedGameState];
 //  [_udidQueue unbindFromExchange:_directExchange withKey:UDID_KEY];
 //  [_useridQueue unbindFromExchange:_directExchange withKey:USER_ID_KEY];
@@ -155,7 +154,7 @@ static int sessionId;
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     
     if (_connection) {
-      if (amqp_data_available(_connection.internalConnection)) {
+      if (amqp_data_available(_connection.internalConnection) || amqp_data_in_buffer(_connection.internalConnection)) {
         AMQPMessage *message = [_udidConsumer pop];
         if(message)
         {
@@ -166,6 +165,9 @@ static int sessionId;
 		
 		[localPool drain];
 	}
+  
+  
+  [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:10]];
 }
 
 @end

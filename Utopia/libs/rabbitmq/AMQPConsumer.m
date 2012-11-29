@@ -49,8 +49,10 @@
 	
 	return self;
 }
+
 - (void)dealloc
 {
+  amqp_basic_cancel(channel.connection.internalConnection, channel.internalChannel, consumer);
 	amqp_bytes_free(consumer);
 	[channel release];
 	[queue release];
@@ -78,7 +80,9 @@
 		
 		// Frame #1: method frame with method basic.deliver
 		result = amqp_simple_wait_frame(channel.connection.internalConnection, &frame);
-		if(result < 0) { return nil; }
+		if(result < 0) {
+      return nil;
+    }
 		
 		if(frame.frame_type != AMQP_FRAME_METHOD || frame.payload.method.id != AMQP_BASIC_DELIVER_METHOD) {
       continue;
@@ -88,11 +92,12 @@
 		
 		// Frame #2: header frame containing body size
 		result = amqp_simple_wait_frame(channel.connection.internalConnection, &frame);
-		if(result < 0) { return nil; }
+		if(result < 0) {
+      return nil;
+    }
 		
 		if(frame.frame_type != AMQP_FRAME_HEADER)
 		{
-//      NSAssert(false, @"Expected header!");
 			return nil;
 		}
 		
@@ -106,16 +111,17 @@
 		while(receivedBytes < bodySize)
 		{
 			result = amqp_simple_wait_frame(channel.connection.internalConnection, &frame);
-			if(result < 0) { return nil; }
+			if(result < 0) {
+        return nil;
+      }
 			
 			if(frame.frame_type != AMQP_FRAME_BODY)
 			{
-//        NSAssert(false, @"Expected body!");
 				return nil;
 			}
 			
+			memcpy(body.bytes+receivedBytes, frame.payload.body_fragment.bytes, frame.payload.body_fragment.len);
 			receivedBytes += frame.payload.body_fragment.len;
-			memcpy(body.bytes, frame.payload.body_fragment.bytes, frame.payload.body_fragment.len);
 		}
 		
     

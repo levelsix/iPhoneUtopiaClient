@@ -84,7 +84,6 @@
 										<string key="NSFrame">{{377, 39}, {16, 16}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -100,7 +99,6 @@
 										<string key="NSFrame">{{0, 16}, {16, 23}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -244,7 +242,7 @@
 									<object class="IBUIButton" id="555508597">
 										<reference key="NSNextResponder" ref="944736344"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{20, 1}, {169, 25}}</string>
+										<string key="NSFrame">{{20, 1}, {191, 25}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="633337606"/>
@@ -709,7 +707,6 @@
 						<string key="bubbleTopRight">UIImageView</string>
 						<string key="bubbleView">UIView</string>
 						<string key="chatLine">UIImageView</string>
-						<string key="chatTextView">UITextView</string>
 						<string key="nameButton">UIButton</string>
 						<string key="textLabel">UILabel</string>
 						<string key="timeLabel">UILabel</string>
@@ -760,10 +757,6 @@
 						<object class="IBToOneOutletInfo" key="chatLine">
 							<string key="name">chatLine</string>
 							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="chatTextView">
-							<string key="name">chatTextView</string>
-							<string key="candidateClassName">UITextView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="nameButton">
 							<string key="name">nameButton</string>

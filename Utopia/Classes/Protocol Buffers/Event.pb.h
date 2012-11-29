@@ -358,6 +358,8 @@
 @class SellNormStructureRequestProto_Builder;
 @class SellNormStructureResponseProto;
 @class SellNormStructureResponseProto_Builder;
+@class SendAdminMessageResponseProto;
+@class SendAdminMessageResponseProto_Builder;
 @class SendGroupChatRequestProto;
 @class SendGroupChatRequestProto_Builder;
 @class SendGroupChatResponseProto;
@@ -10814,6 +10816,63 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (int32_t) senderId;
 - (PurgeClientStaticDataResponseProto_Builder*) setSenderId:(int32_t) value;
 - (PurgeClientStaticDataResponseProto_Builder*) clearSenderId;
+@end
+
+@interface SendAdminMessageResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSenderId_:1;
+  BOOL hasMessage_:1;
+  int32_t senderId;
+  NSString* message;
+}
+- (BOOL) hasSenderId;
+- (BOOL) hasMessage;
+@property (readonly) int32_t senderId;
+@property (readonly, retain) NSString* message;
+
++ (SendAdminMessageResponseProto*) defaultInstance;
+- (SendAdminMessageResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SendAdminMessageResponseProto_Builder*) builder;
++ (SendAdminMessageResponseProto_Builder*) builder;
++ (SendAdminMessageResponseProto_Builder*) builderWithPrototype:(SendAdminMessageResponseProto*) prototype;
+
++ (SendAdminMessageResponseProto*) parseFromData:(NSData*) data;
++ (SendAdminMessageResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SendAdminMessageResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (SendAdminMessageResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SendAdminMessageResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SendAdminMessageResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SendAdminMessageResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SendAdminMessageResponseProto* result;
+}
+
+- (SendAdminMessageResponseProto*) defaultInstance;
+
+- (SendAdminMessageResponseProto_Builder*) clear;
+- (SendAdminMessageResponseProto_Builder*) clone;
+
+- (SendAdminMessageResponseProto*) build;
+- (SendAdminMessageResponseProto*) buildPartial;
+
+- (SendAdminMessageResponseProto_Builder*) mergeFrom:(SendAdminMessageResponseProto*) other;
+- (SendAdminMessageResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SendAdminMessageResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSenderId;
+- (int32_t) senderId;
+- (SendAdminMessageResponseProto_Builder*) setSenderId:(int32_t) value;
+- (SendAdminMessageResponseProto_Builder*) clearSenderId;
+
+- (BOOL) hasMessage;
+- (NSString*) message;
+- (SendAdminMessageResponseProto_Builder*) setMessage:(NSString*) value;
+- (SendAdminMessageResponseProto_Builder*) clearMessage;
 @end
 
 @interface RetrieveUsersForUserIdsRequestProto : PBGeneratedMessage {

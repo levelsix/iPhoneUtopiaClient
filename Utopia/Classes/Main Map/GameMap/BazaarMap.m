@@ -47,37 +47,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     [self removeChild:layer cleanup:YES];
     
     CritStruct *cs = [[CritStruct alloc] initWithType:BazaarStructTypeMarketplace];
-    CritStructBuilding *csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(39.25, 32.25, 3, 3) map:self];
+    CritStructBuilding *csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(39, 30, 3, 3) map:self];
     [self addChild:csb z:100];
     [cs release];
     [csb release];
     
     cs = [[CritStruct alloc] initWithType:BazaarStructTypeArmory];
-    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(44.25, 32.25, 3, 3) map:self];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(46, 30, 3, 3) map:self];
     [self addChild:csb z:100];
     [cs release];
     [csb release];
     
     cs = [[CritStruct alloc] initWithType:BazaarStructTypeVault];
-    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(36.25, 40.25, 3, 3) map:self];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(35, 41, 3, 3) map:self];
     [self addChild:csb z:100];
     [cs release];
     [csb release];
     
     cs = [[CritStruct alloc] initWithType:BazaarStructTypeBlacksmith];
-    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(36.25, 35.25, 3, 3) map:self];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(35, 34, 3, 3) map:self];
     [self addChild:csb z:100];
     [cs release];
     [csb release];
     
     cs = [[CritStruct alloc] initWithType:BazaarStructTypeLeaderboard];
-    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(42.25, 38.25, 2, 2) map:self];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(43, 38, 2, 2) map:self];
     [self addChild:csb z:100];
     [cs release];
     [csb release];
     
     cs = [[CritStruct alloc] initWithType:BazaarStructTypeClanHouse];
-    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(44.25, 43.25, 3, 3) map:self];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(46, 45, 3, 3) map:self];
     [self addChild:csb z:100];
     [cs release];
     [csb release];
@@ -86,7 +86,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     // Only display goldmine if server supports it
     if (gl.numHoursForGoldminePickup) {
       cs = [[CritStruct alloc] initWithType:BazaarStructTypeGoldMine];
-      csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(47.25, 40.25, 3, 3) map:self];
+      csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(50, 41, 3, 3) map:self];
       [self addChild:csb z:100];
       [cs release];
       [csb release];
@@ -134,6 +134,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
 
 - (void) moveToQuestGiverAnimated:(BOOL)animated {
   [self moveToSprite:_questGiver animated:animated];
+}
+
+- (void) moveToCenterAnimated:(BOOL)animated {
+  [super moveToCenterAnimated:animated];
+  self.position = ccpAdd(self.position, ccp(50, 50));
 }
 
 - (void) moveToCritStruct:(BazaarStructType)type animated:(BOOL)animated {

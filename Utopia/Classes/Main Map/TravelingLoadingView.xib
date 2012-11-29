@@ -56,7 +56,7 @@
 							<object class="IBUILabel" id="56852081">
 								<reference key="NSNextResponder" ref="321345659"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{17, 81}, {116, 49}}</string>
+								<string key="NSFrame">{{17, 76}, {116, 62}}</string>
 								<reference key="NSSuperview" ref="321345659"/>
 								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -78,7 +78,7 @@
 								<string key="IBUIShadowOffset">{0, 1}</string>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<float key="IBUIMinimumFontSize">10</float>
-								<int key="IBUINumberOfLines">2</int>
+								<int key="IBUINumberOfLines">3</int>
 								<int key="IBUITextAlignment">1</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<int key="type">1</int>

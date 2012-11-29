@@ -283,6 +283,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSUpgradeClanTierEvent:
       responseClass = [UpgradeClanTierLevelResponseProto class];
       break;
+    case EventProtocolResponseSSendAdminMessageEvent:
+      responseClass = [SendAdminMessageResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -1209,7 +1212,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LoadNeutralCityResponseProto *proto = (LoadNeutralCityResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Load neutral city response received with status %d.", proto.status);
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Load neutral city response received for city %d with status %d.", proto.cityId, proto.status);
   
   for (FullUserProto *fup in proto.defeatTypeJobEnemiesList) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveStaticEquipsForUser:fup];
@@ -2237,6 +2240,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   else {
     [Globals popupMessage:@"Server failed to play three card monte."];
   }
+}
+
+- (void) handleSendAdminMessageResponseProto:(FullEvent *)fe {
+  SendAdminMessageResponseProto *proto = (SendAdminMessageResponseProto *)fe.event;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Send admin message response received");
+  
+  [Globals popupMessage:proto.message];
 }
 
 @end

@@ -12,9 +12,14 @@
 
 #define USE_PROD
 
+#define UDID [OpenUDID value]
+
 #else
 
 #define USE_PROD
+
+#define UDID [OpenUDID value]
+//#define FORCE_TUTORIAL
 
 #endif
 
@@ -26,8 +31,6 @@
 #define MQ_PASSWORD @"LvL6Pr0dCl!3nT"
 #define MQ_VHOST @"prodageofchaos"
 
-#define UDID [OpenUDID value]
-
 #else
 
 #define HOST_NAME @"robot.lvl6.com"
@@ -35,8 +38,5 @@
 #define MQ_USERNAME @"lvl6client"
 #define MQ_PASSWORD @"devclient"
 #define MQ_VHOST @"devageofchaos"
-
-#define UDID [OpenUDID value]
-//#define FORCE_TUTORIAL
 
 #endif

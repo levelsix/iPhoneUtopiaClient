@@ -1703,6 +1703,8 @@
 		CFF4A0751629361D00A452A7 /* goldmineicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA78423162275200026A7B4 /* goldmineicon.png */; };
 		CFF4A0761629361D00A452A7 /* goldmineicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA78424162275200026A7B4 /* goldmineicon@2x.png */; };
 		CFF4A078162942CD00A452A7 /* TravelingLoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF4A077162942CC00A452A7 /* TravelingLoadingView.xib */; };
+		CFF891681667276200D91A71 /* watertiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF891661667276200D91A71 /* watertiles.png */; };
+		CFF891691667276200D91A71 /* watertiles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF891671667276200D91A71 /* watertiles@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -3973,6 +3975,8 @@
 		CFF74818161BD4B9001D6D05 /* lbokaybutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lbokaybutton@2x.png"; sourceTree = "<group>"; };
 		CFF74819161BD4B9001D6D05 /* okbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = okbg.png; sourceTree = "<group>"; };
 		CFF7481A161BD4B9001D6D05 /* okbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "okbg@2x.png"; sourceTree = "<group>"; };
+		CFF891661667276200D91A71 /* watertiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = watertiles.png; sourceTree = "<group>"; };
+		CFF891671667276200D91A71 /* watertiles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "watertiles@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -6050,6 +6054,8 @@
 		CF1269D71538ACC600E0C1AD /* Tile Maps */ = {
 			isa = PBXGroup;
 			children = (
+				CFF891661667276200D91A71 /* watertiles.png */,
+				CFF891671667276200D91A71 /* watertiles@2x.png */,
 				CFE8DD661621075F00781774 /* Treez@2x.png */,
 				CFE8DD671621075F00781774 /* FloorTiles@2x.png */,
 				CFE8DD681621075F00781774 /* Treez.png */,
@@ -9072,6 +9078,8 @@
 				CF15BA4B1651CDAD00A51F85 /* warredbar@2x.png in Resources */,
 				CF15BA4C1651CDAD00A51F85 /* warticker.png in Resources */,
 				CF15BA4D1651CDAD00A51F85 /* warticker@2x.png in Resources */,
+				CFF891681667276200D91A71 /* watertiles.png in Resources */,
+				CFF891691667276200D91A71 /* watertiles@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

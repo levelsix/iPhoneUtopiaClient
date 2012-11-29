@@ -180,6 +180,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:
     case EventProtocolResponseSReceivedGroupChatEvent:
+    case EventProtocolResponseSSendAdminMessageEvent:
       return YES;
     default:
       return NO;
