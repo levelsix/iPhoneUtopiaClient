@@ -138,6 +138,14 @@
         [self addChild:ne z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         ne.name = ncep.name;
         [ne release];
+      } else if (ncep.type == NeutralCityElementProto_NeutralCityElemTypeBoss) {
+        CGRect r = CGRectZero;
+        r.origin = [self randomWalkablePosition];
+        r.size = CGSizeMake(1, 1);
+        NeutralEnemy *ne = [[NeutralEnemy alloc] initWithFile:ncep.imgId location:r map:self];
+        [self addChild:ne z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+        ne.name = ncep.name;
+        [ne release];
       }
     }
     

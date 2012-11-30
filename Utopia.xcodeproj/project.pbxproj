@@ -1119,6 +1119,12 @@
 		CF5F354E16683D5D007CE970 /* dragonhpred.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F354816683D5D007CE970 /* dragonhpred.png */; };
 		CF5F354F16683D5D007CE970 /* dragonhpbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F354916683D5D007CE970 /* dragonhpbg@2x.png */; };
 		CF5F355016683D5D007CE970 /* dragonhpred@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F354A16683D5D007CE970 /* dragonhpred@2x.png */; };
+		CF5F352E166768CC007CE970 /* ScyllasCoast.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF5F352D166768CC007CE970 /* ScyllasCoast.tmx */; };
+		CF5F35301667696C007CE970 /* ScyllasCoast@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF5F352F1667696B007CE970 /* ScyllasCoast@2x.tmx */; };
+		CF5F353516676D1B007CE970 /* WaterDragonWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF5F353116676D1B007CE970 /* WaterDragonWalkNF.plist */; };
+		CF5F353616676D1B007CE970 /* WaterDragonWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF5F353216676D1B007CE970 /* WaterDragonWalkNF.pvr.ccz */; };
+		CF5F353716676D1B007CE970 /* WaterDragonWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF5F353316676D1B007CE970 /* WaterDragonWalkNF@2x.plist */; };
+		CF5F353816676D1B007CE970 /* WaterDragonWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF5F353416676D1B007CE970 /* WaterDragonWalkNF@2x.pvr.ccz */; };
 		CF5F84D315ED84C0001CBB54 /* chatline.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F84D115ED84C0001CBB54 /* chatline.png */; };
 		CF5F84D415ED84C0001CBB54 /* chatline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F84D215ED84C0001CBB54 /* chatline@2x.png */; };
 		CF62E6DA15FEC58B00DF850F /* aboutclanheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CF62E6B515FEC58B00DF850F /* aboutclanheader.png */; };
@@ -3264,6 +3270,12 @@
 		CF5F354816683D5D007CE970 /* dragonhpred.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dragonhpred.png; sourceTree = "<group>"; };
 		CF5F354916683D5D007CE970 /* dragonhpbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dragonhpbg@2x.png"; sourceTree = "<group>"; };
 		CF5F354A16683D5D007CE970 /* dragonhpred@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dragonhpred@2x.png"; sourceTree = "<group>"; };
+		CF5F352D166768CC007CE970 /* ScyllasCoast.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ScyllasCoast.tmx; sourceTree = "<group>"; };
+		CF5F352F1667696B007CE970 /* ScyllasCoast@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "ScyllasCoast@2x.tmx"; sourceTree = "<group>"; };
+		CF5F353116676D1B007CE970 /* WaterDragonWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = WaterDragonWalkNF.plist; sourceTree = "<group>"; };
+		CF5F353216676D1B007CE970 /* WaterDragonWalkNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = WaterDragonWalkNF.pvr.ccz; sourceTree = "<group>"; };
+		CF5F353316676D1B007CE970 /* WaterDragonWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WaterDragonWalkNF@2x.plist"; sourceTree = "<group>"; };
+		CF5F353416676D1B007CE970 /* WaterDragonWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WaterDragonWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
 		CF5F84D115ED84C0001CBB54 /* chatline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chatline.png; sourceTree = "<group>"; };
 		CF5F84D215ED84C0001CBB54 /* chatline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatline@2x.png"; sourceTree = "<group>"; };
 		CF62E6B515FEC58B00DF850F /* aboutclanheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aboutclanheader.png; sourceTree = "<group>"; };
@@ -6072,6 +6084,12 @@
 		CF1269D71538ACC600E0C1AD /* Tile Maps */ = {
 			isa = PBXGroup;
 			children = (
+				CF5F353116676D1B007CE970 /* WaterDragonWalkNF.plist */,
+				CF5F353216676D1B007CE970 /* WaterDragonWalkNF.pvr.ccz */,
+				CF5F353316676D1B007CE970 /* WaterDragonWalkNF@2x.plist */,
+				CF5F353416676D1B007CE970 /* WaterDragonWalkNF@2x.pvr.ccz */,
+				CF5F352D166768CC007CE970 /* ScyllasCoast.tmx */,
+				CF5F352F1667696B007CE970 /* ScyllasCoast@2x.tmx */,
 				CFF891661667276200D91A71 /* watertiles.png */,
 				CFF891671667276200D91A71 /* watertiles@2x.png */,
 				CFE8DD661621075F00781774 /* Treez@2x.png */,
@@ -9104,6 +9122,12 @@
 				CF5F354E16683D5D007CE970 /* dragonhpred.png in Resources */,
 				CF5F354F16683D5D007CE970 /* dragonhpbg@2x.png in Resources */,
 				CF5F355016683D5D007CE970 /* dragonhpred@2x.png in Resources */,
+				CF5F352E166768CC007CE970 /* ScyllasCoast.tmx in Resources */,
+				CF5F35301667696C007CE970 /* ScyllasCoast@2x.tmx in Resources */,
+				CF5F353516676D1B007CE970 /* WaterDragonWalkNF.plist in Resources */,
+				CF5F353616676D1B007CE970 /* WaterDragonWalkNF.pvr.ccz in Resources */,
+				CF5F353716676D1B007CE970 /* WaterDragonWalkNF@2x.plist in Resources */,
+				CF5F353816676D1B007CE970 /* WaterDragonWalkNF@2x.pvr.ccz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
