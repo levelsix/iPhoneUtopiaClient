@@ -197,3 +197,7 @@ typedef enum {
 - (int) numCompletedExpansions;
 
 @end
+
+@interface UserBoss : NSObject
+
+@end

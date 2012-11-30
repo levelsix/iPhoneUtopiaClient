@@ -164,6 +164,7 @@
 
 @property (retain) NSMutableDictionary *staticStructs;
 @property (retain) NSMutableDictionary *staticTasks;
+@property (retain) NSMutableDictionary *staticBosses;
 @property (retain) NSMutableDictionary *staticQuests;
 @property (retain) NSMutableDictionary *staticCities;
 @property (retain) NSMutableDictionary *staticEquips;
@@ -217,6 +218,8 @@
 
 @property (retain) NSDictionary *clanTierLevels;
 
+@property (retain) NSArray *clanTowers;
+
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
 
@@ -228,6 +231,7 @@
 - (FullStructureProto *) structWithId:(int)structId;
 - (FullCityProto *)cityWithId:(int)cityId;
 - (FullTaskProto *) taskWithId:(int)taskId;
+- (FullBossProto *) bossWithId:(int)taskId;
 - (FullQuestProto *) questForQuestId:(int)questId;
 - (LockBoxEventProto *) lockBoxEventWithId:(int)eventId;
 
@@ -258,6 +262,7 @@
 
 - (void) addToStaticStructs:(NSArray *)arr;
 - (void) addToStaticTasks:(NSArray *)arr;
+- (void) addToStaticBosses:(NSArray *)arr;
 - (void) addToStaticQuests:(NSArray *)arr;
 - (void) addToStaticCities:(NSArray *)arr;
 - (void) addToStaticEquips:(NSArray *)arr;
@@ -295,6 +300,8 @@
 - (LockBoxEventProto *) getCurrentLockBoxEvent;
 - (void) addToNumLockBoxesForEvent:(int)eventId;
 - (void) updateLockBoxButton;
+
+- (void) updateClanTowers:(NSArray *)arr;
 
 - (void) resetGoldSaleTimers;
 - (GoldSaleProto *) getCurrentGoldSale;

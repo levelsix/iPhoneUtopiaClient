@@ -1113,6 +1113,12 @@
 		CF5D3D7B1541ED5F0086234E /* JobCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5D3D7A1541ED5F0086234E /* JobCell.xib */; };
 		CF5D3D7E15420D930086234E /* checkdone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5D3D7C15420D930086234E /* checkdone@2x.png */; };
 		CF5D3D7F15420D930086234E /* checkdone.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5D3D7D15420D930086234E /* checkdone.png */; };
+		CF5F354B16683D5D007CE970 /* dragonheart.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F354516683D5D007CE970 /* dragonheart.png */; };
+		CF5F354C16683D5D007CE970 /* dragonheart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F354616683D5D007CE970 /* dragonheart@2x.png */; };
+		CF5F354D16683D5D007CE970 /* dragonhpbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F354716683D5D007CE970 /* dragonhpbg.png */; };
+		CF5F354E16683D5D007CE970 /* dragonhpred.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F354816683D5D007CE970 /* dragonhpred.png */; };
+		CF5F354F16683D5D007CE970 /* dragonhpbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F354916683D5D007CE970 /* dragonhpbg@2x.png */; };
+		CF5F355016683D5D007CE970 /* dragonhpred@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F354A16683D5D007CE970 /* dragonhpred@2x.png */; };
 		CF5F84D315ED84C0001CBB54 /* chatline.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F84D115ED84C0001CBB54 /* chatline.png */; };
 		CF5F84D415ED84C0001CBB54 /* chatline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F84D215ED84C0001CBB54 /* chatline@2x.png */; };
 		CF62E6DA15FEC58B00DF850F /* aboutclanheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CF62E6B515FEC58B00DF850F /* aboutclanheader.png */; };
@@ -3252,6 +3258,12 @@
 		CF5D3D7A1541ED5F0086234E /* JobCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JobCell.xib; sourceTree = "<group>"; };
 		CF5D3D7C15420D930086234E /* checkdone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkdone@2x.png"; sourceTree = "<group>"; };
 		CF5D3D7D15420D930086234E /* checkdone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkdone.png; sourceTree = "<group>"; };
+		CF5F354516683D5D007CE970 /* dragonheart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dragonheart.png; sourceTree = "<group>"; };
+		CF5F354616683D5D007CE970 /* dragonheart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dragonheart@2x.png"; sourceTree = "<group>"; };
+		CF5F354716683D5D007CE970 /* dragonhpbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dragonhpbg.png; sourceTree = "<group>"; };
+		CF5F354816683D5D007CE970 /* dragonhpred.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dragonhpred.png; sourceTree = "<group>"; };
+		CF5F354916683D5D007CE970 /* dragonhpbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dragonhpbg@2x.png"; sourceTree = "<group>"; };
+		CF5F354A16683D5D007CE970 /* dragonhpred@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dragonhpred@2x.png"; sourceTree = "<group>"; };
 		CF5F84D115ED84C0001CBB54 /* chatline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chatline.png; sourceTree = "<group>"; };
 		CF5F84D215ED84C0001CBB54 /* chatline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatline@2x.png"; sourceTree = "<group>"; };
 		CF62E6B515FEC58B00DF850F /* aboutclanheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aboutclanheader.png; sourceTree = "<group>"; };
@@ -5803,6 +5815,12 @@
 		CF1269111538ACC500E0C1AD /* Mission Building Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF5F354516683D5D007CE970 /* dragonheart.png */,
+				CF5F354616683D5D007CE970 /* dragonheart@2x.png */,
+				CF5F354716683D5D007CE970 /* dragonhpbg.png */,
+				CF5F354816683D5D007CE970 /* dragonhpred.png */,
+				CF5F354916683D5D007CE970 /* dragonhpbg@2x.png */,
+				CF5F354A16683D5D007CE970 /* dragonhpred@2x.png */,
 				CF3CF2321574681800CD04D7 /* greenttebar.png */,
 				CF3CF2331574681800CD04D7 /* greenttebar@2x.png */,
 				CF3CF2341574681900CD04D7 /* ttebg.png */,
@@ -9080,6 +9098,12 @@
 				CF15BA4D1651CDAD00A51F85 /* warticker@2x.png in Resources */,
 				CFF891681667276200D91A71 /* watertiles.png in Resources */,
 				CFF891691667276200D91A71 /* watertiles@2x.png in Resources */,
+				CF5F354B16683D5D007CE970 /* dragonheart.png in Resources */,
+				CF5F354C16683D5D007CE970 /* dragonheart@2x.png in Resources */,
+				CF5F354D16683D5D007CE970 /* dragonhpbg.png in Resources */,
+				CF5F354E16683D5D007CE970 /* dragonhpred.png in Resources */,
+				CF5F354F16683D5D007CE970 /* dragonhpbg@2x.png in Resources */,
+				CF5F355016683D5D007CE970 /* dragonhpred@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

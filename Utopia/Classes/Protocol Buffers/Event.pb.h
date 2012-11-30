@@ -1193,6 +1193,7 @@ typedef enum {
   BeginClanTowerWarResponseProto_BeginClanTowerWarStatusSuccess = 0,
   BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyInBattle = 1,
   BeginClanTowerWarResponseProto_BeginClanTowerWarStatusOtherFail = 2,
+  BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyClaimed = 3,
 } BeginClanTowerWarResponseProto_BeginClanTowerWarStatus;
 
 BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginClanTowerWarResponseProto_BeginClanTowerWarStatus value);
@@ -1930,40 +1931,41 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   BOOL hasPlayerHasBoughtInAppPurchase_:1;
   BOOL hasExperienceRequiredForCurrentLevel_:1;
   BOOL hasExperienceRequiredForNextLevel_:1;
-  BOOL hasAppStoreUrl_:1;
   BOOL hasReviewPageUrl_:1;
+  BOOL hasAppStoreUrl_:1;
   BOOL hasReviewPageConfirmationMessage_:1;
+  BOOL hasSender_:1;
   BOOL hasDailyBonusInfo_:1;
+  BOOL hasStartupConstants_:1;
   BOOL hasUnhandledForgeAttempt_:1;
   BOOL hasForgeAttemptEquip_:1;
   BOOL hasTutorialConstants_:1;
-  BOOL hasStartupConstants_:1;
-  BOOL hasSender_:1;
-  BOOL hasUpdateStatus_:1;
   BOOL hasStartupStatus_:1;
+  BOOL hasUpdateStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
   int32_t experienceRequiredForCurrentLevel;
   int32_t experienceRequiredForNextLevel;
-  NSString* appStoreUrl;
   NSString* reviewPageUrl;
+  NSString* appStoreUrl;
   NSString* reviewPageConfirmationMessage;
+  FullUserProto* sender;
   StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
+  StartupResponseProto_StartupConstants* startupConstants;
   UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
   FullEquipProto* forgeAttemptEquip;
   StartupResponseProto_TutorialConstants* tutorialConstants;
-  StartupResponseProto_StartupConstants* startupConstants;
-  FullUserProto* sender;
-  StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
+  StartupResponseProto_UpdateStatus updateStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableClanChatsList;
-  NSMutableArray* mutableGlobalChatsList;
   NSMutableArray* mutableMktSearchEquipsList;
+  NSMutableArray* mutableClanTowersList;
+  NSMutableArray* mutableGlobalChatsList;
+  NSMutableArray* mutableClanChatsList;
   NSMutableArray* mutableGoldSalesList;
+  NSMutableArray* mutableAlliesList;
   NSMutableArray* mutableClanTierLevelsList;
   NSMutableArray* mutableStaticStructsList;
   NSMutableArray* mutableStaticEquipsList;
-  NSMutableArray* mutableAlliesList;
   NSMutableArray* mutableUserLockBoxEventsList;
   NSMutableArray* mutableLockBoxEventsList;
   NSMutableArray* mutableClanBulletinPostNotificationsList;
@@ -2056,6 +2058,8 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (FullStructureProto*) staticStructsAtIndex:(int32_t) index;
 - (NSArray*) staticEquipsList;
 - (FullEquipProto*) staticEquipsAtIndex:(int32_t) index;
+- (NSArray*) clanTowersList;
+- (ClanTowerProto*) clanTowersAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -5114,6 +5118,13 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (StartupResponseProto_Builder*) addStaticEquips:(FullEquipProto*) value;
 - (StartupResponseProto_Builder*) addAllStaticEquips:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearStaticEquipsList;
+
+- (NSArray*) clanTowersList;
+- (ClanTowerProto*) clanTowersAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceClanTowersAtIndex:(int32_t) index with:(ClanTowerProto*) value;
+- (StartupResponseProto_Builder*) addClanTowers:(ClanTowerProto*) value;
+- (StartupResponseProto_Builder*) addAllClanTowers:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearClanTowersList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
@@ -9215,6 +9226,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   NSMutableArray* mutableDefeatTypeJobIdsList;
   NSMutableArray* mutablePossessEquipJobIdsList;
   NSMutableArray* mutableUpgradeStructJobIdsList;
+  NSMutableArray* mutableBossIdsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasLevelForExpRequiredRequest;
@@ -9242,6 +9254,8 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (int32_t) possessEquipJobIdsAtIndex:(int32_t) index;
 - (NSArray*) upgradeStructJobIdsList;
 - (int32_t) upgradeStructJobIdsAtIndex:(int32_t) index;
+- (NSArray*) bossIdsList;
+- (int32_t) bossIdsAtIndex:(int32_t) index;
 
 + (RetrieveStaticDataRequestProto*) defaultInstance;
 - (RetrieveStaticDataRequestProto*) defaultInstance;
@@ -9361,6 +9375,13 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BOOL) clanTierLevels;
 - (RetrieveStaticDataRequestProto_Builder*) setClanTierLevels:(BOOL) value;
 - (RetrieveStaticDataRequestProto_Builder*) clearClanTierLevels;
+
+- (NSArray*) bossIdsList;
+- (int32_t) bossIdsAtIndex:(int32_t) index;
+- (RetrieveStaticDataRequestProto_Builder*) replaceBossIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addBossIds:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addAllBossIds:(NSArray*) values;
+- (RetrieveStaticDataRequestProto_Builder*) clearBossIdsList;
 @end
 
 @interface RetrieveStaticDataResponseProto : PBGeneratedMessage {
@@ -9382,6 +9403,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   NSMutableArray* mutableUpgradeStructJobsList;
   NSMutableArray* mutableLockBoxEventsList;
   NSMutableArray* mutableClanTierLevelsList;
+  NSMutableArray* mutableBossesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasExpRequiredForRequestedLevel;
@@ -9411,6 +9433,8 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (LockBoxEventProto*) lockBoxEventsAtIndex:(int32_t) index;
 - (NSArray*) clanTierLevelsList;
 - (ClanTierLevelProto*) clanTierLevelsAtIndex:(int32_t) index;
+- (NSArray*) bossesList;
+- (FullBossProto*) bossesAtIndex:(int32_t) index;
 
 + (RetrieveStaticDataResponseProto*) defaultInstance;
 - (RetrieveStaticDataResponseProto*) defaultInstance;
@@ -9534,6 +9558,13 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (RetrieveStaticDataResponseProto_Builder*) addClanTierLevels:(ClanTierLevelProto*) value;
 - (RetrieveStaticDataResponseProto_Builder*) addAllClanTierLevels:(NSArray*) values;
 - (RetrieveStaticDataResponseProto_Builder*) clearClanTierLevelsList;
+
+- (NSArray*) bossesList;
+- (FullBossProto*) bossesAtIndex:(int32_t) index;
+- (RetrieveStaticDataResponseProto_Builder*) replaceBossesAtIndex:(int32_t) index with:(FullBossProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addBosses:(FullBossProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addAllBosses:(NSArray*) values;
+- (RetrieveStaticDataResponseProto_Builder*) clearBossesList;
 
 - (BOOL) hasStatus;
 - (RetrieveStaticDataResponseProto_RetrieveStaticDataStatus) status;
@@ -10546,6 +10577,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   NSMutableArray* mutableDefeatTypeJobEnemiesList;
   NSMutableArray* mutableCityElementsList;
   NSMutableArray* mutableInProgressUserQuestDataInCityList;
+  NSMutableArray* mutableUserBossesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
@@ -10561,6 +10593,8 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (NeutralCityElementProto*) cityElementsAtIndex:(int32_t) index;
 - (NSArray*) inProgressUserQuestDataInCityList;
 - (FullUserQuestDataLargeProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index;
+- (NSArray*) userBossesList;
+- (FullUserBossProto*) userBossesAtIndex:(int32_t) index;
 
 + (LoadNeutralCityResponseProto*) defaultInstance;
 - (LoadNeutralCityResponseProto*) defaultInstance;
@@ -10640,6 +10674,13 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (LoadNeutralCityResponseProto_Builder*) addInProgressUserQuestDataInCity:(FullUserQuestDataLargeProto*) value;
 - (LoadNeutralCityResponseProto_Builder*) addAllInProgressUserQuestDataInCity:(NSArray*) values;
 - (LoadNeutralCityResponseProto_Builder*) clearInProgressUserQuestDataInCityList;
+
+- (NSArray*) userBossesList;
+- (FullUserBossProto*) userBossesAtIndex:(int32_t) index;
+- (LoadNeutralCityResponseProto_Builder*) replaceUserBossesAtIndex:(int32_t) index with:(FullUserBossProto*) value;
+- (LoadNeutralCityResponseProto_Builder*) addUserBosses:(FullUserBossProto*) value;
+- (LoadNeutralCityResponseProto_Builder*) addAllUserBosses:(NSArray*) values;
+- (LoadNeutralCityResponseProto_Builder*) clearUserBossesList;
 @end
 
 @interface RetrieveUserEquipForUserRequestProto : PBGeneratedMessage {
@@ -15424,15 +15465,19 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 
 @interface BeginClanTowerWarRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClaiming_:1;
   BOOL hasTowerId_:1;
   BOOL hasSender_:1;
+  BOOL claiming_:1;
   int32_t towerId;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasTowerId;
+- (BOOL) hasClaiming;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t towerId;
+- (BOOL) claiming;
 
 + (BeginClanTowerWarRequestProto*) defaultInstance;
 - (BeginClanTowerWarRequestProto*) defaultInstance;
@@ -15479,6 +15524,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (int32_t) towerId;
 - (BeginClanTowerWarRequestProto_Builder*) setTowerId:(int32_t) value;
 - (BeginClanTowerWarRequestProto_Builder*) clearTowerId;
+
+- (BOOL) hasClaiming;
+- (BOOL) claiming;
+- (BeginClanTowerWarRequestProto_Builder*) setClaiming:(BOOL) value;
+- (BeginClanTowerWarRequestProto_Builder*) clearClaiming;
 @end
 
 @interface BeginClanTowerWarResponseProto : PBGeneratedMessage {

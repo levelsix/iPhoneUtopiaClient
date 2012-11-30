@@ -722,6 +722,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
       self.titleLabel.hidden = YES;
       
       self.clanBrowseView.state = [Globals userTypeIsGood:gs.type] ? kBrowseAlliance : kBrowseLegion;
+      if (self.clanBrowseView.state == kBrowseLegion) _lastButton = kButton2;
       [self.topBar loadBrowseClanConfiguration];
       break;
       

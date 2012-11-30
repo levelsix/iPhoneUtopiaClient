@@ -115,25 +115,32 @@
       }
     }
     
-    // So that it registers touches
-    self.contentSize = CGSizeMake(40, 70);
-    
     CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
     self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF restoreOriginalFrame:NO]];
     
     CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png",prefix]];
     self.sprite = [CCSprite spriteWithSpriteFrame:frame];
     [self.spritesheet addChild:_sprite];
-    CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
-    self.sprite.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), ccp(cp.x, cp.y));
     
     _oldMapPos = loc.origin;
     
     [self walk];
     
-    self.nameLabel.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
+    CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
+    _spriteOffset = ccp(cp.x, cp.y);
+    
+    // So that it registers touches
+    self.contentSize = CGSizeMake(40, 70);
   }
   return self;
+}
+
+- (void) setContentSize:(CGSize)contentSize {
+  [super setContentSize:contentSize];
+  
+  self.sprite.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), _spriteOffset);
+  
+  self.nameLabel.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
 }
 
 - (void) setOpacity:(GLubyte)opacity {

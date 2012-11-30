@@ -3209,8 +3209,6 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
 @property int32_t experienceGained;
 @property int32_t cityId;
 @property int32_t assetNumWithinCity;
-@property (retain) NSString* goodName;
-@property (retain) NSString* badName;
 @property int32_t staminaCost;
 @end
 
@@ -3279,20 +3277,6 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
   hasAssetNumWithinCity_ = !!value;
 }
 @synthesize assetNumWithinCity;
-- (BOOL) hasGoodName {
-  return !!hasGoodName_;
-}
-- (void) setHasGoodName:(BOOL) value {
-  hasGoodName_ = !!value;
-}
-@synthesize goodName;
-- (BOOL) hasBadName {
-  return !!hasBadName_;
-}
-- (void) setHasBadName:(BOOL) value {
-  hasBadName_ = !!value;
-}
-@synthesize badName;
 - (BOOL) hasStaminaCost {
   return !!hasStaminaCost_;
 }
@@ -3301,8 +3285,6 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
 }
 @synthesize staminaCost;
 - (void) dealloc {
-  self.goodName = nil;
-  self.badName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3316,8 +3298,6 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
     self.experienceGained = 0;
     self.cityId = 0;
     self.assetNumWithinCity = 0;
-    self.goodName = @"";
-    self.badName = @"";
     self.staminaCost = 0;
   }
   return self;
@@ -3365,12 +3345,6 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   if (self.hasAssetNumWithinCity) {
     [output writeInt32:9 value:self.assetNumWithinCity];
   }
-  if (self.hasGoodName) {
-    [output writeString:10 value:self.goodName];
-  }
-  if (self.hasBadName) {
-    [output writeString:11 value:self.badName];
-  }
   if (self.hasStaminaCost) {
     [output writeInt32:12 value:self.staminaCost];
   }
@@ -3409,12 +3383,6 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   }
   if (self.hasAssetNumWithinCity) {
     size += computeInt32Size(9, self.assetNumWithinCity);
-  }
-  if (self.hasGoodName) {
-    size += computeStringSize(10, self.goodName);
-  }
-  if (self.hasBadName) {
-    size += computeStringSize(11, self.badName);
   }
   if (self.hasStaminaCost) {
     size += computeInt32Size(12, self.staminaCost);
@@ -3521,12 +3489,6 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   if (other.hasAssetNumWithinCity) {
     [self setAssetNumWithinCity:other.assetNumWithinCity];
   }
-  if (other.hasGoodName) {
-    [self setGoodName:other.goodName];
-  }
-  if (other.hasBadName) {
-    [self setBadName:other.badName];
-  }
   if (other.hasStaminaCost) {
     [self setStaminaCost:other.staminaCost];
   }
@@ -3585,14 +3547,6 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
       }
       case 72: {
         [self setAssetNumWithinCity:[input readInt32]];
-        break;
-      }
-      case 82: {
-        [self setGoodName:[input readString]];
-        break;
-      }
-      case 90: {
-        [self setBadName:[input readString]];
         break;
       }
       case 96: {
@@ -3744,38 +3698,6 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
 - (FullBossProto_Builder*) clearAssetNumWithinCity {
   result.hasAssetNumWithinCity = NO;
   result.assetNumWithinCity = 0;
-  return self;
-}
-- (BOOL) hasGoodName {
-  return result.hasGoodName;
-}
-- (NSString*) goodName {
-  return result.goodName;
-}
-- (FullBossProto_Builder*) setGoodName:(NSString*) value {
-  result.hasGoodName = YES;
-  result.goodName = value;
-  return self;
-}
-- (FullBossProto_Builder*) clearGoodName {
-  result.hasGoodName = NO;
-  result.goodName = @"";
-  return self;
-}
-- (BOOL) hasBadName {
-  return result.hasBadName;
-}
-- (NSString*) badName {
-  return result.badName;
-}
-- (FullBossProto_Builder*) setBadName:(NSString*) value {
-  result.hasBadName = YES;
-  result.badName = value;
-  return self;
-}
-- (FullBossProto_Builder*) clearBadName {
-  result.hasBadName = NO;
-  result.badName = @"";
   return self;
 }
 - (BOOL) hasStaminaCost {
@@ -13527,6 +13449,7 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
 @property (retain) NSString* mapImgName;
 @property (retain) CoordinateProto* center;
 @property (retain) NSMutableArray* mutableTaskIdsList;
+@property (retain) NSMutableArray* mutableBossIdsList;
 @end
 
 @implementation FullCityProto
@@ -13581,11 +13504,13 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
 }
 @synthesize center;
 @synthesize mutableTaskIdsList;
+@synthesize mutableBossIdsList;
 - (void) dealloc {
   self.name = nil;
   self.mapImgName = nil;
   self.center = nil;
   self.mutableTaskIdsList = nil;
+  self.mutableBossIdsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -13619,6 +13544,13 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   id value = [mutableTaskIdsList objectAtIndex:index];
   return [value intValue];
 }
+- (NSArray*) bossIdsList {
+  return mutableBossIdsList;
+}
+- (int32_t) bossIdsAtIndex:(int32_t) index {
+  id value = [mutableBossIdsList objectAtIndex:index];
+  return [value intValue];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -13646,6 +13578,9 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   }
   for (NSNumber* value in self.mutableTaskIdsList) {
     [output writeInt32:10 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableBossIdsList) {
+    [output writeInt32:11 value:[value intValue]];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -13684,6 +13619,14 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
     }
     size += dataSize;
     size += 1 * self.mutableTaskIdsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableBossIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableBossIdsList.count;
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -13787,6 +13730,12 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
     }
     [result.mutableTaskIdsList addObjectsFromArray:other.mutableTaskIdsList];
   }
+  if (other.mutableBossIdsList.count > 0) {
+    if (result.mutableBossIdsList == nil) {
+      result.mutableBossIdsList = [NSMutableArray array];
+    }
+    [result.mutableBossIdsList addObjectsFromArray:other.mutableBossIdsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -13843,6 +13792,10 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
       }
       case 80: {
         [self addTaskIds:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self addBossIds:[input readInt32]];
         break;
       }
     }
@@ -14003,6 +13956,37 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
 }
 - (FullCityProto_Builder*) clearTaskIdsList {
   result.mutableTaskIdsList = nil;
+  return self;
+}
+- (NSArray*) bossIdsList {
+  if (result.mutableBossIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableBossIdsList;
+}
+- (int32_t) bossIdsAtIndex:(int32_t) index {
+  return [result bossIdsAtIndex:index];
+}
+- (FullCityProto_Builder*) replaceBossIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableBossIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullCityProto_Builder*) addBossIds:(int32_t) value {
+  if (result.mutableBossIdsList == nil) {
+    result.mutableBossIdsList = [NSMutableArray array];
+  }
+  [result.mutableBossIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullCityProto_Builder*) addAllBossIds:(NSArray*) values {
+  if (result.mutableBossIdsList == nil) {
+    result.mutableBossIdsList = [NSMutableArray array];
+  }
+  [result.mutableBossIdsList addObjectsFromArray:values];
+  return self;
+}
+- (FullCityProto_Builder*) clearBossIdsList {
+  result.mutableBossIdsList = nil;
   return self;
 }
 @end
@@ -15396,6 +15380,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
     case NeutralCityElementProto_NeutralCityElemTypeBuilding:
     case NeutralCityElementProto_NeutralCityElemTypeDecoration:
     case NeutralCityElementProto_NeutralCityElemTypePersonNeutralEnemy:
+    case NeutralCityElementProto_NeutralCityElemTypeBoss:
       return YES;
     default:
       return NO;

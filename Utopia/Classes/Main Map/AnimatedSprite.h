@@ -44,6 +44,7 @@
   CCAction *_walkActionN;
   CCAction *_walkActionF;
   
+  CGPoint _spriteOffset;
   CGPoint _oldMapPos;
   BOOL _moving;
 }
@@ -112,6 +113,12 @@ typedef enum {
 @end
 
 @interface NeutralEnemy : AnimatedSprite <TaskElement>
+
+@end
+
+@interface Boss : AnimatedSprite
+
+@property (nonatomic, retain) FullBossProto *fbp;
 
 @end
 

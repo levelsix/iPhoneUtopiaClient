@@ -263,6 +263,7 @@ typedef enum {
   NeutralCityElementProto_NeutralCityElemTypeBuilding = 1,
   NeutralCityElementProto_NeutralCityElemTypeDecoration = 2,
   NeutralCityElementProto_NeutralCityElemTypePersonNeutralEnemy = 3,
+  NeutralCityElementProto_NeutralCityElemTypeBoss = 4,
 } NeutralCityElementProto_NeutralCityElemType;
 
 BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementProto_NeutralCityElemType value);
@@ -1056,8 +1057,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasCityId_:1;
   BOOL hasAssetNumWithinCity_:1;
   BOOL hasStaminaCost_:1;
-  BOOL hasGoodName_:1;
-  BOOL hasBadName_:1;
   int32_t bossId;
   int32_t baseHealth;
   int32_t minDamage;
@@ -1068,8 +1067,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t cityId;
   int32_t assetNumWithinCity;
   int32_t staminaCost;
-  NSString* goodName;
-  NSString* badName;
 }
 - (BOOL) hasBossId;
 - (BOOL) hasBaseHealth;
@@ -1080,8 +1077,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasExperienceGained;
 - (BOOL) hasCityId;
 - (BOOL) hasAssetNumWithinCity;
-- (BOOL) hasGoodName;
-- (BOOL) hasBadName;
 - (BOOL) hasStaminaCost;
 @property (readonly) int32_t bossId;
 @property (readonly) int32_t baseHealth;
@@ -1092,8 +1087,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t experienceGained;
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t assetNumWithinCity;
-@property (readonly, retain) NSString* goodName;
-@property (readonly, retain) NSString* badName;
 @property (readonly) int32_t staminaCost;
 
 + (FullBossProto*) defaultInstance;
@@ -1174,16 +1167,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) assetNumWithinCity;
 - (FullBossProto_Builder*) setAssetNumWithinCity:(int32_t) value;
 - (FullBossProto_Builder*) clearAssetNumWithinCity;
-
-- (BOOL) hasGoodName;
-- (NSString*) goodName;
-- (FullBossProto_Builder*) setGoodName:(NSString*) value;
-- (FullBossProto_Builder*) clearGoodName;
-
-- (BOOL) hasBadName;
-- (NSString*) badName;
-- (FullBossProto_Builder*) setBadName:(NSString*) value;
-- (FullBossProto_Builder*) clearBadName;
 
 - (BOOL) hasStaminaCost;
 - (int32_t) staminaCost;
@@ -3552,6 +3535,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   NSString* mapImgName;
   CoordinateProto* center;
   NSMutableArray* mutableTaskIdsList;
+  NSMutableArray* mutableBossIdsList;
 }
 - (BOOL) hasCityId;
 - (BOOL) hasName;
@@ -3569,6 +3553,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) CoordinateProto* center;
 - (NSArray*) taskIdsList;
 - (int32_t) taskIdsAtIndex:(int32_t) index;
+- (NSArray*) bossIdsList;
+- (int32_t) bossIdsAtIndex:(int32_t) index;
 
 + (FullCityProto*) defaultInstance;
 - (FullCityProto*) defaultInstance;
@@ -3647,6 +3633,13 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullCityProto_Builder*) addTaskIds:(int32_t) value;
 - (FullCityProto_Builder*) addAllTaskIds:(NSArray*) values;
 - (FullCityProto_Builder*) clearTaskIdsList;
+
+- (NSArray*) bossIdsList;
+- (int32_t) bossIdsAtIndex:(int32_t) index;
+- (FullCityProto_Builder*) replaceBossIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (FullCityProto_Builder*) addBossIds:(int32_t) value;
+- (FullCityProto_Builder*) addAllBossIds:(NSArray*) values;
+- (FullCityProto_Builder*) clearBossIdsList;
 @end
 
 @interface FullUserCityExpansionDataProto : PBGeneratedMessage {

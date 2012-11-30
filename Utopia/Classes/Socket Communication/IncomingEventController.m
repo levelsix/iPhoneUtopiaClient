@@ -492,6 +492,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs goldmineTimeComplete];
     [gs beginGoldmineTimer];
     
+    [gs updateClanTowers:proto.clanTowersList];
+    
     gs.expRequiredForCurrentLevel = proto.experienceRequiredForCurrentLevel;
     gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;
     

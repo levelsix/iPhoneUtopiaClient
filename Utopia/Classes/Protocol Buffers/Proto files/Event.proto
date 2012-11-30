@@ -172,6 +172,8 @@ message StartupResponseProto {
 	
 	repeated FullStructureProto staticStructs = 37;
 	repeated FullEquipProto staticEquips = 38;
+		
+	repeated ClanTowerProto clanTowers = 39;
 	
 	message DailyBonusInfo {
 		optional int32 numConsecutiveDaysPlayed = 1;
@@ -1250,6 +1252,7 @@ message RetrieveStaticDataRequestProto {
 	optional int32 levelForExpRequiredRequest = 11;
 	optional bool currentLockBoxEvents = 12;
 	optional bool clanTierLevels = 13;
+	repeated int32 bossIds = 14;
 }
 
 																						//DONE
@@ -1267,6 +1270,7 @@ message RetrieveStaticDataResponseProto {
 	optional int32 expRequiredForRequestedLevel = 11;
 	repeated LockBoxEventProto lockBoxEvents = 12;
 	repeated ClanTierLevelProto clanTierLevels = 14;
+	repeated FullBossProto bosses = 15;
 	
 	optional RetrieveStaticDataStatus status = 13;
 	
@@ -1468,6 +1472,8 @@ message LoadNeutralCityResponseProto {
      repeated NeutralCityElementProto cityElements = 5;
      optional int32 cityId = 6;
      repeated FullUserQuestDataLargeProto inProgressUserQuestDataInCity = 7;
+     
+     repeated FullUserBossProto userBosses = 8;
      
      enum LoadNeutralCityStatus {
      	SUCCESS = 0;
@@ -2218,6 +2224,7 @@ message BossActionResponseProto {
 message BeginClanTowerWarRequestProto {
 	optional MinimumUserProto sender = 1;
 	optional int32 towerId = 2;
+	optional bool claiming = 3;
 }
 
 message BeginClanTowerWarResponseProto {
@@ -2228,6 +2235,7 @@ message BeginClanTowerWarResponseProto {
 		SUCCESS = 0;
 		TOWER_ALREADY_IN_BATTLE = 1;
 		OTHER_FAIL = 2;
+		TOWER_ALREADY_CLAIMED = 3;
 	}
 }
 
