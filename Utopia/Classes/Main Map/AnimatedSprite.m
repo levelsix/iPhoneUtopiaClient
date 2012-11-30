@@ -479,6 +479,16 @@
 
 @end
 
+@implementation BossSprite
+
+- (void) dealloc {
+  self.ub = nil;
+  self.fbp = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation MoveToLocation
 
 +(id) actionWithDuration: (ccTime) t location: (CGRect) p

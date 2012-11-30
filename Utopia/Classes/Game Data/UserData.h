@@ -200,4 +200,10 @@ typedef enum {
 
 @interface UserBoss : NSObject
 
+@property (nonatomic, assign) int bossId;
+@property (nonatomic, assign) int userId;
+@property (nonatomic, assign) int curHealth;
+@property (nonatomic, assign) int numTimesKilled;
+@property (nonatomic, retain) NSDate *startTime;
+
 @end

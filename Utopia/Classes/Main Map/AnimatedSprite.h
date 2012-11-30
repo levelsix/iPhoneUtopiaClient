@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 #import "MapSprite.h"
 #import "Protocols.pb.h"
+#import "UserData.h"
 
 #define ABOVE_HEAD_FADE_DURATION 1.5f
 #define ABOVE_HEAD_FADE_OPACITY 100
@@ -116,9 +117,10 @@ typedef enum {
 
 @end
 
-@interface Boss : AnimatedSprite
+@interface BossSprite : AnimatedSprite
 
 @property (nonatomic, retain) FullBossProto *fbp;
+@property (nonatomic, retain) UserBoss *ub;
 
 @end
 

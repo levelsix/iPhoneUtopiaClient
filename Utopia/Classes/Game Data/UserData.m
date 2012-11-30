@@ -667,3 +667,23 @@
 }
 
 @end
+
+@implementation UserBoss
+
+- (id) initWithFullUserBossProto:(FullUserBossProto *)ub {
+  if ((self = [super init])) {
+    self.bossId = ub.bossId;
+    self.userId = ub.userId;
+    self.curHealth = ub.curHealth;
+    self.numTimesKilled = ub.numTimesKilled;
+    self.startTime = ub.hasStartTime ? [NSDate dateWithTimeIntervalSince1970:ub.startTime/1000.] : nil;
+  }
+  return self;
+}
+
+- (void) dealloc {
+  self.startTime = nil;
+  [super dealloc];
+}
+
+@end
