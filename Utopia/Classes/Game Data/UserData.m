@@ -681,6 +681,10 @@
   return self;
 }
 
++ (id) userBossWithFullUserBossProto:(FullUserBossProto *)ub {
+  return [[[self alloc] initWithFullUserBossProto:ub] autorelease];
+}
+
 - (void) dealloc {
   self.startTime = nil;
   [super dealloc];

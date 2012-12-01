@@ -170,7 +170,7 @@ static NSString *udid = nil;
   // Get the next 4 bytes for the payload size
   int nextMsgType = *(int *)(header);
   int tag = *(int *)(header+4);
-//  int size = *(int *)(header+8); // No longer used
+  //  int size = *(int *)(header+8); // No longer used
   NSData *payload = [data subdataWithRange:NSMakeRange(HEADER_SIZE, data.length-HEADER_SIZE)];
   
   [self messageReceived:payload withType:nextMsgType tag:tag];
@@ -1008,6 +1008,15 @@ static NSString *udid = nil;
 - (int) sendPlayThreeCardMonteMessage:(int)cardId {
   PlayThreeCardMonteRequestProto *req = [[[[PlayThreeCardMonteRequestProto builder]setSender:_sender]setCardId:cardId]build];
   return [self sendData:req withMessageType:EventProtocolRequestCPlayThreeCardMonteEvent];
+}
+
+- (int) sendBossActionMessage:(int)bossId curTime:(uint64_t)curTime {
+  BossActionRequestProto *req = [[[[[BossActionRequestProto builder]
+                                    setSender:_sender]
+                                   setBossId:bossId]
+                                  setCurTime:curTime]
+                                 build];
+  return [self sendData:req withMessageType:EventProtocolRequestCBossActionEvent];
 }
 
 - (void) closeDownConnection {

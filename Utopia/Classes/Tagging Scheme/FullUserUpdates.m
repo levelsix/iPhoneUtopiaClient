@@ -76,7 +76,7 @@
 - (void) update {
   GameState *gs = [GameState sharedGameState];
   if (gs.currentStamina == gs.maxStamina) {
-    gs.lastEnergyRefill = [NSDate date];
+    gs.lastStaminaRefill = [NSDate date];
   }
   gs.currentStamina += MIN(_change, gs.maxStamina-gs.currentStamina);
 }

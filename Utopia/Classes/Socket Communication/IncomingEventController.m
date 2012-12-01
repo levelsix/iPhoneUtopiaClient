@@ -286,6 +286,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSSendAdminMessageEvent:
       responseClass = [SendAdminMessageResponseProto class];
       break;
+    case EventProtocolResponseSBossActionEvent:
+      responseClass = [BossActionResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -2251,6 +2254,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Send admin message response received");
   
   [Globals popupMessage:proto.message];
+}
+
+- (void) handleBossActionResponseProto:(FullEvent *)fe {
+  BossActionResponseProto *proto = (BossActionResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Boss action received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  GameLayer *gLay = [GameLayer sharedGameLayer];
+  [[gLay missionMap] receivedBossResponse:proto];
+  
+  if (proto.status == BossActionResponseProto_BossActionStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    if (proto.status == BossActionResponseProto_BossActionStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to attack boss."];
+    }
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
 }
 
 @end

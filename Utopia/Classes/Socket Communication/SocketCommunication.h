@@ -139,4 +139,6 @@
 - (int) sendRetrieveThreeCardMonteMessage;
 - (int) sendPlayThreeCardMonteMessage:(int)cardId;
 
+- (int) sendBossActionMessage:(int)bossId curTime:(uint64_t)curTime;
+
 @end

@@ -43,6 +43,7 @@
 - (void) moveToAssetId:(int)a animated:(BOOL)animated;
 - (void) performCurrentTask;
 - (void) receivedTaskResponse:(TaskActionResponseProto *)tarp;
+- (void) receivedBossResponse:(BossActionResponseProto *)barp;
 - (void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk;
 
 

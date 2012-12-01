@@ -1743,7 +1743,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (msg.length > gl.maxLengthOfChatString) {
     [Globals popupMessage:@"Attempting to send msg that exceeds appropriate length"];
   } else {
-//  if ((scope == GroupChatScopeGlobal && gs.numGroupChatsRemaining > 0) || (scope != GroupChatScopeGlobal)) {
+    //  if ((scope == GroupChatScopeGlobal && gs.numGroupChatsRemaining > 0) || (scope != GroupChatScopeGlobal)) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendGroupChatMessage:scope message:msg clientTime:[self getCurrentMilliseconds]];
     
     if (scope == GroupChatScopeGlobal) {
@@ -1753,9 +1753,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
       [gs addChatMessage:gs.minUser message:msg scope:scope isAdmin:gs.isAdmin];
     });
-//  } else {
-//    [Globals popupMessage:@"Attempting to send chat without any speakers"];
-//  }
+    //  } else {
+    //    [Globals popupMessage:@"Attempting to send chat without any speakers"];
+    //  }
   }
 }
 
@@ -2092,6 +2092,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [[SocketCommunication sharedSocketCommunication] sendPlayThreeCardMonteMessage:cardID];
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gl.diamondCostToPlayThreeCardMonte]];
   }
+}
+
+- (void) bossAction:(UserBoss *)ub {
+  GameState *gs = [GameState sharedGameState];
+  FullBossProto *fbp = [gs bossWithId:ub.bossId];
+  UserCity *fcp = [gs myCityWithId:fbp.cityId];
+  
+  if (!fcp) {
+    [Globals popupMessage:@"Attempting to do boss in a locked city"];
+    return;
+  }
+  
+  if (gs.currentStamina < fbp.staminaCost) {
+    [Globals popupMessage:@"Attempting to attack boss without enough stamina"];
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBossActionMessage:ub.bossId curTime:[self getCurrentMilliseconds]];
+  [gs addUnrespondedUpdate:[StaminaUpdate updateWithTag:tag change:-fbp.staminaCost]];
 }
 
 @end

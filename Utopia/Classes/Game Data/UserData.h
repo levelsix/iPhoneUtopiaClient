@@ -206,4 +206,6 @@ typedef enum {
 @property (nonatomic, assign) int numTimesKilled;
 @property (nonatomic, retain) NSDate *startTime;
 
++ (id) userBossWithFullUserBossProto:(FullUserBossProto *)ub;
+
 @end

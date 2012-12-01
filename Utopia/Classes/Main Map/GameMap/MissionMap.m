@@ -157,17 +157,12 @@
     // Load up the full task protos
     for (NSNumber *taskId in fcp.taskIdsList) {
       FullTaskProto *ftp = [gs taskWithId:taskId.intValue];
-      id<TaskElement> asset = (id<TaskElement>)[self getChildByTag:ftp.assetNumWithinCity+ASSET_TAG_BASE];
+      id<TaskElement> asset = (id<TaskElement>)[self assetWithId:ftp.assetNumWithinCity];
       if (asset) {
         asset.ftp = ftp;
       } else {
         ContextLogError(LN_CONTEXT_MAP, @"Could not find asset number %d.", ftp.assetNumWithinCity);
       }
-    }
-    
-    for (NSNumber *bossId in fcp.bossIdsList) {
-      FullBossProto *fbp = [gs bossWithId:bossId.intValue];
-      
     }
     
     // Load up the minimum user task protos
@@ -178,6 +173,44 @@
         asset.numTimesActedForTask = mutp.numTimesActed;
       } else {
         ContextLogError(LN_CONTEXT_MAP, @"Could not find asset number %d.", ftp.assetNumWithinCity);
+      }
+    }
+    
+    // Same for bosses
+    for (NSNumber *bossId in fcp.bossIdsList) {
+      FullBossProto *fbp = [gs bossWithId:bossId.intValue];
+      BossSprite *asset = (BossSprite *)[self assetWithId:fbp.assetNumWithinCity];
+      if (asset) {
+        asset.fbp = fbp;
+      } else {
+        ContextLogError(LN_CONTEXT_MAP, @"Could not find asset number %d.", fbp.assetNumWithinCity);
+      }
+    }
+    
+    for (FullUserBossProto *ub in proto.userBossesList) {
+      FullBossProto *fbp = [gs bossWithId:ub.bossId];
+      BossSprite *asset = (BossSprite *)[self assetWithId:fbp.assetNumWithinCity];
+      if (asset) {
+        asset.ub = [UserBoss userBossWithFullUserBossProto:ub];
+      } else {
+        ContextLogError(LN_CONTEXT_MAP, @"Could not find asset number %d.", fbp.assetNumWithinCity);
+      }
+    }
+    
+    // Create UserBosses if they don't exist
+    for (CCNode *child in self.children) {
+      if ([child isKindOfClass:[BossSprite class]]) {
+        BossSprite *bs = (BossSprite *)child;
+        if (!bs.ub) {
+          FullBossProto *fbp = bs.fbp;
+          UserBoss *ub = [[UserBoss alloc] init];
+          ub.bossId = fbp.bossId;
+          ub.userId = gs.userId;
+          ub.curHealth = fbp.baseHealth;
+          ub.numTimesKilled = 0;
+          bs.ub = ub;
+          [ub release];
+        }
       }
     }
     
@@ -423,6 +456,10 @@
 }
 
 - (void) receivedTaskResponse:(TaskActionResponseProto *)tarp {
+  if (![_selected conformsToProtocol:@protocol(TaskElement)]) {
+    return;
+  }
+  
   id<TaskElement> te = (id<TaskElement>)_selected;
   FullTaskProto *ftp = te.ftp;
   
@@ -446,7 +483,9 @@
                             [CCMoveBy actionWithDuration:EXP_LABEL_DURATION position:ccp(0,40)],nil],
                            [CCCallBlock actionWithBlock:^{[successLabel removeFromParentAndCleanup:YES];}], nil]];
   
-  [self addSilverDrop:tarp.coinsGained fromSprite:_selected];
+  if (tarp.hasCoinsGained) {
+    [self addSilverDrop:tarp.coinsGained fromSprite:_selected];
+  }
   
   if (tarp.hasEventIdOfLockBoxGained) {
     [self addLockBoxDrop:tarp.eventIdOfLockBoxGained fromSprite:_selected];
@@ -485,20 +524,85 @@
   [_myPlayer stopPerformingAnimation];
 }
 
+- (void) performCurrentBossAction {
+  if ([_selected isKindOfClass:[BossSprite class]]) {
+    BossSprite *bs = (BossSprite *)_selected;
+    FullBossProto *fbp = bs.fbp;
+    GameState *gs = [GameState sharedGameState];
+    
+    // Perform checks
+    if (gs.currentStamina < fbp.staminaCost) {
+      // Not enough energy
+      [[RefillMenuController sharedRefillMenuController] displayEnstView:NO];
+      self.selected = nil;
+    }
+    
+    [[OutgoingEventController sharedOutgoingEventController] bossAction:bs.ub];
+    
+    CGPoint pt = arc4random() % 2 == 0 ? ccp(0, -1) : ccp(-1, 0);
+    CGPoint ccPt = pt;
+    // Angle should be relevant to entire building, not origin
+    if (ccPt.x < 0) {
+      ccPt.x = -1;
+    } else if (ccPt.x >= bs.location.size.width) {
+      ccPt.x = 1;
+    } else {
+      ccPt.x = 0;
+    }
+    
+    if (ccPt.y < 0) {
+      ccPt.y = -1;
+    } else if (ccPt.y >= bs.location.size.height) {
+      ccPt.y = 1;
+    } else {
+      ccPt.y = 0;
+    }
+    
+    _performingTask = YES;
+    
+    ccPt = ccpSub([self convertTilePointToCCPoint:ccp(0, 0)], [self convertTilePointToCCPoint:ccPt]);
+    float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccPt));
+    [_myPlayer stopWalking];
+    [_myPlayer performAnimation:AnimationTypeAttack atLocation:ccpAdd(bs.location.origin, pt) inDirection:angle];
+  }
+}
+
+- (void) receivedBossResponse:(BossActionResponseProto *)barp {
+  if (![_selected isKindOfClass:[BossSprite class]]) {
+    return;
+  }
+  
+  BossSprite *bs = (BossSprite *)_selected;
+  FullBossProto *fbp = bs.fbp;
+  UserBoss *ub = bs.ub;
+  
+  ub.curHealth = MAX(0, ub.curHealth-barp.damageDone);
+  _performingTask = NO;
+  self.selected = nil;
+  
+  [_myPlayer stopPerformingAnimation];
+}
+
 - (void) setSelected:(SelectableSprite *)selected {
   if ([_selected conformsToProtocol:@protocol(TaskElement)] && selected == nil) {
     [[TopBar sharedTopBar] fadeOutToolTip:NO];
+  } else if ([_selected isKindOfClass:[BossSprite class]]) {
+    [[TopBar sharedTopBar] fadeOutToolTip:NO];
   }
   [super setSelected:selected];
-  if (_selected && [_selected conformsToProtocol:@protocol(TaskElement)]) {
-    id<TaskElement> te = (id<TaskElement>)_selected;
-    [summaryMenu updateLabelsForTask:te.ftp name:te.name];
-    
-    int numTimesActed = te.partOfQuest ? te.numTimesActedForQuest : te.numTimesActedForTask;
-    [obMenu updateMenuForTotal:te.ftp.numRequiredForCompletion numTimesActed:numTimesActed isForQuest:te.partOfQuest];
-    
-    [self doMenuAnimations];
-    [[TopBar sharedTopBar] fadeInLittleToolTip:YES];
+  if (_selected) {
+    if ([_selected conformsToProtocol:@protocol(TaskElement)]) {
+      id<TaskElement> te = (id<TaskElement>)_selected;
+      [summaryMenu updateLabelsForTask:te.ftp name:te.name];
+      
+      int numTimesActed = te.partOfQuest ? te.numTimesActedForQuest : te.numTimesActedForTask;
+      [obMenu updateMenuForTotal:te.ftp.numRequiredForCompletion numTimesActed:numTimesActed isForQuest:te.partOfQuest];
+      
+      [self doMenuAnimations];
+      [[TopBar sharedTopBar] fadeInLittleToolTip:YES];
+    } else if ([_selected isKindOfClass:[BossSprite class]]) {
+      [[TopBar sharedTopBar] fadeInLittleToolTip:YES];
+    }
   } else {
     [self closeMenus];
   }
@@ -536,11 +640,13 @@
   if (oldSelected == _selected && [_selected conformsToProtocol:@protocol(TaskElement)]) {
     [self performCurrentTask];
     return;
+  } else if (oldSelected == _selected && [_selected isKindOfClass:[BossSprite class]]) {
+    [self performCurrentBossAction];
+    return;
   }
 }
 
 - (void) drag:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
-  
   // During drag, take out menus
   if([recognizer state] == UIGestureRecognizerStateBegan ) {
     self.obMenu.hidden = YES;

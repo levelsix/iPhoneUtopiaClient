@@ -142,4 +142,6 @@
 -(void) retrieveThreeCardMonte;
 -(void) playThreeCardMonte:(int)cardID;
 
+- (void) bossAction:(UserBoss *)ub;
+
 @end
