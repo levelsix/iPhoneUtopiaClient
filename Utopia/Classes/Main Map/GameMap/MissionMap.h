@@ -24,7 +24,7 @@
 
 @end
 
-@interface MissionMap : GameMap {
+@interface MissionMap : GameMap <UserBossDelegate> {
   int _cityId;
   
   TaskProgressBar *_taskProgBar;
@@ -33,10 +33,19 @@
   BOOL _performingTask;
   
   NSMutableArray *_jobs;
+  
+  CCLabelTTF *_bossTimeLabel;
+  CCLabelTTF *_powerAttackLabel;
+  CCProgressTimer *_powerAttackBar;
+  CCSprite *_powerAttackBgd;
+  
+  int _curPowerAttack;
 }
 
 @property (nonatomic, retain) IBOutlet MissionBuildingSummaryMenu *summaryMenu;
 @property (nonatomic, retain) IBOutlet MissionOverBuildingMenu *obMenu;
+
+@property (nonatomic, retain) NSDate *potentialBossKillTime;
 
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto;
 - (id) assetWithId:(int)assetId;

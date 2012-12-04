@@ -30,12 +30,14 @@
 #import "ThreeCardMonteViewController.h"
 #import "KPManager.h"
 #import "GGEventLog.h"
+#import "BossEventMenuController.h"
 
 #define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
 #define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
 
 #define LAST_GOLD_SALE_POPUP_TIME_KEY @"Last Gold Sale Popup Time"
 #define LAST_LOCK_BOX_POPUP_TIME_KEY @"Lock Box Popup Time"
+#define LAST_BOSS_EVENT_POPUP_TIME_KEY @"Boss Event Popup Time"
 
 #define FADE_ANIMATION_DURATION 0.2f
 
@@ -45,6 +47,8 @@
 #define BOTTOM_BUTTON_OFFSET 2
 
 #define TOOL_TIP_SHADOW_OPACITY 80
+
+#define MIN_LEVEL_FOR_POPUPS 4
 
 @implementation ToolTip
 
@@ -219,7 +223,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _lockBoxButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(lockBoxButtonClicked)];
     _lockBoxButton.position = ccp(_questButton.position.x, _questButton.position.y-_questButton.contentSize.height/2-_lockBoxButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
     
-    _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, nil];
+    s = [CCSprite spriteWithFile:@"tblockbox.png"];
+    _bossEventButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bossEventButtonClicked)];
+    _bossEventButton.position = _lockBoxButton.position;
+    
+    _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, _bossEventButton, nil];
     _bottomButtons.contentSize = CGSizeZero;
     _bottomButtons.position = CGPointZero;
     [self addChild:_bottomButtons z:10];
@@ -298,6 +306,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 - (void) lockBoxButtonClicked {
   [LockBoxMenuController displayView];
 }
+
+- (void) bossEventButtonClicked {
+  [BossEventMenuController displayView];
+}
   
 - (void) bazaarClicked {
   [[GameLayer sharedGameLayer] loadBazaarMap];
@@ -351,6 +363,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   BOOL showThreeCardMonte = NO;
   BOOL showGoldSale = NO;
   BOOL showLockBox = NO;
+  BOOL showBossEvent = NO;
   
   NSArray *notifications = [[GameState sharedGameState] notifications];
   for (UserNotification *un in notifications) {
@@ -363,7 +376,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   NSDate *curDate = [NSDate date];
   [self displayGoldSaleBadge];
-  if ([gs getCurrentGoldSale] && gs.level >= 3) {
+  if ([gs getCurrentGoldSale] && gs.level >= MIN_LEVEL_FOR_POPUPS) {
     NSDate *date = [defaults objectForKey:LAST_GOLD_SALE_POPUP_TIME_KEY];
     NSDate *nextShowDate = [date dateByAddingTimeInterval:3600*gl.numHoursBeforeReshowingGoldSale];
     if (!date || [nextShowDate compare:curDate] == NSOrderedAscending) {
@@ -372,13 +385,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     }
   }
   
-  if ([gs getCurrentLockBoxEvent] && gs.level >= 3) {
+  if ([gs getCurrentLockBoxEvent] && gs.level >= MIN_LEVEL_FOR_POPUPS) {
     NSDate *date = [defaults objectForKey:LAST_LOCK_BOX_POPUP_TIME_KEY];
     NSDate *nextShowDate = [date dateByAddingTimeInterval:3600*gl.numHoursBeforeReshowingLockBox];
     if (!date || [nextShowDate compare:curDate] == NSOrderedAscending) {
       [LockBoxMenuController sharedLockBoxMenuController];
-       showLockBox = YES;
+      showLockBox = YES;
       [defaults setObject:curDate forKey:LAST_LOCK_BOX_POPUP_TIME_KEY];
+    }
+  }
+  
+  if ([gs getCurrentBossEvent] && gs.level >= MIN_LEVEL_FOR_POPUPS) {
+    NSDate *date = [defaults objectForKey:LAST_BOSS_EVENT_POPUP_TIME_KEY];
+    NSDate *nextShowDate = [date dateByAddingTimeInterval:3600*gl.numHoursBeforeReshowingBossEvent];
+    if (!date || [nextShowDate compare:curDate] == NSOrderedAscending) {
+      [BossEventMenuController sharedBossEventMenuController];
+      showBossEvent = YES;
+      [defaults setObject:curDate forKey:LAST_BOSS_EVENT_POPUP_TIME_KEY];
     }
   }
   
@@ -402,6 +425,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [GoldShoppeViewController displayView];
   } if (showLockBox) {
     [[LockBoxMenuController sharedLockBoxMenuController] infoClicked:nil];
+  } if (showBossEvent) {
+    [BossEventMenuController displayView];
   } if (showThreeCardMonte) {
     [ThreeCardMonteViewController displayView];
   }
@@ -1000,18 +1025,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   }
 }
 
+- (ChatBottomView *) chatBottomView {
+  return chatBottomView;
+}
+
 - (void) shouldDisplayLockBoxButton:(BOOL)button andBadge:(BOOL)badge {
   _lockBoxButton.visible = button;
   _lockBoxBadge.visible = badge;
 }
 
-- (void) onEnterTransitionDidFinish {
-  // Battle layer will have to hide it on the fade out
-  [super onEnterTransitionDidFinish];
-  
+- (void) shouldDisplayBossEventButton:(BOOL)button {
+  _bossEventButton.visible = button;
+}
+
+- (void) onEnter {
+  [super onEnter];
   GameState *gs = [GameState sharedGameState];
   if (!gs.isTutorial) {
     self.chatBottomView.hidden = NO;
+    self.chatBottomView.alpha = 0.f;
+    [UIView animateWithDuration:1.f delay:0.5f options:UIViewAnimationOptionTransitionNone animations:^{
+      self.chatBottomView.alpha = 1.f;
+    } completion:nil];
   }
 }
 

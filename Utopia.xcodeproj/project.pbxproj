@@ -1677,6 +1677,28 @@
 		CFE8DD6B1621075F00781774 /* FloorTiles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE8DD671621075F00781774 /* FloorTiles@2x.png */; };
 		CFE8DD6C1621075F00781774 /* Treez.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE8DD681621075F00781774 /* Treez.png */; };
 		CFE8DD6D1621075F00781774 /* FloorTiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE8DD691621075F00781774 /* FloorTiles.png */; };
+		CFE95479166E0DAF00DA63CF /* superattackpurple.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95475166E0DAF00DA63CF /* superattackpurple.png */; };
+		CFE9547A166E0DAF00DA63CF /* superattackbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95476166E0DAF00DA63CF /* superattackbg.png */; };
+		CFE9547B166E0DAF00DA63CF /* superattackbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95477166E0DAF00DA63CF /* superattackbg@2x.png */; };
+		CFE9547C166E0DAF00DA63CF /* superattackpurple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95478166E0DAF00DA63CF /* superattackpurple@2x.png */; };
+		CFE95481166E380D00DA63CF /* BossEventMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE9547F166E380D00DA63CF /* BossEventMenuController.m */; };
+		CFE95482166E380D00DA63CF /* BossEventMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE95480166E380D00DA63CF /* BossEventMenuController.xib */; };
+		CFE95494166E40DD00DA63CF /* amulettag.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95484166E40DD00DA63CF /* amulettag.png */; };
+		CFE95495166E40DD00DA63CF /* amulettag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95485166E40DD00DA63CF /* amulettag@2x.png */; };
+		CFE95496166E40DD00DA63CF /* armortag.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95486166E40DD00DA63CF /* armortag.png */; };
+		CFE95497166E40DD00DA63CF /* armortag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95487166E40DD00DA63CF /* armortag@2x.png */; };
+		CFE95498166E40DD00DA63CF /* guaranteedleg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95488166E40DD00DA63CF /* guaranteedleg.png */; };
+		CFE95499166E40DD00DA63CF /* guaranteedleg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95489166E40DD00DA63CF /* guaranteedleg@2x.png */; };
+		CFE9549A166E40DD00DA63CF /* limiteditembg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9548A166E40DD00DA63CF /* limiteditembg.png */; };
+		CFE9549B166E40DD00DA63CF /* limiteditembg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9548B166E40DD00DA63CF /* limiteditembg@2x.png */; };
+		CFE9549C166E40DD00DA63CF /* or.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9548C166E40DD00DA63CF /* or.png */; };
+		CFE9549D166E40DD00DA63CF /* or@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9548D166E40DD00DA63CF /* or@2x.png */; };
+		CFE9549E166E40DD00DA63CF /* visitboss.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9548E166E40DD00DA63CF /* visitboss.png */; };
+		CFE9549F166E40DD00DA63CF /* visitboss@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9548F166E40DD00DA63CF /* visitboss@2x.png */; };
+		CFE954A0166E40DD00DA63CF /* visitbossbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95490166E40DD00DA63CF /* visitbossbg.png */; };
+		CFE954A1166E40DD00DA63CF /* visitbossbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95491166E40DD00DA63CF /* visitbossbg@2x.png */; };
+		CFE954A2166E40DD00DA63CF /* weapontag.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95492166E40DD00DA63CF /* weapontag.png */; };
+		CFE954A3166E40DD00DA63CF /* weapontag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95493166E40DD00DA63CF /* weapontag@2x.png */; };
 		CFEB28431593F02500B622FC /* unlockedheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28411593F02500B622FC /* unlockedheader.png */; };
 		CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28421593F02500B622FC /* unlockedheader@2x.png */; };
 		CFEB284715951ADC00B622FC /* FullEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB284615951ADB00B622FC /* FullEvent.m */; };
@@ -3924,6 +3946,29 @@
 		CFE8DD671621075F00781774 /* FloorTiles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FloorTiles@2x.png"; sourceTree = "<group>"; };
 		CFE8DD681621075F00781774 /* Treez.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Treez.png; sourceTree = "<group>"; };
 		CFE8DD691621075F00781774 /* FloorTiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FloorTiles.png; sourceTree = "<group>"; };
+		CFE95475166E0DAF00DA63CF /* superattackpurple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = superattackpurple.png; sourceTree = "<group>"; };
+		CFE95476166E0DAF00DA63CF /* superattackbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = superattackbg.png; sourceTree = "<group>"; };
+		CFE95477166E0DAF00DA63CF /* superattackbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "superattackbg@2x.png"; sourceTree = "<group>"; };
+		CFE95478166E0DAF00DA63CF /* superattackpurple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "superattackpurple@2x.png"; sourceTree = "<group>"; };
+		CFE9547E166E380D00DA63CF /* BossEventMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BossEventMenuController.h; sourceTree = "<group>"; };
+		CFE9547F166E380D00DA63CF /* BossEventMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BossEventMenuController.m; sourceTree = "<group>"; };
+		CFE95480166E380D00DA63CF /* BossEventMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BossEventMenuController.xib; sourceTree = "<group>"; };
+		CFE95484166E40DD00DA63CF /* amulettag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = amulettag.png; sourceTree = "<group>"; };
+		CFE95485166E40DD00DA63CF /* amulettag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "amulettag@2x.png"; sourceTree = "<group>"; };
+		CFE95486166E40DD00DA63CF /* armortag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = armortag.png; sourceTree = "<group>"; };
+		CFE95487166E40DD00DA63CF /* armortag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "armortag@2x.png"; sourceTree = "<group>"; };
+		CFE95488166E40DD00DA63CF /* guaranteedleg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guaranteedleg.png; sourceTree = "<group>"; };
+		CFE95489166E40DD00DA63CF /* guaranteedleg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guaranteedleg@2x.png"; sourceTree = "<group>"; };
+		CFE9548A166E40DD00DA63CF /* limiteditembg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = limiteditembg.png; sourceTree = "<group>"; };
+		CFE9548B166E40DD00DA63CF /* limiteditembg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "limiteditembg@2x.png"; sourceTree = "<group>"; };
+		CFE9548C166E40DD00DA63CF /* or.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = or.png; sourceTree = "<group>"; };
+		CFE9548D166E40DD00DA63CF /* or@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "or@2x.png"; sourceTree = "<group>"; };
+		CFE9548E166E40DD00DA63CF /* visitboss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visitboss.png; sourceTree = "<group>"; };
+		CFE9548F166E40DD00DA63CF /* visitboss@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "visitboss@2x.png"; sourceTree = "<group>"; };
+		CFE95490166E40DD00DA63CF /* visitbossbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visitbossbg.png; sourceTree = "<group>"; };
+		CFE95491166E40DD00DA63CF /* visitbossbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "visitbossbg@2x.png"; sourceTree = "<group>"; };
+		CFE95492166E40DD00DA63CF /* weapontag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weapontag.png; sourceTree = "<group>"; };
+		CFE95493166E40DD00DA63CF /* weapontag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weapontag@2x.png"; sourceTree = "<group>"; };
 		CFEB28411593F02500B622FC /* unlockedheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlockedheader.png; sourceTree = "<group>"; };
 		CFEB28421593F02500B622FC /* unlockedheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlockedheader@2x.png"; sourceTree = "<group>"; };
 		CFEB284515951ADA00B622FC /* FullEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullEvent.h; sourceTree = "<group>"; };
@@ -4418,6 +4463,7 @@
 		CF1265491538ACC400E0C1AD /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
+				CFE9547D166E37CC00DA63CF /* BossEventMenu */,
 				CFA7846D1622772D0026A7B4 /* ThreeCardMonteMenu */,
 				CF3BE0881619461100CA5A76 /* LockBoxMenu */,
 				CFC02E531612BC49007B052F /* GoldMineMenu */,
@@ -5209,6 +5255,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFE95483166E40DD00DA63CF /* Boss Event Images */,
 				CF15BA291651CDAD00A51F85 /* Clan Tower images */,
 				CFF4A03316290FF600A452A7 /* Three Card Monte Images */,
 				CF781C54161E60E900E2FF95 /* Expansion Images */,
@@ -5827,11 +5874,15 @@
 		CF1269111538ACC500E0C1AD /* Mission Building Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFE95475166E0DAF00DA63CF /* superattackpurple.png */,
+				CFE95478166E0DAF00DA63CF /* superattackpurple@2x.png */,
+				CFE95476166E0DAF00DA63CF /* superattackbg.png */,
+				CFE95477166E0DAF00DA63CF /* superattackbg@2x.png */,
 				CF5F354516683D5D007CE970 /* dragonheart.png */,
 				CF5F354616683D5D007CE970 /* dragonheart@2x.png */,
 				CF5F354716683D5D007CE970 /* dragonhpbg.png */,
-				CF5F354816683D5D007CE970 /* dragonhpred.png */,
 				CF5F354916683D5D007CE970 /* dragonhpbg@2x.png */,
+				CF5F354816683D5D007CE970 /* dragonhpred.png */,
 				CF5F354A16683D5D007CE970 /* dragonhpred@2x.png */,
 				CF3CF2321574681800CD04D7 /* greenttebar.png */,
 				CF3CF2331574681800CD04D7 /* greenttebar@2x.png */,
@@ -7498,6 +7549,39 @@
 			path = "Side Icons";
 			sourceTree = "<group>";
 		};
+		CFE9547D166E37CC00DA63CF /* BossEventMenu */ = {
+			isa = PBXGroup;
+			children = (
+				CFE9547E166E380D00DA63CF /* BossEventMenuController.h */,
+				CFE9547F166E380D00DA63CF /* BossEventMenuController.m */,
+				CFE95480166E380D00DA63CF /* BossEventMenuController.xib */,
+			);
+			path = BossEventMenu;
+			sourceTree = "<group>";
+		};
+		CFE95483166E40DD00DA63CF /* Boss Event Images */ = {
+			isa = PBXGroup;
+			children = (
+				CFE95484166E40DD00DA63CF /* amulettag.png */,
+				CFE95485166E40DD00DA63CF /* amulettag@2x.png */,
+				CFE95486166E40DD00DA63CF /* armortag.png */,
+				CFE95487166E40DD00DA63CF /* armortag@2x.png */,
+				CFE95488166E40DD00DA63CF /* guaranteedleg.png */,
+				CFE95489166E40DD00DA63CF /* guaranteedleg@2x.png */,
+				CFE9548A166E40DD00DA63CF /* limiteditembg.png */,
+				CFE9548B166E40DD00DA63CF /* limiteditembg@2x.png */,
+				CFE9548C166E40DD00DA63CF /* or.png */,
+				CFE9548D166E40DD00DA63CF /* or@2x.png */,
+				CFE9548E166E40DD00DA63CF /* visitboss.png */,
+				CFE9548F166E40DD00DA63CF /* visitboss@2x.png */,
+				CFE95490166E40DD00DA63CF /* visitbossbg.png */,
+				CFE95491166E40DD00DA63CF /* visitbossbg@2x.png */,
+				CFE95492166E40DD00DA63CF /* weapontag.png */,
+				CFE95493166E40DD00DA63CF /* weapontag@2x.png */,
+			);
+			path = "Boss Event Images";
+			sourceTree = "<group>";
+		};
 		CFEB28581599403500B622FC /* Sprites */ = {
 			isa = PBXGroup;
 			children = (
@@ -9128,6 +9212,27 @@
 				CF5F353616676D1B007CE970 /* WaterDragonWalkNF.pvr.ccz in Resources */,
 				CF5F353716676D1B007CE970 /* WaterDragonWalkNF@2x.plist in Resources */,
 				CF5F353816676D1B007CE970 /* WaterDragonWalkNF@2x.pvr.ccz in Resources */,
+				CFE95479166E0DAF00DA63CF /* superattackpurple.png in Resources */,
+				CFE9547A166E0DAF00DA63CF /* superattackbg.png in Resources */,
+				CFE9547B166E0DAF00DA63CF /* superattackbg@2x.png in Resources */,
+				CFE9547C166E0DAF00DA63CF /* superattackpurple@2x.png in Resources */,
+				CFE95482166E380D00DA63CF /* BossEventMenuController.xib in Resources */,
+				CFE95494166E40DD00DA63CF /* amulettag.png in Resources */,
+				CFE95495166E40DD00DA63CF /* amulettag@2x.png in Resources */,
+				CFE95496166E40DD00DA63CF /* armortag.png in Resources */,
+				CFE95497166E40DD00DA63CF /* armortag@2x.png in Resources */,
+				CFE95498166E40DD00DA63CF /* guaranteedleg.png in Resources */,
+				CFE95499166E40DD00DA63CF /* guaranteedleg@2x.png in Resources */,
+				CFE9549A166E40DD00DA63CF /* limiteditembg.png in Resources */,
+				CFE9549B166E40DD00DA63CF /* limiteditembg@2x.png in Resources */,
+				CFE9549C166E40DD00DA63CF /* or.png in Resources */,
+				CFE9549D166E40DD00DA63CF /* or@2x.png in Resources */,
+				CFE9549E166E40DD00DA63CF /* visitboss.png in Resources */,
+				CFE9549F166E40DD00DA63CF /* visitboss@2x.png in Resources */,
+				CFE954A0166E40DD00DA63CF /* visitbossbg.png in Resources */,
+				CFE954A1166E40DD00DA63CF /* visitbossbg@2x.png in Resources */,
+				CFE954A2166E40DD00DA63CF /* weapontag.png in Resources */,
+				CFE954A3166E40DD00DA63CF /* weapontag@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9396,6 +9501,7 @@
 				CFC142021658B70D0060188D /* amqp_table.c in Sources */,
 				CFC142031658B70D0060188D /* amqp_url.c in Sources */,
 				CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */,
+				CFE95481166E380D00DA63CF /* BossEventMenuController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

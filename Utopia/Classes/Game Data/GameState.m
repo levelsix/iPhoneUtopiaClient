@@ -20,7 +20,7 @@
 #import "HomeMap.h"
 #import "GoldShoppeViewController.h"
 
-#define TagLog(...)
+#define TagLog(...) //LNLog(__VA_ARGS__)
 
 @implementation GameState
 
@@ -310,34 +310,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
       NSArray *arr = [NSArray arrayWithObject:[NSNumber numberWithInt:itemId]];
       if (dict == _staticStructs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:arr taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO bossIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:arr taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO clanTierLevels:NO bossIds:nil];
         LNLog(@"Structures");
       } else if (dict == _staticTasks) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:arr questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO bossIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:arr questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO clanTierLevels:NO bossIds:nil];
         LNLog(@"Tasks");
       } else if (dict == _staticQuests) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:arr cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO bossIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:arr cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO clanTierLevels:NO bossIds:nil];
         LNLog(@"Quests");
       } else if (dict == _staticCities) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:arr equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO bossIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:arr equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO clanTierLevels:NO bossIds:nil];
         LNLog(@"Cities");
       } else if (dict == _staticEquips) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:arr buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO bossIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:arr buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO clanTierLevels:NO bossIds:nil];
         LNLog(@"Equips");
       } else if (dict == _staticBuildStructJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:arr defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO bossIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:arr defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO clanTierLevels:NO bossIds:nil];
         LNLog(@"Build Struct Jobs");
       } else if (dict == _staticDefeatTypeJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:arr possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO bossIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:arr possessEquipJobIds:nil upgradeStructJobIds:nil events:NO clanTierLevels:NO bossIds:nil];
         LNLog(@"Defeat Type Jobs");
       } else if (dict == _staticPossessEquipJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:arr upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO bossIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:arr upgradeStructJobIds:nil events:NO clanTierLevels:NO bossIds:nil];
         LNLog(@"Possess Equip Jobs");
       } else if (dict == _staticUpgradeStructJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:arr lockBoxEvents:NO clanTierLevels:NO bossIds:nil];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:arr events:NO clanTierLevels:NO bossIds:nil];
         LNLog(@"Upgrade Struct Jobs");
       } else if (dict == _staticBosses) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO bossIds:arr];
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO clanTierLevels:NO bossIds:arr];
         LNLog(@"Bosses");
       }
       LNLog(@"%@)", s);
@@ -741,6 +741,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self resetLockBoxTimers];
 }
 
+- (void) addNewStaticBossEvents:(NSArray *)events {
+  self.staticBossEvents = [NSMutableArray array];
+  for (BossEventProto *p in events) {
+    [_staticBossEvents addObject:p];
+    [self.staticEquips setObject:p.leftEquip forKey:[NSNumber numberWithInt:p.leftEquip.equipId]];
+    [self.staticEquips setObject:p.middleEquip forKey:[NSNumber numberWithInt:p.middleEquip.equipId]];
+    [self.staticEquips setObject:p.rightEquip forKey:[NSNumber numberWithInt:p.rightEquip.equipId]];
+  }
+  [self resetBossEventTimers];
+}
+
 - (void) addToClanTierLevels:(NSArray *) tiers {
   NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:tiers.count];
   for (ClanTierLevelProto *tier in tiers) {
@@ -1073,6 +1084,55 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [[TopBar sharedTopBar] shouldDisplayLockBoxButton:shouldDisplayButton andBadge:shouldDisplayBadge];
 }
 
+- (void) resetBossEventTimers {
+  [self stopAllBossEventTimers];
+  
+  if (_isTutorial) {
+    return;
+  }
+  
+  [self updateBossEventButton];
+  
+  _bossEventTimers = [[NSMutableArray array] retain];
+  for (BossEventProto *e in _staticBossEvents) {
+    NSTimer *timer;
+    NSTimeInterval timeInterval;
+    
+    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.startDate/1000.0] timeIntervalSinceNow];
+    if (timeInterval > 0) {
+      timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateBossEventButton) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+      [_bossEventTimers addObject:timer];
+    }
+    
+    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.endDate/1000.0] timeIntervalSinceNow];
+    if (timeInterval > 0) {
+      timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateBossEventButton) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+      [_bossEventTimers addObject:timer];
+    }
+  }
+}
+
+- (BossEventProto *) getCurrentBossEvent {
+  double curTime = [[NSDate date] timeIntervalSince1970]*1000.0;
+  for (BossEventProto *p in _staticBossEvents) {
+    if (curTime > p.startDate && curTime < p.endDate) {
+      return p;
+    }
+  }
+  return nil;
+}
+
+- (void) stopAllBossEventTimers {
+  for (NSTimer *timer in _bossEventTimers) {
+    [timer invalidate];
+  }
+  [_bossEventTimers removeAllObjects];
+  [_bossEventTimers release];
+  _bossEventTimers = nil;
+}
+
 - (GoldSaleProto *) getCurrentGoldSale {
   double curTime = [[NSDate date] timeIntervalSince1970]*1000.0;
   for (GoldSaleProto *p in _staticGoldSales) {
@@ -1081,6 +1141,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   return nil;
+}
+
+- (void) updateBossEventButton {
+  BossEventProto *e = [self getCurrentBossEvent];
+  
+  BOOL shouldDisplayButton = e != nil;
+    [[TopBar sharedTopBar] shouldDisplayBossEventButton:shouldDisplayButton];
 }
 
 - (void) resetGoldSaleTimers {
@@ -1172,7 +1239,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) reretrieveStaticData {
-  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:_staticStructs.allKeys taskIds:_staticTasks.allKeys questIds:_staticQuests.allKeys cityIds:_staticCities.allKeys equipIds:_staticEquips.allKeys buildStructJobIds:_staticBuildStructJobs.allKeys defeatTypeJobIds:_staticDefeatTypeJobs.allKeys possessEquipJobIds:_staticPossessEquipJobs.allKeys upgradeStructJobIds:_staticUpgradeStructJobs.allKeys lockBoxEvents:YES clanTierLevels:YES bossIds:_staticBosses.allKeys];
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:_staticStructs.allKeys taskIds:_staticTasks.allKeys questIds:_staticQuests.allKeys cityIds:_staticCities.allKeys equipIds:_staticEquips.allKeys buildStructJobIds:_staticBuildStructJobs.allKeys defeatTypeJobIds:_staticDefeatTypeJobs.allKeys possessEquipJobIds:_staticPossessEquipJobs.allKeys upgradeStructJobIds:_staticUpgradeStructJobs.allKeys events:YES clanTierLevels:YES bossIds:_staticBosses.allKeys];
   
   self.staticTasks = [[[NSMutableDictionary alloc] init] autorelease];
   self.staticCities = [[[NSMutableDictionary alloc] init] autorelease];
@@ -1212,6 +1279,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.globalChatMessages = [[[NSMutableArray alloc] init] autorelease];
   self.staticLockBoxEvents = [[[NSMutableArray alloc] init] autorelease];
   self.myLockBoxEvents = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticBossEvents = [[[NSMutableArray alloc] init] autorelease];
   
   self.availableQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressCompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
@@ -1238,6 +1306,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [self stopAllLockBoxTimers];
   [self stopAllGoldSaleTimers];
+  [self stopAllBossEventTimers];
   
   [self stopExpansionTimer];
 }
@@ -1285,12 +1354,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.clan = nil;
   self.requestedClans = nil;
   self.lockBoxEventTimers = nil;
+  self.bossEventTimers = nil;
   self.myLockBoxEvents = nil;
   self.staticLockBoxEvents = nil;
   self.mktSearchEquips = nil;
   self.userExpansion = nil;
   self.clanTowers = nil;
   [self stopAllLockBoxTimers];
+  [self stopAllBossEventTimers];
   [self stopForgeTimer];
   [self stopExpansionTimer];
   [self stopAllGoldSaleTimers];

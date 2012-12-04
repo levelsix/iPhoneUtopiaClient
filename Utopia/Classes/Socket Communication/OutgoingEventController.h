@@ -139,9 +139,9 @@
 - (void) purchaseCityExpansion:(ExpansionDirection)direction;
 - (void) expansionWaitComplete:(BOOL)speedUp;
 
--(void) retrieveThreeCardMonte;
--(void) playThreeCardMonte:(int)cardID;
+- (void) retrieveThreeCardMonte;
+- (void) playThreeCardMonte:(int)cardID;
 
-- (void) bossAction:(UserBoss *)ub;
+- (NSDate *) bossAction:(UserBoss *)ub isSuperAttack:(BOOL)isSuperAttack;
 
 @end

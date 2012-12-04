@@ -476,6 +476,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [oec loadPlayerCity:gs.userId];
     [oec retrieveAllStaticData];
     [gs addNewStaticLockBoxEvents:proto.lockBoxEventsList];
+    [gs addNewStaticBossEvents:proto.bossEventsList];
     [gs addToMyLockBoxEvents:proto.userLockBoxEventsList];
     [gs setMktSearchEquips:proto.staticEquipsList.count > 0 ? proto.staticEquipsList : proto.mktSearchEquipsList];
     [gs.staticEquips removeAllObjects];
@@ -1258,6 +1259,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     if (proto.clanTierLevelsList > 0) [gs addToClanTierLevels:proto.clanTierLevelsList];
     if (proto.lockBoxEventsList.count > 0) [gs addNewStaticLockBoxEvents:proto.lockBoxEventsList];
+    if (proto.bossEventsList.count > 0) [gs addNewStaticLockBoxEvents:proto.bossEventsList];
     
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [gs removeNonFullUserUpdatesForTag:tag];

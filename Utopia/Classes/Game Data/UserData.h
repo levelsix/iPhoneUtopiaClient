@@ -198,6 +198,15 @@ typedef enum {
 
 @end
 
+@class UserBoss;
+
+@protocol UserBossDelegate <NSObject>
+
+- (void) bossRespawned:(UserBoss *)boss;
+- (void) bossTimeUp:(UserBoss *)boss;
+
+@end
+
 @interface UserBoss : NSObject
 
 @property (nonatomic, assign) int bossId;
@@ -205,7 +214,28 @@ typedef enum {
 @property (nonatomic, assign) int curHealth;
 @property (nonatomic, assign) int numTimesKilled;
 @property (nonatomic, retain) NSDate *startTime;
+@property (nonatomic, retain) NSDate *lastKilledTime;
+@property (nonatomic, retain) NSTimer *timer;
+@property (nonatomic, assign) id<UserBossDelegate> delegate;
 
 + (id) userBossWithFullUserBossProto:(FullUserBossProto *)ub;
+- (BOOL) isAlive;
+- (BOOL) hasBeenAttacked;
+- (NSDate *) nextRespawnTime;
+- (NSDate *) timeUpDate;
+- (void) createTimer;
+
+@end
+
+@interface BossReward : NSObject
+
+typedef enum {
+  kSilverDrop = 1,
+  kGoldDrop = 2,
+  kEquipDrop = 3
+} BossDropType;
+
+@property (nonatomic, assign) BossDropType type;
+@property (nonatomic, assign) int value;
 
 @end

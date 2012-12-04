@@ -63,10 +63,6 @@
 }
 
 -(void) setIsSelected:(BOOL)isSelected {
-  if (self.isSelected == isSelected) {
-    return;
-  }
-  
   _isSelected = isSelected;
   if (isSelected) {
     //    _glow.visible = YES;

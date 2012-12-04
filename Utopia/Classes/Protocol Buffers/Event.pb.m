@@ -3143,9 +3143,10 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableClanChatsList;
 @property (retain) NSMutableArray* mutableGoldSalesList;
 @property (retain) NSMutableArray* mutableClanTierLevelsList;
+@property (retain) NSMutableArray* mutableClanTowersList;
 @property (retain) NSMutableArray* mutableStaticStructsList;
 @property (retain) NSMutableArray* mutableStaticEquipsList;
-@property (retain) NSMutableArray* mutableClanTowersList;
+@property (retain) NSMutableArray* mutableBossEventsList;
 @end
 
 @implementation StartupResponseProto
@@ -3275,9 +3276,10 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableClanChatsList;
 @synthesize mutableGoldSalesList;
 @synthesize mutableClanTierLevelsList;
+@synthesize mutableClanTowersList;
 @synthesize mutableStaticStructsList;
 @synthesize mutableStaticEquipsList;
-@synthesize mutableClanTowersList;
+@synthesize mutableBossEventsList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3310,9 +3312,10 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableClanChatsList = nil;
   self.mutableGoldSalesList = nil;
   self.mutableClanTierLevelsList = nil;
+  self.mutableClanTowersList = nil;
   self.mutableStaticStructsList = nil;
   self.mutableStaticEquipsList = nil;
-  self.mutableClanTowersList = nil;
+  self.mutableBossEventsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3500,6 +3503,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableClanTierLevelsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) clanTowersList {
+  return mutableClanTowersList;
+}
+- (ClanTowerProto*) clanTowersAtIndex:(int32_t) index {
+  id value = [mutableClanTowersList objectAtIndex:index];
+  return value;
+}
 - (NSArray*) staticStructsList {
   return mutableStaticStructsList;
 }
@@ -3514,11 +3524,11 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableStaticEquipsList objectAtIndex:index];
   return value;
 }
-- (NSArray*) clanTowersList {
-  return mutableClanTowersList;
+- (NSArray*) bossEventsList {
+  return mutableBossEventsList;
 }
-- (ClanTowerProto*) clanTowersAtIndex:(int32_t) index {
-  id value = [mutableClanTowersList objectAtIndex:index];
+- (BossEventProto*) bossEventsAtIndex:(int32_t) index {
+  id value = [mutableBossEventsList objectAtIndex:index];
   return value;
 }
 - (BOOL) isInitialized {
@@ -3641,6 +3651,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (ClanTowerProto* element in self.clanTowersList) {
     [output writeMessage:39 value:element];
+  }
+  for (BossEventProto* element in self.bossEventsList) {
+    [output writeMessage:40 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3772,6 +3785,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (ClanTowerProto* element in self.clanTowersList) {
     size += computeMessageSize(39, element);
+  }
+  for (BossEventProto* element in self.bossEventsList) {
+    size += computeMessageSize(40, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5219,7 +5235,10 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
 @property int32_t numHoursBeforeReshowingGoldSale;
 @property int32_t numHoursBeforeReshowingLockBox;
+@property int32_t numHoursBeforeReshowingBossEvent;
 @property int32_t levelToShowRateUsPopup;
+@property int32_t bossEventNumberOfAttacksUntilSuperAttack;
+@property Float64 bossEventSuperAttack;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5738,6 +5757,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasNumHoursBeforeReshowingLockBox_ = !!value;
 }
 @synthesize numHoursBeforeReshowingLockBox;
+- (BOOL) hasNumHoursBeforeReshowingBossEvent {
+  return !!hasNumHoursBeforeReshowingBossEvent_;
+}
+- (void) setHasNumHoursBeforeReshowingBossEvent:(BOOL) value {
+  hasNumHoursBeforeReshowingBossEvent_ = !!value;
+}
+@synthesize numHoursBeforeReshowingBossEvent;
 - (BOOL) hasLevelToShowRateUsPopup {
   return !!hasLevelToShowRateUsPopup_;
 }
@@ -5745,6 +5771,20 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasLevelToShowRateUsPopup_ = !!value;
 }
 @synthesize levelToShowRateUsPopup;
+- (BOOL) hasBossEventNumberOfAttacksUntilSuperAttack {
+  return !!hasBossEventNumberOfAttacksUntilSuperAttack_;
+}
+- (void) setHasBossEventNumberOfAttacksUntilSuperAttack:(BOOL) value {
+  hasBossEventNumberOfAttacksUntilSuperAttack_ = !!value;
+}
+@synthesize bossEventNumberOfAttacksUntilSuperAttack;
+- (BOOL) hasBossEventSuperAttack {
+  return !!hasBossEventSuperAttack_;
+}
+- (void) setHasBossEventSuperAttack:(BOOL) value {
+  hasBossEventSuperAttack_ = !!value;
+}
+@synthesize bossEventSuperAttack;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5837,7 +5877,10 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.downloadableNibConstants = [StartupResponseProto_StartupConstants_DownloadableNibConstants defaultInstance];
     self.numHoursBeforeReshowingGoldSale = 0;
     self.numHoursBeforeReshowingLockBox = 0;
+    self.numHoursBeforeReshowingBossEvent = 0;
     self.levelToShowRateUsPopup = 0;
+    self.bossEventNumberOfAttacksUntilSuperAttack = 0;
+    self.bossEventSuperAttack = 0;
   }
   return self;
 }
@@ -6109,6 +6152,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasNumDaysUntilFreeRetract) {
     [output writeInt32:87 value:self.numDaysUntilFreeRetract];
   }
+  if (self.hasBossEventNumberOfAttacksUntilSuperAttack) {
+    [output writeInt32:88 value:self.bossEventNumberOfAttacksUntilSuperAttack];
+  }
+  if (self.hasBossEventSuperAttack) {
+    [output writeDouble:89 value:self.bossEventSuperAttack];
+  }
+  if (self.hasNumHoursBeforeReshowingBossEvent) {
+    [output writeInt32:90 value:self.numHoursBeforeReshowingBossEvent];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6358,6 +6410,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasNumDaysUntilFreeRetract) {
     size += computeInt32Size(87, self.numDaysUntilFreeRetract);
+  }
+  if (self.hasBossEventNumberOfAttacksUntilSuperAttack) {
+    size += computeInt32Size(88, self.bossEventNumberOfAttacksUntilSuperAttack);
+  }
+  if (self.hasBossEventSuperAttack) {
+    size += computeDoubleSize(89, self.bossEventSuperAttack);
+  }
+  if (self.hasNumHoursBeforeReshowingBossEvent) {
+    size += computeInt32Size(90, self.numHoursBeforeReshowingBossEvent);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -11264,8 +11325,17 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasNumHoursBeforeReshowingLockBox) {
     [self setNumHoursBeforeReshowingLockBox:other.numHoursBeforeReshowingLockBox];
   }
+  if (other.hasNumHoursBeforeReshowingBossEvent) {
+    [self setNumHoursBeforeReshowingBossEvent:other.numHoursBeforeReshowingBossEvent];
+  }
   if (other.hasLevelToShowRateUsPopup) {
     [self setLevelToShowRateUsPopup:other.levelToShowRateUsPopup];
+  }
+  if (other.hasBossEventNumberOfAttacksUntilSuperAttack) {
+    [self setBossEventNumberOfAttacksUntilSuperAttack:other.bossEventNumberOfAttacksUntilSuperAttack];
+  }
+  if (other.hasBossEventSuperAttack) {
+    [self setBossEventSuperAttack:other.bossEventSuperAttack];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -11651,6 +11721,18 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 696: {
         [self setNumDaysUntilFreeRetract:[input readInt32]];
+        break;
+      }
+      case 704: {
+        [self setBossEventNumberOfAttacksUntilSuperAttack:[input readInt32]];
+        break;
+      }
+      case 713: {
+        [self setBossEventSuperAttack:[input readDouble]];
+        break;
+      }
+      case 720: {
+        [self setNumHoursBeforeReshowingBossEvent:[input readInt32]];
         break;
       }
     }
@@ -13069,6 +13151,22 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   result.numHoursBeforeReshowingLockBox = 0;
   return self;
 }
+- (BOOL) hasNumHoursBeforeReshowingBossEvent {
+  return result.hasNumHoursBeforeReshowingBossEvent;
+}
+- (int32_t) numHoursBeforeReshowingBossEvent {
+  return result.numHoursBeforeReshowingBossEvent;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setNumHoursBeforeReshowingBossEvent:(int32_t) value {
+  result.hasNumHoursBeforeReshowingBossEvent = YES;
+  result.numHoursBeforeReshowingBossEvent = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearNumHoursBeforeReshowingBossEvent {
+  result.hasNumHoursBeforeReshowingBossEvent = NO;
+  result.numHoursBeforeReshowingBossEvent = 0;
+  return self;
+}
 - (BOOL) hasLevelToShowRateUsPopup {
   return result.hasLevelToShowRateUsPopup;
 }
@@ -13083,6 +13181,38 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearLevelToShowRateUsPopup {
   result.hasLevelToShowRateUsPopup = NO;
   result.levelToShowRateUsPopup = 0;
+  return self;
+}
+- (BOOL) hasBossEventNumberOfAttacksUntilSuperAttack {
+  return result.hasBossEventNumberOfAttacksUntilSuperAttack;
+}
+- (int32_t) bossEventNumberOfAttacksUntilSuperAttack {
+  return result.bossEventNumberOfAttacksUntilSuperAttack;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setBossEventNumberOfAttacksUntilSuperAttack:(int32_t) value {
+  result.hasBossEventNumberOfAttacksUntilSuperAttack = YES;
+  result.bossEventNumberOfAttacksUntilSuperAttack = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearBossEventNumberOfAttacksUntilSuperAttack {
+  result.hasBossEventNumberOfAttacksUntilSuperAttack = NO;
+  result.bossEventNumberOfAttacksUntilSuperAttack = 0;
+  return self;
+}
+- (BOOL) hasBossEventSuperAttack {
+  return result.hasBossEventSuperAttack;
+}
+- (Float64) bossEventSuperAttack {
+  return result.bossEventSuperAttack;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setBossEventSuperAttack:(Float64) value {
+  result.hasBossEventSuperAttack = YES;
+  result.bossEventSuperAttack = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearBossEventSuperAttack {
+  result.hasBossEventSuperAttack = NO;
+  result.bossEventSuperAttack = 0;
   return self;
 }
 @end
@@ -15823,6 +15953,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableClanTierLevelsList addObjectsFromArray:other.mutableClanTierLevelsList];
   }
+  if (other.mutableClanTowersList.count > 0) {
+    if (result.mutableClanTowersList == nil) {
+      result.mutableClanTowersList = [NSMutableArray array];
+    }
+    [result.mutableClanTowersList addObjectsFromArray:other.mutableClanTowersList];
+  }
   if (other.mutableStaticStructsList.count > 0) {
     if (result.mutableStaticStructsList == nil) {
       result.mutableStaticStructsList = [NSMutableArray array];
@@ -15835,11 +15971,11 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableStaticEquipsList addObjectsFromArray:other.mutableStaticEquipsList];
   }
-  if (other.mutableClanTowersList.count > 0) {
-    if (result.mutableClanTowersList == nil) {
-      result.mutableClanTowersList = [NSMutableArray array];
+  if (other.mutableBossEventsList.count > 0) {
+    if (result.mutableBossEventsList == nil) {
+      result.mutableBossEventsList = [NSMutableArray array];
     }
-    [result.mutableClanTowersList addObjectsFromArray:other.mutableClanTowersList];
+    [result.mutableBossEventsList addObjectsFromArray:other.mutableBossEventsList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -16104,6 +16240,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         ClanTowerProto_Builder* subBuilder = [ClanTowerProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addClanTowers:[subBuilder buildPartial]];
+        break;
+      }
+      case 322: {
+        BossEventProto_Builder* subBuilder = [BossEventProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addBossEvents:[subBuilder buildPartial]];
         break;
       }
     }
@@ -17057,6 +17199,35 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   [result.mutableClanTierLevelsList addObject:value];
   return self;
 }
+- (NSArray*) clanTowersList {
+  if (result.mutableClanTowersList == nil) { return [NSArray array]; }
+  return result.mutableClanTowersList;
+}
+- (ClanTowerProto*) clanTowersAtIndex:(int32_t) index {
+  return [result clanTowersAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceClanTowersAtIndex:(int32_t) index with:(ClanTowerProto*) value {
+  [result.mutableClanTowersList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllClanTowers:(NSArray*) values {
+  if (result.mutableClanTowersList == nil) {
+    result.mutableClanTowersList = [NSMutableArray array];
+  }
+  [result.mutableClanTowersList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearClanTowersList {
+  result.mutableClanTowersList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addClanTowers:(ClanTowerProto*) value {
+  if (result.mutableClanTowersList == nil) {
+    result.mutableClanTowersList = [NSMutableArray array];
+  }
+  [result.mutableClanTowersList addObject:value];
+  return self;
+}
 - (NSArray*) staticStructsList {
   if (result.mutableStaticStructsList == nil) { return [NSArray array]; }
   return result.mutableStaticStructsList;
@@ -17115,33 +17286,33 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   [result.mutableStaticEquipsList addObject:value];
   return self;
 }
-- (NSArray*) clanTowersList {
-  if (result.mutableClanTowersList == nil) { return [NSArray array]; }
-  return result.mutableClanTowersList;
+- (NSArray*) bossEventsList {
+  if (result.mutableBossEventsList == nil) { return [NSArray array]; }
+  return result.mutableBossEventsList;
 }
-- (ClanTowerProto*) clanTowersAtIndex:(int32_t) index {
-  return [result clanTowersAtIndex:index];
+- (BossEventProto*) bossEventsAtIndex:(int32_t) index {
+  return [result bossEventsAtIndex:index];
 }
-- (StartupResponseProto_Builder*) replaceClanTowersAtIndex:(int32_t) index with:(ClanTowerProto*) value {
-  [result.mutableClanTowersList replaceObjectAtIndex:index withObject:value];
+- (StartupResponseProto_Builder*) replaceBossEventsAtIndex:(int32_t) index with:(BossEventProto*) value {
+  [result.mutableBossEventsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (StartupResponseProto_Builder*) addAllClanTowers:(NSArray*) values {
-  if (result.mutableClanTowersList == nil) {
-    result.mutableClanTowersList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addAllBossEvents:(NSArray*) values {
+  if (result.mutableBossEventsList == nil) {
+    result.mutableBossEventsList = [NSMutableArray array];
   }
-  [result.mutableClanTowersList addObjectsFromArray:values];
+  [result.mutableBossEventsList addObjectsFromArray:values];
   return self;
 }
-- (StartupResponseProto_Builder*) clearClanTowersList {
-  result.mutableClanTowersList = nil;
+- (StartupResponseProto_Builder*) clearBossEventsList {
+  result.mutableBossEventsList = nil;
   return self;
 }
-- (StartupResponseProto_Builder*) addClanTowers:(ClanTowerProto*) value {
-  if (result.mutableClanTowersList == nil) {
-    result.mutableClanTowersList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addBossEvents:(BossEventProto*) value {
+  if (result.mutableBossEventsList == nil) {
+    result.mutableBossEventsList = [NSMutableArray array];
   }
-  [result.mutableClanTowersList addObject:value];
+  [result.mutableBossEventsList addObject:value];
   return self;
 }
 @end
@@ -34624,6 +34795,7 @@ BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestD
 @property BOOL currentLockBoxEvents;
 @property BOOL clanTierLevels;
 @property (retain) NSMutableArray* mutableBossIdsList;
+@property BOOL currentBossEvents;
 @end
 
 @implementation RetrieveStaticDataRequestProto
@@ -34676,6 +34848,18 @@ BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestD
   clanTierLevels_ = !!value;
 }
 @synthesize mutableBossIdsList;
+- (BOOL) hasCurrentBossEvents {
+  return !!hasCurrentBossEvents_;
+}
+- (void) setHasCurrentBossEvents:(BOOL) value {
+  hasCurrentBossEvents_ = !!value;
+}
+- (BOOL) currentBossEvents {
+  return !!currentBossEvents_;
+}
+- (void) setCurrentBossEvents:(BOOL) value {
+  currentBossEvents_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.mutableStructIdsList = nil;
@@ -34696,6 +34880,7 @@ BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestD
     self.levelForExpRequiredRequest = 0;
     self.currentLockBoxEvents = NO;
     self.clanTierLevels = NO;
+    self.currentBossEvents = NO;
   }
   return self;
 }
@@ -34827,6 +35012,9 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   for (NSNumber* value in self.mutableBossIdsList) {
     [output writeInt32:14 value:[value intValue]];
   }
+  if (self.hasCurrentBossEvents) {
+    [output writeBool:15 value:self.currentBossEvents];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -34927,6 +35115,9 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
     }
     size += dataSize;
     size += 1 * self.mutableBossIdsList.count;
+  }
+  if (self.hasCurrentBossEvents) {
+    size += computeBoolSize(15, self.currentBossEvents);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -35075,6 +35266,9 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
     }
     [result.mutableBossIdsList addObjectsFromArray:other.mutableBossIdsList];
   }
+  if (other.hasCurrentBossEvents) {
+    [self setCurrentBossEvents:other.currentBossEvents];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -35155,6 +35349,10 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
       }
       case 112: {
         [self addBossIds:[input readInt32]];
+        break;
+      }
+      case 120: {
+        [self setCurrentBossEvents:[input readBool]];
         break;
       }
     }
@@ -35548,6 +35746,22 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   result.mutableBossIdsList = nil;
   return self;
 }
+- (BOOL) hasCurrentBossEvents {
+  return result.hasCurrentBossEvents;
+}
+- (BOOL) currentBossEvents {
+  return result.currentBossEvents;
+}
+- (RetrieveStaticDataRequestProto_Builder*) setCurrentBossEvents:(BOOL) value {
+  result.hasCurrentBossEvents = YES;
+  result.currentBossEvents = value;
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clearCurrentBossEvents {
+  result.hasCurrentBossEvents = NO;
+  result.currentBossEvents = NO;
+  return self;
+}
 @end
 
 @interface RetrieveStaticDataResponseProto ()
@@ -35565,6 +35779,7 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
 @property (retain) NSMutableArray* mutableLockBoxEventsList;
 @property (retain) NSMutableArray* mutableClanTierLevelsList;
 @property (retain) NSMutableArray* mutableBossesList;
+@property (retain) NSMutableArray* mutableBossEventsList;
 @property RetrieveStaticDataResponseProto_RetrieveStaticDataStatus status;
 @end
 
@@ -35596,6 +35811,7 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
 @synthesize mutableLockBoxEventsList;
 @synthesize mutableClanTierLevelsList;
 @synthesize mutableBossesList;
+@synthesize mutableBossEventsList;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -35617,6 +35833,7 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   self.mutableLockBoxEventsList = nil;
   self.mutableClanTierLevelsList = nil;
   self.mutableBossesList = nil;
+  self.mutableBossEventsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -35723,6 +35940,13 @@ static RetrieveStaticDataResponseProto* defaultRetrieveStaticDataResponseProtoIn
   id value = [mutableBossesList objectAtIndex:index];
   return value;
 }
+- (NSArray*) bossEventsList {
+  return mutableBossEventsList;
+}
+- (BossEventProto*) bossEventsAtIndex:(int32_t) index {
+  id value = [mutableBossEventsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -35771,6 +35995,9 @@ static RetrieveStaticDataResponseProto* defaultRetrieveStaticDataResponseProtoIn
   }
   for (FullBossProto* element in self.bossesList) {
     [output writeMessage:15 value:element];
+  }
+  for (BossEventProto* element in self.bossEventsList) {
+    [output writeMessage:16 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -35825,6 +36052,9 @@ static RetrieveStaticDataResponseProto* defaultRetrieveStaticDataResponseProtoIn
   }
   for (FullBossProto* element in self.bossesList) {
     size += computeMessageSize(15, element);
+  }
+  for (BossEventProto* element in self.bossEventsList) {
+    size += computeMessageSize(16, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -35988,6 +36218,12 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
     }
     [result.mutableBossesList addObjectsFromArray:other.mutableBossesList];
   }
+  if (other.mutableBossEventsList.count > 0) {
+    if (result.mutableBossEventsList == nil) {
+      result.mutableBossEventsList = [NSMutableArray array];
+    }
+    [result.mutableBossEventsList addObjectsFromArray:other.mutableBossEventsList];
+  }
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
@@ -36104,6 +36340,12 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
         FullBossProto_Builder* subBuilder = [FullBossProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addBosses:[subBuilder buildPartial]];
+        break;
+      }
+      case 130: {
+        BossEventProto_Builder* subBuilder = [BossEventProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addBossEvents:[subBuilder buildPartial]];
         break;
       }
     }
@@ -36501,6 +36743,35 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
     result.mutableBossesList = [NSMutableArray array];
   }
   [result.mutableBossesList addObject:value];
+  return self;
+}
+- (NSArray*) bossEventsList {
+  if (result.mutableBossEventsList == nil) { return [NSArray array]; }
+  return result.mutableBossEventsList;
+}
+- (BossEventProto*) bossEventsAtIndex:(int32_t) index {
+  return [result bossEventsAtIndex:index];
+}
+- (RetrieveStaticDataResponseProto_Builder*) replaceBossEventsAtIndex:(int32_t) index with:(BossEventProto*) value {
+  [result.mutableBossEventsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addAllBossEvents:(NSArray*) values {
+  if (result.mutableBossEventsList == nil) {
+    result.mutableBossEventsList = [NSMutableArray array];
+  }
+  [result.mutableBossEventsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clearBossEventsList {
+  result.mutableBossEventsList = nil;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addBossEvents:(BossEventProto*) value {
+  if (result.mutableBossEventsList == nil) {
+    result.mutableBossEventsList = [NSMutableArray array];
+  }
+  [result.mutableBossEventsList addObject:value];
   return self;
 }
 - (BOOL) hasStatus {
@@ -60707,6 +60978,7 @@ BOOL PickLockBoxResponseProto_PickLockBoxStatusIsValidValue(PickLockBoxResponseP
 @property (retain) MinimumUserProto* sender;
 @property int32_t bossId;
 @property int64_t curTime;
+@property BOOL isSuperAttack;
 @end
 
 @implementation BossActionRequestProto
@@ -60732,6 +61004,18 @@ BOOL PickLockBoxResponseProto_PickLockBoxStatusIsValidValue(PickLockBoxResponseP
   hasCurTime_ = !!value;
 }
 @synthesize curTime;
+- (BOOL) hasIsSuperAttack {
+  return !!hasIsSuperAttack_;
+}
+- (void) setHasIsSuperAttack:(BOOL) value {
+  hasIsSuperAttack_ = !!value;
+}
+- (BOOL) isSuperAttack {
+  return !!isSuperAttack_;
+}
+- (void) setIsSuperAttack:(BOOL) value {
+  isSuperAttack_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -60741,6 +61025,7 @@ BOOL PickLockBoxResponseProto_PickLockBoxStatusIsValidValue(PickLockBoxResponseP
     self.sender = [MinimumUserProto defaultInstance];
     self.bossId = 0;
     self.curTime = 0L;
+    self.isSuperAttack = NO;
   }
   return self;
 }
@@ -60769,6 +61054,9 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
   if (self.hasCurTime) {
     [output writeInt64:3 value:self.curTime];
   }
+  if (self.hasIsSuperAttack) {
+    [output writeBool:4 value:self.isSuperAttack];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -60786,6 +61074,9 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
   }
   if (self.hasCurTime) {
     size += computeInt64Size(3, self.curTime);
+  }
+  if (self.hasIsSuperAttack) {
+    size += computeBoolSize(4, self.isSuperAttack);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -60871,6 +61162,9 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
   if (other.hasCurTime) {
     [self setCurTime:other.curTime];
   }
+  if (other.hasIsSuperAttack) {
+    [self setIsSuperAttack:other.isSuperAttack];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -60907,6 +61201,10 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
       }
       case 24: {
         [self setCurTime:[input readInt64]];
+        break;
+      }
+      case 32: {
+        [self setIsSuperAttack:[input readBool]];
         break;
       }
     }
@@ -60972,6 +61270,22 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
 - (BossActionRequestProto_Builder*) clearCurTime {
   result.hasCurTime = NO;
   result.curTime = 0L;
+  return self;
+}
+- (BOOL) hasIsSuperAttack {
+  return result.hasIsSuperAttack;
+}
+- (BOOL) isSuperAttack {
+  return result.isSuperAttack;
+}
+- (BossActionRequestProto_Builder*) setIsSuperAttack:(BOOL) value {
+  result.hasIsSuperAttack = YES;
+  result.isSuperAttack = value;
+  return self;
+}
+- (BossActionRequestProto_Builder*) clearIsSuperAttack {
+  result.hasIsSuperAttack = NO;
+  result.isSuperAttack = NO;
   return self;
 }
 @end

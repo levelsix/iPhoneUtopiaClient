@@ -135,6 +135,11 @@
   return self;
 }
 
+- (void) setColor:(ccColor3B)color {
+  [super setColor:color];
+  [self.sprite setColor:color];
+}
+
 - (void) setContentSize:(CGSize)contentSize {
   [super setContentSize:contentSize];
   
@@ -145,20 +150,17 @@
 
 - (void) setOpacity:(GLubyte)opacity {
   [super setOpacity:opacity];
-  _sprite.opacity = opacity;
+  [self.sprite setOpacity:opacity];
 }
 
 - (void) setIsSelected:(BOOL)isSelected {
-  [super setIsSelected:isSelected];
-  
-  if (isSelected) {
-    [self pauseSchedulerAndActions];
-    [self.sprite pauseSchedulerAndActions];
-    _curAction = nil;
-  } else {
-    [self resumeSchedulerAndActions];
-    [self.sprite resumeSchedulerAndActions];
+  [self.sprite stopAllActions];
+  [self stopAllActions];
+  _curAction = nil;
+  if (!isSelected) {
+    [self walk];
   }
+  [super setIsSelected:isSelected];
 }
 
 - (void) walk {
@@ -206,7 +208,7 @@
       }
     }
     
-    [self runAction:[CCSequence actions:                          
+    [self runAction:[CCSequence actions:
                      [MoveToLocation actionWithDuration:diff/WALKING_SPEED location:r],
                      [CCCallFunc actionWithTarget:self selector:@selector(walk)],
                      nil
@@ -351,12 +353,12 @@
   // Need to delay time so check has time to display
   [self stopAllActions];
   [self runAction:[CCSequence actions:
-                    [CCFadeOut actionWithDuration:1.5f],
-                    [CCDelayTime actionWithDuration:1.5f],
-                    [CCCallBlock actionWithBlock:
-                     ^{
-                       [self removeFromParentAndCleanup:YES];
-                     }], nil]];
+                   [CCFadeOut actionWithDuration:1.5f],
+                   [CCDelayTime actionWithDuration:1.5f],
+                   [CCCallBlock actionWithBlock:
+                    ^{
+                      [self removeFromParentAndCleanup:YES];
+                    }], nil]];
   
   self.isAlive = NO;
 }
@@ -481,9 +483,94 @@
 
 @implementation BossSprite
 
+- (id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
+  if ((self = [super initWithFile:file location:loc map:map])) {
+    self.contentSize = CGSizeMake(120, 100);
+    
+    CCSprite *healthBgd = [CCSprite spriteWithFile:@"dragonhpbg.png"];
+    [self addChild:healthBgd z:1];
+    healthBgd.position = ccpAdd(_nameLabel.position, ccp(0, 30));
+    
+    _healthBar = [CCProgressTimer progressWithFile:@"dragonhpred.png"];
+    _healthBar.type = kCCProgressTimerTypeHorizontalBarLR;
+    _healthBar.percentage = 845.f/1000*100;
+    [healthBgd addChild:_healthBar];
+    _healthBar.position = ccp(healthBgd.contentSize.width/2, healthBgd.contentSize.height/2+1);
+    
+    _healthLabel = [CCLabelTTF labelWithString:@"845/1000" fontName:[Globals font] fontSize:13.f];
+    [healthBgd addChild:_healthLabel];
+    _healthLabel.position = ccpAdd(_healthBar.position, ccp(0,-3));
+  }
+  return self;
+}
+
+- (void) setOpacity:(GLubyte)opacity {
+  [super setOpacity:opacity];
+  
+  // Must do this to make sure all children also fade out
+  for (CCNode *n in children_) {
+    [n recursivelyApplyOpacity:opacity];
+  }
+}
+
+- (void) walk {
+  if ([_ub isAlive]) {
+    [super walk];
+  }
+}
+
+- (void) animateBarWithCallback:(NSInvocation *)inv {
+  self.callback = inv;
+  [self schedule:@selector(updateBar:)];
+}
+
+#define BAR_SPEED 50
+
+- (void) updateBar:(ccTime)dt {
+  _curHp = _curHp - BAR_SPEED*dt;
+  if (_curHp <= self.ub.curHealth) {
+    _curHp = self.ub.curHealth;
+    
+    [self unschedule:@selector(updateBar:)];
+    [self.callback invoke];
+    self.callback = nil;
+  }
+  
+  _healthBar.percentage = (float)_curHp / self.fbp.baseHealth*100.f;
+  _healthLabel.string = [NSString stringWithFormat:@"%d/%d", _curHp, self.fbp.baseHealth];
+  
+}
+
+- (void) setUb:(UserBoss *)ub {
+  if (_ub != ub) {
+    [_ub release];
+    _ub = [ub retain];
+  }
+  
+  _curHp = _ub.curHealth;
+  [self updateBar:0];
+  
+  [self stopAllActions];
+  [self.sprite stopAllActions];
+  _curAction = nil;
+  [self walk];
+}
+
+- (void) setName:(NSString *)n {
+  if (_name != n) {
+    [_name release];
+    _name = [n retain];
+    _nameLabel.string = _name;
+  }
+}
+
 - (void) dealloc {
+  // Need to deallocate timer first to prevent
+  [self.ub.timer invalidate];
+  self.ub.timer = nil;
   self.ub = nil;
   self.fbp = nil;
+  self.name = nil;
   [super dealloc];
 }
 
@@ -492,7 +579,7 @@
 @implementation MoveToLocation
 
 +(id) actionWithDuration: (ccTime) t location: (CGRect) p
-{	
+{
   return [[[self alloc] initWithDuration:t location:p ] autorelease];
 }
 
@@ -518,7 +605,7 @@
 }
 
 -(void) update: (ccTime) t
-{	
+{
   CGRect r = startLocation_;
   r.origin.x = (startLocation_.origin.x + delta_.x * t );
   r.origin.y = (startLocation_.origin.y + delta_.y * t );

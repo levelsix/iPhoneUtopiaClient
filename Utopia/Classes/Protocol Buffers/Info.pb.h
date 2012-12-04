@@ -2,6 +2,8 @@
 
 #import "ProtocolBuffers.h"
 
+@class BossEventProto;
+@class BossEventProto_Builder;
 @class BuildStructJobProto;
 @class BuildStructJobProto_Builder;
 @class ClanBulletinPostProto;
@@ -305,6 +307,150 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
+@end
+
+@interface BossEventProto : PBGeneratedMessage {
+@private
+  BOOL hasStartDate_:1;
+  BOOL hasEndDate_:1;
+  BOOL hasCityId_:1;
+  BOOL hasEventName_:1;
+  BOOL hasHeaderImage_:1;
+  BOOL hasLeftTagImage_:1;
+  BOOL hasMiddleTagImage_:1;
+  BOOL hasRightTagImage_:1;
+  BOOL hasLeftEquip_:1;
+  BOOL hasMiddleEquip_:1;
+  BOOL hasRightEquip_:1;
+  int64_t startDate;
+  int64_t endDate;
+  int32_t cityId;
+  NSString* eventName;
+  NSString* headerImage;
+  NSString* leftTagImage;
+  NSString* middleTagImage;
+  NSString* rightTagImage;
+  FullEquipProto* leftEquip;
+  FullEquipProto* middleEquip;
+  FullEquipProto* rightEquip;
+}
+- (BOOL) hasCityId;
+- (BOOL) hasStartDate;
+- (BOOL) hasEndDate;
+- (BOOL) hasEventName;
+- (BOOL) hasHeaderImage;
+- (BOOL) hasLeftEquip;
+- (BOOL) hasLeftTagImage;
+- (BOOL) hasMiddleEquip;
+- (BOOL) hasMiddleTagImage;
+- (BOOL) hasRightEquip;
+- (BOOL) hasRightTagImage;
+@property (readonly) int32_t cityId;
+@property (readonly) int64_t startDate;
+@property (readonly) int64_t endDate;
+@property (readonly, retain) NSString* eventName;
+@property (readonly, retain) NSString* headerImage;
+@property (readonly, retain) FullEquipProto* leftEquip;
+@property (readonly, retain) NSString* leftTagImage;
+@property (readonly, retain) FullEquipProto* middleEquip;
+@property (readonly, retain) NSString* middleTagImage;
+@property (readonly, retain) FullEquipProto* rightEquip;
+@property (readonly, retain) NSString* rightTagImage;
+
++ (BossEventProto*) defaultInstance;
+- (BossEventProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BossEventProto_Builder*) builder;
++ (BossEventProto_Builder*) builder;
++ (BossEventProto_Builder*) builderWithPrototype:(BossEventProto*) prototype;
+
++ (BossEventProto*) parseFromData:(NSData*) data;
++ (BossEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BossEventProto*) parseFromInputStream:(NSInputStream*) input;
++ (BossEventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BossEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BossEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BossEventProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BossEventProto* result;
+}
+
+- (BossEventProto*) defaultInstance;
+
+- (BossEventProto_Builder*) clear;
+- (BossEventProto_Builder*) clone;
+
+- (BossEventProto*) build;
+- (BossEventProto*) buildPartial;
+
+- (BossEventProto_Builder*) mergeFrom:(BossEventProto*) other;
+- (BossEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BossEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (BossEventProto_Builder*) setCityId:(int32_t) value;
+- (BossEventProto_Builder*) clearCityId;
+
+- (BOOL) hasStartDate;
+- (int64_t) startDate;
+- (BossEventProto_Builder*) setStartDate:(int64_t) value;
+- (BossEventProto_Builder*) clearStartDate;
+
+- (BOOL) hasEndDate;
+- (int64_t) endDate;
+- (BossEventProto_Builder*) setEndDate:(int64_t) value;
+- (BossEventProto_Builder*) clearEndDate;
+
+- (BOOL) hasEventName;
+- (NSString*) eventName;
+- (BossEventProto_Builder*) setEventName:(NSString*) value;
+- (BossEventProto_Builder*) clearEventName;
+
+- (BOOL) hasHeaderImage;
+- (NSString*) headerImage;
+- (BossEventProto_Builder*) setHeaderImage:(NSString*) value;
+- (BossEventProto_Builder*) clearHeaderImage;
+
+- (BOOL) hasLeftEquip;
+- (FullEquipProto*) leftEquip;
+- (BossEventProto_Builder*) setLeftEquip:(FullEquipProto*) value;
+- (BossEventProto_Builder*) setLeftEquipBuilder:(FullEquipProto_Builder*) builderForValue;
+- (BossEventProto_Builder*) mergeLeftEquip:(FullEquipProto*) value;
+- (BossEventProto_Builder*) clearLeftEquip;
+
+- (BOOL) hasLeftTagImage;
+- (NSString*) leftTagImage;
+- (BossEventProto_Builder*) setLeftTagImage:(NSString*) value;
+- (BossEventProto_Builder*) clearLeftTagImage;
+
+- (BOOL) hasMiddleEquip;
+- (FullEquipProto*) middleEquip;
+- (BossEventProto_Builder*) setMiddleEquip:(FullEquipProto*) value;
+- (BossEventProto_Builder*) setMiddleEquipBuilder:(FullEquipProto_Builder*) builderForValue;
+- (BossEventProto_Builder*) mergeMiddleEquip:(FullEquipProto*) value;
+- (BossEventProto_Builder*) clearMiddleEquip;
+
+- (BOOL) hasMiddleTagImage;
+- (NSString*) middleTagImage;
+- (BossEventProto_Builder*) setMiddleTagImage:(NSString*) value;
+- (BossEventProto_Builder*) clearMiddleTagImage;
+
+- (BOOL) hasRightEquip;
+- (FullEquipProto*) rightEquip;
+- (BossEventProto_Builder*) setRightEquip:(FullEquipProto*) value;
+- (BossEventProto_Builder*) setRightEquipBuilder:(FullEquipProto_Builder*) builderForValue;
+- (BossEventProto_Builder*) mergeRightEquip:(FullEquipProto*) value;
+- (BossEventProto_Builder*) clearRightEquip;
+
+- (BOOL) hasRightTagImage;
+- (NSString*) rightTagImage;
+- (BossEventProto_Builder*) setRightTagImage:(NSString*) value;
+- (BossEventProto_Builder*) clearRightTagImage;
 @end
 
 @interface ClanTowerProto : PBGeneratedMessage {
@@ -1177,11 +1323,13 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @interface FullUserBossProto : PBGeneratedMessage {
 @private
   BOOL hasStartTime_:1;
+  BOOL hasLastKilledTime_:1;
   BOOL hasBossId_:1;
   BOOL hasUserId_:1;
   BOOL hasCurHealth_:1;
   BOOL hasNumTimesKilled_:1;
   int64_t startTime;
+  int64_t lastKilledTime;
   int32_t bossId;
   int32_t userId;
   int32_t curHealth;
@@ -1192,11 +1340,13 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasCurHealth;
 - (BOOL) hasNumTimesKilled;
 - (BOOL) hasStartTime;
+- (BOOL) hasLastKilledTime;
 @property (readonly) int32_t bossId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t curHealth;
 @property (readonly) int32_t numTimesKilled;
 @property (readonly) int64_t startTime;
+@property (readonly) int64_t lastKilledTime;
 
 + (FullUserBossProto*) defaultInstance;
 - (FullUserBossProto*) defaultInstance;
@@ -1256,6 +1406,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int64_t) startTime;
 - (FullUserBossProto_Builder*) setStartTime:(int64_t) value;
 - (FullUserBossProto_Builder*) clearStartTime;
+
+- (BOOL) hasLastKilledTime;
+- (int64_t) lastKilledTime;
+- (FullUserBossProto_Builder*) setLastKilledTime:(int64_t) value;
+- (FullUserBossProto_Builder*) clearLastKilledTime;
 @end
 
 @interface FullClanProtoWithClanSize : PBGeneratedMessage {

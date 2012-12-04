@@ -251,6 +251,7 @@
 						<string key="NSFrame">{{325, 12}, {25, 25}}</string>
 						<reference key="NSSuperview" ref="1064223957"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">4</int>
@@ -327,6 +328,7 @@
 						<string key="NSFrame">{{25, 0}, {282, 21}}</string>
 						<reference key="NSSuperview" ref="19846190"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>

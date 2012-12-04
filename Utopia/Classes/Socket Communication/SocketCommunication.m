@@ -543,7 +543,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCLoadPlayerCityEvent];
 }
 
-- (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds lockBoxEvents:(BOOL)lockBoxEvents clanTierLevels:(BOOL)clanTierLevels bossIds:(NSArray *)bossIds {
+- (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds events:(BOOL)events clanTierLevels:(BOOL)clanTierLevels bossIds:(NSArray *)bossIds {
   RetrieveStaticDataRequestProto_Builder *blder = [RetrieveStaticDataRequestProto builder];
   
   if (structIds) {
@@ -573,8 +573,9 @@ static NSString *udid = nil;
   if (upgradeStructJobIds) {
     [blder addAllUpgradeStructJobIds:upgradeStructJobIds];
   }
-  if (lockBoxEvents) {
+  if (events) {
     [blder setCurrentLockBoxEvents:YES];
+    [blder setCurrentBossEvents:YES];
   }
   if (clanTierLevels) {
     [blder setClanTierLevels:YES];
@@ -1010,11 +1011,12 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCPlayThreeCardMonteEvent];
 }
 
-- (int) sendBossActionMessage:(int)bossId curTime:(uint64_t)curTime {
-  BossActionRequestProto *req = [[[[[BossActionRequestProto builder]
+- (int) sendBossActionMessage:(int)bossId isSuperAttack:(BOOL)isSuperAttack curTime:(uint64_t)curTime {
+  BossActionRequestProto *req = [[[[[[BossActionRequestProto builder]
                                     setSender:_sender]
                                    setBossId:bossId]
                                   setCurTime:curTime]
+                                  setIsSuperAttack:isSuperAttack]
                                  build];
   return [self sendData:req withMessageType:EventProtocolRequestCBossActionEvent];
 }

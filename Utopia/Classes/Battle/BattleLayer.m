@@ -663,7 +663,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _isRunning = YES;
     CCScene *scene = [BattleLayer scene];
     [dir pushScene:[CCTransitionFade transitionWithDuration:TRANSITION_DURATION scene:scene]];
-    [[[TopBar sharedTopBar] chatBottomView] setHidden:YES];
+    
+    ChatBottomView *cbv = [TopBar sharedTopBar].chatBottomView;
+    [UIView animateWithDuration:TRANSITION_DURATION animations:^{
+      cbv.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      cbv.hidden = YES;
+    }];
     
     // Remove mapviewcontroller in case we were called from there
     // but record whether we came from there or not

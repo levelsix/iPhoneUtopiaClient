@@ -204,8 +204,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxCharLengthForWallPost = constants.maxCharLengthForWallPost;
   self.numHoursBeforeReshowingGoldSale = constants.numHoursBeforeReshowingGoldSale;
   self.numHoursBeforeReshowingLockBox = constants.numHoursBeforeReshowingLockBox;
+  self.numHoursBeforeReshowingBossEvent = constants.numHoursBeforeReshowingBossEvent;
   self.numDaysUntilFreeRetract = constants.numDaysUntilFreeRetract;
   self.levelToShowRateUsPopup = constants.levelToShowRateUsPopup;
+  self.bossNumAttacksTillSuperAttack = constants.bossEventNumberOfAttacksUntilSuperAttack;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;
@@ -1954,6 +1956,19 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   self.reviewPageURL = nil;
   self.reviewPageConfirmationMessage = nil;
   [super dealloc];
+}
+
+@end
+
+@implementation CCNode (RecursiveOpacity)
+
+- (void) recursivelyApplyOpacity:(GLubyte)opacity {
+  if ([self conformsToProtocol:@protocol(CCRGBAProtocol)]) {
+    [(id<CCRGBAProtocol>)self setOpacity:opacity];
+  }
+  for (CCNode *c in children_) {
+    [c recursivelyApplyOpacity:opacity];
+  }
 }
 
 @end

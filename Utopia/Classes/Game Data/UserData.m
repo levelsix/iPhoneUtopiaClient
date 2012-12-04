@@ -243,7 +243,7 @@
     [[OutgoingEventController sharedOutgoingEventController] collectFromGoldmine];
     BazaarMap *bm = [BazaarMap sharedBazaarMap];
     CritStructBuilding *csb = (CritStructBuilding *)[bm getChildByTag:self.type];
-    [bm addGoldDrop:1 fromSprite:csb];
+    [bm addGoldDrop:1 fromSprite:csb toPosition:CGPointZero];
     csb.retrievable = NO;
   } else {
     [self.goldMineView displayForCurrentState];
@@ -677,6 +677,13 @@
     self.curHealth = ub.curHealth;
     self.numTimesKilled = ub.numTimesKilled;
     self.startTime = ub.hasStartTime ? [NSDate dateWithTimeIntervalSince1970:ub.startTime/1000.] : nil;
+    self.lastKilledTime = ub.hasLastKilledTime ? [NSDate dateWithTimeIntervalSince1970:ub.lastKilledTime/1000.] : nil;
+    
+    if ([self isAlive] && ![self hasBeenAttacked]) {
+      GameState *gs = [GameState sharedGameState];
+      FullBossProto *fbp = [gs bossWithId:_bossId];
+      self.curHealth = fbp.baseHealth;
+    }
   }
   return self;
 }
@@ -685,9 +692,93 @@
   return [[[self alloc] initWithFullUserBossProto:ub] autorelease];
 }
 
+- (NSDate *) nextRespawnTime {
+  GameState *gs = [GameState sharedGameState];
+  FullBossProto *fbp = [gs bossWithId:_bossId];
+  BOOL validLastKilledTime = self.lastKilledTime.timeIntervalSince1970 > self.startTime.timeIntervalSince1970;
+  NSDate *baseDate = validLastKilledTime ? self.lastKilledTime : [self.startTime dateByAddingTimeInterval:fbp.minutesToKill*60];
+  return [baseDate dateByAddingTimeInterval:fbp.minutesToRespawn*60];
+}
+
+- (NSDate *) timeUpDate {
+  GameState *gs = [GameState sharedGameState];
+  FullBossProto *fbp = [gs bossWithId:_bossId];
+  return [self.startTime dateByAddingTimeInterval:fbp.minutesToKill*60];
+}
+
+- (BOOL) isAlive {
+  if (!self.startTime) {
+    return YES;
+  }
+  
+  BOOL validLastKilledTime = self.lastKilledTime.timeIntervalSince1970 > self.startTime.timeIntervalSince1970;
+  NSDate *endDate = validLastKilledTime ? self.lastKilledTime : [self timeUpDate];
+  NSDate *nextRespawnTime = [self nextRespawnTime];
+  NSDate *now = [NSDate date];
+  
+  return now.timeIntervalSince1970 < endDate.timeIntervalSince1970 || now.timeIntervalSince1970 > nextRespawnTime.timeIntervalSince1970;
+}
+
+- (BOOL) hasBeenAttacked {
+  if (!self.startTime) {
+    return NO;
+  }
+  
+  BOOL validLastKilledTime = self.lastKilledTime.timeIntervalSince1970 > self.startTime.timeIntervalSince1970;
+  NSDate *lastEndDate = validLastKilledTime ? self.lastKilledTime : [self timeUpDate];
+  NSDate *nextRespawnTime = [self nextRespawnTime];
+  NSDate *now = [NSDate date];
+  
+  return !(now.timeIntervalSince1970 > lastEndDate.timeIntervalSince1970 && now.timeIntervalSince1970 > nextRespawnTime.timeIntervalSince1970);
+}
+
+- (void) createTimer {
+  [_timer invalidate];
+  self.timer = nil;
+  
+  if ([self isAlive]) {
+    if ([self hasBeenAttacked]) {
+      // Boss is still alive
+      NSDate *timeUpDate = [self timeUpDate];
+      self.timer = [NSTimer timerWithTimeInterval:timeUpDate.timeIntervalSinceNow target:self selector:@selector(timeUp) userInfo:nil repeats:NO];
+      LNLog(@"Firing up boss time up timer with time interval %f", timeUpDate.timeIntervalSinceNow);
+    }
+  } else {
+    // Boss is dead
+    NSDate *respawnDate = [self nextRespawnTime];
+    self.timer = [NSTimer timerWithTimeInterval:respawnDate.timeIntervalSinceNow target:self selector:@selector(respawn) userInfo:nil repeats:NO];
+    LNLog(@"Firing up boss respawn timer with time interval %f", respawnDate.timeIntervalSinceNow);
+  }
+  
+  if (self.timer) {
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+  }
+}
+
+- (void) respawn {
+  GameState *gs = [GameState sharedGameState];
+  FullBossProto *fbp = [gs bossWithId:_bossId];
+  self.curHealth = fbp.baseHealth;
+  LNLog(@"Respawning boss..");
+  [_delegate bossRespawned:self];
+}
+
+- (void) timeUp {
+  [_delegate bossTimeUp:self];
+  LNLog(@"Time's up");
+  [self createTimer];
+  
+}
+
 - (void) dealloc {
   self.startTime = nil;
+  [self.timer invalidate];
+  self.timer = nil;
   [super dealloc];
 }
+
+@end
+
+@implementation BossReward
 
 @end

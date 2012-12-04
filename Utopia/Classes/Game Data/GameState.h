@@ -174,6 +174,7 @@
 @property (retain) NSMutableDictionary *staticUpgradeStructJobs;
 @property (retain) NSMutableArray *staticLockBoxEvents;
 @property (retain) NSMutableArray *staticGoldSales;
+@property (retain) NSMutableArray *staticBossEvents;
 
 @property (retain) NSArray *carpenterStructs;
 @property (retain) NSArray *armoryWeapons;
@@ -184,7 +185,6 @@
 @property (retain) NSMutableArray *myStructs;
 @property (retain) NSMutableDictionary *myCities;
 @property (retain) NSMutableDictionary *myLockBoxEvents;
-@property (retain) NSMutableArray *lockBoxEventTimers;
 
 @property (retain) NSMutableDictionary *inProgressCompleteQuests;
 @property (retain) NSMutableDictionary *inProgressIncompleteQuests;
@@ -214,7 +214,9 @@
 
 @property (nonatomic, retain) UserExpansion *userExpansion;
 
+@property (retain) NSMutableArray *lockBoxEventTimers;
 @property (retain) NSMutableArray *goldSaleTimers;
+@property (retain) NSMutableArray *bossEventTimers;
 
 @property (retain) NSDictionary *clanTierLevels;
 
@@ -271,6 +273,7 @@
 - (void) addToStaticPossessEquipJobs:(NSArray *)arr;
 - (void) addToStaticUpgradeStructJobs:(NSArray *)arr;
 - (void) addNewStaticLockBoxEvents:(NSArray *)events;
+- (void) addNewStaticBossEvents:(NSArray *)events;
 - (void) addToClanTierLevels:(NSArray *) tiers;
 
 - (ClanTierLevelProto *) clanTierForLevel:(int)level;
@@ -300,6 +303,10 @@
 - (LockBoxEventProto *) getCurrentLockBoxEvent;
 - (void) addToNumLockBoxesForEvent:(int)eventId;
 - (void) updateLockBoxButton;
+
+- (void) resetBossEventTimers;
+- (BossEventProto *) getCurrentBossEvent;
+- (void) updateBossEventButton;
 
 - (void) updateClanTowers:(NSArray *)arr;
 

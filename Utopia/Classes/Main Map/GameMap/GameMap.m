@@ -24,6 +24,7 @@
 #define SILVER_STACK_BOUNCE_DURATION 1.f
 #define DROP_LABEL_DURATION 3.f
 #define PICK_UP_WAIT_TIME 2.5f
+#define DROP_ROTATION 0
 
 //CCMoveByCustom
 @interface CCMoveByCustom : CCMoveBy
@@ -35,7 +36,9 @@
 @implementation CCMoveByCustom
 - (void) update: (ccTime) t {
 	//Here we neglect to change something with a zero delta.
-	if (delta_.x == 0) {
+  if (delta_.x == 0 && delta_.y == 0) {
+    // Do nothing
+  } else if (delta_.x == 0) {
 		[target_ setPosition: ccp( [(CCNode*)target_ position].x, (startPosition_.y + delta_.y * t ) )];
 	} else if (delta_.y == 0) {
 		[target_ setPosition: ccp( (startPosition_.x + delta_.x * t ), [(CCNode*)target_ position].y )];
@@ -191,7 +194,8 @@
   self.selected = nil;
 }
 
-- (void) addSilverDrop:(int)amount fromSprite:(MapSprite *)sprite {
+// Position (0,0) means choose a random position
+- (void) addSilverDrop:(int)amount fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt {
   silverOnMap += amount;
   
   SilverStack *ss = [[SilverStack alloc] initWithAmount:amount];
@@ -202,11 +206,12 @@
   ss.opacity = 5;
   
   // Need to fade in, scale to 1, bounce in y dir, move normal in x dir
-  float xPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60;
-  float yPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10;
+  float xPos = CGPointEqualToPoint(pt, CGPointZero) ? ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60 : pt.x-ss.position.x;
+  float yPos = CGPointEqualToPoint(pt, CGPointZero) ? ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10 : pt.y-ss.position.y;
   [ss runAction:[CCSpawn actions:
                  [CCFadeIn actionWithDuration:0.1],
                  [CCScaleTo actionWithDuration:0.1 scale:1],
+                 [CCRotateBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION angle:DROP_ROTATION],
                  [CCSequence actions:
                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
                   [CCEaseBounceOut actionWithAction:
@@ -259,7 +264,7 @@
   [[SoundEngine sharedSoundEngine] coinPickup];
 }
 
-- (void) addGoldDrop:(int)amount fromSprite:(MapSprite *)sprite {
+- (void) addGoldDrop:(int)amount fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt {
   goldOnMap += amount;
   
   GoldStack *gs = [[GoldStack alloc] initWithAmount:amount];
@@ -270,11 +275,12 @@
   gs.opacity = 5;
   
   // Need to fade in, scale to 1, bounce in y dir, move normal in x dir
-  float xPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60;
-  float yPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10;
+  float xPos = CGPointEqualToPoint(pt, CGPointZero) ? ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60 : pt.x-gs.position.x;
+  float yPos = CGPointEqualToPoint(pt, CGPointZero) ? ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10 : pt.y-gs.position.y;
   [gs runAction:[CCSpawn actions:
                  [CCFadeIn actionWithDuration:0.1],
                  [CCScaleTo actionWithDuration:0.1 scale:1],
+                 [CCRotateBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION angle:DROP_ROTATION],
                  [CCSequence actions:
                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
                   [CCEaseBounceOut actionWithAction:
@@ -327,7 +333,7 @@
   [[SoundEngine sharedSoundEngine] coinPickup];
 }
 
-- (void) addEquipDrop:(int)equipId fromSprite:(MapSprite *)sprite {
+- (void) addEquipDrop:(int)equipId fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt {
   EquipDrop *ed = [[EquipDrop alloc] initWithEquipId:equipId];
   [self addChild:ed z:1004];
   [ed release];
@@ -335,12 +341,15 @@
   ed.scale = 0.01;
   ed.opacity = 5;
   
+  float scale = 50.f/ed.contentSize.width;
+  
   // Need to fade in, scale to 1, bounce in y dir, move normal in x dir
-  float xPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60;
-  float yPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10;
+  float xPos = CGPointEqualToPoint(pt, CGPointZero) ? ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60 : pt.x-ed.position.x;
+  float yPos = CGPointEqualToPoint(pt, CGPointZero) ? ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10 : pt.y-ed.position.y;
   [ed runAction:[CCSpawn actions:
                  [CCFadeIn actionWithDuration:0.1],
-                 [CCScaleTo actionWithDuration:0.1 scale:0.65],
+                 [CCScaleTo actionWithDuration:0.1 scale:scale],
+                 [CCRotateBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION angle:DROP_ROTATION],
                  [CCSequence actions:
                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
                   [CCEaseBounceOut actionWithAction:
@@ -377,13 +386,14 @@
   ed.scale *= self.scale;
   [tb addChild:ed z:-1];
   
+  float scale = 40.f/ed.contentSize.width;
   [ed runAction:[CCSequence actions:
                  [CCSpawn actions:
                   [CCEaseSineIn actionWithAction:
                    [CCMoveToCustom actionWithDuration:0.5 position:ccp(ed.position.x,tb.profilePic.position.y)]],
                   [CCEaseSineOut actionWithAction:
                    [CCMoveToCustom actionWithDuration:0.5 position:ccp(tb.profilePic.position.x,ed.position.y)]],
-                  [CCScaleTo actionWithDuration:0.5 scale:0.5],
+                  [CCScaleTo actionWithDuration:0.5 scale:scale],
                   nil],
                  [CCCallBlock actionWithBlock:^{[ed removeFromParentAndCleanup:YES];}],
                  nil]];
@@ -404,6 +414,7 @@
     [lbd runAction:[CCSpawn actions:
                     [CCFadeIn actionWithDuration:0.1],
                     [CCScaleTo actionWithDuration:0.1 scale:0.4],
+                    [CCRotateBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION angle:DROP_ROTATION],
                     [CCSequence actions:
                      [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
                      [CCEaseBounceOut actionWithAction:

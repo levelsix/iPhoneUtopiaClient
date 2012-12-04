@@ -1173,7 +1173,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   if (shouldSend) {
-    int tag = [sc sendRetrieveStaticDataMessageWithStructIds:nil /*[rStructs allObjects]*/ taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:nil /*[rEquips allObjects]*/ buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:[rDefeatTypeJobs allObjects] possessEquipJobIds:[rPossessEquipJobs allObjects] upgradeStructJobIds:[rUpgradeStructJobs allObjects] lockBoxEvents:YES clanTierLevels:NO bossIds:nil];
+    int tag = [sc sendRetrieveStaticDataMessageWithStructIds:nil /*[rStructs allObjects]*/ taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:nil /*[rEquips allObjects]*/ buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:[rDefeatTypeJobs allObjects] possessEquipJobIds:[rPossessEquipJobs allObjects] upgradeStructJobIds:[rUpgradeStructJobs allObjects] events:YES clanTierLevels:NO bossIds:nil];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
@@ -1182,7 +1182,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   NSNumber *n = [NSNumber numberWithInt:equipId];
   if (![gs.staticEquips objectForKey:n] && equipId != 0) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO bossIds:nil];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO clanTierLevels:NO bossIds:nil];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
@@ -1197,7 +1197,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:arr buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO bossIds:nil];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:arr buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO clanTierLevels:NO bossIds:nil];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
@@ -1279,7 +1279,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     if (rTasks.count > 0 || rBosses.count > 0) {
-      [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil lockBoxEvents:NO clanTierLevels:NO bossIds:[rBosses allObjects]];
+      [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO clanTierLevels:NO bossIds:[rBosses allObjects]];
     }
     
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
@@ -2094,22 +2094,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) bossAction:(UserBoss *)ub {
+- (NSDate *) bossAction:(UserBoss *)ub isSuperAttack:(BOOL)isSuperAttack {
+  // Returns the kill time
   GameState *gs = [GameState sharedGameState];
   FullBossProto *fbp = [gs bossWithId:ub.bossId];
   UserCity *fcp = [gs myCityWithId:fbp.cityId];
   
   if (!fcp) {
     [Globals popupMessage:@"Attempting to do boss in a locked city"];
-    return;
-  }
-  
-  if (gs.currentStamina < fbp.staminaCost) {
+  } else if (gs.currentStamina < fbp.staminaCost) {
     [Globals popupMessage:@"Attempting to attack boss without enough stamina"];
+  } else if (![ub isAlive]) {
+    [Globals popupMessage:@"Attempting to attack boss when it is dead."];
+  } else {
+    uint64_t curTime = [self getCurrentMilliseconds];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendBossActionMessage:ub.bossId isSuperAttack:isSuperAttack curTime:curTime];
+    [gs addUnrespondedUpdate:[StaminaUpdate updateWithTag:tag change:-fbp.staminaCost]];
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:curTime/1000.];
+    if (![ub hasBeenAttacked]) {
+      ub.startTime = date;
+      [ub createTimer];
+    }
+    return date;
   }
-  
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBossActionMessage:ub.bossId curTime:[self getCurrentMilliseconds]];
-  [gs addUnrespondedUpdate:[StaminaUpdate updateWithTag:tag change:-fbp.staminaCost]];
+  return nil;
 }
 
 @end

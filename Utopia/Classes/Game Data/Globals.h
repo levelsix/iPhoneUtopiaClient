@@ -110,6 +110,9 @@
 
 @property (nonatomic, assign) int numHoursBeforeReshowingGoldSale;
 @property (nonatomic, assign) int numHoursBeforeReshowingLockBox;
+@property (nonatomic, assign) int numHoursBeforeReshowingBossEvent;
+
+@property (nonatomic, assign) int bossNumAttacksTillSuperAttack;
 
 @property (nonatomic, copy) NSString *reviewPageURL;
 @property (nonatomic, assign) int levelToShowRateUsPopup;
@@ -311,5 +314,11 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (int) calculateNumMinutesForNewExpansion:(UserExpansion *)ue;
 - (int) calculateGoldCostToSpeedUpExpansion:(UserExpansion *)ue;
 - (int) calculateSilverCostForNewExpansion:(UserExpansion *)ue;
+
+@end
+
+@interface CCNode (RecursiveOpacity)
+
+- (void) recursivelyApplyOpacity:(GLubyte)opacity;
 
 @end

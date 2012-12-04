@@ -175,6 +175,14 @@ enum {
 	return nil;
 }
 
+- (BOOL) isPointInArea:(CGPoint)pt {
+  for (CCNode *c in children_) {
+		if(c.visible == YES && [c isPointInArea:pt])
+			return YES;
+  }
+  return NO;
+}
+
 -(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
 	if( state_ != kCCMenuStateWaiting || !visible_ )

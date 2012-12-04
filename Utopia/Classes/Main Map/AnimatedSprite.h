@@ -117,10 +117,21 @@ typedef enum {
 
 @end
 
-@interface BossSprite : AnimatedSprite
+@interface BossSprite : AnimatedSprite {
+  CCProgressTimer *_healthBar;
+  CCLabelTTF *_healthLabel;
+  CCSprite *_heartIcon;
+  
+  int _curHp;
+}
 
 @property (nonatomic, retain) FullBossProto *fbp;
 @property (nonatomic, retain) UserBoss *ub;
+@property (nonatomic, copy) NSString *name;
+
+@property (nonatomic, retain) NSInvocation *callback;
+
+- (void) animateBarWithCallback:(NSInvocation *)inv;
 
 @end
 

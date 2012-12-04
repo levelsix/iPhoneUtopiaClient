@@ -75,11 +75,11 @@
 - (CGPoint) randomWalkablePosition;
 - (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt;
 
-- (void) addSilverDrop:(int)amount fromSprite:(MapSprite *)sprite;
+- (void) addSilverDrop:(int)amount fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt;
 - (void) pickUpSilverDrop:(SilverStack *)ss;
-- (void) addGoldDrop:(int)amount fromSprite:(MapSprite *)sprite;
+- (void) addGoldDrop:(int)amount fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt;
 - (void) pickUpGoldDrop:(GoldStack *)ss;
-- (void) addEquipDrop:(int)equipId fromSprite:(MapSprite *)sprite;
+- (void) addEquipDrop:(int)equipId fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt;
 - (void) pickUpEquipDrop:(EquipDrop *)ed;
 - (void) addLockBoxDrop:(int)eventId fromSprite:(MapSprite *)sprite;
 - (void) pickUpLockBoxDrop:(LockBoxDrop *)lbd;

@@ -22,7 +22,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 }
 
 - (int) playEffect:(NSString *)effect {
+#ifndef DEBUG
   return [[SimpleAudioEngine sharedEngine] playEffect:effect];
+#else
+  return 0;
+#endif
 }
 
 - (void) stopEffect:(int)effect {

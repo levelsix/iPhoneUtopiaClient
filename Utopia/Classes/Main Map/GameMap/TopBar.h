@@ -54,6 +54,7 @@ typedef enum {
   
   CCMenuItem *_questButton;
   CCMenuItem *_lockBoxButton;
+  CCMenuItem *_bossEventButton;
   CCMenuItem *_bazaarButton;
   CCMenuItem *_homeButton;
   CCMenu *_bottomButtons;
@@ -136,6 +137,7 @@ typedef enum {
 - (void) fadeOutMenuOverChatView:(UIView *)view;
 
 - (void) shouldDisplayLockBoxButton:(BOOL)button andBadge:(BOOL)badge;
+- (void) shouldDisplayBossEventButton:(BOOL)button;
 
 + (TopBar *) sharedTopBar;
 + (void) purgeSingleton;

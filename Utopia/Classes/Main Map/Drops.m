@@ -60,7 +60,8 @@
 @synthesize amount;
 
 - (id) initWithAmount:(int)amt {
-  if ((self = [super initWithFile:@"pickupgold.png"])) {
+  NSString *file = amt == 1 ? @"pickupgold.png" : @"refillgoldstack.png";
+  if ((self = [super initWithFile:file])) {
     amount = amt;
     
     [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];

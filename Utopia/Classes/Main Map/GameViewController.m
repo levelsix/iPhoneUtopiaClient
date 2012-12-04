@@ -37,6 +37,7 @@
 #import "QuestLogController.h"
 #import "RefillMenuController.h"
 #import "VaultMenuController.h"
+#import "BossEventMenuController.h"
 #import "GameLayer.h"
 #import "HomeMap.h"
 #import "BattleLayer.h"
@@ -103,6 +104,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [ActivityFeedController purgeSingleton];
   [AttackMenuController removeView];
   [AttackMenuController purgeSingleton];
+  [BossEventMenuController removeView];
+  [BossEventMenuController purgeSingleton];
   [CarpenterMenuController removeView];
   [CarpenterMenuController purgeSingleton];
   [ChatMenuController removeView];

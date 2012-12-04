@@ -889,7 +889,7 @@
 
 -(BOOL) isNodeInTreeTouched:(CGPoint)pt
 {
-  if( [self isPointInArea:pt] )
+  if( [self isPointInArea:pt] && self.isTouchEnabled )
     return YES;
   
   BOOL rslt = NO;

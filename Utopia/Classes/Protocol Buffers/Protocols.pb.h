@@ -32,6 +32,8 @@
 @class BossActionRequestProto_Builder;
 @class BossActionResponseProto;
 @class BossActionResponseProto_Builder;
+@class BossEventProto;
+@class BossEventProto_Builder;
 @class BuildStructJobProto;
 @class BuildStructJobProto_Builder;
 @class ChangeClanDescriptionRequestProto;

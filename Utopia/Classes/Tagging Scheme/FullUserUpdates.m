@@ -66,7 +66,7 @@
 
 - (void) undo {
   GameState *gs = [GameState sharedGameState];
-  gs.currentEnergy -= MAX(0, _change);
+  gs.currentEnergy = MAX(0, gs.currentStamina-_change                                                                                                                                                                                                                              );
 }
 
 @end
@@ -83,7 +83,7 @@
 
 - (void) undo {
   GameState *gs = [GameState sharedGameState];
-  gs.currentStamina -= MAX(0, _change);
+  gs.currentStamina = MAX(0, gs.currentStamina-_change);
 }
 
 @end
