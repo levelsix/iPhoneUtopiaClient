@@ -818,8 +818,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       UserNotification *un = [[UserNotification alloc] initWithMarketplaceResponse:proto];
       [gs addNotification:un];
       [un release];
-      gs.marketplaceGoldEarnings += (int)floorf(proto.marketplacePost.diamondCost * (1.f-gl.purchasePercentCut));
-      gs.marketplaceSilverEarnings += (int)floorf(proto.marketplacePost.coinCost * (1.f-gl.purchasePercentCut));
+      gs.marketplaceGoldEarnings += proto.sellerHadLicense ? proto.marketplacePost.diamondCost : (int)floorf(proto.marketplacePost.diamondCost * (1.f-gl.purchasePercentCut));
+      gs.marketplaceSilverEarnings += proto.sellerHadLicense ? proto.marketplacePost.coinCost : (int)floorf(proto.marketplacePost.coinCost * (1.f-gl.purchasePercentCut));
       
       [mvc displayRedeemView];
       
@@ -1259,7 +1259,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     if (proto.clanTierLevelsList > 0) [gs addToClanTierLevels:proto.clanTierLevelsList];
     if (proto.lockBoxEventsList.count > 0) [gs addNewStaticLockBoxEvents:proto.lockBoxEventsList];
-    if (proto.bossEventsList.count > 0) [gs addNewStaticLockBoxEvents:proto.bossEventsList];
+    if (proto.bossEventsList.count > 0) [gs addNewStaticBossEvents:proto.bossEventsList];
     
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -2266,9 +2266,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   GameLayer *gLay = [GameLayer sharedGameLayer];
-  [[gLay missionMap] receivedBossResponse:proto];
   
   if (proto.status == BossActionResponseProto_BossActionStatusSuccess) {
+    for (NSNumber *n in proto.coinsGainedList) {
+      gs.silver += n.intValue;
+    }
+    for (NSNumber *n in proto.diamondsGainedList) {
+      gs.gold += n.intValue;
+    }
+    
+    [gs addToMyEquips:proto.lootUserEquipList];
+    
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     if (proto.status == BossActionResponseProto_BossActionStatusClientTooApartFromServerTime) {
@@ -2278,6 +2286,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
+  
+  [[gLay missionMap] receivedBossResponse:proto];
 }
 
 @end

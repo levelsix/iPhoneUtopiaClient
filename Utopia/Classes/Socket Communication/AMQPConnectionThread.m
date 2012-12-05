@@ -28,7 +28,7 @@ static int sessionId;
 }
 
 - (void) initConnection {
-  NSLog(@"Initializing connection..");
+  LNLog(@"Initializing connection..");
   @try {
     sessionId = arc4random();
     [self endConnection];

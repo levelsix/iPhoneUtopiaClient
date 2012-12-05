@@ -378,11 +378,12 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetractPostFromMarketplaceEvent];
 }
 
-- (int) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId {
-  PurchaseFromMarketplaceRequestProto *req = [[[[[PurchaseFromMarketplaceRequestProto builder]
+- (int) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId clientTime:(uint64_t)clientTime {
+  PurchaseFromMarketplaceRequestProto *req = [[[[[[PurchaseFromMarketplaceRequestProto builder]
                                                  setSender:_sender]
                                                 setMarketplacePostId:postId]
                                                setPosterId:posterId]
+                                               setCurTime:clientTime]
                                               build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCPurchaseFromMarketplaceEvent];

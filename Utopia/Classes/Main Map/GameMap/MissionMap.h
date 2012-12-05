@@ -38,6 +38,7 @@
   CCLabelTTF *_powerAttackLabel;
   CCProgressTimer *_powerAttackBar;
   CCSprite *_powerAttackBgd;
+  CCMenu *_infoMenu;
   
   int _curPowerAttack;
 }

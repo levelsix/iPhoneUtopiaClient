@@ -11,6 +11,8 @@
 #import "Globals.h"
 #import "GameState.h"
 
+#define RECT_LEEWAY 10
+
 @implementation SilverStack
 
 @synthesize amount;
@@ -27,7 +29,7 @@
 }
 
 - (BOOL) isPointInArea:(CGPoint)pt {
-  CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width, self.contentSize.height), -40, -40);
+  CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width, self.contentSize.height), -RECT_LEEWAY, -RECT_LEEWAY);
   pt = [self convertToNodeSpace:pt];
   
   if (CGRectContainsPoint(rect, pt)) {
@@ -60,7 +62,7 @@
 @synthesize amount;
 
 - (id) initWithAmount:(int)amt {
-  NSString *file = amt == 1 ? @"pickupgold.png" : @"refillgoldstack.png";
+  NSString *file = amt == 1 ? @"pickupgold.png" : @"smallgoldstack.png";
   if ((self = [super initWithFile:file])) {
     amount = amt;
     
@@ -72,7 +74,7 @@
 }
 
 - (BOOL) isPointInArea:(CGPoint)pt {
-  CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width, self.contentSize.height), -40, -40);
+  CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width, self.contentSize.height), -RECT_LEEWAY, -RECT_LEEWAY);
   pt = [self convertToNodeSpace:pt];
   
   if (CGRectContainsPoint(rect, pt)) {
@@ -116,7 +118,7 @@
 }
 
 - (BOOL) isPointInArea:(CGPoint)pt {
-  CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width*self.scale, self.contentSize.height*self.scale), -40, -40);
+  CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width, self.contentSize.height), -RECT_LEEWAY, -RECT_LEEWAY);
   pt = [self convertToNodeSpace:pt];
   
   if (CGRectContainsPoint(rect, pt)) {
@@ -166,7 +168,7 @@
 }
 
 - (BOOL) isPointInArea:(CGPoint)pt {
-  CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width*self.scale, self.contentSize.height*self.scale), -40, -40);
+  CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width*self.scale, self.contentSize.height*self.scale), -RECT_LEEWAY, -RECT_LEEWAY);
   pt = [self convertToNodeSpace:pt];
   
   if (CGRectContainsPoint(rect, pt)) {

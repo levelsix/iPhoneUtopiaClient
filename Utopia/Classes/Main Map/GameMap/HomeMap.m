@@ -649,7 +649,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   if (mb.userStruct.state == kWaitingForIncome) {
     mb.retrievable = NO;
     [self updateTimersForBuilding:mb];
-    [self addSilverDrop:[[Globals sharedGlobals] calculateIncomeForUserStruct:mb.userStruct] fromSprite:mb toPosition:CGPointZero];
+    [self addSilverDrop:[[Globals sharedGlobals] calculateIncomeForUserStruct:mb.userStruct] fromSprite:mb toPosition:CGPointZero secondsToPickup:0];
   }
 }
 

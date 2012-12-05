@@ -223,7 +223,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _lockBoxButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(lockBoxButtonClicked)];
     _lockBoxButton.position = ccp(_questButton.position.x, _questButton.position.y-_questButton.contentSize.height/2-_lockBoxButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
     
-    s = [CCSprite spriteWithFile:@"tblockbox.png"];
+    s = [CCSprite spriteWithFile:@"bossicon.png"];
     _bossEventButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bossEventButtonClicked)];
     _bossEventButton.position = _lockBoxButton.position;
     
@@ -308,7 +308,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) bossEventButtonClicked {
-  [BossEventMenuController displayView];
+  GameState *gs = [GameState sharedGameState];
+  BossEventProto *lbe = [gs getCurrentBossEvent];
+  
+  if (lbe) {
+    // Assume boss is asset 1
+    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:lbe.cityId asset:1];
+  } else {
+    [Globals popupMessage:@"Woops! The event has ended! Try again next time."];
+  }
 }
   
 - (void) bazaarClicked {
@@ -701,7 +709,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (BOOL) isPointInArea:(CGPoint)pt {
   pt = [self convertToNodeSpace:pt];
-  return CGRectContainsPoint(_enstBarRect, pt) && CGRectContainsPoint(_coinBarRect, pt);
+  return CGRectContainsPoint(_enstBarRect, pt) || CGRectContainsPoint(_coinBarRect, pt);
 }
 
 - (void) setEnergyBarPercentage:(float)perc {

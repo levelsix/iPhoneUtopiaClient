@@ -10,8 +10,6 @@
 #import "UserData.h"
 #import "LeaderboardController.h"
 
-typedef LeaderboardBarButton ChatBarButton;
-
 @interface ChatTopBar : UIView {
   BOOL _trackingButton1;
   BOOL _trackingButton2;

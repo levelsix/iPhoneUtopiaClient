@@ -283,6 +283,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   self.kiipRewardConditions = constants.kiipRewardConditions;
   
+  self.bossNumAttacksTillSuperAttack = 1;
+  
   if (constants.hasDownloadableNibConstants) {
     self.downloadableNibConstants = constants.downloadableNibConstants;
   }

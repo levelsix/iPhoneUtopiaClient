@@ -52,11 +52,6 @@
 {
 	[super startWithTarget:aTarget];
 	from_ = [(kProgressTimerCast)target_ percentage];
-	
-	// XXX: Is this correct ?
-	// Adding it to support CCRepeat
-	if( from_ == 100)
-		from_ = 0;
 }
 
 -(void) update: (ccTime) t

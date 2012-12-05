@@ -1678,8 +1678,6 @@
 		CFE8DD6C1621075F00781774 /* Treez.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE8DD681621075F00781774 /* Treez.png */; };
 		CFE8DD6D1621075F00781774 /* FloorTiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE8DD691621075F00781774 /* FloorTiles.png */; };
 		CFE95479166E0DAF00DA63CF /* superattackpurple.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95475166E0DAF00DA63CF /* superattackpurple.png */; };
-		CFE9547A166E0DAF00DA63CF /* superattackbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95476166E0DAF00DA63CF /* superattackbg.png */; };
-		CFE9547B166E0DAF00DA63CF /* superattackbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95477166E0DAF00DA63CF /* superattackbg@2x.png */; };
 		CFE9547C166E0DAF00DA63CF /* superattackpurple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95478166E0DAF00DA63CF /* superattackpurple@2x.png */; };
 		CFE95481166E380D00DA63CF /* BossEventMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE9547F166E380D00DA63CF /* BossEventMenuController.m */; };
 		CFE95482166E380D00DA63CF /* BossEventMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE95480166E380D00DA63CF /* BossEventMenuController.xib */; };
@@ -1699,6 +1697,18 @@
 		CFE954A1166E40DD00DA63CF /* visitbossbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95491166E40DD00DA63CF /* visitbossbg@2x.png */; };
 		CFE954A2166E40DD00DA63CF /* weapontag.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95492166E40DD00DA63CF /* weapontag.png */; };
 		CFE954A3166E40DD00DA63CF /* weapontag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95493166E40DD00DA63CF /* weapontag@2x.png */; };
+		CFE954A6166EE6D300DA63CF /* superattackbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954A4166EE6D300DA63CF /* superattackbg.png */; };
+		CFE954A7166EE6D300DA63CF /* superattackbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954A5166EE6D300DA63CF /* superattackbg@2x.png */; };
+		CFE954AA166EE6E100DA63CF /* bossicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954A8166EE6E100DA63CF /* bossicon.png */; };
+		CFE954AB166EE6E100DA63CF /* bossicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954A9166EE6E100DA63CF /* bossicon@2x.png */; };
+		CFE954AC166EEA0F00DA63CF /* behindglow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2B4CA3162A411600758BC8 /* behindglow.png */; };
+		CFE954AD166EEA0F00DA63CF /* behindglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2B4CA4162A411600758BC8 /* behindglow@2x.png */; };
+		CFE954AE166EEA0F00DA63CF /* eventstar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2B4CA5162A411600758BC8 /* eventstar.png */; };
+		CFE954AF166EEA0F00DA63CF /* eventstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2B4CA6162A411600758BC8 /* eventstar@2x.png */; };
+		CFE954B2166F00A900DA63CF /* bossinfo.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B0166F00A900DA63CF /* bossinfo.png */; };
+		CFE954B3166F00A900DA63CF /* bossinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B1166F00A900DA63CF /* bossinfo@2x.png */; };
+		CFE954B6166F14F800DA63CF /* smallgoldstack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B4166F14F800DA63CF /* smallgoldstack.png */; };
+		CFE954B7166F14F800DA63CF /* smallgoldstack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B5166F14F800DA63CF /* smallgoldstack@2x.png */; };
 		CFEB28431593F02500B622FC /* unlockedheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28411593F02500B622FC /* unlockedheader.png */; };
 		CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28421593F02500B622FC /* unlockedheader@2x.png */; };
 		CFEB284715951ADC00B622FC /* FullEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB284615951ADB00B622FC /* FullEvent.m */; };
@@ -3035,10 +3045,10 @@
 		CF2940881565A18F002D9E45 /* grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grey.png; sourceTree = "<group>"; };
 		CF2940891565A18F002D9E45 /* grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grey@2x.png"; sourceTree = "<group>"; };
 		CF2B4CA1162A40BD00758BC8 /* LockBoxInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LockBoxInfoView.xib; sourceTree = "<group>"; };
-		CF2B4CA3162A411600758BC8 /* behindglow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = behindglow.png; sourceTree = "<group>"; };
-		CF2B4CA4162A411600758BC8 /* behindglow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "behindglow@2x.png"; sourceTree = "<group>"; };
-		CF2B4CA5162A411600758BC8 /* eventstar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eventstar.png; sourceTree = "<group>"; };
-		CF2B4CA6162A411600758BC8 /* eventstar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "eventstar@2x.png"; sourceTree = "<group>"; };
+		CF2B4CA3162A411600758BC8 /* behindglow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = behindglow.png; path = "../Lock box images/behindglow.png"; sourceTree = "<group>"; };
+		CF2B4CA4162A411600758BC8 /* behindglow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "behindglow@2x.png"; path = "../Lock box images/behindglow@2x.png"; sourceTree = "<group>"; };
+		CF2B4CA5162A411600758BC8 /* eventstar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = eventstar.png; path = "../Lock box images/eventstar.png"; sourceTree = "<group>"; };
+		CF2B4CA6162A411600758BC8 /* eventstar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "eventstar@2x.png"; path = "../Lock box images/eventstar@2x.png"; sourceTree = "<group>"; };
 		CF2B4CA7162A411600758BC8 /* legendaryitemtext.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = legendaryitemtext.png; sourceTree = "<group>"; };
 		CF2B4CA8162A411600758BC8 /* legendaryitemtext@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "legendaryitemtext@2x.png"; sourceTree = "<group>"; };
 		CF2B4CA9162A411600758BC8 /* legendtag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = legendtag.png; sourceTree = "<group>"; };
@@ -3947,8 +3957,6 @@
 		CFE8DD681621075F00781774 /* Treez.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Treez.png; sourceTree = "<group>"; };
 		CFE8DD691621075F00781774 /* FloorTiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FloorTiles.png; sourceTree = "<group>"; };
 		CFE95475166E0DAF00DA63CF /* superattackpurple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = superattackpurple.png; sourceTree = "<group>"; };
-		CFE95476166E0DAF00DA63CF /* superattackbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = superattackbg.png; sourceTree = "<group>"; };
-		CFE95477166E0DAF00DA63CF /* superattackbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "superattackbg@2x.png"; sourceTree = "<group>"; };
 		CFE95478166E0DAF00DA63CF /* superattackpurple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "superattackpurple@2x.png"; sourceTree = "<group>"; };
 		CFE9547E166E380D00DA63CF /* BossEventMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BossEventMenuController.h; sourceTree = "<group>"; };
 		CFE9547F166E380D00DA63CF /* BossEventMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BossEventMenuController.m; sourceTree = "<group>"; };
@@ -3969,6 +3977,14 @@
 		CFE95491166E40DD00DA63CF /* visitbossbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "visitbossbg@2x.png"; sourceTree = "<group>"; };
 		CFE95492166E40DD00DA63CF /* weapontag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weapontag.png; sourceTree = "<group>"; };
 		CFE95493166E40DD00DA63CF /* weapontag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weapontag@2x.png"; sourceTree = "<group>"; };
+		CFE954A4166EE6D300DA63CF /* superattackbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = superattackbg.png; sourceTree = "<group>"; };
+		CFE954A5166EE6D300DA63CF /* superattackbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "superattackbg@2x.png"; sourceTree = "<group>"; };
+		CFE954A8166EE6E100DA63CF /* bossicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bossicon.png; sourceTree = "<group>"; };
+		CFE954A9166EE6E100DA63CF /* bossicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bossicon@2x.png"; sourceTree = "<group>"; };
+		CFE954B0166F00A900DA63CF /* bossinfo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bossinfo.png; sourceTree = "<group>"; };
+		CFE954B1166F00A900DA63CF /* bossinfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bossinfo@2x.png"; sourceTree = "<group>"; };
+		CFE954B4166F14F800DA63CF /* smallgoldstack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smallgoldstack.png; sourceTree = "<group>"; };
+		CFE954B5166F14F800DA63CF /* smallgoldstack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "smallgoldstack@2x.png"; sourceTree = "<group>"; };
 		CFEB28411593F02500B622FC /* unlockedheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlockedheader.png; sourceTree = "<group>"; };
 		CFEB28421593F02500B622FC /* unlockedheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlockedheader@2x.png"; sourceTree = "<group>"; };
 		CFEB284515951ADA00B622FC /* FullEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullEvent.h; sourceTree = "<group>"; };
@@ -5827,6 +5843,8 @@
 		CF1268F61538ACC500E0C1AD /* Miscellaneous */ = {
 			isa = PBXGroup;
 			children = (
+				CFE954B4166F14F800DA63CF /* smallgoldstack.png */,
+				CFE954B5166F14F800DA63CF /* smallgoldstack@2x.png */,
 				CF2B4CD5162A5B2600758BC8 /* yellowattackswords@2x.png */,
 				CF2B4CD6162A5B2600758BC8 /* yellowdefenseshield@2x.png */,
 				CF2B4CD7162A5B2600758BC8 /* yellowattackswords.png */,
@@ -5874,10 +5892,12 @@
 		CF1269111538ACC500E0C1AD /* Mission Building Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFE954B0166F00A900DA63CF /* bossinfo.png */,
+				CFE954B1166F00A900DA63CF /* bossinfo@2x.png */,
+				CFE954A4166EE6D300DA63CF /* superattackbg.png */,
+				CFE954A5166EE6D300DA63CF /* superattackbg@2x.png */,
 				CFE95475166E0DAF00DA63CF /* superattackpurple.png */,
 				CFE95478166E0DAF00DA63CF /* superattackpurple@2x.png */,
-				CFE95476166E0DAF00DA63CF /* superattackbg.png */,
-				CFE95477166E0DAF00DA63CF /* superattackbg@2x.png */,
 				CF5F354516683D5D007CE970 /* dragonheart.png */,
 				CF5F354616683D5D007CE970 /* dragonheart@2x.png */,
 				CF5F354716683D5D007CE970 /* dragonhpbg.png */,
@@ -6186,6 +6206,8 @@
 		CF1269FD1538ACC600E0C1AD /* Top Bar Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFE954A8166EE6E100DA63CF /* bossicon.png */,
+				CFE954A9166EE6E100DA63CF /* bossicon@2x.png */,
 				CF2CE24C161D26EC00DD6E9E /* tblockbox.png */,
 				CF2CE249161D051200DD6E9E /* tblockbox@2x.png */,
 				CF10775515C8E3A400409312 /* badgeforquests.png */,
@@ -6608,10 +6630,6 @@
 		CF3BE05B1619458400CA5A76 /* Lock box images */ = {
 			isa = PBXGroup;
 			children = (
-				CF2B4CA3162A411600758BC8 /* behindglow.png */,
-				CF2B4CA4162A411600758BC8 /* behindglow@2x.png */,
-				CF2B4CA5162A411600758BC8 /* eventstar.png */,
-				CF2B4CA6162A411600758BC8 /* eventstar@2x.png */,
 				CF2B4CA7162A411600758BC8 /* legendaryitemtext.png */,
 				CF2B4CA8162A411600758BC8 /* legendaryitemtext@2x.png */,
 				CF2B4CA9162A411600758BC8 /* legendtag.png */,
@@ -7578,6 +7596,10 @@
 				CFE95491166E40DD00DA63CF /* visitbossbg@2x.png */,
 				CFE95492166E40DD00DA63CF /* weapontag.png */,
 				CFE95493166E40DD00DA63CF /* weapontag@2x.png */,
+				CF2B4CA3162A411600758BC8 /* behindglow.png */,
+				CF2B4CA4162A411600758BC8 /* behindglow@2x.png */,
+				CF2B4CA5162A411600758BC8 /* eventstar.png */,
+				CF2B4CA6162A411600758BC8 /* eventstar@2x.png */,
 			);
 			path = "Boss Event Images";
 			sourceTree = "<group>";
@@ -9213,8 +9235,6 @@
 				CF5F353716676D1B007CE970 /* WaterDragonWalkNF@2x.plist in Resources */,
 				CF5F353816676D1B007CE970 /* WaterDragonWalkNF@2x.pvr.ccz in Resources */,
 				CFE95479166E0DAF00DA63CF /* superattackpurple.png in Resources */,
-				CFE9547A166E0DAF00DA63CF /* superattackbg.png in Resources */,
-				CFE9547B166E0DAF00DA63CF /* superattackbg@2x.png in Resources */,
 				CFE9547C166E0DAF00DA63CF /* superattackpurple@2x.png in Resources */,
 				CFE95482166E380D00DA63CF /* BossEventMenuController.xib in Resources */,
 				CFE95494166E40DD00DA63CF /* amulettag.png in Resources */,
@@ -9233,6 +9253,18 @@
 				CFE954A1166E40DD00DA63CF /* visitbossbg@2x.png in Resources */,
 				CFE954A2166E40DD00DA63CF /* weapontag.png in Resources */,
 				CFE954A3166E40DD00DA63CF /* weapontag@2x.png in Resources */,
+				CFE954A6166EE6D300DA63CF /* superattackbg.png in Resources */,
+				CFE954A7166EE6D300DA63CF /* superattackbg@2x.png in Resources */,
+				CFE954AA166EE6E100DA63CF /* bossicon.png in Resources */,
+				CFE954AB166EE6E100DA63CF /* bossicon@2x.png in Resources */,
+				CFE954AC166EEA0F00DA63CF /* behindglow.png in Resources */,
+				CFE954AD166EEA0F00DA63CF /* behindglow@2x.png in Resources */,
+				CFE954AE166EEA0F00DA63CF /* eventstar.png in Resources */,
+				CFE954AF166EEA0F00DA63CF /* eventstar@2x.png in Resources */,
+				CFE954B2166F00A900DA63CF /* bossinfo.png in Resources */,
+				CFE954B3166F00A900DA63CF /* bossinfo@2x.png in Resources */,
+				CFE954B6166F14F800DA63CF /* smallgoldstack.png in Resources */,
+				CFE954B7166F14F800DA63CF /* smallgoldstack@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

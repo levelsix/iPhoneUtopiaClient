@@ -7,6 +7,21 @@
 //
 
 #import "NibUtils.h"
+#import "LeaderboardController.h"
+
+typedef LeaderboardBarButton ChatBarButton;
+
+@interface BossEventTopBar : UIView {
+  BOOL _trackingButton1;
+  BOOL _trackingButton2;
+  
+  int _clickedButtons;
+}
+
+@property (nonatomic, retain) IBOutlet UIImageView *button1;
+@property (nonatomic, retain) IBOutlet UIImageView *button2;
+
+@end
 
 @interface BossEventCard : UIView
 
@@ -18,6 +33,11 @@
 
 @end
 
+typedef enum {
+  kEventState = 1,
+  kInfoState = 2
+} BossEventState;
+
 @interface BossEventMenuController : UIViewController
 
 @property (nonatomic, retain) IBOutlet UILabel *eventTimeLabel;
@@ -27,15 +47,22 @@
 @property (nonatomic, retain) IBOutlet BossEventCard *middleCard;
 @property (nonatomic, retain) IBOutlet BossEventCard *rightCard;
 
+@property (nonatomic, retain) IBOutlet UILabel *infoLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *eventView;
+@property (nonatomic, retain) IBOutlet UIView *infoView;
+
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 @property (nonatomic, retain) NSTimer *timer;
 
+@property (nonatomic, assign) BossEventState state;
+
 - (void) loadForCurrentEvent;
 - (void) updateLabels;
 
-- (IBAction)visitBossClicked:(id)sender;
+- (IBAction)closeClicked:(id)sender;
 
 + (BossEventMenuController *) sharedBossEventMenuController;
 + (void) displayView;

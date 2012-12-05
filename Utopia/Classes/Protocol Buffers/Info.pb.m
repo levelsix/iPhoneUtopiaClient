@@ -195,6 +195,7 @@ BOOL ExpansionDirectionIsValidValue(ExpansionDirection value) {
 @property (retain) NSString* middleTagImage;
 @property (retain) FullEquipProto* rightEquip;
 @property (retain) NSString* rightTagImage;
+@property (retain) NSString* infoDescription;
 @end
 
 @implementation BossEventProto
@@ -276,6 +277,13 @@ BOOL ExpansionDirectionIsValidValue(ExpansionDirection value) {
   hasRightTagImage_ = !!value;
 }
 @synthesize rightTagImage;
+- (BOOL) hasInfoDescription {
+  return !!hasInfoDescription_;
+}
+- (void) setHasInfoDescription:(BOOL) value {
+  hasInfoDescription_ = !!value;
+}
+@synthesize infoDescription;
 - (void) dealloc {
   self.eventName = nil;
   self.headerImage = nil;
@@ -285,6 +293,7 @@ BOOL ExpansionDirectionIsValidValue(ExpansionDirection value) {
   self.middleTagImage = nil;
   self.rightEquip = nil;
   self.rightTagImage = nil;
+  self.infoDescription = nil;
   [super dealloc];
 }
 - (id) init {
@@ -300,6 +309,7 @@ BOOL ExpansionDirectionIsValidValue(ExpansionDirection value) {
     self.middleTagImage = @"";
     self.rightEquip = [FullEquipProto defaultInstance];
     self.rightTagImage = @"";
+    self.infoDescription = @"";
   }
   return self;
 }
@@ -352,6 +362,9 @@ static BossEventProto* defaultBossEventProtoInstance = nil;
   if (self.hasRightTagImage) {
     [output writeString:11 value:self.rightTagImage];
   }
+  if (self.hasInfoDescription) {
+    [output writeString:12 value:self.infoDescription];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -393,6 +406,9 @@ static BossEventProto* defaultBossEventProtoInstance = nil;
   }
   if (self.hasRightTagImage) {
     size += computeStringSize(11, self.rightTagImage);
+  }
+  if (self.hasInfoDescription) {
+    size += computeStringSize(12, self.infoDescription);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -502,6 +518,9 @@ static BossEventProto* defaultBossEventProtoInstance = nil;
   if (other.hasRightTagImage) {
     [self setRightTagImage:other.rightTagImage];
   }
+  if (other.hasInfoDescription) {
+    [self setInfoDescription:other.infoDescription];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -580,6 +599,10 @@ static BossEventProto* defaultBossEventProtoInstance = nil;
       }
       case 90: {
         [self setRightTagImage:[input readString]];
+        break;
+      }
+      case 98: {
+        [self setInfoDescription:[input readString]];
         break;
       }
     }
@@ -801,6 +824,22 @@ static BossEventProto* defaultBossEventProtoInstance = nil;
 - (BossEventProto_Builder*) clearRightTagImage {
   result.hasRightTagImage = NO;
   result.rightTagImage = @"";
+  return self;
+}
+- (BOOL) hasInfoDescription {
+  return result.hasInfoDescription;
+}
+- (NSString*) infoDescription {
+  return result.infoDescription;
+}
+- (BossEventProto_Builder*) setInfoDescription:(NSString*) value {
+  result.hasInfoDescription = YES;
+  result.infoDescription = value;
+  return self;
+}
+- (BossEventProto_Builder*) clearInfoDescription {
+  result.hasInfoDescription = NO;
+  result.infoDescription = @"";
   return self;
 }
 @end

@@ -499,7 +499,10 @@
     
     _healthLabel = [CCLabelTTF labelWithString:@"845/1000" fontName:[Globals font] fontSize:13.f];
     [healthBgd addChild:_healthLabel];
-    _healthLabel.position = ccpAdd(_healthBar.position, ccp(0,-3));
+    _healthLabel.position = ccpAdd(_healthBar.position, ccp(15,-3));
+    
+    _heartIcon = [CCSprite spriteWithFile:@"dragonheart.png"];
+    [healthBgd addChild:_heartIcon z:1];
   }
   return self;
 }
@@ -524,7 +527,7 @@
   [self schedule:@selector(updateBar:)];
 }
 
-#define BAR_SPEED 50
+#define BAR_SPEED 110
 
 - (void) updateBar:(ccTime)dt {
   _curHp = _curHp - BAR_SPEED*dt;
@@ -539,6 +542,7 @@
   _healthBar.percentage = (float)_curHp / self.fbp.baseHealth*100.f;
   _healthLabel.string = [NSString stringWithFormat:@"%d/%d", _curHp, self.fbp.baseHealth];
   
+  _heartIcon.position = ccpAdd(_healthLabel.position, ccp(-_healthLabel.contentSize.width/2-10, 3));
 }
 
 - (void) setUb:(UserBoss *)ub {

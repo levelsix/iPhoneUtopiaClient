@@ -243,7 +243,7 @@
     [[OutgoingEventController sharedOutgoingEventController] collectFromGoldmine];
     BazaarMap *bm = [BazaarMap sharedBazaarMap];
     CritStructBuilding *csb = (CritStructBuilding *)[bm getChildByTag:self.type];
-    [bm addGoldDrop:1 fromSprite:csb toPosition:CGPointZero];
+    [bm addGoldDrop:1 fromSprite:csb toPosition:CGPointZero secondsToPickup:0];
     csb.retrievable = NO;
   } else {
     [self.goldMineView displayForCurrentState];

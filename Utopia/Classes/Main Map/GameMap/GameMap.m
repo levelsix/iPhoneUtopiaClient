@@ -195,7 +195,8 @@
 }
 
 // Position (0,0) means choose a random position
-- (void) addSilverDrop:(int)amount fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt {
+- (void) addSilverDrop:(int)amount fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt secondsToPickup:(int)secondsToPickup {
+  
   silverOnMap += amount;
   
   SilverStack *ss = [[SilverStack alloc] initWithAmount:amount];
@@ -208,6 +209,10 @@
   // Need to fade in, scale to 1, bounce in y dir, move normal in x dir
   float xPos = CGPointEqualToPoint(pt, CGPointZero) ? ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60 : pt.x-ss.position.x;
   float yPos = CGPointEqualToPoint(pt, CGPointZero) ? ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10 : pt.y-ss.position.y;
+  
+  // -1 seconds means don't pickup, 0 seconds means default
+  secondsToPickup = secondsToPickup == 0 ? PICK_UP_WAIT_TIME : secondsToPickup;
+  CCDelayTime *dt = secondsToPickup > 0 ? [CCDelayTime actionWithDuration:secondsToPickup] : nil;
   [ss runAction:[CCSpawn actions:
                  [CCFadeIn actionWithDuration:0.1],
                  [CCScaleTo actionWithDuration:0.1 scale:1],
@@ -216,7 +221,7 @@
                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
                   [CCEaseBounceOut actionWithAction:
                    [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-85+yPos)]],
-                  [CCDelayTime actionWithDuration:PICK_UP_WAIT_TIME],
+                  dt,
                   [CCCallFuncN actionWithTarget:self selector:@selector(pickUpSilverDrop:)],
                   nil],
                  [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],
@@ -264,7 +269,7 @@
   [[SoundEngine sharedSoundEngine] coinPickup];
 }
 
-- (void) addGoldDrop:(int)amount fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt {
+- (void) addGoldDrop:(int)amount fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt secondsToPickup:(int)secondsToPickup {
   goldOnMap += amount;
   
   GoldStack *gs = [[GoldStack alloc] initWithAmount:amount];
@@ -277,6 +282,10 @@
   // Need to fade in, scale to 1, bounce in y dir, move normal in x dir
   float xPos = CGPointEqualToPoint(pt, CGPointZero) ? ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60 : pt.x-gs.position.x;
   float yPos = CGPointEqualToPoint(pt, CGPointZero) ? ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10 : pt.y-gs.position.y;
+  
+  // -1 seconds means don't pickup, 0 seconds means default
+  secondsToPickup = secondsToPickup == 0 ? PICK_UP_WAIT_TIME : secondsToPickup;
+  CCDelayTime *dt = secondsToPickup > 0 ? [CCDelayTime actionWithDuration:secondsToPickup] : nil;
   [gs runAction:[CCSpawn actions:
                  [CCFadeIn actionWithDuration:0.1],
                  [CCScaleTo actionWithDuration:0.1 scale:1],
@@ -285,7 +294,7 @@
                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
                   [CCEaseBounceOut actionWithAction:
                    [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-85+yPos)]],
-                  [CCDelayTime actionWithDuration:PICK_UP_WAIT_TIME],
+                  dt,
                   [CCCallFuncN actionWithTarget:self selector:@selector(pickUpGoldDrop:)],
                   nil],
                  [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],
@@ -333,7 +342,7 @@
   [[SoundEngine sharedSoundEngine] coinPickup];
 }
 
-- (void) addEquipDrop:(int)equipId fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt {
+- (void) addEquipDrop:(int)equipId fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt secondsToPickup:(int)secondsToPickup {
   EquipDrop *ed = [[EquipDrop alloc] initWithEquipId:equipId];
   [self addChild:ed z:1004];
   [ed release];
@@ -346,6 +355,10 @@
   // Need to fade in, scale to 1, bounce in y dir, move normal in x dir
   float xPos = CGPointEqualToPoint(pt, CGPointZero) ? ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60 : pt.x-ed.position.x;
   float yPos = CGPointEqualToPoint(pt, CGPointZero) ? ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10 : pt.y-ed.position.y;
+  
+  // -1 seconds means don't pickup, 0 seconds means default
+  secondsToPickup = secondsToPickup == 0 ? PICK_UP_WAIT_TIME : secondsToPickup;
+  CCDelayTime *dt = secondsToPickup > 0 ? [CCDelayTime actionWithDuration:secondsToPickup] : nil;
   [ed runAction:[CCSpawn actions:
                  [CCFadeIn actionWithDuration:0.1],
                  [CCScaleTo actionWithDuration:0.1 scale:scale],
@@ -354,7 +367,7 @@
                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
                   [CCEaseBounceOut actionWithAction:
                    [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-85+yPos)]],
-                  [CCDelayTime actionWithDuration:PICK_UP_WAIT_TIME],
+                  dt,
                   [CCCallFuncN actionWithTarget:self selector:@selector(pickUpEquipDrop:)],
                   nil],
                  [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],
@@ -399,7 +412,7 @@
                  nil]];
 }
 
-- (void) addLockBoxDrop:(int)eventId fromSprite:(MapSprite *)sprite {
+- (void) addLockBoxDrop:(int)eventId fromSprite:(MapSprite *)sprite secondsToPickup:(int)secondsToPickup {
   LockBoxDrop *lbd = [[LockBoxDrop alloc] initWithEventId:eventId];
   if (lbd) {
     [self addChild:lbd z:1004];
@@ -411,6 +424,10 @@
     // Need to fade in, scale to 1, bounce in y dir, move normal in x dir
     float xPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60;
     float yPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10;
+    
+    // -1 seconds means don't pickup, 0 seconds means default
+    secondsToPickup = secondsToPickup == 0 ? PICK_UP_WAIT_TIME : secondsToPickup;
+    CCDelayTime *dt = secondsToPickup > 0 ? [CCDelayTime actionWithDuration:secondsToPickup] : nil;
     [lbd runAction:[CCSpawn actions:
                     [CCFadeIn actionWithDuration:0.1],
                     [CCScaleTo actionWithDuration:0.1 scale:0.4],
@@ -419,7 +436,7 @@
                      [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
                      [CCEaseBounceOut actionWithAction:
                       [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-85+yPos)]],
-                     [CCDelayTime actionWithDuration:PICK_UP_WAIT_TIME],
+                     dt,
                      [CCCallFuncN actionWithTarget:self selector:@selector(pickUpLockBoxDrop:)],
                      nil],
                     [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],

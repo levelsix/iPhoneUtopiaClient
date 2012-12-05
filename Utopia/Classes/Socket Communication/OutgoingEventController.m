@@ -490,7 +490,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if ([mktPost marketplacePostId] == postId) {
       if (gs.userId != mktPost.poster.userId) {
         if (gs.gold >= mktPost.diamondCost && gs.silver >= mktPost.coinCost) {
-          int tag = [sc sendPurchaseFromMarketplaceMessage:postId poster:mktPost.poster.userId];
+          int tag = [sc sendPurchaseFromMarketplaceMessage:postId poster:mktPost.poster.userId clientTime:[self getCurrentMilliseconds]];
           GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-mktPost.diamondCost];
           SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-mktPost.coinCost];
           

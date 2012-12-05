@@ -107,6 +107,8 @@
                                                    advertiserKey:MAT_APP_KEY
                                                        withError:nil];
   
+  [[MobileAppTracker sharedManager] setShouldDebugResponseFromServer:NO];
+  
   [[MobileAppTracker sharedManager] setDeviceId:[[UIDevice currentDevice] uniqueIdentifier]];
   
   [[MobileAppTracker sharedManager] trackInstallWithUpdateOnly:NO];
@@ -215,6 +217,9 @@
   
   // Delight.io
   [self setUpDelightio];
+  
+  // Mobile App Tracker
+  [self setUpMobileAppTracker];
   
   // AdColony
 //  adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];

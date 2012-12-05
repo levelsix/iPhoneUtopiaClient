@@ -319,6 +319,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasLeftTagImage_:1;
   BOOL hasMiddleTagImage_:1;
   BOOL hasRightTagImage_:1;
+  BOOL hasInfoDescription_:1;
   BOOL hasLeftEquip_:1;
   BOOL hasMiddleEquip_:1;
   BOOL hasRightEquip_:1;
@@ -330,6 +331,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   NSString* leftTagImage;
   NSString* middleTagImage;
   NSString* rightTagImage;
+  NSString* infoDescription;
   FullEquipProto* leftEquip;
   FullEquipProto* middleEquip;
   FullEquipProto* rightEquip;
@@ -345,6 +347,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasMiddleTagImage;
 - (BOOL) hasRightEquip;
 - (BOOL) hasRightTagImage;
+- (BOOL) hasInfoDescription;
 @property (readonly) int32_t cityId;
 @property (readonly) int64_t startDate;
 @property (readonly) int64_t endDate;
@@ -356,6 +359,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) NSString* middleTagImage;
 @property (readonly, retain) FullEquipProto* rightEquip;
 @property (readonly, retain) NSString* rightTagImage;
+@property (readonly, retain) NSString* infoDescription;
 
 + (BossEventProto*) defaultInstance;
 - (BossEventProto*) defaultInstance;
@@ -451,6 +455,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (NSString*) rightTagImage;
 - (BossEventProto_Builder*) setRightTagImage:(NSString*) value;
 - (BossEventProto_Builder*) clearRightTagImage;
+
+- (BOOL) hasInfoDescription;
+- (NSString*) infoDescription;
+- (BossEventProto_Builder*) setInfoDescription:(NSString*) value;
+- (BossEventProto_Builder*) clearInfoDescription;
 @end
 
 @interface ClanTowerProto : PBGeneratedMessage {

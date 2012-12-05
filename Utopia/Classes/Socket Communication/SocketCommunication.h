@@ -54,7 +54,7 @@
 - (int) sendRetrieveCurrentMarketplacePostsMessageFromSenderWithCurNumEntries:(int)curNumEntries;
 - (int) sendEquipPostToMarketplaceMessage:(int)equipId coins:(int)coins diamonds:(int)diamonds;
 - (int) sendRetractMarketplacePostMessage:(int)postId curTime:(uint64_t)curTime;
-- (int) sendPurchaseFromMarketplaceMessage:(int)postId poster:(int)posterId;
+- (int) sendPurchaseFromMarketplaceMessage:(int)postId poster:(int)posterId clientTime:(uint64_t)clientTime;
 - (int) sendRedeemMarketplaceEarningsMessage;
 - (int) sendPurchaseMarketplaceLicenseMessage: (uint64_t)clientTime type:(PurchaseMarketplaceLicenseRequestProto_LicenseType)type;
 

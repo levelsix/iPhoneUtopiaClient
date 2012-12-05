@@ -13,6 +13,130 @@
 #import "Protocols.pb.h"
 #import "OutgoingEventController.h"
 
+@implementation BossEventTopBar
+
+@synthesize button1, button2;
+
+- (void) awakeFromNib {
+  [self clickButton:kButton1];
+  [self unclickButton:kButton2];
+}
+
+- (void) clickButton:(LeaderboardBarButton)button {
+  switch (button) {
+    case kButton1:
+      button1.hidden = NO;
+      _clickedButtons |= kButton1;
+      break;
+      
+    case kButton2:
+      button2.hidden = NO;
+      _clickedButtons |= kButton2;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) unclickButton:(LeaderboardBarButton)button {
+  switch (button) {
+    case kButton1:
+      button1.hidden = YES;
+      _clickedButtons &= ~kButton1;
+      break;
+      
+    case kButton2:
+      button2.hidden = YES;
+      _clickedButtons &= ~kButton2;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (!(_clickedButtons & kButton1) && [button1 pointInside:pt withEvent:nil]) {
+    _trackingButton1 = YES;
+    [self clickButton:kButton1];
+  }
+  
+  pt = [touch locationInView:button2];
+  if (!(_clickedButtons & kButton2) && [button2 pointInside:pt withEvent:nil]) {
+    _trackingButton2 = YES;
+    [self clickButton:kButton2];
+  }
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (_trackingButton1) {
+    if (CGRectContainsPoint(CGRectInset(button1.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton1];
+    } else {
+      [self unclickButton:kButton1];
+    }
+  }
+  
+  pt = [touch locationInView:button2];
+  if (_trackingButton2) {
+    if (CGRectContainsPoint(CGRectInset(button2.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton2];
+    } else {
+      [self unclickButton:kButton2];
+    }
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (_trackingButton1) {
+    if (CGRectContainsPoint(CGRectInset(button1.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton1];
+      [self unclickButton:kButton2];
+      
+      [[BossEventMenuController sharedBossEventMenuController] setState:kEventState];
+    } else {
+      [self unclickButton:kButton1];
+    }
+  }
+  
+  pt = [touch locationInView:button2];
+  if (_trackingButton2) {
+    if (CGRectContainsPoint(CGRectInset(button2.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton2];
+      [self unclickButton:kButton1];
+      
+      [[BossEventMenuController sharedBossEventMenuController] setState:kInfoState];
+    } else {
+      [self unclickButton:kButton2];
+    }
+  }
+  
+  _trackingButton1 = NO;
+  _trackingButton2 = NO;
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self unclickButton:kButton1];
+  [self unclickButton:kButton2];
+  _trackingButton1 = NO;
+  _trackingButton2 = NO;
+}
+
+- (void) dealloc {
+  self.button2 = nil;
+  self.button1 = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation BossEventCard
 
 - (void) loadForEquipId:(int)equipId tagImage:(NSString *)tagImage {
@@ -42,6 +166,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(BossEventMenuController);
 //  return [self initWithNibName:@"BossEventMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.BossEventNibName]];
 //}
 
+- (void) viewDidLoad {
+  self.infoView.frame = self.eventView.frame;
+  [self.mainView addSubview:self.infoView];
+  
+  self.state = kEventState;
+}
+
 - (void) viewWillAppear:(BOOL)animated {
   [self loadForCurrentEvent];
   
@@ -64,7 +195,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(BossEventMenuController);
 
 - (void) loadForCurrentEvent {
   GameState *gs = [GameState sharedGameState];
-  BossEventProto *lbe = [gs getCurrentBossEvent];
+  BossEventProto *lbe = [[gs getCurrentBossEvent] retain];
   
   if (!lbe) {
     [self closeClicked:nil];
@@ -81,6 +212,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(BossEventMenuController);
   [self.rightCard loadForEquipId:lbe.rightEquip.equipId tagImage:lbe.rightTagImage];
   
   [Globals imageNamed:lbe.headerImage withImageView:self.headerImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  self.infoLabel.text = lbe.infoDescription;
+  
+  [lbe release];
 }
 
 - (void) updateLabels {
@@ -108,16 +243,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(BossEventMenuController);
   self.eventTimeLabel.text = [NSString stringWithFormat:lbe.eventName, time];
 }
 
-- (IBAction)visitBossClicked:(id)sender {
-  GameState *gs = [GameState sharedGameState];
-  BossEventProto *lbe = [gs getCurrentBossEvent];
-  
-  if (lbe) {
-    // Assume boss is asset 1
-    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:lbe.cityId asset:1];
-    [self closeClicked:nil];
-  } else {
-    [Globals popupMessage:@"Woops! The event has ended! Try again next time."];
+- (void) setState:(BossEventState)state {
+  if (_state != state) {
+    _state = state;
+    
+    if (_state == kEventState) {
+      self.infoView.hidden = YES;
+      self.eventView.hidden = NO;
+    } else if (_state == kInfoState) {
+      self.infoView.hidden = NO;
+      self.eventView.hidden = YES;
+    }
   }
 }
 

@@ -16,6 +16,7 @@
 #import "CCLabelFX.h"
 #import "TopBar.h"
 #import "QuestLogController.h"
+#import "BossEventMenuController.h"
 
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
 
@@ -500,15 +501,15 @@
                            [CCCallBlock actionWithBlock:^{[successLabel removeFromParentAndCleanup:YES];}], nil]];
   
   if (tarp.hasCoinsGained) {
-    [self addSilverDrop:tarp.coinsGained fromSprite:_selected toPosition:CGPointZero];
+    [self addSilverDrop:tarp.coinsGained fromSprite:_selected toPosition:CGPointZero secondsToPickup:0];
   }
   
   if (tarp.hasEventIdOfLockBoxGained) {
-    [self addLockBoxDrop:tarp.eventIdOfLockBoxGained fromSprite:_selected];
+    [self addLockBoxDrop:tarp.eventIdOfLockBoxGained fromSprite:_selected secondsToPickup:0];
   }
   
   if (tarp.hasLootUserEquip) {
-    [self addEquipDrop:tarp.lootUserEquip.equipId fromSprite:_selected toPosition:CGPointZero];
+    [self addEquipDrop:tarp.lootUserEquip.equipId fromSprite:_selected toPosition:CGPointZero secondsToPickup:0];
   }
   
   _receivedTaskActionResponse = YES;
@@ -595,6 +596,13 @@
   UserBoss *ub = bs.ub;
   
   ub.curHealth = MAX(0, ub.curHealth-barp.damageDone);
+  
+  for (NSNumber *n in barp.coinsGainedList) {
+    self.silverOnMap += n.intValue;
+  }
+  for (NSNumber *n in barp.diamondsGainedList) {
+    self.goldOnMap += n.intValue;
+  }
   
   Globals *gl = [Globals sharedGlobals];
   if (_curPowerAttack >= gl.bossNumAttacksTillSuperAttack) {
@@ -686,12 +694,12 @@
 }
 
 - (void) shakeScreen {
-//  int x = (arc4random_uniform(7)+3)*arc4random_uniform(2)?-1:1;
-//  int y = (arc4random_uniform(3)+1)*arc4random_uniform(2)?-1:1;
-//  CCMoveBy *m = [CCMoveBy actionWithDuration:0.01 position:ccp(x,y)];
-//  CCRepeatForever *a = [CCRepeatForever actionWithAction:[CCSequence actions:m.copy, m.reverse, m.reverse, m.copy, nil]];
-//  a.tag = SHAKE_SCREEN_ACTION_TAG;
-//  [self runAction:a];
+  int x = (arc4random_uniform(4)+4)*(arc4random_uniform(2)?-1:1);
+  int y = (arc4random_uniform(2)+2)*(arc4random_uniform(2)?-1:1);
+  CCMoveBy *m = [CCMoveBy actionWithDuration:0.01 position:ccp(x,y)];
+  CCRepeatForever *a = [CCRepeatForever actionWithAction:[CCSequence actions:m.copy, m.reverse, m.reverse, m.copy, nil]];
+  a.tag = SHAKE_SCREEN_ACTION_TAG;
+  [self runAction:a];
 }
 
 - (void) dropItems:(BossActionResponseProto *)barp fromSprite:(MapSprite *)sprite {
@@ -731,12 +739,15 @@
   float x = sprite.position.x-allItems.count/2.f*DROP_SPACE;
   for (BossReward *r in allItems) {
     CCCallBlock *c = [CCCallBlock actionWithBlock:^{
+      // Must decrement silver/gold on map because it was already added
       if (r.type == kSilverDrop) {
-        [self addSilverDrop:r.value fromSprite:sprite toPosition:ccp(x,y)];
+        [self addSilverDrop:r.value fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:-1];
+        self.silverOnMap -= r.value;
       } else if (r.type == kGoldDrop) {
-        [self addGoldDrop:r.value fromSprite:sprite toPosition:ccp(x,y)];
+        [self addGoldDrop:r.value fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:-1];
+        self.goldOnMap -= r.value;
       } else {
-        [self addEquipDrop:r.value fromSprite:sprite toPosition:ccp(x,y)];
+        [self addEquipDrop:r.value fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:-1];
       }
     }];
     [actions addObject:c];
@@ -768,6 +779,7 @@
     NSDate *date = [bs.ub timeUpDate];
     _bossTimeLabel.string = [NSString stringWithFormat:@"Time Left: %@", [Globals convertTimeToString:date.timeIntervalSinceNow]];
   }
+  _infoMenu.position = ccp(_bossTimeLabel.contentSize.width+15.f, _bossTimeLabel.contentSize.height/2+5.f);
 }
 
 - (void) incrementPowerAttack {
@@ -778,7 +790,7 @@
     _curPowerAttack = 0;
   }
   
-  [_powerAttackBar runAction:[CCProgressTo actionWithDuration:0.2f percent:(float)_curPowerAttack/gl.bossNumAttacksTillSuperAttack*100]];
+  [_powerAttackBar runAction:[CCProgressTo actionWithDuration:0.5f percent:(float)_curPowerAttack/gl.bossNumAttacksTillSuperAttack*100]];
   
   _powerAttackLabel.string = [NSString stringWithFormat:@"%d/%d", _curPowerAttack, gl.bossNumAttacksTillSuperAttack];
 }
@@ -1001,6 +1013,10 @@
     _bossTimeLabel.color = ccc3(236, 230, 195);
     [self.parent addChild:_bossTimeLabel z:1000];
     _bossTimeLabel.position = ccp(self.parent.contentSize.width/2, 63.f);
+    
+    CCMenuItem *m = [CCMenuItemImage itemFromNormalImage:@"bossinfo.png" selectedImage:nil target:self selector:@selector(bossInfoClicked)];
+    _infoMenu = [CCMenu menuWithItems:m, nil];
+    [_bossTimeLabel addChild:_infoMenu];
     [self updateBossLabel];
     [self schedule:@selector(updateBossLabel) interval:1];
     
@@ -1028,6 +1044,10 @@
   }
 }
 
+- (void) bossInfoClicked {
+  [BossEventMenuController displayView];
+}
+
 - (void) onExit {
   [super onExit];
   [_bossTimeLabel removeFromParentAndCleanup:YES];
@@ -1036,6 +1056,7 @@
   _powerAttackBgd = nil;
   _powerAttackBar = nil;
   _powerAttackLabel = nil;
+  _infoMenu = nil;
 }
 
 - (void) dealloc {
