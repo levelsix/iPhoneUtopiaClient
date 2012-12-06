@@ -114,6 +114,7 @@
         // Add a mission building
         CGRect loc = CGRectMake(ncep.coords.x, ncep.coords.y, ncep.xLength, ncep.yLength);
         MissionBuilding *mb = [[MissionBuilding alloc] initWithFile:ncep.imgId location:loc map:self];
+        if (!mb) continue;
         mb.name = ncep.name;
         mb.orientation = ncep.orientation;
         [self addChild:mb z:1 tag:ncep.assetId+ASSET_TAG_BASE];
@@ -124,6 +125,10 @@
         // Decorations aren't selectable so just make a map sprite
         CGRect loc = CGRectMake(ncep.coords.x, ncep.coords.y, ncep.xLength, ncep.yLength);
         MapSprite *s = [[MapSprite alloc] initWithFile:ncep.imgId location:loc map:self];
+        if (!s) {
+          LNLog(@"Unable to find %@", ncep.imgId);
+          continue;
+        }
         [self addChild:s z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         
         [self changeTiles:s.location canWalk:NO];
@@ -132,6 +137,10 @@
         r.origin = [self randomWalkablePosition];
         r.size = CGSizeMake(1, 1);
         QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil questGiverState:kNoQuest file:ncep.imgId map:self location:r];
+        if (!qg) {
+          LNLog(@"Unable to find %@", ncep.imgId);
+          continue;
+        }
         [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         qg.name = ncep.name;
         [qg release];
@@ -140,6 +149,10 @@
         r.origin = [self randomWalkablePosition];
         r.size = CGSizeMake(1, 1);
         NeutralEnemy *ne = [[NeutralEnemy alloc] initWithFile:ncep.imgId location:r map:self];
+        if (!ne) {
+          LNLog(@"Unable to find %@", ncep.imgId);
+          continue;
+        }
         [self addChild:ne z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         ne.name = ncep.name;
         [ne release];
@@ -148,6 +161,10 @@
         r.origin = [self randomWalkablePosition];
         r.size = CGSizeMake(1, 1);
         BossSprite *bs = [[BossSprite alloc] initWithFile:ncep.imgId location:r map:self];
+        if (!bs) {
+          LNLog(@"Unable to find %@", ncep.imgId);
+          continue;
+        }
         [self addChild:bs z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         bs.name = ncep.name;
         [bs release];

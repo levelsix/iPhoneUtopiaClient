@@ -1709,6 +1709,8 @@
 		CFE954B3166F00A900DA63CF /* bossinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B1166F00A900DA63CF /* bossinfo@2x.png */; };
 		CFE954B6166F14F800DA63CF /* smallgoldstack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B4166F14F800DA63CF /* smallgoldstack.png */; };
 		CFE954B7166F14F800DA63CF /* smallgoldstack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B5166F14F800DA63CF /* smallgoldstack@2x.png */; };
+		CFE954ED167072A600DA63CF /* BlueHill.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFE954EB167072A600DA63CF /* BlueHill.tmx */; };
+		CFE954EE167072A600DA63CF /* BlueHill@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFE954EC167072A600DA63CF /* BlueHill@2x.tmx */; };
 		CFEB28431593F02500B622FC /* unlockedheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28411593F02500B622FC /* unlockedheader.png */; };
 		CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28421593F02500B622FC /* unlockedheader@2x.png */; };
 		CFEB284715951ADC00B622FC /* FullEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB284615951ADB00B622FC /* FullEvent.m */; };
@@ -3985,6 +3987,8 @@
 		CFE954B1166F00A900DA63CF /* bossinfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bossinfo@2x.png"; sourceTree = "<group>"; };
 		CFE954B4166F14F800DA63CF /* smallgoldstack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smallgoldstack.png; sourceTree = "<group>"; };
 		CFE954B5166F14F800DA63CF /* smallgoldstack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "smallgoldstack@2x.png"; sourceTree = "<group>"; };
+		CFE954EB167072A600DA63CF /* BlueHill.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BlueHill.tmx; sourceTree = "<group>"; };
+		CFE954EC167072A600DA63CF /* BlueHill@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "BlueHill@2x.tmx"; sourceTree = "<group>"; };
 		CFEB28411593F02500B622FC /* unlockedheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlockedheader.png; sourceTree = "<group>"; };
 		CFEB28421593F02500B622FC /* unlockedheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlockedheader@2x.png"; sourceTree = "<group>"; };
 		CFEB284515951ADA00B622FC /* FullEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullEvent.h; sourceTree = "<group>"; };
@@ -6155,6 +6159,8 @@
 		CF1269D71538ACC600E0C1AD /* Tile Maps */ = {
 			isa = PBXGroup;
 			children = (
+				CFE954EB167072A600DA63CF /* BlueHill.tmx */,
+				CFE954EC167072A600DA63CF /* BlueHill@2x.tmx */,
 				CF5F353116676D1B007CE970 /* WaterDragonWalkNF.plist */,
 				CF5F353216676D1B007CE970 /* WaterDragonWalkNF.pvr.ccz */,
 				CF5F353316676D1B007CE970 /* WaterDragonWalkNF@2x.plist */,
@@ -9265,6 +9271,8 @@
 				CFE954B3166F00A900DA63CF /* bossinfo@2x.png in Resources */,
 				CFE954B6166F14F800DA63CF /* smallgoldstack.png in Resources */,
 				CFE954B7166F14F800DA63CF /* smallgoldstack@2x.png in Resources */,
+				CFE954ED167072A600DA63CF /* BlueHill.tmx in Resources */,
+				CFE954EE167072A600DA63CF /* BlueHill@2x.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

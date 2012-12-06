@@ -2855,6 +2855,9 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
 @property (retain) NSString* udid;
 @property Float32 versionNum;
 @property (retain) NSString* apsalarId;
+@property (retain) NSString* iOs5Udid;
+@property (retain) NSString* macAddress;
+@property (retain) NSString* advertiserId;
 @end
 
 @implementation StartupRequestProto
@@ -2880,9 +2883,33 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
   hasApsalarId_ = !!value;
 }
 @synthesize apsalarId;
+- (BOOL) hasIOs5Udid {
+  return !!hasIOs5Udid_;
+}
+- (void) setHasIOs5Udid:(BOOL) value {
+  hasIOs5Udid_ = !!value;
+}
+@synthesize iOs5Udid;
+- (BOOL) hasMacAddress {
+  return !!hasMacAddress_;
+}
+- (void) setHasMacAddress:(BOOL) value {
+  hasMacAddress_ = !!value;
+}
+@synthesize macAddress;
+- (BOOL) hasAdvertiserId {
+  return !!hasAdvertiserId_;
+}
+- (void) setHasAdvertiserId:(BOOL) value {
+  hasAdvertiserId_ = !!value;
+}
+@synthesize advertiserId;
 - (void) dealloc {
   self.udid = nil;
   self.apsalarId = nil;
+  self.iOs5Udid = nil;
+  self.macAddress = nil;
+  self.advertiserId = nil;
   [super dealloc];
 }
 - (id) init {
@@ -2890,6 +2917,9 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
     self.udid = @"";
     self.versionNum = 0;
     self.apsalarId = @"";
+    self.iOs5Udid = @"";
+    self.macAddress = @"";
+    self.advertiserId = @"";
   }
   return self;
 }
@@ -2918,6 +2948,15 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (self.hasApsalarId) {
     [output writeString:3 value:self.apsalarId];
   }
+  if (self.hasIOs5Udid) {
+    [output writeString:4 value:self.iOs5Udid];
+  }
+  if (self.hasMacAddress) {
+    [output writeString:5 value:self.macAddress];
+  }
+  if (self.hasAdvertiserId) {
+    [output writeString:6 value:self.advertiserId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2935,6 +2974,15 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   }
   if (self.hasApsalarId) {
     size += computeStringSize(3, self.apsalarId);
+  }
+  if (self.hasIOs5Udid) {
+    size += computeStringSize(4, self.iOs5Udid);
+  }
+  if (self.hasMacAddress) {
+    size += computeStringSize(5, self.macAddress);
+  }
+  if (self.hasAdvertiserId) {
+    size += computeStringSize(6, self.advertiserId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3020,6 +3068,15 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (other.hasApsalarId) {
     [self setApsalarId:other.apsalarId];
   }
+  if (other.hasIOs5Udid) {
+    [self setIOs5Udid:other.iOs5Udid];
+  }
+  if (other.hasMacAddress) {
+    [self setMacAddress:other.macAddress];
+  }
+  if (other.hasAdvertiserId) {
+    [self setAdvertiserId:other.advertiserId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3051,6 +3108,18 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
       }
       case 26: {
         [self setApsalarId:[input readString]];
+        break;
+      }
+      case 34: {
+        [self setIOs5Udid:[input readString]];
+        break;
+      }
+      case 42: {
+        [self setMacAddress:[input readString]];
+        break;
+      }
+      case 50: {
+        [self setAdvertiserId:[input readString]];
         break;
       }
     }
@@ -3102,6 +3171,54 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 - (StartupRequestProto_Builder*) clearApsalarId {
   result.hasApsalarId = NO;
   result.apsalarId = @"";
+  return self;
+}
+- (BOOL) hasIOs5Udid {
+  return result.hasIOs5Udid;
+}
+- (NSString*) iOs5Udid {
+  return result.iOs5Udid;
+}
+- (StartupRequestProto_Builder*) setIOs5Udid:(NSString*) value {
+  result.hasIOs5Udid = YES;
+  result.iOs5Udid = value;
+  return self;
+}
+- (StartupRequestProto_Builder*) clearIOs5Udid {
+  result.hasIOs5Udid = NO;
+  result.iOs5Udid = @"";
+  return self;
+}
+- (BOOL) hasMacAddress {
+  return result.hasMacAddress;
+}
+- (NSString*) macAddress {
+  return result.macAddress;
+}
+- (StartupRequestProto_Builder*) setMacAddress:(NSString*) value {
+  result.hasMacAddress = YES;
+  result.macAddress = value;
+  return self;
+}
+- (StartupRequestProto_Builder*) clearMacAddress {
+  result.hasMacAddress = NO;
+  result.macAddress = @"";
+  return self;
+}
+- (BOOL) hasAdvertiserId {
+  return result.hasAdvertiserId;
+}
+- (NSString*) advertiserId {
+  return result.advertiserId;
+}
+- (StartupRequestProto_Builder*) setAdvertiserId:(NSString*) value {
+  result.hasAdvertiserId = YES;
+  result.advertiserId = value;
+  return self;
+}
+- (StartupRequestProto_Builder*) clearAdvertiserId {
+  result.hasAdvertiserId = NO;
+  result.advertiserId = @"";
   return self;
 }
 @end

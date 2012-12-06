@@ -3867,7 +3867,8 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
 @property int32_t maxDamage;
 @property int32_t minutesToKill;
 @property int32_t minutesToRespawn;
-@property int32_t experienceGained;
+@property int32_t minExp;
+@property int32_t maxExp;
 @property int32_t cityId;
 @property int32_t assetNumWithinCity;
 @property int32_t staminaCost;
@@ -3917,13 +3918,20 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
   hasMinutesToRespawn_ = !!value;
 }
 @synthesize minutesToRespawn;
-- (BOOL) hasExperienceGained {
-  return !!hasExperienceGained_;
+- (BOOL) hasMinExp {
+  return !!hasMinExp_;
 }
-- (void) setHasExperienceGained:(BOOL) value {
-  hasExperienceGained_ = !!value;
+- (void) setHasMinExp:(BOOL) value {
+  hasMinExp_ = !!value;
 }
-@synthesize experienceGained;
+@synthesize minExp;
+- (BOOL) hasMaxExp {
+  return !!hasMaxExp_;
+}
+- (void) setHasMaxExp:(BOOL) value {
+  hasMaxExp_ = !!value;
+}
+@synthesize maxExp;
 - (BOOL) hasCityId {
   return !!hasCityId_;
 }
@@ -3956,7 +3964,8 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
     self.maxDamage = 0;
     self.minutesToKill = 0;
     self.minutesToRespawn = 0;
-    self.experienceGained = 0;
+    self.minExp = 0;
+    self.maxExp = 0;
     self.cityId = 0;
     self.assetNumWithinCity = 0;
     self.staminaCost = 0;
@@ -3997,8 +4006,8 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   if (self.hasMinutesToRespawn) {
     [output writeInt32:6 value:self.minutesToRespawn];
   }
-  if (self.hasExperienceGained) {
-    [output writeInt32:7 value:self.experienceGained];
+  if (self.hasMinExp) {
+    [output writeInt32:7 value:self.minExp];
   }
   if (self.hasCityId) {
     [output writeInt32:8 value:self.cityId];
@@ -4008,6 +4017,9 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   }
   if (self.hasStaminaCost) {
     [output writeInt32:12 value:self.staminaCost];
+  }
+  if (self.hasMaxExp) {
+    [output writeInt32:13 value:self.maxExp];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -4036,8 +4048,8 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   if (self.hasMinutesToRespawn) {
     size += computeInt32Size(6, self.minutesToRespawn);
   }
-  if (self.hasExperienceGained) {
-    size += computeInt32Size(7, self.experienceGained);
+  if (self.hasMinExp) {
+    size += computeInt32Size(7, self.minExp);
   }
   if (self.hasCityId) {
     size += computeInt32Size(8, self.cityId);
@@ -4047,6 +4059,9 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   }
   if (self.hasStaminaCost) {
     size += computeInt32Size(12, self.staminaCost);
+  }
+  if (self.hasMaxExp) {
+    size += computeInt32Size(13, self.maxExp);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4141,8 +4156,11 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   if (other.hasMinutesToRespawn) {
     [self setMinutesToRespawn:other.minutesToRespawn];
   }
-  if (other.hasExperienceGained) {
-    [self setExperienceGained:other.experienceGained];
+  if (other.hasMinExp) {
+    [self setMinExp:other.minExp];
+  }
+  if (other.hasMaxExp) {
+    [self setMaxExp:other.maxExp];
   }
   if (other.hasCityId) {
     [self setCityId:other.cityId];
@@ -4199,7 +4217,7 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
         break;
       }
       case 56: {
-        [self setExperienceGained:[input readInt32]];
+        [self setMinExp:[input readInt32]];
         break;
       }
       case 64: {
@@ -4212,6 +4230,10 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
       }
       case 96: {
         [self setStaminaCost:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self setMaxExp:[input readInt32]];
         break;
       }
     }
@@ -4313,20 +4335,36 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   result.minutesToRespawn = 0;
   return self;
 }
-- (BOOL) hasExperienceGained {
-  return result.hasExperienceGained;
+- (BOOL) hasMinExp {
+  return result.hasMinExp;
 }
-- (int32_t) experienceGained {
-  return result.experienceGained;
+- (int32_t) minExp {
+  return result.minExp;
 }
-- (FullBossProto_Builder*) setExperienceGained:(int32_t) value {
-  result.hasExperienceGained = YES;
-  result.experienceGained = value;
+- (FullBossProto_Builder*) setMinExp:(int32_t) value {
+  result.hasMinExp = YES;
+  result.minExp = value;
   return self;
 }
-- (FullBossProto_Builder*) clearExperienceGained {
-  result.hasExperienceGained = NO;
-  result.experienceGained = 0;
+- (FullBossProto_Builder*) clearMinExp {
+  result.hasMinExp = NO;
+  result.minExp = 0;
+  return self;
+}
+- (BOOL) hasMaxExp {
+  return result.hasMaxExp;
+}
+- (int32_t) maxExp {
+  return result.maxExp;
+}
+- (FullBossProto_Builder*) setMaxExp:(int32_t) value {
+  result.hasMaxExp = YES;
+  result.maxExp = value;
+  return self;
+}
+- (FullBossProto_Builder*) clearMaxExp {
+  result.hasMaxExp = NO;
+  result.maxExp = 0;
   return self;
 }
 - (BOOL) hasCityId {

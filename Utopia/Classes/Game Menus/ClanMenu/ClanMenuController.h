@@ -98,6 +98,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet ClanBrowseView *clanBrowseView;
 @property (nonatomic, retain) IBOutlet ClanBoardView *clanBoardView;
 @property (nonatomic, retain) IBOutlet UIView *clanAboutView;
+@property (nonatomic, retain) IBOutlet UIView *containerView;
 
 @property (nonatomic, retain) IBOutlet UIView *goldView;
 @property (nonatomic, retain) IBOutlet UIView *editView;

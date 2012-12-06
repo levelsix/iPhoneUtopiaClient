@@ -1867,16 +1867,28 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   BOOL hasVersionNum_:1;
   BOOL hasUdid_:1;
   BOOL hasApsalarId_:1;
+  BOOL hasIOs5Udid_:1;
+  BOOL hasMacAddress_:1;
+  BOOL hasAdvertiserId_:1;
   Float32 versionNum;
   NSString* udid;
   NSString* apsalarId;
+  NSString* iOs5Udid;
+  NSString* macAddress;
+  NSString* advertiserId;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasVersionNum;
 - (BOOL) hasApsalarId;
+- (BOOL) hasIOs5Udid;
+- (BOOL) hasMacAddress;
+- (BOOL) hasAdvertiserId;
 @property (readonly, retain) NSString* udid;
 @property (readonly) Float32 versionNum;
 @property (readonly, retain) NSString* apsalarId;
+@property (readonly, retain) NSString* iOs5Udid;
+@property (readonly, retain) NSString* macAddress;
+@property (readonly, retain) NSString* advertiserId;
 
 + (StartupRequestProto*) defaultInstance;
 - (StartupRequestProto*) defaultInstance;
@@ -1926,6 +1938,21 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (NSString*) apsalarId;
 - (StartupRequestProto_Builder*) setApsalarId:(NSString*) value;
 - (StartupRequestProto_Builder*) clearApsalarId;
+
+- (BOOL) hasIOs5Udid;
+- (NSString*) iOs5Udid;
+- (StartupRequestProto_Builder*) setIOs5Udid:(NSString*) value;
+- (StartupRequestProto_Builder*) clearIOs5Udid;
+
+- (BOOL) hasMacAddress;
+- (NSString*) macAddress;
+- (StartupRequestProto_Builder*) setMacAddress:(NSString*) value;
+- (StartupRequestProto_Builder*) clearMacAddress;
+
+- (BOOL) hasAdvertiserId;
+- (NSString*) advertiserId;
+- (StartupRequestProto_Builder*) setAdvertiserId:(NSString*) value;
+- (StartupRequestProto_Builder*) clearAdvertiserId;
 @end
 
 @interface StartupResponseProto : PBGeneratedMessage {

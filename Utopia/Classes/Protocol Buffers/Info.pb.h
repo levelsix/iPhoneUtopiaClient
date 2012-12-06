@@ -1208,7 +1208,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasMaxDamage_:1;
   BOOL hasMinutesToKill_:1;
   BOOL hasMinutesToRespawn_:1;
-  BOOL hasExperienceGained_:1;
+  BOOL hasMinExp_:1;
+  BOOL hasMaxExp_:1;
   BOOL hasCityId_:1;
   BOOL hasAssetNumWithinCity_:1;
   BOOL hasStaminaCost_:1;
@@ -1218,7 +1219,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t maxDamage;
   int32_t minutesToKill;
   int32_t minutesToRespawn;
-  int32_t experienceGained;
+  int32_t minExp;
+  int32_t maxExp;
   int32_t cityId;
   int32_t assetNumWithinCity;
   int32_t staminaCost;
@@ -1229,7 +1231,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasMaxDamage;
 - (BOOL) hasMinutesToKill;
 - (BOOL) hasMinutesToRespawn;
-- (BOOL) hasExperienceGained;
+- (BOOL) hasMinExp;
+- (BOOL) hasMaxExp;
 - (BOOL) hasCityId;
 - (BOOL) hasAssetNumWithinCity;
 - (BOOL) hasStaminaCost;
@@ -1239,7 +1242,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t maxDamage;
 @property (readonly) int32_t minutesToKill;
 @property (readonly) int32_t minutesToRespawn;
-@property (readonly) int32_t experienceGained;
+@property (readonly) int32_t minExp;
+@property (readonly) int32_t maxExp;
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t assetNumWithinCity;
 @property (readonly) int32_t staminaCost;
@@ -1308,10 +1312,15 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullBossProto_Builder*) setMinutesToRespawn:(int32_t) value;
 - (FullBossProto_Builder*) clearMinutesToRespawn;
 
-- (BOOL) hasExperienceGained;
-- (int32_t) experienceGained;
-- (FullBossProto_Builder*) setExperienceGained:(int32_t) value;
-- (FullBossProto_Builder*) clearExperienceGained;
+- (BOOL) hasMinExp;
+- (int32_t) minExp;
+- (FullBossProto_Builder*) setMinExp:(int32_t) value;
+- (FullBossProto_Builder*) clearMinExp;
+
+- (BOOL) hasMaxExp;
+- (int32_t) maxExp;
+- (FullBossProto_Builder*) setMaxExp:(int32_t) value;
+- (FullBossProto_Builder*) clearMaxExp;
 
 - (BOOL) hasCityId;
 - (int32_t) cityId;
