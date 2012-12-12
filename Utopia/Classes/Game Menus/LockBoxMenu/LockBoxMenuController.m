@@ -143,7 +143,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   int secs = endDate.timeIntervalSinceNow;
   int days = (int)(secs/86400);
   secs %= 86400;
-  eventTimeLabel.text = [NSString stringWithFormat:@"EVENT ENDS IN %d DAYS, %@", days, [Globals convertTimeToString:secs]];
+  eventTimeLabel.text = [NSString stringWithFormat:@"EVENT ENDS IN %d DAYS, %@", days, [Globals convertTimeToString:secs withDays:YES]];
   
   NSDate *curDate = [NSDate date];
   NSDate *nextPickDate = [NSDate dateWithTimeIntervalSince1970:ulbe.lastPickTime/1000.0 + 60*gl.numMinutesToRepickLockBox];

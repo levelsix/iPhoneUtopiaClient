@@ -14,7 +14,8 @@ typedef enum {
   kButton1 = 1,
   kButton2 = 1 << 1,
   kButton3 = 1 << 2,
-  kButton4 = 1 << 3
+  kButton4 = 1 << 3,
+  kButton5 = 1 << 4
 } LeaderboardBarButton;
 
 @interface LeaderboardBar : UIView {

@@ -120,6 +120,11 @@
     subtitleLabel.text = notification.wallPost;
     
     titleLabel.textColor = [Globals blueColor];
+  } else if (notification.type == kNotificationGeneral) {
+    titleLabel.text = notification.title;
+    subtitleLabel.text = notification.subtitle;
+    
+    titleLabel.textColor = notification.color;
   }
   
   NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];

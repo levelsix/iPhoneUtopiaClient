@@ -289,6 +289,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSBossActionEvent:
       responseClass = [BossActionResponseProto class];
       break;
+    case EventProtocolResponseSBeginClanTowerWar:
+      responseClass = [BeginClanTowerWarResponseProto class];
+      break;
+    case EventProtocolResponseSChangedClanTowerEvent:
+      responseClass = [ChangedClanTowerResponseProto class];
+      break;
+    case EventProtocolResponseSConcedeClanTowerWarEvent:
+      responseClass = [ConcedeClanTowerWarResponseProto class];
+      break;
+    case EventProtocolResponseSGeneralNotificationEvent:
+      responseClass = [GeneralNotificationResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -2241,7 +2253,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if(proto.status == PlayThreeCardMonteResponseProto_PlayThreeCardMonteStatusSuccess) {
-    if (proto.hasUserEquip)   [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.userEquip]];
+    if (proto.hasUserEquip) [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.userEquip]];
     [[ThreeCardMonteViewController sharedThreeCardMonteViewController] receivedPlayThreeCardMonteResponse:proto];
     [gs removeFullUserUpdatesForTag:tag];
   }
@@ -2288,6 +2300,79 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   [[gLay missionMap] receivedBossResponse:proto];
+}
+
+- (void) handleBeginClanTowerWarResponseProto:(FullEvent *)fe {
+  BeginClanTowerWarResponseProto *proto = (BeginClanTowerWarResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Begin clan tower war response received with status %d.", proto.status);
+  
+  if ([ClanMenuController isInitialized]) {
+    [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyClaimed) {
+      [Globals popupMessage:@"Sorry, this tower has already been claimed!"];
+    } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyInBattle) {
+      [Globals popupMessage:@"Sorry, there is already a war taking place at this tower!"];
+    } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotClanLeader) {
+      [Globals popupMessage:@"Sorry, you are not the leader of this clan!"];
+    } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotEnoughClanMembers) {
+      [Globals popupMessage:@"You do not have enough members to hold a clan tower!"];
+    } else {
+      [Globals popupMessage:@"Server failed to perform clan tower action."];
+    }
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleChangedClanTowerResponseProto:(FullEvent *)fe {
+  ChangedClanTowerResponseProto *proto = (ChangedClanTowerResponseProto *)fe.event;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Changed clan tower response received with reason %d and %d tower%@.", proto.reason, proto.clanTowersList.count, proto.clanTowersList.count != 1 ? @"s" : @"");
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.clanTowersList.count > 0) {
+    [gs updateClanTowers:proto.clanTowersList];
+  }
+}
+
+- (void) handleConcedeClanTowerWarResponseProto:(FullEvent *)fe {
+  ConcedeClanTowerWarResponseProto *proto = (ConcedeClanTowerWarResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Concede clan tower war response received with status %d.", proto.status);
+  
+  if ([ClanMenuController isInitialized]) {
+    [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleGeneralNotificationResponseProto:(FullEvent *)fe {
+  GeneralNotificationResponseProto *proto = (GeneralNotificationResponseProto *)fe.event;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"General notification received with title \"%@\".", proto.title);
+  
+  TopBar *tb = [TopBar sharedTopBar];
+  ColorProto *cp = proto.rgb;
+  UIColor *c = [UIColor colorWithRed:cp.red/255.f green:cp.green/255.f blue:cp.blue/255.f alpha:255.f];
+  UserNotification *un = [[UserNotification alloc] initWithTitle:proto.title subtitle:proto.subtitle color:c];
+  [tb addNotificationToDisplayQueue:un];
 }
 
 @end

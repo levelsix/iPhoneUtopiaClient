@@ -93,7 +93,7 @@
   } else if ([date compare:[NSDate date]] == NSOrderedAscending) {
     [self closeClicked:nil];
   } else {
-    timeLeftLabel.text = [Globals convertTimeToString:date.timeIntervalSinceNow];
+    timeLeftLabel.text = [Globals convertTimeToString:date.timeIntervalSinceNow withDays:YES];
     progressBar.percentage = 1.f - date.timeIntervalSinceNow/secsToCollect;
   }
 }

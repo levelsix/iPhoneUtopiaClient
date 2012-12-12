@@ -189,7 +189,7 @@
 + (NSString *) font;
 + (int) fontSize;
 
-+ (NSString *)convertTimeToString:(int)secs;
++ (NSString *)convertTimeToString:(int)secs withDays:(BOOL)withDays;
 
 + (UIImage *) imageNamed:(NSString *)path;
 + (NSString *) imageNameForConstructionWithSize:(CGSize)size;
@@ -314,6 +314,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (int) calculateNumMinutesForNewExpansion:(UserExpansion *)ue;
 - (int) calculateGoldCostToSpeedUpExpansion:(UserExpansion *)ue;
 - (int) calculateSilverCostForNewExpansion:(UserExpansion *)ue;
+
++ (void) adjustViewForCentering:(UIView *)view withLabel:(UILabel *)label;
 
 @end
 

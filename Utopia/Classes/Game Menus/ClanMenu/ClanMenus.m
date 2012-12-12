@@ -242,13 +242,14 @@
 
 - (void) cleanup {
   [super cleanup];
-  self.leader = nil;
   self.requesters = nil;
   self.members = nil;
 }
 
 - (void) preloadMembersForClan:(int)ci leader:(int)li {
-  [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:ci grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeMembers isForBrowsingList:NO beforeClanId:0];
+  if (ci > 0) {
+    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:ci grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeMembers isForBrowsingList:NO beforeClanId:0];
+  }
   self.clanId = ci;
   leaderId = li;
   self.leader = nil;
@@ -302,7 +303,6 @@
   self.members = m;
   self.requesters = r;
   
-  self.clanId = 0;
   leaderId = 0;
   myClan = isMyClan;
   editModeOn = NO;

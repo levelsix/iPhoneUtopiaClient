@@ -320,6 +320,14 @@
 
 @end
 
+@implementation CancellableScrollView
+
+- (BOOL) touchesShouldCancelInContentView:(UIView *)view {
+  return YES;
+}
+
+@end
+
 @implementation EquipButton
 
 @synthesize equipId, darkOverlay;

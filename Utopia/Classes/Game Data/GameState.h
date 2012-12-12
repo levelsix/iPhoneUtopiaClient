@@ -309,6 +309,7 @@
 - (void) updateBossEventButton;
 
 - (void) updateClanTowers:(NSArray *)arr;
+- (ClanTowerProto *) clanTowerWithId:(int)towerId;
 
 - (void) resetGoldSaleTimers;
 - (GoldSaleProto *) getCurrentGoldSale;

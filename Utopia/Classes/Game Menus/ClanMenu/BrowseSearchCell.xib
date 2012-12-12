@@ -310,17 +310,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">BrowseSearchCell</string>
 					<string key="superclassName">UITableViewCell</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">clearClicked:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">clearClicked:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">clearClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">textField</string>
 						<string key="NS.object.0">UITextField</string>

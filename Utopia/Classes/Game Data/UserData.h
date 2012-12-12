@@ -90,7 +90,8 @@ typedef enum {
   kNotificationReferral,
   kNotificationForge,
   kNotificationWallPost,
-  kNotificationGoldmine
+  kNotificationGoldmine,
+  kNotificationGeneral
 } NotificationType;
 
 @interface UserNotification : NSObject
@@ -109,6 +110,10 @@ typedef enum {
 @property (nonatomic, assign) BOOL hasBeenViewed;
 @property (nonatomic, retain) NSString *wallPost;
 
+@property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) NSString *subtitle;
+@property (nonatomic, retain) UIColor *color;
+
 - (id) initBattleNotificationAtStartup:(StartupResponseProto_AttackedNotificationProto *)proto;
 - (id) initMarketplaceNotificationAtStartup:(StartupResponseProto_MarketplacePostPurchasedNotificationProto *)proto;
 - (id) initReferralNotificationAtStartup:(StartupResponseProto_ReferralNotificationProto *)proto;
@@ -118,6 +123,7 @@ typedef enum {
 - (id) initWithForgeAttempt:(ForgeAttempt *)fa;
 - (id) initWithWallPost:(PlayerWallPostProto *)proto;
 - (id) initWithGoldmineRetrieval:(NSDate *)goldmineStart;
+- (id) initWithTitle:(NSString *)t subtitle:(NSString *)st color:(UIColor *)c;
 
 @end
 

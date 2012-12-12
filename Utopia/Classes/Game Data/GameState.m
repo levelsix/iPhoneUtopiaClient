@@ -19,6 +19,7 @@
 #import "BazaarMap.h"
 #import "HomeMap.h"
 #import "GoldShoppeViewController.h"
+#import "ClanMenuController.h"
 
 #define TagLog(...) //LNLog(__VA_ARGS__)
 
@@ -493,30 +494,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addNotification:(UserNotification *)un {
-  [self.notifications addObject:un];
-  [self.notifications sortUsingComparator:^NSComparisonResult(UserNotification *obj1, UserNotification *obj2) {
-    return [obj2.time compare:obj1.time];
-  }];
-  
-  if ([un.time compare:_lastLogoutTime] == NSOrderedDescending) {
-    un.hasBeenViewed = NO;
-  } else {
-    un.hasBeenViewed = YES;
-  }
-  
-  [[[ActivityFeedController sharedActivityFeedController] activityTableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+    [self.notifications addObject:un];
+    [self.notifications sortUsingComparator:^NSComparisonResult(UserNotification *obj1, UserNotification *obj2) {
+      return [obj2.time compare:obj1.time];
+    }];
+    
+    if ([un.time compare:_lastLogoutTime] == NSOrderedDescending) {
+      un.hasBeenViewed = NO;
+    } else {
+      un.hasBeenViewed = YES;
+    }
+    
+    [[[ActivityFeedController sharedActivityFeedController] activityTableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
   
   if (!_isTutorial) {
     GameState *gs = [GameState sharedGameState];
+    TopBar *tb = [TopBar sharedTopBar];
     if ([un.time compare:gs.lastLogoutTime] == NSOrderedDescending) {
       // If top bar hasnt started, the activity feed will popup anyways so no need to increment badge.
-      if ([[TopBar sharedTopBar] isStarted]) {
+      if ([tb isStarted]) {
         ForgeMenuController *fmc = [ForgeMenuController sharedForgeMenuController];
         if (fmc.view.superview && un.type == kNotificationForge) {
           un.hasBeenViewed = YES;
         } else {
-          [[[TopBar sharedTopBar] profilePic] incrementNotificationBadge];
-          [[TopBar sharedTopBar] addNotificationToDisplayQueue:un];
+          [tb.profilePic incrementNotificationBadge];
+          [tb addNotificationToDisplayQueue:un];
         }
       }
     }
@@ -1203,7 +1205,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) updateClanTowers:(NSArray *)arr {
-  self.clanTowers = arr;
+  NSMutableArray *a = [NSMutableArray arrayWithArray:self.clanTowers];
+  
+  for (ClanTowerProto *ctp in arr) {
+    ClanTowerProto *old = [self clanTowerWithId:ctp.towerId];
+    
+    if (old) {
+      [a replaceObjectAtIndex:[self.clanTowers indexOfObject:old] withObject:ctp];
+    } else {
+      [a addObject:ctp];
+    }
+    
+    LNLog(@"Updating tower %d: owner=%d, attacker=%d, o_wins=%d, a_wins=%d", ctp.towerId, ctp.towerOwner.clanId, ctp.towerAttacker.clanId, ctp.ownerBattlesWin, ctp.attackerBattlesWin);
+  }
+  
+  self.clanTowers = a;
+  
+  if ([ClanMenuController isInitialized]) {
+    [[ClanMenuController sharedClanMenuController] updateClanTowers];
+  }
+}
+
+- (ClanTowerProto *) clanTowerWithId:(int)towerId {
+  for (ClanTowerProto *ctp in self.clanTowers) {
+    if (ctp.towerId == towerId) {
+      return ctp;
+    }
+  }
+  return nil;
 }
 
 - (NSArray *) mktSearchEquipsSimilarToString:(NSString *)string {

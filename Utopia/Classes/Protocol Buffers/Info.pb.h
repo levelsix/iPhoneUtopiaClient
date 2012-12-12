@@ -12,6 +12,8 @@
 @class ClanTierLevelProto_Builder;
 @class ClanTowerProto;
 @class ClanTowerProto_Builder;
+@class ColorProto;
+@class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class DefeatTypeJobProto;
@@ -178,6 +180,7 @@ typedef enum {
   SpecialQuestActionWithdrawFromVault = 6,
   SpecialQuestActionWriteOnEnemyWall = 7,
   SpecialQuestActionRequestJoinClan = 8,
+  SpecialQuestActionSuccessfullyForgeAnItem = 9,
 } SpecialQuestAction;
 
 BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value);
@@ -466,53 +469,65 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @private
   BOOL hasOwnedStartTime_:1;
   BOOL hasAttackStartTime_:1;
+  BOOL hasLastRewardGiven_:1;
   BOOL hasTowerId_:1;
-  BOOL hasClanOwnerId_:1;
   BOOL hasSilverReward_:1;
   BOOL hasGoldReward_:1;
   BOOL hasNumHoursToCollect_:1;
-  BOOL hasClanAttackerId_:1;
   BOOL hasOwnerBattlesWin_:1;
   BOOL hasAttackerBattlesWin_:1;
+  BOOL hasNumHoursForBattle_:1;
   BOOL hasTowerName_:1;
   BOOL hasTowerImageName_:1;
+  BOOL hasTowerOwner_:1;
+  BOOL hasTowerAttacker_:1;
+  BOOL hasTitleColor_:1;
   int64_t ownedStartTime;
   int64_t attackStartTime;
+  int64_t lastRewardGiven;
   int32_t towerId;
-  int32_t clanOwnerId;
   int32_t silverReward;
   int32_t goldReward;
   int32_t numHoursToCollect;
-  int32_t clanAttackerId;
   int32_t ownerBattlesWin;
   int32_t attackerBattlesWin;
+  int32_t numHoursForBattle;
   NSString* towerName;
   NSString* towerImageName;
+  MinimumClanProto* towerOwner;
+  MinimumClanProto* towerAttacker;
+  ColorProto* titleColor;
 }
 - (BOOL) hasTowerId;
 - (BOOL) hasTowerName;
 - (BOOL) hasTowerImageName;
-- (BOOL) hasClanOwnerId;
+- (BOOL) hasTowerOwner;
 - (BOOL) hasOwnedStartTime;
 - (BOOL) hasSilverReward;
 - (BOOL) hasGoldReward;
 - (BOOL) hasNumHoursToCollect;
-- (BOOL) hasClanAttackerId;
+- (BOOL) hasTowerAttacker;
 - (BOOL) hasAttackStartTime;
 - (BOOL) hasOwnerBattlesWin;
 - (BOOL) hasAttackerBattlesWin;
+- (BOOL) hasNumHoursForBattle;
+- (BOOL) hasLastRewardGiven;
+- (BOOL) hasTitleColor;
 @property (readonly) int32_t towerId;
 @property (readonly, retain) NSString* towerName;
 @property (readonly, retain) NSString* towerImageName;
-@property (readonly) int32_t clanOwnerId;
+@property (readonly, retain) MinimumClanProto* towerOwner;
 @property (readonly) int64_t ownedStartTime;
 @property (readonly) int32_t silverReward;
 @property (readonly) int32_t goldReward;
 @property (readonly) int32_t numHoursToCollect;
-@property (readonly) int32_t clanAttackerId;
+@property (readonly, retain) MinimumClanProto* towerAttacker;
 @property (readonly) int64_t attackStartTime;
 @property (readonly) int32_t ownerBattlesWin;
 @property (readonly) int32_t attackerBattlesWin;
+@property (readonly) int32_t numHoursForBattle;
+@property (readonly) int64_t lastRewardGiven;
+@property (readonly, retain) ColorProto* titleColor;
 
 + (ClanTowerProto*) defaultInstance;
 - (ClanTowerProto*) defaultInstance;
@@ -563,10 +578,12 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (ClanTowerProto_Builder*) setTowerImageName:(NSString*) value;
 - (ClanTowerProto_Builder*) clearTowerImageName;
 
-- (BOOL) hasClanOwnerId;
-- (int32_t) clanOwnerId;
-- (ClanTowerProto_Builder*) setClanOwnerId:(int32_t) value;
-- (ClanTowerProto_Builder*) clearClanOwnerId;
+- (BOOL) hasTowerOwner;
+- (MinimumClanProto*) towerOwner;
+- (ClanTowerProto_Builder*) setTowerOwner:(MinimumClanProto*) value;
+- (ClanTowerProto_Builder*) setTowerOwnerBuilder:(MinimumClanProto_Builder*) builderForValue;
+- (ClanTowerProto_Builder*) mergeTowerOwner:(MinimumClanProto*) value;
+- (ClanTowerProto_Builder*) clearTowerOwner;
 
 - (BOOL) hasOwnedStartTime;
 - (int64_t) ownedStartTime;
@@ -588,10 +605,12 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (ClanTowerProto_Builder*) setNumHoursToCollect:(int32_t) value;
 - (ClanTowerProto_Builder*) clearNumHoursToCollect;
 
-- (BOOL) hasClanAttackerId;
-- (int32_t) clanAttackerId;
-- (ClanTowerProto_Builder*) setClanAttackerId:(int32_t) value;
-- (ClanTowerProto_Builder*) clearClanAttackerId;
+- (BOOL) hasTowerAttacker;
+- (MinimumClanProto*) towerAttacker;
+- (ClanTowerProto_Builder*) setTowerAttacker:(MinimumClanProto*) value;
+- (ClanTowerProto_Builder*) setTowerAttackerBuilder:(MinimumClanProto_Builder*) builderForValue;
+- (ClanTowerProto_Builder*) mergeTowerAttacker:(MinimumClanProto*) value;
+- (ClanTowerProto_Builder*) clearTowerAttacker;
 
 - (BOOL) hasAttackStartTime;
 - (int64_t) attackStartTime;
@@ -607,6 +626,23 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) attackerBattlesWin;
 - (ClanTowerProto_Builder*) setAttackerBattlesWin:(int32_t) value;
 - (ClanTowerProto_Builder*) clearAttackerBattlesWin;
+
+- (BOOL) hasNumHoursForBattle;
+- (int32_t) numHoursForBattle;
+- (ClanTowerProto_Builder*) setNumHoursForBattle:(int32_t) value;
+- (ClanTowerProto_Builder*) clearNumHoursForBattle;
+
+- (BOOL) hasLastRewardGiven;
+- (int64_t) lastRewardGiven;
+- (ClanTowerProto_Builder*) setLastRewardGiven:(int64_t) value;
+- (ClanTowerProto_Builder*) clearLastRewardGiven;
+
+- (BOOL) hasTitleColor;
+- (ColorProto*) titleColor;
+- (ClanTowerProto_Builder*) setTitleColor:(ColorProto*) value;
+- (ClanTowerProto_Builder*) setTitleColorBuilder:(ColorProto_Builder*) builderForValue;
+- (ClanTowerProto_Builder*) mergeTitleColor:(ColorProto*) value;
+- (ClanTowerProto_Builder*) clearTitleColor;
 @end
 
 @interface GoldSaleProto : PBGeneratedMessage {
@@ -1208,7 +1244,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasMaxDamage_:1;
   BOOL hasMinutesToKill_:1;
   BOOL hasMinutesToRespawn_:1;
-  BOOL hasExperienceGained_:1;
+  BOOL hasMinExp_:1;
+  BOOL hasMaxExp_:1;
   BOOL hasCityId_:1;
   BOOL hasAssetNumWithinCity_:1;
   BOOL hasStaminaCost_:1;
@@ -1218,7 +1255,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t maxDamage;
   int32_t minutesToKill;
   int32_t minutesToRespawn;
-  int32_t experienceGained;
+  int32_t minExp;
+  int32_t maxExp;
   int32_t cityId;
   int32_t assetNumWithinCity;
   int32_t staminaCost;
@@ -1229,7 +1267,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasMaxDamage;
 - (BOOL) hasMinutesToKill;
 - (BOOL) hasMinutesToRespawn;
-- (BOOL) hasExperienceGained;
+- (BOOL) hasMinExp;
+- (BOOL) hasMaxExp;
 - (BOOL) hasCityId;
 - (BOOL) hasAssetNumWithinCity;
 - (BOOL) hasStaminaCost;
@@ -1239,7 +1278,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t maxDamage;
 @property (readonly) int32_t minutesToKill;
 @property (readonly) int32_t minutesToRespawn;
-@property (readonly) int32_t experienceGained;
+@property (readonly) int32_t minExp;
+@property (readonly) int32_t maxExp;
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t assetNumWithinCity;
 @property (readonly) int32_t staminaCost;
@@ -1308,10 +1348,15 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullBossProto_Builder*) setMinutesToRespawn:(int32_t) value;
 - (FullBossProto_Builder*) clearMinutesToRespawn;
 
-- (BOOL) hasExperienceGained;
-- (int32_t) experienceGained;
-- (FullBossProto_Builder*) setExperienceGained:(int32_t) value;
-- (FullBossProto_Builder*) clearExperienceGained;
+- (BOOL) hasMinExp;
+- (int32_t) minExp;
+- (FullBossProto_Builder*) setMinExp:(int32_t) value;
+- (FullBossProto_Builder*) clearMinExp;
+
+- (BOOL) hasMaxExp;
+- (int32_t) maxExp;
+- (FullBossProto_Builder*) setMaxExp:(int32_t) value;
+- (FullBossProto_Builder*) clearMaxExp;
 
 - (BOOL) hasCityId;
 - (int32_t) cityId;
@@ -5841,5 +5886,71 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) attemptComplete;
 - (UnhandledBlacksmithAttemptProto_Builder*) setAttemptComplete:(BOOL) value;
 - (UnhandledBlacksmithAttemptProto_Builder*) clearAttemptComplete;
+@end
+
+@interface ColorProto : PBGeneratedMessage {
+@private
+  BOOL hasRed_:1;
+  BOOL hasGreen_:1;
+  BOOL hasBlue_:1;
+  int32_t red;
+  int32_t green;
+  int32_t blue;
+}
+- (BOOL) hasRed;
+- (BOOL) hasGreen;
+- (BOOL) hasBlue;
+@property (readonly) int32_t red;
+@property (readonly) int32_t green;
+@property (readonly) int32_t blue;
+
++ (ColorProto*) defaultInstance;
+- (ColorProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ColorProto_Builder*) builder;
++ (ColorProto_Builder*) builder;
++ (ColorProto_Builder*) builderWithPrototype:(ColorProto*) prototype;
+
++ (ColorProto*) parseFromData:(NSData*) data;
++ (ColorProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ColorProto*) parseFromInputStream:(NSInputStream*) input;
++ (ColorProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ColorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ColorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ColorProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ColorProto* result;
+}
+
+- (ColorProto*) defaultInstance;
+
+- (ColorProto_Builder*) clear;
+- (ColorProto_Builder*) clone;
+
+- (ColorProto*) build;
+- (ColorProto*) buildPartial;
+
+- (ColorProto_Builder*) mergeFrom:(ColorProto*) other;
+- (ColorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ColorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasRed;
+- (int32_t) red;
+- (ColorProto_Builder*) setRed:(int32_t) value;
+- (ColorProto_Builder*) clearRed;
+
+- (BOOL) hasGreen;
+- (int32_t) green;
+- (ColorProto_Builder*) setGreen:(int32_t) value;
+- (ColorProto_Builder*) clearGreen;
+
+- (BOOL) hasBlue;
+- (int32_t) blue;
+- (ColorProto_Builder*) setBlue:(int32_t) value;
+- (ColorProto_Builder*) clearBlue;
 @end
 

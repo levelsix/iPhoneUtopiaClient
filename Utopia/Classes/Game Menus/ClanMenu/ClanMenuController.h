@@ -9,6 +9,7 @@
 #import "LeaderboardController.h"
 #import "NibUtils.h"
 #import "ClanMenus.h"
+#import "ClanTowerTab.h"
 
 // Can't reuse internal enum names..
 typedef LeaderboardBarButton ClanBarButton;
@@ -17,7 +18,8 @@ typedef enum {
   kMyClan = 1,
   kBrowseClans,
   kAboutClans,
-  kCreateClan
+  kCreateClan,
+  kClanTower
 } ClanState;
 
 @interface UIView (WakeupAndCleanup)
@@ -58,6 +60,7 @@ typedef enum {
   BOOL _trackingButton2;
   BOOL _trackingButton3;
   BOOL _trackingButton4;
+  BOOL _trackingButton5;
   
   int _clickedButtons;
 }
@@ -66,16 +69,19 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *button2Icon;
 @property (nonatomic, retain) IBOutlet UIImageView *button3Icon;
 @property (nonatomic, retain) IBOutlet UIImageView *button4Icon;
+@property (nonatomic, retain) IBOutlet UIImageView *button5Icon;
 
 @property (nonatomic, retain) IBOutlet UILabel *button1Label;
 @property (nonatomic, retain) IBOutlet UILabel *button2Label;
 @property (nonatomic, retain) IBOutlet UILabel *button3Label;
 @property (nonatomic, retain) IBOutlet UILabel *button4Label;
+@property (nonatomic, retain) IBOutlet UILabel *button5Label;
 
 @property (nonatomic, retain) IBOutlet UIImageView *button1;
 @property (nonatomic, retain) IBOutlet UIImageView *button2;
 @property (nonatomic, retain) IBOutlet UIImageView *button3;
 @property (nonatomic, retain) IBOutlet UIImageView *button4;
+@property (nonatomic, retain) IBOutlet UIImageView *button5;
 
 @end
 
@@ -98,6 +104,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet ClanBrowseView *clanBrowseView;
 @property (nonatomic, retain) IBOutlet ClanBoardView *clanBoardView;
 @property (nonatomic, retain) IBOutlet UIView *clanAboutView;
+@property (nonatomic, retain) IBOutlet ClanTowerTab *clanTowerTab;
 
 @property (nonatomic, retain) IBOutlet UIView *goldView;
 @property (nonatomic, retain) IBOutlet UIView *editView;
@@ -128,12 +135,14 @@ typedef enum {
 
 - (void) topBarButtonClicked:(ClanBarButton)button;
 
+- (void) towerClicked:(ClanTowerProto *)p;
 - (void) viewClan:(FullClanProtoWithClanSize *)clan;
 
 - (void) loadTransferOwnership;
 - (void) loadForClan:(MinimumClanProto *)clan;
 
 - (void) updateGoldLabel;
+- (void) updateClanTowers;
 
 - (void) beginLoading:(int)tag;
 - (void) stopLoading:(int)tag;

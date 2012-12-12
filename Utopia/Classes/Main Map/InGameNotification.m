@@ -14,7 +14,9 @@
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   self.hidden = YES;
-  if (self.notification.type != kNotificationWallPost) {
+  if (self.notification.type == kNotificationGeneral) {
+    // Do nothing
+  } else if (self.notification.type != kNotificationWallPost) {
     [ActivityFeedController displayView];
   } else {
     [[ProfileViewController sharedProfileViewController] loadMyProfile];

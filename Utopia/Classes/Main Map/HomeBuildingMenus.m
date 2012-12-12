@@ -29,7 +29,7 @@
   FullStructureProto *fsp = [gs structWithId:us.structId];
   
   titleLabel.text = fsp.name;
-  incomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStruct:us], [Globals convertTimeToString:fsp.minutesToGain*60]];
+  incomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStruct:us], [Globals convertTimeToString:fsp.minutesToGain*60 withDays:YES]];
   rankLabel.text = [NSString stringWithFormat:@"%d", us.level];
 }
 
@@ -78,7 +78,7 @@
   FullStructureProto *fsp = [gs structWithId:us.structId];
   
   NSDate *retrieveDate = [us.lastRetrieved dateByAddingTimeInterval:fsp.minutesToGain*60];
-  timeLabel.text = [Globals convertTimeToString:retrieveDate.timeIntervalSinceNow];
+  timeLabel.text = [Globals convertTimeToString:retrieveDate.timeIntervalSinceNow withDays:YES];
 }
 
 - (void) setTimer:(NSTimer *)t {
@@ -150,10 +150,10 @@
   
   if (us.state == kBuilding) {
     currentIncomeLabel.text = @"No Current Income";
-    upgradedIncomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStruct:us], [Globals convertTimeToString:fsp.minutesToGain*60]];
+    upgradedIncomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStruct:us], [Globals convertTimeToString:fsp.minutesToGain*60 withDays:YES]];
   } else {
-    currentIncomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStruct:us], [Globals convertTimeToString:fsp.minutesToGain*60]];
-    upgradedIncomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStructAfterLevelUp:us], [Globals convertTimeToString:fsp.minutesToGain*60]];
+    currentIncomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStruct:us], [Globals convertTimeToString:fsp.minutesToGain*60 withDays:YES]];
+    upgradedIncomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStructAfterLevelUp:us], [Globals convertTimeToString:fsp.minutesToGain*60 withDays:YES]];
   }
   
   self.userStruct = us;
@@ -161,7 +161,7 @@
   if (us.state == kWaitingForIncome) {
     self.timer = nil;
     
-    upgradeTimeLabel.text = [Globals convertTimeToString:[gl calculateMinutesToUpgrade:us]*60];
+    upgradeTimeLabel.text = [Globals convertTimeToString:[gl calculateMinutesToUpgrade:us]*60 withDays:YES];
     upgradePriceLabel.text = [Globals commafyNumber:[gl calculateUpgradeCost:us]];
     coinIcon.highlighted = fsp.diamondPrice > 0;
     
@@ -212,7 +212,7 @@
       secsToUpgrade = fsp.minutesToBuild*60;
     }
     NSDate *date = [startTime dateByAddingTimeInterval:secsToUpgrade];;
-    timeLeftLabel.text = [Globals convertTimeToString:date.timeIntervalSinceNow];
+    timeLeftLabel.text = [Globals convertTimeToString:date.timeIntervalSinceNow withDays:YES];
     progressBar.percentage = 1.f - date.timeIntervalSinceNow/secsToUpgrade;
   }
 }
@@ -387,7 +387,7 @@
   if ([date compare:[NSDate date]] == NSOrderedAscending) {
     [self closeClicked:nil];
   } else {
-    timeLeftLabel.text = [Globals convertTimeToString:date.timeIntervalSinceNow];
+    timeLeftLabel.text = [Globals convertTimeToString:date.timeIntervalSinceNow withDays:YES];
     progressBar.percentage = 1.f - date.timeIntervalSinceNow/secsToExpand;
   }
 }

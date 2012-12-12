@@ -95,6 +95,7 @@ static int sessionId;
 - (void) destroyClanMessageQueue {
   [_clanConsumer release];
   [_clanQueue release];
+  _clanConsumer = nil;
   _clanQueue = nil;
 }
 

@@ -380,9 +380,9 @@ static NSString *udid = nil;
 
 - (int) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId clientTime:(uint64_t)clientTime {
   PurchaseFromMarketplaceRequestProto *req = [[[[[[PurchaseFromMarketplaceRequestProto builder]
-                                                 setSender:_sender]
-                                                setMarketplacePostId:postId]
-                                               setPosterId:posterId]
+                                                  setSender:_sender]
+                                                 setMarketplacePostId:postId]
+                                                setPosterId:posterId]
                                                setCurTime:clientTime]
                                               build];
   
@@ -1014,17 +1014,40 @@ static NSString *udid = nil;
 
 - (int) sendBossActionMessage:(int)bossId isSuperAttack:(BOOL)isSuperAttack curTime:(uint64_t)curTime {
   BossActionRequestProto *req = [[[[[[BossActionRequestProto builder]
-                                    setSender:_sender]
-                                   setBossId:bossId]
-                                  setCurTime:curTime]
+                                     setSender:_sender]
+                                    setBossId:bossId]
+                                   setCurTime:curTime]
                                   setIsSuperAttack:isSuperAttack]
                                  build];
   return [self sendData:req withMessageType:EventProtocolRequestCBossActionEvent];
 }
 
+- (int) sendBeginClanTowerWarMessage:(int)towerId claiming:(BOOL)claiming clientTime:(uint64_t)clientTime {
+  BeginClanTowerWarRequestProto *req = [[[[[[BeginClanTowerWarRequestProto builder]
+                                            setSender:_sender]
+                                           setTowerId:towerId]
+                                          setClaiming:claiming]
+                                         setCurTime:clientTime]
+                                        build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCBeginClanTowerWar];
+}
+
+- (int) sendConcedeClanTowerWar:(int)towerId clientTime:(uint64_t)clientTime {
+  ConcedeClanTowerWarRequestProto *req = [[[[[ConcedeClanTowerWarRequestProto builder]
+                                            setSender:_sender]
+                                           setTowerId:towerId]
+                                          setCurTime:clientTime]
+                                          build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCConcedeClanTowerWar];
+}
+
 - (void) closeDownConnection {
   [_connectionThread end];
   _connectionThread = nil;
+  [_sender release];
+  _sender = nil;
   
   LNLog(@"Disconnected from host..");
 }
