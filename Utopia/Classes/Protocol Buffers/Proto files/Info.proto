@@ -21,15 +21,18 @@ message ClanTowerProto {
 	optional int32 towerId = 1;
 	optional string towerName = 2;
 	optional string towerImageName = 3;
-	optional int32 clanOwnerId = 4;
+	optional MinimumClanProto towerOwner = 4;
 	optional int64 ownedStartTime = 5;
 	optional int32 silverReward = 6;
 	optional int32 goldReward = 7;
 	optional int32 numHoursToCollect = 8;
-	optional int32 clanAttackerId = 9;
+	optional MinimumClanProto towerAttacker = 9;
 	optional int64 attackStartTime = 10;
 	optional int32 ownerBattlesWin = 11;
 	optional int32 attackerBattlesWin = 12;
+	optional int32 numHoursForBattle = 13;
+	optional int64 lastRewardGiven = 14;
+	optional ColorProto titleColor = 15;
 }
 
 //---------------------------------------------------------------------------------------
@@ -267,6 +270,7 @@ enum SpecialQuestAction {
 	WITHDRAW_FROM_VAULT = 6;
 	WRITE_ON_ENEMY_WALL = 7;
 	REQUEST_JOIN_CLAN = 8;
+	SUCCESSFULLY_FORGE_AN_ITEM = 9;
 }
 
 //------------------------------------------------------------------------------------------
@@ -775,4 +779,12 @@ message UnhandledBlacksmithAttemptProto {
 	optional int32 diamondGuaranteeCost = 8;
 	optional int64 timeOfSpeedup = 9;
 	optional bool attemptComplete = 10;
+}
+
+//------------------------------------------------------------------------------------------
+
+message ColorProto {
+	optional int32 red = 1;
+	optional int32 green = 2;
+	optional int32 blue = 3;
 }

@@ -311,6 +311,13 @@
   return self;
 }
 
+- (ResetStaminaView *) resetStaminaView {
+  if (!_resetStaminaView) {
+    [[NSBundle mainBundle] loadNibNamed:@"ResetStaminaView" owner:self options:nil];
+  }
+  return _resetStaminaView;
+}
+
 - (void) addEnemiesFromArray:(NSArray *)arr {
   for (FullUserProto *fup in arr) {
     CGRect r = CGRectZero;
@@ -1058,6 +1065,8 @@
     
     // So we can increment it
     [self resetPowerAttack];
+    
+    [self.resetStaminaView display];
   }
 }
 
@@ -1083,6 +1092,7 @@
   [obMenu removeFromSuperview];
   self.obMenu = nil;
   self.potentialBossKillTime = nil;
+  self.resetStaminaView = nil;
   [super dealloc];
 }
 

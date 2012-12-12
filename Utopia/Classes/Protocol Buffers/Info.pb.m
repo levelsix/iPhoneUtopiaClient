@@ -104,6 +104,7 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
     case SpecialQuestActionWithdrawFromVault:
     case SpecialQuestActionWriteOnEnemyWall:
     case SpecialQuestActionRequestJoinClan:
+    case SpecialQuestActionSuccessfullyForgeAnItem:
       return YES;
     default:
       return NO;
@@ -848,15 +849,18 @@ static BossEventProto* defaultBossEventProtoInstance = nil;
 @property int32_t towerId;
 @property (retain) NSString* towerName;
 @property (retain) NSString* towerImageName;
-@property int32_t clanOwnerId;
+@property (retain) MinimumClanProto* towerOwner;
 @property int64_t ownedStartTime;
 @property int32_t silverReward;
 @property int32_t goldReward;
 @property int32_t numHoursToCollect;
-@property int32_t clanAttackerId;
+@property (retain) MinimumClanProto* towerAttacker;
 @property int64_t attackStartTime;
 @property int32_t ownerBattlesWin;
 @property int32_t attackerBattlesWin;
+@property int32_t numHoursForBattle;
+@property int64_t lastRewardGiven;
+@property (retain) ColorProto* titleColor;
 @end
 
 @implementation ClanTowerProto
@@ -882,13 +886,13 @@ static BossEventProto* defaultBossEventProtoInstance = nil;
   hasTowerImageName_ = !!value;
 }
 @synthesize towerImageName;
-- (BOOL) hasClanOwnerId {
-  return !!hasClanOwnerId_;
+- (BOOL) hasTowerOwner {
+  return !!hasTowerOwner_;
 }
-- (void) setHasClanOwnerId:(BOOL) value {
-  hasClanOwnerId_ = !!value;
+- (void) setHasTowerOwner:(BOOL) value {
+  hasTowerOwner_ = !!value;
 }
-@synthesize clanOwnerId;
+@synthesize towerOwner;
 - (BOOL) hasOwnedStartTime {
   return !!hasOwnedStartTime_;
 }
@@ -917,13 +921,13 @@ static BossEventProto* defaultBossEventProtoInstance = nil;
   hasNumHoursToCollect_ = !!value;
 }
 @synthesize numHoursToCollect;
-- (BOOL) hasClanAttackerId {
-  return !!hasClanAttackerId_;
+- (BOOL) hasTowerAttacker {
+  return !!hasTowerAttacker_;
 }
-- (void) setHasClanAttackerId:(BOOL) value {
-  hasClanAttackerId_ = !!value;
+- (void) setHasTowerAttacker:(BOOL) value {
+  hasTowerAttacker_ = !!value;
 }
-@synthesize clanAttackerId;
+@synthesize towerAttacker;
 - (BOOL) hasAttackStartTime {
   return !!hasAttackStartTime_;
 }
@@ -945,9 +949,33 @@ static BossEventProto* defaultBossEventProtoInstance = nil;
   hasAttackerBattlesWin_ = !!value;
 }
 @synthesize attackerBattlesWin;
+- (BOOL) hasNumHoursForBattle {
+  return !!hasNumHoursForBattle_;
+}
+- (void) setHasNumHoursForBattle:(BOOL) value {
+  hasNumHoursForBattle_ = !!value;
+}
+@synthesize numHoursForBattle;
+- (BOOL) hasLastRewardGiven {
+  return !!hasLastRewardGiven_;
+}
+- (void) setHasLastRewardGiven:(BOOL) value {
+  hasLastRewardGiven_ = !!value;
+}
+@synthesize lastRewardGiven;
+- (BOOL) hasTitleColor {
+  return !!hasTitleColor_;
+}
+- (void) setHasTitleColor:(BOOL) value {
+  hasTitleColor_ = !!value;
+}
+@synthesize titleColor;
 - (void) dealloc {
   self.towerName = nil;
   self.towerImageName = nil;
+  self.towerOwner = nil;
+  self.towerAttacker = nil;
+  self.titleColor = nil;
   [super dealloc];
 }
 - (id) init {
@@ -955,15 +983,18 @@ static BossEventProto* defaultBossEventProtoInstance = nil;
     self.towerId = 0;
     self.towerName = @"";
     self.towerImageName = @"";
-    self.clanOwnerId = 0;
+    self.towerOwner = [MinimumClanProto defaultInstance];
     self.ownedStartTime = 0L;
     self.silverReward = 0;
     self.goldReward = 0;
     self.numHoursToCollect = 0;
-    self.clanAttackerId = 0;
+    self.towerAttacker = [MinimumClanProto defaultInstance];
     self.attackStartTime = 0L;
     self.ownerBattlesWin = 0;
     self.attackerBattlesWin = 0;
+    self.numHoursForBattle = 0;
+    self.lastRewardGiven = 0L;
+    self.titleColor = [ColorProto defaultInstance];
   }
   return self;
 }
@@ -992,8 +1023,8 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   if (self.hasTowerImageName) {
     [output writeString:3 value:self.towerImageName];
   }
-  if (self.hasClanOwnerId) {
-    [output writeInt32:4 value:self.clanOwnerId];
+  if (self.hasTowerOwner) {
+    [output writeMessage:4 value:self.towerOwner];
   }
   if (self.hasOwnedStartTime) {
     [output writeInt64:5 value:self.ownedStartTime];
@@ -1007,8 +1038,8 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   if (self.hasNumHoursToCollect) {
     [output writeInt32:8 value:self.numHoursToCollect];
   }
-  if (self.hasClanAttackerId) {
-    [output writeInt32:9 value:self.clanAttackerId];
+  if (self.hasTowerAttacker) {
+    [output writeMessage:9 value:self.towerAttacker];
   }
   if (self.hasAttackStartTime) {
     [output writeInt64:10 value:self.attackStartTime];
@@ -1018,6 +1049,15 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   }
   if (self.hasAttackerBattlesWin) {
     [output writeInt32:12 value:self.attackerBattlesWin];
+  }
+  if (self.hasNumHoursForBattle) {
+    [output writeInt32:13 value:self.numHoursForBattle];
+  }
+  if (self.hasLastRewardGiven) {
+    [output writeInt64:14 value:self.lastRewardGiven];
+  }
+  if (self.hasTitleColor) {
+    [output writeMessage:15 value:self.titleColor];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1037,8 +1077,8 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   if (self.hasTowerImageName) {
     size += computeStringSize(3, self.towerImageName);
   }
-  if (self.hasClanOwnerId) {
-    size += computeInt32Size(4, self.clanOwnerId);
+  if (self.hasTowerOwner) {
+    size += computeMessageSize(4, self.towerOwner);
   }
   if (self.hasOwnedStartTime) {
     size += computeInt64Size(5, self.ownedStartTime);
@@ -1052,8 +1092,8 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   if (self.hasNumHoursToCollect) {
     size += computeInt32Size(8, self.numHoursToCollect);
   }
-  if (self.hasClanAttackerId) {
-    size += computeInt32Size(9, self.clanAttackerId);
+  if (self.hasTowerAttacker) {
+    size += computeMessageSize(9, self.towerAttacker);
   }
   if (self.hasAttackStartTime) {
     size += computeInt64Size(10, self.attackStartTime);
@@ -1063,6 +1103,15 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   }
   if (self.hasAttackerBattlesWin) {
     size += computeInt32Size(12, self.attackerBattlesWin);
+  }
+  if (self.hasNumHoursForBattle) {
+    size += computeInt32Size(13, self.numHoursForBattle);
+  }
+  if (self.hasLastRewardGiven) {
+    size += computeInt64Size(14, self.lastRewardGiven);
+  }
+  if (self.hasTitleColor) {
+    size += computeMessageSize(15, self.titleColor);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1148,8 +1197,8 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   if (other.hasTowerImageName) {
     [self setTowerImageName:other.towerImageName];
   }
-  if (other.hasClanOwnerId) {
-    [self setClanOwnerId:other.clanOwnerId];
+  if (other.hasTowerOwner) {
+    [self mergeTowerOwner:other.towerOwner];
   }
   if (other.hasOwnedStartTime) {
     [self setOwnedStartTime:other.ownedStartTime];
@@ -1163,8 +1212,8 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   if (other.hasNumHoursToCollect) {
     [self setNumHoursToCollect:other.numHoursToCollect];
   }
-  if (other.hasClanAttackerId) {
-    [self setClanAttackerId:other.clanAttackerId];
+  if (other.hasTowerAttacker) {
+    [self mergeTowerAttacker:other.towerAttacker];
   }
   if (other.hasAttackStartTime) {
     [self setAttackStartTime:other.attackStartTime];
@@ -1174,6 +1223,15 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   }
   if (other.hasAttackerBattlesWin) {
     [self setAttackerBattlesWin:other.attackerBattlesWin];
+  }
+  if (other.hasNumHoursForBattle) {
+    [self setNumHoursForBattle:other.numHoursForBattle];
+  }
+  if (other.hasLastRewardGiven) {
+    [self setLastRewardGiven:other.lastRewardGiven];
+  }
+  if (other.hasTitleColor) {
+    [self mergeTitleColor:other.titleColor];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1208,8 +1266,13 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
         [self setTowerImageName:[input readString]];
         break;
       }
-      case 32: {
-        [self setClanOwnerId:[input readInt32]];
+      case 34: {
+        MinimumClanProto_Builder* subBuilder = [MinimumClanProto builder];
+        if (self.hasTowerOwner) {
+          [subBuilder mergeFrom:self.towerOwner];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setTowerOwner:[subBuilder buildPartial]];
         break;
       }
       case 40: {
@@ -1228,8 +1291,13 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
         [self setNumHoursToCollect:[input readInt32]];
         break;
       }
-      case 72: {
-        [self setClanAttackerId:[input readInt32]];
+      case 74: {
+        MinimumClanProto_Builder* subBuilder = [MinimumClanProto builder];
+        if (self.hasTowerAttacker) {
+          [subBuilder mergeFrom:self.towerAttacker];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setTowerAttacker:[subBuilder buildPartial]];
         break;
       }
       case 80: {
@@ -1242,6 +1310,23 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
       }
       case 96: {
         [self setAttackerBattlesWin:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self setNumHoursForBattle:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self setLastRewardGiven:[input readInt64]];
+        break;
+      }
+      case 122: {
+        ColorProto_Builder* subBuilder = [ColorProto builder];
+        if (self.hasTitleColor) {
+          [subBuilder mergeFrom:self.titleColor];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setTitleColor:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1295,20 +1380,34 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   result.towerImageName = @"";
   return self;
 }
-- (BOOL) hasClanOwnerId {
-  return result.hasClanOwnerId;
+- (BOOL) hasTowerOwner {
+  return result.hasTowerOwner;
 }
-- (int32_t) clanOwnerId {
-  return result.clanOwnerId;
+- (MinimumClanProto*) towerOwner {
+  return result.towerOwner;
 }
-- (ClanTowerProto_Builder*) setClanOwnerId:(int32_t) value {
-  result.hasClanOwnerId = YES;
-  result.clanOwnerId = value;
+- (ClanTowerProto_Builder*) setTowerOwner:(MinimumClanProto*) value {
+  result.hasTowerOwner = YES;
+  result.towerOwner = value;
   return self;
 }
-- (ClanTowerProto_Builder*) clearClanOwnerId {
-  result.hasClanOwnerId = NO;
-  result.clanOwnerId = 0;
+- (ClanTowerProto_Builder*) setTowerOwnerBuilder:(MinimumClanProto_Builder*) builderForValue {
+  return [self setTowerOwner:[builderForValue build]];
+}
+- (ClanTowerProto_Builder*) mergeTowerOwner:(MinimumClanProto*) value {
+  if (result.hasTowerOwner &&
+      result.towerOwner != [MinimumClanProto defaultInstance]) {
+    result.towerOwner =
+      [[[MinimumClanProto builderWithPrototype:result.towerOwner] mergeFrom:value] buildPartial];
+  } else {
+    result.towerOwner = value;
+  }
+  result.hasTowerOwner = YES;
+  return self;
+}
+- (ClanTowerProto_Builder*) clearTowerOwner {
+  result.hasTowerOwner = NO;
+  result.towerOwner = [MinimumClanProto defaultInstance];
   return self;
 }
 - (BOOL) hasOwnedStartTime {
@@ -1375,20 +1474,34 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   result.numHoursToCollect = 0;
   return self;
 }
-- (BOOL) hasClanAttackerId {
-  return result.hasClanAttackerId;
+- (BOOL) hasTowerAttacker {
+  return result.hasTowerAttacker;
 }
-- (int32_t) clanAttackerId {
-  return result.clanAttackerId;
+- (MinimumClanProto*) towerAttacker {
+  return result.towerAttacker;
 }
-- (ClanTowerProto_Builder*) setClanAttackerId:(int32_t) value {
-  result.hasClanAttackerId = YES;
-  result.clanAttackerId = value;
+- (ClanTowerProto_Builder*) setTowerAttacker:(MinimumClanProto*) value {
+  result.hasTowerAttacker = YES;
+  result.towerAttacker = value;
   return self;
 }
-- (ClanTowerProto_Builder*) clearClanAttackerId {
-  result.hasClanAttackerId = NO;
-  result.clanAttackerId = 0;
+- (ClanTowerProto_Builder*) setTowerAttackerBuilder:(MinimumClanProto_Builder*) builderForValue {
+  return [self setTowerAttacker:[builderForValue build]];
+}
+- (ClanTowerProto_Builder*) mergeTowerAttacker:(MinimumClanProto*) value {
+  if (result.hasTowerAttacker &&
+      result.towerAttacker != [MinimumClanProto defaultInstance]) {
+    result.towerAttacker =
+      [[[MinimumClanProto builderWithPrototype:result.towerAttacker] mergeFrom:value] buildPartial];
+  } else {
+    result.towerAttacker = value;
+  }
+  result.hasTowerAttacker = YES;
+  return self;
+}
+- (ClanTowerProto_Builder*) clearTowerAttacker {
+  result.hasTowerAttacker = NO;
+  result.towerAttacker = [MinimumClanProto defaultInstance];
   return self;
 }
 - (BOOL) hasAttackStartTime {
@@ -1437,6 +1550,68 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
 - (ClanTowerProto_Builder*) clearAttackerBattlesWin {
   result.hasAttackerBattlesWin = NO;
   result.attackerBattlesWin = 0;
+  return self;
+}
+- (BOOL) hasNumHoursForBattle {
+  return result.hasNumHoursForBattle;
+}
+- (int32_t) numHoursForBattle {
+  return result.numHoursForBattle;
+}
+- (ClanTowerProto_Builder*) setNumHoursForBattle:(int32_t) value {
+  result.hasNumHoursForBattle = YES;
+  result.numHoursForBattle = value;
+  return self;
+}
+- (ClanTowerProto_Builder*) clearNumHoursForBattle {
+  result.hasNumHoursForBattle = NO;
+  result.numHoursForBattle = 0;
+  return self;
+}
+- (BOOL) hasLastRewardGiven {
+  return result.hasLastRewardGiven;
+}
+- (int64_t) lastRewardGiven {
+  return result.lastRewardGiven;
+}
+- (ClanTowerProto_Builder*) setLastRewardGiven:(int64_t) value {
+  result.hasLastRewardGiven = YES;
+  result.lastRewardGiven = value;
+  return self;
+}
+- (ClanTowerProto_Builder*) clearLastRewardGiven {
+  result.hasLastRewardGiven = NO;
+  result.lastRewardGiven = 0L;
+  return self;
+}
+- (BOOL) hasTitleColor {
+  return result.hasTitleColor;
+}
+- (ColorProto*) titleColor {
+  return result.titleColor;
+}
+- (ClanTowerProto_Builder*) setTitleColor:(ColorProto*) value {
+  result.hasTitleColor = YES;
+  result.titleColor = value;
+  return self;
+}
+- (ClanTowerProto_Builder*) setTitleColorBuilder:(ColorProto_Builder*) builderForValue {
+  return [self setTitleColor:[builderForValue build]];
+}
+- (ClanTowerProto_Builder*) mergeTitleColor:(ColorProto*) value {
+  if (result.hasTitleColor &&
+      result.titleColor != [ColorProto defaultInstance]) {
+    result.titleColor =
+      [[[ColorProto builderWithPrototype:result.titleColor] mergeFrom:value] buildPartial];
+  } else {
+    result.titleColor = value;
+  }
+  result.hasTitleColor = YES;
+  return self;
+}
+- (ClanTowerProto_Builder*) clearTitleColor {
+  result.hasTitleColor = NO;
+  result.titleColor = [ColorProto defaultInstance];
   return self;
 }
 @end
@@ -23138,6 +23313,259 @@ static UnhandledBlacksmithAttemptProto* defaultUnhandledBlacksmithAttemptProtoIn
 - (UnhandledBlacksmithAttemptProto_Builder*) clearAttemptComplete {
   result.hasAttemptComplete = NO;
   result.attemptComplete = NO;
+  return self;
+}
+@end
+
+@interface ColorProto ()
+@property int32_t red;
+@property int32_t green;
+@property int32_t blue;
+@end
+
+@implementation ColorProto
+
+- (BOOL) hasRed {
+  return !!hasRed_;
+}
+- (void) setHasRed:(BOOL) value {
+  hasRed_ = !!value;
+}
+@synthesize red;
+- (BOOL) hasGreen {
+  return !!hasGreen_;
+}
+- (void) setHasGreen:(BOOL) value {
+  hasGreen_ = !!value;
+}
+@synthesize green;
+- (BOOL) hasBlue {
+  return !!hasBlue_;
+}
+- (void) setHasBlue:(BOOL) value {
+  hasBlue_ = !!value;
+}
+@synthesize blue;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.red = 0;
+    self.green = 0;
+    self.blue = 0;
+  }
+  return self;
+}
+static ColorProto* defaultColorProtoInstance = nil;
++ (void) initialize {
+  if (self == [ColorProto class]) {
+    defaultColorProtoInstance = [[ColorProto alloc] init];
+  }
+}
++ (ColorProto*) defaultInstance {
+  return defaultColorProtoInstance;
+}
+- (ColorProto*) defaultInstance {
+  return defaultColorProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasRed) {
+    [output writeInt32:1 value:self.red];
+  }
+  if (self.hasGreen) {
+    [output writeInt32:2 value:self.green];
+  }
+  if (self.hasBlue) {
+    [output writeInt32:3 value:self.blue];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasRed) {
+    size += computeInt32Size(1, self.red);
+  }
+  if (self.hasGreen) {
+    size += computeInt32Size(2, self.green);
+  }
+  if (self.hasBlue) {
+    size += computeInt32Size(3, self.blue);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ColorProto*) parseFromData:(NSData*) data {
+  return (ColorProto*)[[[ColorProto builder] mergeFromData:data] build];
+}
++ (ColorProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ColorProto*)[[[ColorProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ColorProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ColorProto*)[[[ColorProto builder] mergeFromInputStream:input] build];
+}
++ (ColorProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ColorProto*)[[[ColorProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ColorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ColorProto*)[[[ColorProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ColorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ColorProto*)[[[ColorProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ColorProto_Builder*) builder {
+  return [[[ColorProto_Builder alloc] init] autorelease];
+}
++ (ColorProto_Builder*) builderWithPrototype:(ColorProto*) prototype {
+  return [[ColorProto builder] mergeFrom:prototype];
+}
+- (ColorProto_Builder*) builder {
+  return [ColorProto builder];
+}
+@end
+
+@interface ColorProto_Builder()
+@property (retain) ColorProto* result;
+@end
+
+@implementation ColorProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ColorProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ColorProto_Builder*) clear {
+  self.result = [[[ColorProto alloc] init] autorelease];
+  return self;
+}
+- (ColorProto_Builder*) clone {
+  return [ColorProto builderWithPrototype:result];
+}
+- (ColorProto*) defaultInstance {
+  return [ColorProto defaultInstance];
+}
+- (ColorProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ColorProto*) buildPartial {
+  ColorProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ColorProto_Builder*) mergeFrom:(ColorProto*) other {
+  if (other == [ColorProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasRed) {
+    [self setRed:other.red];
+  }
+  if (other.hasGreen) {
+    [self setGreen:other.green];
+  }
+  if (other.hasBlue) {
+    [self setBlue:other.blue];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ColorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ColorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setRed:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setGreen:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setBlue:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasRed {
+  return result.hasRed;
+}
+- (int32_t) red {
+  return result.red;
+}
+- (ColorProto_Builder*) setRed:(int32_t) value {
+  result.hasRed = YES;
+  result.red = value;
+  return self;
+}
+- (ColorProto_Builder*) clearRed {
+  result.hasRed = NO;
+  result.red = 0;
+  return self;
+}
+- (BOOL) hasGreen {
+  return result.hasGreen;
+}
+- (int32_t) green {
+  return result.green;
+}
+- (ColorProto_Builder*) setGreen:(int32_t) value {
+  result.hasGreen = YES;
+  result.green = value;
+  return self;
+}
+- (ColorProto_Builder*) clearGreen {
+  result.hasGreen = NO;
+  result.green = 0;
+  return self;
+}
+- (BOOL) hasBlue {
+  return result.hasBlue;
+}
+- (int32_t) blue {
+  return result.blue;
+}
+- (ColorProto_Builder*) setBlue:(int32_t) value {
+  result.hasBlue = YES;
+  result.blue = value;
+  return self;
+}
+- (ColorProto_Builder*) clearBlue {
+  result.hasBlue = NO;
+  result.blue = 0;
   return self;
 }
 @end

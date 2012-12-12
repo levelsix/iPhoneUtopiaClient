@@ -1093,6 +1093,8 @@
 		CF48CAB1157784F300802A39 /* leftgate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48CAAB157784F000802A39 /* leftgate@2x.png */; };
 		CF48CAB2157784F300802A39 /* rightgate.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48CAAC157784F100802A39 /* rightgate.png */; };
 		CF48CAB3157784F300802A39 /* rightgate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48CAAD157784F100802A39 /* rightgate@2x.png */; };
+		CF4E450516787CE1005DAE18 /* ResetStaminaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF4E450416787CE1005DAE18 /* ResetStaminaView.xib */; };
+		CF4E450816788277005DAE18 /* ResetStaminaView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4E450716788277005DAE18 /* ResetStaminaView.m */; };
 		CF52FA151626768600AD3478 /* DownloaderSpinner.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF52FA141626768600AD3478 /* DownloaderSpinner.xib */; };
 		CF5876B2162964EB006DCD3B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5876A6162964EB006DCD3B /* Default.png */; };
 		CF5876B3162964EB006DCD3B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5876A7162964EB006DCD3B /* Default@2x.png */; };
@@ -3278,6 +3280,9 @@
 		CF48CAAB157784F000802A39 /* leftgate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftgate@2x.png"; sourceTree = "<group>"; };
 		CF48CAAC157784F100802A39 /* rightgate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rightgate.png; sourceTree = "<group>"; };
 		CF48CAAD157784F100802A39 /* rightgate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rightgate@2x.png"; sourceTree = "<group>"; };
+		CF4E450416787CE1005DAE18 /* ResetStaminaView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResetStaminaView.xib; sourceTree = "<group>"; };
+		CF4E450616788277005DAE18 /* ResetStaminaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetStaminaView.h; sourceTree = "<group>"; };
+		CF4E450716788277005DAE18 /* ResetStaminaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetStaminaView.m; sourceTree = "<group>"; };
 		CF52FA141626768600AD3478 /* DownloaderSpinner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownloaderSpinner.xib; sourceTree = "<group>"; };
 		CF5876A6162964EB006DCD3B /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		CF5876A7162964EB006DCD3B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -7435,6 +7440,9 @@
 				CF1265B71538ACC400E0C1AD /* MissionMap.m */,
 				CFEF7207156F2D80006362A4 /* MissionBuildingMenus.h */,
 				CFEF7208156F2D80006362A4 /* MissionBuildingMenus.m */,
+				CF4E450616788277005DAE18 /* ResetStaminaView.h */,
+				CF4E450716788277005DAE18 /* ResetStaminaView.m */,
+				CF4E450416787CE1005DAE18 /* ResetStaminaView.xib */,
 			);
 			name = MissionMap;
 			sourceTree = "<group>";
@@ -9273,6 +9281,7 @@
 				CFE954B7166F14F800DA63CF /* smallgoldstack@2x.png in Resources */,
 				CFE954ED167072A600DA63CF /* BlueHill.tmx in Resources */,
 				CFE954EE167072A600DA63CF /* BlueHill@2x.tmx in Resources */,
+				CF4E450516787CE1005DAE18 /* ResetStaminaView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9542,6 +9551,7 @@
 				CFC142031658B70D0060188D /* amqp_url.c in Sources */,
 				CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */,
 				CFE95481166E380D00DA63CF /* BossEventMenuController.m in Sources */,
+				CF4E450816788277005DAE18 /* ResetStaminaView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

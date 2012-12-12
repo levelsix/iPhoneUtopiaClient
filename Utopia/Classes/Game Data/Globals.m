@@ -208,6 +208,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.numDaysUntilFreeRetract = constants.numDaysUntilFreeRetract;
   self.levelToShowRateUsPopup = constants.levelToShowRateUsPopup;
   self.bossNumAttacksTillSuperAttack = constants.bossEventNumberOfAttacksUntilSuperAttack;
+  self.initStamina = constants.initStamina;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;
@@ -282,8 +283,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
   self.kiipRewardConditions = constants.kiipRewardConditions;
-  
-  self.bossNumAttacksTillSuperAttack = 1;
   
   if (constants.hasDownloadableNibConstants) {
     self.downloadableNibConstants = constants.downloadableNibConstants;

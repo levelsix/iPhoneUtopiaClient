@@ -44,6 +44,8 @@
 @class ChangeUserLocationRequestProto_Builder;
 @class ChangeUserLocationResponseProto;
 @class ChangeUserLocationResponseProto_Builder;
+@class ChangedClanTowerResponseProto;
+@class ChangedClanTowerResponseProto_Builder;
 @class CharacterModRequestProto;
 @class CharacterModRequestProto_Builder;
 @class CharacterModResponseProto;
@@ -66,6 +68,12 @@
 @class CollectFromGoldmineRequestProto_Builder;
 @class CollectFromGoldmineResponseProto;
 @class CollectFromGoldmineResponseProto_Builder;
+@class ColorProto;
+@class ColorProto_Builder;
+@class ConcedeClanTowerWarRequestProto;
+@class ConcedeClanTowerWarRequestProto_Builder;
+@class ConcedeClanTowerWarResponseProto;
+@class ConcedeClanTowerWarResponseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class CreateClanRequestProto;
@@ -148,6 +156,8 @@
 @class FullUserQuestDataLargeProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GeneralNotificationResponseProto;
+@class GeneralNotificationResponseProto_Builder;
 @class GenerateAttackListRequestProto;
 @class GenerateAttackListRequestProto_Builder;
 @class GenerateAttackListResponseProto;
@@ -1194,11 +1204,39 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 typedef enum {
   BeginClanTowerWarResponseProto_BeginClanTowerWarStatusSuccess = 0,
   BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyInBattle = 1,
-  BeginClanTowerWarResponseProto_BeginClanTowerWarStatusOtherFail = 2,
-  BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyClaimed = 3,
+  BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotClanLeader = 2,
+  BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotEnoughClanMembers = 3,
+  BeginClanTowerWarResponseProto_BeginClanTowerWarStatusClientTooApartFromServerTime = 4,
+  BeginClanTowerWarResponseProto_BeginClanTowerWarStatusOtherFail = 5,
+  BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyClaimed = 6,
+  BeginClanTowerWarResponseProto_BeginClanTowerWarStatusSameSide = 7,
 } BeginClanTowerWarResponseProto_BeginClanTowerWarStatus;
 
 BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginClanTowerWarResponseProto_BeginClanTowerWarStatus value);
+
+typedef enum {
+  ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatusSuccess = 0,
+  ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatusClientTooApartFromServerTime = 1,
+  ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatusNotClanTowerWarParticipant = 2,
+  ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatusNotClanLeader = 3,
+  ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatusOtherFail = 4,
+  ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatusNoAttacker = 5,
+} ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatus;
+
+BOOL ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatusIsValidValue(ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatus value);
+
+typedef enum {
+  ChangedClanTowerResponseProto_ReasonForClanTowerChangeAttackerConceded = 0,
+  ChangedClanTowerResponseProto_ReasonForClanTowerChangeOwnerConceded = 1,
+  ChangedClanTowerResponseProto_ReasonForClanTowerChangeAttackerWon = 2,
+  ChangedClanTowerResponseProto_ReasonForClanTowerChangeOwnerWon = 3,
+  ChangedClanTowerResponseProto_ReasonForClanTowerChangeAttackerForTowerSet = 4,
+  ChangedClanTowerResponseProto_ReasonForClanTowerChangeOwnerForTowerSet = 5,
+  ChangedClanTowerResponseProto_ReasonForClanTowerChangeNotEnoughMembers = 6,
+  ChangedClanTowerResponseProto_ReasonForClanTowerChangeNumBattleWinsChanged = 7,
+} ChangedClanTowerResponseProto_ReasonForClanTowerChange;
+
+BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedClanTowerResponseProto_ReasonForClanTowerChange value);
 
 
 @interface EventRoot : NSObject {
@@ -2431,74 +2469,75 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
+  BOOL hasHealthFormulaExponentBase_:1;
   BOOL hasBossEventSuperAttack_:1;
   BOOL hasLevelEquipBoostExponentBase_:1;
-  BOOL hasHealthFormulaExponentBase_:1;
-  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
-  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
-  BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
-  BOOL hasNumDaysUntilFreeRetract_:1;
-  BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
-  BOOL hasMaxLevelForUser_:1;
-  BOOL hasMaxCityRank_:1;
-  BOOL hasArmoryImgVerticalPixelOffset_:1;
-  BOOL hasVaultImgVerticalPixelOffset_:1;
-  BOOL hasMarketplaceImgVerticalPixelOffset_:1;
-  BOOL hasCarpenterImgVerticalPixelOffset_:1;
-  BOOL hasAviaryImgVerticalPixelOffset_:1;
-  BOOL hasMaxCharLengthForWallPost_:1;
+  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
-  BOOL hasAverageSizeOfLevelBracket_:1;
-  BOOL hasMaxLevelDifferenceForBattle_:1;
-  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
-  BOOL hasMinNameLength_:1;
-  BOOL hasMaxNameLength_:1;
-  BOOL hasSizeOfAttackList_:1;
-  BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
-  BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
-  BOOL hasMinBattlesRequiredForKdrconsideration_:1;
-  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
-  BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
-  BOOL hasMaxLengthOfChatString_:1;
-  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
-  BOOL hasNumHoursBeforeReshowingLockBox_:1;
-  BOOL hasNumHoursBeforeReshowingBossEvent_:1;
-  BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasMaxCharLengthForWallPost_:1;
+  BOOL hasAviaryImgVerticalPixelOffset_:1;
+  BOOL hasCarpenterImgVerticalPixelOffset_:1;
+  BOOL hasMarketplaceImgVerticalPixelOffset_:1;
+  BOOL hasVaultImgVerticalPixelOffset_:1;
+  BOOL hasArmoryImgVerticalPixelOffset_:1;
+  BOOL hasMaxCityRank_:1;
+  BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
+  BOOL hasNumDaysUntilFreeRetract_:1;
+  BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
+  BOOL hasInitStamina_:1;
   BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
+  BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasNumHoursBeforeReshowingBossEvent_:1;
+  BOOL hasNumHoursBeforeReshowingLockBox_:1;
+  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
+  BOOL hasMaxLengthOfChatString_:1;
+  BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
+  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
+  BOOL hasMinBattlesRequiredForKdrconsideration_:1;
+  BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
+  BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
+  BOOL hasSizeOfAttackList_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasMinNameLength_:1;
+  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
+  BOOL hasAverageSizeOfLevelBracket_:1;
+  BOOL hasVaultYlength_:1;
+  BOOL hasMarketplaceXlength_:1;
+  BOOL hasMarketplaceYlength_:1;
+  BOOL hasCarpenterXlength_:1;
+  BOOL hasCarpenterYlength_:1;
+  BOOL hasAviaryXlength_:1;
   BOOL hasAviaryYlength_:1;
   BOOL hasAttackBaseGain_:1;
   BOOL hasDefenseBaseGain_:1;
   BOOL hasEnergyBaseGain_:1;
   BOOL hasStaminaBaseGain_:1;
   BOOL hasAttackBaseCost_:1;
+  BOOL hasVaultXlength_:1;
   BOOL hasDefenseBaseCost_:1;
-  BOOL hasEnergyBaseCost_:1;
-  BOOL hasStaminaBaseCost_:1;
-  BOOL hasSkillPointsGainedOnLevelup_:1;
-  BOOL hasVaultYlength_:1;
-  BOOL hasAviaryXlength_:1;
-  BOOL hasMaxLevelForStruct_:1;
-  BOOL hasCarpenterYlength_:1;
+  BOOL hasArmoryYlength_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
   BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
-  BOOL hasArmoryXlength_:1;
-  BOOL hasArmoryYlength_:1;
   BOOL hasMaxNumberOfMarketplacePosts_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasMinutesToRefillAstamina_:1;
   BOOL hasMinutesToRefillAenergy_:1;
-  BOOL hasMarketplaceXlength_:1;
-  BOOL hasMarketplaceYlength_:1;
-  BOOL hasVaultXlength_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
-  BOOL hasCarpenterXlength_:1;
-  BOOL hasExpansionConstants_:1;
+  BOOL hasMaxLevelForStruct_:1;
+  BOOL hasSkillPointsGainedOnLevelup_:1;
+  BOOL hasMaxLevelDifferenceForBattle_:1;
+  BOOL hasMaxLevelForUser_:1;
+  BOOL hasStaminaBaseCost_:1;
+  BOOL hasEnergyBaseCost_:1;
+  BOOL hasArmoryXlength_:1;
   BOOL hasDownloadableNibConstants_:1;
+  BOOL hasExpansionConstants_:1;
   BOOL hasLockBoxConstants_:1;
   BOOL hasGoldmineConstants_:1;
   BOOL hasThreeCardMonteConstants_:1;
@@ -2508,74 +2547,75 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   BOOL hasKiipRewardConditions_:1;
   BOOL hasBattleConstants_:1;
   BOOL hasFormulaConstants_:1;
+  Float64 healthFormulaExponentBase;
   Float64 bossEventSuperAttack;
   Float64 levelEquipBoostExponentBase;
-  Float64 healthFormulaExponentBase;
-  Float64 percentReturnedToUserForSellingEquipInArmory;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  Float64 percentReturnedToUserForSellingNormStructure;
+  Float64 percentReturnedToUserForSellingEquipInArmory;
   Float64 cutOfVaultDepositTaken;
-  int32_t diamondCostOfShortMarketplaceLicense;
-  int32_t numDaysUntilFreeRetract;
-  int32_t maxNumbersOfEnemiesToGenerateAtOnce;
-  int32_t maxLevelForUser;
-  int32_t maxCityRank;
-  int32_t armoryImgVerticalPixelOffset;
-  int32_t vaultImgVerticalPixelOffset;
-  int32_t marketplaceImgVerticalPixelOffset;
-  int32_t carpenterImgVerticalPixelOffset;
-  int32_t aviaryImgVerticalPixelOffset;
-  int32_t maxCharLengthForWallPost;
+  Float64 percentReturnedToUserForSellingNormStructure;
   int32_t playerWallPostsRetrieveCap;
-  int32_t averageSizeOfLevelBracket;
-  int32_t maxLevelDifferenceForBattle;
-  int32_t adColonyVideosRequiredToRedeemDiamonds;
-  int32_t minNameLength;
-  int32_t maxNameLength;
-  int32_t sizeOfAttackList;
-  int32_t maxNumTimesAttackedByOneInProtectionPeriod;
-  int32_t hoursInAttackedByOneProtectionPeriod;
-  int32_t minBattlesRequiredForKdrconsideration;
-  int32_t numChatsGivenPerGroupChatPurchasePackage;
-  int32_t diamondPriceForGroupChatPurchasePackage;
-  int32_t maxLengthOfChatString;
-  int32_t numHoursBeforeReshowingGoldSale;
-  int32_t numHoursBeforeReshowingLockBox;
-  int32_t numHoursBeforeReshowingBossEvent;
-  int32_t levelToShowRateUsPopup;
+  int32_t maxCharLengthForWallPost;
+  int32_t aviaryImgVerticalPixelOffset;
+  int32_t carpenterImgVerticalPixelOffset;
+  int32_t marketplaceImgVerticalPixelOffset;
+  int32_t vaultImgVerticalPixelOffset;
+  int32_t armoryImgVerticalPixelOffset;
+  int32_t maxCityRank;
+  int32_t maxNumbersOfEnemiesToGenerateAtOnce;
+  int32_t numDaysUntilFreeRetract;
+  int32_t diamondCostOfShortMarketplaceLicense;
+  int32_t initStamina;
   int32_t bossEventNumberOfAttacksUntilSuperAttack;
+  int32_t levelToShowRateUsPopup;
+  int32_t numHoursBeforeReshowingBossEvent;
+  int32_t numHoursBeforeReshowingLockBox;
+  int32_t numHoursBeforeReshowingGoldSale;
+  int32_t maxLengthOfChatString;
+  int32_t diamondPriceForGroupChatPurchasePackage;
+  int32_t numChatsGivenPerGroupChatPurchasePackage;
+  int32_t minBattlesRequiredForKdrconsideration;
+  int32_t hoursInAttackedByOneProtectionPeriod;
+  int32_t maxNumTimesAttackedByOneInProtectionPeriod;
+  int32_t sizeOfAttackList;
+  int32_t maxNameLength;
+  int32_t minNameLength;
+  int32_t adColonyVideosRequiredToRedeemDiamonds;
+  int32_t averageSizeOfLevelBracket;
+  int32_t vaultYlength;
+  int32_t marketplaceXlength;
+  int32_t marketplaceYlength;
+  int32_t carpenterXlength;
+  int32_t carpenterYlength;
+  int32_t aviaryXlength;
   int32_t aviaryYlength;
   int32_t attackBaseGain;
   int32_t defenseBaseGain;
   int32_t energyBaseGain;
   int32_t staminaBaseGain;
   int32_t attackBaseCost;
+  int32_t vaultXlength;
   int32_t defenseBaseCost;
-  int32_t energyBaseCost;
-  int32_t staminaBaseCost;
-  int32_t skillPointsGainedOnLevelup;
-  int32_t vaultYlength;
-  int32_t aviaryXlength;
-  int32_t maxLevelForStruct;
-  int32_t carpenterYlength;
+  int32_t armoryYlength;
   int32_t diamondCostOfLongMarketplaceLicense;
   int32_t numDaysShortMarketplaceLicenseLastsFor;
   int32_t numDaysLongMarketplaceLicenseLastsFor;
-  int32_t armoryXlength;
-  int32_t armoryYlength;
   int32_t maxNumberOfMarketplacePosts;
   int32_t diamondCostForFullEnergyRefill;
   int32_t diamondCostForFullStaminaRefill;
   int32_t minutesToRefillAstamina;
   int32_t minutesToRefillAenergy;
-  int32_t marketplaceXlength;
-  int32_t marketplaceYlength;
-  int32_t vaultXlength;
   int32_t maxNumOfSingleStruct;
-  int32_t carpenterXlength;
-  StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
+  int32_t maxLevelForStruct;
+  int32_t skillPointsGainedOnLevelup;
+  int32_t maxLevelDifferenceForBattle;
+  int32_t maxLevelForUser;
+  int32_t staminaBaseCost;
+  int32_t energyBaseCost;
+  int32_t armoryXlength;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
+  StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
   StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
   StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
   StartupResponseProto_StartupConstants_ThreeCardMonteConstants* threeCardMonteConstants;
@@ -2666,6 +2706,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BOOL) hasLevelToShowRateUsPopup;
 - (BOOL) hasBossEventNumberOfAttacksUntilSuperAttack;
 - (BOOL) hasBossEventSuperAttack;
+- (BOOL) hasInitStamina;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2743,6 +2784,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 @property (readonly) int32_t levelToShowRateUsPopup;
 @property (readonly) int32_t bossEventNumberOfAttacksUntilSuperAttack;
 @property (readonly) Float64 bossEventSuperAttack;
+@property (readonly) int32_t initStamina;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -4358,6 +4400,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (Float64) bossEventSuperAttack;
 - (StartupResponseProto_StartupConstants_Builder*) setBossEventSuperAttack:(Float64) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearBossEventSuperAttack;
+
+- (BOOL) hasInitStamina;
+- (int32_t) initStamina;
+- (StartupResponseProto_StartupConstants_Builder*) setInitStamina:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearInitStamina;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -15560,18 +15607,22 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 @interface BeginClanTowerWarRequestProto : PBGeneratedMessage {
 @private
   BOOL hasClaiming_:1;
+  BOOL hasCurTime_:1;
   BOOL hasTowerId_:1;
   BOOL hasSender_:1;
   BOOL claiming_:1;
+  int64_t curTime;
   int32_t towerId;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasTowerId;
 - (BOOL) hasClaiming;
+- (BOOL) hasCurTime;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t towerId;
 - (BOOL) claiming;
+@property (readonly) int64_t curTime;
 
 + (BeginClanTowerWarRequestProto*) defaultInstance;
 - (BeginClanTowerWarRequestProto*) defaultInstance;
@@ -15623,6 +15674,11 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BOOL) claiming;
 - (BeginClanTowerWarRequestProto_Builder*) setClaiming:(BOOL) value;
 - (BeginClanTowerWarRequestProto_Builder*) clearClaiming;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (BeginClanTowerWarRequestProto_Builder*) setCurTime:(int64_t) value;
+- (BeginClanTowerWarRequestProto_Builder*) clearCurTime;
 @end
 
 @interface BeginClanTowerWarResponseProto : PBGeneratedMessage {
@@ -15682,5 +15738,258 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BeginClanTowerWarResponseProto_BeginClanTowerWarStatus) status;
 - (BeginClanTowerWarResponseProto_Builder*) setStatus:(BeginClanTowerWarResponseProto_BeginClanTowerWarStatus) value;
 - (BeginClanTowerWarResponseProto_Builder*) clearStatus;
+@end
+
+@interface ConcedeClanTowerWarRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasCurTime_:1;
+  BOOL hasTowerId_:1;
+  BOOL hasSender_:1;
+  int64_t curTime;
+  int32_t towerId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasTowerId;
+- (BOOL) hasCurTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t towerId;
+@property (readonly) int64_t curTime;
+
++ (ConcedeClanTowerWarRequestProto*) defaultInstance;
+- (ConcedeClanTowerWarRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ConcedeClanTowerWarRequestProto_Builder*) builder;
++ (ConcedeClanTowerWarRequestProto_Builder*) builder;
++ (ConcedeClanTowerWarRequestProto_Builder*) builderWithPrototype:(ConcedeClanTowerWarRequestProto*) prototype;
+
++ (ConcedeClanTowerWarRequestProto*) parseFromData:(NSData*) data;
++ (ConcedeClanTowerWarRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ConcedeClanTowerWarRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (ConcedeClanTowerWarRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ConcedeClanTowerWarRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ConcedeClanTowerWarRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ConcedeClanTowerWarRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ConcedeClanTowerWarRequestProto* result;
+}
+
+- (ConcedeClanTowerWarRequestProto*) defaultInstance;
+
+- (ConcedeClanTowerWarRequestProto_Builder*) clear;
+- (ConcedeClanTowerWarRequestProto_Builder*) clone;
+
+- (ConcedeClanTowerWarRequestProto*) build;
+- (ConcedeClanTowerWarRequestProto*) buildPartial;
+
+- (ConcedeClanTowerWarRequestProto_Builder*) mergeFrom:(ConcedeClanTowerWarRequestProto*) other;
+- (ConcedeClanTowerWarRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ConcedeClanTowerWarRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ConcedeClanTowerWarRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ConcedeClanTowerWarRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ConcedeClanTowerWarRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ConcedeClanTowerWarRequestProto_Builder*) clearSender;
+
+- (BOOL) hasTowerId;
+- (int32_t) towerId;
+- (ConcedeClanTowerWarRequestProto_Builder*) setTowerId:(int32_t) value;
+- (ConcedeClanTowerWarRequestProto_Builder*) clearTowerId;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (ConcedeClanTowerWarRequestProto_Builder*) setCurTime:(int64_t) value;
+- (ConcedeClanTowerWarRequestProto_Builder*) clearCurTime;
+@end
+
+@interface ConcedeClanTowerWarResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatus status;
+
++ (ConcedeClanTowerWarResponseProto*) defaultInstance;
+- (ConcedeClanTowerWarResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ConcedeClanTowerWarResponseProto_Builder*) builder;
++ (ConcedeClanTowerWarResponseProto_Builder*) builder;
++ (ConcedeClanTowerWarResponseProto_Builder*) builderWithPrototype:(ConcedeClanTowerWarResponseProto*) prototype;
+
++ (ConcedeClanTowerWarResponseProto*) parseFromData:(NSData*) data;
++ (ConcedeClanTowerWarResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ConcedeClanTowerWarResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ConcedeClanTowerWarResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ConcedeClanTowerWarResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ConcedeClanTowerWarResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ConcedeClanTowerWarResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ConcedeClanTowerWarResponseProto* result;
+}
+
+- (ConcedeClanTowerWarResponseProto*) defaultInstance;
+
+- (ConcedeClanTowerWarResponseProto_Builder*) clear;
+- (ConcedeClanTowerWarResponseProto_Builder*) clone;
+
+- (ConcedeClanTowerWarResponseProto*) build;
+- (ConcedeClanTowerWarResponseProto*) buildPartial;
+
+- (ConcedeClanTowerWarResponseProto_Builder*) mergeFrom:(ConcedeClanTowerWarResponseProto*) other;
+- (ConcedeClanTowerWarResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ConcedeClanTowerWarResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ConcedeClanTowerWarResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ConcedeClanTowerWarResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ConcedeClanTowerWarResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ConcedeClanTowerWarResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatus) status;
+- (ConcedeClanTowerWarResponseProto_Builder*) setStatus:(ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatus) value;
+- (ConcedeClanTowerWarResponseProto_Builder*) clearStatus;
+@end
+
+@interface ChangedClanTowerResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasReason_:1;
+  ChangedClanTowerResponseProto_ReasonForClanTowerChange reason;
+  NSMutableArray* mutableClanTowersList;
+}
+- (BOOL) hasReason;
+@property (readonly) ChangedClanTowerResponseProto_ReasonForClanTowerChange reason;
+- (NSArray*) clanTowersList;
+- (ClanTowerProto*) clanTowersAtIndex:(int32_t) index;
+
++ (ChangedClanTowerResponseProto*) defaultInstance;
+- (ChangedClanTowerResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ChangedClanTowerResponseProto_Builder*) builder;
++ (ChangedClanTowerResponseProto_Builder*) builder;
++ (ChangedClanTowerResponseProto_Builder*) builderWithPrototype:(ChangedClanTowerResponseProto*) prototype;
+
++ (ChangedClanTowerResponseProto*) parseFromData:(NSData*) data;
++ (ChangedClanTowerResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ChangedClanTowerResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ChangedClanTowerResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ChangedClanTowerResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ChangedClanTowerResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ChangedClanTowerResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ChangedClanTowerResponseProto* result;
+}
+
+- (ChangedClanTowerResponseProto*) defaultInstance;
+
+- (ChangedClanTowerResponseProto_Builder*) clear;
+- (ChangedClanTowerResponseProto_Builder*) clone;
+
+- (ChangedClanTowerResponseProto*) build;
+- (ChangedClanTowerResponseProto*) buildPartial;
+
+- (ChangedClanTowerResponseProto_Builder*) mergeFrom:(ChangedClanTowerResponseProto*) other;
+- (ChangedClanTowerResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ChangedClanTowerResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (NSArray*) clanTowersList;
+- (ClanTowerProto*) clanTowersAtIndex:(int32_t) index;
+- (ChangedClanTowerResponseProto_Builder*) replaceClanTowersAtIndex:(int32_t) index with:(ClanTowerProto*) value;
+- (ChangedClanTowerResponseProto_Builder*) addClanTowers:(ClanTowerProto*) value;
+- (ChangedClanTowerResponseProto_Builder*) addAllClanTowers:(NSArray*) values;
+- (ChangedClanTowerResponseProto_Builder*) clearClanTowersList;
+
+- (BOOL) hasReason;
+- (ChangedClanTowerResponseProto_ReasonForClanTowerChange) reason;
+- (ChangedClanTowerResponseProto_Builder*) setReason:(ChangedClanTowerResponseProto_ReasonForClanTowerChange) value;
+- (ChangedClanTowerResponseProto_Builder*) clearReason;
+@end
+
+@interface GeneralNotificationResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasTitle_:1;
+  BOOL hasSubtitle_:1;
+  BOOL hasRgb_:1;
+  NSString* title;
+  NSString* subtitle;
+  ColorProto* rgb;
+}
+- (BOOL) hasTitle;
+- (BOOL) hasSubtitle;
+- (BOOL) hasRgb;
+@property (readonly, retain) NSString* title;
+@property (readonly, retain) NSString* subtitle;
+@property (readonly, retain) ColorProto* rgb;
+
++ (GeneralNotificationResponseProto*) defaultInstance;
+- (GeneralNotificationResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (GeneralNotificationResponseProto_Builder*) builder;
++ (GeneralNotificationResponseProto_Builder*) builder;
++ (GeneralNotificationResponseProto_Builder*) builderWithPrototype:(GeneralNotificationResponseProto*) prototype;
+
++ (GeneralNotificationResponseProto*) parseFromData:(NSData*) data;
++ (GeneralNotificationResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (GeneralNotificationResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (GeneralNotificationResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (GeneralNotificationResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (GeneralNotificationResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface GeneralNotificationResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  GeneralNotificationResponseProto* result;
+}
+
+- (GeneralNotificationResponseProto*) defaultInstance;
+
+- (GeneralNotificationResponseProto_Builder*) clear;
+- (GeneralNotificationResponseProto_Builder*) clone;
+
+- (GeneralNotificationResponseProto*) build;
+- (GeneralNotificationResponseProto*) buildPartial;
+
+- (GeneralNotificationResponseProto_Builder*) mergeFrom:(GeneralNotificationResponseProto*) other;
+- (GeneralNotificationResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (GeneralNotificationResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasTitle;
+- (NSString*) title;
+- (GeneralNotificationResponseProto_Builder*) setTitle:(NSString*) value;
+- (GeneralNotificationResponseProto_Builder*) clearTitle;
+
+- (BOOL) hasSubtitle;
+- (NSString*) subtitle;
+- (GeneralNotificationResponseProto_Builder*) setSubtitle:(NSString*) value;
+- (GeneralNotificationResponseProto_Builder*) clearSubtitle;
+
+- (BOOL) hasRgb;
+- (ColorProto*) rgb;
+- (GeneralNotificationResponseProto_Builder*) setRgb:(ColorProto*) value;
+- (GeneralNotificationResponseProto_Builder*) setRgbBuilder:(ColorProto_Builder*) builderForValue;
+- (GeneralNotificationResponseProto_Builder*) mergeRgb:(ColorProto*) value;
+- (GeneralNotificationResponseProto_Builder*) clearRgb;
 @end
 

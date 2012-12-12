@@ -10,6 +10,7 @@
 #import "Protocols.pb.h"
 #import "CCLabelFX.h"
 #import "MissionBuildingMenus.h"
+#import "ResetStaminaView.h"
 
 #define ASSET_TAG_BASE 2555
 
@@ -45,6 +46,7 @@
 
 @property (nonatomic, retain) IBOutlet MissionBuildingSummaryMenu *summaryMenu;
 @property (nonatomic, retain) IBOutlet MissionOverBuildingMenu *obMenu;
+@property (nonatomic, retain) IBOutlet ResetStaminaView *resetStaminaView;
 
 @property (nonatomic, retain) NSDate *potentialBossKillTime;
 

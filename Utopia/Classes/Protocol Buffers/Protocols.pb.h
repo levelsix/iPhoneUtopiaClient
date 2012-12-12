@@ -44,6 +44,8 @@
 @class ChangeUserLocationRequestProto_Builder;
 @class ChangeUserLocationResponseProto;
 @class ChangeUserLocationResponseProto_Builder;
+@class ChangedClanTowerResponseProto;
+@class ChangedClanTowerResponseProto_Builder;
 @class CharacterModRequestProto;
 @class CharacterModRequestProto_Builder;
 @class CharacterModResponseProto;
@@ -66,6 +68,12 @@
 @class CollectFromGoldmineRequestProto_Builder;
 @class CollectFromGoldmineResponseProto;
 @class CollectFromGoldmineResponseProto_Builder;
+@class ColorProto;
+@class ColorProto_Builder;
+@class ConcedeClanTowerWarRequestProto;
+@class ConcedeClanTowerWarRequestProto_Builder;
+@class ConcedeClanTowerWarResponseProto;
+@class ConcedeClanTowerWarResponseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class CreateClanRequestProto;
@@ -148,6 +156,8 @@
 @class FullUserQuestDataLargeProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GeneralNotificationResponseProto;
+@class GeneralNotificationResponseProto_Builder;
 @class GenerateAttackListRequestProto;
 @class GenerateAttackListRequestProto_Builder;
 @class GenerateAttackListResponseProto;
@@ -527,6 +537,7 @@ typedef enum {
   EventProtocolRequestCBossActionEvent = 72,
   EventProtocolRequestCBeginClanTowerWar = 73,
   EventProtocolRequestCUpgradeClanTierEvent = 74,
+  EventProtocolRequestCConcedeClanTowerWar = 75,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -606,12 +617,15 @@ typedef enum {
   EventProtocolResponseSBossActionEvent = 72,
   EventProtocolResponseSBeginClanTowerWar = 73,
   EventProtocolResponseSUpgradeClanTierEvent = 74,
+  EventProtocolResponseSConcedeClanTowerWarEvent = 75,
+  EventProtocolResponseSChangedClanTowerEvent = 76,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,
   EventProtocolResponseSPurgeStaticDataEvent = 104,
   EventProtocolResponseSReceivedGroupChatEvent = 105,
   EventProtocolResponseSSendAdminMessageEvent = 106,
+  EventProtocolResponseSGeneralNotificationEvent = 107,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

@@ -305,6 +305,7 @@ typedef enum {
 - (IBAction)skillButtonClicked:(id)sender;
 - (IBAction)closeClicked:(id)sender;
 - (IBAction)goToArmoryClicked:(id)sender;
+- (IBAction)resetSkillsClicked:(id)sender;
 
 + (ProfileViewController *) sharedProfileViewController;
 + (void) purgeSingleton;

@@ -118,6 +118,8 @@
 @property (nonatomic, assign) int levelToShowRateUsPopup;
 @property (nonatomic, copy) NSString *reviewPageConfirmationMessage;
 
+@property (nonatomic, assign) int initStamina;
+
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
 @property (nonatomic, assign) float forgeMinDiamondCostForGuarantee;
