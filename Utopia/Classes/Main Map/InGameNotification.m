@@ -16,6 +16,7 @@
   self.hidden = YES;
   if (self.notification.type == kNotificationGeneral) {
     // Do nothing
+    self.hidden = NO;
   } else if (self.notification.type != kNotificationWallPost) {
     [ActivityFeedController displayView];
   } else {

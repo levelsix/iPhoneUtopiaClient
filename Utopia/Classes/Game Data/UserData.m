@@ -387,6 +387,7 @@
     self.title = t;
     self.subtitle = st;
     self.color = c;
+    self.type = kNotificationGeneral;
   }
   return self;
 }
