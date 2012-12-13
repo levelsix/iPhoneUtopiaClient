@@ -14,11 +14,8 @@
 @implementation ResetStaminaView
 
 - (void) display {
-  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  int totalSkillPoints = (gs.level-1)*gl.skillPointsGainedOnLevelup;
-  NSLog(@"%d, %d, %d", gs.maxStamina, gl.initStamina, totalSkillPoints);
-  int percent = ((float)(gs.maxStamina-gl.initStamina))/totalSkillPoints*100;
+  int percent = [gl percentOfSkillPointsInStamina];
   
   self.descriptionLabel.text = [NSString stringWithFormat:@"You are only using %d%% of your skill points in Stamina. Redistribute skill points to defeat the boss with less refills!", percent];
   

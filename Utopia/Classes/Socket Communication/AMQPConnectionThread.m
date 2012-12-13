@@ -91,9 +91,10 @@ static int sessionId;
     _clanConsumer = [[_clanQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES] retain];
   }
 }
-  
+
 - (void) destroyClanMessageQueue {
   [_clanConsumer release];
+  _clanConsumer = nil;
   [_clanQueue release];
   _clanQueue = nil;
 }
@@ -111,31 +112,30 @@ static int sessionId;
 }
 
 - (void) endConnection {
-  [self destroyClanMessageQueue];
-  [_useridConsumer release];
-  [_udidConsumer release];
-  [_chatConsumer release];
-  
-//  GameState *gs = [GameState sharedGameState];
-//  [_udidQueue unbindFromExchange:_directExchange withKey:UDID_KEY];
-//  [_useridQueue unbindFromExchange:_directExchange withKey:USER_ID_KEY];
-//  [_chatQueue unbindFromExchange:_topicExchange withKey:CHAT_KEY];
-  [_udidQueue release];
-  [_useridQueue release];
-  [_chatQueue release];
-  [_directExchange release];
-  [_topicExchange release];
-  [_connection release];
-  
-  _chatConsumer = nil;
-  _chatQueue = nil;
-  _useridConsumer = nil;
-  _udidConsumer = nil;
-  _useridQueue = nil;
-  _udidQueue = nil;
-  _directExchange = nil;
-  _topicExchange = nil;
-  _connection = nil;
+  @try {
+    [self destroyClanMessageQueue];
+    [_useridConsumer release];
+    [_udidConsumer release];
+    [_chatConsumer release];
+    [_udidQueue release];
+    [_useridQueue release];
+    [_chatQueue release];
+    [_directExchange release];
+    [_topicExchange release];
+    [_connection release];
+  } @catch (NSException *e) {
+    LNLog(@"%@", e);
+  } @finally {
+    _chatConsumer = nil;
+    _chatQueue = nil;
+    _useridConsumer = nil;
+    _udidConsumer = nil;
+    _useridQueue = nil;
+    _udidQueue = nil;
+    _directExchange = nil;
+    _topicExchange = nil;
+    _connection = nil;
+  }
 }
 
 - (void) end {

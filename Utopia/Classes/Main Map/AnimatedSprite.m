@@ -495,7 +495,7 @@
     _healthBar.type = kCCProgressTimerTypeHorizontalBarLR;
     _healthBar.percentage = 845.f/1000*100;
     [healthBgd addChild:_healthBar];
-    _healthBar.position = ccp(healthBgd.contentSize.width/2, healthBgd.contentSize.height/2+1);
+    _healthBar.position = ccp(healthBgd.contentSize.width/2, healthBgd.contentSize.height/2);
     
     _healthLabel = [CCLabelTTF labelWithString:@"845/1000" fontName:[Globals font] fontSize:13.f];
     [healthBgd addChild:_healthLabel];

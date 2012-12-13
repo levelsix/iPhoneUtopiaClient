@@ -15501,10 +15501,12 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 @private
   BOOL hasDamageDone_:1;
   BOOL hasBossId_:1;
+  BOOL hasExpGained_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   int32_t damageDone;
   int32_t bossId;
+  int32_t expGained;
   MinimumUserProto* sender;
   BossActionResponseProto_BossActionStatus status;
   NSMutableArray* mutableCoinsGainedList;
@@ -15515,10 +15517,12 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (BOOL) hasStatus;
 - (BOOL) hasDamageDone;
 - (BOOL) hasBossId;
+- (BOOL) hasExpGained;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) BossActionResponseProto_BossActionStatus status;
 @property (readonly) int32_t damageDone;
 @property (readonly) int32_t bossId;
+@property (readonly) int32_t expGained;
 - (NSArray*) lootUserEquipList;
 - (FullUserEquipProto*) lootUserEquipAtIndex:(int32_t) index;
 - (NSArray*) coinsGainedList;
@@ -15602,6 +15606,11 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (int32_t) bossId;
 - (BossActionResponseProto_Builder*) setBossId:(int32_t) value;
 - (BossActionResponseProto_Builder*) clearBossId;
+
+- (BOOL) hasExpGained;
+- (int32_t) expGained;
+- (BossActionResponseProto_Builder*) setExpGained:(int32_t) value;
+- (BossActionResponseProto_Builder*) clearExpGained;
 @end
 
 @interface BeginClanTowerWarRequestProto : PBGeneratedMessage {

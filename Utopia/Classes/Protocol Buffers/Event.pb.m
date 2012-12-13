@@ -61453,6 +61453,7 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableCoinsGainedList;
 @property (retain) NSMutableArray* mutableDiamondsGainedList;
 @property int32_t bossId;
+@property int32_t expGained;
 @end
 
 @implementation BossActionResponseProto
@@ -61488,6 +61489,13 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
   hasBossId_ = !!value;
 }
 @synthesize bossId;
+- (BOOL) hasExpGained {
+  return !!hasExpGained_;
+}
+- (void) setHasExpGained:(BOOL) value {
+  hasExpGained_ = !!value;
+}
+@synthesize expGained;
 - (void) dealloc {
   self.sender = nil;
   self.mutableLootUserEquipList = nil;
@@ -61501,6 +61509,7 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
     self.status = BossActionResponseProto_BossActionStatusSuccess;
     self.damageDone = 0;
     self.bossId = 0;
+    self.expGained = 0;
   }
   return self;
 }
@@ -61562,6 +61571,9 @@ static BossActionResponseProto* defaultBossActionResponseProtoInstance = nil;
   if (self.hasBossId) {
     [output writeInt32:8 value:self.bossId];
   }
+  if (self.hasExpGained) {
+    [output writeInt32:9 value:self.expGained];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -61601,6 +61613,9 @@ static BossActionResponseProto* defaultBossActionResponseProtoInstance = nil;
   }
   if (self.hasBossId) {
     size += computeInt32Size(8, self.bossId);
+  }
+  if (self.hasExpGained) {
+    size += computeInt32Size(9, self.expGained);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -61719,6 +61734,9 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   if (other.hasBossId) {
     [self setBossId:other.bossId];
   }
+  if (other.hasExpGained) {
+    [self setExpGained:other.expGained];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -61778,6 +61796,10 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
       }
       case 64: {
         [self setBossId:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setExpGained:[input readInt32]];
         break;
       }
     }
@@ -61950,6 +61972,22 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (BossActionResponseProto_Builder*) clearBossId {
   result.hasBossId = NO;
   result.bossId = 0;
+  return self;
+}
+- (BOOL) hasExpGained {
+  return result.hasExpGained;
+}
+- (int32_t) expGained {
+  return result.expGained;
+}
+- (BossActionResponseProto_Builder*) setExpGained:(int32_t) value {
+  result.hasExpGained = YES;
+  result.expGained = value;
+  return self;
+}
+- (BossActionResponseProto_Builder*) clearExpGained {
+  result.hasExpGained = NO;
+  result.expGained = 0;
   return self;
 }
 @end

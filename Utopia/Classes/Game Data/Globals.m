@@ -1947,6 +1947,13 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RATE_US_CLICKED_LATER];
 }
 
+- (int) percentOfSkillPointsInStamina {
+  GameState *gs = [GameState sharedGameState];
+  int totalSkillPoints = (gs.level-1)*self.skillPointsGainedOnLevelup;
+  int percent = ((float)(gs.maxStamina-self.initStamina)*self.staminaBaseCost)/totalSkillPoints*100;
+  return percent;
+}
+
 - (void) dealloc {
   self.productIdentifiersToGold = nil;
   self.imageCache = nil;

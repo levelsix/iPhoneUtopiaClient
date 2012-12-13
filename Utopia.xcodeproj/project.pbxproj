@@ -1115,12 +1115,6 @@
 		CF5D3D7B1541ED5F0086234E /* JobCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5D3D7A1541ED5F0086234E /* JobCell.xib */; };
 		CF5D3D7E15420D930086234E /* checkdone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5D3D7C15420D930086234E /* checkdone@2x.png */; };
 		CF5D3D7F15420D930086234E /* checkdone.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5D3D7D15420D930086234E /* checkdone.png */; };
-		CF5F352E166768CC007CE970 /* ScyllasCoast.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF5F352D166768CC007CE970 /* ScyllasCoast.tmx */; };
-		CF5F35301667696C007CE970 /* ScyllasCoast@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF5F352F1667696B007CE970 /* ScyllasCoast@2x.tmx */; };
-		CF5F353516676D1B007CE970 /* WaterDragonWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF5F353116676D1B007CE970 /* WaterDragonWalkNF.plist */; };
-		CF5F353616676D1B007CE970 /* WaterDragonWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF5F353216676D1B007CE970 /* WaterDragonWalkNF.pvr.ccz */; };
-		CF5F353716676D1B007CE970 /* WaterDragonWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF5F353316676D1B007CE970 /* WaterDragonWalkNF@2x.plist */; };
-		CF5F353816676D1B007CE970 /* WaterDragonWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF5F353416676D1B007CE970 /* WaterDragonWalkNF@2x.pvr.ccz */; };
 		CF5F354B16683D5D007CE970 /* dragonheart.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F354516683D5D007CE970 /* dragonheart.png */; };
 		CF5F354C16683D5D007CE970 /* dragonheart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F354616683D5D007CE970 /* dragonheart@2x.png */; };
 		CF5F354D16683D5D007CE970 /* dragonhpbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F354716683D5D007CE970 /* dragonhpbg.png */; };
@@ -1711,8 +1705,6 @@
 		CFE954B3166F00A900DA63CF /* bossinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B1166F00A900DA63CF /* bossinfo@2x.png */; };
 		CFE954B6166F14F800DA63CF /* smallgoldstack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B4166F14F800DA63CF /* smallgoldstack.png */; };
 		CFE954B7166F14F800DA63CF /* smallgoldstack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B5166F14F800DA63CF /* smallgoldstack@2x.png */; };
-		CFE954ED167072A600DA63CF /* BlueHill.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFE954EB167072A600DA63CF /* BlueHill.tmx */; };
-		CFE954EE167072A600DA63CF /* BlueHill@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFE954EC167072A600DA63CF /* BlueHill@2x.tmx */; };
 		CFEB28431593F02500B622FC /* unlockedheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28411593F02500B622FC /* unlockedheader.png */; };
 		CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28421593F02500B622FC /* unlockedheader@2x.png */; };
 		CFEB284715951ADC00B622FC /* FullEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB284615951ADB00B622FC /* FullEvent.m */; };
@@ -3303,12 +3295,6 @@
 		CF5D3D7A1541ED5F0086234E /* JobCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JobCell.xib; sourceTree = "<group>"; };
 		CF5D3D7C15420D930086234E /* checkdone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkdone@2x.png"; sourceTree = "<group>"; };
 		CF5D3D7D15420D930086234E /* checkdone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkdone.png; sourceTree = "<group>"; };
-		CF5F352D166768CC007CE970 /* ScyllasCoast.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ScyllasCoast.tmx; sourceTree = "<group>"; };
-		CF5F352F1667696B007CE970 /* ScyllasCoast@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "ScyllasCoast@2x.tmx"; sourceTree = "<group>"; };
-		CF5F353116676D1B007CE970 /* WaterDragonWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = WaterDragonWalkNF.plist; sourceTree = "<group>"; };
-		CF5F353216676D1B007CE970 /* WaterDragonWalkNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = WaterDragonWalkNF.pvr.ccz; sourceTree = "<group>"; };
-		CF5F353316676D1B007CE970 /* WaterDragonWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WaterDragonWalkNF@2x.plist"; sourceTree = "<group>"; };
-		CF5F353416676D1B007CE970 /* WaterDragonWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WaterDragonWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
 		CF5F354516683D5D007CE970 /* dragonheart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dragonheart.png; sourceTree = "<group>"; };
 		CF5F354616683D5D007CE970 /* dragonheart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dragonheart@2x.png"; sourceTree = "<group>"; };
 		CF5F354716683D5D007CE970 /* dragonhpbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dragonhpbg.png; sourceTree = "<group>"; };
@@ -3992,8 +3978,6 @@
 		CFE954B1166F00A900DA63CF /* bossinfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bossinfo@2x.png"; sourceTree = "<group>"; };
 		CFE954B4166F14F800DA63CF /* smallgoldstack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smallgoldstack.png; sourceTree = "<group>"; };
 		CFE954B5166F14F800DA63CF /* smallgoldstack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "smallgoldstack@2x.png"; sourceTree = "<group>"; };
-		CFE954EB167072A600DA63CF /* BlueHill.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BlueHill.tmx; sourceTree = "<group>"; };
-		CFE954EC167072A600DA63CF /* BlueHill@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "BlueHill@2x.tmx"; sourceTree = "<group>"; };
 		CFEB28411593F02500B622FC /* unlockedheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlockedheader.png; sourceTree = "<group>"; };
 		CFEB28421593F02500B622FC /* unlockedheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlockedheader@2x.png"; sourceTree = "<group>"; };
 		CFEB284515951ADA00B622FC /* FullEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullEvent.h; sourceTree = "<group>"; };
@@ -6164,14 +6148,6 @@
 		CF1269D71538ACC600E0C1AD /* Tile Maps */ = {
 			isa = PBXGroup;
 			children = (
-				CFE954EB167072A600DA63CF /* BlueHill.tmx */,
-				CFE954EC167072A600DA63CF /* BlueHill@2x.tmx */,
-				CF5F353116676D1B007CE970 /* WaterDragonWalkNF.plist */,
-				CF5F353216676D1B007CE970 /* WaterDragonWalkNF.pvr.ccz */,
-				CF5F353316676D1B007CE970 /* WaterDragonWalkNF@2x.plist */,
-				CF5F353416676D1B007CE970 /* WaterDragonWalkNF@2x.pvr.ccz */,
-				CF5F352D166768CC007CE970 /* ScyllasCoast.tmx */,
-				CF5F352F1667696B007CE970 /* ScyllasCoast@2x.tmx */,
 				CFF891661667276200D91A71 /* watertiles.png */,
 				CFF891671667276200D91A71 /* watertiles@2x.png */,
 				CFE8DD661621075F00781774 /* Treez@2x.png */,
@@ -9242,12 +9218,6 @@
 				CF5F354E16683D5D007CE970 /* dragonhpred.png in Resources */,
 				CF5F354F16683D5D007CE970 /* dragonhpbg@2x.png in Resources */,
 				CF5F355016683D5D007CE970 /* dragonhpred@2x.png in Resources */,
-				CF5F352E166768CC007CE970 /* ScyllasCoast.tmx in Resources */,
-				CF5F35301667696C007CE970 /* ScyllasCoast@2x.tmx in Resources */,
-				CF5F353516676D1B007CE970 /* WaterDragonWalkNF.plist in Resources */,
-				CF5F353616676D1B007CE970 /* WaterDragonWalkNF.pvr.ccz in Resources */,
-				CF5F353716676D1B007CE970 /* WaterDragonWalkNF@2x.plist in Resources */,
-				CF5F353816676D1B007CE970 /* WaterDragonWalkNF@2x.pvr.ccz in Resources */,
 				CFE95479166E0DAF00DA63CF /* superattackpurple.png in Resources */,
 				CFE9547C166E0DAF00DA63CF /* superattackpurple@2x.png in Resources */,
 				CFE95482166E380D00DA63CF /* BossEventMenuController.xib in Resources */,
@@ -9279,8 +9249,6 @@
 				CFE954B3166F00A900DA63CF /* bossinfo@2x.png in Resources */,
 				CFE954B6166F14F800DA63CF /* smallgoldstack.png in Resources */,
 				CFE954B7166F14F800DA63CF /* smallgoldstack@2x.png in Resources */,
-				CFE954ED167072A600DA63CF /* BlueHill.tmx in Resources */,
-				CFE954EE167072A600DA63CF /* BlueHill@2x.tmx in Resources */,
 				CF4E450516787CE1005DAE18 /* ResetStaminaView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

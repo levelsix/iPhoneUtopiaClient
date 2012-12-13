@@ -750,6 +750,7 @@
 - (IBAction)bottomButtonClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   int clanId = clan.clan.clanId;
+  [self endEditing:YES];
   if (gs.clan) {
     if (gs.clan.clanId == clanId) {
       if (clan.clanSize == 1 && gs.clan.ownerId == gs.userId) {

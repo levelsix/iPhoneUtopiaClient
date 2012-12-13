@@ -138,7 +138,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
 
 - (void) moveToCenterAnimated:(BOOL)animated {
   [super moveToCenterAnimated:animated];
-  self.position = ccpAdd(self.position, ccp(50, 50));
+  self.position = ccpAdd(self.position, ccp(-75, -50));
 }
 
 - (void) moveToCritStruct:(BazaarStructType)type animated:(BOOL)animated {

@@ -18,6 +18,8 @@
 #import "QuestLogController.h"
 #import "BossEventMenuController.h"
 
+#define LAST_BOSS_RESET_STAMINA_TIME_KEY @"Last boss reset stamina time key"
+
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
 
 #define SUMMARY_MENU_ANIMATION_DURATION 0.3f
@@ -621,6 +623,26 @@
   
   ub.curHealth = MAX(0, ub.curHealth-barp.damageDone);
   
+  CCLabelTTF *expLabel =  [CCLabelFX labelWithString:[NSString stringWithFormat:@"+%d Exp.", barp.expGained] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+  [self addChild:expLabel z:1003];
+  expLabel.position = ccp(bs.position.x+bs.contentSize.width/2+expLabel.contentSize.width/2, bs.position.y+bs.contentSize.height/2+expLabel.contentSize.height/2);
+  expLabel.color = ccc3(255,200,0);
+  [expLabel runAction:[CCSequence actions:
+                       [CCSpawn actions:
+                        [CCFadeOut actionWithDuration:EXP_LABEL_DURATION],
+                        [CCMoveBy actionWithDuration:EXP_LABEL_DURATION position:ccp(0,40)],nil],
+                       [CCCallBlock actionWithBlock:^{[expLabel removeFromParentAndCleanup:YES];}], nil]];
+  
+  CCLabelTTF *successLabel =  [CCLabelFX labelWithString:[NSString stringWithFormat:@"Success!"] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+  [self addChild:successLabel z:1003];
+  successLabel.position = ccp(expLabel.position.x, expLabel.position.y+expLabel.contentSize.height/2+successLabel.contentSize.height/2);
+  successLabel.color = ccc3(255,255,255);
+  [successLabel runAction:[CCSequence actions:
+                           [CCSpawn actions:
+                            [CCFadeOut actionWithDuration:EXP_LABEL_DURATION],
+                            [CCMoveBy actionWithDuration:EXP_LABEL_DURATION position:ccp(0,40)],nil],
+                           [CCCallBlock actionWithBlock:^{[successLabel removeFromParentAndCleanup:YES];}], nil]];
+  
   for (NSNumber *n in barp.coinsGainedList) {
     self.silverOnMap += n.intValue;
   }
@@ -1030,43 +1052,56 @@
   [super onEnter];
   
   GameState *gs = [GameState sharedGameState];
-  FullCityProto *fcp = [gs cityWithId:_cityId];
-  // Schedule timer if there is a boss
-  if (fcp.bossIdsList.count > 0) {
-    _bossTimeLabel = [CCLabelFX labelWithString:@"" fontName:@"Trajan Pro" fontSize:16.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
-    _bossTimeLabel.color = ccc3(236, 230, 195);
-    [self.parent addChild:_bossTimeLabel z:1000];
-    _bossTimeLabel.position = ccp(self.parent.contentSize.width/2, 63.f);
-    
-    CCMenuItem *m = [CCMenuItemImage itemFromNormalImage:@"bossinfo.png" selectedImage:nil target:self selector:@selector(bossInfoClicked)];
-    _infoMenu = [CCMenu menuWithItems:m, nil];
-    [_bossTimeLabel addChild:_infoMenu];
-    [self updateBossLabel];
-    [self schedule:@selector(updateBossLabel) interval:1];
-    
-    _powerAttackBgd = [CCSprite spriteWithFile:@"superattackbg.png"];
-    [self.parent addChild:_powerAttackBgd z:1];
-    _powerAttackBgd.position = ccp(5+_powerAttackBgd.contentSize.width/2, _bossTimeLabel.position.y+3.f);
-    
-    _powerAttackBar = [CCProgressTimer progressWithFile:@"superattackpurple.png"];
-    _powerAttackBar.type = kCCProgressTimerTypeHorizontalBarLR;
-    _powerAttackBar.percentage = 0;
-    [_powerAttackBgd addChild:_powerAttackBar];
-    _powerAttackBar.position = ccp(_powerAttackBgd.contentSize.width/2, _powerAttackBgd.contentSize.height/2);
-    
-    _powerAttackLabel = [CCLabelFX labelWithString:@"0/5" fontName:[Globals font] fontSize:13.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f shadowColor:ccc4(0,0,0,50) fillColor:ccc4(236, 230, 195, 255)];
-    [_powerAttackBgd addChild:_powerAttackLabel];
-    _powerAttackLabel.position = ccpAdd(_powerAttackBar.position, ccp(0,-3));
-    
-    CCLabelFX *superAttackLabel = [CCLabelFX labelWithString:@"Power Attack" fontName:@"Trajan Pro" fontSize:13.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
-    superAttackLabel.color = ccc3(236, 230, 195);
-    [_powerAttackBgd addChild:superAttackLabel z:1000];
-    superAttackLabel.position = ccp(_powerAttackBgd.contentSize.width/2, _powerAttackBgd.contentSize.height/2+superAttackLabel.contentSize.height/2+5);
-    
-    // So we can increment it
-    [self resetPowerAttack];
-    
-    [self.resetStaminaView display];
+  Globals *gl = [Globals sharedGlobals];
+  if (!gs.isTutorial) {
+    FullCityProto *fcp = [gs cityWithId:_cityId];
+    // Schedule timer if there is a boss
+    if (fcp.bossIdsList.count > 0) {
+      _bossTimeLabel = [CCLabelFX labelWithString:@"" fontName:@"Trajan Pro" fontSize:16.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+      _bossTimeLabel.color = ccc3(236, 230, 195);
+      [self.parent addChild:_bossTimeLabel z:1000];
+      _bossTimeLabel.position = ccp(self.parent.contentSize.width/2, 63.f);
+      
+      CCMenuItem *m = [CCMenuItemImage itemFromNormalImage:@"bossinfo.png" selectedImage:nil target:self selector:@selector(bossInfoClicked)];
+      _infoMenu = [CCMenu menuWithItems:m, nil];
+      [_bossTimeLabel addChild:_infoMenu];
+      [self updateBossLabel];
+      [self schedule:@selector(updateBossLabel) interval:1];
+      
+      _powerAttackBgd = [CCSprite spriteWithFile:@"superattackbg.png"];
+      [self.parent addChild:_powerAttackBgd z:1];
+      _powerAttackBgd.position = ccp(5+_powerAttackBgd.contentSize.width/2, _bossTimeLabel.position.y+3.f);
+      
+      _powerAttackBar = [CCProgressTimer progressWithFile:@"superattackpurple.png"];
+      _powerAttackBar.type = kCCProgressTimerTypeHorizontalBarLR;
+      _powerAttackBar.percentage = 0;
+      [_powerAttackBgd addChild:_powerAttackBar];
+      _powerAttackBar.position = ccp(_powerAttackBgd.contentSize.width/2, _powerAttackBgd.contentSize.height/2);
+      
+      _powerAttackLabel = [CCLabelFX labelWithString:@"0/5" fontName:[Globals font] fontSize:13.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f shadowColor:ccc4(0,0,0,50) fillColor:ccc4(236, 230, 195, 255)];
+      [_powerAttackBgd addChild:_powerAttackLabel];
+      _powerAttackLabel.position = ccpAdd(_powerAttackBar.position, ccp(0,-3));
+      
+      CCLabelFX *superAttackLabel = [CCLabelFX labelWithString:@"Power Attack" fontName:@"Trajan Pro" fontSize:13.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+      superAttackLabel.color = ccc3(236, 230, 195);
+      [_powerAttackBgd addChild:superAttackLabel z:1000];
+      superAttackLabel.position = ccp(_powerAttackBgd.contentSize.width/2, _powerAttackBgd.contentSize.height/2+superAttackLabel.contentSize.height/2+5);
+      
+      // So we can increment it
+      [self resetPowerAttack];
+      
+      NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+      NSDate *curDate = [NSDate date];
+      NSDate *date = [defaults objectForKey:LAST_BOSS_RESET_STAMINA_TIME_KEY];
+      NSDate *nextShowDate = [date dateByAddingTimeInterval:3600*24];
+      if (!date || [nextShowDate compare:curDate] == NSOrderedAscending) {
+        int percent = [gl percentOfSkillPointsInStamina];
+        if (percent < 75) {
+          [self.resetStaminaView display];
+          [defaults setObject:curDate forKey:LAST_BOSS_RESET_STAMINA_TIME_KEY];
+        }
+      }
+    }
   }
 }
 

@@ -2274,6 +2274,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     for (NSNumber *n in proto.diamondsGainedList) {
       gs.gold += n.intValue;
     }
+    gs.experience += proto.expGained;
     
     [gs addToMyEquips:proto.lootUserEquipList];
     

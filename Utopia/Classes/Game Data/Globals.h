@@ -288,6 +288,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 
 + (void) checkRateUsPopup;
 
+- (int) percentOfSkillPointsInStamina;
+
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;
 - (int) calculateEquipGoldSellCost:(UserEquip *)ue;

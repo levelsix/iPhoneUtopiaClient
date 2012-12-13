@@ -941,6 +941,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
 - (IBAction)backClicked:(id)sender {
   [secondTopBar loadBrowseClanConfiguration];
   [secondTopBar unclickButton:kButton1];
+  [secondTopBar unclickButton:kButton2];
+  [secondTopBar unclickButton:kButton3];
   [secondTopBar clickButton:_lastBrowseButton];
   
   // Do animation
