@@ -28,14 +28,6 @@
 		458DD2B7158FB0C900BFC543 /* BattleCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DD2B6158FB0C900BFC543 /* BattleCalculator.m */; };
 		458DD2BB158FB10000BFC543 /* BattleCalculatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DD2BA158FB10000BFC543 /* BattleCalculatorTests.m */; };
 		459279A0156C5E6900FEC3AF /* InAppPurchaseData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4592799F156C5E6900FEC3AF /* InAppPurchaseData.m */; };
-		459A9125157D3E62004B7014 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 459A90FC157D3E62004B7014 /* CHANGELOG.md */; };
-		459A912F157D3E62004B7014 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 459A9118157D3E62004B7014 /* close.png */; };
-		459A9130157D3E62004B7014 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 459A9119157D3E62004B7014 /* close@2x.png */; };
-		459A9131157D3E62004B7014 /* notification-portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 459A911A157D3E62004B7014 /* notification-portrait.png */; };
-		459A9132157D3E62004B7014 /* notification-portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 459A911B157D3E62004B7014 /* notification-portrait@2x.png */; };
-		459A9133157D3E62004B7014 /* spinner-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 459A911C157D3E62004B7014 /* spinner-bg.png */; };
-		459A9134157D3E62004B7014 /* spinner-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 459A911D157D3E62004B7014 /* spinner-bg@2x.png */; };
-		459A9135157D3E62004B7014 /* libKiip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 459A911F157D3E62004B7014 /* libKiip.a */; };
 		459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 459A913A157D52A6004B7014 /* KiipDelegate.m */; };
 		45C3271D15ABF7B2009F3C60 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C3270E15ABF7B2009F3C60 /* DDAbstractDatabaseLogger.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		45C3271E15ABF7B2009F3C60 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C3271015ABF7B2009F3C60 /* DDASLLogger.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -777,24 +769,6 @@
 		CF1363B416092D6C005D7528 /* ClanBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF1363B316092D6C005D7528 /* ClanBoardCell.xib */; };
 		CF13766C15ABB61400D2D2B1 /* level_up_pop_ups.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF13766815ABB46A00D2D2B1 /* level_up_pop_ups.m4a */; };
 		CF13766D15ABB61900D2D2B1 /* questavail_notif.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF13766A15ABB47200D2D2B1 /* questavail_notif.m4a */; };
-		CF15BA3C1651CDAD00A51F85 /* bluetower.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA2A1651CDAD00A51F85 /* bluetower.png */; };
-		CF15BA3D1651CDAD00A51F85 /* bluetower@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA2B1651CDAD00A51F85 /* bluetower@2x.png */; };
-		CF15BA3E1651CDAD00A51F85 /* claninwarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA2C1651CDAD00A51F85 /* claninwarbg.png */; };
-		CF15BA3F1651CDAD00A51F85 /* claninwarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA2D1651CDAD00A51F85 /* claninwarbg@2x.png */; };
-		CF15BA401651CDAD00A51F85 /* clanwarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA2E1651CDAD00A51F85 /* clanwarbg.png */; };
-		CF15BA411651CDAD00A51F85 /* clanwarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA2F1651CDAD00A51F85 /* clanwarbg@2x.png */; };
-		CF15BA421651CDAD00A51F85 /* crown.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA301651CDAD00A51F85 /* crown.png */; };
-		CF15BA431651CDAD00A51F85 /* crown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA311651CDAD00A51F85 /* crown@2x.png */; };
-		CF15BA441651CDAD00A51F85 /* towernamebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA321651CDAD00A51F85 /* towernamebg.png */; };
-		CF15BA451651CDAD00A51F85 /* towernamebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA331651CDAD00A51F85 /* towernamebg@2x.png */; };
-		CF15BA461651CDAD00A51F85 /* warbluebar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA341651CDAD00A51F85 /* warbluebar.png */; };
-		CF15BA471651CDAD00A51F85 /* warbluebar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA351651CDAD00A51F85 /* warbluebar@2x.png */; };
-		CF15BA481651CDAD00A51F85 /* warendsinbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA361651CDAD00A51F85 /* warendsinbg.png */; };
-		CF15BA491651CDAD00A51F85 /* warendsinbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA371651CDAD00A51F85 /* warendsinbg@2x.png */; };
-		CF15BA4A1651CDAD00A51F85 /* warredbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA381651CDAD00A51F85 /* warredbar.png */; };
-		CF15BA4B1651CDAD00A51F85 /* warredbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA391651CDAD00A51F85 /* warredbar@2x.png */; };
-		CF15BA4C1651CDAD00A51F85 /* warticker.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA3A1651CDAD00A51F85 /* warticker.png */; };
-		CF15BA4D1651CDAD00A51F85 /* warticker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15BA3B1651CDAD00A51F85 /* warticker@2x.png */; };
 		CF15BA7F16572A8400A51F85 /* AMQPChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA6D16572A8400A51F85 /* AMQPChannel.m */; };
 		CF15BA8016572A8400A51F85 /* AMQPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA6F16572A8400A51F85 /* AMQPConnection.m */; };
 		CF15BA8116572A8400A51F85 /* AMQPConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7116572A8400A51F85 /* AMQPConsumer.m */; };
@@ -1821,20 +1795,6 @@
 		458DD2BA158FB10000BFC543 /* BattleCalculatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleCalculatorTests.m; sourceTree = "<group>"; };
 		4592799E156C5E6900FEC3AF /* InAppPurchaseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseData.h; sourceTree = "<group>"; };
 		4592799F156C5E6900FEC3AF /* InAppPurchaseData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseData.m; sourceTree = "<group>"; };
-		459A90FC157D3E62004B7014 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.md; sourceTree = "<group>"; };
-		459A9112157D3E62004B7014 /* Kiip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Kiip.h; sourceTree = "<group>"; };
-		459A9113157D3E62004B7014 /* KPErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPErrors.h; sourceTree = "<group>"; };
-		459A9114157D3E62004B7014 /* KPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPManager.h; sourceTree = "<group>"; };
-		459A9115157D3E62004B7014 /* KPManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPManagerDelegate.h; sourceTree = "<group>"; };
-		459A9116157D3E62004B7014 /* KPUIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPUIConstants.h; sourceTree = "<group>"; };
-		459A9118157D3E62004B7014 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
-		459A9119157D3E62004B7014 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
-		459A911A157D3E62004B7014 /* notification-portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification-portrait.png"; sourceTree = "<group>"; };
-		459A911B157D3E62004B7014 /* notification-portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification-portrait@2x.png"; sourceTree = "<group>"; };
-		459A911C157D3E62004B7014 /* spinner-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner-bg.png"; sourceTree = "<group>"; };
-		459A911D157D3E62004B7014 /* spinner-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner-bg@2x.png"; sourceTree = "<group>"; };
-		459A911F157D3E62004B7014 /* libKiip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKiip.a; sourceTree = "<group>"; };
-		459A9122157D3E62004B7014 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		459A9139157D52A6004B7014 /* KiipDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KiipDelegate.h; sourceTree = "<group>"; };
 		459A913A157D52A6004B7014 /* KiipDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KiipDelegate.m; sourceTree = "<group>"; };
 		45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libAlaume-iphonesimulator.a"; sourceTree = "<group>"; };
@@ -2926,24 +2886,6 @@
 		CF1363B316092D6C005D7528 /* ClanBoardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanBoardCell.xib; sourceTree = "<group>"; };
 		CF13766815ABB46A00D2D2B1 /* level_up_pop_ups.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = level_up_pop_ups.m4a; sourceTree = "<group>"; };
 		CF13766A15ABB47200D2D2B1 /* questavail_notif.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = questavail_notif.m4a; sourceTree = "<group>"; };
-		CF15BA2A1651CDAD00A51F85 /* bluetower.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bluetower.png; sourceTree = "<group>"; };
-		CF15BA2B1651CDAD00A51F85 /* bluetower@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bluetower@2x.png"; sourceTree = "<group>"; };
-		CF15BA2C1651CDAD00A51F85 /* claninwarbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = claninwarbg.png; sourceTree = "<group>"; };
-		CF15BA2D1651CDAD00A51F85 /* claninwarbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "claninwarbg@2x.png"; sourceTree = "<group>"; };
-		CF15BA2E1651CDAD00A51F85 /* clanwarbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clanwarbg.png; sourceTree = "<group>"; };
-		CF15BA2F1651CDAD00A51F85 /* clanwarbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clanwarbg@2x.png"; sourceTree = "<group>"; };
-		CF15BA301651CDAD00A51F85 /* crown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crown.png; sourceTree = "<group>"; };
-		CF15BA311651CDAD00A51F85 /* crown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "crown@2x.png"; sourceTree = "<group>"; };
-		CF15BA321651CDAD00A51F85 /* towernamebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = towernamebg.png; sourceTree = "<group>"; };
-		CF15BA331651CDAD00A51F85 /* towernamebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "towernamebg@2x.png"; sourceTree = "<group>"; };
-		CF15BA341651CDAD00A51F85 /* warbluebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warbluebar.png; sourceTree = "<group>"; };
-		CF15BA351651CDAD00A51F85 /* warbluebar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warbluebar@2x.png"; sourceTree = "<group>"; };
-		CF15BA361651CDAD00A51F85 /* warendsinbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warendsinbg.png; sourceTree = "<group>"; };
-		CF15BA371651CDAD00A51F85 /* warendsinbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warendsinbg@2x.png"; sourceTree = "<group>"; };
-		CF15BA381651CDAD00A51F85 /* warredbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warredbar.png; sourceTree = "<group>"; };
-		CF15BA391651CDAD00A51F85 /* warredbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warredbar@2x.png"; sourceTree = "<group>"; };
-		CF15BA3A1651CDAD00A51F85 /* warticker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warticker.png; sourceTree = "<group>"; };
-		CF15BA3B1651CDAD00A51F85 /* warticker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warticker@2x.png"; sourceTree = "<group>"; };
 		CF15BA6C16572A8400A51F85 /* AMQPChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPChannel.h; sourceTree = "<group>"; };
 		CF15BA6D16572A8400A51F85 /* AMQPChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPChannel.m; sourceTree = "<group>"; };
 		CF15BA6E16572A8400A51F85 /* AMQPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnection.h; sourceTree = "<group>"; };
@@ -3165,6 +3107,18 @@
 		CF3CF2931574B39F00CD04D7 /* 3darrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3darrow@2x.png"; sourceTree = "<group>"; };
 		CF3CF2961574D5B900CD04D7 /* 3dcheckmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3dcheckmark.png; sourceTree = "<group>"; };
 		CF3CF2971574D5B900CD04D7 /* 3dcheckmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3dcheckmark@2x.png"; sourceTree = "<group>"; };
+		CF4088A716799BA700E0BFA0 /* Kiip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Kiip.h; sourceTree = "<group>"; };
+		CF4088A816799BA700E0BFA0 /* KPErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPErrors.h; sourceTree = "<group>"; };
+		CF4088A916799BA700E0BFA0 /* KPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPManager.h; sourceTree = "<group>"; };
+		CF4088AA16799BA700E0BFA0 /* KPManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPManagerDelegate.h; sourceTree = "<group>"; };
+		CF4088AB16799BA700E0BFA0 /* KPUIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPUIConstants.h; sourceTree = "<group>"; };
+		CF4088AD16799BA700E0BFA0 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
+		CF4088AE16799BA700E0BFA0 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
+		CF4088AF16799BA700E0BFA0 /* notification-portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification-portrait.png"; sourceTree = "<group>"; };
+		CF4088B016799BA700E0BFA0 /* notification-portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification-portrait@2x.png"; sourceTree = "<group>"; };
+		CF4088B116799BA700E0BFA0 /* spinner-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner-bg.png"; sourceTree = "<group>"; };
+		CF4088B216799BA700E0BFA0 /* spinner-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner-bg@2x.png"; sourceTree = "<group>"; };
+		CF4088B416799BA700E0BFA0 /* libKiip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKiip.a; sourceTree = "<group>"; };
 		CF41D0DD158BDB9C00A4DBC3 /* dialogueempty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dialogueempty.png; sourceTree = "<group>"; };
 		CF41D0DE158BDB9C00A4DBC3 /* dialogueempty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dialogueempty@2x.png"; sourceTree = "<group>"; };
 		CF41D0DF158BDB9C00A4DBC3 /* dianext.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dianext.png; sourceTree = "<group>"; };
@@ -4099,7 +4053,6 @@
 				CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */,
 				CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */,
 				CF19297F157EEC4C00D51C70 /* libApsalar.a in Frameworks */,
-				459A9135157D3E62004B7014 /* libKiip.a in Frameworks */,
 				CFC02DFD16118115007B052F /* libCrittercism_v3_3_4.a in Frameworks */,
 				CF7F27D6165DE2DD00D967DC /* MobileAppTracker.framework in Frameworks */,
 			);
@@ -4164,51 +4117,6 @@
 				458DD2BA158FB10000BFC543 /* BattleCalculatorTests.m */,
 			);
 			name = Battle;
-			sourceTree = "<group>";
-		};
-		459A90FB157D3E62004B7014 /* Kiip */ = {
-			isa = PBXGroup;
-			children = (
-				459A90FC157D3E62004B7014 /* CHANGELOG.md */,
-				459A9111157D3E62004B7014 /* Headers */,
-				459A9117157D3E62004B7014 /* Images */,
-				459A911E157D3E62004B7014 /* iphoneos */,
-				459A9122157D3E62004B7014 /* README.md */,
-			);
-			path = Kiip;
-			sourceTree = "<group>";
-		};
-		459A9111157D3E62004B7014 /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				459A9112157D3E62004B7014 /* Kiip.h */,
-				459A9113157D3E62004B7014 /* KPErrors.h */,
-				459A9114157D3E62004B7014 /* KPManager.h */,
-				459A9115157D3E62004B7014 /* KPManagerDelegate.h */,
-				459A9116157D3E62004B7014 /* KPUIConstants.h */,
-			);
-			path = Headers;
-			sourceTree = "<group>";
-		};
-		459A9117157D3E62004B7014 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				459A9118157D3E62004B7014 /* close.png */,
-				459A9119157D3E62004B7014 /* close@2x.png */,
-				459A911A157D3E62004B7014 /* notification-portrait.png */,
-				459A911B157D3E62004B7014 /* notification-portrait@2x.png */,
-				459A911C157D3E62004B7014 /* spinner-bg.png */,
-				459A911D157D3E62004B7014 /* spinner-bg@2x.png */,
-			);
-			path = Images;
-			sourceTree = "<group>";
-		};
-		459A911E157D3E62004B7014 /* iphoneos */ = {
-			isa = PBXGroup;
-			children = (
-				459A911F157D3E62004B7014 /* libKiip.a */,
-			);
-			path = iphoneos;
 			sourceTree = "<group>";
 		};
 		45C3270C15ABF7B2009F3C60 /* Lumberjack */ = {
@@ -4841,6 +4749,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CF40889016799BA600E0BFA0 /* Kiip */,
 				CF7F27D5165DE2DB00D967DC /* MobileAppTracker.framework */,
 				CFC1414D1657484A0060188D /* librabbitmq */,
 				CF15BA6B16572A8300A51F85 /* rabbitmq */,
@@ -4853,7 +4762,6 @@
 				45C3270C15ABF7B2009F3C60 /* Lumberjack */,
 				CF41D192158BFAE900A4DBC3 /* OpenUDID */,
 				45D21E3F158037F500BB4D53 /* oauth */,
-				459A90FB157D3E62004B7014 /* Kiip */,
 				457239FC1565E0DC000380EE /* Delight.framework */,
 				457EBD7F15647A38008C097F /* Alaume */,
 				CF1265F31538ACC400E0C1AD /* Apsalar */,
@@ -5265,7 +5173,6 @@
 			isa = PBXGroup;
 			children = (
 				CFE95483166E40DD00DA63CF /* Boss Event Images */,
-				CF15BA291651CDAD00A51F85 /* Clan Tower images */,
 				CFF4A03316290FF600A452A7 /* Three Card Monte Images */,
 				CF781C54161E60E900E2FF95 /* Expansion Images */,
 				CF3BE05B1619458400CA5A76 /* Lock box images */,
@@ -6412,31 +6319,6 @@
 			path = "Vault Images";
 			sourceTree = "<group>";
 		};
-		CF15BA291651CDAD00A51F85 /* Clan Tower images */ = {
-			isa = PBXGroup;
-			children = (
-				CF15BA2A1651CDAD00A51F85 /* bluetower.png */,
-				CF15BA2B1651CDAD00A51F85 /* bluetower@2x.png */,
-				CF15BA2C1651CDAD00A51F85 /* claninwarbg.png */,
-				CF15BA2D1651CDAD00A51F85 /* claninwarbg@2x.png */,
-				CF15BA2E1651CDAD00A51F85 /* clanwarbg.png */,
-				CF15BA2F1651CDAD00A51F85 /* clanwarbg@2x.png */,
-				CF15BA301651CDAD00A51F85 /* crown.png */,
-				CF15BA311651CDAD00A51F85 /* crown@2x.png */,
-				CF15BA321651CDAD00A51F85 /* towernamebg.png */,
-				CF15BA331651CDAD00A51F85 /* towernamebg@2x.png */,
-				CF15BA341651CDAD00A51F85 /* warbluebar.png */,
-				CF15BA351651CDAD00A51F85 /* warbluebar@2x.png */,
-				CF15BA361651CDAD00A51F85 /* warendsinbg.png */,
-				CF15BA371651CDAD00A51F85 /* warendsinbg@2x.png */,
-				CF15BA381651CDAD00A51F85 /* warredbar.png */,
-				CF15BA391651CDAD00A51F85 /* warredbar@2x.png */,
-				CF15BA3A1651CDAD00A51F85 /* warticker.png */,
-				CF15BA3B1651CDAD00A51F85 /* warticker@2x.png */,
-			);
-			path = "Clan Tower images";
-			sourceTree = "<group>";
-		};
 		CF15BA6B16572A8300A51F85 /* rabbitmq */ = {
 			isa = PBXGroup;
 			children = (
@@ -6670,6 +6552,49 @@
 				CF2B4CA1162A40BD00758BC8 /* LockBoxInfoView.xib */,
 			);
 			path = LockBoxMenu;
+			sourceTree = "<group>";
+		};
+		CF40889016799BA600E0BFA0 /* Kiip */ = {
+			isa = PBXGroup;
+			children = (
+				CF4088A616799BA700E0BFA0 /* Headers */,
+				CF4088AC16799BA700E0BFA0 /* Images */,
+				CF4088B316799BA700E0BFA0 /* iphoneos */,
+			);
+			path = Kiip;
+			sourceTree = "<group>";
+		};
+		CF4088A616799BA700E0BFA0 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				CF4088A716799BA700E0BFA0 /* Kiip.h */,
+				CF4088A816799BA700E0BFA0 /* KPErrors.h */,
+				CF4088A916799BA700E0BFA0 /* KPManager.h */,
+				CF4088AA16799BA700E0BFA0 /* KPManagerDelegate.h */,
+				CF4088AB16799BA700E0BFA0 /* KPUIConstants.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		CF4088AC16799BA700E0BFA0 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				CF4088AD16799BA700E0BFA0 /* close.png */,
+				CF4088AE16799BA700E0BFA0 /* close@2x.png */,
+				CF4088AF16799BA700E0BFA0 /* notification-portrait.png */,
+				CF4088B016799BA700E0BFA0 /* notification-portrait@2x.png */,
+				CF4088B116799BA700E0BFA0 /* spinner-bg.png */,
+				CF4088B216799BA700E0BFA0 /* spinner-bg@2x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		CF4088B316799BA700E0BFA0 /* iphoneos */ = {
+			isa = PBXGroup;
+			children = (
+				CF4088B416799BA700E0BFA0 /* libKiip.a */,
+			);
+			path = iphoneos;
 			sourceTree = "<group>";
 		};
 		CF41D0F1158BDBBE00A4DBC3 /* SoundEngine */ = {
@@ -8528,13 +8453,6 @@
 				CF48CAB1157784F300802A39 /* leftgate@2x.png in Resources */,
 				CF48CAB2157784F300802A39 /* rightgate.png in Resources */,
 				CF48CAB3157784F300802A39 /* rightgate@2x.png in Resources */,
-				459A9125157D3E62004B7014 /* CHANGELOG.md in Resources */,
-				459A912F157D3E62004B7014 /* close.png in Resources */,
-				459A9130157D3E62004B7014 /* close@2x.png in Resources */,
-				459A9131157D3E62004B7014 /* notification-portrait.png in Resources */,
-				459A9132157D3E62004B7014 /* notification-portrait@2x.png in Resources */,
-				459A9133157D3E62004B7014 /* spinner-bg.png in Resources */,
-				459A9134157D3E62004B7014 /* spinner-bg@2x.png in Resources */,
 				CF8C7A9B1579C98B003A6AFE /* constructionshelf.png in Resources */,
 				CF8C7A9C1579C98B003A6AFE /* constructionshelf@2x.png in Resources */,
 				CF8C7A9D1579C98B003A6AFE /* constructioncoborder.png in Resources */,
@@ -9192,24 +9110,6 @@
 				CF9AB8691649184700F18048 /* filterbutton@2x.png in Resources */,
 				CFD29FC0164C9F22003CFE11 /* ClanTowerTabView.xib in Resources */,
 				CFD29FC2164CA2FA003CFE11 /* ClanTowerView.xib in Resources */,
-				CF15BA3C1651CDAD00A51F85 /* bluetower.png in Resources */,
-				CF15BA3D1651CDAD00A51F85 /* bluetower@2x.png in Resources */,
-				CF15BA3E1651CDAD00A51F85 /* claninwarbg.png in Resources */,
-				CF15BA3F1651CDAD00A51F85 /* claninwarbg@2x.png in Resources */,
-				CF15BA401651CDAD00A51F85 /* clanwarbg.png in Resources */,
-				CF15BA411651CDAD00A51F85 /* clanwarbg@2x.png in Resources */,
-				CF15BA421651CDAD00A51F85 /* crown.png in Resources */,
-				CF15BA431651CDAD00A51F85 /* crown@2x.png in Resources */,
-				CF15BA441651CDAD00A51F85 /* towernamebg.png in Resources */,
-				CF15BA451651CDAD00A51F85 /* towernamebg@2x.png in Resources */,
-				CF15BA461651CDAD00A51F85 /* warbluebar.png in Resources */,
-				CF15BA471651CDAD00A51F85 /* warbluebar@2x.png in Resources */,
-				CF15BA481651CDAD00A51F85 /* warendsinbg.png in Resources */,
-				CF15BA491651CDAD00A51F85 /* warendsinbg@2x.png in Resources */,
-				CF15BA4A1651CDAD00A51F85 /* warredbar.png in Resources */,
-				CF15BA4B1651CDAD00A51F85 /* warredbar@2x.png in Resources */,
-				CF15BA4C1651CDAD00A51F85 /* warticker.png in Resources */,
-				CF15BA4D1651CDAD00A51F85 /* warticker@2x.png in Resources */,
 				CFF891681667276200D91A71 /* watertiles.png in Resources */,
 				CFF891691667276200D91A71 /* watertiles@2x.png in Resources */,
 				CF5F354B16683D5D007CE970 /* dragonheart.png in Resources */,
@@ -9688,17 +9588,18 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Utopia/libs/Apsalar\"",
-					"\"$(SRCROOT)/Utopia/libs/Kiip/$(PLATFORM_NAME)\"",
 					"\"$(SRCROOT)/Utopia/libs/CrittercismSDK\"",
 					"\"$(SRCROOT)/Utopia/libs/AdColony\"",
 					"$(SRCROOT)/Utopia/libs/**",
 					"\"$(SRCROOT)/Utopia/libs/librabbitmq/.libs\"",
+					"\"$(SRCROOT)/Utopia/libs/Kiip/iphoneos\"",
+					"\"$(SRCROOT)/Utopia/libs/Kiip/iphonesimulator\"",
+					"\"$(SRCROOT)/Utopia/libs/Kiip/universal\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
-					"-lKiip",
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "Age of Chaos";
@@ -9740,16 +9641,17 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Utopia/libs/Apsalar\"",
-					"\"$(SRCROOT)/Utopia/libs/Kiip/$(PLATFORM_NAME)\"",
 					"\"$(SRCROOT)/Utopia/libs/CrittercismSDK\"",
 					"\"$(SRCROOT)/Utopia/libs/AdColony\"",
 					"$(SRCROOT)/Utopia/libs/**",
 					"\"$(SRCROOT)/Utopia/libs/librabbitmq/.libs\"",
+					"\"$(SRCROOT)/Utopia/libs/Kiip/iphoneos\"",
+					"\"$(SRCROOT)/Utopia/libs/Kiip/iphonesimulator\"",
+					"\"$(SRCROOT)/Utopia/libs/Kiip/universal\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
-					"-lKiip",
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "Age of Chaos";

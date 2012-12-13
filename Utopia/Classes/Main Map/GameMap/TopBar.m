@@ -28,7 +28,6 @@
 #import "ClanMenuController.h"
 #import "LockBoxMenuController.h"
 #import "ThreeCardMonteViewController.h"
-#import "KPManager.h"
 #import "GGEventLog.h"
 #import "BossEventMenuController.h"
 
@@ -472,8 +471,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _curExp = gs.expRequiredForCurrentLevel;
   
   
-  NSMutableDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:gs.name, @"alias", nil];
-  [[KPManager sharedManager] updateUserInfo:userInfo];
+//  NSMutableDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:gs.name, @"alias", nil];
+//  [[KPManager sharedManager] updateUserInfo:userInfo];
   
   [self schedule:@selector(update)];
 }

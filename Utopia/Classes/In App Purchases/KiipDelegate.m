@@ -77,28 +77,29 @@
 
 +(id<KPManagerDelegate>) create
 {
-  // Start and initialize when application starts
-  KPManager *manager = [[KPManager alloc] 
-                        initWithKey:@"d6c7530ce4dc64ecbff535e521a241e3" 
-                        secret:@"da8d864f948ae2b4e83c1b6e6a8151ed"];
-
-  // Set the shared instance after initialization
-  // to allow easier access of the object throughout the project.
-  [KPManager setSharedManager:manager];
-
-  KiipDelegate *delegate = [[KiipDelegate alloc] initWithKPManager:manager];
-  manager.delegate = delegate;
-  [manager release];
-  [delegate autorelease];
-
-  // Register for notifications
-  [[NSNotificationCenter defaultCenter] addObserver:delegate
-                                           selector:@selector(receivedAchievement:) 
-                                               name:[KiipDelegate
-                                                     earnedAchievementNotification]
-                                             object:nil];
-  
-  return delegate;
+//  // Start and initialize when application starts
+//  KPManager *manager = [[KPManager alloc] 
+//                        initWithKey:@"d6c7530ce4dc64ecbff535e521a241e3" 
+//                        secret:@"da8d864f948ae2b4e83c1b6e6a8151ed"];
+//
+//  // Set the shared instance after initialization
+//  // to allow easier access of the object throughout the project.
+//  [KPManager setSharedManager:manager];
+//
+//  KiipDelegate *delegate = [[KiipDelegate alloc] initWithKPManager:manager];
+//  manager.delegate = delegate;
+//  [manager release];
+//  [delegate autorelease];
+//
+//  // Register for notifications
+//  [[NSNotificationCenter defaultCenter] addObserver:delegate
+//                                           selector:@selector(receivedAchievement:) 
+//                                               name:[KiipDelegate
+//                                                     earnedAchievementNotification]
+//                                             object:nil];
+//  
+//  return delegate;
+  return nil;
 }
 
 @end

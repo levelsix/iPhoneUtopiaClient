@@ -13,7 +13,6 @@
 #import "LNSynthesizeSingleton.h"
 #import "ProfileViewController.h"
 #import "BattleLayer.h"
-#import "KPManager.h"
 
 #define THRESHOLD_ENEMIES_ATTACK_LIST [[Globals sharedGlobals] sizeOfAttackList]
 #define THRESHOLD_ENEMIES_IN_BOUNDS 10
@@ -433,7 +432,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
 
 - (void) mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
   [[OutgoingEventController sharedOutgoingEventController] changeUserLocationWithCoordinate:userLocation.location.coordinate];
-  [[KPManager sharedManager] updateLatitude:userLocation.location.coordinate.latitude longitude:userLocation.location.coordinate.longitude];
   
   // We must send the user's location to FlurryAnalytics
   //  [FlurryAnalytics setLatitude:userLocation.location.coordinate.latitude 
