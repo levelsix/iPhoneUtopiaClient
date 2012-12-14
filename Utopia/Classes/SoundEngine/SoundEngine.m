@@ -10,6 +10,7 @@
 #import "LNSynthesizeSingleton.h"
 #import "SimpleAudioEngine.h"
 #import "Globals.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @implementation SoundEngine
 
@@ -17,7 +18,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 - (void) playBackgroundMusic:(NSString *)music loop:(BOOL)loop {
 #ifndef DEBUG
-  [[SimpleAudioEngine sharedEngine] playBackgroundMusic:music loop:loop];
+  if ([[MPMusicPlayerController iPodMusicPlayer] playbackState] != MPMusicPlaybackStatePlaying) {
+    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:music loop:loop];
+  }
 #endif
 }
 
