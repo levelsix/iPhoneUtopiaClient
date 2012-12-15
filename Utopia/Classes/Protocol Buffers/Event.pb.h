@@ -2470,22 +2470,14 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasHealthFormulaExponentBase_:1;
-<<<<<<< HEAD
-  BOOL hasBossEventSuperAttack_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
-=======
   BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasBossEventSuperAttack_:1;
->>>>>>> clantowers
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-<<<<<<< HEAD
-=======
   BOOL hasAverageSizeOfLevelBracket_:1;
->>>>>>> clantowers
   BOOL hasPlayerWallPostsRetrieveCap_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
@@ -2497,10 +2489,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasNumDaysUntilFreeRetract_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
-<<<<<<< HEAD
-=======
   BOOL hasMinClanMembersToHoldClanTower_:1;
->>>>>>> clantowers
   BOOL hasInitStamina_:1;
   BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
@@ -2517,24 +2506,6 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasMaxNameLength_:1;
   BOOL hasMinNameLength_:1;
   BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
-<<<<<<< HEAD
-  BOOL hasAverageSizeOfLevelBracket_:1;
-  BOOL hasVaultYlength_:1;
-  BOOL hasMarketplaceXlength_:1;
-  BOOL hasMarketplaceYlength_:1;
-  BOOL hasCarpenterXlength_:1;
-  BOOL hasCarpenterYlength_:1;
-  BOOL hasAviaryXlength_:1;
-  BOOL hasAviaryYlength_:1;
-  BOOL hasAttackBaseGain_:1;
-  BOOL hasDefenseBaseGain_:1;
-  BOOL hasEnergyBaseGain_:1;
-  BOOL hasStaminaBaseGain_:1;
-  BOOL hasAttackBaseCost_:1;
-  BOOL hasVaultXlength_:1;
-  BOOL hasDefenseBaseCost_:1;
-  BOOL hasArmoryYlength_:1;
-=======
   BOOL hasDefenseBaseCost_:1;
   BOOL hasAttackBaseCost_:1;
   BOOL hasStaminaBaseGain_:1;
@@ -2553,7 +2524,6 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasArmoryXlength_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
->>>>>>> clantowers
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasEnergyBaseCost_:1;
   BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
@@ -2563,23 +2533,10 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
-<<<<<<< HEAD
-  BOOL hasMinutesToRefillAstamina_:1;
-  BOOL hasMinutesToRefillAenergy_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
-  BOOL hasMaxLevelForStruct_:1;
-  BOOL hasSkillPointsGainedOnLevelup_:1;
-  BOOL hasMaxLevelDifferenceForBattle_:1;
-  BOOL hasMaxLevelForUser_:1;
-  BOOL hasStaminaBaseCost_:1;
-  BOOL hasEnergyBaseCost_:1;
-  BOOL hasArmoryXlength_:1;
-=======
   BOOL hasMaxLevelForStruct_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasMinutesToRefillAstamina_:1;
->>>>>>> clantowers
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasExpansionConstants_:1;
   BOOL hasLockBoxConstants_:1;
@@ -2590,27 +2547,16 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasBattleConstants_:1;
   BOOL hasCharModConstants_:1;
   BOOL hasKiipRewardConditions_:1;
-<<<<<<< HEAD
-  BOOL hasBattleConstants_:1;
-  BOOL hasFormulaConstants_:1;
-  Float64 healthFormulaExponentBase;
-  Float64 bossEventSuperAttack;
-  Float64 levelEquipBoostExponentBase;
-=======
   BOOL hasForgeConstants_:1;
   Float64 healthFormulaExponentBase;
   Float64 levelEquipBoostExponentBase;
   Float64 bossEventSuperAttack;
->>>>>>> clantowers
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
   Float64 percentReturnedToUserForSellingEquipInArmory;
   Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingNormStructure;
-<<<<<<< HEAD
-=======
   int32_t averageSizeOfLevelBracket;
->>>>>>> clantowers
   int32_t playerWallPostsRetrieveCap;
   int32_t maxCharLengthForWallPost;
   int32_t aviaryImgVerticalPixelOffset;
@@ -2622,10 +2568,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t numDaysUntilFreeRetract;
   int32_t diamondCostOfShortMarketplaceLicense;
-<<<<<<< HEAD
-=======
   int32_t minClanMembersToHoldClanTower;
->>>>>>> clantowers
   int32_t initStamina;
   int32_t bossEventNumberOfAttacksUntilSuperAttack;
   int32_t levelToShowRateUsPopup;
@@ -2642,24 +2585,6 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   int32_t maxNameLength;
   int32_t minNameLength;
   int32_t adColonyVideosRequiredToRedeemDiamonds;
-<<<<<<< HEAD
-  int32_t averageSizeOfLevelBracket;
-  int32_t vaultYlength;
-  int32_t marketplaceXlength;
-  int32_t marketplaceYlength;
-  int32_t carpenterXlength;
-  int32_t carpenterYlength;
-  int32_t aviaryXlength;
-  int32_t aviaryYlength;
-  int32_t attackBaseGain;
-  int32_t defenseBaseGain;
-  int32_t energyBaseGain;
-  int32_t staminaBaseGain;
-  int32_t attackBaseCost;
-  int32_t vaultXlength;
-  int32_t defenseBaseCost;
-  int32_t armoryYlength;
-=======
   int32_t defenseBaseCost;
   int32_t attackBaseCost;
   int32_t staminaBaseGain;
@@ -2678,7 +2603,6 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   int32_t armoryXlength;
   int32_t maxLevelForUser;
   int32_t maxLevelDifferenceForBattle;
->>>>>>> clantowers
   int32_t diamondCostOfLongMarketplaceLicense;
   int32_t energyBaseCost;
   int32_t numDaysShortMarketplaceLicenseLastsFor;
@@ -2688,23 +2612,10 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   int32_t skillPointsGainedOnLevelup;
   int32_t diamondCostForFullEnergyRefill;
   int32_t diamondCostForFullStaminaRefill;
-<<<<<<< HEAD
-  int32_t minutesToRefillAstamina;
-  int32_t minutesToRefillAenergy;
-  int32_t maxNumOfSingleStruct;
-  int32_t maxLevelForStruct;
-  int32_t skillPointsGainedOnLevelup;
-  int32_t maxLevelDifferenceForBattle;
-  int32_t maxLevelForUser;
-  int32_t staminaBaseCost;
-  int32_t energyBaseCost;
-  int32_t armoryXlength;
-=======
   int32_t maxLevelForStruct;
   int32_t maxNumOfSingleStruct;
   int32_t minutesToRefillAenergy;
   int32_t minutesToRefillAstamina;
->>>>>>> clantowers
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
   StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
@@ -2798,10 +2709,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (BOOL) hasBossEventNumberOfAttacksUntilSuperAttack;
 - (BOOL) hasBossEventSuperAttack;
 - (BOOL) hasInitStamina;
-<<<<<<< HEAD
-=======
 - (BOOL) hasMinClanMembersToHoldClanTower;
->>>>>>> clantowers
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2880,10 +2788,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 @property (readonly) int32_t bossEventNumberOfAttacksUntilSuperAttack;
 @property (readonly) Float64 bossEventSuperAttack;
 @property (readonly) int32_t initStamina;
-<<<<<<< HEAD
-=======
 @property (readonly) int32_t minClanMembersToHoldClanTower;
->>>>>>> clantowers
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -4504,14 +4409,11 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (int32_t) initStamina;
 - (StartupResponseProto_StartupConstants_Builder*) setInitStamina:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearInitStamina;
-<<<<<<< HEAD
-=======
 
 - (BOOL) hasMinClanMembersToHoldClanTower;
 - (int32_t) minClanMembersToHoldClanTower;
 - (StartupResponseProto_StartupConstants_Builder*) setMinClanMembersToHoldClanTower:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMinClanMembersToHoldClanTower;
->>>>>>> clantowers
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {

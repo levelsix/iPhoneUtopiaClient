@@ -32,6 +32,9 @@
 @interface NiceFontLabel8 : UILabel
 @end
 
+@interface NiceFontLabel9 : UILabel
+@end
+
 @interface NiceFontButton : UIButton
 @end
 

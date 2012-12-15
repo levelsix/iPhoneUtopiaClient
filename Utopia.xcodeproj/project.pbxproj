@@ -797,6 +797,27 @@
 		CF19297F157EEC4C00D51C70 /* libApsalar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF19297E157EEC4C00D51C70 /* libApsalar.a */; };
 		CF1AD20815635BD800DED5A6 /* EquipMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1AD20615635BD800DED5A6 /* EquipMenuController.m */; };
 		CF1AD20915635BD800DED5A6 /* EquipMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF1AD20715635BD800DED5A6 /* EquipMenuController.xib */; };
+		CF1B4FDB167C42DF00B73276 /* UnZialish.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FDA167C42DF00B73276 /* UnZialish.ttf */; };
+		CF1B4FEF167C42F400B73276 /* bronzeprizebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FDD167C42F400B73276 /* bronzeprizebg.png */; };
+		CF1B4FF0167C42F400B73276 /* bronzeprizebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FDE167C42F400B73276 /* bronzeprizebg@2x.png */; };
+		CF1B4FF1167C42F400B73276 /* goldprizebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FDF167C42F400B73276 /* goldprizebg.png */; };
+		CF1B4FF2167C42F400B73276 /* goldprizebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FE0167C42F400B73276 /* goldprizebg@2x.png */; };
+		CF1B4FF3167C42F400B73276 /* lastprizebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FE1167C42F400B73276 /* lastprizebg.png */; };
+		CF1B4FF4167C42F400B73276 /* lastprizebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FE2167C42F400B73276 /* lastprizebg@2x.png */; };
+		CF1B4FF5167C42F400B73276 /* mediumlargestack.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FE3167C42F400B73276 /* mediumlargestack.png */; };
+		CF1B4FF6167C42F400B73276 /* mediumlargestack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FE4167C42F400B73276 /* mediumlargestack@2x.png */; };
+		CF1B4FF7167C42F400B73276 /* mediumstack.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FE5167C42F400B73276 /* mediumstack.png */; };
+		CF1B4FF8167C42F400B73276 /* mediumstack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FE6167C42F400B73276 /* mediumstack@2x.png */; };
+		CF1B4FF9167C42F400B73276 /* shortstack.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FE7167C42F400B73276 /* shortstack.png */; };
+		CF1B4FFA167C42F400B73276 /* shortstack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FE8167C42F400B73276 /* shortstack@2x.png */; };
+		CF1B4FFB167C42F400B73276 /* silverprizebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FE9167C42F400B73276 /* silverprizebg.png */; };
+		CF1B4FFC167C42F400B73276 /* silverprizebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FEA167C42F400B73276 /* silverprizebg@2x.png */; };
+		CF1B4FFD167C42F400B73276 /* tournamentbanner.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FEB167C42F400B73276 /* tournamentbanner.png */; };
+		CF1B4FFE167C42F400B73276 /* tournamentbanner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FEC167C42F400B73276 /* tournamentbanner@2x.png */; };
+		CF1B4FFF167C42F400B73276 /* tournleaderboardbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FED167C42F400B73276 /* tournleaderboardbutton.png */; };
+		CF1B5000167C42F400B73276 /* tournleaderboardbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FEE167C42F400B73276 /* tournleaderboardbutton@2x.png */; };
+		CF1B5005167C434800B73276 /* TournamentMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1B5003167C434800B73276 /* TournamentMenuController.m */; };
+		CF1B5006167C434800B73276 /* TournamentMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF1B5004167C434800B73276 /* TournamentMenuController.xib */; };
 		CF2072C115B65F1400A11A6E /* ForgeMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2072BF15B65F1400A11A6E /* ForgeMenuController.m */; };
 		CF2072C215B65F1400A11A6E /* ForgeMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2072C015B65F1400A11A6E /* ForgeMenuController.xib */; };
 		CF2072FD15B669F200A11A6E /* ForgeItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2072FC15B669F200A11A6E /* ForgeItemView.xib */; };
@@ -2933,6 +2954,28 @@
 		CF1AD20515635BD800DED5A6 /* EquipMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipMenuController.h; sourceTree = "<group>"; };
 		CF1AD20615635BD800DED5A6 /* EquipMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EquipMenuController.m; sourceTree = "<group>"; };
 		CF1AD20715635BD800DED5A6 /* EquipMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EquipMenuController.xib; sourceTree = "<group>"; };
+		CF1B4FDA167C42DF00B73276 /* UnZialish.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = UnZialish.ttf; sourceTree = "<group>"; };
+		CF1B4FDD167C42F400B73276 /* bronzeprizebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bronzeprizebg.png; sourceTree = "<group>"; };
+		CF1B4FDE167C42F400B73276 /* bronzeprizebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bronzeprizebg@2x.png"; sourceTree = "<group>"; };
+		CF1B4FDF167C42F400B73276 /* goldprizebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goldprizebg.png; sourceTree = "<group>"; };
+		CF1B4FE0167C42F400B73276 /* goldprizebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "goldprizebg@2x.png"; sourceTree = "<group>"; };
+		CF1B4FE1167C42F400B73276 /* lastprizebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lastprizebg.png; sourceTree = "<group>"; };
+		CF1B4FE2167C42F400B73276 /* lastprizebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lastprizebg@2x.png"; sourceTree = "<group>"; };
+		CF1B4FE3167C42F400B73276 /* mediumlargestack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumlargestack.png; sourceTree = "<group>"; };
+		CF1B4FE4167C42F400B73276 /* mediumlargestack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mediumlargestack@2x.png"; sourceTree = "<group>"; };
+		CF1B4FE5167C42F400B73276 /* mediumstack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumstack.png; sourceTree = "<group>"; };
+		CF1B4FE6167C42F400B73276 /* mediumstack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mediumstack@2x.png"; sourceTree = "<group>"; };
+		CF1B4FE7167C42F400B73276 /* shortstack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shortstack.png; sourceTree = "<group>"; };
+		CF1B4FE8167C42F400B73276 /* shortstack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shortstack@2x.png"; sourceTree = "<group>"; };
+		CF1B4FE9167C42F400B73276 /* silverprizebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = silverprizebg.png; sourceTree = "<group>"; };
+		CF1B4FEA167C42F400B73276 /* silverprizebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "silverprizebg@2x.png"; sourceTree = "<group>"; };
+		CF1B4FEB167C42F400B73276 /* tournamentbanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tournamentbanner.png; sourceTree = "<group>"; };
+		CF1B4FEC167C42F400B73276 /* tournamentbanner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tournamentbanner@2x.png"; sourceTree = "<group>"; };
+		CF1B4FED167C42F400B73276 /* tournleaderboardbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tournleaderboardbutton.png; sourceTree = "<group>"; };
+		CF1B4FEE167C42F400B73276 /* tournleaderboardbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tournleaderboardbutton@2x.png"; sourceTree = "<group>"; };
+		CF1B5002167C434800B73276 /* TournamentMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TournamentMenuController.h; sourceTree = "<group>"; };
+		CF1B5003167C434800B73276 /* TournamentMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TournamentMenuController.m; sourceTree = "<group>"; };
+		CF1B5004167C434800B73276 /* TournamentMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TournamentMenuController.xib; sourceTree = "<group>"; };
 		CF2072BE15B65F1400A11A6E /* ForgeMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgeMenuController.h; sourceTree = "<group>"; };
 		CF2072BF15B65F1400A11A6E /* ForgeMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgeMenuController.m; sourceTree = "<group>"; };
 		CF2072C015B65F1400A11A6E /* ForgeMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForgeMenuController.xib; sourceTree = "<group>"; };
@@ -4391,6 +4434,7 @@
 		CF1265491538ACC400E0C1AD /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
+				CF1B5001167C430D00B73276 /* TournamentMenu */,
 				CFE9547D166E37CC00DA63CF /* BossEventMenu */,
 				CFA7846D1622772D0026A7B4 /* ThreeCardMonteMenu */,
 				CF3BE0881619461100CA5A76 /* LockBoxMenu */,
@@ -5183,6 +5227,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF1B4FDC167C42F400B73276 /* Tournament Images */,
 				CFE95483166E40DD00DA63CF /* Boss Event Images */,
 				CFF4A03316290FF600A452A7 /* Three Card Monte Images */,
 				CF781C54161E60E900E2FF95 /* Expansion Images */,
@@ -5457,6 +5502,7 @@
 		CF12682B1538ACC500E0C1AD /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				CF1B4FDA167C42DF00B73276 /* UnZialish.ttf */,
 				CF28BBFF1628F35C0012F1C1 /* Archer-BoldItal-Pro.otf */,
 				CF41D164158BDE2F00A4DBC3 /* SanvitoPro-Semibold.ttf */,
 				CF12682C1538ACC500E0C1AD /* AJensonPro-BoldCapt.otf */,
@@ -6364,6 +6410,41 @@
 				CF1AD20715635BD800DED5A6 /* EquipMenuController.xib */,
 			);
 			path = EquipMenu;
+			sourceTree = "<group>";
+		};
+		CF1B4FDC167C42F400B73276 /* Tournament Images */ = {
+			isa = PBXGroup;
+			children = (
+				CF1B4FDD167C42F400B73276 /* bronzeprizebg.png */,
+				CF1B4FDE167C42F400B73276 /* bronzeprizebg@2x.png */,
+				CF1B4FDF167C42F400B73276 /* goldprizebg.png */,
+				CF1B4FE0167C42F400B73276 /* goldprizebg@2x.png */,
+				CF1B4FE1167C42F400B73276 /* lastprizebg.png */,
+				CF1B4FE2167C42F400B73276 /* lastprizebg@2x.png */,
+				CF1B4FE3167C42F400B73276 /* mediumlargestack.png */,
+				CF1B4FE4167C42F400B73276 /* mediumlargestack@2x.png */,
+				CF1B4FE5167C42F400B73276 /* mediumstack.png */,
+				CF1B4FE6167C42F400B73276 /* mediumstack@2x.png */,
+				CF1B4FE7167C42F400B73276 /* shortstack.png */,
+				CF1B4FE8167C42F400B73276 /* shortstack@2x.png */,
+				CF1B4FE9167C42F400B73276 /* silverprizebg.png */,
+				CF1B4FEA167C42F400B73276 /* silverprizebg@2x.png */,
+				CF1B4FEB167C42F400B73276 /* tournamentbanner.png */,
+				CF1B4FEC167C42F400B73276 /* tournamentbanner@2x.png */,
+				CF1B4FED167C42F400B73276 /* tournleaderboardbutton.png */,
+				CF1B4FEE167C42F400B73276 /* tournleaderboardbutton@2x.png */,
+			);
+			path = "Tournament Images";
+			sourceTree = "<group>";
+		};
+		CF1B5001167C430D00B73276 /* TournamentMenu */ = {
+			isa = PBXGroup;
+			children = (
+				CF1B5002167C434800B73276 /* TournamentMenuController.h */,
+				CF1B5003167C434800B73276 /* TournamentMenuController.m */,
+				CF1B5004167C434800B73276 /* TournamentMenuController.xib */,
+			);
+			path = TournamentMenu;
 			sourceTree = "<group>";
 		};
 		CF2072B815B65EB900A11A6E /* ForgeMenu */ = {
@@ -9171,6 +9252,26 @@
 				CF84B9B216780EB60057B33E /* clanwarsicon@2x.png in Resources */,
 				CF84B9B316780EB60057B33E /* clanwarsiconactive.png in Resources */,
 				CF84B9B416780EB60057B33E /* clanwarsiconactive@2x.png in Resources */,
+				CF1B4FDB167C42DF00B73276 /* UnZialish.ttf in Resources */,
+				CF1B4FEF167C42F400B73276 /* bronzeprizebg.png in Resources */,
+				CF1B4FF0167C42F400B73276 /* bronzeprizebg@2x.png in Resources */,
+				CF1B4FF1167C42F400B73276 /* goldprizebg.png in Resources */,
+				CF1B4FF2167C42F400B73276 /* goldprizebg@2x.png in Resources */,
+				CF1B4FF3167C42F400B73276 /* lastprizebg.png in Resources */,
+				CF1B4FF4167C42F400B73276 /* lastprizebg@2x.png in Resources */,
+				CF1B4FF5167C42F400B73276 /* mediumlargestack.png in Resources */,
+				CF1B4FF6167C42F400B73276 /* mediumlargestack@2x.png in Resources */,
+				CF1B4FF7167C42F400B73276 /* mediumstack.png in Resources */,
+				CF1B4FF8167C42F400B73276 /* mediumstack@2x.png in Resources */,
+				CF1B4FF9167C42F400B73276 /* shortstack.png in Resources */,
+				CF1B4FFA167C42F400B73276 /* shortstack@2x.png in Resources */,
+				CF1B4FFB167C42F400B73276 /* silverprizebg.png in Resources */,
+				CF1B4FFC167C42F400B73276 /* silverprizebg@2x.png in Resources */,
+				CF1B4FFD167C42F400B73276 /* tournamentbanner.png in Resources */,
+				CF1B4FFE167C42F400B73276 /* tournamentbanner@2x.png in Resources */,
+				CF1B4FFF167C42F400B73276 /* tournleaderboardbutton.png in Resources */,
+				CF1B5000167C42F400B73276 /* tournleaderboardbutton@2x.png in Resources */,
+				CF1B5006167C434800B73276 /* TournamentMenuController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9442,6 +9543,7 @@
 				CFE95481166E380D00DA63CF /* BossEventMenuController.m in Sources */,
 				CF4E450816788277005DAE18 /* ResetStaminaView.m in Sources */,
 				CFE954C6166F3EF500DA63CF /* ClanTowerTab.m in Sources */,
+				CF1B5005167C434800B73276 /* TournamentMenuController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

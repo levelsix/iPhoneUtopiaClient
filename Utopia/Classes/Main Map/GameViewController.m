@@ -54,6 +54,7 @@
 #import "LockBoxMenuController.h"
 #import "ThreeCardMonteViewController.h"
 #import "CharSelectionViewController.h"
+#import "TournamentMenuController.h"
 
 #define DOOR_CLOSE_DURATION 1.5f
 #define DOOR_OPEN_DURATION 1.f
@@ -137,6 +138,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [RefillMenuController purgeSingleton];
   [VaultMenuController removeView];
   [VaultMenuController purgeSingleton];
+  [TournamentMenuController removeView];
+  [TournamentMenuController purgeSingleton];
   [GameLayer purgeSingleton];
   [GenericPopupController removeView];
   [GenericPopupController purgeSingleton];
