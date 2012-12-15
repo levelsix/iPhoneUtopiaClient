@@ -114,6 +114,8 @@
 
 @property (nonatomic, assign) int bossNumAttacksTillSuperAttack;
 
+@property (nonatomic, assign) int minClanMembersToHoldClanTower;
+
 @property (nonatomic, copy) NSString *reviewPageURL;
 @property (nonatomic, assign) int levelToShowRateUsPopup;
 @property (nonatomic, copy) NSString *reviewPageConfirmationMessage;

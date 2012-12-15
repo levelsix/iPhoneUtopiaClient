@@ -190,6 +190,8 @@
   } else if (t.hasTowerOwner) {
     NSDate *ownedStart = [NSDate dateWithTimeIntervalSince1970:t.ownedStartTime/1000.];
     self.tickerLabel.text = [Globals convertTimeToString:-ownedStart.timeIntervalSinceNow withDays:YES];
+  } else {
+    self.tickerLabel.text = @"00:00:00";
   }
 }
 

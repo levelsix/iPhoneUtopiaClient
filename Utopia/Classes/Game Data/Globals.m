@@ -208,6 +208,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.numDaysUntilFreeRetract = constants.numDaysUntilFreeRetract;
   self.levelToShowRateUsPopup = constants.levelToShowRateUsPopup;
   self.bossNumAttacksTillSuperAttack = constants.bossEventNumberOfAttacksUntilSuperAttack;
+  self.minClanMembersToHoldClanTower = constants.minClanMembersToHoldClanTower;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;

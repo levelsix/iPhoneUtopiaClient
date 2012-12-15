@@ -2313,19 +2313,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyClaimed) {
-      [Globals popupMessage:@"Sorry, this tower has already been claimed!"];
+      [Globals popupMessage:@"Sorry, this tower has already been claimed."];
     } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyInBattle) {
-      [Globals popupMessage:@"Sorry, there is already a war taking place at this tower!"];
+      [Globals popupMessage:@"Sorry, there is already a war taking place at this tower."];
     } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusClientTooApartFromServerTime) {
       [self handleTimeOutOfSync];
     } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotClanLeader) {
-      [Globals popupMessage:@"Sorry, you are not the leader of this clan!"];
+      [Globals popupMessage:@"You must be a clan leader to claim a tower or wage war."];
     } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotEnoughClanMembers) {
-      [Globals popupMessage:@"You do not have enough members to hold a clan tower!"];
+      [Globals popupMessage:[NSString stringWithFormat:@"You need at least %d members to claim a tower or wage war.", gl.minClanMembersToHoldClanTower]];
     } else {
       [Globals popupMessage:@"Server failed to perform clan tower action."];
     }

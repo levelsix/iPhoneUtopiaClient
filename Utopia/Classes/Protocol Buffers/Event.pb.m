@@ -5356,6 +5356,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t levelToShowRateUsPopup;
 @property int32_t bossEventNumberOfAttacksUntilSuperAttack;
 @property Float64 bossEventSuperAttack;
+@property int32_t initStamina;
+@property int32_t minClanMembersToHoldClanTower;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5902,6 +5904,20 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasBossEventSuperAttack_ = !!value;
 }
 @synthesize bossEventSuperAttack;
+- (BOOL) hasInitStamina {
+  return !!hasInitStamina_;
+}
+- (void) setHasInitStamina:(BOOL) value {
+  hasInitStamina_ = !!value;
+}
+@synthesize initStamina;
+- (BOOL) hasMinClanMembersToHoldClanTower {
+  return !!hasMinClanMembersToHoldClanTower_;
+}
+- (void) setHasMinClanMembersToHoldClanTower:(BOOL) value {
+  hasMinClanMembersToHoldClanTower_ = !!value;
+}
+@synthesize minClanMembersToHoldClanTower;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5998,6 +6014,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.levelToShowRateUsPopup = 0;
     self.bossEventNumberOfAttacksUntilSuperAttack = 0;
     self.bossEventSuperAttack = 0;
+    self.initStamina = 0;
+    self.minClanMembersToHoldClanTower = 0;
   }
   return self;
 }
@@ -6278,6 +6296,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasNumHoursBeforeReshowingBossEvent) {
     [output writeInt32:90 value:self.numHoursBeforeReshowingBossEvent];
   }
+  if (self.hasInitStamina) {
+    [output writeInt32:91 value:self.initStamina];
+  }
+  if (self.hasMinClanMembersToHoldClanTower) {
+    [output writeInt32:92 value:self.minClanMembersToHoldClanTower];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6536,6 +6560,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasNumHoursBeforeReshowingBossEvent) {
     size += computeInt32Size(90, self.numHoursBeforeReshowingBossEvent);
+  }
+  if (self.hasInitStamina) {
+    size += computeInt32Size(91, self.initStamina);
+  }
+  if (self.hasMinClanMembersToHoldClanTower) {
+    size += computeInt32Size(92, self.minClanMembersToHoldClanTower);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -11454,6 +11484,12 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasBossEventSuperAttack) {
     [self setBossEventSuperAttack:other.bossEventSuperAttack];
   }
+  if (other.hasInitStamina) {
+    [self setInitStamina:other.initStamina];
+  }
+  if (other.hasMinClanMembersToHoldClanTower) {
+    [self setMinClanMembersToHoldClanTower:other.minClanMembersToHoldClanTower];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -11850,6 +11886,14 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 720: {
         [self setNumHoursBeforeReshowingBossEvent:[input readInt32]];
+        break;
+      }
+      case 728: {
+        [self setInitStamina:[input readInt32]];
+        break;
+      }
+      case 736: {
+        [self setMinClanMembersToHoldClanTower:[input readInt32]];
         break;
       }
     }
@@ -13330,6 +13374,38 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearBossEventSuperAttack {
   result.hasBossEventSuperAttack = NO;
   result.bossEventSuperAttack = 0;
+  return self;
+}
+- (BOOL) hasInitStamina {
+  return result.hasInitStamina;
+}
+- (int32_t) initStamina {
+  return result.initStamina;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setInitStamina:(int32_t) value {
+  result.hasInitStamina = YES;
+  result.initStamina = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearInitStamina {
+  result.hasInitStamina = NO;
+  result.initStamina = 0;
+  return self;
+}
+- (BOOL) hasMinClanMembersToHoldClanTower {
+  return result.hasMinClanMembersToHoldClanTower;
+}
+- (int32_t) minClanMembersToHoldClanTower {
+  return result.minClanMembersToHoldClanTower;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinClanMembersToHoldClanTower:(int32_t) value {
+  result.hasMinClanMembersToHoldClanTower = YES;
+  result.minClanMembersToHoldClanTower = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinClanMembersToHoldClanTower {
+  result.hasMinClanMembersToHoldClanTower = NO;
+  result.minClanMembersToHoldClanTower = 0;
   return self;
 }
 @end
@@ -61415,6 +61491,7 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableCoinsGainedList;
 @property (retain) NSMutableArray* mutableDiamondsGainedList;
 @property int32_t bossId;
+@property int32_t expGained;
 @end
 
 @implementation BossActionResponseProto
@@ -61450,6 +61527,13 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
   hasBossId_ = !!value;
 }
 @synthesize bossId;
+- (BOOL) hasExpGained {
+  return !!hasExpGained_;
+}
+- (void) setHasExpGained:(BOOL) value {
+  hasExpGained_ = !!value;
+}
+@synthesize expGained;
 - (void) dealloc {
   self.sender = nil;
   self.mutableLootUserEquipList = nil;
@@ -61463,6 +61547,7 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
     self.status = BossActionResponseProto_BossActionStatusSuccess;
     self.damageDone = 0;
     self.bossId = 0;
+    self.expGained = 0;
   }
   return self;
 }
@@ -61524,6 +61609,9 @@ static BossActionResponseProto* defaultBossActionResponseProtoInstance = nil;
   if (self.hasBossId) {
     [output writeInt32:8 value:self.bossId];
   }
+  if (self.hasExpGained) {
+    [output writeInt32:9 value:self.expGained];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -61563,6 +61651,9 @@ static BossActionResponseProto* defaultBossActionResponseProtoInstance = nil;
   }
   if (self.hasBossId) {
     size += computeInt32Size(8, self.bossId);
+  }
+  if (self.hasExpGained) {
+    size += computeInt32Size(9, self.expGained);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -61681,6 +61772,9 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   if (other.hasBossId) {
     [self setBossId:other.bossId];
   }
+  if (other.hasExpGained) {
+    [self setExpGained:other.expGained];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -61740,6 +61834,10 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
       }
       case 64: {
         [self setBossId:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setExpGained:[input readInt32]];
         break;
       }
     }
@@ -61912,6 +62010,22 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (BossActionResponseProto_Builder*) clearBossId {
   result.hasBossId = NO;
   result.bossId = 0;
+  return self;
+}
+- (BOOL) hasExpGained {
+  return result.hasExpGained;
+}
+- (int32_t) expGained {
+  return result.expGained;
+}
+- (BossActionResponseProto_Builder*) setExpGained:(int32_t) value {
+  result.hasExpGained = YES;
+  result.expGained = value;
+  return self;
+}
+- (BossActionResponseProto_Builder*) clearExpGained {
+  result.hasExpGained = NO;
+  result.expGained = 0;
   return self;
 }
 @end
