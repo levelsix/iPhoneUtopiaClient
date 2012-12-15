@@ -209,6 +209,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.levelToShowRateUsPopup = constants.levelToShowRateUsPopup;
   self.bossNumAttacksTillSuperAttack = constants.bossEventNumberOfAttacksUntilSuperAttack;
   self.initStamina = constants.initStamina;
+  self.minClanMembersToHoldClanTower = constants.minClanMembersToHoldClanTower;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;
@@ -323,9 +324,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return fontSize;
 }
 
-+ (NSString *)convertTimeToString:(int)secs {
-  int days = secs / 86400;
-  secs %= 86400;
++ (NSString *) convertTimeToString:(int)secs withDays:(BOOL)withDays {
+  if (secs < 0) {
+    return @"00:00:00";
+  }
+  
+  int days = 0;
+  
+  if (withDays) {
+    days = secs / 86400;
+    secs %= 86400;
+  }
   int hrs = secs / 3600;
   secs %= 3600;
   int mins = secs / 60;
@@ -1952,6 +1961,17 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   int totalSkillPoints = (gs.level-1)*self.skillPointsGainedOnLevelup;
   int percent = ((float)(gs.maxStamina-self.initStamina)*self.staminaBaseCost)/totalSkillPoints*100;
   return percent;
+}
+
++ (void) adjustViewForCentering:(UIView *)view withLabel:(UILabel *)label {
+  CGSize size = [label.text sizeWithFont:label.font constrainedToSize:label.frame.size];
+  CGPoint oldCenter = view.center;
+  
+  CGRect r = view.frame;
+  r.size.width = label.frame.origin.x + size.width;
+  view.frame = r;
+
+  view.center = oldCenter;
 }
 
 - (void) dealloc {

@@ -1107,9 +1107,32 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBossActionEvent];
 }
 
+- (int) sendBeginClanTowerWarMessage:(int)towerId claiming:(BOOL)claiming clientTime:(uint64_t)clientTime {
+  BeginClanTowerWarRequestProto *req = [[[[[[BeginClanTowerWarRequestProto builder]
+                                            setSender:_sender]
+                                           setTowerId:towerId]
+                                          setClaiming:claiming]
+                                         setCurTime:clientTime]
+                                        build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCBeginClanTowerWar];
+}
+
+- (int) sendConcedeClanTowerWar:(int)towerId clientTime:(uint64_t)clientTime {
+  ConcedeClanTowerWarRequestProto *req = [[[[[ConcedeClanTowerWarRequestProto builder]
+                                            setSender:_sender]
+                                           setTowerId:towerId]
+                                          setCurTime:clientTime]
+                                          build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCConcedeClanTowerWar];
+}
+
 - (void) closeDownConnection {
   [_connectionThread end];
   _connectionThread = nil;
+  [_sender release];
+  _sender = nil;
   
   LNLog(@"Disconnected from host..");
 }

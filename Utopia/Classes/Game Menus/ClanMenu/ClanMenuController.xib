@@ -69,10 +69,14 @@
 									<object class="IBUIImageView" id="554439795">
 										<reference key="NSNextResponder" ref="290651160"/>
 										<int key="NSvFlags">303</int>
-										<string key="NSFrameSize">{119, 44}</string>
+										<string key="NSFrameSize">{94, 44}</string>
 										<reference key="NSSuperview" ref="290651160"/>
 										<reference key="NSWindow"/>
+<<<<<<< HEAD
 										<reference key="NSNextKeyView" ref="802739298"/>
+=======
+										<reference key="NSNextKeyView" ref="864359412"/>
+>>>>>>> clantowers
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -85,7 +89,7 @@
 									<object class="IBUIImageView" id="864359412">
 										<reference key="NSNextResponder" ref="290651160"/>
 										<int key="NSvFlags">301</int>
-										<string key="NSFrame">{{45, 7}, {29, 18}}</string>
+										<string key="NSFrame">{{32, 7}, {29, 18}}</string>
 										<reference key="NSSuperview" ref="290651160"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="738658277"/>
@@ -106,10 +110,14 @@
 									<object class="IBUILabel" id="802739298">
 										<reference key="NSNextResponder" ref="290651160"/>
 										<int key="NSvFlags">301</int>
-										<string key="NSFrame">{{8, 20}, {102, 21}}</string>
+										<string key="NSFrame">{{-5, 20}, {102, 21}}</string>
 										<reference key="NSSuperview" ref="290651160"/>
 										<reference key="NSWindow"/>
+<<<<<<< HEAD
 										<reference key="NSNextKeyView" ref="864359412"/>
+=======
+										<reference key="NSNextKeyView" ref="554439795"/>
+>>>>>>> clantowers
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -128,22 +136,26 @@
 										<int key="IBUIBaselineAdjustment">0</int>
 										<float key="IBUIMinimumFontSize">10</float>
 										<int key="IBUITextAlignment">1</int>
-										<object class="IBUIFontDescription" key="IBUIFontDescription" id="581916309">
+										<object class="IBUIFontDescription" key="IBUIFontDescription" id="544743150">
 											<int key="type">1</int>
-											<double key="pointSize">12</double>
+											<double key="pointSize">10</double>
 										</object>
-										<object class="NSFont" key="IBUIFont" id="506946779">
+										<object class="NSFont" key="IBUIFont" id="636289108">
 											<string key="NSName">Helvetica</string>
-											<double key="NSSize">12</double>
+											<double key="NSSize">10</double>
 											<int key="NSfFlags">16</int>
 										</object>
 										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 									</object>
 								</array>
-								<string key="NSFrameSize">{119, 44}</string>
+								<string key="NSFrameSize">{94, 44}</string>
 								<reference key="NSSuperview" ref="519965201"/>
 								<reference key="NSWindow"/>
+<<<<<<< HEAD
 								<reference key="NSNextKeyView" ref="554439795"/>
+=======
+								<reference key="NSNextKeyView" ref="802739298"/>
+>>>>>>> clantowers
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="505353196">
 									<int key="NSColorSpace">3</int>
@@ -158,10 +170,14 @@
 									<object class="IBUIImageView" id="455064499">
 										<reference key="NSNextResponder" ref="738658277"/>
 										<int key="NSvFlags">303</int>
-										<string key="NSFrameSize">{119, 44}</string>
+										<string key="NSFrameSize">{94, 44}</string>
 										<reference key="NSSuperview" ref="738658277"/>
 										<reference key="NSWindow"/>
+<<<<<<< HEAD
 										<reference key="NSNextKeyView" ref="579292548"/>
+=======
+										<reference key="NSNextKeyView" ref="98364677"/>
+>>>>>>> clantowers
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -171,10 +187,14 @@
 									<object class="IBUIImageView" id="98364677">
 										<reference key="NSNextResponder" ref="738658277"/>
 										<int key="NSvFlags">301</int>
-										<string key="NSFrame">{{52, 7}, {15, 17}}</string>
+										<string key="NSFrame">{{39, 7}, {15, 17}}</string>
 										<reference key="NSSuperview" ref="738658277"/>
 										<reference key="NSWindow"/>
+<<<<<<< HEAD
 										<reference key="NSNextKeyView" ref="794178595"/>
+=======
+										<reference key="NSNextKeyView" ref="451527746"/>
+>>>>>>> clantowers
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<int key="IBUIContentMode">4</int>
@@ -192,10 +212,14 @@
 									<object class="IBUILabel" id="579292548">
 										<reference key="NSNextResponder" ref="738658277"/>
 										<int key="NSvFlags">301</int>
-										<string key="NSFrame">{{8, 20}, {102, 21}}</string>
+										<string key="NSFrame">{{-5, 20}, {102, 21}}</string>
 										<reference key="NSSuperview" ref="738658277"/>
 										<reference key="NSWindow"/>
+<<<<<<< HEAD
 										<reference key="NSNextKeyView" ref="98364677"/>
+=======
+										<reference key="NSNextKeyView" ref="455064499"/>
+>>>>>>> clantowers
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -208,15 +232,95 @@
 										<int key="IBUIBaselineAdjustment">0</int>
 										<float key="IBUIMinimumFontSize">10</float>
 										<int key="IBUITextAlignment">1</int>
-										<reference key="IBUIFontDescription" ref="581916309"/>
-										<reference key="IBUIFont" ref="506946779"/>
+										<reference key="IBUIFontDescription" ref="544743150"/>
+										<reference key="IBUIFont" ref="636289108"/>
 										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 									</object>
 								</array>
-								<string key="NSFrame">{{118, 0}, {119, 44}}</string>
+								<string key="NSFrame">{{95, 0}, {94, 44}}</string>
 								<reference key="NSSuperview" ref="519965201"/>
 								<reference key="NSWindow"/>
+<<<<<<< HEAD
 								<reference key="NSNextKeyView" ref="455064499"/>
+=======
+								<reference key="NSNextKeyView" ref="579292548"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<reference key="IBUIBackgroundColor" ref="505353196"/>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							</object>
+							<object class="IBUIView" id="451527746">
+								<reference key="NSNextResponder" ref="519965201"/>
+								<int key="NSvFlags">303</int>
+								<array class="NSMutableArray" key="NSSubviews">
+									<object class="IBUIImageView" id="1015532093">
+										<reference key="NSNextResponder" ref="451527746"/>
+										<int key="NSvFlags">303</int>
+										<string key="NSFrameSize">{94, 44}</string>
+										<reference key="NSSuperview" ref="451527746"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="739209989"/>
+										<bool key="IBUIOpaque">NO</bool>
+										<bool key="IBUIClipsSubviews">YES</bool>
+										<bool key="IBUIMultipleTouchEnabled">YES</bool>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<reference key="IBUIImage" ref="1071941124"/>
+									</object>
+									<object class="IBUIImageView" id="739209989">
+										<reference key="NSNextResponder" ref="451527746"/>
+										<int key="NSvFlags">301</int>
+										<string key="NSFrame">{{42, 7}, {10, 15}}</string>
+										<reference key="NSSuperview" ref="451527746"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="794178595"/>
+										<bool key="IBUIOpaque">NO</bool>
+										<bool key="IBUIClipsSubviews">YES</bool>
+										<int key="IBUIContentMode">4</int>
+										<bool key="IBUIMultipleTouchEnabled">YES</bool>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<object class="NSCustomResource" key="IBUIImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">clanwarsicon.png</string>
+										</object>
+										<object class="NSCustomResource" key="IBUIHighlightedImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">clanwarsiconactive.png</string>
+										</object>
+									</object>
+									<object class="IBUILabel" id="596793573">
+										<reference key="NSNextResponder" ref="451527746"/>
+										<int key="NSvFlags">301</int>
+										<string key="NSFrame">{{-4, 20}, {102, 21}}</string>
+										<reference key="NSSuperview" ref="451527746"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="1015532093"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<bool key="IBUIOpaque">NO</bool>
+										<bool key="IBUIClipsSubviews">YES</bool>
+										<int key="IBUIContentMode">7</int>
+										<bool key="IBUIUserInteractionEnabled">NO</bool>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<string key="IBUIText">Clan Towers</string>
+										<object class="NSColor" key="IBUITextColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC45MjU0OTAxOTYxIDAuOTAxOTYwNzg0MyAwLjc2NDcwNTg4MjQAA</bytes>
+										</object>
+										<object class="NSColor" key="IBUIHighlightedColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MSAwLjc4NDMxMzcyNTUgMAA</bytes>
+										</object>
+										<int key="IBUIBaselineAdjustment">0</int>
+										<float key="IBUIMinimumFontSize">10</float>
+										<int key="IBUITextAlignment">1</int>
+										<reference key="IBUIFontDescription" ref="544743150"/>
+										<reference key="IBUIFont" ref="636289108"/>
+										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
+									</object>
+								</array>
+								<string key="NSFrame">{{189, 0}, {94, 44}}</string>
+								<reference key="NSSuperview" ref="519965201"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="596793573"/>
+>>>>>>> clantowers
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="505353196"/>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -228,10 +332,14 @@
 									<object class="IBUIImageView" id="516918891">
 										<reference key="NSNextResponder" ref="794178595"/>
 										<int key="NSvFlags">303</int>
-										<string key="NSFrameSize">{120, 44}</string>
+										<string key="NSFrameSize">{94, 44}</string>
 										<reference key="NSSuperview" ref="794178595"/>
 										<reference key="NSWindow"/>
+<<<<<<< HEAD
 										<reference key="NSNextKeyView" ref="421916654"/>
+=======
+										<reference key="NSNextKeyView" ref="805205164"/>
+>>>>>>> clantowers
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -241,7 +349,7 @@
 									<object class="IBUIImageView" id="805205164">
 										<reference key="NSNextResponder" ref="794178595"/>
 										<int key="NSvFlags">301</int>
-										<string key="NSFrame">{{52, 7}, {14, 14}}</string>
+										<string key="NSFrame">{{39, 7}, {14, 14}}</string>
 										<reference key="NSSuperview" ref="794178595"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="426342849"/>
@@ -262,10 +370,14 @@
 									<object class="IBUILabel" id="421916654">
 										<reference key="NSNextResponder" ref="794178595"/>
 										<int key="NSvFlags">301</int>
-										<string key="NSFrame">{{8, 20}, {102, 21}}</string>
+										<string key="NSFrame">{{-4, 20}, {102, 21}}</string>
 										<reference key="NSSuperview" ref="794178595"/>
 										<reference key="NSWindow"/>
+<<<<<<< HEAD
 										<reference key="NSNextKeyView" ref="805205164"/>
+=======
+										<reference key="NSNextKeyView" ref="516918891"/>
+>>>>>>> clantowers
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -278,15 +390,19 @@
 										<int key="IBUIBaselineAdjustment">0</int>
 										<float key="IBUIMinimumFontSize">10</float>
 										<int key="IBUITextAlignment">1</int>
-										<reference key="IBUIFontDescription" ref="581916309"/>
-										<reference key="IBUIFont" ref="506946779"/>
+										<reference key="IBUIFontDescription" ref="544743150"/>
+										<reference key="IBUIFont" ref="636289108"/>
 										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 									</object>
 								</array>
-								<string key="NSFrame">{{236, 0}, {120, 44}}</string>
+								<string key="NSFrame">{{284, 0}, {94, 44}}</string>
 								<reference key="NSSuperview" ref="519965201"/>
 								<reference key="NSWindow"/>
+<<<<<<< HEAD
 								<reference key="NSNextKeyView" ref="516918891"/>
+=======
+								<reference key="NSNextKeyView" ref="421916654"/>
+>>>>>>> clantowers
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="505353196"/>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -298,10 +414,14 @@
 									<object class="IBUIImageView" id="973783207">
 										<reference key="NSNextResponder" ref="426342849"/>
 										<int key="NSvFlags">303</int>
-										<string key="NSFrameSize">{118, 44}</string>
+										<string key="NSFrameSize">{94, 44}</string>
 										<reference key="NSSuperview" ref="426342849"/>
 										<reference key="NSWindow"/>
+<<<<<<< HEAD
 										<reference key="NSNextKeyView" ref="247763081"/>
+=======
+										<reference key="NSNextKeyView" ref="350611506"/>
+>>>>>>> clantowers
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -311,9 +431,13 @@
 									<object class="IBUIImageView" id="350611506">
 										<reference key="NSNextResponder" ref="426342849"/>
 										<int key="NSvFlags">301</int>
-										<string key="NSFrame">{{51, 7}, {14, 14}}</string>
+										<string key="NSFrame">{{39, 7}, {14, 14}}</string>
 										<reference key="NSSuperview" ref="426342849"/>
 										<reference key="NSWindow"/>
+<<<<<<< HEAD
+=======
+										<reference key="NSNextKeyView"/>
+>>>>>>> clantowers
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<int key="IBUIContentMode">4</int>
@@ -331,10 +455,14 @@
 									<object class="IBUILabel" id="247763081">
 										<reference key="NSNextResponder" ref="426342849"/>
 										<int key="NSvFlags">301</int>
-										<string key="NSFrame">{{7, 20}, {102, 21}}</string>
+										<string key="NSFrame">{{-5, 20}, {102, 21}}</string>
 										<reference key="NSSuperview" ref="426342849"/>
 										<reference key="NSWindow"/>
+<<<<<<< HEAD
 										<reference key="NSNextKeyView" ref="350611506"/>
+=======
+										<reference key="NSNextKeyView" ref="973783207"/>
+>>>>>>> clantowers
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -347,15 +475,19 @@
 										<int key="IBUIBaselineAdjustment">0</int>
 										<float key="IBUIMinimumFontSize">10</float>
 										<int key="IBUITextAlignment">1</int>
-										<reference key="IBUIFontDescription" ref="581916309"/>
-										<reference key="IBUIFont" ref="506946779"/>
+										<reference key="IBUIFontDescription" ref="544743150"/>
+										<reference key="IBUIFont" ref="636289108"/>
 										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 									</object>
 								</array>
-								<string key="NSFrame">{{355, 0}, {118, 44}}</string>
+								<string key="NSFrame">{{378, 0}, {94, 44}}</string>
 								<reference key="NSSuperview" ref="519965201"/>
 								<reference key="NSWindow"/>
+<<<<<<< HEAD
 								<reference key="NSNextKeyView" ref="973783207"/>
+=======
+								<reference key="NSNextKeyView" ref="247763081"/>
+>>>>>>> clantowers
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="505353196"/>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -529,8 +661,15 @@
 								<int key="IBUIBaselineAdjustment">0</int>
 								<float key="IBUIMinimumFontSize">10</float>
 								<int key="IBUITextAlignment">1</int>
-								<reference key="IBUIFontDescription" ref="581916309"/>
-								<reference key="IBUIFont" ref="506946779"/>
+								<object class="IBUIFontDescription" key="IBUIFontDescription" id="581916309">
+									<int key="type">1</int>
+									<double key="pointSize">12</double>
+								</object>
+								<object class="NSFont" key="IBUIFont" id="814483702">
+									<string key="NSName">Helvetica</string>
+									<double key="NSSize">12</double>
+									<int key="NSfFlags">16</int>
+								</object>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
 							<object class="IBUILabel" id="77847489">
@@ -556,7 +695,7 @@
 								<float key="IBUIMinimumFontSize">10</float>
 								<int key="IBUITextAlignment">1</int>
 								<reference key="IBUIFontDescription" ref="581916309"/>
-								<reference key="IBUIFont" ref="506946779"/>
+								<reference key="IBUIFont" ref="814483702"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
 							<object class="IBUILabel" id="375734697">
@@ -582,7 +721,7 @@
 								<float key="IBUIMinimumFontSize">10</float>
 								<int key="IBUITextAlignment">1</int>
 								<reference key="IBUIFontDescription" ref="581916309"/>
-								<reference key="IBUIFont" ref="506946779"/>
+								<reference key="IBUIFont" ref="814483702"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
 						</array>
@@ -721,7 +860,11 @@
 														<string key="NSFrame">{{135, 0}, {42, 21}}</string>
 														<reference key="NSSuperview" ref="164907115"/>
 														<reference key="NSWindow"/>
+<<<<<<< HEAD
 														<reference key="NSNextKeyView" ref="758659058"/>
+=======
+														<reference key="NSNextKeyView"/>
+>>>>>>> clantowers
 														<string key="NSReuseIdentifierKey">_NS:9</string>
 														<bool key="IBUIOpaque">NO</bool>
 														<bool key="IBUIClipsSubviews">YES</bool>
@@ -1101,6 +1244,10 @@
 						<string key="NSFrame">{{182, 151}, {116, 21}}</string>
 						<reference key="NSSuperview" ref="124746137"/>
 						<reference key="NSWindow"/>
+<<<<<<< HEAD
+=======
+						<reference key="NSNextKeyView"/>
+>>>>>>> clantowers
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -1204,6 +1351,10 @@
 								<string key="NSFrame">{{28, 30}, {37, 37}}</string>
 								<reference key="NSSuperview" ref="417008305"/>
 								<reference key="NSWindow"/>
+<<<<<<< HEAD
+=======
+								<reference key="NSNextKeyView"/>
+>>>>>>> clantowers
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -1275,6 +1426,10 @@
 						<string key="NSFrame">{{230, 101}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="403182374"/>
 						<reference key="NSWindow"/>
+<<<<<<< HEAD
+=======
+						<reference key="NSNextKeyView"/>
+>>>>>>> clantowers
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -1325,6 +1480,10 @@
 						<string key="NSFrame">{{230, 101}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="972885507"/>
 						<reference key="NSWindow"/>
+<<<<<<< HEAD
+=======
+						<reference key="NSNextKeyView"/>
+>>>>>>> clantowers
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -1461,6 +1620,10 @@
 								<string key="NSFrame">{{8, 5}, {118, 21}}</string>
 								<reference key="NSSuperview" ref="778346674"/>
 								<reference key="NSWindow"/>
+<<<<<<< HEAD
+=======
+								<reference key="NSNextKeyView"/>
+>>>>>>> clantowers
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -1515,7 +1678,7 @@
 						<int key="IBUIBaselineAdjustment">0</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<reference key="IBUIFontDescription" ref="581916309"/>
-						<reference key="IBUIFont" ref="506946779"/>
+						<reference key="IBUIFont" ref="814483702"/>
 					</object>
 					<object class="IBUILabel" id="737865511">
 						<reference key="NSNextResponder" ref="704991775"/>
@@ -1718,6 +1881,10 @@
 						<string key="NSFrameSize">{65, 30}</string>
 						<reference key="NSSuperview" ref="564936659"/>
 						<reference key="NSWindow"/>
+<<<<<<< HEAD
+=======
+						<reference key="NSNextKeyView"/>
+>>>>>>> clantowers
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -1759,7 +1926,7 @@
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
 						<reference key="IBUIFontDescription" ref="581916309"/>
-						<reference key="IBUIFont" ref="506946779"/>
+						<reference key="IBUIFont" ref="814483702"/>
 						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 					</object>
 				</array>
@@ -1781,6 +1948,10 @@
 						<string key="NSFrame">{{1, -2}, {64, 33}}</string>
 						<reference key="NSSuperview" ref="672203"/>
 						<reference key="NSWindow"/>
+<<<<<<< HEAD
+=======
+						<reference key="NSNextKeyView"/>
+>>>>>>> clantowers
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -1860,6 +2031,10 @@
 						<string key="NSFrame">{{154, 1}, {164, 21}}</string>
 						<reference key="NSSuperview" ref="869315041"/>
 						<reference key="NSWindow"/>
+<<<<<<< HEAD
+=======
+						<reference key="NSNextKeyView"/>
+>>>>>>> clantowers
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -1914,6 +2089,10 @@
 						<string key="NSFrame">{{154, 1}, {164, 21}}</string>
 						<reference key="NSSuperview" ref="210507549"/>
 						<reference key="NSWindow"/>
+<<<<<<< HEAD
+=======
+						<reference key="NSNextKeyView"/>
+>>>>>>> clantowers
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -1968,6 +2147,10 @@
 						<string key="NSFrame">{{138, 1}, {196, 21}}</string>
 						<reference key="NSSuperview" ref="52757116"/>
 						<reference key="NSWindow"/>
+<<<<<<< HEAD
+=======
+						<reference key="NSNextKeyView"/>
+>>>>>>> clantowers
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -2037,6 +2220,10 @@
 						<string key="NSFrame">{{190, 0}, {94, 31}}</string>
 						<reference key="NSSuperview" ref="820991938"/>
 						<reference key="NSWindow"/>
+<<<<<<< HEAD
+=======
+						<reference key="NSNextKeyView"/>
+>>>>>>> clantowers
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">4</int>
@@ -2109,7 +2296,7 @@
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
 						<reference key="IBUIFontDescription" ref="581916309"/>
-						<reference key="IBUIFont" ref="506946779"/>
+						<reference key="IBUIFont" ref="814483702"/>
 						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 					</object>
 					<object class="IBUILabel" id="577542981">
@@ -2135,7 +2322,7 @@
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
 						<reference key="IBUIFontDescription" ref="581916309"/>
-						<reference key="IBUIFont" ref="506946779"/>
+						<reference key="IBUIFont" ref="814483702"/>
 						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 					</object>
 					<object class="IBUILabel" id="927751078">
@@ -2161,7 +2348,7 @@
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
 						<reference key="IBUIFontDescription" ref="581916309"/>
-						<reference key="IBUIFont" ref="506946779"/>
+						<reference key="IBUIFont" ref="814483702"/>
 						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 					</object>
 				</array>
@@ -2339,6 +2526,7 @@
 						<string key="NSFrame">{{231, 122}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="652215060"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -2393,6 +2581,7 @@
 								<string key="NSFrame">{{134, 13}, {20, 20}}</string>
 								<reference key="NSSuperview" ref="764372834"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<int key="IBUITag">31</int>
@@ -2433,6 +2622,7 @@
 						<string key="NSFrame">{{13, 0}, {453, 222}}</string>
 						<reference key="NSSuperview" ref="18025945"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -2717,6 +2907,30 @@ KGNvbWluZyBzb29uISk</string>
 						<reference key="destination" ref="247763081"/>
 					</object>
 					<int key="connectionID">33</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">button5</string>
+						<reference key="source" ref="519965201"/>
+						<reference key="destination" ref="1015532093"/>
+					</object>
+					<int key="connectionID">712</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">button5Icon</string>
+						<reference key="source" ref="519965201"/>
+						<reference key="destination" ref="739209989"/>
+					</object>
+					<int key="connectionID">713</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">button5Label</string>
+						<reference key="source" ref="519965201"/>
+						<reference key="destination" ref="596793573"/>
+					</object>
+					<int key="connectionID">714</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -3361,6 +3575,7 @@ KGNvbWluZyBzb29uISk</string>
 							<reference ref="738658277"/>
 							<reference ref="794178595"/>
 							<reference ref="426342849"/>
+							<reference ref="451527746"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -4053,12 +4268,6 @@ KGNvbWluZyBzb29uISk</string>
 						<reference key="parent" ref="519965201"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">11</int>
-						<reference key="object" ref="554439795"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="290651160"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">12</int>
 						<reference key="object" ref="864359412"/>
 						<reference key="parent" ref="290651160"/>
@@ -4093,16 +4302,11 @@ KGNvbWluZyBzb29uISk</string>
 						<int key="objectID">339</int>
 						<reference key="object" ref="426342849"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="247763081"/>
 							<reference ref="350611506"/>
 							<reference ref="973783207"/>
+							<reference ref="247763081"/>
 						</array>
 						<reference key="parent" ref="519965201"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">10</int>
-						<reference key="object" ref="455064499"/>
-						<reference key="parent" ref="738658277"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">13</int>
@@ -4156,6 +4360,41 @@ KGNvbWluZyBzb29uISk</string>
 						<int key="objectID">705</int>
 						<reference key="object" ref="790273900"/>
 						<reference key="parent" ref="704991775"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">10</int>
+						<reference key="object" ref="455064499"/>
+						<reference key="parent" ref="738658277"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">11</int>
+						<reference key="object" ref="554439795"/>
+						<reference key="parent" ref="290651160"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">708</int>
+						<reference key="object" ref="451527746"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="1015532093"/>
+							<reference ref="739209989"/>
+							<reference ref="596793573"/>
+						</array>
+						<reference key="parent" ref="519965201"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">709</int>
+						<reference key="object" ref="1015532093"/>
+						<reference key="parent" ref="451527746"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">710</int>
+						<reference key="object" ref="739209989"/>
+						<reference key="parent" ref="451527746"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">711</int>
+						<reference key="object" ref="596793573"/>
+						<reference key="parent" ref="451527746"/>
 					</object>
 				</array>
 			</object>
@@ -4319,6 +4558,11 @@ KGNvbWluZyBzb29uISk</string>
 				<string key="70.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="703.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="705.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="708.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="709.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="710.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="711.CustomClassName">NiceFontLabel3</string>
+				<string key="711.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="75.CustomClassName">LoadingView</string>
 				<string key="75.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="76.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -4347,8 +4591,883 @@ KGNvbWluZyBzb29uISk</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">707</int>
+			<int key="maxID">715</int>
 		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">BrowseClanCell</string>
+					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="botLabel">UILabel</string>
+						<string key="topLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="botLabel">
+							<string key="name">botLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="topLabel">
+							<string key="name">topLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/BrowseClanCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">CancellableTableView</string>
+					<string key="superclassName">UITableView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CancellableTableView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanBar</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="button1">UIImageView</string>
+						<string key="button1Icon">UIImageView</string>
+						<string key="button1Label">UILabel</string>
+						<string key="button2">UIImageView</string>
+						<string key="button2Icon">UIImageView</string>
+						<string key="button2Label">UILabel</string>
+						<string key="button3">UIImageView</string>
+						<string key="button3Icon">UIImageView</string>
+						<string key="button3Label">UILabel</string>
+						<string key="button4">UIImageView</string>
+						<string key="button4Icon">UIImageView</string>
+						<string key="button4Label">UILabel</string>
+						<string key="button5">UIImageView</string>
+						<string key="button5Icon">UIImageView</string>
+						<string key="button5Label">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="button1">
+							<string key="name">button1</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button1Icon">
+							<string key="name">button1Icon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button1Label">
+							<string key="name">button1Label</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button2">
+							<string key="name">button2</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button2Icon">
+							<string key="name">button2Icon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button2Label">
+							<string key="name">button2Label</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button3">
+							<string key="name">button3</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button3Icon">
+							<string key="name">button3Icon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button3Label">
+							<string key="name">button3Label</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button4">
+							<string key="name">button4</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button4Icon">
+							<string key="name">button4Icon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button4Label">
+							<string key="name">button4Label</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button5">
+							<string key="name">button5</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button5Icon">
+							<string key="name">button5Icon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button5Label">
+							<string key="name">button5Label</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanBar.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanBoardCell</string>
+					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="nameLabel">UIButton</string>
+						<string key="playerIcon">UIButton</string>
+						<string key="postLabel">UILabel</string>
+						<string key="timeLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="nameLabel">
+							<string key="name">nameLabel</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="playerIcon">
+							<string key="name">playerIcon</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="postLabel">
+							<string key="name">postLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeLabel">
+							<string key="name">timeLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanBoardCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanBoardView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="boardCell">ClanBoardCell</string>
+						<string key="boardTableView">UITableView</string>
+						<string key="boardTextField">NiceFontTextField</string>
+						<string key="postView">UIView</string>
+						<string key="spinner">UIActivityIndicatorView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="boardCell">
+							<string key="name">boardCell</string>
+							<string key="candidateClassName">ClanBoardCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="boardTableView">
+							<string key="name">boardTableView</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="boardTextField">
+							<string key="name">boardTextField</string>
+							<string key="candidateClassName">NiceFontTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="postView">
+							<string key="name">postView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="spinner">
+							<string key="name">spinner</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanBoardView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanBrowseView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="browseClansTable">UITableView</string>
+						<string key="clanCell">BrowseClanCell</string>
+						<string key="loadingCell">UITableViewCell</string>
+						<string key="searchCell">UITableViewCell</string>
+						<string key="spinner">UIActivityIndicatorView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="browseClansTable">
+							<string key="name">browseClansTable</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="clanCell">
+							<string key="name">clanCell</string>
+							<string key="candidateClassName">BrowseClanCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="loadingCell">
+							<string key="name">loadingCell</string>
+							<string key="candidateClassName">UITableViewCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="searchCell">
+							<string key="name">searchCell</string>
+							<string key="candidateClassName">UITableViewCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="spinner">
+							<string key="name">spinner</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanBrowseView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanCreateView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="buttonLabel">UILabel</string>
+						<string key="clanCreationView">UIView</string>
+						<string key="createClanGoldLabel">UILabel</string>
+						<string key="headerLabel">UILabel</string>
+						<string key="maxTagLengthLabel">UILabel</string>
+						<string key="nameField">UITextField</string>
+						<string key="notificationView">UIView</string>
+						<string key="subheaderLabel">UILabel</string>
+						<string key="tagField">UITextField</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="buttonLabel">
+							<string key="name">buttonLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="clanCreationView">
+							<string key="name">clanCreationView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="createClanGoldLabel">
+							<string key="name">createClanGoldLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="headerLabel">
+							<string key="name">headerLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="maxTagLengthLabel">
+							<string key="name">maxTagLengthLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="nameField">
+							<string key="name">nameField</string>
+							<string key="candidateClassName">UITextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="notificationView">
+							<string key="name">notificationView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="subheaderLabel">
+							<string key="name">subheaderLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tagField">
+							<string key="name">tagField</string>
+							<string key="candidateClassName">UITextField</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanCreateView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanInfoView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="bottomButtonLabel">UILabel</string>
+						<string key="bottomButtonView">UIView</string>
+						<string key="foundedLabel">UILabel</string>
+						<string key="leaderButton">UIButton</string>
+						<string key="membersLabel">UILabel</string>
+						<string key="spinner">UIActivityIndicatorView</string>
+						<string key="textView">UITextView</string>
+						<string key="titleLabel">UILabel</string>
+						<string key="typeIcon">UIButton</string>
+						<string key="upgradeTierButton">UIButton</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="bottomButtonLabel">
+							<string key="name">bottomButtonLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bottomButtonView">
+							<string key="name">bottomButtonView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="foundedLabel">
+							<string key="name">foundedLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="leaderButton">
+							<string key="name">leaderButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="membersLabel">
+							<string key="name">membersLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="spinner">
+							<string key="name">spinner</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textView">
+							<string key="name">textView</string>
+							<string key="candidateClassName">UITextView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="titleLabel">
+							<string key="name">titleLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="typeIcon">
+							<string key="name">typeIcon</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="upgradeTierButton">
+							<string key="name">upgradeTierButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanInfoView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanMemberCell</string>
+					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="battleRecordLabel">UILabel</string>
+						<string key="editMemberView">UIView</string>
+						<string key="nameButton">UIButton</string>
+						<string key="respondInviteView">UIView</string>
+						<string key="typeLabel">UILabel</string>
+						<string key="userIcon">UIButton</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="battleRecordLabel">
+							<string key="name">battleRecordLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="editMemberView">
+							<string key="name">editMemberView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="nameButton">
+							<string key="name">nameButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="respondInviteView">
+							<string key="name">respondInviteView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="typeLabel">
+							<string key="name">typeLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="userIcon">
+							<string key="name">userIcon</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanMemberCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanMembersView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="leaderHeader">UIView</string>
+						<string key="memberCell">ClanMemberCell</string>
+						<string key="membersHeader">UIView</string>
+						<string key="membersTable">UITableView</string>
+						<string key="requestersHeader">UIView</string>
+						<string key="spinner">UIActivityIndicatorView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="leaderHeader">
+							<string key="name">leaderHeader</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="memberCell">
+							<string key="name">memberCell</string>
+							<string key="candidateClassName">ClanMemberCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="membersHeader">
+							<string key="name">membersHeader</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="membersTable">
+							<string key="name">membersTable</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="requestersHeader">
+							<string key="name">requestersHeader</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="spinner">
+							<string key="name">spinner</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanMembersView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanMenuController</string>
+					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="backLabel">UILabel</string>
+						<string key="backView">UIView</string>
+						<string key="clanAboutView">UIView</string>
+						<string key="clanBar">ClanBar</string>
+						<string key="clanBoardView">ClanBoardView</string>
+						<string key="clanBrowseView">ClanBrowseView</string>
+						<string key="clanCreateView">ClanCreateView</string>
+						<string key="clanInfoView">ClanInfoView</string>
+						<string key="clanTowerTab">ClanTowerTab</string>
+						<string key="containerView">UIView</string>
+						<string key="editLabel">UILabel</string>
+						<string key="editView">UIView</string>
+						<string key="goldLabel">UILabel</string>
+						<string key="goldView">UIView</string>
+						<string key="loadingView">LoadingView</string>
+						<string key="membersView">ClanMembersView</string>
+						<string key="secondTopBar">ClanTopBar</string>
+						<string key="titleLabel">UILabel</string>
+						<string key="topBar">ClanTopBar</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="backLabel">
+							<string key="name">backLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="backView">
+							<string key="name">backView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="clanAboutView">
+							<string key="name">clanAboutView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="clanBar">
+							<string key="name">clanBar</string>
+							<string key="candidateClassName">ClanBar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="clanBoardView">
+							<string key="name">clanBoardView</string>
+							<string key="candidateClassName">ClanBoardView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="clanBrowseView">
+							<string key="name">clanBrowseView</string>
+							<string key="candidateClassName">ClanBrowseView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="clanCreateView">
+							<string key="name">clanCreateView</string>
+							<string key="candidateClassName">ClanCreateView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="clanInfoView">
+							<string key="name">clanInfoView</string>
+							<string key="candidateClassName">ClanInfoView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="clanTowerTab">
+							<string key="name">clanTowerTab</string>
+							<string key="candidateClassName">ClanTowerTab</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="containerView">
+							<string key="name">containerView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="editLabel">
+							<string key="name">editLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="editView">
+							<string key="name">editView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="goldLabel">
+							<string key="name">goldLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="goldView">
+							<string key="name">goldView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="loadingView">
+							<string key="name">loadingView</string>
+							<string key="candidateClassName">LoadingView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="membersView">
+							<string key="name">membersView</string>
+							<string key="candidateClassName">ClanMembersView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="secondTopBar">
+							<string key="name">secondTopBar</string>
+							<string key="candidateClassName">ClanTopBar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="titleLabel">
+							<string key="name">titleLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="topBar">
+							<string key="name">topBar</string>
+							<string key="candidateClassName">ClanTopBar</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanMenuController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanTopBar</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="button1">UIImageView</string>
+						<string key="button1Label">UILabel</string>
+						<string key="button2">UIImageView</string>
+						<string key="button2Label">UILabel</string>
+						<string key="button3">UIImageView</string>
+						<string key="button3Label">UILabel</string>
+						<string key="buttonBgd1">UIImageView</string>
+						<string key="buttonBgd2">UIImageView</string>
+						<string key="buttonBgd3">UIImageView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="button1">
+							<string key="name">button1</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button1Label">
+							<string key="name">button1Label</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button2">
+							<string key="name">button2</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button2Label">
+							<string key="name">button2Label</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button3">
+							<string key="name">button3</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button3Label">
+							<string key="name">button3Label</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="buttonBgd1">
+							<string key="name">buttonBgd1</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="buttonBgd2">
+							<string key="name">buttonBgd2</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="buttonBgd3">
+							<string key="name">buttonBgd3</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanTopBar.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanTowerInfoView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="attackerNameLabel">UILabel</string>
+						<string key="attackerPercentLabel">UILabel</string>
+						<string key="attackerWinsLabel">UILabel</string>
+						<string key="badProgressBar">ProgressBar</string>
+						<string key="buttonLabel">UILabel</string>
+						<string key="goodProgressBar">ProgressBar</string>
+						<string key="leftHourLabel">UILabel</string>
+						<string key="leftMinuteLabel">UILabel</string>
+						<string key="leftSecondLabel">UILabel</string>
+						<string key="middleLabel">UILabel</string>
+						<string key="notWarView">UIView</string>
+						<string key="ownerLabel">UILabel</string>
+						<string key="ownerNameLabel">UILabel</string>
+						<string key="ownerPercentLabel">UILabel</string>
+						<string key="ownerWinsLabel">UILabel</string>
+						<string key="rightHourLabel">UILabel</string>
+						<string key="rightMinuteLabel">UILabel</string>
+						<string key="rightSecondLabel">UILabel</string>
+						<string key="warView">UIView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="attackerNameLabel">
+							<string key="name">attackerNameLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="attackerPercentLabel">
+							<string key="name">attackerPercentLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="attackerWinsLabel">
+							<string key="name">attackerWinsLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="badProgressBar">
+							<string key="name">badProgressBar</string>
+							<string key="candidateClassName">ProgressBar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="buttonLabel">
+							<string key="name">buttonLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="goodProgressBar">
+							<string key="name">goodProgressBar</string>
+							<string key="candidateClassName">ProgressBar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="leftHourLabel">
+							<string key="name">leftHourLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="leftMinuteLabel">
+							<string key="name">leftMinuteLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="leftSecondLabel">
+							<string key="name">leftSecondLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="middleLabel">
+							<string key="name">middleLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="notWarView">
+							<string key="name">notWarView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ownerLabel">
+							<string key="name">ownerLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ownerNameLabel">
+							<string key="name">ownerNameLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ownerPercentLabel">
+							<string key="name">ownerPercentLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ownerWinsLabel">
+							<string key="name">ownerWinsLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="rightHourLabel">
+							<string key="name">rightHourLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="rightMinuteLabel">
+							<string key="name">rightMinuteLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="rightSecondLabel">
+							<string key="name">rightSecondLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="warView">
+							<string key="name">warView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanTowerInfoView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanTowerTab</string>
+					<string key="superclassName">UIView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">redButtonClicked:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">redButtonClicked:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">redButtonClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="infoView">ClanTowerInfoView</string>
+						<string key="nibView">ClanTowerView</string>
+						<string key="scrollView">UIScrollView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="infoView">
+							<string key="name">infoView</string>
+							<string key="candidateClassName">ClanTowerInfoView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="nibView">
+							<string key="name">nibView</string>
+							<string key="candidateClassName">ClanTowerView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="scrollView">
+							<string key="name">scrollView</string>
+							<string key="candidateClassName">UIScrollView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanTowerTab.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanTowerView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="aboveTickerLabel">UILabel</string>
+						<string key="attackerLabel">UILabel</string>
+						<string key="bgdButton">UIButton</string>
+						<string key="nameLabel">UILabel</string>
+						<string key="ownerPeaceLabel">UILabel</string>
+						<string key="ownerWarLabel">UILabel</string>
+						<string key="peaceView">UIView</string>
+						<string key="tickerLabel">UILabel</string>
+						<string key="warView">UIView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="aboveTickerLabel">
+							<string key="name">aboveTickerLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="attackerLabel">
+							<string key="name">attackerLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bgdButton">
+							<string key="name">bgdButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="nameLabel">
+							<string key="name">nameLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ownerPeaceLabel">
+							<string key="name">ownerPeaceLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ownerWarLabel">
+							<string key="name">ownerWarLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="peaceView">
+							<string key="name">peaceView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tickerLabel">
+							<string key="name">tickerLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="warView">
+							<string key="name">warView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanTowerView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">FlipImageView</string>
+					<string key="superclassName">UIImageView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/FlipImageView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">LoadingView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="actIndView">UIActivityIndicatorView</string>
+						<string key="darkView">UIView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="actIndView">
+							<string key="name">actIndView</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="darkView">
+							<string key="name">darkView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/LoadingView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NiceFontButton</string>
+					<string key="superclassName">UIButton</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NiceFontButton.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NiceFontLabel</string>
+					<string key="superclassName">UILabel</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NiceFontLabel.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NiceFontLabel3</string>
+					<string key="superclassName">UILabel</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NiceFontLabel3.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NiceFontTextField</string>
+					<string key="superclassName">UITextField</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NiceFontTextField.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NiceFontTextView</string>
+					<string key="superclassName">UITextView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NiceFontTextView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ProgressBar</string>
+					<string key="superclassName">UIImageView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ProgressBar.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
+<<<<<<< HEAD
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
@@ -4993,6 +6112,8 @@ KGNvbWluZyBzb29uISk</string>
 				</object>
 			</array>
 		</object>
+=======
+>>>>>>> clantowers
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
@@ -5013,9 +6134,17 @@ KGNvbWluZyBzb29uISk</string>
 			<string key="claninput.png">{443, 36}</string>
 			<string key="clanmyclan.png">{29, 18}</string>
 			<string key="clanmyclanactive.png">{29, 18}</string>
+<<<<<<< HEAD
 			<string key="clansactive.png">{118, 44}</string>
 			<string key="clansback.png">{64, 33}</string>
 			<string key="clanspostinput.png">{380, 31}</string>
+=======
+			<string key="clansactive.png">{94, 44}</string>
+			<string key="clansback.png">{64, 33}</string>
+			<string key="clanspostinput.png">{380, 31}</string>
+			<string key="clanwarsicon.png">{10, 15}</string>
+			<string key="clanwarsiconactive.png">{10, 15}</string>
+>>>>>>> clantowers
 			<string key="close1.png">{30, 30}</string>
 			<string key="createclan.png">{136, 37}</string>
 			<string key="editbutton.png">{65, 31}</string>

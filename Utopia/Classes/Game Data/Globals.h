@@ -114,6 +114,8 @@
 
 @property (nonatomic, assign) int bossNumAttacksTillSuperAttack;
 
+@property (nonatomic, assign) int minClanMembersToHoldClanTower;
+
 @property (nonatomic, copy) NSString *reviewPageURL;
 @property (nonatomic, assign) int levelToShowRateUsPopup;
 @property (nonatomic, copy) NSString *reviewPageConfirmationMessage;
@@ -191,7 +193,7 @@
 + (NSString *) font;
 + (int) fontSize;
 
-+ (NSString *)convertTimeToString:(int)secs;
++ (NSString *)convertTimeToString:(int)secs withDays:(BOOL)withDays;
 
 + (UIImage *) imageNamed:(NSString *)path;
 + (NSString *) imageNameForConstructionWithSize:(CGSize)size;
@@ -318,6 +320,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (int) calculateNumMinutesForNewExpansion:(UserExpansion *)ue;
 - (int) calculateGoldCostToSpeedUpExpansion:(UserExpansion *)ue;
 - (int) calculateSilverCostForNewExpansion:(UserExpansion *)ue;
+
++ (void) adjustViewForCentering:(UIView *)view withLabel:(UILabel *)label;
 
 @end
 

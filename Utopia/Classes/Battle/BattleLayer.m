@@ -695,7 +695,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     }
     
     if ([ClanMenuController isInitialized]) {
-      [[ClanMenuController sharedClanMenuController] close];
+      ClanMenuController *cmc = [ClanMenuController sharedClanMenuController];
+      _cameFromClans = YES;
+      [cmc close];
+    } else {
+      _cameFromClans = NO;
     }
     
     if ([ChatMenuController isInitialized]) {
@@ -1511,6 +1515,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) closeSceneFromQuestLog {
+  _cameFromClans = NO;
   _cameFromAviary = NO;
   _isBattling = NO;
   [self closeScene];
@@ -1528,6 +1533,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     if (_cameFromAviary) {
       [AttackMenuController displayView];
       [[CCDirector sharedDirector] popScene];
+    } else if (_cameFromClans) {
+      [ClanMenuController displayView];
+      [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:TRANSITION_DURATION];
     } else {
       // This will cause the scene to be deallocated since there are no more references to it.
       [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:TRANSITION_DURATION];

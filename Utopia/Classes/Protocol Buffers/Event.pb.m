@@ -5357,6 +5357,10 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t bossEventNumberOfAttacksUntilSuperAttack;
 @property Float64 bossEventSuperAttack;
 @property int32_t initStamina;
+<<<<<<< HEAD
+=======
+@property int32_t minClanMembersToHoldClanTower;
+>>>>>>> clantowers
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5910,6 +5914,16 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasInitStamina_ = !!value;
 }
 @synthesize initStamina;
+<<<<<<< HEAD
+=======
+- (BOOL) hasMinClanMembersToHoldClanTower {
+  return !!hasMinClanMembersToHoldClanTower_;
+}
+- (void) setHasMinClanMembersToHoldClanTower:(BOOL) value {
+  hasMinClanMembersToHoldClanTower_ = !!value;
+}
+@synthesize minClanMembersToHoldClanTower;
+>>>>>>> clantowers
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -6007,6 +6021,10 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.bossEventNumberOfAttacksUntilSuperAttack = 0;
     self.bossEventSuperAttack = 0;
     self.initStamina = 0;
+<<<<<<< HEAD
+=======
+    self.minClanMembersToHoldClanTower = 0;
+>>>>>>> clantowers
   }
   return self;
 }
@@ -6290,6 +6308,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasInitStamina) {
     [output writeInt32:91 value:self.initStamina];
   }
+<<<<<<< HEAD
+=======
+  if (self.hasMinClanMembersToHoldClanTower) {
+    [output writeInt32:92 value:self.minClanMembersToHoldClanTower];
+  }
+>>>>>>> clantowers
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6552,6 +6576,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasInitStamina) {
     size += computeInt32Size(91, self.initStamina);
   }
+<<<<<<< HEAD
+=======
+  if (self.hasMinClanMembersToHoldClanTower) {
+    size += computeInt32Size(92, self.minClanMembersToHoldClanTower);
+  }
+>>>>>>> clantowers
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -11472,6 +11502,12 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasInitStamina) {
     [self setInitStamina:other.initStamina];
   }
+<<<<<<< HEAD
+=======
+  if (other.hasMinClanMembersToHoldClanTower) {
+    [self setMinClanMembersToHoldClanTower:other.minClanMembersToHoldClanTower];
+  }
+>>>>>>> clantowers
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -11874,6 +11910,13 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         [self setInitStamina:[input readInt32]];
         break;
       }
+<<<<<<< HEAD
+=======
+      case 736: {
+        [self setMinClanMembersToHoldClanTower:[input readInt32]];
+        break;
+      }
+>>>>>>> clantowers
     }
   }
 }
@@ -13370,6 +13413,25 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   result.initStamina = 0;
   return self;
 }
+<<<<<<< HEAD
+=======
+- (BOOL) hasMinClanMembersToHoldClanTower {
+  return result.hasMinClanMembersToHoldClanTower;
+}
+- (int32_t) minClanMembersToHoldClanTower {
+  return result.minClanMembersToHoldClanTower;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinClanMembersToHoldClanTower:(int32_t) value {
+  result.hasMinClanMembersToHoldClanTower = YES;
+  result.minClanMembersToHoldClanTower = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinClanMembersToHoldClanTower {
+  result.hasMinClanMembersToHoldClanTower = NO;
+  result.minClanMembersToHoldClanTower = 0;
+  return self;
+}
+>>>>>>> clantowers
 @end
 
 @interface StartupResponseProto_TutorialConstants ()

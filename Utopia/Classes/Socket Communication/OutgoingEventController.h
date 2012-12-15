@@ -144,4 +144,8 @@
 
 - (NSDate *) bossAction:(UserBoss *)ub isSuperAttack:(BOOL)isSuperAttack;
 
+- (int) claimTower:(int)towerId;
+- (int) beginTowerWar:(int)towerId;
+- (int) concedeClanTower:(int)towerId;
+
 @end

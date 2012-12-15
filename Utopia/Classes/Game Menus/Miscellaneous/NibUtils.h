@@ -101,6 +101,9 @@
 @interface CancellableTableView : UITableView
 @end
 
+@interface CancellableScrollView : UIScrollView
+@end
+
 @interface EquipButton : UIImageView
 
 @property (nonatomic, assign) int equipId;

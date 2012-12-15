@@ -111,9 +111,9 @@
   NSDate *date = t.userInfo;
   NSTimeInterval interval = [date timeIntervalSinceNow];
   if (interval >= 0.f) {
-    self.timeLeftLabel.text = [NSString stringWithFormat:@"Finishes in %@", [Globals convertTimeToString:interval]];
+    self.timeLeftLabel.text = [NSString stringWithFormat:@"Finishes in %@", [Globals convertTimeToString:interval withDays:YES]];
   } else {
-    self.timeLeftLabel.text = [NSString stringWithFormat:@"Finishes in %@", [Globals convertTimeToString:0.f]];
+    self.timeLeftLabel.text = [NSString stringWithFormat:@"Finishes in %@", [Globals convertTimeToString:0.f withDays:YES]];
     self.timer = nil;
   }
 }

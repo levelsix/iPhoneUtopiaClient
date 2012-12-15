@@ -96,6 +96,7 @@ static int sessionId;
   [_clanConsumer release];
   _clanConsumer = nil;
   [_clanQueue release];
+  _clanConsumer = nil;
   _clanQueue = nil;
 }
 

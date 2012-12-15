@@ -1251,6 +1251,10 @@
 		CF7FEF101540C3D000716E37 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7FEF0F1540C3D000716E37 /* MessageUI.framework */; };
 		CF83662315F7E8CE004AF4CC /* ChatBottomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF83662215F7E8CE004AF4CC /* ChatBottomView.xib */; };
 		CF83662615F7ED2F004AF4CC /* ChatBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF83662515F7ED2F004AF4CC /* ChatBottomView.m */; };
+		CF84B9B116780EB60057B33E /* clanwarsicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF84B9AD16780EB60057B33E /* clanwarsicon.png */; };
+		CF84B9B216780EB60057B33E /* clanwarsicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF84B9AE16780EB60057B33E /* clanwarsicon@2x.png */; };
+		CF84B9B316780EB60057B33E /* clanwarsiconactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CF84B9AF16780EB60057B33E /* clanwarsiconactive.png */; };
+		CF84B9B416780EB60057B33E /* clanwarsiconactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF84B9B016780EB60057B33E /* clanwarsiconactive@2x.png */; };
 		CF87780E163E3206008A0F71 /* bigadriana2.png in Resources */ = {isa = PBXBuildFile; fileRef = CF87780A163E3205008A0F71 /* bigadriana2.png */; };
 		CF87780F163E3206008A0F71 /* bigadriana2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF87780B163E3205008A0F71 /* bigadriana2@2x.png */; };
 		CF877810163E3206008A0F71 /* bigruby2.png in Resources */ = {isa = PBXBuildFile; fileRef = CF87780C163E3206008A0F71 /* bigruby2.png */; };
@@ -1679,6 +1683,7 @@
 		CFE954B3166F00A900DA63CF /* bossinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B1166F00A900DA63CF /* bossinfo@2x.png */; };
 		CFE954B6166F14F800DA63CF /* smallgoldstack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B4166F14F800DA63CF /* smallgoldstack.png */; };
 		CFE954B7166F14F800DA63CF /* smallgoldstack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B5166F14F800DA63CF /* smallgoldstack@2x.png */; };
+		CFE954C6166F3EF500DA63CF /* ClanTowerTab.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE954C5166F3EF500DA63CF /* ClanTowerTab.m */; };
 		CFEB28431593F02500B622FC /* unlockedheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28411593F02500B622FC /* unlockedheader.png */; };
 		CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28421593F02500B622FC /* unlockedheader@2x.png */; };
 		CFEB284715951ADC00B622FC /* FullEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB284615951ADB00B622FC /* FullEvent.m */; };
@@ -3443,6 +3448,10 @@
 		CF83662215F7E8CE004AF4CC /* ChatBottomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatBottomView.xib; sourceTree = "<group>"; };
 		CF83662415F7ED2F004AF4CC /* ChatBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatBottomView.h; sourceTree = "<group>"; };
 		CF83662515F7ED2F004AF4CC /* ChatBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatBottomView.m; sourceTree = "<group>"; };
+		CF84B9AD16780EB60057B33E /* clanwarsicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clanwarsicon.png; sourceTree = "<group>"; };
+		CF84B9AE16780EB60057B33E /* clanwarsicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clanwarsicon@2x.png"; sourceTree = "<group>"; };
+		CF84B9AF16780EB60057B33E /* clanwarsiconactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clanwarsiconactive.png; sourceTree = "<group>"; };
+		CF84B9B016780EB60057B33E /* clanwarsiconactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clanwarsiconactive@2x.png"; sourceTree = "<group>"; };
 		CF87780A163E3205008A0F71 /* bigadriana2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bigadriana2.png; sourceTree = "<group>"; };
 		CF87780B163E3205008A0F71 /* bigadriana2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bigadriana2@2x.png"; sourceTree = "<group>"; };
 		CF87780C163E3206008A0F71 /* bigruby2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bigruby2.png; sourceTree = "<group>"; };
@@ -3932,6 +3941,8 @@
 		CFE954B1166F00A900DA63CF /* bossinfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bossinfo@2x.png"; sourceTree = "<group>"; };
 		CFE954B4166F14F800DA63CF /* smallgoldstack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smallgoldstack.png; sourceTree = "<group>"; };
 		CFE954B5166F14F800DA63CF /* smallgoldstack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "smallgoldstack@2x.png"; sourceTree = "<group>"; };
+		CFE954C4166F3EF500DA63CF /* ClanTowerTab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanTowerTab.h; sourceTree = "<group>"; };
+		CFE954C5166F3EF500DA63CF /* ClanTowerTab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanTowerTab.m; sourceTree = "<group>"; };
 		CFEB28411593F02500B622FC /* unlockedheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlockedheader.png; sourceTree = "<group>"; };
 		CFEB28421593F02500B622FC /* unlockedheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlockedheader@2x.png"; sourceTree = "<group>"; };
 		CFEB284515951ADA00B622FC /* FullEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullEvent.h; sourceTree = "<group>"; };
@@ -6800,6 +6811,10 @@
 		CF62E6B415FEC58900DF850F /* Clan images */ = {
 			isa = PBXGroup;
 			children = (
+				CF84B9AD16780EB60057B33E /* clanwarsicon.png */,
+				CF84B9AE16780EB60057B33E /* clanwarsicon@2x.png */,
+				CF84B9AF16780EB60057B33E /* clanwarsiconactive.png */,
+				CF84B9B016780EB60057B33E /* clanwarsiconactive@2x.png */,
 				CF877816163E49B8008A0F71 /* increaseclan.png */,
 				CF877817163E49B8008A0F71 /* increaseclan@2x.png */,
 				CFC85AF2160D108A00EB3448 /* levelbadge.png */,
@@ -6886,6 +6901,8 @@
 				CFE110F916081DA400DF22EB /* BrowseSearchCell.xib */,
 				CFD09C051602E7DE005D94D1 /* ClanMemberCell.xib */,
 				CF1363B316092D6C005D7528 /* ClanBoardCell.xib */,
+				CFE954C4166F3EF500DA63CF /* ClanTowerTab.h */,
+				CFE954C5166F3EF500DA63CF /* ClanTowerTab.m */,
 				CFD29FBF164C9F22003CFE11 /* ClanTowerTabView.xib */,
 				CFD29FC1164CA2FA003CFE11 /* ClanTowerView.xib */,
 			);
@@ -9150,6 +9167,10 @@
 				CFE954B6166F14F800DA63CF /* smallgoldstack.png in Resources */,
 				CFE954B7166F14F800DA63CF /* smallgoldstack@2x.png in Resources */,
 				CF4E450516787CE1005DAE18 /* ResetStaminaView.xib in Resources */,
+				CF84B9B116780EB60057B33E /* clanwarsicon.png in Resources */,
+				CF84B9B216780EB60057B33E /* clanwarsicon@2x.png in Resources */,
+				CF84B9B316780EB60057B33E /* clanwarsiconactive.png in Resources */,
+				CF84B9B416780EB60057B33E /* clanwarsiconactive@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9420,6 +9441,7 @@
 				CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */,
 				CFE95481166E380D00DA63CF /* BossEventMenuController.m in Sources */,
 				CF4E450816788277005DAE18 /* ResetStaminaView.m in Sources */,
+				CFE954C6166F3EF500DA63CF /* ClanTowerTab.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

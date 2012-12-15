@@ -141,4 +141,7 @@
 
 - (int) sendBossActionMessage:(int)bossId isSuperAttack:(BOOL)isSuperAttack curTime:(uint64_t)curTime;
 
+- (int) sendBeginClanTowerWarMessage:(int)towerId claiming:(BOOL)claiming clientTime:(uint64_t)clientTime;
+- (int) sendConcedeClanTowerWar:(int)towerId clientTime:(uint64_t)clientTime;
+
 @end

@@ -1751,7 +1751,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-      [gs addChatMessage:gs.minUser message:msg scope:scope isAdmin:gs.isAdmin];
+      [gs addChatMessage:gs.minUser message:msg scope:scope isAdmin:(scope == GroupChatScopeGlobal ? gs.isAdmin : NO)];
     });
     //  } else {
     //    [Globals popupMessage:@"Attempting to send chat without any speakers"];
@@ -2119,6 +2119,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return date;
   }
   return nil;
+}
+
+- (int) claimTower:(int)towerId {
+  return [[SocketCommunication sharedSocketCommunication] sendBeginClanTowerWarMessage:towerId claiming:YES clientTime:[self getCurrentMilliseconds]];
+}
+
+- (int) beginTowerWar:(int)towerId {
+  return [[SocketCommunication sharedSocketCommunication] sendBeginClanTowerWarMessage:towerId claiming:NO clientTime:[self getCurrentMilliseconds]];
+}
+
+- (int) concedeClanTower:(int)towerId {
+  return [[SocketCommunication sharedSocketCommunication] sendConcedeClanTowerWar:towerId clientTime:[self getCurrentMilliseconds]];
 }
 
 @end

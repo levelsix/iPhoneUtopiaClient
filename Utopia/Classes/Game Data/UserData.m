@@ -382,6 +382,16 @@
   return self;
 }
 
+- (id) initWithTitle:(NSString *)t subtitle:(NSString *)st color:(UIColor *)c {
+  if ((self = [super init])) {
+    self.title = t;
+    self.subtitle = st;
+    self.color = c;
+    self.type = kNotificationGeneral;
+  }
+  return self;
+}
+
 - (NSString *) description {
   return [NSString stringWithFormat:@"<UserNotification> Type: %d", self.type];
 }

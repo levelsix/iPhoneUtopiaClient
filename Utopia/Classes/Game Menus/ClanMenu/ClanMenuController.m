@@ -134,6 +134,12 @@
   }
 }
 
+- (void) loadClanTowerConfiguration {
+  [self loadTwoButtonConfiguration];
+  button1Label.text = @"war info";
+  button3Label.text = @"attack";
+}
+
 - (void) loadViewClanConfiguration {
   [self loadTwoButtonConfiguration];
   button1Label.text = @"clan info";
@@ -312,15 +318,16 @@
 
 @implementation ClanBar
 
-@synthesize button1, button2, button3, button4;
-@synthesize button1Label, button2Label, button3Label, button4Label;
-@synthesize button1Icon, button2Icon, button3Icon, button4Icon;
+@synthesize button1, button2, button3, button4, button5;
+@synthesize button1Label, button2Label, button3Label, button4Label, button5Label;
+@synthesize button1Icon, button2Icon, button3Icon, button4Icon, button5Icon;
 
 - (void) awakeFromNib {
   [self clickButton:kButton1];
   [self unclickButton:kButton2];
   [self unclickButton:kButton3];
   [self unclickButton:kButton4];
+  [self unclickButton:kButton5];
 }
 
 - (void) loadButtonsForClanState:(ClanState)state {
@@ -328,6 +335,7 @@
   [self unclickButton:kButton2];
   [self unclickButton:kButton3];
   [self unclickButton:kButton4];
+  [self unclickButton:kButton5];
   
   switch (state) {
     case kMyClan:
@@ -341,6 +349,9 @@
       break;
     case kCreateClan:
       [self clickButton:kButton4];
+      break;
+    case kClanTower:
+      [self clickButton:kButton5];
       break;
     default:
       break;
@@ -375,6 +386,13 @@
       button4.hidden = NO;
       button4Icon.highlighted = YES;
       _clickedButtons |= kButton4;
+      break;
+      
+    case kButton5:
+      button5Label.highlighted = YES;
+      button5.hidden = NO;
+      button5Icon.highlighted = YES;
+      _clickedButtons |= kButton5;
       break;
       
     default:
@@ -412,6 +430,13 @@
       _clickedButtons &= ~kButton4;
       break;
       
+    case kButton5:
+      button5Label.highlighted = NO;
+      button5.hidden = YES;
+      button5Icon.highlighted = NO;
+      _clickedButtons &= ~kButton5;
+      break;
+      
     default:
       break;
   }
@@ -441,6 +466,12 @@
   if (!(_clickedButtons & kButton4) && [button4 pointInside:pt withEvent:nil]) {
     _trackingButton4 = YES;
     [self clickButton:kButton4];
+  }
+  
+  pt = [touch locationInView:button5];
+  if (!(_clickedButtons & kButton5) && [button5 pointInside:pt withEvent:nil]) {
+    _trackingButton5 = YES;
+    [self clickButton:kButton5];
   }
 }
 
@@ -481,6 +512,15 @@
       [self unclickButton:kButton4];
     }
   }
+  
+  pt = [touch locationInView:button5];
+  if (_trackingButton5) {
+    if (CGRectContainsPoint(CGRectInset(button5.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton5];
+    } else {
+      [self unclickButton:kButton5];
+    }
+  }
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -492,6 +532,7 @@
       [self unclickButton:kButton3];
       [self unclickButton:kButton2];
       [self unclickButton:kButton4];
+      [self unclickButton:kButton5];
       
       [[ClanMenuController sharedClanMenuController] setState:kMyClan];
     } else {
@@ -506,6 +547,7 @@
       [self unclickButton:kButton3];
       [self unclickButton:kButton1];
       [self unclickButton:kButton4];
+      [self unclickButton:kButton5];
       
       [[ClanMenuController sharedClanMenuController] setState:kBrowseClans];
     } else {
@@ -520,6 +562,7 @@
       [self unclickButton:kButton1];
       [self unclickButton:kButton2];
       [self unclickButton:kButton4];
+      [self unclickButton:kButton5];
       
       [[ClanMenuController sharedClanMenuController] setState:kAboutClans];
     } else {
@@ -534,6 +577,7 @@
       [self unclickButton:kButton3];
       [self unclickButton:kButton2];
       [self unclickButton:kButton1];
+      [self unclickButton:kButton5];
       
       [[ClanMenuController sharedClanMenuController] setState:kCreateClan];
     } else {
@@ -541,21 +585,39 @@
     }
   }
   
+  pt = [touch locationInView:button5];
+  if (_trackingButton5) {
+    if (CGRectContainsPoint(CGRectInset(button4.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton5];
+      [self unclickButton:kButton3];
+      [self unclickButton:kButton2];
+      [self unclickButton:kButton1];
+      [self unclickButton:kButton4];
+      
+      [[ClanMenuController sharedClanMenuController] setState:kClanTower];
+    } else {
+      [self unclickButton:kButton5];
+    }
+  }
+  
   _trackingButton1 = NO;
   _trackingButton3 = NO;
   _trackingButton2 = NO;
   _trackingButton4 = NO;
+  _trackingButton5 = NO;
 }
 
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
   if (_trackingButton1) [self unclickButton:kButton1];
-  if (_trackingButton2) [self unclickButton:kButton3];
-  if (_trackingButton3) [self unclickButton:kButton2];
+  if (_trackingButton2) [self unclickButton:kButton2];
+  if (_trackingButton3) [self unclickButton:kButton3];
   if (_trackingButton4) [self unclickButton:kButton4];
+  if (_trackingButton5) [self unclickButton:kButton5];
   _trackingButton1 = NO;
-  _trackingButton3 = NO;
   _trackingButton2 = NO;
+  _trackingButton3 = NO;
   _trackingButton4 = NO;
+  _trackingButton5 = NO;
 }
 
 - (void) dealloc {
@@ -563,14 +625,17 @@
   self.button2Label = nil;
   self.button1Label = nil;
   self.button4Label = nil;
+  self.button5Label = nil;
   self.button3 = nil;
   self.button2 = nil;
   self.button1 = nil;
   self.button4 = nil;
+  self.button5 = nil;
   self.button1Icon = nil;
   self.button2Icon = nil;
   self.button3Icon = nil;
   self.button4Icon = nil;
+  self.button5Icon = nil;
   [super dealloc];
 }
 
@@ -626,6 +691,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   self.secondTopBar.frame = self.topBar.frame;
   [self.topBar.superview addSubview:self.secondTopBar];
   self.secondTopBar.alpha = 0.f;
+  
+  [[NSBundle mainBundle] loadNibNamed:@"ClanTowerTabView" owner:self options:nil];
+  self.clanTowerTab.frame = self.clanCreateView.frame;
+  [self.containerView addSubview:self.clanTowerTab];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (gs.clan) {
+    [self setState:kMyClan];
+  } else {
+    [self setState:kBrowseClans];
+  }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -637,10 +713,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   if (gs.clan) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:gs.clan.clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO beforeClanId:0];
     [[OutgoingEventController sharedOutgoingEventController] retrieveClanBulletinPosts:0];
-    
-    [self setState:kMyClan];
-  } else {
-    [self setState:kBrowseClans];
   }
   
   [self.view wakeup];
@@ -651,6 +723,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   self.view.frame = r;
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateGoldLabel) name:IAP_SUCCESS_NOTIFICATION object:nil];
+  
+  // Reload current state
+  if (state == kClanTower) {
+    [self.membersView preloadMembersForClan:self.membersView.clanId leader:self.membersView.leader.minUserProto.minUserProtoWithLevel.minUserProto.userId];
+    [self.clanTowerTab updateForCurrentTowers];
+  } else {
+    self.state = self.state;
+  }
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -681,6 +761,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   
   self.clanInfoView.canEdit = NO;
   
+  self.topBar.alpha = 1.f;
+  self.titleLabel.alpha = 1.f;
+  
   GameState *gs = [GameState sharedGameState];
   switch (state) {
     case kMyClan:
@@ -695,6 +778,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
       self.backView.hidden = YES;
       self.topBar.hidden = NO;
       self.titleLabel.hidden = YES;
+      self.clanTowerTab.hidden = YES;
       
       [self.topBar loadMyClanConfiguration];
       if (gs.clan) {
@@ -720,6 +804,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
       self.backView.hidden = YES;
       self.topBar.hidden = NO;
       self.titleLabel.hidden = YES;
+      self.clanTowerTab.hidden = YES;
       
       self.clanBrowseView.state = [Globals userTypeIsGood:gs.type] ? kBrowseAlliance : kBrowseLegion;
       if (self.clanBrowseView.state == kBrowseLegion) _lastButton = kButton2;
@@ -738,6 +823,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
       self.topBar.hidden = YES;
       self.titleLabel.hidden = NO;
       self.clanAboutView.hidden = NO;
+      self.clanTowerTab.hidden = YES;
       
       self.titleLabel.text = @"ABOUT CLANS";
       
@@ -755,6 +841,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
       self.backView.hidden = YES;
       self.topBar.hidden = YES;
       self.titleLabel.hidden = NO;
+      self.clanTowerTab.hidden = YES;
       
       self.titleLabel.text = @"CREATE A CLAN";
       
@@ -764,6 +851,23 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
         [self.clanCreateView loadClanCreationView];
       }
       break;
+      
+    case kClanTower:
+      self.clanCreateView.hidden = YES;
+      self.membersView.hidden = YES;
+      self.clanInfoView.hidden = YES;
+      self.clanBrowseView.hidden = YES;
+      self.clanBoardView.hidden = YES;
+      self.clanAboutView.hidden = YES;
+      self.goldView.hidden = YES;
+      self.editView.hidden = YES;
+      self.backView.hidden = YES;
+      self.topBar.hidden = YES;
+      self.titleLabel.hidden = NO;
+      self.clanTowerTab.hidden = NO;
+      
+      self.titleLabel.text = @"CLAN TOWERS";
+      [self.clanTowerTab loadClanTowerList:NO];
       
     default:
       break;
@@ -832,6 +936,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
         self.membersView.hidden = NO;
       }
     }
+  } else if (self.state == kClanTower) {
+    if (button == kButton1) {
+      self.clanTowerTab.hidden = NO;
+      self.membersView.hidden = YES;
+    } else {
+      self.clanTowerTab.hidden = YES;
+      self.membersView.hidden = NO;
+    }
   }
 }
 
@@ -868,6 +980,42 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   [self.membersView preloadMembersForClan:clan.clan.clanId leader:clan.clan.owner.userId];
   
   _browsingClanId = clan.clan.clanId;
+}
+
+- (void) towerClicked:(ClanTowerProto *)p {
+  self.backLabel.text = @"Wars";
+  if (self.backView.hidden) {
+    self.backView.hidden = NO;
+    self.backView.alpha = 0.f;
+    [UIView animateWithDuration:0.3f animations:^{
+      self.backView.alpha = 1.f;
+    }];
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  if (p.hasTowerAttacker) {
+    if (p.towerOwner.clanId == gs.clan.clanId || p.towerAttacker.clanId == gs.clan.clanId) {
+      MinimumClanProto *clan = p.towerOwner.clanId == gs.clan.clanId ? p.towerAttacker : p.towerOwner;
+      [self.topBar loadClanTowerConfiguration];
+      
+      [self.membersView preloadMembersForClan:clan.clanId leader:clan.ownerId];
+      _browsingClanId = clan.clanId;
+      
+      if (self.topBar.hidden || self.topBar.alpha == 0.f) {
+        self.topBar.hidden = NO;
+        self.topBar.alpha = 0.f;
+        [UIView animateWithDuration:0.3f animations:^{
+          self.topBar.alpha = 1.f;
+          self.titleLabel.alpha = 0.f;
+        } completion:^(BOOL finished) {
+          self.titleLabel.hidden = YES;
+        }];
+      }
+    } else {
+      self.topBar.hidden = YES;
+      self.titleLabel.hidden = NO;
+    }
+  }
 }
 
 - (void) updateGoldLabel {
@@ -939,36 +1087,52 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
 }
 
 - (IBAction)backClicked:(id)sender {
-  [secondTopBar loadBrowseClanConfiguration];
-  [secondTopBar unclickButton:kButton1];
-  [secondTopBar unclickButton:kButton2];
-  [secondTopBar unclickButton:kButton3];
-  [secondTopBar clickButton:_lastBrowseButton];
-  
-  // Do animation
-  self.clanBrowseView.hidden = NO;
-  CGPoint ciCenter = self.clanInfoView.center;
-  CGPoint cmCenter = self.membersView.center;
-  CGPoint cbCenter = self.clanBrowseView.center;
-  self.clanBrowseView.center = ccpAdd(cbCenter, ccp(-clanBrowseView.frame.size.width, 0));
-  [UIView animateWithDuration:0.3f animations:^{
-    clanBrowseView.center = cbCenter;
-    self.clanInfoView.center = ccpAdd(ciCenter, ccp(clanInfoView.frame.size.width, 0));
-    self.membersView.center = ccpAdd(cmCenter, ccp(membersView.frame.size.width, 0));
-    self.backView.alpha = 0.f;
+  if (state == kBrowseClans) {
+    [secondTopBar loadBrowseClanConfiguration];
+    [secondTopBar unclickButton:kButton1];
+    [secondTopBar unclickButton:kButton2];
+    [secondTopBar unclickButton:kButton3];
+    [secondTopBar clickButton:_lastBrowseButton];
     
-    self.secondTopBar.alpha = 1.f;
-    self.topBar.alpha = 0.f;
-    ClanTopBar *tb = self.secondTopBar;
-    self.secondTopBar = self.topBar;
-    self.topBar = tb;
-  } completion:^(BOOL finished) {
-    self.clanInfoView.center = ciCenter;
-    self.membersView.center = cmCenter;
-    self.clanInfoView.hidden = YES;
+    // Do animation
+    self.clanBrowseView.hidden = NO;
+    CGPoint ciCenter = self.clanInfoView.center;
+    CGPoint cmCenter = self.membersView.center;
+    CGPoint cbCenter = self.clanBrowseView.center;
+    self.clanBrowseView.center = ccpAdd(cbCenter, ccp(-clanBrowseView.frame.size.width, 0));
+    [UIView animateWithDuration:0.3f animations:^{
+      clanBrowseView.center = cbCenter;
+      self.clanInfoView.center = ccpAdd(ciCenter, ccp(clanInfoView.frame.size.width, 0));
+      self.membersView.center = ccpAdd(cmCenter, ccp(membersView.frame.size.width, 0));
+      self.backView.alpha = 0.f;
+      
+      self.secondTopBar.alpha = 1.f;
+      self.topBar.alpha = 0.f;
+      ClanTopBar *tb = self.secondTopBar;
+      self.secondTopBar = self.topBar;
+      self.topBar = tb;
+    } completion:^(BOOL finished) {
+      self.clanInfoView.center = ciCenter;
+      self.membersView.center = cmCenter;
+      self.clanInfoView.hidden = YES;
+      self.membersView.hidden = YES;
+      self.backView.hidden = YES;
+    }];
+  } else if (state == kClanTower) {
+    [self.clanTowerTab loadClanTowerList:YES];
+    
     self.membersView.hidden = YES;
-    self.backView.hidden = YES;
-  }];
+    self.clanTowerTab.hidden = NO;
+    
+    self.titleLabel.hidden = NO;
+    [UIView animateWithDuration:0.3f animations:^{
+      self.titleLabel.alpha = 1.f;
+      self.topBar.alpha = 0.f;
+      self.backView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      self.backView.hidden = YES;
+    }];
+  }
 }
 
 - (IBAction)upgradeClanClicked:(id)sender {
@@ -1084,7 +1248,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
         }
       }
     } else {
-      if (state == kBrowseClans && proto.clanId == _browsingClanId) {
+      if ((state == kBrowseClans || state == kClanTower) && proto.clanId == _browsingClanId) {
         [self.membersView loadForMembers:proto.membersList isMyClan:NO];
       }
     }
@@ -1279,6 +1443,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   [self.loadingView stop];
 }
 
+- (void) updateClanTowers {
+  if (state == kClanTower) {
+    [self.clanTowerTab updateForCurrentTowers];
+  }
+}
+
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
@@ -1304,6 +1474,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
     self.secondTopBar = nil;
     self.clanBoardView = nil;
     self.backLabel = nil;
+    self.clanTowerTab.timer = nil;
+    self.clanTowerTab = nil;
   }
 }
 

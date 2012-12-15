@@ -25,6 +25,7 @@
 # import "AMQPChannel.h"
 # import "AMQPExchange.h"
 # import "AMQPConsumer.h"
+# import "Globals.h"
 
 @implementation AMQPQueue
 
@@ -37,6 +38,8 @@
 		amqp_queue_declare_ok_t *declaration = amqp_queue_declare(theChannel.connection.internalConnection, theChannel.internalChannel, amqp_cstring_bytes([theName UTF8String]), passive, durable, exclusive, autoDelete, AMQP_EMPTY_TABLE);
 		
 		[theChannel.connection checkLastOperation:@"Failed to declare queue"];
+    
+    LNLog(@"AMQP: Began queue %@", theName);
 		
 		queueName = amqp_bytes_malloc_dup(declaration->queue);
 		channel = [theChannel retain];
@@ -44,6 +47,7 @@
 	
 	return self;
 }
+
 - (void)dealloc
 {
 	amqp_bytes_free(queueName);

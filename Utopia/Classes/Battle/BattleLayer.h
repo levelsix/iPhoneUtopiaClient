@@ -142,6 +142,7 @@
   int _cityId;
   
   BOOL _cameFromAviary;
+  BOOL _cameFromClans;
   
   BOOL _clickedDone;
   id<BattleCalculator> _battleCalculator;
