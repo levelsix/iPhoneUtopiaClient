@@ -191,7 +191,6 @@
   [cell updateForUser:u forState:LeaderboardTypeEvent];
   
   cell.rankLabel.textColor = [self colorForRank:u.leaderboardRank];
-  [cell.nameLabel setTitle:[NSString stringWithFormat:@"%d", u.minUserProto.userId] forState:UIControlStateNormal];
   
   return cell;
 }
