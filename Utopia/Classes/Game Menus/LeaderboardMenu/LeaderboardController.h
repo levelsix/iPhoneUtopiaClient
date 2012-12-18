@@ -49,6 +49,8 @@ typedef enum {
 
 @property (nonatomic, retain) MinimumUserProtoWithLevelForLeaderboard *user;
 
+- (void) updateForUser:(MinimumUserProtoWithLevelForLeaderboard *)u forState:(LeaderboardType)type;
+
 @end
 
 @interface LeaderboardController : PullRefreshTableViewController <UITableViewDelegate, UITableViewDataSource>

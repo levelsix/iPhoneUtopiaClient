@@ -2,6 +2,36 @@ package com.lvl6.proto;
 
 option java_outer_classname = "InfoProto";
 
+message ColorProto {
+	optional int32 red = 1;
+	optional int32 green = 2;
+	optional int32 blue = 3;
+}
+
+//------------------------------------------------------------------------------------------
+
+message LeaderboardEventProto {
+	optional int32 eventId = 1;
+	optional int64 startDate = 2;
+	optional int64 endDate = 3;
+	optional string eventName = 4;
+	repeated LeaderboardEventRewardProto rewards = 5;
+}
+
+//------------------------------------------------------------------------------------------
+
+message LeaderboardEventRewardProto {
+	optional int32 leaderboardEventId = 1;
+	optional int32 minRank = 2;
+	optional int32 maxRank = 3;
+	optional int32 goldRewarded = 4;
+	optional string backgroundImageName = 5;
+	optional string prizeImageName = 6;
+	optional ColorProto titleColor = 7;
+}
+
+//------------------------------------------------------------------------------------------
+
 message BossEventProto {
 	optional int32 cityId = 1;
 	optional int64 startDate = 2;
@@ -16,6 +46,8 @@ message BossEventProto {
 	optional string rightTagImage = 11;
 	optional string infoDescription = 12;
 }
+
+//------------------------------------------------------------------------------------------
 
 message ClanTowerProto {
 	optional int32 towerId = 1;
@@ -230,6 +262,7 @@ enum LeaderboardType {
 	MOST_COINS = 3;
 	MOST_EXP = 4;
 	BEST_KDR = 5;		//start counting only after x battles. so instead of displaying your rank, show that.
+	EVENT = 6;
  }
 
 //------------------------------------------------------------------------------------------
@@ -781,10 +814,3 @@ message UnhandledBlacksmithAttemptProto {
 	optional bool attemptComplete = 10;
 }
 
-//------------------------------------------------------------------------------------------
-
-message ColorProto {
-	optional int32 red = 1;
-	optional int32 green = 2;
-	optional int32 blue = 3;
-}

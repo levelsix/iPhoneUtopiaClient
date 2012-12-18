@@ -293,6 +293,8 @@
     str = [NSString stringWithFormat:@"%@ Silver", [Globals commafyNumber:(int)u.leaderboardScore]];
   } else if (type == LeaderboardTypeMostExp) {
     str = [NSString stringWithFormat:@"%@ Exp.", [Globals commafyNumber:(int)u.leaderboardScore]];
+  } else if (type == LeaderboardTypeEvent) {
+    str = [NSString stringWithFormat:@"%@ Points", [Globals commafyNumber:(int)u.leaderboardScore]];
   }
   self.rightLabel.text = str;
 }
@@ -413,6 +415,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LeaderboardController);
     default:
       break;
   }
+  return nil;
 }
 
 - (void) receivedLeaderboardResponse:(RetrieveLeaderboardResponseProto *)proto {

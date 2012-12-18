@@ -64,6 +64,10 @@
 @class GoldSaleProto_Builder;
 @class GroupChatMessageProto;
 @class GroupChatMessageProto_Builder;
+@class LeaderboardEventProto;
+@class LeaderboardEventProto_Builder;
+@class LeaderboardEventRewardProto;
+@class LeaderboardEventRewardProto_Builder;
 @class LocationProto;
 @class LocationProto_Builder;
 @class LockBoxEventProto;
@@ -140,6 +144,7 @@ typedef enum {
   LeaderboardTypeMostCoins = 3,
   LeaderboardTypeMostExp = 4,
   LeaderboardTypeBestKdr = 5,
+  LeaderboardTypeEvent = 6,
 } LeaderboardType;
 
 BOOL LeaderboardTypeIsValidValue(LeaderboardType value);
@@ -310,6 +315,261 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
+@end
+
+@interface ColorProto : PBGeneratedMessage {
+@private
+  BOOL hasRed_:1;
+  BOOL hasGreen_:1;
+  BOOL hasBlue_:1;
+  int32_t red;
+  int32_t green;
+  int32_t blue;
+}
+- (BOOL) hasRed;
+- (BOOL) hasGreen;
+- (BOOL) hasBlue;
+@property (readonly) int32_t red;
+@property (readonly) int32_t green;
+@property (readonly) int32_t blue;
+
++ (ColorProto*) defaultInstance;
+- (ColorProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ColorProto_Builder*) builder;
++ (ColorProto_Builder*) builder;
++ (ColorProto_Builder*) builderWithPrototype:(ColorProto*) prototype;
+
++ (ColorProto*) parseFromData:(NSData*) data;
++ (ColorProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ColorProto*) parseFromInputStream:(NSInputStream*) input;
++ (ColorProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ColorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ColorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ColorProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ColorProto* result;
+}
+
+- (ColorProto*) defaultInstance;
+
+- (ColorProto_Builder*) clear;
+- (ColorProto_Builder*) clone;
+
+- (ColorProto*) build;
+- (ColorProto*) buildPartial;
+
+- (ColorProto_Builder*) mergeFrom:(ColorProto*) other;
+- (ColorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ColorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasRed;
+- (int32_t) red;
+- (ColorProto_Builder*) setRed:(int32_t) value;
+- (ColorProto_Builder*) clearRed;
+
+- (BOOL) hasGreen;
+- (int32_t) green;
+- (ColorProto_Builder*) setGreen:(int32_t) value;
+- (ColorProto_Builder*) clearGreen;
+
+- (BOOL) hasBlue;
+- (int32_t) blue;
+- (ColorProto_Builder*) setBlue:(int32_t) value;
+- (ColorProto_Builder*) clearBlue;
+@end
+
+@interface LeaderboardEventProto : PBGeneratedMessage {
+@private
+  BOOL hasStartDate_:1;
+  BOOL hasEndDate_:1;
+  BOOL hasEventId_:1;
+  BOOL hasEventName_:1;
+  int64_t startDate;
+  int64_t endDate;
+  int32_t eventId;
+  NSString* eventName;
+  NSMutableArray* mutableRewardsList;
+}
+- (BOOL) hasEventId;
+- (BOOL) hasStartDate;
+- (BOOL) hasEndDate;
+- (BOOL) hasEventName;
+@property (readonly) int32_t eventId;
+@property (readonly) int64_t startDate;
+@property (readonly) int64_t endDate;
+@property (readonly, retain) NSString* eventName;
+- (NSArray*) rewardsList;
+- (LeaderboardEventRewardProto*) rewardsAtIndex:(int32_t) index;
+
++ (LeaderboardEventProto*) defaultInstance;
+- (LeaderboardEventProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (LeaderboardEventProto_Builder*) builder;
++ (LeaderboardEventProto_Builder*) builder;
++ (LeaderboardEventProto_Builder*) builderWithPrototype:(LeaderboardEventProto*) prototype;
+
++ (LeaderboardEventProto*) parseFromData:(NSData*) data;
++ (LeaderboardEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LeaderboardEventProto*) parseFromInputStream:(NSInputStream*) input;
++ (LeaderboardEventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LeaderboardEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (LeaderboardEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface LeaderboardEventProto_Builder : PBGeneratedMessage_Builder {
+@private
+  LeaderboardEventProto* result;
+}
+
+- (LeaderboardEventProto*) defaultInstance;
+
+- (LeaderboardEventProto_Builder*) clear;
+- (LeaderboardEventProto_Builder*) clone;
+
+- (LeaderboardEventProto*) build;
+- (LeaderboardEventProto*) buildPartial;
+
+- (LeaderboardEventProto_Builder*) mergeFrom:(LeaderboardEventProto*) other;
+- (LeaderboardEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (LeaderboardEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasEventId;
+- (int32_t) eventId;
+- (LeaderboardEventProto_Builder*) setEventId:(int32_t) value;
+- (LeaderboardEventProto_Builder*) clearEventId;
+
+- (BOOL) hasStartDate;
+- (int64_t) startDate;
+- (LeaderboardEventProto_Builder*) setStartDate:(int64_t) value;
+- (LeaderboardEventProto_Builder*) clearStartDate;
+
+- (BOOL) hasEndDate;
+- (int64_t) endDate;
+- (LeaderboardEventProto_Builder*) setEndDate:(int64_t) value;
+- (LeaderboardEventProto_Builder*) clearEndDate;
+
+- (BOOL) hasEventName;
+- (NSString*) eventName;
+- (LeaderboardEventProto_Builder*) setEventName:(NSString*) value;
+- (LeaderboardEventProto_Builder*) clearEventName;
+
+- (NSArray*) rewardsList;
+- (LeaderboardEventRewardProto*) rewardsAtIndex:(int32_t) index;
+- (LeaderboardEventProto_Builder*) replaceRewardsAtIndex:(int32_t) index with:(LeaderboardEventRewardProto*) value;
+- (LeaderboardEventProto_Builder*) addRewards:(LeaderboardEventRewardProto*) value;
+- (LeaderboardEventProto_Builder*) addAllRewards:(NSArray*) values;
+- (LeaderboardEventProto_Builder*) clearRewardsList;
+@end
+
+@interface LeaderboardEventRewardProto : PBGeneratedMessage {
+@private
+  BOOL hasLeaderboardEventId_:1;
+  BOOL hasMinRank_:1;
+  BOOL hasMaxRank_:1;
+  BOOL hasGoldRewarded_:1;
+  BOOL hasBackgroundImageName_:1;
+  BOOL hasPrizeImageName_:1;
+  BOOL hasTitleColor_:1;
+  int32_t leaderboardEventId;
+  int32_t minRank;
+  int32_t maxRank;
+  int32_t goldRewarded;
+  NSString* backgroundImageName;
+  NSString* prizeImageName;
+  ColorProto* titleColor;
+}
+- (BOOL) hasLeaderboardEventId;
+- (BOOL) hasMinRank;
+- (BOOL) hasMaxRank;
+- (BOOL) hasGoldRewarded;
+- (BOOL) hasBackgroundImageName;
+- (BOOL) hasPrizeImageName;
+- (BOOL) hasTitleColor;
+@property (readonly) int32_t leaderboardEventId;
+@property (readonly) int32_t minRank;
+@property (readonly) int32_t maxRank;
+@property (readonly) int32_t goldRewarded;
+@property (readonly, retain) NSString* backgroundImageName;
+@property (readonly, retain) NSString* prizeImageName;
+@property (readonly, retain) ColorProto* titleColor;
+
++ (LeaderboardEventRewardProto*) defaultInstance;
+- (LeaderboardEventRewardProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (LeaderboardEventRewardProto_Builder*) builder;
++ (LeaderboardEventRewardProto_Builder*) builder;
++ (LeaderboardEventRewardProto_Builder*) builderWithPrototype:(LeaderboardEventRewardProto*) prototype;
+
++ (LeaderboardEventRewardProto*) parseFromData:(NSData*) data;
++ (LeaderboardEventRewardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LeaderboardEventRewardProto*) parseFromInputStream:(NSInputStream*) input;
++ (LeaderboardEventRewardProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LeaderboardEventRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (LeaderboardEventRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface LeaderboardEventRewardProto_Builder : PBGeneratedMessage_Builder {
+@private
+  LeaderboardEventRewardProto* result;
+}
+
+- (LeaderboardEventRewardProto*) defaultInstance;
+
+- (LeaderboardEventRewardProto_Builder*) clear;
+- (LeaderboardEventRewardProto_Builder*) clone;
+
+- (LeaderboardEventRewardProto*) build;
+- (LeaderboardEventRewardProto*) buildPartial;
+
+- (LeaderboardEventRewardProto_Builder*) mergeFrom:(LeaderboardEventRewardProto*) other;
+- (LeaderboardEventRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (LeaderboardEventRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasLeaderboardEventId;
+- (int32_t) leaderboardEventId;
+- (LeaderboardEventRewardProto_Builder*) setLeaderboardEventId:(int32_t) value;
+- (LeaderboardEventRewardProto_Builder*) clearLeaderboardEventId;
+
+- (BOOL) hasMinRank;
+- (int32_t) minRank;
+- (LeaderboardEventRewardProto_Builder*) setMinRank:(int32_t) value;
+- (LeaderboardEventRewardProto_Builder*) clearMinRank;
+
+- (BOOL) hasMaxRank;
+- (int32_t) maxRank;
+- (LeaderboardEventRewardProto_Builder*) setMaxRank:(int32_t) value;
+- (LeaderboardEventRewardProto_Builder*) clearMaxRank;
+
+- (BOOL) hasGoldRewarded;
+- (int32_t) goldRewarded;
+- (LeaderboardEventRewardProto_Builder*) setGoldRewarded:(int32_t) value;
+- (LeaderboardEventRewardProto_Builder*) clearGoldRewarded;
+
+- (BOOL) hasBackgroundImageName;
+- (NSString*) backgroundImageName;
+- (LeaderboardEventRewardProto_Builder*) setBackgroundImageName:(NSString*) value;
+- (LeaderboardEventRewardProto_Builder*) clearBackgroundImageName;
+
+- (BOOL) hasPrizeImageName;
+- (NSString*) prizeImageName;
+- (LeaderboardEventRewardProto_Builder*) setPrizeImageName:(NSString*) value;
+- (LeaderboardEventRewardProto_Builder*) clearPrizeImageName;
+
+- (BOOL) hasTitleColor;
+- (ColorProto*) titleColor;
+- (LeaderboardEventRewardProto_Builder*) setTitleColor:(ColorProto*) value;
+- (LeaderboardEventRewardProto_Builder*) setTitleColorBuilder:(ColorProto_Builder*) builderForValue;
+- (LeaderboardEventRewardProto_Builder*) mergeTitleColor:(ColorProto*) value;
+- (LeaderboardEventRewardProto_Builder*) clearTitleColor;
 @end
 
 @interface BossEventProto : PBGeneratedMessage {
@@ -5886,71 +6146,5 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) attemptComplete;
 - (UnhandledBlacksmithAttemptProto_Builder*) setAttemptComplete:(BOOL) value;
 - (UnhandledBlacksmithAttemptProto_Builder*) clearAttemptComplete;
-@end
-
-@interface ColorProto : PBGeneratedMessage {
-@private
-  BOOL hasRed_:1;
-  BOOL hasGreen_:1;
-  BOOL hasBlue_:1;
-  int32_t red;
-  int32_t green;
-  int32_t blue;
-}
-- (BOOL) hasRed;
-- (BOOL) hasGreen;
-- (BOOL) hasBlue;
-@property (readonly) int32_t red;
-@property (readonly) int32_t green;
-@property (readonly) int32_t blue;
-
-+ (ColorProto*) defaultInstance;
-- (ColorProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (ColorProto_Builder*) builder;
-+ (ColorProto_Builder*) builder;
-+ (ColorProto_Builder*) builderWithPrototype:(ColorProto*) prototype;
-
-+ (ColorProto*) parseFromData:(NSData*) data;
-+ (ColorProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ColorProto*) parseFromInputStream:(NSInputStream*) input;
-+ (ColorProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ColorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (ColorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface ColorProto_Builder : PBGeneratedMessage_Builder {
-@private
-  ColorProto* result;
-}
-
-- (ColorProto*) defaultInstance;
-
-- (ColorProto_Builder*) clear;
-- (ColorProto_Builder*) clone;
-
-- (ColorProto*) build;
-- (ColorProto*) buildPartial;
-
-- (ColorProto_Builder*) mergeFrom:(ColorProto*) other;
-- (ColorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (ColorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasRed;
-- (int32_t) red;
-- (ColorProto_Builder*) setRed:(int32_t) value;
-- (ColorProto_Builder*) clearRed;
-
-- (BOOL) hasGreen;
-- (int32_t) green;
-- (ColorProto_Builder*) setGreen:(int32_t) value;
-- (ColorProto_Builder*) clearGreen;
-
-- (BOOL) hasBlue;
-- (int32_t) blue;
-- (ColorProto_Builder*) setBlue:(int32_t) value;
-- (ColorProto_Builder*) clearBlue;
 @end
 

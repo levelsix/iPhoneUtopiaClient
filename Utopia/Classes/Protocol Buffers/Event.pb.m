@@ -3264,6 +3264,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableStaticStructsList;
 @property (retain) NSMutableArray* mutableStaticEquipsList;
 @property (retain) NSMutableArray* mutableBossEventsList;
+@property (retain) NSMutableArray* mutableLeaderboardEventsList;
 @end
 
 @implementation StartupResponseProto
@@ -3397,6 +3398,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableStaticStructsList;
 @synthesize mutableStaticEquipsList;
 @synthesize mutableBossEventsList;
+@synthesize mutableLeaderboardEventsList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3433,6 +3435,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableStaticStructsList = nil;
   self.mutableStaticEquipsList = nil;
   self.mutableBossEventsList = nil;
+  self.mutableLeaderboardEventsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3648,6 +3651,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableBossEventsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) leaderboardEventsList {
+  return mutableLeaderboardEventsList;
+}
+- (LeaderboardEventProto*) leaderboardEventsAtIndex:(int32_t) index {
+  id value = [mutableLeaderboardEventsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -3771,6 +3781,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (BossEventProto* element in self.bossEventsList) {
     [output writeMessage:40 value:element];
+  }
+  for (LeaderboardEventProto* element in self.leaderboardEventsList) {
+    [output writeMessage:41 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3905,6 +3918,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (BossEventProto* element in self.bossEventsList) {
     size += computeMessageSize(40, element);
+  }
+  for (LeaderboardEventProto* element in self.leaderboardEventsList) {
+    size += computeMessageSize(41, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -16170,6 +16186,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableBossEventsList addObjectsFromArray:other.mutableBossEventsList];
   }
+  if (other.mutableLeaderboardEventsList.count > 0) {
+    if (result.mutableLeaderboardEventsList == nil) {
+      result.mutableLeaderboardEventsList = [NSMutableArray array];
+    }
+    [result.mutableLeaderboardEventsList addObjectsFromArray:other.mutableLeaderboardEventsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -16439,6 +16461,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         BossEventProto_Builder* subBuilder = [BossEventProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addBossEvents:[subBuilder buildPartial]];
+        break;
+      }
+      case 330: {
+        LeaderboardEventProto_Builder* subBuilder = [LeaderboardEventProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addLeaderboardEvents:[subBuilder buildPartial]];
         break;
       }
     }
@@ -17506,6 +17534,35 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     result.mutableBossEventsList = [NSMutableArray array];
   }
   [result.mutableBossEventsList addObject:value];
+  return self;
+}
+- (NSArray*) leaderboardEventsList {
+  if (result.mutableLeaderboardEventsList == nil) { return [NSArray array]; }
+  return result.mutableLeaderboardEventsList;
+}
+- (LeaderboardEventProto*) leaderboardEventsAtIndex:(int32_t) index {
+  return [result leaderboardEventsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceLeaderboardEventsAtIndex:(int32_t) index with:(LeaderboardEventProto*) value {
+  [result.mutableLeaderboardEventsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllLeaderboardEvents:(NSArray*) values {
+  if (result.mutableLeaderboardEventsList == nil) {
+    result.mutableLeaderboardEventsList = [NSMutableArray array];
+  }
+  [result.mutableLeaderboardEventsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearLeaderboardEventsList {
+  result.mutableLeaderboardEventsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addLeaderboardEvents:(LeaderboardEventProto*) value {
+  if (result.mutableLeaderboardEventsList == nil) {
+    result.mutableLeaderboardEventsList = [NSMutableArray array];
+  }
+  [result.mutableLeaderboardEventsList addObject:value];
   return self;
 }
 @end
@@ -34989,6 +35046,7 @@ BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestD
 @property BOOL clanTierLevels;
 @property (retain) NSMutableArray* mutableBossIdsList;
 @property BOOL currentBossEvents;
+@property BOOL currentLeaderboardEvents;
 @end
 
 @implementation RetrieveStaticDataRequestProto
@@ -35053,6 +35111,18 @@ BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestD
 - (void) setCurrentBossEvents:(BOOL) value {
   currentBossEvents_ = !!value;
 }
+- (BOOL) hasCurrentLeaderboardEvents {
+  return !!hasCurrentLeaderboardEvents_;
+}
+- (void) setHasCurrentLeaderboardEvents:(BOOL) value {
+  hasCurrentLeaderboardEvents_ = !!value;
+}
+- (BOOL) currentLeaderboardEvents {
+  return !!currentLeaderboardEvents_;
+}
+- (void) setCurrentLeaderboardEvents:(BOOL) value {
+  currentLeaderboardEvents_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.mutableStructIdsList = nil;
@@ -35074,6 +35144,7 @@ BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestD
     self.currentLockBoxEvents = NO;
     self.clanTierLevels = NO;
     self.currentBossEvents = NO;
+    self.currentLeaderboardEvents = NO;
   }
   return self;
 }
@@ -35208,6 +35279,9 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   if (self.hasCurrentBossEvents) {
     [output writeBool:15 value:self.currentBossEvents];
   }
+  if (self.hasCurrentLeaderboardEvents) {
+    [output writeBool:16 value:self.currentLeaderboardEvents];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -35311,6 +35385,9 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   }
   if (self.hasCurrentBossEvents) {
     size += computeBoolSize(15, self.currentBossEvents);
+  }
+  if (self.hasCurrentLeaderboardEvents) {
+    size += computeBoolSize(16, self.currentLeaderboardEvents);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -35462,6 +35539,9 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   if (other.hasCurrentBossEvents) {
     [self setCurrentBossEvents:other.currentBossEvents];
   }
+  if (other.hasCurrentLeaderboardEvents) {
+    [self setCurrentLeaderboardEvents:other.currentLeaderboardEvents];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -35546,6 +35626,10 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
       }
       case 120: {
         [self setCurrentBossEvents:[input readBool]];
+        break;
+      }
+      case 128: {
+        [self setCurrentLeaderboardEvents:[input readBool]];
         break;
       }
     }
@@ -35955,6 +36039,22 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   result.currentBossEvents = NO;
   return self;
 }
+- (BOOL) hasCurrentLeaderboardEvents {
+  return result.hasCurrentLeaderboardEvents;
+}
+- (BOOL) currentLeaderboardEvents {
+  return result.currentLeaderboardEvents;
+}
+- (RetrieveStaticDataRequestProto_Builder*) setCurrentLeaderboardEvents:(BOOL) value {
+  result.hasCurrentLeaderboardEvents = YES;
+  result.currentLeaderboardEvents = value;
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clearCurrentLeaderboardEvents {
+  result.hasCurrentLeaderboardEvents = NO;
+  result.currentLeaderboardEvents = NO;
+  return self;
+}
 @end
 
 @interface RetrieveStaticDataResponseProto ()
@@ -35973,6 +36073,7 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
 @property (retain) NSMutableArray* mutableClanTierLevelsList;
 @property (retain) NSMutableArray* mutableBossesList;
 @property (retain) NSMutableArray* mutableBossEventsList;
+@property (retain) NSMutableArray* mutableLeaderboardEventsList;
 @property RetrieveStaticDataResponseProto_RetrieveStaticDataStatus status;
 @end
 
@@ -36005,6 +36106,7 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
 @synthesize mutableClanTierLevelsList;
 @synthesize mutableBossesList;
 @synthesize mutableBossEventsList;
+@synthesize mutableLeaderboardEventsList;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -36027,6 +36129,7 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   self.mutableClanTierLevelsList = nil;
   self.mutableBossesList = nil;
   self.mutableBossEventsList = nil;
+  self.mutableLeaderboardEventsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -36140,6 +36243,13 @@ static RetrieveStaticDataResponseProto* defaultRetrieveStaticDataResponseProtoIn
   id value = [mutableBossEventsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) leaderboardEventsList {
+  return mutableLeaderboardEventsList;
+}
+- (LeaderboardEventProto*) leaderboardEventsAtIndex:(int32_t) index {
+  id value = [mutableLeaderboardEventsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -36191,6 +36301,9 @@ static RetrieveStaticDataResponseProto* defaultRetrieveStaticDataResponseProtoIn
   }
   for (BossEventProto* element in self.bossEventsList) {
     [output writeMessage:16 value:element];
+  }
+  for (LeaderboardEventProto* element in self.leaderboardEventsList) {
+    [output writeMessage:17 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -36248,6 +36361,9 @@ static RetrieveStaticDataResponseProto* defaultRetrieveStaticDataResponseProtoIn
   }
   for (BossEventProto* element in self.bossEventsList) {
     size += computeMessageSize(16, element);
+  }
+  for (LeaderboardEventProto* element in self.leaderboardEventsList) {
+    size += computeMessageSize(17, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -36417,6 +36533,12 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
     }
     [result.mutableBossEventsList addObjectsFromArray:other.mutableBossEventsList];
   }
+  if (other.mutableLeaderboardEventsList.count > 0) {
+    if (result.mutableLeaderboardEventsList == nil) {
+      result.mutableLeaderboardEventsList = [NSMutableArray array];
+    }
+    [result.mutableLeaderboardEventsList addObjectsFromArray:other.mutableLeaderboardEventsList];
+  }
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
@@ -36539,6 +36661,12 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
         BossEventProto_Builder* subBuilder = [BossEventProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addBossEvents:[subBuilder buildPartial]];
+        break;
+      }
+      case 138: {
+        LeaderboardEventProto_Builder* subBuilder = [LeaderboardEventProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addLeaderboardEvents:[subBuilder buildPartial]];
         break;
       }
     }
@@ -36965,6 +37093,35 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
     result.mutableBossEventsList = [NSMutableArray array];
   }
   [result.mutableBossEventsList addObject:value];
+  return self;
+}
+- (NSArray*) leaderboardEventsList {
+  if (result.mutableLeaderboardEventsList == nil) { return [NSArray array]; }
+  return result.mutableLeaderboardEventsList;
+}
+- (LeaderboardEventProto*) leaderboardEventsAtIndex:(int32_t) index {
+  return [result leaderboardEventsAtIndex:index];
+}
+- (RetrieveStaticDataResponseProto_Builder*) replaceLeaderboardEventsAtIndex:(int32_t) index with:(LeaderboardEventProto*) value {
+  [result.mutableLeaderboardEventsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addAllLeaderboardEvents:(NSArray*) values {
+  if (result.mutableLeaderboardEventsList == nil) {
+    result.mutableLeaderboardEventsList = [NSMutableArray array];
+  }
+  [result.mutableLeaderboardEventsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clearLeaderboardEventsList {
+  result.mutableLeaderboardEventsList = nil;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addLeaderboardEvents:(LeaderboardEventProto*) value {
+  if (result.mutableLeaderboardEventsList == nil) {
+    result.mutableLeaderboardEventsList = [NSMutableArray array];
+  }
+  [result.mutableLeaderboardEventsList addObject:value];
   return self;
 }
 - (BOOL) hasStatus {
@@ -49527,6 +49684,719 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
   return self;
 }
 - (RetrieveLeaderboardResponseProto_Builder*) addResultPlayers:(MinimumUserProtoWithLevelForLeaderboard*) value {
+  if (result.mutableResultPlayersList == nil) {
+    result.mutableResultPlayersList = [NSMutableArray array];
+  }
+  [result.mutableResultPlayersList addObject:value];
+  return self;
+}
+@end
+
+@interface RetrieveLeaderboardRankingsRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t eventId;
+@property int32_t afterThisRank;
+@end
+
+@implementation RetrieveLeaderboardRankingsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasEventId {
+  return !!hasEventId_;
+}
+- (void) setHasEventId:(BOOL) value {
+  hasEventId_ = !!value;
+}
+@synthesize eventId;
+- (BOOL) hasAfterThisRank {
+  return !!hasAfterThisRank_;
+}
+- (void) setHasAfterThisRank:(BOOL) value {
+  hasAfterThisRank_ = !!value;
+}
+@synthesize afterThisRank;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.eventId = 0;
+    self.afterThisRank = 0;
+  }
+  return self;
+}
+static RetrieveLeaderboardRankingsRequestProto* defaultRetrieveLeaderboardRankingsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveLeaderboardRankingsRequestProto class]) {
+    defaultRetrieveLeaderboardRankingsRequestProtoInstance = [[RetrieveLeaderboardRankingsRequestProto alloc] init];
+  }
+}
++ (RetrieveLeaderboardRankingsRequestProto*) defaultInstance {
+  return defaultRetrieveLeaderboardRankingsRequestProtoInstance;
+}
+- (RetrieveLeaderboardRankingsRequestProto*) defaultInstance {
+  return defaultRetrieveLeaderboardRankingsRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasEventId) {
+    [output writeInt32:2 value:self.eventId];
+  }
+  if (self.hasAfterThisRank) {
+    [output writeInt32:3 value:self.afterThisRank];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasEventId) {
+    size += computeInt32Size(2, self.eventId);
+  }
+  if (self.hasAfterThisRank) {
+    size += computeInt32Size(3, self.afterThisRank);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveLeaderboardRankingsRequestProto*) parseFromData:(NSData*) data {
+  return (RetrieveLeaderboardRankingsRequestProto*)[[[RetrieveLeaderboardRankingsRequestProto builder] mergeFromData:data] build];
+}
++ (RetrieveLeaderboardRankingsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveLeaderboardRankingsRequestProto*)[[[RetrieveLeaderboardRankingsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveLeaderboardRankingsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveLeaderboardRankingsRequestProto*)[[[RetrieveLeaderboardRankingsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveLeaderboardRankingsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveLeaderboardRankingsRequestProto*)[[[RetrieveLeaderboardRankingsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveLeaderboardRankingsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveLeaderboardRankingsRequestProto*)[[[RetrieveLeaderboardRankingsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveLeaderboardRankingsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveLeaderboardRankingsRequestProto*)[[[RetrieveLeaderboardRankingsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveLeaderboardRankingsRequestProto_Builder*) builder {
+  return [[[RetrieveLeaderboardRankingsRequestProto_Builder alloc] init] autorelease];
+}
++ (RetrieveLeaderboardRankingsRequestProto_Builder*) builderWithPrototype:(RetrieveLeaderboardRankingsRequestProto*) prototype {
+  return [[RetrieveLeaderboardRankingsRequestProto builder] mergeFrom:prototype];
+}
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) builder {
+  return [RetrieveLeaderboardRankingsRequestProto builder];
+}
+@end
+
+@interface RetrieveLeaderboardRankingsRequestProto_Builder()
+@property (retain) RetrieveLeaderboardRankingsRequestProto* result;
+@end
+
+@implementation RetrieveLeaderboardRankingsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveLeaderboardRankingsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) clear {
+  self.result = [[[RetrieveLeaderboardRankingsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) clone {
+  return [RetrieveLeaderboardRankingsRequestProto builderWithPrototype:result];
+}
+- (RetrieveLeaderboardRankingsRequestProto*) defaultInstance {
+  return [RetrieveLeaderboardRankingsRequestProto defaultInstance];
+}
+- (RetrieveLeaderboardRankingsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveLeaderboardRankingsRequestProto*) buildPartial {
+  RetrieveLeaderboardRankingsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) mergeFrom:(RetrieveLeaderboardRankingsRequestProto*) other {
+  if (other == [RetrieveLeaderboardRankingsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasEventId) {
+    [self setEventId:other.eventId];
+  }
+  if (other.hasAfterThisRank) {
+    [self setAfterThisRank:other.afterThisRank];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setEventId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setAfterThisRank:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasEventId {
+  return result.hasEventId;
+}
+- (int32_t) eventId {
+  return result.eventId;
+}
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) setEventId:(int32_t) value {
+  result.hasEventId = YES;
+  result.eventId = value;
+  return self;
+}
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) clearEventId {
+  result.hasEventId = NO;
+  result.eventId = 0;
+  return self;
+}
+- (BOOL) hasAfterThisRank {
+  return result.hasAfterThisRank;
+}
+- (int32_t) afterThisRank {
+  return result.afterThisRank;
+}
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) setAfterThisRank:(int32_t) value {
+  result.hasAfterThisRank = YES;
+  result.afterThisRank = value;
+  return self;
+}
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) clearAfterThisRank {
+  result.hasAfterThisRank = NO;
+  result.afterThisRank = 0;
+  return self;
+}
+@end
+
+@interface RetrieveLeaderboardRankingsResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatus status;
+@property int32_t eventId;
+@property int32_t afterThisRank;
+@property (retain) MinimumUserProtoWithLevelForLeaderboard* retriever;
+@property (retain) NSMutableArray* mutableResultPlayersList;
+@end
+
+@implementation RetrieveLeaderboardRankingsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (BOOL) hasEventId {
+  return !!hasEventId_;
+}
+- (void) setHasEventId:(BOOL) value {
+  hasEventId_ = !!value;
+}
+@synthesize eventId;
+- (BOOL) hasAfterThisRank {
+  return !!hasAfterThisRank_;
+}
+- (void) setHasAfterThisRank:(BOOL) value {
+  hasAfterThisRank_ = !!value;
+}
+@synthesize afterThisRank;
+- (BOOL) hasRetriever {
+  return !!hasRetriever_;
+}
+- (void) setHasRetriever:(BOOL) value {
+  hasRetriever_ = !!value;
+}
+@synthesize retriever;
+@synthesize mutableResultPlayersList;
+- (void) dealloc {
+  self.sender = nil;
+  self.retriever = nil;
+  self.mutableResultPlayersList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusSuccess;
+    self.eventId = 0;
+    self.afterThisRank = 0;
+    self.retriever = [MinimumUserProtoWithLevelForLeaderboard defaultInstance];
+  }
+  return self;
+}
+static RetrieveLeaderboardRankingsResponseProto* defaultRetrieveLeaderboardRankingsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveLeaderboardRankingsResponseProto class]) {
+    defaultRetrieveLeaderboardRankingsResponseProtoInstance = [[RetrieveLeaderboardRankingsResponseProto alloc] init];
+  }
+}
++ (RetrieveLeaderboardRankingsResponseProto*) defaultInstance {
+  return defaultRetrieveLeaderboardRankingsResponseProtoInstance;
+}
+- (RetrieveLeaderboardRankingsResponseProto*) defaultInstance {
+  return defaultRetrieveLeaderboardRankingsResponseProtoInstance;
+}
+- (NSArray*) resultPlayersList {
+  return mutableResultPlayersList;
+}
+- (MinimumUserProtoWithLevelForLeaderboard*) resultPlayersAtIndex:(int32_t) index {
+  id value = [mutableResultPlayersList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  if (self.hasRetriever) {
+    [output writeMessage:3 value:self.retriever];
+  }
+  for (MinimumUserProtoWithLevelForLeaderboard* element in self.resultPlayersList) {
+    [output writeMessage:4 value:element];
+  }
+  if (self.hasEventId) {
+    [output writeInt32:5 value:self.eventId];
+  }
+  if (self.hasAfterThisRank) {
+    [output writeInt32:6 value:self.afterThisRank];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  if (self.hasRetriever) {
+    size += computeMessageSize(3, self.retriever);
+  }
+  for (MinimumUserProtoWithLevelForLeaderboard* element in self.resultPlayersList) {
+    size += computeMessageSize(4, element);
+  }
+  if (self.hasEventId) {
+    size += computeInt32Size(5, self.eventId);
+  }
+  if (self.hasAfterThisRank) {
+    size += computeInt32Size(6, self.afterThisRank);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveLeaderboardRankingsResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveLeaderboardRankingsResponseProto*)[[[RetrieveLeaderboardRankingsResponseProto builder] mergeFromData:data] build];
+}
++ (RetrieveLeaderboardRankingsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveLeaderboardRankingsResponseProto*)[[[RetrieveLeaderboardRankingsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveLeaderboardRankingsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveLeaderboardRankingsResponseProto*)[[[RetrieveLeaderboardRankingsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveLeaderboardRankingsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveLeaderboardRankingsResponseProto*)[[[RetrieveLeaderboardRankingsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveLeaderboardRankingsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveLeaderboardRankingsResponseProto*)[[[RetrieveLeaderboardRankingsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveLeaderboardRankingsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveLeaderboardRankingsResponseProto*)[[[RetrieveLeaderboardRankingsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveLeaderboardRankingsResponseProto_Builder*) builder {
+  return [[[RetrieveLeaderboardRankingsResponseProto_Builder alloc] init] autorelease];
+}
++ (RetrieveLeaderboardRankingsResponseProto_Builder*) builderWithPrototype:(RetrieveLeaderboardRankingsResponseProto*) prototype {
+  return [[RetrieveLeaderboardRankingsResponseProto builder] mergeFrom:prototype];
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) builder {
+  return [RetrieveLeaderboardRankingsResponseProto builder];
+}
+@end
+
+BOOL RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusIsValidValue(RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatus value) {
+  switch (value) {
+    case RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusSuccess:
+    case RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RetrieveLeaderboardRankingsResponseProto_Builder()
+@property (retain) RetrieveLeaderboardRankingsResponseProto* result;
+@end
+
+@implementation RetrieveLeaderboardRankingsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveLeaderboardRankingsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clear {
+  self.result = [[[RetrieveLeaderboardRankingsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clone {
+  return [RetrieveLeaderboardRankingsResponseProto builderWithPrototype:result];
+}
+- (RetrieveLeaderboardRankingsResponseProto*) defaultInstance {
+  return [RetrieveLeaderboardRankingsResponseProto defaultInstance];
+}
+- (RetrieveLeaderboardRankingsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveLeaderboardRankingsResponseProto*) buildPartial {
+  RetrieveLeaderboardRankingsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) mergeFrom:(RetrieveLeaderboardRankingsResponseProto*) other {
+  if (other == [RetrieveLeaderboardRankingsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.hasEventId) {
+    [self setEventId:other.eventId];
+  }
+  if (other.hasAfterThisRank) {
+    [self setAfterThisRank:other.afterThisRank];
+  }
+  if (other.hasRetriever) {
+    [self mergeRetriever:other.retriever];
+  }
+  if (other.mutableResultPlayersList.count > 0) {
+    if (result.mutableResultPlayersList == nil) {
+      result.mutableResultPlayersList = [NSMutableArray array];
+    }
+    [result.mutableResultPlayersList addObjectsFromArray:other.mutableResultPlayersList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        MinimumUserProtoWithLevelForLeaderboard_Builder* subBuilder = [MinimumUserProtoWithLevelForLeaderboard builder];
+        if (self.hasRetriever) {
+          [subBuilder mergeFrom:self.retriever];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setRetriever:[subBuilder buildPartial]];
+        break;
+      }
+      case 34: {
+        MinimumUserProtoWithLevelForLeaderboard_Builder* subBuilder = [MinimumUserProtoWithLevelForLeaderboard builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addResultPlayers:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        [self setEventId:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setAfterThisRank:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatus) status {
+  return result.status;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) setStatus:(RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusSuccess;
+  return self;
+}
+- (BOOL) hasEventId {
+  return result.hasEventId;
+}
+- (int32_t) eventId {
+  return result.eventId;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) setEventId:(int32_t) value {
+  result.hasEventId = YES;
+  result.eventId = value;
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clearEventId {
+  result.hasEventId = NO;
+  result.eventId = 0;
+  return self;
+}
+- (BOOL) hasAfterThisRank {
+  return result.hasAfterThisRank;
+}
+- (int32_t) afterThisRank {
+  return result.afterThisRank;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) setAfterThisRank:(int32_t) value {
+  result.hasAfterThisRank = YES;
+  result.afterThisRank = value;
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clearAfterThisRank {
+  result.hasAfterThisRank = NO;
+  result.afterThisRank = 0;
+  return self;
+}
+- (BOOL) hasRetriever {
+  return result.hasRetriever;
+}
+- (MinimumUserProtoWithLevelForLeaderboard*) retriever {
+  return result.retriever;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) setRetriever:(MinimumUserProtoWithLevelForLeaderboard*) value {
+  result.hasRetriever = YES;
+  result.retriever = value;
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) setRetrieverBuilder:(MinimumUserProtoWithLevelForLeaderboard_Builder*) builderForValue {
+  return [self setRetriever:[builderForValue build]];
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) mergeRetriever:(MinimumUserProtoWithLevelForLeaderboard*) value {
+  if (result.hasRetriever &&
+      result.retriever != [MinimumUserProtoWithLevelForLeaderboard defaultInstance]) {
+    result.retriever =
+      [[[MinimumUserProtoWithLevelForLeaderboard builderWithPrototype:result.retriever] mergeFrom:value] buildPartial];
+  } else {
+    result.retriever = value;
+  }
+  result.hasRetriever = YES;
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clearRetriever {
+  result.hasRetriever = NO;
+  result.retriever = [MinimumUserProtoWithLevelForLeaderboard defaultInstance];
+  return self;
+}
+- (NSArray*) resultPlayersList {
+  if (result.mutableResultPlayersList == nil) { return [NSArray array]; }
+  return result.mutableResultPlayersList;
+}
+- (MinimumUserProtoWithLevelForLeaderboard*) resultPlayersAtIndex:(int32_t) index {
+  return [result resultPlayersAtIndex:index];
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) replaceResultPlayersAtIndex:(int32_t) index with:(MinimumUserProtoWithLevelForLeaderboard*) value {
+  [result.mutableResultPlayersList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) addAllResultPlayers:(NSArray*) values {
+  if (result.mutableResultPlayersList == nil) {
+    result.mutableResultPlayersList = [NSMutableArray array];
+  }
+  [result.mutableResultPlayersList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clearResultPlayersList {
+  result.mutableResultPlayersList = nil;
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) addResultPlayers:(MinimumUserProtoWithLevelForLeaderboard*) value {
   if (result.mutableResultPlayersList == nil) {
     result.mutableResultPlayersList = [NSMutableArray array];
   }

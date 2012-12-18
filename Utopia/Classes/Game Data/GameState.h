@@ -175,6 +175,7 @@
 @property (retain) NSMutableArray *staticLockBoxEvents;
 @property (retain) NSMutableArray *staticGoldSales;
 @property (retain) NSMutableArray *staticBossEvents;
+@property (retain) NSMutableArray *staticTournaments;
 
 @property (retain) NSArray *carpenterStructs;
 @property (retain) NSArray *armoryWeapons;
@@ -217,6 +218,7 @@
 @property (retain) NSMutableArray *lockBoxEventTimers;
 @property (retain) NSMutableArray *goldSaleTimers;
 @property (retain) NSMutableArray *bossEventTimers;
+@property (retain) NSMutableArray *tournamentTimers;
 
 @property (retain) NSDictionary *clanTierLevels;
 
@@ -274,6 +276,7 @@
 - (void) addToStaticUpgradeStructJobs:(NSArray *)arr;
 - (void) addNewStaticLockBoxEvents:(NSArray *)events;
 - (void) addNewStaticBossEvents:(NSArray *)events;
+- (void) addNewStaticTournaments:(NSArray *)events;
 - (void) addToClanTierLevels:(NSArray *) tiers;
 
 - (ClanTierLevelProto *) clanTierForLevel:(int)level;
@@ -307,6 +310,10 @@
 - (void) resetBossEventTimers;
 - (BossEventProto *) getCurrentBossEvent;
 - (void) updateBossEventButton;
+
+- (void) resetTournamentTimers;
+- (LeaderboardEventProto *) getCurrentTournament;
+- (void) updateTournamentButton;
 
 - (void) updateClanTowers:(NSArray *)arr;
 - (ClanTowerProto *) clanTowerWithId:(int)towerId;

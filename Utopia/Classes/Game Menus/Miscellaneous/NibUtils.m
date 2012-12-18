@@ -83,7 +83,7 @@
 @implementation NiceFontLabel9
 
 - (void) awakeFromNib {
-  [Globals adjustFontSizeForUILabel:self];
+//  [Globals adjustFontSizeForUILabel:self];
   self.font = [UIFont fontWithName:@"UnZialish" size:self.font.pointSize];
 }
 

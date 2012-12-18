@@ -309,12 +309,12 @@ static NSString *udid = nil;
   }
   
   StartupRequestProto_Builder *bldr = [[[[[[StartupRequestProto builder]
-                                    setUdid:udid]
-                                   setApsalarId:[Apsalar apsalarID]]
-                                  setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
-                                 setIOs5Udid:device.uniqueIdentifier]
-                               setMacAddress:[self getMacAddress]];
-                                       
+                                           setUdid:udid]
+                                          setApsalarId:[Apsalar apsalarID]]
+                                         setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
+                                        setIOs5Udid:device.uniqueIdentifier]
+                                       setMacAddress:[self getMacAddress]];
+  
   if (advertiserId) {
     [bldr setAdvertiserId:advertiserId];
   }
@@ -662,6 +662,7 @@ static NSString *udid = nil;
   if (events) {
     [blder setCurrentLockBoxEvents:YES];
     [blder setCurrentBossEvents:YES];
+    [blder setCurrentLeaderboardEvents:YES];
   }
   if (clanTierLevels) {
     [blder setClanTierLevels:YES];
@@ -1120,12 +1121,21 @@ static NSString *udid = nil;
 
 - (int) sendConcedeClanTowerWar:(int)towerId clientTime:(uint64_t)clientTime {
   ConcedeClanTowerWarRequestProto *req = [[[[[ConcedeClanTowerWarRequestProto builder]
-                                            setSender:_sender]
-                                           setTowerId:towerId]
-                                          setCurTime:clientTime]
+                                             setSender:_sender]
+                                            setTowerId:towerId]
+                                           setCurTime:clientTime]
                                           build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCConcedeClanTowerWar];
+}
+
+- (int) sendRetrieveLeaderboardRankingsMessage:(int)eventId afterThisRank:(int)afterThisRank {
+  RetrieveLeaderboardRankingsRequestProto *req = [[[[[RetrieveLeaderboardRankingsRequestProto builder]
+                                                     setSender:_sender]
+                                                    setEventId:eventId]
+                                                   setAfterThisRank:afterThisRank]
+                                                  build];
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveLeaderboardRankingsEvent];
 }
 
 - (void) closeDownConnection {

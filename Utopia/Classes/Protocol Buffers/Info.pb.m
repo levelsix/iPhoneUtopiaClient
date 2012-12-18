@@ -56,6 +56,7 @@ BOOL LeaderboardTypeIsValidValue(LeaderboardType value) {
     case LeaderboardTypeMostCoins:
     case LeaderboardTypeMostExp:
     case LeaderboardTypeBestKdr:
+    case LeaderboardTypeEvent:
       return YES;
     default:
       return NO;
@@ -184,6 +185,1035 @@ BOOL ExpansionDirectionIsValidValue(ExpansionDirection value) {
       return NO;
   }
 }
+@interface ColorProto ()
+@property int32_t red;
+@property int32_t green;
+@property int32_t blue;
+@end
+
+@implementation ColorProto
+
+- (BOOL) hasRed {
+  return !!hasRed_;
+}
+- (void) setHasRed:(BOOL) value {
+  hasRed_ = !!value;
+}
+@synthesize red;
+- (BOOL) hasGreen {
+  return !!hasGreen_;
+}
+- (void) setHasGreen:(BOOL) value {
+  hasGreen_ = !!value;
+}
+@synthesize green;
+- (BOOL) hasBlue {
+  return !!hasBlue_;
+}
+- (void) setHasBlue:(BOOL) value {
+  hasBlue_ = !!value;
+}
+@synthesize blue;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.red = 0;
+    self.green = 0;
+    self.blue = 0;
+  }
+  return self;
+}
+static ColorProto* defaultColorProtoInstance = nil;
++ (void) initialize {
+  if (self == [ColorProto class]) {
+    defaultColorProtoInstance = [[ColorProto alloc] init];
+  }
+}
++ (ColorProto*) defaultInstance {
+  return defaultColorProtoInstance;
+}
+- (ColorProto*) defaultInstance {
+  return defaultColorProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasRed) {
+    [output writeInt32:1 value:self.red];
+  }
+  if (self.hasGreen) {
+    [output writeInt32:2 value:self.green];
+  }
+  if (self.hasBlue) {
+    [output writeInt32:3 value:self.blue];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasRed) {
+    size += computeInt32Size(1, self.red);
+  }
+  if (self.hasGreen) {
+    size += computeInt32Size(2, self.green);
+  }
+  if (self.hasBlue) {
+    size += computeInt32Size(3, self.blue);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ColorProto*) parseFromData:(NSData*) data {
+  return (ColorProto*)[[[ColorProto builder] mergeFromData:data] build];
+}
++ (ColorProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ColorProto*)[[[ColorProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ColorProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ColorProto*)[[[ColorProto builder] mergeFromInputStream:input] build];
+}
++ (ColorProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ColorProto*)[[[ColorProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ColorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ColorProto*)[[[ColorProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ColorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ColorProto*)[[[ColorProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ColorProto_Builder*) builder {
+  return [[[ColorProto_Builder alloc] init] autorelease];
+}
++ (ColorProto_Builder*) builderWithPrototype:(ColorProto*) prototype {
+  return [[ColorProto builder] mergeFrom:prototype];
+}
+- (ColorProto_Builder*) builder {
+  return [ColorProto builder];
+}
+@end
+
+@interface ColorProto_Builder()
+@property (retain) ColorProto* result;
+@end
+
+@implementation ColorProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ColorProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ColorProto_Builder*) clear {
+  self.result = [[[ColorProto alloc] init] autorelease];
+  return self;
+}
+- (ColorProto_Builder*) clone {
+  return [ColorProto builderWithPrototype:result];
+}
+- (ColorProto*) defaultInstance {
+  return [ColorProto defaultInstance];
+}
+- (ColorProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ColorProto*) buildPartial {
+  ColorProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ColorProto_Builder*) mergeFrom:(ColorProto*) other {
+  if (other == [ColorProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasRed) {
+    [self setRed:other.red];
+  }
+  if (other.hasGreen) {
+    [self setGreen:other.green];
+  }
+  if (other.hasBlue) {
+    [self setBlue:other.blue];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ColorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ColorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setRed:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setGreen:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setBlue:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasRed {
+  return result.hasRed;
+}
+- (int32_t) red {
+  return result.red;
+}
+- (ColorProto_Builder*) setRed:(int32_t) value {
+  result.hasRed = YES;
+  result.red = value;
+  return self;
+}
+- (ColorProto_Builder*) clearRed {
+  result.hasRed = NO;
+  result.red = 0;
+  return self;
+}
+- (BOOL) hasGreen {
+  return result.hasGreen;
+}
+- (int32_t) green {
+  return result.green;
+}
+- (ColorProto_Builder*) setGreen:(int32_t) value {
+  result.hasGreen = YES;
+  result.green = value;
+  return self;
+}
+- (ColorProto_Builder*) clearGreen {
+  result.hasGreen = NO;
+  result.green = 0;
+  return self;
+}
+- (BOOL) hasBlue {
+  return result.hasBlue;
+}
+- (int32_t) blue {
+  return result.blue;
+}
+- (ColorProto_Builder*) setBlue:(int32_t) value {
+  result.hasBlue = YES;
+  result.blue = value;
+  return self;
+}
+- (ColorProto_Builder*) clearBlue {
+  result.hasBlue = NO;
+  result.blue = 0;
+  return self;
+}
+@end
+
+@interface LeaderboardEventProto ()
+@property int32_t eventId;
+@property int64_t startDate;
+@property int64_t endDate;
+@property (retain) NSString* eventName;
+@property (retain) NSMutableArray* mutableRewardsList;
+@end
+
+@implementation LeaderboardEventProto
+
+- (BOOL) hasEventId {
+  return !!hasEventId_;
+}
+- (void) setHasEventId:(BOOL) value {
+  hasEventId_ = !!value;
+}
+@synthesize eventId;
+- (BOOL) hasStartDate {
+  return !!hasStartDate_;
+}
+- (void) setHasStartDate:(BOOL) value {
+  hasStartDate_ = !!value;
+}
+@synthesize startDate;
+- (BOOL) hasEndDate {
+  return !!hasEndDate_;
+}
+- (void) setHasEndDate:(BOOL) value {
+  hasEndDate_ = !!value;
+}
+@synthesize endDate;
+- (BOOL) hasEventName {
+  return !!hasEventName_;
+}
+- (void) setHasEventName:(BOOL) value {
+  hasEventName_ = !!value;
+}
+@synthesize eventName;
+@synthesize mutableRewardsList;
+- (void) dealloc {
+  self.eventName = nil;
+  self.mutableRewardsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.eventId = 0;
+    self.startDate = 0L;
+    self.endDate = 0L;
+    self.eventName = @"";
+  }
+  return self;
+}
+static LeaderboardEventProto* defaultLeaderboardEventProtoInstance = nil;
++ (void) initialize {
+  if (self == [LeaderboardEventProto class]) {
+    defaultLeaderboardEventProtoInstance = [[LeaderboardEventProto alloc] init];
+  }
+}
++ (LeaderboardEventProto*) defaultInstance {
+  return defaultLeaderboardEventProtoInstance;
+}
+- (LeaderboardEventProto*) defaultInstance {
+  return defaultLeaderboardEventProtoInstance;
+}
+- (NSArray*) rewardsList {
+  return mutableRewardsList;
+}
+- (LeaderboardEventRewardProto*) rewardsAtIndex:(int32_t) index {
+  id value = [mutableRewardsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasEventId) {
+    [output writeInt32:1 value:self.eventId];
+  }
+  if (self.hasStartDate) {
+    [output writeInt64:2 value:self.startDate];
+  }
+  if (self.hasEndDate) {
+    [output writeInt64:3 value:self.endDate];
+  }
+  if (self.hasEventName) {
+    [output writeString:4 value:self.eventName];
+  }
+  for (LeaderboardEventRewardProto* element in self.rewardsList) {
+    [output writeMessage:5 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasEventId) {
+    size += computeInt32Size(1, self.eventId);
+  }
+  if (self.hasStartDate) {
+    size += computeInt64Size(2, self.startDate);
+  }
+  if (self.hasEndDate) {
+    size += computeInt64Size(3, self.endDate);
+  }
+  if (self.hasEventName) {
+    size += computeStringSize(4, self.eventName);
+  }
+  for (LeaderboardEventRewardProto* element in self.rewardsList) {
+    size += computeMessageSize(5, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (LeaderboardEventProto*) parseFromData:(NSData*) data {
+  return (LeaderboardEventProto*)[[[LeaderboardEventProto builder] mergeFromData:data] build];
+}
++ (LeaderboardEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LeaderboardEventProto*)[[[LeaderboardEventProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (LeaderboardEventProto*) parseFromInputStream:(NSInputStream*) input {
+  return (LeaderboardEventProto*)[[[LeaderboardEventProto builder] mergeFromInputStream:input] build];
+}
++ (LeaderboardEventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LeaderboardEventProto*)[[[LeaderboardEventProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LeaderboardEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (LeaderboardEventProto*)[[[LeaderboardEventProto builder] mergeFromCodedInputStream:input] build];
+}
++ (LeaderboardEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LeaderboardEventProto*)[[[LeaderboardEventProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LeaderboardEventProto_Builder*) builder {
+  return [[[LeaderboardEventProto_Builder alloc] init] autorelease];
+}
++ (LeaderboardEventProto_Builder*) builderWithPrototype:(LeaderboardEventProto*) prototype {
+  return [[LeaderboardEventProto builder] mergeFrom:prototype];
+}
+- (LeaderboardEventProto_Builder*) builder {
+  return [LeaderboardEventProto builder];
+}
+@end
+
+@interface LeaderboardEventProto_Builder()
+@property (retain) LeaderboardEventProto* result;
+@end
+
+@implementation LeaderboardEventProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[LeaderboardEventProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (LeaderboardEventProto_Builder*) clear {
+  self.result = [[[LeaderboardEventProto alloc] init] autorelease];
+  return self;
+}
+- (LeaderboardEventProto_Builder*) clone {
+  return [LeaderboardEventProto builderWithPrototype:result];
+}
+- (LeaderboardEventProto*) defaultInstance {
+  return [LeaderboardEventProto defaultInstance];
+}
+- (LeaderboardEventProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (LeaderboardEventProto*) buildPartial {
+  LeaderboardEventProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (LeaderboardEventProto_Builder*) mergeFrom:(LeaderboardEventProto*) other {
+  if (other == [LeaderboardEventProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasEventId) {
+    [self setEventId:other.eventId];
+  }
+  if (other.hasStartDate) {
+    [self setStartDate:other.startDate];
+  }
+  if (other.hasEndDate) {
+    [self setEndDate:other.endDate];
+  }
+  if (other.hasEventName) {
+    [self setEventName:other.eventName];
+  }
+  if (other.mutableRewardsList.count > 0) {
+    if (result.mutableRewardsList == nil) {
+      result.mutableRewardsList = [NSMutableArray array];
+    }
+    [result.mutableRewardsList addObjectsFromArray:other.mutableRewardsList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (LeaderboardEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (LeaderboardEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setEventId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setStartDate:[input readInt64]];
+        break;
+      }
+      case 24: {
+        [self setEndDate:[input readInt64]];
+        break;
+      }
+      case 34: {
+        [self setEventName:[input readString]];
+        break;
+      }
+      case 42: {
+        LeaderboardEventRewardProto_Builder* subBuilder = [LeaderboardEventRewardProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRewards:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasEventId {
+  return result.hasEventId;
+}
+- (int32_t) eventId {
+  return result.eventId;
+}
+- (LeaderboardEventProto_Builder*) setEventId:(int32_t) value {
+  result.hasEventId = YES;
+  result.eventId = value;
+  return self;
+}
+- (LeaderboardEventProto_Builder*) clearEventId {
+  result.hasEventId = NO;
+  result.eventId = 0;
+  return self;
+}
+- (BOOL) hasStartDate {
+  return result.hasStartDate;
+}
+- (int64_t) startDate {
+  return result.startDate;
+}
+- (LeaderboardEventProto_Builder*) setStartDate:(int64_t) value {
+  result.hasStartDate = YES;
+  result.startDate = value;
+  return self;
+}
+- (LeaderboardEventProto_Builder*) clearStartDate {
+  result.hasStartDate = NO;
+  result.startDate = 0L;
+  return self;
+}
+- (BOOL) hasEndDate {
+  return result.hasEndDate;
+}
+- (int64_t) endDate {
+  return result.endDate;
+}
+- (LeaderboardEventProto_Builder*) setEndDate:(int64_t) value {
+  result.hasEndDate = YES;
+  result.endDate = value;
+  return self;
+}
+- (LeaderboardEventProto_Builder*) clearEndDate {
+  result.hasEndDate = NO;
+  result.endDate = 0L;
+  return self;
+}
+- (BOOL) hasEventName {
+  return result.hasEventName;
+}
+- (NSString*) eventName {
+  return result.eventName;
+}
+- (LeaderboardEventProto_Builder*) setEventName:(NSString*) value {
+  result.hasEventName = YES;
+  result.eventName = value;
+  return self;
+}
+- (LeaderboardEventProto_Builder*) clearEventName {
+  result.hasEventName = NO;
+  result.eventName = @"";
+  return self;
+}
+- (NSArray*) rewardsList {
+  if (result.mutableRewardsList == nil) { return [NSArray array]; }
+  return result.mutableRewardsList;
+}
+- (LeaderboardEventRewardProto*) rewardsAtIndex:(int32_t) index {
+  return [result rewardsAtIndex:index];
+}
+- (LeaderboardEventProto_Builder*) replaceRewardsAtIndex:(int32_t) index with:(LeaderboardEventRewardProto*) value {
+  [result.mutableRewardsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (LeaderboardEventProto_Builder*) addAllRewards:(NSArray*) values {
+  if (result.mutableRewardsList == nil) {
+    result.mutableRewardsList = [NSMutableArray array];
+  }
+  [result.mutableRewardsList addObjectsFromArray:values];
+  return self;
+}
+- (LeaderboardEventProto_Builder*) clearRewardsList {
+  result.mutableRewardsList = nil;
+  return self;
+}
+- (LeaderboardEventProto_Builder*) addRewards:(LeaderboardEventRewardProto*) value {
+  if (result.mutableRewardsList == nil) {
+    result.mutableRewardsList = [NSMutableArray array];
+  }
+  [result.mutableRewardsList addObject:value];
+  return self;
+}
+@end
+
+@interface LeaderboardEventRewardProto ()
+@property int32_t leaderboardEventId;
+@property int32_t minRank;
+@property int32_t maxRank;
+@property int32_t goldRewarded;
+@property (retain) NSString* backgroundImageName;
+@property (retain) NSString* prizeImageName;
+@property (retain) ColorProto* titleColor;
+@end
+
+@implementation LeaderboardEventRewardProto
+
+- (BOOL) hasLeaderboardEventId {
+  return !!hasLeaderboardEventId_;
+}
+- (void) setHasLeaderboardEventId:(BOOL) value {
+  hasLeaderboardEventId_ = !!value;
+}
+@synthesize leaderboardEventId;
+- (BOOL) hasMinRank {
+  return !!hasMinRank_;
+}
+- (void) setHasMinRank:(BOOL) value {
+  hasMinRank_ = !!value;
+}
+@synthesize minRank;
+- (BOOL) hasMaxRank {
+  return !!hasMaxRank_;
+}
+- (void) setHasMaxRank:(BOOL) value {
+  hasMaxRank_ = !!value;
+}
+@synthesize maxRank;
+- (BOOL) hasGoldRewarded {
+  return !!hasGoldRewarded_;
+}
+- (void) setHasGoldRewarded:(BOOL) value {
+  hasGoldRewarded_ = !!value;
+}
+@synthesize goldRewarded;
+- (BOOL) hasBackgroundImageName {
+  return !!hasBackgroundImageName_;
+}
+- (void) setHasBackgroundImageName:(BOOL) value {
+  hasBackgroundImageName_ = !!value;
+}
+@synthesize backgroundImageName;
+- (BOOL) hasPrizeImageName {
+  return !!hasPrizeImageName_;
+}
+- (void) setHasPrizeImageName:(BOOL) value {
+  hasPrizeImageName_ = !!value;
+}
+@synthesize prizeImageName;
+- (BOOL) hasTitleColor {
+  return !!hasTitleColor_;
+}
+- (void) setHasTitleColor:(BOOL) value {
+  hasTitleColor_ = !!value;
+}
+@synthesize titleColor;
+- (void) dealloc {
+  self.backgroundImageName = nil;
+  self.prizeImageName = nil;
+  self.titleColor = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.leaderboardEventId = 0;
+    self.minRank = 0;
+    self.maxRank = 0;
+    self.goldRewarded = 0;
+    self.backgroundImageName = @"";
+    self.prizeImageName = @"";
+    self.titleColor = [ColorProto defaultInstance];
+  }
+  return self;
+}
+static LeaderboardEventRewardProto* defaultLeaderboardEventRewardProtoInstance = nil;
++ (void) initialize {
+  if (self == [LeaderboardEventRewardProto class]) {
+    defaultLeaderboardEventRewardProtoInstance = [[LeaderboardEventRewardProto alloc] init];
+  }
+}
++ (LeaderboardEventRewardProto*) defaultInstance {
+  return defaultLeaderboardEventRewardProtoInstance;
+}
+- (LeaderboardEventRewardProto*) defaultInstance {
+  return defaultLeaderboardEventRewardProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasLeaderboardEventId) {
+    [output writeInt32:1 value:self.leaderboardEventId];
+  }
+  if (self.hasMinRank) {
+    [output writeInt32:2 value:self.minRank];
+  }
+  if (self.hasMaxRank) {
+    [output writeInt32:3 value:self.maxRank];
+  }
+  if (self.hasGoldRewarded) {
+    [output writeInt32:4 value:self.goldRewarded];
+  }
+  if (self.hasBackgroundImageName) {
+    [output writeString:5 value:self.backgroundImageName];
+  }
+  if (self.hasPrizeImageName) {
+    [output writeString:6 value:self.prizeImageName];
+  }
+  if (self.hasTitleColor) {
+    [output writeMessage:7 value:self.titleColor];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasLeaderboardEventId) {
+    size += computeInt32Size(1, self.leaderboardEventId);
+  }
+  if (self.hasMinRank) {
+    size += computeInt32Size(2, self.minRank);
+  }
+  if (self.hasMaxRank) {
+    size += computeInt32Size(3, self.maxRank);
+  }
+  if (self.hasGoldRewarded) {
+    size += computeInt32Size(4, self.goldRewarded);
+  }
+  if (self.hasBackgroundImageName) {
+    size += computeStringSize(5, self.backgroundImageName);
+  }
+  if (self.hasPrizeImageName) {
+    size += computeStringSize(6, self.prizeImageName);
+  }
+  if (self.hasTitleColor) {
+    size += computeMessageSize(7, self.titleColor);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (LeaderboardEventRewardProto*) parseFromData:(NSData*) data {
+  return (LeaderboardEventRewardProto*)[[[LeaderboardEventRewardProto builder] mergeFromData:data] build];
+}
++ (LeaderboardEventRewardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LeaderboardEventRewardProto*)[[[LeaderboardEventRewardProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (LeaderboardEventRewardProto*) parseFromInputStream:(NSInputStream*) input {
+  return (LeaderboardEventRewardProto*)[[[LeaderboardEventRewardProto builder] mergeFromInputStream:input] build];
+}
++ (LeaderboardEventRewardProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LeaderboardEventRewardProto*)[[[LeaderboardEventRewardProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LeaderboardEventRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (LeaderboardEventRewardProto*)[[[LeaderboardEventRewardProto builder] mergeFromCodedInputStream:input] build];
+}
++ (LeaderboardEventRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LeaderboardEventRewardProto*)[[[LeaderboardEventRewardProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LeaderboardEventRewardProto_Builder*) builder {
+  return [[[LeaderboardEventRewardProto_Builder alloc] init] autorelease];
+}
++ (LeaderboardEventRewardProto_Builder*) builderWithPrototype:(LeaderboardEventRewardProto*) prototype {
+  return [[LeaderboardEventRewardProto builder] mergeFrom:prototype];
+}
+- (LeaderboardEventRewardProto_Builder*) builder {
+  return [LeaderboardEventRewardProto builder];
+}
+@end
+
+@interface LeaderboardEventRewardProto_Builder()
+@property (retain) LeaderboardEventRewardProto* result;
+@end
+
+@implementation LeaderboardEventRewardProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[LeaderboardEventRewardProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (LeaderboardEventRewardProto_Builder*) clear {
+  self.result = [[[LeaderboardEventRewardProto alloc] init] autorelease];
+  return self;
+}
+- (LeaderboardEventRewardProto_Builder*) clone {
+  return [LeaderboardEventRewardProto builderWithPrototype:result];
+}
+- (LeaderboardEventRewardProto*) defaultInstance {
+  return [LeaderboardEventRewardProto defaultInstance];
+}
+- (LeaderboardEventRewardProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (LeaderboardEventRewardProto*) buildPartial {
+  LeaderboardEventRewardProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (LeaderboardEventRewardProto_Builder*) mergeFrom:(LeaderboardEventRewardProto*) other {
+  if (other == [LeaderboardEventRewardProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasLeaderboardEventId) {
+    [self setLeaderboardEventId:other.leaderboardEventId];
+  }
+  if (other.hasMinRank) {
+    [self setMinRank:other.minRank];
+  }
+  if (other.hasMaxRank) {
+    [self setMaxRank:other.maxRank];
+  }
+  if (other.hasGoldRewarded) {
+    [self setGoldRewarded:other.goldRewarded];
+  }
+  if (other.hasBackgroundImageName) {
+    [self setBackgroundImageName:other.backgroundImageName];
+  }
+  if (other.hasPrizeImageName) {
+    [self setPrizeImageName:other.prizeImageName];
+  }
+  if (other.hasTitleColor) {
+    [self mergeTitleColor:other.titleColor];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (LeaderboardEventRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (LeaderboardEventRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setLeaderboardEventId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setMinRank:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setMaxRank:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setGoldRewarded:[input readInt32]];
+        break;
+      }
+      case 42: {
+        [self setBackgroundImageName:[input readString]];
+        break;
+      }
+      case 50: {
+        [self setPrizeImageName:[input readString]];
+        break;
+      }
+      case 58: {
+        ColorProto_Builder* subBuilder = [ColorProto builder];
+        if (self.hasTitleColor) {
+          [subBuilder mergeFrom:self.titleColor];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setTitleColor:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasLeaderboardEventId {
+  return result.hasLeaderboardEventId;
+}
+- (int32_t) leaderboardEventId {
+  return result.leaderboardEventId;
+}
+- (LeaderboardEventRewardProto_Builder*) setLeaderboardEventId:(int32_t) value {
+  result.hasLeaderboardEventId = YES;
+  result.leaderboardEventId = value;
+  return self;
+}
+- (LeaderboardEventRewardProto_Builder*) clearLeaderboardEventId {
+  result.hasLeaderboardEventId = NO;
+  result.leaderboardEventId = 0;
+  return self;
+}
+- (BOOL) hasMinRank {
+  return result.hasMinRank;
+}
+- (int32_t) minRank {
+  return result.minRank;
+}
+- (LeaderboardEventRewardProto_Builder*) setMinRank:(int32_t) value {
+  result.hasMinRank = YES;
+  result.minRank = value;
+  return self;
+}
+- (LeaderboardEventRewardProto_Builder*) clearMinRank {
+  result.hasMinRank = NO;
+  result.minRank = 0;
+  return self;
+}
+- (BOOL) hasMaxRank {
+  return result.hasMaxRank;
+}
+- (int32_t) maxRank {
+  return result.maxRank;
+}
+- (LeaderboardEventRewardProto_Builder*) setMaxRank:(int32_t) value {
+  result.hasMaxRank = YES;
+  result.maxRank = value;
+  return self;
+}
+- (LeaderboardEventRewardProto_Builder*) clearMaxRank {
+  result.hasMaxRank = NO;
+  result.maxRank = 0;
+  return self;
+}
+- (BOOL) hasGoldRewarded {
+  return result.hasGoldRewarded;
+}
+- (int32_t) goldRewarded {
+  return result.goldRewarded;
+}
+- (LeaderboardEventRewardProto_Builder*) setGoldRewarded:(int32_t) value {
+  result.hasGoldRewarded = YES;
+  result.goldRewarded = value;
+  return self;
+}
+- (LeaderboardEventRewardProto_Builder*) clearGoldRewarded {
+  result.hasGoldRewarded = NO;
+  result.goldRewarded = 0;
+  return self;
+}
+- (BOOL) hasBackgroundImageName {
+  return result.hasBackgroundImageName;
+}
+- (NSString*) backgroundImageName {
+  return result.backgroundImageName;
+}
+- (LeaderboardEventRewardProto_Builder*) setBackgroundImageName:(NSString*) value {
+  result.hasBackgroundImageName = YES;
+  result.backgroundImageName = value;
+  return self;
+}
+- (LeaderboardEventRewardProto_Builder*) clearBackgroundImageName {
+  result.hasBackgroundImageName = NO;
+  result.backgroundImageName = @"";
+  return self;
+}
+- (BOOL) hasPrizeImageName {
+  return result.hasPrizeImageName;
+}
+- (NSString*) prizeImageName {
+  return result.prizeImageName;
+}
+- (LeaderboardEventRewardProto_Builder*) setPrizeImageName:(NSString*) value {
+  result.hasPrizeImageName = YES;
+  result.prizeImageName = value;
+  return self;
+}
+- (LeaderboardEventRewardProto_Builder*) clearPrizeImageName {
+  result.hasPrizeImageName = NO;
+  result.prizeImageName = @"";
+  return self;
+}
+- (BOOL) hasTitleColor {
+  return result.hasTitleColor;
+}
+- (ColorProto*) titleColor {
+  return result.titleColor;
+}
+- (LeaderboardEventRewardProto_Builder*) setTitleColor:(ColorProto*) value {
+  result.hasTitleColor = YES;
+  result.titleColor = value;
+  return self;
+}
+- (LeaderboardEventRewardProto_Builder*) setTitleColorBuilder:(ColorProto_Builder*) builderForValue {
+  return [self setTitleColor:[builderForValue build]];
+}
+- (LeaderboardEventRewardProto_Builder*) mergeTitleColor:(ColorProto*) value {
+  if (result.hasTitleColor &&
+      result.titleColor != [ColorProto defaultInstance]) {
+    result.titleColor =
+      [[[ColorProto builderWithPrototype:result.titleColor] mergeFrom:value] buildPartial];
+  } else {
+    result.titleColor = value;
+  }
+  result.hasTitleColor = YES;
+  return self;
+}
+- (LeaderboardEventRewardProto_Builder*) clearTitleColor {
+  result.hasTitleColor = NO;
+  result.titleColor = [ColorProto defaultInstance];
+  return self;
+}
+@end
+
 @interface BossEventProto ()
 @property int32_t cityId;
 @property int64_t startDate;
@@ -23313,259 +24343,6 @@ static UnhandledBlacksmithAttemptProto* defaultUnhandledBlacksmithAttemptProtoIn
 - (UnhandledBlacksmithAttemptProto_Builder*) clearAttemptComplete {
   result.hasAttemptComplete = NO;
   result.attemptComplete = NO;
-  return self;
-}
-@end
-
-@interface ColorProto ()
-@property int32_t red;
-@property int32_t green;
-@property int32_t blue;
-@end
-
-@implementation ColorProto
-
-- (BOOL) hasRed {
-  return !!hasRed_;
-}
-- (void) setHasRed:(BOOL) value {
-  hasRed_ = !!value;
-}
-@synthesize red;
-- (BOOL) hasGreen {
-  return !!hasGreen_;
-}
-- (void) setHasGreen:(BOOL) value {
-  hasGreen_ = !!value;
-}
-@synthesize green;
-- (BOOL) hasBlue {
-  return !!hasBlue_;
-}
-- (void) setHasBlue:(BOOL) value {
-  hasBlue_ = !!value;
-}
-@synthesize blue;
-- (void) dealloc {
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.red = 0;
-    self.green = 0;
-    self.blue = 0;
-  }
-  return self;
-}
-static ColorProto* defaultColorProtoInstance = nil;
-+ (void) initialize {
-  if (self == [ColorProto class]) {
-    defaultColorProtoInstance = [[ColorProto alloc] init];
-  }
-}
-+ (ColorProto*) defaultInstance {
-  return defaultColorProtoInstance;
-}
-- (ColorProto*) defaultInstance {
-  return defaultColorProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasRed) {
-    [output writeInt32:1 value:self.red];
-  }
-  if (self.hasGreen) {
-    [output writeInt32:2 value:self.green];
-  }
-  if (self.hasBlue) {
-    [output writeInt32:3 value:self.blue];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasRed) {
-    size += computeInt32Size(1, self.red);
-  }
-  if (self.hasGreen) {
-    size += computeInt32Size(2, self.green);
-  }
-  if (self.hasBlue) {
-    size += computeInt32Size(3, self.blue);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (ColorProto*) parseFromData:(NSData*) data {
-  return (ColorProto*)[[[ColorProto builder] mergeFromData:data] build];
-}
-+ (ColorProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ColorProto*)[[[ColorProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (ColorProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ColorProto*)[[[ColorProto builder] mergeFromInputStream:input] build];
-}
-+ (ColorProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ColorProto*)[[[ColorProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ColorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ColorProto*)[[[ColorProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (ColorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ColorProto*)[[[ColorProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ColorProto_Builder*) builder {
-  return [[[ColorProto_Builder alloc] init] autorelease];
-}
-+ (ColorProto_Builder*) builderWithPrototype:(ColorProto*) prototype {
-  return [[ColorProto builder] mergeFrom:prototype];
-}
-- (ColorProto_Builder*) builder {
-  return [ColorProto builder];
-}
-@end
-
-@interface ColorProto_Builder()
-@property (retain) ColorProto* result;
-@end
-
-@implementation ColorProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[ColorProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (ColorProto_Builder*) clear {
-  self.result = [[[ColorProto alloc] init] autorelease];
-  return self;
-}
-- (ColorProto_Builder*) clone {
-  return [ColorProto builderWithPrototype:result];
-}
-- (ColorProto*) defaultInstance {
-  return [ColorProto defaultInstance];
-}
-- (ColorProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (ColorProto*) buildPartial {
-  ColorProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (ColorProto_Builder*) mergeFrom:(ColorProto*) other {
-  if (other == [ColorProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasRed) {
-    [self setRed:other.red];
-  }
-  if (other.hasGreen) {
-    [self setGreen:other.green];
-  }
-  if (other.hasBlue) {
-    [self setBlue:other.blue];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (ColorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (ColorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 8: {
-        [self setRed:[input readInt32]];
-        break;
-      }
-      case 16: {
-        [self setGreen:[input readInt32]];
-        break;
-      }
-      case 24: {
-        [self setBlue:[input readInt32]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasRed {
-  return result.hasRed;
-}
-- (int32_t) red {
-  return result.red;
-}
-- (ColorProto_Builder*) setRed:(int32_t) value {
-  result.hasRed = YES;
-  result.red = value;
-  return self;
-}
-- (ColorProto_Builder*) clearRed {
-  result.hasRed = NO;
-  result.red = 0;
-  return self;
-}
-- (BOOL) hasGreen {
-  return result.hasGreen;
-}
-- (int32_t) green {
-  return result.green;
-}
-- (ColorProto_Builder*) setGreen:(int32_t) value {
-  result.hasGreen = YES;
-  result.green = value;
-  return self;
-}
-- (ColorProto_Builder*) clearGreen {
-  result.hasGreen = NO;
-  result.green = 0;
-  return self;
-}
-- (BOOL) hasBlue {
-  return result.hasBlue;
-}
-- (int32_t) blue {
-  return result.blue;
-}
-- (ColorProto_Builder*) setBlue:(int32_t) value {
-  result.hasBlue = YES;
-  result.blue = value;
-  return self;
-}
-- (ColorProto_Builder*) clearBlue {
-  result.hasBlue = NO;
-  result.blue = 0;
   return self;
 }
 @end

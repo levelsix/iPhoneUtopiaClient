@@ -170,6 +170,10 @@
 @class InAppPurchaseRequestProto_Builder;
 @class InAppPurchaseResponseProto;
 @class InAppPurchaseResponseProto_Builder;
+@class LeaderboardEventProto;
+@class LeaderboardEventProto_Builder;
+@class LeaderboardEventRewardProto;
+@class LeaderboardEventRewardProto_Builder;
 @class LeaveClanRequestProto;
 @class LeaveClanRequestProto_Builder;
 @class LeaveClanResponseProto;
@@ -334,6 +338,10 @@
 @class RetrieveCurrentMarketplacePostsRequestProto_Builder;
 @class RetrieveCurrentMarketplacePostsResponseProto;
 @class RetrieveCurrentMarketplacePostsResponseProto_Builder;
+@class RetrieveLeaderboardRankingsRequestProto;
+@class RetrieveLeaderboardRankingsRequestProto_Builder;
+@class RetrieveLeaderboardRankingsResponseProto;
+@class RetrieveLeaderboardRankingsResponseProto_Builder;
 @class RetrieveLeaderboardRequestProto;
 @class RetrieveLeaderboardRequestProto_Builder;
 @class RetrieveLeaderboardResponseProto;
@@ -538,6 +546,7 @@ typedef enum {
   EventProtocolRequestCBeginClanTowerWar = 73,
   EventProtocolRequestCUpgradeClanTierEvent = 74,
   EventProtocolRequestCConcedeClanTowerWar = 75,
+  EventProtocolRequestCRetrieveLeaderboardRankingsEvent = 76,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -619,6 +628,7 @@ typedef enum {
   EventProtocolResponseSUpgradeClanTierEvent = 74,
   EventProtocolResponseSConcedeClanTowerWarEvent = 75,
   EventProtocolResponseSChangedClanTowerEvent = 76,
+  EventProtocolResponseSRetrieveLeaderboardRankingsEvent = 77,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

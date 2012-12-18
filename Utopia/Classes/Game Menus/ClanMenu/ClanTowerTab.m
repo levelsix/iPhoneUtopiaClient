@@ -144,8 +144,7 @@
 - (void) updateForTower:(ClanTowerProto *)t {
   self.nameLabel.text = t.towerName;
   
-  ColorProto *cp = t.titleColor;
-  UIColor *c = [UIColor colorWithRed:cp.red/255.f green:cp.green/255.f blue:cp.blue/255.f alpha:255.f];
+  UIColor *c = [Globals colorForColorProto:t.titleColor];
   self.nameLabel.textColor = c;
   
   UIImage *img = [Globals imageNamed:t.towerImageName];

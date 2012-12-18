@@ -1974,6 +1974,10 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   view.center = oldCenter;
 }
 
++ (UIColor *) colorForColorProto:(ColorProto *)cp {
+  return [UIColor colorWithRed:cp.red/255.f green:cp.green/255.f blue:cp.blue/255.f alpha:255.f];
+}
+
 - (void) dealloc {
   self.productIdentifiersToGold = nil;
   self.imageCache = nil;

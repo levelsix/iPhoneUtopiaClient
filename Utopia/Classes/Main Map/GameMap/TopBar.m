@@ -38,6 +38,7 @@
 #define LAST_GOLD_SALE_POPUP_TIME_KEY @"Last Gold Sale Popup Time"
 #define LAST_LOCK_BOX_POPUP_TIME_KEY @"Lock Box Popup Time"
 #define LAST_BOSS_EVENT_POPUP_TIME_KEY @"Boss Event Popup Time"
+#define LAST_TOURNAMENT_POPUP_TIME_KEY @"Tournament Popup Time"
 
 #define FADE_ANIMATION_DURATION 0.2f
 
@@ -227,7 +228,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _bossEventButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bossEventButtonClicked)];
     _bossEventButton.position = _lockBoxButton.position;
     
-    _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, _bossEventButton, nil];
+    s = [CCSprite spriteWithFile:@"bossicon.png"];
+    _tournamentButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(tournamentButtonClicked)];
+    _tournamentButton.position = _lockBoxButton.position;
+    
+    _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, _bossEventButton, _tournamentButton, nil];
     _bottomButtons.contentSize = CGSizeZero;
     _bottomButtons.position = CGPointZero;
     [self addChild:_bottomButtons z:10];
@@ -318,6 +323,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [Globals popupMessage:@"Woops! The event has ended! Try again next time."];
   }
 }
+
+- (void) tournamentButtonClicked {
+  [TournamentMenuController displayView];
+}
   
 - (void) bazaarClicked {
   [[GameLayer sharedGameLayer] loadBazaarMap];
@@ -372,6 +381,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   BOOL showGoldSale = NO;
   BOOL showLockBox = NO;
   BOOL showBossEvent = NO;
+  BOOL showTournament = NO;
   
   NSArray *notifications = [[GameState sharedGameState] notifications];
   for (UserNotification *un in notifications) {
@@ -415,6 +425,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     }
   }
   
+  if ([gs getCurrentTournament] && gs.level >= MIN_LEVEL_FOR_POPUPS) {
+    NSDate *date = [defaults objectForKey:LAST_TOURNAMENT_POPUP_TIME_KEY];
+    NSDate *nextShowDate = [date dateByAddingTimeInterval:3600*gl.numHoursBeforeReshowingBossEvent];
+    if (!date || [nextShowDate compare:curDate] == NSOrderedAscending) {
+      [TournamentMenuController sharedTournamentMenuController];
+      showTournament = YES;
+      [defaults setObject:curDate forKey:LAST_TOURNAMENT_POPUP_TIME_KEY];
+    }
+  }
+  
   if (gs.level >= gl.minLevelToDisplayThreeCardMonte && gl.minLevelToDisplayThreeCardMonte > 0) {
     [ThreeCardMonteViewController sharedThreeCardMonteViewController];
     showThreeCardMonte = YES;
@@ -437,6 +457,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [[LockBoxMenuController sharedLockBoxMenuController] infoClicked:nil];
   } if (showBossEvent) {
     [BossEventMenuController displayView];
+  } if (showTournament) {
+    [TournamentMenuController displayView];
   } if (showThreeCardMonte) {
     [ThreeCardMonteViewController displayView];
   }
@@ -1046,6 +1068,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (void) shouldDisplayBossEventButton:(BOOL)button {
   _bossEventButton.visible = button;
+}
+
+- (void) shouldDisplayTournamentButton:(BOOL)button {
+  _tournamentButton.visible = button;
 }
 
 - (void) onEnter {

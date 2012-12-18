@@ -152,6 +152,15 @@
   self.nameLabel.textColor = [Globals colorForRarity:fep.rarity];
 }
 
+- (void) dealloc {
+  self.equipIcon = nil;
+  self.attackLabel = nil;
+  self.defenseLabel = nil;
+  self.nameLabel = nil;
+  self.tagIcon = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation BossEventMenuController
@@ -181,8 +190,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(BossEventMenuController);
 
 - (void) viewDidDisappear:(BOOL)animated {
   self.timer = nil;
-  
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void) setTimer:(NSTimer *)t {
@@ -271,6 +278,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(BossEventMenuController);
     self.mainView = nil;
     self.bgdView = nil;
     self.timer = nil;
+    self.leftCard = nil;
+    self.middleCard = nil;
+    self.rightCard = nil;
+    self.headerImageView = nil;
+    self.infoLabel = nil;
+    self.infoView = nil;
+    self.eventView = nil;
   }
 }
 

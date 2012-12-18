@@ -144,4 +144,6 @@
 - (int) sendBeginClanTowerWarMessage:(int)towerId claiming:(BOOL)claiming clientTime:(uint64_t)clientTime;
 - (int) sendConcedeClanTowerWar:(int)towerId clientTime:(uint64_t)clientTime;
 
+- (int) sendRetrieveLeaderboardRankingsMessage:(int)eventId afterThisRank:(int)afterThisRank;
+
 @end

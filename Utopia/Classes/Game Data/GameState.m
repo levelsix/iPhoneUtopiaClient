@@ -754,6 +754,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self resetBossEventTimers];
 }
 
+- (void) addNewStaticTournaments:(NSArray *)events {
+  self.staticTournaments = [NSMutableArray array];
+  for (LeaderboardEventProto *p in events) {
+    [_staticTournaments addObject:p];
+  }
+  [self resetTournamentTimers];
+}
+
 - (void) addToClanTierLevels:(NSArray *) tiers {
   NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:tiers.count];
   for (ClanTierLevelProto *tier in tiers) {
@@ -1135,6 +1143,69 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   _bossEventTimers = nil;
 }
 
+- (void) updateBossEventButton {
+  BossEventProto *e = [self getCurrentBossEvent];
+  
+  BOOL shouldDisplayButton = e != nil;
+  [[TopBar sharedTopBar] shouldDisplayBossEventButton:shouldDisplayButton];
+}
+
+- (void) resetTournamentTimers {
+  [self stopAllTournamentTimers];
+  
+  if (_isTutorial) {
+    return;
+  }
+  
+  [self updateTournamentButton];
+  
+  _tournamentTimers = [[NSMutableArray array] retain];
+  for (LeaderboardEventProto *e in _staticTournaments) {
+    NSTimer *timer;
+    NSTimeInterval timeInterval;
+    
+    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.startDate/1000.0] timeIntervalSinceNow];
+    if (timeInterval > 0) {
+      timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateTournamentButton) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+      [_tournamentTimers addObject:timer];
+    }
+    
+    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.endDate/1000.0] timeIntervalSinceNow];
+    if (timeInterval > 0) {
+      timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateTournamentButton) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+      [_tournamentTimers addObject:timer];
+    }
+  }
+}
+
+- (LeaderboardEventProto *) getCurrentTournament {
+  double curTime = [[NSDate date] timeIntervalSince1970]*1000.0;
+  for (LeaderboardEventProto *p in _staticTournaments) {
+    if (curTime > p.startDate && curTime < p.endDate) {
+      return p;
+    }
+  }
+  return nil;
+}
+
+- (void) stopAllTournamentTimers {
+  for (NSTimer *timer in _tournamentTimers) {
+    [timer invalidate];
+  }
+  [_tournamentTimers removeAllObjects];
+  [_tournamentTimers release];
+  _tournamentTimers = nil;
+}
+
+- (void) updateTournamentButton {
+  LeaderboardEventProto *e = [self getCurrentTournament];
+  
+  BOOL shouldDisplayButton = e != nil;
+  [[TopBar sharedTopBar] shouldDisplayTournamentButton:shouldDisplayButton];
+}
+
 - (GoldSaleProto *) getCurrentGoldSale {
   double curTime = [[NSDate date] timeIntervalSince1970]*1000.0;
   for (GoldSaleProto *p in _staticGoldSales) {
@@ -1143,13 +1214,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   return nil;
-}
-
-- (void) updateBossEventButton {
-  BossEventProto *e = [self getCurrentBossEvent];
-  
-  BOOL shouldDisplayButton = e != nil;
-    [[TopBar sharedTopBar] shouldDisplayBossEventButton:shouldDisplayButton];
 }
 
 - (void) resetGoldSaleTimers {
@@ -1309,6 +1373,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticLockBoxEvents = [[[NSMutableArray alloc] init] autorelease];
   self.myLockBoxEvents = [[[NSMutableDictionary alloc] init] autorelease];
   self.staticBossEvents = [[[NSMutableArray alloc] init] autorelease];
+  self.staticTournaments = [[[NSMutableArray alloc] init] autorelease];
   
   self.availableQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressCompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
@@ -1336,6 +1401,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self stopAllLockBoxTimers];
   [self stopAllGoldSaleTimers];
   [self stopAllBossEventTimers];
+  [self stopAllTournamentTimers];
   
   [self stopExpansionTimer];
 }
@@ -1394,6 +1460,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self stopForgeTimer];
   [self stopExpansionTimer];
   [self stopAllGoldSaleTimers];
+  [self stopAllTournamentTimers];
   [super dealloc];
 }
 

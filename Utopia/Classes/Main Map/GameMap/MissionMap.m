@@ -830,12 +830,12 @@
      
      if (![bs.ub isAlive]) {
        NSDate *date = [bs.ub nextRespawnTime];
-       _bossTimeLabel.string = [NSString stringWithFormat:@"Respawn Time: %@", [Globals convertTimeToString:date.timeIntervalSinceNow]];
+       _bossTimeLabel.string = [NSString stringWithFormat:@"Respawn Time: %@", [Globals convertTimeToString:date.timeIntervalSinceNow withDays:YES]];
      } else if (![bs.ub hasBeenAttacked]) {
        _bossTimeLabel.string = [NSString stringWithFormat:@"Tap %@ to begin!", bs.name];
      } else {
        NSDate *date = [bs.ub timeUpDate];
-       _bossTimeLabel.string = [NSString stringWithFormat:@"Time Left: %@", [Globals convertTimeToString:date.timeIntervalSinceNow]];
+       _bossTimeLabel.string = [NSString stringWithFormat:@"Time Left: %@", [Globals convertTimeToString:date.timeIntervalSinceNow withDays:YES]];
      }
      _infoMenu.position = ccp(_bossTimeLabel.contentSize.width+15.f, _bossTimeLabel.contentSize.height/2+5.f);
    }

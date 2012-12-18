@@ -818,6 +818,9 @@
 		CF1B5000167C42F400B73276 /* tournleaderboardbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FEE167C42F400B73276 /* tournleaderboardbutton@2x.png */; };
 		CF1B5005167C434800B73276 /* TournamentMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1B5003167C434800B73276 /* TournamentMenuController.m */; };
 		CF1B5006167C434800B73276 /* TournamentMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF1B5004167C434800B73276 /* TournamentMenuController.xib */; };
+		CF1B5008167C48C300B73276 /* TournamentPrizeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF1B5007167C48C300B73276 /* TournamentPrizeView.xib */; };
+		CF1B500B167C4BE200B73276 /* TournamentViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1B500A167C4BE200B73276 /* TournamentViews.m */; };
+		CF1B500D167C586F00B73276 /* TournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF1B500C167C586F00B73276 /* TournamentCell.xib */; };
 		CF2072C115B65F1400A11A6E /* ForgeMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2072BF15B65F1400A11A6E /* ForgeMenuController.m */; };
 		CF2072C215B65F1400A11A6E /* ForgeMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2072C015B65F1400A11A6E /* ForgeMenuController.xib */; };
 		CF2072FD15B669F200A11A6E /* ForgeItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2072FC15B669F200A11A6E /* ForgeItemView.xib */; };
@@ -2976,6 +2979,10 @@
 		CF1B5002167C434800B73276 /* TournamentMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TournamentMenuController.h; sourceTree = "<group>"; };
 		CF1B5003167C434800B73276 /* TournamentMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TournamentMenuController.m; sourceTree = "<group>"; };
 		CF1B5004167C434800B73276 /* TournamentMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TournamentMenuController.xib; sourceTree = "<group>"; };
+		CF1B5007167C48C300B73276 /* TournamentPrizeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TournamentPrizeView.xib; sourceTree = "<group>"; };
+		CF1B5009167C4BE200B73276 /* TournamentViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TournamentViews.h; sourceTree = "<group>"; };
+		CF1B500A167C4BE200B73276 /* TournamentViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TournamentViews.m; sourceTree = "<group>"; };
+		CF1B500C167C586F00B73276 /* TournamentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TournamentCell.xib; sourceTree = "<group>"; };
 		CF2072BE15B65F1400A11A6E /* ForgeMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgeMenuController.h; sourceTree = "<group>"; };
 		CF2072BF15B65F1400A11A6E /* ForgeMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgeMenuController.m; sourceTree = "<group>"; };
 		CF2072C015B65F1400A11A6E /* ForgeMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForgeMenuController.xib; sourceTree = "<group>"; };
@@ -6443,6 +6450,10 @@
 				CF1B5002167C434800B73276 /* TournamentMenuController.h */,
 				CF1B5003167C434800B73276 /* TournamentMenuController.m */,
 				CF1B5004167C434800B73276 /* TournamentMenuController.xib */,
+				CF1B5009167C4BE200B73276 /* TournamentViews.h */,
+				CF1B500A167C4BE200B73276 /* TournamentViews.m */,
+				CF1B5007167C48C300B73276 /* TournamentPrizeView.xib */,
+				CF1B500C167C586F00B73276 /* TournamentCell.xib */,
 			);
 			path = TournamentMenu;
 			sourceTree = "<group>";
@@ -9272,6 +9283,8 @@
 				CF1B4FFF167C42F400B73276 /* tournleaderboardbutton.png in Resources */,
 				CF1B5000167C42F400B73276 /* tournleaderboardbutton@2x.png in Resources */,
 				CF1B5006167C434800B73276 /* TournamentMenuController.xib in Resources */,
+				CF1B5008167C48C300B73276 /* TournamentPrizeView.xib in Resources */,
+				CF1B500D167C586F00B73276 /* TournamentCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9544,6 +9557,7 @@
 				CF4E450816788277005DAE18 /* ResetStaminaView.m in Sources */,
 				CFE954C6166F3EF500DA63CF /* ClanTowerTab.m in Sources */,
 				CF1B5005167C434800B73276 /* TournamentMenuController.m in Sources */,
+				CF1B500B167C4BE200B73276 /* TournamentViews.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

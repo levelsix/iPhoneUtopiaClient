@@ -8,11 +8,25 @@
 
 #import <UIKit/UIKit.h>
 #import "cocos2d.h"
+#import "TournamentViews.h"
+#import "PullRefreshTableViewController.h"
 
-@interface TournamentMenuController : UIViewController
+@interface TournamentMenuController : PullRefreshTableViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, retain) NSMutableArray *prizeViews;
+@property (nonatomic, retain) IBOutlet TournamentPrizeView *nibView;
+@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, retain) IBOutlet UILabel *eventTimeLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *prizeView;
+@property (nonatomic, retain) IBOutlet TournamentLeaderboardView *leaderboardView;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
+
+@property (nonatomic, retain) NSTimer *timer;
+
+- (void) receivedLeaderboardResponse:(RetrieveLeaderboardRankingsResponseProto *)proto;
 
 + (TournamentMenuController *) sharedTournamentMenuController;
 + (void) displayView;

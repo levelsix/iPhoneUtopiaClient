@@ -55,6 +55,7 @@ typedef enum {
   CCMenuItem *_questButton;
   CCMenuItem *_lockBoxButton;
   CCMenuItem *_bossEventButton;
+  CCMenuItem *_tournamentButton;
   CCMenuItem *_bazaarButton;
   CCMenuItem *_homeButton;
   CCMenu *_bottomButtons;
@@ -138,6 +139,7 @@ typedef enum {
 
 - (void) shouldDisplayLockBoxButton:(BOOL)button andBadge:(BOOL)badge;
 - (void) shouldDisplayBossEventButton:(BOOL)button;
+- (void) shouldDisplayTournamentButton:(BOOL)button;
 
 + (TopBar *) sharedTopBar;
 + (void) purgeSingleton;

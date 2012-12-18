@@ -1736,6 +1736,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendRetrieveLeaderboardMessage:type afterRank:afterRank];
 }
 
+- (void) retrieveTournamentRanking:(int)eventId afterRank:(int)afterRank {
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveLeaderboardRankingsMessage:eventId afterThisRank:afterRank];
+}
+
 - (void) sendGroupChat:(GroupChatScope)scope message:(NSString *)msg {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];

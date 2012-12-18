@@ -291,6 +291,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (void) checkRateUsPopup;
 
 - (int) percentOfSkillPointsInStamina;
++ (UIColor *) colorForColorProto:(ColorProto *)cp;
 
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;

@@ -170,6 +170,10 @@
 @class InAppPurchaseRequestProto_Builder;
 @class InAppPurchaseResponseProto;
 @class InAppPurchaseResponseProto_Builder;
+@class LeaderboardEventProto;
+@class LeaderboardEventProto_Builder;
+@class LeaderboardEventRewardProto;
+@class LeaderboardEventRewardProto_Builder;
 @class LeaveClanRequestProto;
 @class LeaveClanRequestProto_Builder;
 @class LeaveClanResponseProto;
@@ -334,6 +338,10 @@
 @class RetrieveCurrentMarketplacePostsRequestProto_Builder;
 @class RetrieveCurrentMarketplacePostsResponseProto;
 @class RetrieveCurrentMarketplacePostsResponseProto_Builder;
+@class RetrieveLeaderboardRankingsRequestProto;
+@class RetrieveLeaderboardRankingsRequestProto_Builder;
+@class RetrieveLeaderboardRankingsResponseProto;
+@class RetrieveLeaderboardRankingsResponseProto_Builder;
 @class RetrieveLeaderboardRequestProto;
 @class RetrieveLeaderboardRequestProto_Builder;
 @class RetrieveLeaderboardResponseProto;
@@ -997,6 +1005,13 @@ typedef enum {
 } RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatus;
 
 BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatus value);
+
+typedef enum {
+  RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusSuccess = 0,
+  RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusOtherFail = 1,
+} RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatus;
+
+BOOL RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusIsValidValue(RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatus value);
 
 typedef enum {
   SendGroupChatResponseProto_SendGroupChatStatusSuccess = 0,
@@ -2005,8 +2020,8 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasDailyBonusInfo_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasUnhandledForgeAttempt_:1;
-  BOOL hasTutorialConstants_:1;
   BOOL hasForgeAttemptEquip_:1;
+  BOOL hasTutorialConstants_:1;
   BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
@@ -2019,21 +2034,22 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
   StartupResponseProto_StartupConstants* startupConstants;
   UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
-  StartupResponseProto_TutorialConstants* tutorialConstants;
   FullEquipProto* forgeAttemptEquip;
+  StartupResponseProto_TutorialConstants* tutorialConstants;
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableAlliesList;
   NSMutableArray* mutableMktSearchEquipsList;
   NSMutableArray* mutableGlobalChatsList;
-  NSMutableArray* mutableBossEventsList;
   NSMutableArray* mutableClanChatsList;
+  NSMutableArray* mutableLeaderboardEventsList;
   NSMutableArray* mutableGoldSalesList;
   NSMutableArray* mutableClanTierLevelsList;
   NSMutableArray* mutableClanTowersList;
   NSMutableArray* mutableStaticStructsList;
   NSMutableArray* mutableStaticEquipsList;
+  NSMutableArray* mutableBossEventsList;
+  NSMutableArray* mutableAlliesList;
   NSMutableArray* mutableUserLockBoxEventsList;
   NSMutableArray* mutableLockBoxEventsList;
   NSMutableArray* mutableClanBulletinPostNotificationsList;
@@ -2130,6 +2146,8 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (FullEquipProto*) staticEquipsAtIndex:(int32_t) index;
 - (NSArray*) bossEventsList;
 - (BossEventProto*) bossEventsAtIndex:(int32_t) index;
+- (NSArray*) leaderboardEventsList;
+- (LeaderboardEventProto*) leaderboardEventsAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -5247,6 +5265,13 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (StartupResponseProto_Builder*) addBossEvents:(BossEventProto*) value;
 - (StartupResponseProto_Builder*) addAllBossEvents:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearBossEventsList;
+
+- (NSArray*) leaderboardEventsList;
+- (LeaderboardEventProto*) leaderboardEventsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceLeaderboardEventsAtIndex:(int32_t) index with:(LeaderboardEventProto*) value;
+- (StartupResponseProto_Builder*) addLeaderboardEvents:(LeaderboardEventProto*) value;
+- (StartupResponseProto_Builder*) addAllLeaderboardEvents:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearLeaderboardEventsList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
@@ -9334,11 +9359,13 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasCurrentLockBoxEvents_:1;
   BOOL hasClanTierLevels_:1;
   BOOL hasCurrentBossEvents_:1;
+  BOOL hasCurrentLeaderboardEvents_:1;
   BOOL hasLevelForExpRequiredRequest_:1;
   BOOL hasSender_:1;
   BOOL currentLockBoxEvents_:1;
   BOOL clanTierLevels_:1;
   BOOL currentBossEvents_:1;
+  BOOL currentLeaderboardEvents_:1;
   int32_t levelForExpRequiredRequest;
   MinimumUserProto* sender;
   NSMutableArray* mutableStructIdsList;
@@ -9357,11 +9384,13 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (BOOL) hasCurrentLockBoxEvents;
 - (BOOL) hasClanTierLevels;
 - (BOOL) hasCurrentBossEvents;
+- (BOOL) hasCurrentLeaderboardEvents;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t levelForExpRequiredRequest;
 - (BOOL) currentLockBoxEvents;
 - (BOOL) clanTierLevels;
 - (BOOL) currentBossEvents;
+- (BOOL) currentLeaderboardEvents;
 - (NSArray*) structIdsList;
 - (int32_t) structIdsAtIndex:(int32_t) index;
 - (NSArray*) taskIdsList;
@@ -9513,6 +9542,11 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (BOOL) currentBossEvents;
 - (RetrieveStaticDataRequestProto_Builder*) setCurrentBossEvents:(BOOL) value;
 - (RetrieveStaticDataRequestProto_Builder*) clearCurrentBossEvents;
+
+- (BOOL) hasCurrentLeaderboardEvents;
+- (BOOL) currentLeaderboardEvents;
+- (RetrieveStaticDataRequestProto_Builder*) setCurrentLeaderboardEvents:(BOOL) value;
+- (RetrieveStaticDataRequestProto_Builder*) clearCurrentLeaderboardEvents;
 @end
 
 @interface RetrieveStaticDataResponseProto : PBGeneratedMessage {
@@ -9523,8 +9557,6 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   int32_t expRequiredForRequestedLevel;
   MinimumUserProto* sender;
   RetrieveStaticDataResponseProto_RetrieveStaticDataStatus status;
-  NSMutableArray* mutableStructsList;
-  NSMutableArray* mutableTasksList;
   NSMutableArray* mutableQuestsList;
   NSMutableArray* mutableCitiesList;
   NSMutableArray* mutableEquipsList;
@@ -9532,10 +9564,13 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   NSMutableArray* mutableDefeatTypeJobsList;
   NSMutableArray* mutablePossessEquipJobsList;
   NSMutableArray* mutableUpgradeStructJobsList;
+  NSMutableArray* mutableTasksList;
   NSMutableArray* mutableLockBoxEventsList;
   NSMutableArray* mutableClanTierLevelsList;
   NSMutableArray* mutableBossesList;
   NSMutableArray* mutableBossEventsList;
+  NSMutableArray* mutableLeaderboardEventsList;
+  NSMutableArray* mutableStructsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasExpRequiredForRequestedLevel;
@@ -9569,6 +9604,8 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (FullBossProto*) bossesAtIndex:(int32_t) index;
 - (NSArray*) bossEventsList;
 - (BossEventProto*) bossEventsAtIndex:(int32_t) index;
+- (NSArray*) leaderboardEventsList;
+- (LeaderboardEventProto*) leaderboardEventsAtIndex:(int32_t) index;
 
 + (RetrieveStaticDataResponseProto*) defaultInstance;
 - (RetrieveStaticDataResponseProto*) defaultInstance;
@@ -9706,6 +9743,13 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (RetrieveStaticDataResponseProto_Builder*) addBossEvents:(BossEventProto*) value;
 - (RetrieveStaticDataResponseProto_Builder*) addAllBossEvents:(NSArray*) values;
 - (RetrieveStaticDataResponseProto_Builder*) clearBossEventsList;
+
+- (NSArray*) leaderboardEventsList;
+- (LeaderboardEventProto*) leaderboardEventsAtIndex:(int32_t) index;
+- (RetrieveStaticDataResponseProto_Builder*) replaceLeaderboardEventsAtIndex:(int32_t) index with:(LeaderboardEventProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addLeaderboardEvents:(LeaderboardEventProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addAllLeaderboardEvents:(NSArray*) values;
+- (RetrieveStaticDataResponseProto_Builder*) clearLeaderboardEventsList;
 
 - (BOOL) hasStatus;
 - (RetrieveStaticDataResponseProto_RetrieveStaticDataStatus) status;
@@ -12693,6 +12737,172 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (RetrieveLeaderboardResponseProto_Builder*) addResultPlayers:(MinimumUserProtoWithLevelForLeaderboard*) value;
 - (RetrieveLeaderboardResponseProto_Builder*) addAllResultPlayers:(NSArray*) values;
 - (RetrieveLeaderboardResponseProto_Builder*) clearResultPlayersList;
+@end
+
+@interface RetrieveLeaderboardRankingsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasEventId_:1;
+  BOOL hasAfterThisRank_:1;
+  BOOL hasSender_:1;
+  int32_t eventId;
+  int32_t afterThisRank;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasEventId;
+- (BOOL) hasAfterThisRank;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t eventId;
+@property (readonly) int32_t afterThisRank;
+
++ (RetrieveLeaderboardRankingsRequestProto*) defaultInstance;
+- (RetrieveLeaderboardRankingsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) builder;
++ (RetrieveLeaderboardRankingsRequestProto_Builder*) builder;
++ (RetrieveLeaderboardRankingsRequestProto_Builder*) builderWithPrototype:(RetrieveLeaderboardRankingsRequestProto*) prototype;
+
++ (RetrieveLeaderboardRankingsRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveLeaderboardRankingsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveLeaderboardRankingsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveLeaderboardRankingsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveLeaderboardRankingsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveLeaderboardRankingsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveLeaderboardRankingsRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveLeaderboardRankingsRequestProto* result;
+}
+
+- (RetrieveLeaderboardRankingsRequestProto*) defaultInstance;
+
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) clear;
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) clone;
+
+- (RetrieveLeaderboardRankingsRequestProto*) build;
+- (RetrieveLeaderboardRankingsRequestProto*) buildPartial;
+
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) mergeFrom:(RetrieveLeaderboardRankingsRequestProto*) other;
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) clearSender;
+
+- (BOOL) hasEventId;
+- (int32_t) eventId;
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) setEventId:(int32_t) value;
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) clearEventId;
+
+- (BOOL) hasAfterThisRank;
+- (int32_t) afterThisRank;
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) setAfterThisRank:(int32_t) value;
+- (RetrieveLeaderboardRankingsRequestProto_Builder*) clearAfterThisRank;
+@end
+
+@interface RetrieveLeaderboardRankingsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasEventId_:1;
+  BOOL hasAfterThisRank_:1;
+  BOOL hasSender_:1;
+  BOOL hasRetriever_:1;
+  BOOL hasStatus_:1;
+  int32_t eventId;
+  int32_t afterThisRank;
+  MinimumUserProto* sender;
+  MinimumUserProtoWithLevelForLeaderboard* retriever;
+  RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatus status;
+  NSMutableArray* mutableResultPlayersList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasEventId;
+- (BOOL) hasAfterThisRank;
+- (BOOL) hasRetriever;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatus status;
+@property (readonly) int32_t eventId;
+@property (readonly) int32_t afterThisRank;
+@property (readonly, retain) MinimumUserProtoWithLevelForLeaderboard* retriever;
+- (NSArray*) resultPlayersList;
+- (MinimumUserProtoWithLevelForLeaderboard*) resultPlayersAtIndex:(int32_t) index;
+
++ (RetrieveLeaderboardRankingsResponseProto*) defaultInstance;
+- (RetrieveLeaderboardRankingsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) builder;
++ (RetrieveLeaderboardRankingsResponseProto_Builder*) builder;
++ (RetrieveLeaderboardRankingsResponseProto_Builder*) builderWithPrototype:(RetrieveLeaderboardRankingsResponseProto*) prototype;
+
++ (RetrieveLeaderboardRankingsResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveLeaderboardRankingsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveLeaderboardRankingsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveLeaderboardRankingsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveLeaderboardRankingsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveLeaderboardRankingsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveLeaderboardRankingsResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveLeaderboardRankingsResponseProto* result;
+}
+
+- (RetrieveLeaderboardRankingsResponseProto*) defaultInstance;
+
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clear;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clone;
+
+- (RetrieveLeaderboardRankingsResponseProto*) build;
+- (RetrieveLeaderboardRankingsResponseProto*) buildPartial;
+
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) mergeFrom:(RetrieveLeaderboardRankingsResponseProto*) other;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatus) status;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) setStatus:(RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatus) value;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasEventId;
+- (int32_t) eventId;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) setEventId:(int32_t) value;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clearEventId;
+
+- (BOOL) hasAfterThisRank;
+- (int32_t) afterThisRank;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) setAfterThisRank:(int32_t) value;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clearAfterThisRank;
+
+- (BOOL) hasRetriever;
+- (MinimumUserProtoWithLevelForLeaderboard*) retriever;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) setRetriever:(MinimumUserProtoWithLevelForLeaderboard*) value;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) setRetrieverBuilder:(MinimumUserProtoWithLevelForLeaderboard_Builder*) builderForValue;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) mergeRetriever:(MinimumUserProtoWithLevelForLeaderboard*) value;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clearRetriever;
+
+- (NSArray*) resultPlayersList;
+- (MinimumUserProtoWithLevelForLeaderboard*) resultPlayersAtIndex:(int32_t) index;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) replaceResultPlayersAtIndex:(int32_t) index with:(MinimumUserProtoWithLevelForLeaderboard*) value;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) addResultPlayers:(MinimumUserProtoWithLevelForLeaderboard*) value;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) addAllResultPlayers:(NSArray*) values;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clearResultPlayersList;
 @end
 
 @interface SendGroupChatRequestProto : PBGeneratedMessage {

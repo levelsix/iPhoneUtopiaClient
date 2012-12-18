@@ -47,6 +47,7 @@
 #import "LockBoxMenuController.h"
 #import "ThreeCardMonteViewController.h"
 #import "CharSelectionViewController.h"
+#import "TournamentMenuController.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -301,6 +302,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSGeneralNotificationEvent:
       responseClass = [GeneralNotificationResponseProto class];
       break;
+    case EventProtocolResponseSRetrieveLeaderboardRankingsEvent:
+      responseClass = [RetrieveLeaderboardRankingsResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -489,6 +493,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [oec retrieveAllStaticData];
     [gs addNewStaticLockBoxEvents:proto.lockBoxEventsList];
     [gs addNewStaticBossEvents:proto.bossEventsList];
+    [gs addNewStaticTournaments:proto.leaderboardEventsList];
     [gs addToMyLockBoxEvents:proto.userLockBoxEventsList];
     [gs setMktSearchEquips:proto.staticEquipsList.count > 0 ? proto.staticEquipsList : proto.mktSearchEquipsList];
     [gs.staticEquips removeAllObjects];
@@ -1272,6 +1277,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.clanTierLevelsList > 0) [gs addToClanTierLevels:proto.clanTierLevelsList];
     if (proto.lockBoxEventsList.count > 0) [gs addNewStaticLockBoxEvents:proto.lockBoxEventsList];
     if (proto.bossEventsList.count > 0) [gs addNewStaticBossEvents:proto.bossEventsList];
+    if (proto.leaderboardEventsList.count > 0) [gs addNewStaticTournaments:proto.leaderboardEventsList];
     
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -2371,10 +2377,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"General notification received with title \"%@\".", proto.title);
   
   TopBar *tb = [TopBar sharedTopBar];
-  ColorProto *cp = proto.rgb;
-  UIColor *c = [UIColor colorWithRed:cp.red/255.f green:cp.green/255.f blue:cp.blue/255.f alpha:255.f];
+  UIColor *c = [Globals colorForColorProto:proto.rgb];
   UserNotification *un = [[UserNotification alloc] initWithTitle:proto.title subtitle:proto.subtitle color:c];
   [tb addNotificationToDisplayQueue:un];
+}
+
+- (void) handleRetrieveLeaderboardRankingsResponseProto:(FullEvent *)fe {
+  RetrieveLeaderboardRankingsResponseProto *proto = (RetrieveLeaderboardRankingsResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Tournament response received with status %d and %d rankings.", proto.status, proto.resultPlayersList.count);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusSuccess) {
+    [[TournamentMenuController sharedTournamentMenuController] receivedLeaderboardResponse:proto];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
 }
 
 @end
