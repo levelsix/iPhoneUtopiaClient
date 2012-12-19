@@ -28,9 +28,12 @@
 
 - (void) receivedLeaderboardResponse:(RetrieveLeaderboardRankingsResponseProto *)proto;
 
+- (IBAction)closeClicked:(id)sender;
+
 + (TournamentMenuController *) sharedTournamentMenuController;
 + (void) displayView;
 + (void) removeView;
 + (void) purgeSingleton;
++ (BOOL) isInitialized;
 
 @end

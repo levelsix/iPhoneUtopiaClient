@@ -1183,7 +1183,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (LeaderboardEventProto *) getCurrentTournament {
   double curTime = [[NSDate date] timeIntervalSince1970]*1000.0;
   for (LeaderboardEventProto *p in _staticTournaments) {
-    if (curTime > p.startDate && curTime < p.endDate) {
+    if (curTime > p.startDate && curTime < p.lastShowDate) {
       return p;
     }
   }
@@ -1394,6 +1394,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   self.clanTierLevels = nil;
   self.clanTowers = nil;
+  
+  self.clan = nil;
+  self.userId = 0;
   
   [self stopForgeTimer];
   self.forgeAttempt = nil;

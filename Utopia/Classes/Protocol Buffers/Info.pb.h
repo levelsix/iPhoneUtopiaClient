@@ -387,10 +387,12 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @private
   BOOL hasStartDate_:1;
   BOOL hasEndDate_:1;
+  BOOL hasLastShowDate_:1;
   BOOL hasEventId_:1;
   BOOL hasEventName_:1;
   int64_t startDate;
   int64_t endDate;
+  int64_t lastShowDate;
   int32_t eventId;
   NSString* eventName;
   NSMutableArray* mutableRewardsList;
@@ -399,10 +401,12 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasStartDate;
 - (BOOL) hasEndDate;
 - (BOOL) hasEventName;
+- (BOOL) hasLastShowDate;
 @property (readonly) int32_t eventId;
 @property (readonly) int64_t startDate;
 @property (readonly) int64_t endDate;
 @property (readonly, retain) NSString* eventName;
+@property (readonly) int64_t lastShowDate;
 - (NSArray*) rewardsList;
 - (LeaderboardEventRewardProto*) rewardsAtIndex:(int32_t) index;
 
@@ -466,6 +470,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (LeaderboardEventProto_Builder*) addRewards:(LeaderboardEventRewardProto*) value;
 - (LeaderboardEventProto_Builder*) addAllRewards:(NSArray*) values;
 - (LeaderboardEventProto_Builder*) clearRewardsList;
+
+- (BOOL) hasLastShowDate;
+- (int64_t) lastShowDate;
+- (LeaderboardEventProto_Builder*) setLastShowDate:(int64_t) value;
+- (LeaderboardEventProto_Builder*) clearLastShowDate;
 @end
 
 @interface LeaderboardEventRewardProto : PBGeneratedMessage {

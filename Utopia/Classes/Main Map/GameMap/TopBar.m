@@ -228,7 +228,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _bossEventButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bossEventButtonClicked)];
     _bossEventButton.position = _lockBoxButton.position;
     
-    s = [CCSprite spriteWithFile:@"bossicon.png"];
+    s = [CCSprite spriteWithFile:@"tourneyicon.png"];
     _tournamentButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(tournamentButtonClicked)];
     _tournamentButton.position = _lockBoxButton.position;
     
@@ -390,8 +390,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       break;
     }
   }
-  
-  [TournamentMenuController displayView];
   
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   NSDate *curDate = [NSDate date];

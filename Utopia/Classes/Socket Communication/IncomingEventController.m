@@ -2367,6 +2367,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
+    [Globals popupMessage:@"Server was unable to concede clan tower war"];
+    
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
@@ -2385,7 +2387,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetrieveLeaderboardRankingsResponseProto:(FullEvent *)fe {
   RetrieveLeaderboardRankingsResponseProto *proto = (RetrieveLeaderboardRankingsResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Tournament response received with status %d and %d rankings.", proto.status, proto.resultPlayersList.count);
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve tournament response received with status %d and %d rankings.", proto.status, proto.resultPlayersList.count);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusSuccess) {

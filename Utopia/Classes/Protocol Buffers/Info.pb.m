@@ -444,6 +444,7 @@ static ColorProto* defaultColorProtoInstance = nil;
 @property int64_t endDate;
 @property (retain) NSString* eventName;
 @property (retain) NSMutableArray* mutableRewardsList;
+@property int64_t lastShowDate;
 @end
 
 @implementation LeaderboardEventProto
@@ -477,6 +478,13 @@ static ColorProto* defaultColorProtoInstance = nil;
 }
 @synthesize eventName;
 @synthesize mutableRewardsList;
+- (BOOL) hasLastShowDate {
+  return !!hasLastShowDate_;
+}
+- (void) setHasLastShowDate:(BOOL) value {
+  hasLastShowDate_ = !!value;
+}
+@synthesize lastShowDate;
 - (void) dealloc {
   self.eventName = nil;
   self.mutableRewardsList = nil;
@@ -488,6 +496,7 @@ static ColorProto* defaultColorProtoInstance = nil;
     self.startDate = 0L;
     self.endDate = 0L;
     self.eventName = @"";
+    self.lastShowDate = 0L;
   }
   return self;
 }
@@ -529,6 +538,9 @@ static LeaderboardEventProto* defaultLeaderboardEventProtoInstance = nil;
   for (LeaderboardEventRewardProto* element in self.rewardsList) {
     [output writeMessage:5 value:element];
   }
+  if (self.hasLastShowDate) {
+    [output writeInt64:6 value:self.lastShowDate];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -552,6 +564,9 @@ static LeaderboardEventProto* defaultLeaderboardEventProtoInstance = nil;
   }
   for (LeaderboardEventRewardProto* element in self.rewardsList) {
     size += computeMessageSize(5, element);
+  }
+  if (self.hasLastShowDate) {
+    size += computeInt64Size(6, self.lastShowDate);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -646,6 +661,9 @@ static LeaderboardEventProto* defaultLeaderboardEventProtoInstance = nil;
     }
     [result.mutableRewardsList addObjectsFromArray:other.mutableRewardsList];
   }
+  if (other.hasLastShowDate) {
+    [self setLastShowDate:other.lastShowDate];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -687,6 +705,10 @@ static LeaderboardEventProto* defaultLeaderboardEventProtoInstance = nil;
         LeaderboardEventRewardProto_Builder* subBuilder = [LeaderboardEventRewardProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRewards:[subBuilder buildPartial]];
+        break;
+      }
+      case 48: {
+        [self setLastShowDate:[input readInt64]];
         break;
       }
     }
@@ -783,6 +805,22 @@ static LeaderboardEventProto* defaultLeaderboardEventProtoInstance = nil;
     result.mutableRewardsList = [NSMutableArray array];
   }
   [result.mutableRewardsList addObject:value];
+  return self;
+}
+- (BOOL) hasLastShowDate {
+  return result.hasLastShowDate;
+}
+- (int64_t) lastShowDate {
+  return result.lastShowDate;
+}
+- (LeaderboardEventProto_Builder*) setLastShowDate:(int64_t) value {
+  result.hasLastShowDate = YES;
+  result.lastShowDate = value;
+  return self;
+}
+- (LeaderboardEventProto_Builder*) clearLastShowDate {
+  result.hasLastShowDate = NO;
+  result.lastShowDate = 0L;
   return self;
 }
 @end

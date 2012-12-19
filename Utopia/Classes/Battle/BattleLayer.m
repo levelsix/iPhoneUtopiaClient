@@ -25,6 +25,7 @@
 #import "ClanMenuController.h"
 #import "ChatMenuController.h"
 #import "KiipDelegate.h"
+#import "TournamentMenuController.h"
 
 #define FAKE_PLAYER_RAND 6
 #define NAME_LABEL_FONT_SIZE 11.f
@@ -708,6 +709,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     
     if ([ActivityFeedController isInitialized]) {
       [[ActivityFeedController sharedActivityFeedController] close];
+    }
+    
+    if ([TournamentMenuController isInitialized]) {
+      [[TournamentMenuController sharedTournamentMenuController] closeClicked:nil];
     }
   } else {
     [self startBattle];

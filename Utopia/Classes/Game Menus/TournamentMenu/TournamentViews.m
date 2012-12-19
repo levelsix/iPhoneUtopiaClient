@@ -28,11 +28,6 @@
     ranks = [NSString stringWithFormat:@"%@ - %@", [self convertNumToPlace:r.minRank], [self convertNumToPlace:r.maxRank]];
   }
   self.ranksLabel.text = ranks;
-  
-  if (r.hasTitleColor) {
-    self.prizeLabel.textColor = [Globals colorForColorProto:r.titleColor];
-    self.ranksLabel.textColor = [Globals colorForColorProto:r.titleColor];
-  }
 }
 
 - (NSString *) convertNumToPlace:(int)num {

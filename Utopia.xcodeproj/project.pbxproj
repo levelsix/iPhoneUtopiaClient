@@ -1725,6 +1725,8 @@
 		CFECCDE41550971000171271 /* marketplacepopupbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDE01550971000171271 /* marketplacepopupbg.png */; };
 		CFECCDE51550971000171271 /* marketplacepopupbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDE11550971000171271 /* marketplacepopupbg@2x.png */; };
 		CFEF7209156F2D80006362A4 /* MissionBuildingMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEF7208156F2D80006362A4 /* MissionBuildingMenus.m */; };
+		CFF0000316819AB2004C3B27 /* tourneyicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0000116819AB2004C3B27 /* tourneyicon.png */; };
+		CFF0000416819AB2004C3B27 /* tourneyicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0000216819AB2004C3B27 /* tourneyicon@2x.png */; };
 		CFF02BB3158C1D920072965A /* Medieval Market.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFF02BB0158C18610072965A /* Medieval Market.m4a */; };
 		CFF02BC5158C41980072965A /* goldpile.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF02BB5158C41980072965A /* goldpile.png */; };
 		CFF02BC6158C41980072965A /* goldpile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF02BB6158C41980072965A /* goldpile@2x.png */; };
@@ -4013,6 +4015,8 @@
 		CFECCDE11550971000171271 /* marketplacepopupbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marketplacepopupbg@2x.png"; sourceTree = "<group>"; };
 		CFEF7207156F2D80006362A4 /* MissionBuildingMenus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MissionBuildingMenus.h; sourceTree = "<group>"; };
 		CFEF7208156F2D80006362A4 /* MissionBuildingMenus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MissionBuildingMenus.m; sourceTree = "<group>"; };
+		CFF0000116819AB2004C3B27 /* tourneyicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tourneyicon.png; sourceTree = "<group>"; };
+		CFF0000216819AB2004C3B27 /* tourneyicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tourneyicon@2x.png"; sourceTree = "<group>"; };
 		CFF02BB0158C18610072965A /* Medieval Market.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Medieval Market.m4a"; sourceTree = "<group>"; };
 		CFF02BB5158C41980072965A /* goldpile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goldpile.png; sourceTree = "<group>"; };
 		CFF02BB6158C41980072965A /* goldpile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "goldpile@2x.png"; sourceTree = "<group>"; };
@@ -6164,6 +6168,8 @@
 		CF1269FD1538ACC600E0C1AD /* Top Bar Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFF0000116819AB2004C3B27 /* tourneyicon.png */,
+				CFF0000216819AB2004C3B27 /* tourneyicon@2x.png */,
 				CFE954A8166EE6E100DA63CF /* bossicon.png */,
 				CFE954A9166EE6E100DA63CF /* bossicon@2x.png */,
 				CF2CE24C161D26EC00DD6E9E /* tblockbox.png */,
@@ -9285,6 +9291,8 @@
 				CF1B5006167C434800B73276 /* TournamentMenuController.xib in Resources */,
 				CF1B5008167C48C300B73276 /* TournamentPrizeView.xib in Resources */,
 				CF1B500D167C586F00B73276 /* TournamentCell.xib in Resources */,
+				CFF0000316819AB2004C3B27 /* tourneyicon.png in Resources */,
+				CFF0000416819AB2004C3B27 /* tourneyicon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
