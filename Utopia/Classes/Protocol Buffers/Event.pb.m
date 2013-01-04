@@ -5374,6 +5374,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property Float64 bossEventSuperAttack;
 @property int32_t initStamina;
 @property int32_t minClanMembersToHoldClanTower;
+@property (retain) StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5934,6 +5935,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMinClanMembersToHoldClanTower_ = !!value;
 }
 @synthesize minClanMembersToHoldClanTower;
+- (BOOL) hasMinLevelConstants {
+  return !!hasMinLevelConstants_;
+}
+- (void) setHasMinLevelConstants:(BOOL) value {
+  hasMinLevelConstants_ = !!value;
+}
+@synthesize minLevelConstants;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5949,6 +5957,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.lockBoxConstants = nil;
   self.expansionConstants = nil;
   self.downloadableNibConstants = nil;
+  self.minLevelConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -6032,6 +6041,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.bossEventSuperAttack = 0;
     self.initStamina = 0;
     self.minClanMembersToHoldClanTower = 0;
+    self.minLevelConstants = [StartupResponseProto_StartupConstants_BazaarMinLevelConstants defaultInstance];
   }
   return self;
 }
@@ -6318,6 +6328,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMinClanMembersToHoldClanTower) {
     [output writeInt32:92 value:self.minClanMembersToHoldClanTower];
   }
+  if (self.hasMinLevelConstants) {
+    [output writeMessage:93 value:self.minLevelConstants];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6583,6 +6596,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMinClanMembersToHoldClanTower) {
     size += computeInt32Size(92, self.minClanMembersToHoldClanTower);
   }
+  if (self.hasMinLevelConstants) {
+    size += computeMessageSize(93, self.minLevelConstants);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -6613,6 +6629,373 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_BazaarMinLevelConstants ()
+@property int32_t clanHouseMinLevel;
+@property int32_t vaultMinLevel;
+@property int32_t armoryMinLevel;
+@property int32_t marketplaceMinLevel;
+@property int32_t blacksmithMinLevel;
+@property int32_t leaderboardMinLevel;
+@end
+
+@implementation StartupResponseProto_StartupConstants_BazaarMinLevelConstants
+
+- (BOOL) hasClanHouseMinLevel {
+  return !!hasClanHouseMinLevel_;
+}
+- (void) setHasClanHouseMinLevel:(BOOL) value {
+  hasClanHouseMinLevel_ = !!value;
+}
+@synthesize clanHouseMinLevel;
+- (BOOL) hasVaultMinLevel {
+  return !!hasVaultMinLevel_;
+}
+- (void) setHasVaultMinLevel:(BOOL) value {
+  hasVaultMinLevel_ = !!value;
+}
+@synthesize vaultMinLevel;
+- (BOOL) hasArmoryMinLevel {
+  return !!hasArmoryMinLevel_;
+}
+- (void) setHasArmoryMinLevel:(BOOL) value {
+  hasArmoryMinLevel_ = !!value;
+}
+@synthesize armoryMinLevel;
+- (BOOL) hasMarketplaceMinLevel {
+  return !!hasMarketplaceMinLevel_;
+}
+- (void) setHasMarketplaceMinLevel:(BOOL) value {
+  hasMarketplaceMinLevel_ = !!value;
+}
+@synthesize marketplaceMinLevel;
+- (BOOL) hasBlacksmithMinLevel {
+  return !!hasBlacksmithMinLevel_;
+}
+- (void) setHasBlacksmithMinLevel:(BOOL) value {
+  hasBlacksmithMinLevel_ = !!value;
+}
+@synthesize blacksmithMinLevel;
+- (BOOL) hasLeaderboardMinLevel {
+  return !!hasLeaderboardMinLevel_;
+}
+- (void) setHasLeaderboardMinLevel:(BOOL) value {
+  hasLeaderboardMinLevel_ = !!value;
+}
+@synthesize leaderboardMinLevel;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.clanHouseMinLevel = 0;
+    self.vaultMinLevel = 0;
+    self.armoryMinLevel = 0;
+    self.marketplaceMinLevel = 0;
+    self.blacksmithMinLevel = 0;
+    self.leaderboardMinLevel = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultStartupResponseProto_StartupConstants_BazaarMinLevelConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_BazaarMinLevelConstants class]) {
+    defaultStartupResponseProto_StartupConstants_BazaarMinLevelConstantsInstance = [[StartupResponseProto_StartupConstants_BazaarMinLevelConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_BazaarMinLevelConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_BazaarMinLevelConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasClanHouseMinLevel) {
+    [output writeInt32:1 value:self.clanHouseMinLevel];
+  }
+  if (self.hasVaultMinLevel) {
+    [output writeInt32:2 value:self.vaultMinLevel];
+  }
+  if (self.hasArmoryMinLevel) {
+    [output writeInt32:3 value:self.armoryMinLevel];
+  }
+  if (self.hasMarketplaceMinLevel) {
+    [output writeInt32:4 value:self.marketplaceMinLevel];
+  }
+  if (self.hasBlacksmithMinLevel) {
+    [output writeInt32:5 value:self.blacksmithMinLevel];
+  }
+  if (self.hasLeaderboardMinLevel) {
+    [output writeInt32:6 value:self.leaderboardMinLevel];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasClanHouseMinLevel) {
+    size += computeInt32Size(1, self.clanHouseMinLevel);
+  }
+  if (self.hasVaultMinLevel) {
+    size += computeInt32Size(2, self.vaultMinLevel);
+  }
+  if (self.hasArmoryMinLevel) {
+    size += computeInt32Size(3, self.armoryMinLevel);
+  }
+  if (self.hasMarketplaceMinLevel) {
+    size += computeInt32Size(4, self.marketplaceMinLevel);
+  }
+  if (self.hasBlacksmithMinLevel) {
+    size += computeInt32Size(5, self.blacksmithMinLevel);
+  }
+  if (self.hasLeaderboardMinLevel) {
+    size += computeInt32Size(6, self.leaderboardMinLevel);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*)[[[StartupResponseProto_StartupConstants_BazaarMinLevelConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*)[[[StartupResponseProto_StartupConstants_BazaarMinLevelConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*)[[[StartupResponseProto_StartupConstants_BazaarMinLevelConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*)[[[StartupResponseProto_StartupConstants_BazaarMinLevelConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*)[[[StartupResponseProto_StartupConstants_BazaarMinLevelConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*)[[[StartupResponseProto_StartupConstants_BazaarMinLevelConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_BazaarMinLevelConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_BazaarMinLevelConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_BazaarMinLevelConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_BazaarMinLevelConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_BazaarMinLevelConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_BazaarMinLevelConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_BazaarMinLevelConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_BazaarMinLevelConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_BazaarMinLevelConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasClanHouseMinLevel) {
+    [self setClanHouseMinLevel:other.clanHouseMinLevel];
+  }
+  if (other.hasVaultMinLevel) {
+    [self setVaultMinLevel:other.vaultMinLevel];
+  }
+  if (other.hasArmoryMinLevel) {
+    [self setArmoryMinLevel:other.armoryMinLevel];
+  }
+  if (other.hasMarketplaceMinLevel) {
+    [self setMarketplaceMinLevel:other.marketplaceMinLevel];
+  }
+  if (other.hasBlacksmithMinLevel) {
+    [self setBlacksmithMinLevel:other.blacksmithMinLevel];
+  }
+  if (other.hasLeaderboardMinLevel) {
+    [self setLeaderboardMinLevel:other.leaderboardMinLevel];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setClanHouseMinLevel:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setVaultMinLevel:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setArmoryMinLevel:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setMarketplaceMinLevel:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setBlacksmithMinLevel:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setLeaderboardMinLevel:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasClanHouseMinLevel {
+  return result.hasClanHouseMinLevel;
+}
+- (int32_t) clanHouseMinLevel {
+  return result.clanHouseMinLevel;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setClanHouseMinLevel:(int32_t) value {
+  result.hasClanHouseMinLevel = YES;
+  result.clanHouseMinLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearClanHouseMinLevel {
+  result.hasClanHouseMinLevel = NO;
+  result.clanHouseMinLevel = 0;
+  return self;
+}
+- (BOOL) hasVaultMinLevel {
+  return result.hasVaultMinLevel;
+}
+- (int32_t) vaultMinLevel {
+  return result.vaultMinLevel;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setVaultMinLevel:(int32_t) value {
+  result.hasVaultMinLevel = YES;
+  result.vaultMinLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearVaultMinLevel {
+  result.hasVaultMinLevel = NO;
+  result.vaultMinLevel = 0;
+  return self;
+}
+- (BOOL) hasArmoryMinLevel {
+  return result.hasArmoryMinLevel;
+}
+- (int32_t) armoryMinLevel {
+  return result.armoryMinLevel;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setArmoryMinLevel:(int32_t) value {
+  result.hasArmoryMinLevel = YES;
+  result.armoryMinLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearArmoryMinLevel {
+  result.hasArmoryMinLevel = NO;
+  result.armoryMinLevel = 0;
+  return self;
+}
+- (BOOL) hasMarketplaceMinLevel {
+  return result.hasMarketplaceMinLevel;
+}
+- (int32_t) marketplaceMinLevel {
+  return result.marketplaceMinLevel;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setMarketplaceMinLevel:(int32_t) value {
+  result.hasMarketplaceMinLevel = YES;
+  result.marketplaceMinLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearMarketplaceMinLevel {
+  result.hasMarketplaceMinLevel = NO;
+  result.marketplaceMinLevel = 0;
+  return self;
+}
+- (BOOL) hasBlacksmithMinLevel {
+  return result.hasBlacksmithMinLevel;
+}
+- (int32_t) blacksmithMinLevel {
+  return result.blacksmithMinLevel;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setBlacksmithMinLevel:(int32_t) value {
+  result.hasBlacksmithMinLevel = YES;
+  result.blacksmithMinLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearBlacksmithMinLevel {
+  result.hasBlacksmithMinLevel = NO;
+  result.blacksmithMinLevel = 0;
+  return self;
+}
+- (BOOL) hasLeaderboardMinLevel {
+  return result.hasLeaderboardMinLevel;
+}
+- (int32_t) leaderboardMinLevel {
+  return result.leaderboardMinLevel;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setLeaderboardMinLevel:(int32_t) value {
+  result.hasLeaderboardMinLevel = YES;
+  result.leaderboardMinLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearLeaderboardMinLevel {
+  result.hasLeaderboardMinLevel = NO;
+  result.leaderboardMinLevel = 0;
+  return self;
 }
 @end
 
@@ -11506,6 +11889,9 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasMinClanMembersToHoldClanTower) {
     [self setMinClanMembersToHoldClanTower:other.minClanMembersToHoldClanTower];
   }
+  if (other.hasMinLevelConstants) {
+    [self mergeMinLevelConstants:other.minLevelConstants];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -11910,6 +12296,15 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 736: {
         [self setMinClanMembersToHoldClanTower:[input readInt32]];
+        break;
+      }
+      case 746: {
+        StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_BazaarMinLevelConstants builder];
+        if (self.hasMinLevelConstants) {
+          [subBuilder mergeFrom:self.minLevelConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMinLevelConstants:[subBuilder buildPartial]];
         break;
       }
     }
@@ -13422,6 +13817,36 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearMinClanMembersToHoldClanTower {
   result.hasMinClanMembersToHoldClanTower = NO;
   result.minClanMembersToHoldClanTower = 0;
+  return self;
+}
+- (BOOL) hasMinLevelConstants {
+  return result.hasMinLevelConstants;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) minLevelConstants {
+  return result.minLevelConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinLevelConstants:(StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) value {
+  result.hasMinLevelConstants = YES;
+  result.minLevelConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinLevelConstantsBuilder:(StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) builderForValue {
+  return [self setMinLevelConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeMinLevelConstants:(StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) value {
+  if (result.hasMinLevelConstants &&
+      result.minLevelConstants != [StartupResponseProto_StartupConstants_BazaarMinLevelConstants defaultInstance]) {
+    result.minLevelConstants =
+      [[[StartupResponseProto_StartupConstants_BazaarMinLevelConstants builderWithPrototype:result.minLevelConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.minLevelConstants = value;
+  }
+  result.hasMinLevelConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelConstants {
+  result.hasMinLevelConstants = NO;
+  result.minLevelConstants = [StartupResponseProto_StartupConstants_BazaarMinLevelConstants defaultInstance];
   return self;
 }
 @end
@@ -22781,8 +23206,7 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
 
 @interface RetrieveCurrencyFromNormStructureRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property int32_t userStructId;
-@property int64_t timeOfRetrieval;
+@property (retain) NSMutableArray* mutableStructRetrievalsList;
 @end
 
 @implementation RetrieveCurrencyFromNormStructureRequestProto
@@ -22794,29 +23218,15 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasUserStructId {
-  return !!hasUserStructId_;
-}
-- (void) setHasUserStructId:(BOOL) value {
-  hasUserStructId_ = !!value;
-}
-@synthesize userStructId;
-- (BOOL) hasTimeOfRetrieval {
-  return !!hasTimeOfRetrieval_;
-}
-- (void) setHasTimeOfRetrieval:(BOOL) value {
-  hasTimeOfRetrieval_ = !!value;
-}
-@synthesize timeOfRetrieval;
+@synthesize mutableStructRetrievalsList;
 - (void) dealloc {
   self.sender = nil;
+  self.mutableStructRetrievalsList = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.userStructId = 0;
-    self.timeOfRetrieval = 0L;
   }
   return self;
 }
@@ -22832,6 +23242,13 @@ static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFro
 - (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance {
   return defaultRetrieveCurrencyFromNormStructureRequestProtoInstance;
 }
+- (NSArray*) structRetrievalsList {
+  return mutableStructRetrievalsList;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index {
+  id value = [mutableStructRetrievalsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -22839,11 +23256,8 @@ static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFro
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasUserStructId) {
-    [output writeInt32:2 value:self.userStructId];
-  }
-  if (self.hasTimeOfRetrieval) {
-    [output writeInt64:3 value:self.timeOfRetrieval];
+  for (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* element in self.structRetrievalsList) {
+    [output writeMessage:2 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -22857,11 +23271,8 @@ static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFro
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasUserStructId) {
-    size += computeInt32Size(2, self.userStructId);
-  }
-  if (self.hasTimeOfRetrieval) {
-    size += computeInt64Size(3, self.timeOfRetrieval);
+  for (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* element in self.structRetrievalsList) {
+    size += computeMessageSize(2, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -22893,6 +23304,221 @@ static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFro
 }
 - (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builder {
   return [RetrieveCurrencyFromNormStructureRequestProto builder];
+}
+@end
+
+@interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval ()
+@property int32_t userStructId;
+@property int64_t timeOfRetrieval;
+@end
+
+@implementation RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval
+
+- (BOOL) hasUserStructId {
+  return !!hasUserStructId_;
+}
+- (void) setHasUserStructId:(BOOL) value {
+  hasUserStructId_ = !!value;
+}
+@synthesize userStructId;
+- (BOOL) hasTimeOfRetrieval {
+  return !!hasTimeOfRetrieval_;
+}
+- (void) setHasTimeOfRetrieval:(BOOL) value {
+  hasTimeOfRetrieval_ = !!value;
+}
+@synthesize timeOfRetrieval;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userStructId = 0;
+    self.timeOfRetrieval = 0L;
+  }
+  return self;
+}
+static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRetrieveCurrencyFromNormStructureRequestProto_StructRetrievalInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval class]) {
+    defaultRetrieveCurrencyFromNormStructureRequestProto_StructRetrievalInstance = [[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval alloc] init];
+  }
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance {
+  return defaultRetrieveCurrencyFromNormStructureRequestProto_StructRetrievalInstance;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance {
+  return defaultRetrieveCurrencyFromNormStructureRequestProto_StructRetrievalInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserStructId) {
+    [output writeInt32:1 value:self.userStructId];
+  }
+  if (self.hasTimeOfRetrieval) {
+    [output writeInt64:2 value:self.timeOfRetrieval];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserStructId) {
+    size += computeInt32Size(1, self.userStructId);
+  }
+  if (self.hasTimeOfRetrieval) {
+    size += computeInt64Size(2, self.timeOfRetrieval);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromData:(NSData*) data {
+  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromData:data] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromInputStream:input] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builder {
+  return [[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder alloc] init] autorelease];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) prototype {
+  return [[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFrom:prototype];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builder {
+  return [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder];
+}
+@end
+
+@interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder()
+@property (retain) RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* result;
+@end
+
+@implementation RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clear {
+  self.result = [[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval alloc] init] autorelease];
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clone {
+  return [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builderWithPrototype:result];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance {
+  return [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval defaultInstance];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) buildPartial {
+  RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) other {
+  if (other == [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserStructId) {
+    [self setUserStructId:other.userStructId];
+  }
+  if (other.hasTimeOfRetrieval) {
+    [self setTimeOfRetrieval:other.timeOfRetrieval];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserStructId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setTimeOfRetrieval:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserStructId {
+  return result.hasUserStructId;
+}
+- (int32_t) userStructId {
+  return result.userStructId;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setUserStructId:(int32_t) value {
+  result.hasUserStructId = YES;
+  result.userStructId = value;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearUserStructId {
+  result.hasUserStructId = NO;
+  result.userStructId = 0;
+  return self;
+}
+- (BOOL) hasTimeOfRetrieval {
+  return result.hasTimeOfRetrieval;
+}
+- (int64_t) timeOfRetrieval {
+  return result.timeOfRetrieval;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setTimeOfRetrieval:(int64_t) value {
+  result.hasTimeOfRetrieval = YES;
+  result.timeOfRetrieval = value;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearTimeOfRetrieval {
+  result.hasTimeOfRetrieval = NO;
+  result.timeOfRetrieval = 0L;
+  return self;
 }
 @end
 
@@ -22941,11 +23567,11 @@ static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFro
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasUserStructId) {
-    [self setUserStructId:other.userStructId];
-  }
-  if (other.hasTimeOfRetrieval) {
-    [self setTimeOfRetrieval:other.timeOfRetrieval];
+  if (other.mutableStructRetrievalsList.count > 0) {
+    if (result.mutableStructRetrievalsList == nil) {
+      result.mutableStructRetrievalsList = [NSMutableArray array];
+    }
+    [result.mutableStructRetrievalsList addObjectsFromArray:other.mutableStructRetrievalsList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -22977,12 +23603,10 @@ static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFro
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setUserStructId:[input readInt32]];
-        break;
-      }
-      case 24: {
-        [self setTimeOfRetrieval:[input readInt64]];
+      case 18: {
+        RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder* subBuilder = [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addStructRetrievals:[subBuilder buildPartial]];
         break;
       }
     }
@@ -23018,36 +23642,33 @@ static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFro
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasUserStructId {
-  return result.hasUserStructId;
+- (NSArray*) structRetrievalsList {
+  if (result.mutableStructRetrievalsList == nil) { return [NSArray array]; }
+  return result.mutableStructRetrievalsList;
 }
-- (int32_t) userStructId {
-  return result.userStructId;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index {
+  return [result structRetrievalsAtIndex:index];
 }
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value {
-  result.hasUserStructId = YES;
-  result.userStructId = value;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) replaceStructRetrievalsAtIndex:(int32_t) index with:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) value {
+  [result.mutableStructRetrievalsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearUserStructId {
-  result.hasUserStructId = NO;
-  result.userStructId = 0;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) addAllStructRetrievals:(NSArray*) values {
+  if (result.mutableStructRetrievalsList == nil) {
+    result.mutableStructRetrievalsList = [NSMutableArray array];
+  }
+  [result.mutableStructRetrievalsList addObjectsFromArray:values];
   return self;
 }
-- (BOOL) hasTimeOfRetrieval {
-  return result.hasTimeOfRetrieval;
-}
-- (int64_t) timeOfRetrieval {
-  return result.timeOfRetrieval;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setTimeOfRetrieval:(int64_t) value {
-  result.hasTimeOfRetrieval = YES;
-  result.timeOfRetrieval = value;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearStructRetrievalsList {
+  result.mutableStructRetrievalsList = nil;
   return self;
 }
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearTimeOfRetrieval {
-  result.hasTimeOfRetrieval = NO;
-  result.timeOfRetrieval = 0L;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) addStructRetrievals:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) value {
+  if (result.mutableStructRetrievalsList == nil) {
+    result.mutableStructRetrievalsList = [NSMutableArray array];
+  }
+  [result.mutableStructRetrievalsList addObject:value];
   return self;
 }
 @end
@@ -23080,7 +23701,7 @@ static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFro
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess;
+    self.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail;
   }
   return self;
 }
@@ -23156,11 +23777,10 @@ static RetrieveCurrencyFromNormStructureResponseProto* defaultRetrieveCurrencyFr
 
 BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value) {
   switch (value) {
-    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess:
-    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough:
     case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail:
+    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess:
     case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooApartFromServerTime:
-    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusLevelTooLow:
+    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough:
       return YES;
     default:
       return NO;
@@ -23299,7 +23919,7 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
 }
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
-  result.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess;
+  result.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail;
   return self;
 }
 @end
@@ -30031,7 +30651,10 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
 
 @interface UseSkillPointRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property UseSkillPointRequestProto_BoostType boostType;
+@property int32_t attackIncrease;
+@property int32_t defenseIncrease;
+@property int32_t energyIncrease;
+@property int32_t staminaIncrease;
 @end
 
 @implementation UseSkillPointRequestProto
@@ -30043,13 +30666,34 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasBoostType {
-  return !!hasBoostType_;
+- (BOOL) hasAttackIncrease {
+  return !!hasAttackIncrease_;
 }
-- (void) setHasBoostType:(BOOL) value {
-  hasBoostType_ = !!value;
+- (void) setHasAttackIncrease:(BOOL) value {
+  hasAttackIncrease_ = !!value;
 }
-@synthesize boostType;
+@synthesize attackIncrease;
+- (BOOL) hasDefenseIncrease {
+  return !!hasDefenseIncrease_;
+}
+- (void) setHasDefenseIncrease:(BOOL) value {
+  hasDefenseIncrease_ = !!value;
+}
+@synthesize defenseIncrease;
+- (BOOL) hasEnergyIncrease {
+  return !!hasEnergyIncrease_;
+}
+- (void) setHasEnergyIncrease:(BOOL) value {
+  hasEnergyIncrease_ = !!value;
+}
+@synthesize energyIncrease;
+- (BOOL) hasStaminaIncrease {
+  return !!hasStaminaIncrease_;
+}
+- (void) setHasStaminaIncrease:(BOOL) value {
+  hasStaminaIncrease_ = !!value;
+}
+@synthesize staminaIncrease;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -30057,7 +30701,10 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.boostType = UseSkillPointRequestProto_BoostTypeAttack;
+    self.attackIncrease = 0;
+    self.defenseIncrease = 0;
+    self.energyIncrease = 0;
+    self.staminaIncrease = 0;
   }
   return self;
 }
@@ -30080,8 +30727,17 @@ static UseSkillPointRequestProto* defaultUseSkillPointRequestProtoInstance = nil
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasBoostType) {
-    [output writeEnum:2 value:self.boostType];
+  if (self.hasAttackIncrease) {
+    [output writeInt32:2 value:self.attackIncrease];
+  }
+  if (self.hasDefenseIncrease) {
+    [output writeInt32:3 value:self.defenseIncrease];
+  }
+  if (self.hasEnergyIncrease) {
+    [output writeInt32:4 value:self.energyIncrease];
+  }
+  if (self.hasStaminaIncrease) {
+    [output writeInt32:5 value:self.staminaIncrease];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -30095,8 +30751,17 @@ static UseSkillPointRequestProto* defaultUseSkillPointRequestProtoInstance = nil
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasBoostType) {
-    size += computeEnumSize(2, self.boostType);
+  if (self.hasAttackIncrease) {
+    size += computeInt32Size(2, self.attackIncrease);
+  }
+  if (self.hasDefenseIncrease) {
+    size += computeInt32Size(3, self.defenseIncrease);
+  }
+  if (self.hasEnergyIncrease) {
+    size += computeInt32Size(4, self.energyIncrease);
+  }
+  if (self.hasStaminaIncrease) {
+    size += computeInt32Size(5, self.staminaIncrease);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -30131,17 +30796,6 @@ static UseSkillPointRequestProto* defaultUseSkillPointRequestProtoInstance = nil
 }
 @end
 
-BOOL UseSkillPointRequestProto_BoostTypeIsValidValue(UseSkillPointRequestProto_BoostType value) {
-  switch (value) {
-    case UseSkillPointRequestProto_BoostTypeAttack:
-    case UseSkillPointRequestProto_BoostTypeDefense:
-    case UseSkillPointRequestProto_BoostTypeEnergy:
-    case UseSkillPointRequestProto_BoostTypeStamina:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface UseSkillPointRequestProto_Builder()
 @property (retain) UseSkillPointRequestProto* result;
 @end
@@ -30187,8 +30841,17 @@ BOOL UseSkillPointRequestProto_BoostTypeIsValidValue(UseSkillPointRequestProto_B
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasBoostType) {
-    [self setBoostType:other.boostType];
+  if (other.hasAttackIncrease) {
+    [self setAttackIncrease:other.attackIncrease];
+  }
+  if (other.hasDefenseIncrease) {
+    [self setDefenseIncrease:other.defenseIncrease];
+  }
+  if (other.hasEnergyIncrease) {
+    [self setEnergyIncrease:other.energyIncrease];
+  }
+  if (other.hasStaminaIncrease) {
+    [self setStaminaIncrease:other.staminaIncrease];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -30221,12 +30884,19 @@ BOOL UseSkillPointRequestProto_BoostTypeIsValidValue(UseSkillPointRequestProto_B
         break;
       }
       case 16: {
-        int32_t value = [input readEnum];
-        if (UseSkillPointRequestProto_BoostTypeIsValidValue(value)) {
-          [self setBoostType:value];
-        } else {
-          [unknownFields mergeVarintField:2 value:value];
-        }
+        [self setAttackIncrease:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setDefenseIncrease:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setEnergyIncrease:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setStaminaIncrease:[input readInt32]];
         break;
       }
     }
@@ -30262,20 +30932,68 @@ BOOL UseSkillPointRequestProto_BoostTypeIsValidValue(UseSkillPointRequestProto_B
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasBoostType {
-  return result.hasBoostType;
+- (BOOL) hasAttackIncrease {
+  return result.hasAttackIncrease;
 }
-- (UseSkillPointRequestProto_BoostType) boostType {
-  return result.boostType;
+- (int32_t) attackIncrease {
+  return result.attackIncrease;
 }
-- (UseSkillPointRequestProto_Builder*) setBoostType:(UseSkillPointRequestProto_BoostType) value {
-  result.hasBoostType = YES;
-  result.boostType = value;
+- (UseSkillPointRequestProto_Builder*) setAttackIncrease:(int32_t) value {
+  result.hasAttackIncrease = YES;
+  result.attackIncrease = value;
   return self;
 }
-- (UseSkillPointRequestProto_Builder*) clearBoostType {
-  result.hasBoostType = NO;
-  result.boostType = UseSkillPointRequestProto_BoostTypeAttack;
+- (UseSkillPointRequestProto_Builder*) clearAttackIncrease {
+  result.hasAttackIncrease = NO;
+  result.attackIncrease = 0;
+  return self;
+}
+- (BOOL) hasDefenseIncrease {
+  return result.hasDefenseIncrease;
+}
+- (int32_t) defenseIncrease {
+  return result.defenseIncrease;
+}
+- (UseSkillPointRequestProto_Builder*) setDefenseIncrease:(int32_t) value {
+  result.hasDefenseIncrease = YES;
+  result.defenseIncrease = value;
+  return self;
+}
+- (UseSkillPointRequestProto_Builder*) clearDefenseIncrease {
+  result.hasDefenseIncrease = NO;
+  result.defenseIncrease = 0;
+  return self;
+}
+- (BOOL) hasEnergyIncrease {
+  return result.hasEnergyIncrease;
+}
+- (int32_t) energyIncrease {
+  return result.energyIncrease;
+}
+- (UseSkillPointRequestProto_Builder*) setEnergyIncrease:(int32_t) value {
+  result.hasEnergyIncrease = YES;
+  result.energyIncrease = value;
+  return self;
+}
+- (UseSkillPointRequestProto_Builder*) clearEnergyIncrease {
+  result.hasEnergyIncrease = NO;
+  result.energyIncrease = 0;
+  return self;
+}
+- (BOOL) hasStaminaIncrease {
+  return result.hasStaminaIncrease;
+}
+- (int32_t) staminaIncrease {
+  return result.staminaIncrease;
+}
+- (UseSkillPointRequestProto_Builder*) setStaminaIncrease:(int32_t) value {
+  result.hasStaminaIncrease = YES;
+  result.staminaIncrease = value;
+  return self;
+}
+- (UseSkillPointRequestProto_Builder*) clearStaminaIncrease {
+  result.hasStaminaIncrease = NO;
+  result.staminaIncrease = 0;
   return self;
 }
 @end

@@ -27,6 +27,13 @@
   int _numDisconnects;
 }
 
+@property (nonatomic, assign) int attackPoints;
+@property (nonatomic, assign) int defensePoints;
+@property (nonatomic, assign) int energyPoints;
+@property (nonatomic, assign) int staminaPoints;
+
+@property (nonatomic, retain) NSMutableArray *structRetrievals;
+
 - (void) reloadClanMessageQueue;
 - (void) rebuildSender;
 
@@ -60,7 +67,6 @@
 
 - (int) sendGenerateAttackListMessage:(int)numEnemies;
 - (int) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(CGFloat)latUpperBound latLowerBound:(CGFloat)latLowerBound lonUpperBound:(CGFloat)lonUpperBound lonLowerBound:(CGFloat)lonLowerBound;
-- (int) sendUseSkillPointMessage: (UseSkillPointRequestProto_BoostType) boostType;
 
 - (int) sendRefillStatWaitTimeComplete:(RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteType)type curTime:(uint64_t)curTime;
 - (int) sendRefillStatWithDiamondsMessage:(RefillStatWithDiamondsRequestProto_StatType)statType;
@@ -72,7 +78,6 @@
 - (int) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime;
 - (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime;
 - (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type;
-- (int) sendRetrieveCurrencyFromNormStructureMessage:(int)userStructId time:(uint64_t)milliseconds;
 - (int) sendSellNormStructureMessage:(int)userStructId;
 
 - (int) sendLoadPlayerCityMessage:(int)userId;
@@ -145,5 +150,13 @@
 - (int) sendConcedeClanTowerWar:(int)towerId clientTime:(uint64_t)clientTime;
 
 - (int) sendRetrieveLeaderboardRankingsMessage:(int)eventId afterThisRank:(int)afterThisRank;
+
+- (int) addAttackSkillPoint;
+- (int) addDefenseSkillPoint;
+- (int) addEnergySkillPoint;
+- (int) addStaminaSkillPoint;
+- (int) sendUseSkillPointMessage;
+- (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time;
+- (void) flush:(int)type;
 
 @end

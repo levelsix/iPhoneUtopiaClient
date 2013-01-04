@@ -332,6 +332,8 @@
 @class RetrieveClanInfoResponseProto_Builder;
 @class RetrieveCurrencyFromNormStructureRequestProto;
 @class RetrieveCurrencyFromNormStructureRequestProto_Builder;
+@class RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval;
+@class RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder;
 @class RetrieveCurrencyFromNormStructureResponseProto;
 @class RetrieveCurrencyFromNormStructureResponseProto_Builder;
 @class RetrieveCurrentMarketplacePostsRequestProto;
@@ -401,6 +403,8 @@
 @class StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder;
 @class StartupResponseProto_StartupConstants_BattleConstants;
 @class StartupResponseProto_StartupConstants_BattleConstants_Builder;
+@class StartupResponseProto_StartupConstants_BazaarMinLevelConstants;
+@class StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder;
 @class StartupResponseProto_StartupConstants_Builder;
 @class StartupResponseProto_StartupConstants_CharacterModConstants;
 @class StartupResponseProto_StartupConstants_CharacterModConstants_Builder;
@@ -610,11 +614,10 @@ typedef enum {
 BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus value);
 
 typedef enum {
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess = 0,
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough = 1,
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail = 2,
+  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail = 1,
+  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess = 2,
   RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooApartFromServerTime = 3,
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusLevelTooLow = 4,
+  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough = 4,
 } RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus;
 
 BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value);
@@ -740,15 +743,6 @@ typedef enum {
 } PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus;
 
 BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidValue(PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus value);
-
-typedef enum {
-  UseSkillPointRequestProto_BoostTypeAttack = 0,
-  UseSkillPointRequestProto_BoostTypeDefense = 1,
-  UseSkillPointRequestProto_BoostTypeEnergy = 2,
-  UseSkillPointRequestProto_BoostTypeStamina = 4,
-} UseSkillPointRequestProto_BoostType;
-
-BOOL UseSkillPointRequestProto_BoostTypeIsValidValue(UseSkillPointRequestProto_BoostType value);
 
 typedef enum {
   UseSkillPointResponseProto_UseSkillPointStatusSuccess = 0,
@@ -2487,17 +2481,16 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasHealthFormulaExponentBase_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasBossEventSuperAttack_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
+  BOOL hasHealthFormulaExponentBase_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasAverageSizeOfLevelBracket_:1;
-  BOOL hasPlayerWallPostsRetrieveCap_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
+  BOOL hasInitStamina_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
   BOOL hasCarpenterImgVerticalPixelOffset_:1;
   BOOL hasMarketplaceImgVerticalPixelOffset_:1;
@@ -2507,12 +2500,6 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasNumDaysUntilFreeRetract_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
-  BOOL hasMinClanMembersToHoldClanTower_:1;
-  BOOL hasInitStamina_:1;
-  BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
-  BOOL hasLevelToShowRateUsPopup_:1;
-  BOOL hasNumHoursBeforeReshowingBossEvent_:1;
-  BOOL hasNumHoursBeforeReshowingLockBox_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
   BOOL hasMaxLengthOfChatString_:1;
   BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
@@ -2523,60 +2510,67 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasSizeOfAttackList_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasMinNameLength_:1;
+  BOOL hasNumHoursBeforeReshowingLockBox_:1;
   BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
-  BOOL hasDefenseBaseCost_:1;
-  BOOL hasAttackBaseCost_:1;
-  BOOL hasStaminaBaseGain_:1;
-  BOOL hasEnergyBaseGain_:1;
-  BOOL hasDefenseBaseGain_:1;
-  BOOL hasAttackBaseGain_:1;
-  BOOL hasAviaryYlength_:1;
-  BOOL hasAviaryXlength_:1;
-  BOOL hasCarpenterYlength_:1;
-  BOOL hasCarpenterXlength_:1;
-  BOOL hasMarketplaceYlength_:1;
-  BOOL hasMarketplaceXlength_:1;
-  BOOL hasVaultYlength_:1;
-  BOOL hasVaultXlength_:1;
-  BOOL hasArmoryYlength_:1;
-  BOOL hasArmoryXlength_:1;
-  BOOL hasMaxLevelForUser_:1;
+  BOOL hasNumHoursBeforeReshowingBossEvent_:1;
+  BOOL hasAverageSizeOfLevelBracket_:1;
+  BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
+  BOOL hasPlayerWallPostsRetrieveCap_:1;
+  BOOL hasMinClanMembersToHoldClanTower_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
+  BOOL hasMaxLevelForUser_:1;
+  BOOL hasArmoryXlength_:1;
+  BOOL hasArmoryYlength_:1;
+  BOOL hasVaultXlength_:1;
+  BOOL hasVaultYlength_:1;
+  BOOL hasMarketplaceXlength_:1;
+  BOOL hasMarketplaceYlength_:1;
+  BOOL hasCarpenterXlength_:1;
+  BOOL hasCarpenterYlength_:1;
+  BOOL hasAviaryXlength_:1;
+  BOOL hasAviaryYlength_:1;
+  BOOL hasAttackBaseGain_:1;
+  BOOL hasDefenseBaseGain_:1;
+  BOOL hasEnergyBaseGain_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
-  BOOL hasEnergyBaseCost_:1;
   BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
   BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
   BOOL hasMaxNumberOfMarketplacePosts_:1;
-  BOOL hasStaminaBaseCost_:1;
-  BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
-  BOOL hasMaxLevelForStruct_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
-  BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasMinutesToRefillAstamina_:1;
-  BOOL hasDownloadableNibConstants_:1;
+  BOOL hasMinutesToRefillAenergy_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasMaxLevelForStruct_:1;
+  BOOL hasSkillPointsGainedOnLevelup_:1;
+  BOOL hasStaminaBaseCost_:1;
+  BOOL hasEnergyBaseCost_:1;
+  BOOL hasDefenseBaseCost_:1;
+  BOOL hasAttackBaseCost_:1;
+  BOOL hasStaminaBaseGain_:1;
   BOOL hasExpansionConstants_:1;
+  BOOL hasDownloadableNibConstants_:1;
+  BOOL hasMinLevelConstants_:1;
   BOOL hasLockBoxConstants_:1;
   BOOL hasGoldmineConstants_:1;
   BOOL hasThreeCardMonteConstants_:1;
   BOOL hasClanConstants_:1;
-  BOOL hasFormulaConstants_:1;
-  BOOL hasBattleConstants_:1;
   BOOL hasCharModConstants_:1;
-  BOOL hasKiipRewardConditions_:1;
   BOOL hasForgeConstants_:1;
-  Float64 healthFormulaExponentBase;
-  Float64 levelEquipBoostExponentBase;
+  BOOL hasKiipRewardConditions_:1;
+  BOOL hasBattleConstants_:1;
+  BOOL hasFormulaConstants_:1;
   Float64 bossEventSuperAttack;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
   Float64 percentReturnedToUserForSellingEquipInArmory;
   Float64 cutOfVaultDepositTaken;
+  Float64 healthFormulaExponentBase;
   Float64 percentReturnedToUserForSellingNormStructure;
-  int32_t averageSizeOfLevelBracket;
-  int32_t playerWallPostsRetrieveCap;
+  Float64 levelEquipBoostExponentBase;
   int32_t maxCharLengthForWallPost;
+  int32_t initStamina;
   int32_t aviaryImgVerticalPixelOffset;
   int32_t carpenterImgVerticalPixelOffset;
   int32_t marketplaceImgVerticalPixelOffset;
@@ -2586,12 +2580,6 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t numDaysUntilFreeRetract;
   int32_t diamondCostOfShortMarketplaceLicense;
-  int32_t minClanMembersToHoldClanTower;
-  int32_t initStamina;
-  int32_t bossEventNumberOfAttacksUntilSuperAttack;
-  int32_t levelToShowRateUsPopup;
-  int32_t numHoursBeforeReshowingBossEvent;
-  int32_t numHoursBeforeReshowingLockBox;
   int32_t numHoursBeforeReshowingGoldSale;
   int32_t maxLengthOfChatString;
   int32_t diamondPriceForGroupChatPurchasePackage;
@@ -2602,49 +2590,57 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   int32_t sizeOfAttackList;
   int32_t maxNameLength;
   int32_t minNameLength;
+  int32_t numHoursBeforeReshowingLockBox;
   int32_t adColonyVideosRequiredToRedeemDiamonds;
-  int32_t defenseBaseCost;
-  int32_t attackBaseCost;
-  int32_t staminaBaseGain;
-  int32_t energyBaseGain;
-  int32_t defenseBaseGain;
-  int32_t attackBaseGain;
-  int32_t aviaryYlength;
-  int32_t aviaryXlength;
-  int32_t carpenterYlength;
-  int32_t carpenterXlength;
-  int32_t marketplaceYlength;
-  int32_t marketplaceXlength;
-  int32_t vaultYlength;
-  int32_t vaultXlength;
-  int32_t armoryYlength;
-  int32_t armoryXlength;
-  int32_t maxLevelForUser;
+  int32_t numHoursBeforeReshowingBossEvent;
+  int32_t averageSizeOfLevelBracket;
+  int32_t levelToShowRateUsPopup;
+  int32_t bossEventNumberOfAttacksUntilSuperAttack;
+  int32_t playerWallPostsRetrieveCap;
+  int32_t minClanMembersToHoldClanTower;
   int32_t maxLevelDifferenceForBattle;
+  int32_t maxLevelForUser;
+  int32_t armoryXlength;
+  int32_t armoryYlength;
+  int32_t vaultXlength;
+  int32_t vaultYlength;
+  int32_t marketplaceXlength;
+  int32_t marketplaceYlength;
+  int32_t carpenterXlength;
+  int32_t carpenterYlength;
+  int32_t aviaryXlength;
+  int32_t aviaryYlength;
+  int32_t attackBaseGain;
+  int32_t defenseBaseGain;
+  int32_t energyBaseGain;
   int32_t diamondCostOfLongMarketplaceLicense;
-  int32_t energyBaseCost;
   int32_t numDaysShortMarketplaceLicenseLastsFor;
   int32_t numDaysLongMarketplaceLicenseLastsFor;
   int32_t maxNumberOfMarketplacePosts;
-  int32_t staminaBaseCost;
-  int32_t skillPointsGainedOnLevelup;
   int32_t diamondCostForFullEnergyRefill;
   int32_t diamondCostForFullStaminaRefill;
-  int32_t maxLevelForStruct;
-  int32_t maxNumOfSingleStruct;
-  int32_t minutesToRefillAenergy;
   int32_t minutesToRefillAstamina;
-  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
+  int32_t minutesToRefillAenergy;
+  int32_t maxNumOfSingleStruct;
+  int32_t maxLevelForStruct;
+  int32_t skillPointsGainedOnLevelup;
+  int32_t staminaBaseCost;
+  int32_t energyBaseCost;
+  int32_t defenseBaseCost;
+  int32_t attackBaseCost;
+  int32_t staminaBaseGain;
   StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
+  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
+  StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
   StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
   StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
   StartupResponseProto_StartupConstants_ThreeCardMonteConstants* threeCardMonteConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-  StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
-  StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
-  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
   StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
+  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
+  StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
+  StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
@@ -2728,6 +2724,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (BOOL) hasBossEventSuperAttack;
 - (BOOL) hasInitStamina;
 - (BOOL) hasMinClanMembersToHoldClanTower;
+- (BOOL) hasMinLevelConstants;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2807,6 +2804,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 @property (readonly) Float64 bossEventSuperAttack;
 @property (readonly) int32_t initStamina;
 @property (readonly) int32_t minClanMembersToHoldClanTower;
+@property (readonly, retain) StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2829,6 +2827,99 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_BazaarMinLevelConstants : PBGeneratedMessage {
+@private
+  BOOL hasClanHouseMinLevel_:1;
+  BOOL hasVaultMinLevel_:1;
+  BOOL hasArmoryMinLevel_:1;
+  BOOL hasMarketplaceMinLevel_:1;
+  BOOL hasBlacksmithMinLevel_:1;
+  BOOL hasLeaderboardMinLevel_:1;
+  int32_t clanHouseMinLevel;
+  int32_t vaultMinLevel;
+  int32_t armoryMinLevel;
+  int32_t marketplaceMinLevel;
+  int32_t blacksmithMinLevel;
+  int32_t leaderboardMinLevel;
+}
+- (BOOL) hasClanHouseMinLevel;
+- (BOOL) hasVaultMinLevel;
+- (BOOL) hasArmoryMinLevel;
+- (BOOL) hasMarketplaceMinLevel;
+- (BOOL) hasBlacksmithMinLevel;
+- (BOOL) hasLeaderboardMinLevel;
+@property (readonly) int32_t clanHouseMinLevel;
+@property (readonly) int32_t vaultMinLevel;
+@property (readonly) int32_t armoryMinLevel;
+@property (readonly) int32_t marketplaceMinLevel;
+@property (readonly) int32_t blacksmithMinLevel;
+@property (readonly) int32_t leaderboardMinLevel;
+
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_BazaarMinLevelConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) build;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) other;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasClanHouseMinLevel;
+- (int32_t) clanHouseMinLevel;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setClanHouseMinLevel:(int32_t) value;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearClanHouseMinLevel;
+
+- (BOOL) hasVaultMinLevel;
+- (int32_t) vaultMinLevel;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setVaultMinLevel:(int32_t) value;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearVaultMinLevel;
+
+- (BOOL) hasArmoryMinLevel;
+- (int32_t) armoryMinLevel;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setArmoryMinLevel:(int32_t) value;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearArmoryMinLevel;
+
+- (BOOL) hasMarketplaceMinLevel;
+- (int32_t) marketplaceMinLevel;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setMarketplaceMinLevel:(int32_t) value;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearMarketplaceMinLevel;
+
+- (BOOL) hasBlacksmithMinLevel;
+- (int32_t) blacksmithMinLevel;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setBlacksmithMinLevel:(int32_t) value;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearBlacksmithMinLevel;
+
+- (BOOL) hasLeaderboardMinLevel;
+- (int32_t) leaderboardMinLevel;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setLeaderboardMinLevel:(int32_t) value;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearLeaderboardMinLevel;
 @end
 
 @interface StartupResponseProto_StartupConstants_DownloadableNibConstants : PBGeneratedMessage {
@@ -4432,6 +4523,13 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (int32_t) minClanMembersToHoldClanTower;
 - (StartupResponseProto_StartupConstants_Builder*) setMinClanMembersToHoldClanTower:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMinClanMembersToHoldClanTower;
+
+- (BOOL) hasMinLevelConstants;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) minLevelConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setMinLevelConstants:(StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setMinLevelConstantsBuilder:(StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeMinLevelConstants:(StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelConstants;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -6501,19 +6599,14 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 
 @interface RetrieveCurrencyFromNormStructureRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasTimeOfRetrieval_:1;
-  BOOL hasUserStructId_:1;
   BOOL hasSender_:1;
-  int64_t timeOfRetrieval;
-  int32_t userStructId;
   MinimumUserProto* sender;
+  NSMutableArray* mutableStructRetrievalsList;
 }
 - (BOOL) hasSender;
-- (BOOL) hasUserStructId;
-- (BOOL) hasTimeOfRetrieval;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t userStructId;
-@property (readonly) int64_t timeOfRetrieval;
+- (NSArray*) structRetrievalsList;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index;
 
 + (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance;
 - (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance;
@@ -6530,6 +6623,63 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 + (RetrieveCurrencyFromNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (RetrieveCurrencyFromNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (RetrieveCurrencyFromNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval : PBGeneratedMessage {
+@private
+  BOOL hasTimeOfRetrieval_:1;
+  BOOL hasUserStructId_:1;
+  int64_t timeOfRetrieval;
+  int32_t userStructId;
+}
+- (BOOL) hasUserStructId;
+- (BOOL) hasTimeOfRetrieval;
+@property (readonly) int32_t userStructId;
+@property (readonly) int64_t timeOfRetrieval;
+
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builder;
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builder;
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) prototype;
+
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromData:(NSData*) data;
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* result;
+}
+
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance;
+
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clear;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clone;
+
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) build;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) buildPartial;
+
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) other;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserStructId;
+- (int32_t) userStructId;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setUserStructId:(int32_t) value;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearUserStructId;
+
+- (BOOL) hasTimeOfRetrieval;
+- (int64_t) timeOfRetrieval;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setTimeOfRetrieval:(int64_t) value;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearTimeOfRetrieval;
 @end
 
 @interface RetrieveCurrencyFromNormStructureRequestProto_Builder : PBGeneratedMessage_Builder {
@@ -6556,15 +6706,12 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearSender;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearUserStructId;
-
-- (BOOL) hasTimeOfRetrieval;
-- (int64_t) timeOfRetrieval;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setTimeOfRetrieval:(int64_t) value;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearTimeOfRetrieval;
+- (NSArray*) structRetrievalsList;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) replaceStructRetrievalsAtIndex:(int32_t) index with:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) value;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) addStructRetrievals:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) value;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) addAllStructRetrievals:(NSArray*) values;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearStructRetrievalsList;
 @end
 
 @interface RetrieveCurrencyFromNormStructureResponseProto : PBGeneratedMessage {
@@ -8186,15 +8333,27 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 
 @interface UseSkillPointRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasAttackIncrease_:1;
+  BOOL hasDefenseIncrease_:1;
+  BOOL hasEnergyIncrease_:1;
+  BOOL hasStaminaIncrease_:1;
   BOOL hasSender_:1;
-  BOOL hasBoostType_:1;
+  int32_t attackIncrease;
+  int32_t defenseIncrease;
+  int32_t energyIncrease;
+  int32_t staminaIncrease;
   MinimumUserProto* sender;
-  UseSkillPointRequestProto_BoostType boostType;
 }
 - (BOOL) hasSender;
-- (BOOL) hasBoostType;
+- (BOOL) hasAttackIncrease;
+- (BOOL) hasDefenseIncrease;
+- (BOOL) hasEnergyIncrease;
+- (BOOL) hasStaminaIncrease;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) UseSkillPointRequestProto_BoostType boostType;
+@property (readonly) int32_t attackIncrease;
+@property (readonly) int32_t defenseIncrease;
+@property (readonly) int32_t energyIncrease;
+@property (readonly) int32_t staminaIncrease;
 
 + (UseSkillPointRequestProto*) defaultInstance;
 - (UseSkillPointRequestProto*) defaultInstance;
@@ -8237,10 +8396,25 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (UseSkillPointRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UseSkillPointRequestProto_Builder*) clearSender;
 
-- (BOOL) hasBoostType;
-- (UseSkillPointRequestProto_BoostType) boostType;
-- (UseSkillPointRequestProto_Builder*) setBoostType:(UseSkillPointRequestProto_BoostType) value;
-- (UseSkillPointRequestProto_Builder*) clearBoostType;
+- (BOOL) hasAttackIncrease;
+- (int32_t) attackIncrease;
+- (UseSkillPointRequestProto_Builder*) setAttackIncrease:(int32_t) value;
+- (UseSkillPointRequestProto_Builder*) clearAttackIncrease;
+
+- (BOOL) hasDefenseIncrease;
+- (int32_t) defenseIncrease;
+- (UseSkillPointRequestProto_Builder*) setDefenseIncrease:(int32_t) value;
+- (UseSkillPointRequestProto_Builder*) clearDefenseIncrease;
+
+- (BOOL) hasEnergyIncrease;
+- (int32_t) energyIncrease;
+- (UseSkillPointRequestProto_Builder*) setEnergyIncrease:(int32_t) value;
+- (UseSkillPointRequestProto_Builder*) clearEnergyIncrease;
+
+- (BOOL) hasStaminaIncrease;
+- (int32_t) staminaIncrease;
+- (UseSkillPointRequestProto_Builder*) setStaminaIncrease:(int32_t) value;
+- (UseSkillPointRequestProto_Builder*) clearStaminaIncrease;
 @end
 
 @interface UseSkillPointResponseProto : PBGeneratedMessage {

@@ -566,7 +566,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (gs.skillPoints >= gl.attackBaseCost) {
-    int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeAttack];
+    int tag = [sc addAttackSkillPoint];
     AttackUpdate *au = [AttackUpdate updateWithTag:tag change:gl.attackBaseGain];
     SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.attackBaseCost];
     [gs addUnrespondedUpdates:au, spu, nil];
@@ -581,7 +581,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (gs.skillPoints >= gl.defenseBaseCost) {
-    int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeDefense];
+    int tag = [sc addDefenseSkillPoint];
     DefenseUpdate *au = [DefenseUpdate updateWithTag:tag change:gl.defenseBaseGain];
     SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.defenseBaseCost];
     [gs addUnrespondedUpdates:au, spu, nil];
@@ -596,7 +596,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (gs.skillPoints >= gl.energyBaseCost) {
-    int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeEnergy];
+    int tag = [sc addEnergySkillPoint];
     
     // Make sure max happens before cur, because cur can only be as high as max
     MaxEnergyUpdate *meu = [MaxEnergyUpdate updateWithTag:tag change:gl.energyBaseGain];
@@ -614,7 +614,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (gs.skillPoints >= gl.staminaBaseCost) {
-    int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeStamina];
+    int tag = [sc addStaminaSkillPoint];
     
     // Make sure max happens before cur, because cur can only be as high as max
     MaxStaminaUpdate *msu = [MaxStaminaUpdate updateWithTag:tag change:gl.staminaBaseGain];
@@ -818,7 +818,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"This is not your building!"];
   } else if (userStruct.isComplete && userStruct.lastRetrieved) {
     int64_t ms = [self getCurrentMilliseconds];
-    int tag = [sc sendRetrieveCurrencyFromNormStructureMessage:userStruct.userStructId time:ms];
+    int tag = [sc retrieveCurrencyFromStruct:userStruct.userStructId time:ms];
     userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
     
     // Update game state

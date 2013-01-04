@@ -24,13 +24,14 @@
 #import "FullEvent.h"
 #import "GameViewController.h"
 #import "GenericPopupController.h"
+#import "GameState.h"
 
 // Tags for keeping state
 #define READING_HEADER_TAG -1
 #define HEADER_SIZE 12
 
 #define RECONNECT_TIMEOUT 0.5f
-#define NUM_SILENT_RECONNECTS 5
+#define NUM_SILENT_RECONNECTS 1
 
 @implementation SocketCommunication
 
@@ -151,6 +152,8 @@ static NSString *udid = nil;
   _currentTagNum = 1;
   _shouldReconnect = YES;
   _numDisconnects = 0;
+  
+  self.structRetrievals = [NSMutableArray array];
 }
 
 - (void) reloadClanMessageQueue {
@@ -198,7 +201,11 @@ static NSString *udid = nil;
   }
 }
 
-- (int) sendData:(PBGeneratedMessage *)msg withMessageType: (int) type {
+- (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type flush:(BOOL)flush {
+  if (flush) {
+    [self flush:-1];
+  }
+  
   NSMutableData *messageWithHeader = [NSMutableData data];
   NSData *data = [msg data];
   
@@ -232,6 +239,10 @@ static NSString *udid = nil;
   int tag = _currentTagNum;
   _currentTagNum++;
   return tag;
+}
+
+- (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type {
+  return [self sendData:msg withMessageType:type flush:YES];
 }
 
 - (void) amqpConsumerThreadReceivedNewMessage:(AMQPMessage *)theMessage {
@@ -492,15 +503,6 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCPurchaseMarketplaceLicenseEvent];
 }
 
-- (int) sendUseSkillPointMessage:(UseSkillPointRequestProto_BoostType) boostType {
-  UseSkillPointRequestProto *req = [[[[UseSkillPointRequestProto builder]
-                                      setSender:_sender]
-                                     setBoostType:boostType]
-                                    build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCUseSkillPointEvent];
-}
-
 - (int) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(CGFloat)latUpperBound latLowerBound:(CGFloat)latLowerBound lonUpperBound:(CGFloat)lonUpperBound lonLowerBound:(CGFloat)lonLowerBound {
   GenerateAttackListRequestProto *req = [[[[[[[[[GenerateAttackListRequestProto builder]
                                                 setSender:_sender]
@@ -599,16 +601,6 @@ static NSString *udid = nil;
    build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent];
-}
-
-- (int) sendRetrieveCurrencyFromNormStructureMessage:(int)userStructId time:(uint64_t)milliseconds {
-  RetrieveCurrencyFromNormStructureRequestProto *req = [[[[[RetrieveCurrencyFromNormStructureRequestProto builder]
-                                                           setSender:_sender]
-                                                          setUserStructId:userStructId]
-                                                         setTimeOfRetrieval:milliseconds]
-                                                        build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
 }
 
 - (int) sendSellNormStructureMessage:(int)userStructId {
@@ -1138,7 +1130,86 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveLeaderboardRankingsEvent];
 }
 
+- (int) addAttackSkillPoint {
+  [self flush:EventProtocolRequestCUseSkillPointEvent];
+  self.attackPoints++;
+  return _currentTagNum;
+}
+
+- (int) addDefenseSkillPoint {
+  [self flush:EventProtocolRequestCUseSkillPointEvent];
+  self.defensePoints++;
+  return _currentTagNum;
+}
+
+- (int) addEnergySkillPoint {
+  [self flush:EventProtocolRequestCUseSkillPointEvent];
+  self.energyPoints++;
+  return _currentTagNum;
+}
+
+- (int) addStaminaSkillPoint {
+  [self flush:EventProtocolRequestCUseSkillPointEvent];
+  self.staminaPoints++;
+  return _currentTagNum;
+}
+
+- (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time {
+  [self flush:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
+  RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval *sr = [[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder]
+                                                                         setUserStructId:userStructId]
+                                                                        setTimeOfRetrieval:time]
+                                                                       build];
+  [self.structRetrievals addObject:sr];
+  return _currentTagNum;
+}
+
+- (int) sendUseSkillPointMessage {
+  UseSkillPointRequestProto *req = [[[[[[[UseSkillPointRequestProto builder]
+                                         setSender:_sender]
+                                        setAttackIncrease:_attackPoints]
+                                       setDefenseIncrease:_defensePoints]
+                                      setEnergyIncrease:_energyPoints]
+                                     setStaminaIncrease:_staminaPoints]
+                                    build];
+  
+  LNLog(@"Sending use skill points message. A:%d, D:%d, E:%d, S:%d", _attackPoints, _defensePoints, _energyPoints, _staminaPoints);
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCUseSkillPointEvent flush:NO];
+}
+
+- (int) sendRetrieveCurrencyFromNormStructureMessage {
+  RetrieveCurrencyFromNormStructureRequestProto *req = [[[[RetrieveCurrencyFromNormStructureRequestProto builder]
+                                                          setSender:_sender]
+                                                         addAllStructRetrievals:self.structRetrievals]
+                                                        build];
+  
+  LNLog(@"Sending retrieve currency message with %d structs.", self.structRetrievals.count);
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent flush:NO];
+}
+
+- (void) flush:(int)type {
+  if (type != EventProtocolRequestCUseSkillPointEvent) {
+    if (_attackPoints > 0 || _defensePoints > 0 || _energyPoints > 0 || _staminaPoints > 0) {
+      [self sendUseSkillPointMessage];
+      self.attackPoints = 0;
+      self.defensePoints = 0;
+      self.energyPoints = 0;
+      self.staminaPoints = 0;
+    }
+  }
+  
+  if (type != EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent) {
+    if (self.structRetrievals.count > 0) {
+      [self sendRetrieveCurrencyFromNormStructureMessage];
+      [self.structRetrievals removeAllObjects];
+    }
+  }
+}
+
 - (void) closeDownConnection {
+  [self flush:-1];
   [_connectionThread end];
   _connectionThread = nil;
   [_sender release];

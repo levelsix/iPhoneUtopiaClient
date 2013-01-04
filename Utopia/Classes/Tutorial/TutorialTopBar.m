@@ -151,6 +151,14 @@
   return;
 }
 
+- (void) bossEventButtonClicked {
+  return;
+}
+
+- (void) tournamentButtonClicked {
+  return;
+}
+
 - (void) questButtonClicked {
   if (_questsPhase) {
     [super questButtonClicked];

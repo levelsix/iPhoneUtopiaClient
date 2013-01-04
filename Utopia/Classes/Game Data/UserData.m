@@ -137,18 +137,23 @@
 }
 
 - (void) setType:(BazaarStructType)t {
+  Globals *gl = [Globals sharedGlobals];
+  StartupResponseProto_StartupConstants_BazaarMinLevelConstants *mlc = gl.minLevelConstants;
   type = t;
   switch (type) {
     case BazaarStructTypeVault:
       name = @"Vault";
+      self.minLevel = mlc.vaultMinLevel;
       break;
       
     case BazaarStructTypeBlacksmith:
       name = @"Blacksmith";
+      self.minLevel = mlc.blacksmithMinLevel;
       break;
       
     case BazaarStructTypeArmory:
       name = @"Armory";
+      self.minLevel = mlc.armoryMinLevel;
       break;
       
     case BazaarStructTypeAviary:
@@ -161,14 +166,17 @@
       
     case BazaarStructTypeMarketplace:
       name = @"Marketplace";
+      self.minLevel = mlc.marketplaceMinLevel;
       break;
       
     case BazaarStructTypeLeaderboard:
       name = @"Leaderboard";
+      self.minLevel = mlc.leaderboardMinLevel;
       break;
       
     case BazaarStructTypeClanHouse:
       name = @"Clan House";
+      self.minLevel = mlc.clanHouseMinLevel;
       break;
       
     case BazaarStructTypeGoldMine:
@@ -189,6 +197,13 @@
 }
 
 - (void) openMenu {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (gs.level < _minLevel) {
+    [Globals popupMessage:[NSString stringWithFormat:@"The %@ unlocks at level %d.", name, _minLevel]];
+    return;
+  }
+  
   switch (self.type) {
     case BazaarStructTypeVault:
       [VaultMenuController displayView];

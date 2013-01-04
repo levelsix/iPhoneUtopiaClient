@@ -246,7 +246,7 @@
   self.members = nil;
 }
 
-- (void) preloadMembersForClan:(int)ci leader:(int)li {
+- (void) preloadMembersForClan:(int)ci leader:(int)li orderByClosest:(BOOL)orderByClosest {
   if (ci > 0) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:ci grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeMembers isForBrowsingList:NO beforeClanId:0];
   }
@@ -258,6 +258,8 @@
   myClan = NO;
   editModeOn = NO;
   [membersTable reloadData];
+  
+  _orderByClosest = orderByClosest;
 }
 
 - (void) turnOnEditing {
@@ -289,6 +291,13 @@
     }
   }
   
+  if (_orderByClosest) {
+//    [m sortUsingComparator:^NSComparisonResult(MinimumUserProtoForClans *obj1, MinimumUserProtoForClans *obj2) {
+//      if (ABS(gs.level-user.level) > gl.maxLevelDiffForBattle) {
+//        <#statements#>
+//      }
+//    }];
+  } else {
   [m sortUsingComparator:^NSComparisonResult(MinimumUserProtoForClans *obj1, MinimumUserProtoForClans *obj2) {
     int score1 = obj1.minUserProto.battlesWon-obj1.minUserProto.battlesLost-obj1.minUserProto.battlesFled;
     int score2 = obj2.minUserProto.battlesWon-obj2.minUserProto.battlesLost-obj2.minUserProto.battlesFled;
@@ -299,6 +308,7 @@
     }
     return NSOrderedSame;
   }];
+  }
   
   self.members = m;
   self.requesters = r;

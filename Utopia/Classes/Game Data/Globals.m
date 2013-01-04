@@ -289,6 +289,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     self.downloadableNibConstants = constants.downloadableNibConstants;
   }
   
+  self.minLevelConstants = constants.minLevelConstants;
+  self.minLevelConstants = [[[[[[[StartupResponseProto_StartupConstants_BazaarMinLevelConstants builder]
+                             setMarketplaceMinLevel:51]setLeaderboardMinLevel:51]setBlacksmithMinLevel:51]setVaultMinLevel:51]setClanHouseMinLevel:51] build];
+  
   for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto *aso in constants.animatedSpriteOffsetsList) {
     [self.animatingSpriteOffsets setObject:aso.offSet forKey:aso.imageName];
   }
@@ -1527,15 +1531,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateGoldCostToGuaranteeForgingSuccess:(int)equipId level:(int)level {
-  GameState *gs = [GameState sharedGameState];
-  FullEquipProto *fep = [gs equipWithId:equipId];
-  return (int)((self.forgeMinDiamondCostForGuarantee+fep.minLevel/self.averageSizeOfLevelBracket)*pow(level+1, self.forgeDiamondCostForGuaranteeExponentialMultiplier));
+  return (int)([self calculateGoldCostToSpeedUpForging:equipId level:level]/[self calculateChanceOfSuccess:equipId level:level]);
 }
 
 - (int) calculateGoldCostToSpeedUpForging:(int)equipId level:(int)level {
-  GameState *gs = [GameState sharedGameState];
-  FullEquipProto *fep = [gs equipWithId:equipId];
-  return (int)([self calculateMinutesForForge:equipId level:level]/(self.forgeBaseMinutesToOneGold+fep.minLevel/self.averageSizeOfLevelBracket));
+  return (int)ceil([self calculateMinutesForForge:equipId level:level]/self.forgeBaseMinutesToOneGold);
 }
 
 - (int) calculateRetailValueForEquip:(int)equipId level:(int)level {

@@ -1,4 +1,5 @@
-  //
+
+//
 //  GameMap.m
 //  IsoMap
 //
@@ -730,6 +731,17 @@
     CGRect curRect = enemyMenu.frame;
     curRect.origin = ccpAdd(curRect.origin, diff);
     enemyMenu.frame = curRect;
+  }
+}
+
+- (void) setScale:(float)scale {
+  CGPoint tr = [self convertTilePointToCCPoint:topRightCorner];
+  CGPoint bl = [self convertTilePointToCCPoint:bottomLeftCorner];
+  int newWidth = (tr.x-bl.x)*scale;
+  int newHeight = (tr.y-bl.y)*scale;
+  
+  if (newWidth >= self.parent.contentSize.width && newHeight >= self.parent.contentSize.height) {
+    [super setScale:scale];
   }
 }
 

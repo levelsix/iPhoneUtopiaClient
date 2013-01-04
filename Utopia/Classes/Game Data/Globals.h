@@ -184,6 +184,7 @@
 
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_KiipRewardConditions *kiipRewardConditions;
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_DownloadableNibConstants *downloadableNibConstants;
+@property (nonatomic, retain) StartupResponseProto_StartupConstants_BazaarMinLevelConstants *minLevelConstants;
 
 + (Globals *) sharedGlobals;
 + (void) purgeSingleton;

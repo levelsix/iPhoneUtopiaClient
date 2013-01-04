@@ -355,6 +355,15 @@
     label.position = ccp(self.contentSize.width/2, 45);
     
     self.tag = cs.type;
+    
+    GameState *gs = [GameState sharedGameState];
+    if (gs.level < cs.minLevel) {
+      self.color = ccc3(155, 155, 155);
+       
+      CCSprite *lock = [CCSprite spriteWithFile:@"bazaarlock.png"];
+      [self addChild:lock z:1];
+      lock.position = ccp(self.contentSize.width/2, self.contentSize.height*2.5/4);
+    }
   }
   return self;
 }

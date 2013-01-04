@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="80" height="80" tilewidth="128" tileheight="64">
+  <tileset firstgid="1" name="FloorTiles" tilewidth="128" tileheight="88">
+    <image source="FloorTiles.png" width="256" height="256"/>
+  </tileset>
+  <tileset firstgid="21" name="Decorations" tilewidth="128" tileheight="88">
+    <image source="Decorations.png" width="512" height="64"/>
+  </tileset>
+  <tileset firstgid="29" name="Treez" tilewidth="192" tileheight="200">
+    <image source="Treez.png" width="512" height="256"/>
+  </tileset>
+  <tileset firstgid="39" name="farmfence" tilewidth="128" tileheight="112">
+    <image source="farmfence.png" width="256" height="128"/>
+  </tileset>
+  <tileset firstgid="47" name="Bridges" tilewidth="266" tileheight="242">
+    <image source="Bridges.png" width="512" height="256"/>
+  </tileset>
+  <tileset firstgid="53" name="watertiles" tilewidth="128" tileheight="88">
+    <image source="watertiles.png" width="256" height="256"/>
+  </tileset>
+  <layer name="GRASSY GRASS" width="80" height="80">
+    <data encoding="base64" compression="zlib">
+      eJzt0EEKg1AUQ9Huwf3vtYMSaEFEG/X++HPhzV/O6zVeC/1AcMvXtWMtK9f2tWZXw31t2dVwuz12NVzviF0Nf/vHroafHLvZDc+wm9XwTLvZDK+wm8XvKrsZDK+2e7LjnXZPMyTsnmJI2qUb0m7JhrRXsiHtlGxI+yQb0i7JhrRHsiHtkGxI7082pHcnG9J7kw3pncmG9L5kQ3pXsiG9J9mQ3pFsSP8/wtXufkP63xGvdtcb0v8lXO1qOMLVsIYjXA1rOMLV8Hy7Gvp2NfTcanieXw09O0X/n2yn6B3Jdorek2yn6F3Jdorel2yn6J3Jdorem2yn6N3Jdoren2ynaIdkO0V7JNsp2iXZTtE+yXaKdkq2U7RXsp2i3ZLtVO38audXO7/a+dXOr3Z+tfOrnV/t/GrnVzu/2vnVzq92frXzG9XuDagZ7GQ=
+    </data>
+  </layer>
+  <layer name="Wuta" width="80" height="80">
+    <data encoding="base64" compression="zlib">
+      eJzt2kEKwyAUQEEvVdrk/gfrNptCwqNowgx8XPtA3TgGAAAAAAAAwP19bjqz7Q+YWWbv+wkNV7IfVk1gPa/hfBb6Nfo1+jX6Nfo1+jX6Nfo1+jX6Ncd+Gl6nX6Nf4/5r9Gv0a/Rr9Gv0a/Rr9Gv0a/Rr9Gv0a/Rr9Gv0O+fXf9v30O8Mf0Yb/f5jG/oV3o9Gv0a/Rr9Gv0a/Rr9Gv0a/Rr9Gv0a/Rr9Gv0a/Rr9Gv27Vfl+Ws0ej
+    </data>
+  </layer>
+  <layer name="Bridges" width="80" height="80">
+    <data encoding="base64" compression="zlib">
+      eJzt2LEJAAAIAzCP8v/bXB1cnERIoA+UTo0AAAAAAAAAAL7JFvb0BwAAAEx8BlyyPwAAAAAAAAAAAAAA+K0AuzICcQ==
+    </data>
+  </layer>
+  <layer name="Floor Tiles" width="80" height="80">
+    <data encoding="base64" compression="zlib">
+      eJzt2FGKwjAYhVGXMAOz/7XK4IMtTptkLjEmPQfyFqn/R4mttxsAAAAAAJ/i+x+LJ/0y+u39TLA+1eguMzcc3WOFhsAcRp9dM5+Ho+ecueHo+VZo+G5H7x7bmWveW472z6o0Y2lW/fRL/H73r81K+rWuK/Tb7tPv1ch+K0jnXq1HK/0yPfqVfstXOv/O7p+jDqXP6/egX1mPfrXX0++a/Wq61O7TT79W+r1Ha78r/v9ypne/1emX0S/T2q91rU6/jH6ZHs9/V6JfRr92reeWfnv6ZfTLtPbQb0+/jH4Z519Gv4x+feiX0S+jX0a/jH4Z/TL6ZfTL6JfRL6NfRr/cWT/q/NUPeLgDCJJPjA==
+    </data>
+  </layer>
+  <layer name="FloorTiles Dec" width="80" height="80">
+    <data encoding="base64" compression="zlib">
+      eJzt2N0KgyAYAFC3rhqxvf/b7kYYSP+hTjsHxIySFP00QwAAAAAA4F9NG2XW6T+gNUtxKvf9XHXAndSev8+YctTdkyEmoF93iml7TQvXW88CAOcdWX/hjDHmUzDGKOcT83Hlmb3x7x3zISnz87j4fm/xIR1/W+272n/MS+f/Wjzo0d3a27JX7Q/IaC7+Of8rR/9BPb3tbwGO6Hl/W4Pze0oyxqBd5m8++hYAyvD/CwDlWX8BgNQXlSYC7A==
+    </data>
+  </layer>
+  <layer name="Decorations" width="80" height="80">
+    <data encoding="base64" compression="zlib">
+      eJzt2DEKwCAMBdDcolh6/3OWooUOThHskPdA1E0+IUIiAAAAAAAAAAAA9jjGuj7nc7IAqmnReyI5T3bt70cAbKTn5fkz1skvT/2tk19etv7e2U2MfXavIpPfbO5VcQ6m/wEAAAAAAAAAAABQxQ331AQW
+    </data>
+  </layer>
+  <layer name="Treez" width="80" height="80">
+    <data encoding="base64" compression="zlib">
+      eJztmotu5CAMRe+XrG62nf7/J1bR7qge1w4MjwCJjxQBM8Y2Do8EAswHRzuwOETEsBQi4lcDRUpXKrCgcwXHEHasvN+DH4jX+GzqP0sm+AeRjgudfGCPV8mG1xjTkLkjhN2vNi1oyOm6d4Pw57uU3Ob8dxcIe4zKVOa1bErXlSHS851Hbh+9KsTxHPcOum9K3VeE/y8rbn8b6mcDXTNB5K8VTz4yf7PmR21rZQi7LbVjt9TuahD92mGNeW2rl+3eEL/Xit59znvW0eUVoCrr2H1V6k/Vp0iJNWMYBEEQBEEQBEFQCnGNd8tRUOVpSq1LzzMpwt5TuRqtY0jYuqyzsp1PtNmLnwGiLoZe/ZROb2/ps8KXUbCiHo2yvlbmC/69rhnHWj5VzmXGca3j5303wgxdhN3vjrjiGmJBlMWQ6j8rfyeYKSMvq67Mt1wXZhrjPMjLslfXk/PGrDUXn7nm1p5J7egzeu/ckKiLoSbVb3L7lfWNwYwQZTHMqXMHKFK6UscyVGkLaua/RyJtAUVKV8qup+V1+QrPMnL+kO0h/PeJXAh7PGs2J5/DCvMfUT6PldZbEeL3/Sfq2y916Lykph+ORr7/QuSpBQtJ6aJKZ+SPyG9IfyPGxvZp6LRszN4Pc3xiJ9tM6O5ltxfeu0ZPCH9OnBn5XLipdIc4ry2WrWf+nTHb4h22FRxg73mVcLQffCbEuPEjbR/5sL+ntd6bkevp483fJWzlUCGcwIdSiDl8p5En5vDNg5jLP6Ld2VMO1j5L6pl4h5gvdk+I472vGeBoBxIQ/j3W5TMg5u5zFkR/f631dLfn7eP19qc1hL2u9MDaP9HlnvZ7QZxz3701gypdEaJPDFPnHD1sjoI4rz1n2joTon+7eusfDeHv+7+716rXX0v3FSH6tLW1vpkhXmNYs88v9dwJov75QtYv1bEyRN14LqlzNShSulJBCp5UJ4i+6sHRDgRBEARBZ74Bc404NQ==
+    </data>
+  </layer>
+  <layer name="Walkable" width="80" height="80">
+    <data encoding="base64" compression="zlib">
+      eJzt2EEKgzAUQEGP0PuftmsrtH4ftradAXcJ4sMkkGUBAAAAAACAz7vFh+P0a/Rr9Gv0a/RrnNfNtId+a/o1+m1N9iv9tibfqN/WtJ/zd+3M/+8XPTbQb7+67vRr4/TbP256HvzD+VH6TeZP3/ct3r1+9Ts2/+j4q9PvuMl+rl+jX6Nfo1+jX6Nfo1/zrJ/709fcvzT6NfqdQ79Gv0a/Rr9GPwAAAAAAAK7qDmx+ClE=
+    </data>
+  </layer>
+  <layer name="Border of Doom" width="80" height="80">
+    <data encoding="base64" compression="zlib">
+      eJztnEkSwjAQxHhD/v9YisMUELLYPU7c2NKFI2qdyIIfDz+W3gJ/zLL6hHLWzWhYzl4rGp5z1oiG+5S2oeEvtU1o+EZtQcN8g5kbtto+Y8PWm2dqeNXWGRpevXHkhndtG7Hh3ZtGathrywgNe2/o/f0ZXNxdPGpwc3bzOcLV1dXrE3dHZz9nt08cPR2djnDydXKpwcHbwSFDT/9/bxf02DFKu+DOPaO1C+7YNWq74Mp9o7cLrtg5S7ug5d7Z2gUtds/aLsjsn71doHSg3Tc1PWi3TUkX2h1z1Id2ZdAwDw3z0DAPDfPQMA8NdfhdqMN1iQ7XxTrcl9HhvqAO96V1eC6iw3M5HZ4L6/Begg7vxejwXpaOg7+Dg4KTt5NLCY6+jk5bOHs6u71w93vh6ujqtYWbq5tPCS7OLh4Kvd17f38L+E91Hv7Tn4czJfJwpkkeztTJw5lOeThTLA9n2uVRG9DuTW0L2v1S2oR2+5y1od05e41oV866Fe3qWVafUI9ruycSzAsd
+    </data>
+  </layer>
+</map>

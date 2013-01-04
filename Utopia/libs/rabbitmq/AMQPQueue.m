@@ -33,9 +33,27 @@
 
 - (id)initWithName:(NSString*)theName onChannel:(AMQPChannel*)theChannel isPassive:(BOOL)passive isExclusive:(BOOL)exclusive isDurable:(BOOL)durable getsAutoDeleted:(BOOL)autoDelete
 {
+  
 	if(self = [super init])
 	{
-		amqp_queue_declare_ok_t *declaration = amqp_queue_declare(theChannel.connection.internalConnection, theChannel.internalChannel, amqp_cstring_bytes([theName UTF8String]), passive, durable, exclusive, autoDelete, AMQP_EMPTY_TABLE);
+    char *str = "x-expires";
+    amqp_bytes_t bytes;
+    bytes.len = 9;
+    bytes.bytes = str;
+    
+    amqp_field_value_t field;
+    field.kind = 'I';
+    field.value.i32 = 300000;
+    
+    amqp_table_entry_t entry;
+    entry.key = bytes;
+    entry.value = field;
+    
+    amqp_table_t table;
+    table.num_entries = 1;
+    table.entries = &entry;
+    
+		amqp_queue_declare_ok_t *declaration = amqp_queue_declare(theChannel.connection.internalConnection, theChannel.internalChannel, amqp_cstring_bytes([theName UTF8String]), passive, durable, exclusive, autoDelete, table);
 		
 		[theChannel.connection checkLastOperation:@"Failed to declare queue"];
     

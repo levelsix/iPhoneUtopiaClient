@@ -17,6 +17,8 @@
 
 #define CITY_POPUP_OFFSET 34.f
 
+#define NUM_CITIES 9
+
 @implementation ContinentView
 
 @synthesize lock;
@@ -65,7 +67,7 @@
 
 - (void) reloadCities {
   GameState *gs = [GameState sharedGameState];
-  for (int i = 1; i <= gs.maxCity; i++) {
+  for (int i = 1; i <= NUM_CITIES; i++) {
     FullCityProto *fcp = [gs cityWithId:i];
     UserCity *city = [gs myCityWithId:i];
     
@@ -105,7 +107,9 @@
 }
 
 - (IBAction)goClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:_fcp.cityId];
+  if (_fcp) {
+    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:_fcp.cityId];
+  }
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {

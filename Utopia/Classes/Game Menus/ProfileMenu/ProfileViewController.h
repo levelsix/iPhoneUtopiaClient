@@ -192,7 +192,7 @@ typedef enum {
 
 @end
 
-@interface ProfileViewController : UIViewController <UITextFieldDelegate> {
+@interface ProfileViewController : UIViewController <UITextFieldDelegate, UIGestureRecognizerDelegate> {
   ProfileState _state;
   EquipScope _curScope;
   FullUserProto *_fup;

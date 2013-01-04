@@ -51,6 +51,7 @@
 @interface ClanMembersView : UIView <UITableViewDelegate, UITableViewDataSource> {
   int leaderId;
   BOOL myClan;
+  BOOL _orderByClosest;
 }
 
 @property (nonatomic, assign) BOOL editModeOn;
@@ -67,7 +68,7 @@
 
 @property (nonatomic, retain) IBOutlet ClanMemberCell *memberCell;
 
-- (void) preloadMembersForClan:(int)ci leader:(int)leaderId;
+- (void) preloadMembersForClan:(int)ci leader:(int)leaderId orderByClosest:(BOOL)orderByClosest;
 - (void) loadForMembers:(NSArray *)m isMyClan:(BOOL)isMyClan;
 
 - (void) turnOnEditing;

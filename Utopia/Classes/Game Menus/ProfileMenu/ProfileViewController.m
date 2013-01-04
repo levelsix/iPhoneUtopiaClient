@@ -1753,7 +1753,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   GameState *gs = [GameState sharedGameState];
   
   if (stateCost <= gs.skillPoints) {
-    curButton.enabled = YES;
+    if (!curButton.enabled) {
+      curButton.enabled = YES;
+    }
     UIColor *pulseColor = [UIColor colorWithRed:156/255.f
                                           green:202/255.f
                                            blue:16/255.f
@@ -1819,6 +1821,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (IBAction)skillButtonClicked:(id)sender {
+  if ([sender isKindOfClass:[UIGestureRecognizer class]]) {
+    sender = [(UIGestureRecognizer *)sender view];
+  }
+  
   OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
   
   if (sender == attackStatButton) {
@@ -1841,6 +1847,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [self refreshSkillPointsButtons];
   [self loadSkills];
   [self displayMyCurrentStats];
+}
+
+- (BOOL) gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+  return YES;
+}
+
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+  return YES;
 }
 
 // Special screen IBActions

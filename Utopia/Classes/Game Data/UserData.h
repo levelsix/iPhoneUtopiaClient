@@ -76,6 +76,7 @@ typedef enum {
 
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, assign) BazaarStructType type;
+@property (nonatomic, assign) int minLevel;
 
 @property (nonatomic, retain) IBOutlet GoldMineView *goldMineView;
 

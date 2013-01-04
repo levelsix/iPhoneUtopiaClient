@@ -292,6 +292,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     chatBottomView.frame = r;
     
     chatBottomView.hidden = YES;
+    
+    _lockBoxButton.visible = NO;
+    _bossEventButton.visible = NO;
+    _tournamentButton.visible = NO;
   }
   return self;
 }

@@ -67,7 +67,6 @@
 
 @synthesize deviceToken = _deviceToken;
 
-@synthesize maxCity = _maxCity;
 @synthesize expRequiredForCurrentLevel = _expRequiredForCurrentLevel;
 @synthesize expRequiredForNextLevel = _expRequiredForNextLevel;
 
@@ -698,9 +697,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticCities:(NSArray *)arr {
   for (FullCityProto *p in arr) {
     [self.staticCities setObject:p forKey:[NSNumber numberWithInt:p.cityId]];
-    if (p.cityId > _maxCity) {
-      _maxCity = p.cityId;
-    }
   }
 }
 

@@ -54,7 +54,6 @@
   
   NSString *_deviceToken;
   
-  int _maxCity;
   int _expRequiredForCurrentLevel;
   int _expRequiredForNextLevel;
   
@@ -155,7 +154,6 @@
 @property (retain) NSDate *lastShortLicensePurchaseTime;
 @property (retain) NSDate *lastLongLicensePurchaseTime;
 
-@property (assign) int maxCity;
 @property (assign) int expRequiredForCurrentLevel;
 @property (assign) int expRequiredForNextLevel;
 

@@ -28,6 +28,7 @@
 #import "TutorialMissionMap.h"
 #import "CarpenterMenuController.h"
 #import "MapViewController.h"
+#import "SocketCommunication.h"
 
 @implementation TravelingLoadingView
 
@@ -295,6 +296,8 @@ static BOOL shake_once = NO;
     _homeMap = nil;
     
     [CarpenterMenuController removeView];
+    
+    [[SocketCommunication sharedSocketCommunication] flush:-1];
   }
 }
 
