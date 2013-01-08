@@ -14,6 +14,7 @@
 #import "ClanMenuController.h"
 #import "ProfileViewController.h"
 #import "GenericPopupController.h"
+#import "BattleLayer.h"
 
 #define REFRESH_ROWS 20
 
@@ -144,8 +145,14 @@
   r.origin.y = CGRectGetMidY(battleRecordLabel.frame)-r.size.height/2;
   respondInviteView.frame = r;
   
+  r = _attackView.frame;
+  r.origin.x = CGRectGetMaxX(battleRecordLabel.frame)-r.size.width;
+  r.origin.y = CGRectGetMidY(battleRecordLabel.frame)-r.size.height/2;
+  _attackView.frame = r;
+  
   [battleRecordLabel.superview addSubview:editMemberView];
   [battleRecordLabel.superview addSubview:respondInviteView];
+  [battleRecordLabel.superview addSubview:_attackView];
 }
 
 - (void) loadForUser:(MinimumUserProtoForClans *)mup {
@@ -157,24 +164,39 @@
   [userIcon setImage:[Globals squareImageForUser:mupl.minUserProto.userType] forState:UIControlStateNormal];
   
   self.battleRecordLabel.text = [NSString stringWithFormat:@"W: %@ - L: %@ - F: %@", [Globals commafyNumber:mup.minUserProto.battlesWon], [Globals commafyNumber:mup.minUserProto.battlesLost], [Globals commafyNumber:mup.minUserProto.battlesFled]];
+  
+  self.attackLabel.text = [NSString stringWithFormat:@"W: %@ - L: %@ - F: %@", [Globals commafyNumber:mup.minUserProto.battlesWon], [Globals commafyNumber:mup.minUserProto.battlesLost], [Globals commafyNumber:mup.minUserProto.battlesFled]];
 }
 
 - (void) editMemberConfiguration {
   self.editMemberView.hidden = NO;
   self.respondInviteView.hidden = YES;
   self.battleRecordLabel.hidden = YES;
+  self.attackView.hidden = YES;
 }
 
 - (void) respondInviteConfiguration {
   self.editMemberView.hidden = YES;
   self.respondInviteView.hidden = NO;
   self.battleRecordLabel.hidden = YES;
+  self.attackView.hidden = YES;
 }
 
 - (void) battleRecordConfiguration {
   self.editMemberView.hidden = YES;
   self.respondInviteView.hidden = YES;
   self.battleRecordLabel.hidden = NO;
+  self.attackView.hidden = YES;
+}
+
+- (void) attackConfiguration {
+  self.editMemberView.hidden = YES;
+  self.respondInviteView.hidden = YES;
+  self.battleRecordLabel.hidden = YES;
+  self.attackView.hidden = NO;
+  self.attackButton.hidden = YES;
+  self.attackSpinner.hidden = NO;
+  [self.attackSpinner startAnimating];
 }
 
 - (IBAction)makeLeaderClicked:(id)sender {
@@ -240,10 +262,15 @@
   self.membersTable.tableFooterView = [[[UIView alloc] init] autorelease];
 }
 
+- (void) wakeup {
+  self.userDict = [NSMutableDictionary dictionary];
+}
+
 - (void) cleanup {
   [super cleanup];
   self.requesters = nil;
   self.members = nil;
+  self.userDict = nil;
 }
 
 - (void) preloadMembersForClan:(int)ci leader:(int)li orderByClosest:(BOOL)orderByClosest {
@@ -292,22 +319,48 @@
   }
   
   if (_orderByClosest) {
-//    [m sortUsingComparator:^NSComparisonResult(MinimumUserProtoForClans *obj1, MinimumUserProtoForClans *obj2) {
-//      if (ABS(gs.level-user.level) > gl.maxLevelDiffForBattle) {
-//        <#statements#>
-//      }
-//    }];
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    [m sortUsingComparator:^NSComparisonResult(MinimumUserProtoForClans *obj1, MinimumUserProtoForClans *obj2) {
+      int lvl1 = obj1.minUserProto.minUserProtoWithLevel.level;
+      int lvl2 = obj2.minUserProto.minUserProtoWithLevel.level;
+      int range1 = ABS(gs.level-lvl1);
+      int range2 = ABS(gs.level-lvl2);
+      bool inRange1 = range1 < gl.maxLevelDiffForBattle;
+      bool inRange2 = range2 < gl.maxLevelDiffForBattle;
+      if (inRange1 && inRange2) {
+        if (range1 < range2) {
+          return NSOrderedAscending;
+        } else if (range1 > range2) {
+          return NSOrderedDescending;
+        } else {
+          return NSOrderedSame;
+        }
+      } else if (inRange1) {
+        return NSOrderedAscending;
+      } else if (inRange2) {
+        return NSOrderedDescending;
+      } else {
+        if (lvl1 < lvl2) {
+          return NSOrderedDescending;
+        } else if (lvl1 > lvl2) {
+          return NSOrderedAscending;
+        } else {
+          return NSOrderedSame;
+        }
+      }
+    }];
   } else {
-  [m sortUsingComparator:^NSComparisonResult(MinimumUserProtoForClans *obj1, MinimumUserProtoForClans *obj2) {
-    int score1 = obj1.minUserProto.battlesWon-obj1.minUserProto.battlesLost-obj1.minUserProto.battlesFled;
-    int score2 = obj2.minUserProto.battlesWon-obj2.minUserProto.battlesLost-obj2.minUserProto.battlesFled;
-    if (score1 > score2) {
-      return  NSOrderedAscending;
-    } else if (score1 < score2) {
-      return NSOrderedDescending;
-    }
-    return NSOrderedSame;
-  }];
+    [m sortUsingComparator:^NSComparisonResult(MinimumUserProtoForClans *obj1, MinimumUserProtoForClans *obj2) {
+      int score1 = obj1.minUserProto.battlesWon-obj1.minUserProto.battlesLost-obj1.minUserProto.battlesFled;
+      int score2 = obj2.minUserProto.battlesWon-obj2.minUserProto.battlesLost-obj2.minUserProto.battlesFled;
+      if (score1 > score2) {
+        return  NSOrderedAscending;
+      } else if (score1 < score2) {
+        return NSOrderedDescending;
+      }
+      return NSOrderedSame;
+    }];
   }
   
   self.members = m;
@@ -318,6 +371,22 @@
   editModeOn = NO;
   
   [self.membersTable reloadData];
+}
+
+- (void) receivedUsers:(RetrieveUsersForUserIdsResponseProto *)proto {
+  for (FullUserProto *fup in proto.requestedUsersList) {
+    [self.userDict setObject:fup forKey:[NSNumber numberWithInt:fup.userId]];
+  }
+  [self.membersTable reloadData];
+}
+
+- (IBAction)attackClicked:(id)sender {
+  ClanMemberCell *cell = (ClanMemberCell *)[[[[sender superview] superview] superview] superview];
+  MinimumUserProto *mup = cell.user.minUserProto.minUserProtoWithLevel.minUserProto;
+  FullUserProto *fup = [self.userDict objectForKey:[NSNumber numberWithInt:mup.userId]];
+  if (fup) {
+    [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup];
+  }
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -384,13 +453,31 @@
     [cell respondInviteConfiguration];
   } else if (indexPath.section == 1) {
     [cell loadForUser:self.leader];
-    [cell battleRecordConfiguration];
+    if (_orderByClosest) {
+      [cell attackConfiguration];
+      
+      if ([self.userDict objectForKey:[NSNumber numberWithInt:self.leader.minUserProto.minUserProtoWithLevel.minUserProto.userId]]) {
+        cell.attackSpinner.hidden = YES;
+        cell.attackButton.hidden = NO;
+      }
+    } else {
+      [cell battleRecordConfiguration];
+    }
   } else if (indexPath.section == 2) {
     [cell loadForUser:[self.members objectAtIndex:indexPath.row]];
     if (editModeOn) {
       [cell editMemberConfiguration];
     } else {
-      [cell battleRecordConfiguration];
+      if (_orderByClosest) {
+        [cell attackConfiguration];
+        
+        if ([self.userDict objectForKey:[NSNumber numberWithInt:self.leader.minUserProto.minUserProtoWithLevel.minUserProto.userId]]) {
+          cell.attackSpinner.hidden = YES;
+          cell.attackButton.hidden = NO;
+        }
+      } else {
+        [cell battleRecordConfiguration];
+      }
     }
   }
   

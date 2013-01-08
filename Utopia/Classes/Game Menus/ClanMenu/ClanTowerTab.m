@@ -12,7 +12,7 @@
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
 
-#define TOWER_VIEW_SPACING 14.f
+#define TOWER_VIEW_SPACING 9.f
 
 @implementation ClanTowerInfoView
 

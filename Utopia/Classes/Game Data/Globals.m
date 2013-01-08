@@ -290,8 +290,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   self.minLevelConstants = constants.minLevelConstants;
-  self.minLevelConstants = [[[[[[[StartupResponseProto_StartupConstants_BazaarMinLevelConstants builder]
-                             setMarketplaceMinLevel:51]setLeaderboardMinLevel:51]setBlacksmithMinLevel:51]setVaultMinLevel:51]setClanHouseMinLevel:51] build];
   
   for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto *aso in constants.animatedSpriteOffsetsList) {
     [self.animatingSpriteOffsets setObject:aso.offSet forKey:aso.imageName];

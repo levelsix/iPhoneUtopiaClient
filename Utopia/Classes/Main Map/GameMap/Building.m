@@ -358,9 +358,9 @@
     
     GameState *gs = [GameState sharedGameState];
     if (gs.level < cs.minLevel) {
-      self.color = ccc3(155, 155, 155);
+      self.color = ccc3(80, 80, 80);
        
-      CCSprite *lock = [CCSprite spriteWithFile:@"bazaarlock.png"];
+      CCSprite *lock = [CCSprite spriteWithFile:@"missionlock.png"];
       [self addChild:lock z:1];
       lock.position = ccp(self.contentSize.width/2, self.contentSize.height*2.5/4);
     }

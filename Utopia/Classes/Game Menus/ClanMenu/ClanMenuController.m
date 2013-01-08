@@ -785,6 +785,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
         self.clanBoardView.hidden = NO;
         [self.clanBoardView loadForCurrentClan];
         [self.clanInfoView loadForClan:self.myClan];
+        [self.membersView preloadMembersForClan:0 leader:0 orderByClosest:NO];
         [self.membersView loadForMembers:self.myClanMembers isMyClan:YES];
       } else {
         self.clanCreateView.hidden = NO;
@@ -996,12 +997,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   if (p.hasTowerAttacker) {
     if (p.towerOwner.clanId == gs.clan.clanId || p.towerAttacker.clanId == gs.clan.clanId) {
       MinimumClanProto *clan = p.towerOwner.clanId == gs.clan.clanId ? p.towerAttacker : p.towerOwner;
-      [self.topBar loadClanTowerConfiguration];
       
-      [self.membersView preloadMembersForClan:clan.clanId leader:clan.ownerId orderByClosest:NO];
+      [self.membersView preloadMembersForClan:clan.clanId leader:clan.ownerId orderByClosest:YES];
       _browsingClanId = clan.clanId;
       
       if (self.topBar.hidden || self.topBar.alpha == 0.f) {
+        [self.topBar loadClanTowerConfiguration];
+        
         self.topBar.hidden = NO;
         self.topBar.alpha = 0.f;
         [UIView animateWithDuration:0.3f animations:^{
@@ -1250,6 +1252,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
     } else {
       if ((state == kBrowseClans || state == kClanTower) && proto.clanId == _browsingClanId) {
         [self.membersView loadForMembers:proto.membersList isMyClan:NO];
+        
+        if (state == kClanTower) {
+          NSMutableArray *ids = [NSMutableArray arrayWithCapacity:proto.membersList.count];
+          for (MinimumUserProtoForClans *m in proto.membersList) {
+            [ids addObject:[NSNumber numberWithInt:m.minUserProto.minUserProtoWithLevel.minUserProto.userId]];
+          }
+          [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIds:ids];
+        }
       }
     }
   }
@@ -1441,6 +1451,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
     [self.clanInfoView loadForClan:myClan];
   }
   [self.loadingView stop];
+}
+
+- (void) receivedUsers:(RetrieveUsersForUserIdsResponseProto *)proto {
+  [self.membersView receivedUsers:proto];
 }
 
 - (void) updateClanTowers {

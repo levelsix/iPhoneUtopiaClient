@@ -44,6 +44,12 @@
 @property (nonatomic, retain) IBOutlet UIView *editMemberView;
 @property (nonatomic, retain) IBOutlet UIView *respondInviteView;
 
+
+@property (nonatomic, retain) IBOutlet UIView *attackView;
+@property (nonatomic, retain) IBOutlet UIView *attackButton;
+@property (nonatomic, retain) IBOutlet UILabel *attackLabel;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *attackSpinner;
+
 @property (nonatomic, retain) MinimumUserProtoForClans *user;
 
 @end
@@ -68,8 +74,12 @@
 
 @property (nonatomic, retain) IBOutlet ClanMemberCell *memberCell;
 
+@property (nonatomic, retain) NSMutableDictionary *userDict;
+
 - (void) preloadMembersForClan:(int)ci leader:(int)leaderId orderByClosest:(BOOL)orderByClosest;
 - (void) loadForMembers:(NSArray *)m isMyClan:(BOOL)isMyClan;
+
+- (void) receivedUsers:(RetrieveUsersForUserIdsResponseProto *)proto;
 
 - (void) turnOnEditing;
 - (void) turnOffEditing;

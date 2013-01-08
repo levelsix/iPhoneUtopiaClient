@@ -132,6 +132,7 @@ typedef enum {
 - (void) receivedWallPosts:(RetrieveClanBulletinPostsResponseProto *)proto;
 - (void) receivedPostOnWall:(PostOnClanBulletinResponseProto *)proto;
 - (void) receivedUpgradeClanTier:(UpgradeClanTierLevelResponseProto *)proto;
+- (void) receivedUsers:(RetrieveUsersForUserIdsResponseProto *)proto;
 
 - (void) topBarButtonClicked:(ClanBarButton)button;
 

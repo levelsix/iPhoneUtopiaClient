@@ -1091,6 +1091,24 @@
 		CF48CAB1157784F300802A39 /* leftgate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48CAAB157784F000802A39 /* leftgate@2x.png */; };
 		CF48CAB2157784F300802A39 /* rightgate.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48CAAC157784F100802A39 /* rightgate.png */; };
 		CF48CAB3157784F300802A39 /* rightgate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48CAAD157784F100802A39 /* rightgate@2x.png */; };
+		CF49CB90169BB4CA00725DB0 /* missionlock.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268B71538ACC500E0C1AD /* missionlock.png */; };
+		CF49CB91169BB4CA00725DB0 /* missionlock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268B81538ACC500E0C1AD /* missionlock@2x.png */; };
+		CF49CBA3169BB9CF00725DB0 /* claninwarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CB93169BB9CF00725DB0 /* claninwarbg.png */; };
+		CF49CBA4169BB9CF00725DB0 /* claninwarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CB94169BB9CF00725DB0 /* claninwarbg@2x.png */; };
+		CF49CBA5169BB9CF00725DB0 /* clanwarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CB95169BB9CF00725DB0 /* clanwarbg.png */; };
+		CF49CBA6169BB9CF00725DB0 /* clanwarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CB96169BB9CF00725DB0 /* clanwarbg@2x.png */; };
+		CF49CBA7169BB9CF00725DB0 /* crown.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CB97169BB9CF00725DB0 /* crown.png */; };
+		CF49CBA8169BB9CF00725DB0 /* crown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CB98169BB9CF00725DB0 /* crown@2x.png */; };
+		CF49CBA9169BB9CF00725DB0 /* towernamebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CB99169BB9CF00725DB0 /* towernamebg.png */; };
+		CF49CBAA169BB9CF00725DB0 /* towernamebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CB9A169BB9CF00725DB0 /* towernamebg@2x.png */; };
+		CF49CBAB169BB9CF00725DB0 /* warbluebar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CB9B169BB9CF00725DB0 /* warbluebar.png */; };
+		CF49CBAC169BB9CF00725DB0 /* warbluebar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CB9C169BB9CF00725DB0 /* warbluebar@2x.png */; };
+		CF49CBAD169BB9CF00725DB0 /* warendsinbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CB9D169BB9CF00725DB0 /* warendsinbg.png */; };
+		CF49CBAE169BB9CF00725DB0 /* warendsinbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CB9E169BB9CF00725DB0 /* warendsinbg@2x.png */; };
+		CF49CBAF169BB9CF00725DB0 /* warredbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CB9F169BB9CF00725DB0 /* warredbar.png */; };
+		CF49CBB0169BB9CF00725DB0 /* warredbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CBA0169BB9CF00725DB0 /* warredbar@2x.png */; };
+		CF49CBB1169BB9CF00725DB0 /* warticker.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CBA1169BB9CF00725DB0 /* warticker.png */; };
+		CF49CBB2169BB9CF00725DB0 /* warticker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF49CBA2169BB9CF00725DB0 /* warticker@2x.png */; };
 		CF4E450516787CE1005DAE18 /* ResetStaminaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF4E450416787CE1005DAE18 /* ResetStaminaView.xib */; };
 		CF4E450816788277005DAE18 /* ResetStaminaView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4E450716788277005DAE18 /* ResetStaminaView.m */; };
 		CF52FA151626768600AD3478 /* DownloaderSpinner.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF52FA141626768600AD3478 /* DownloaderSpinner.xib */; };
@@ -2554,8 +2572,8 @@
 		CF1268B21538ACC500E0C1AD /* lumoriasign@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lumoriasign@2x.png"; sourceTree = "<group>"; };
 		CF1268B31538ACC500E0C1AD /* lumoriasignbig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lumoriasignbig.png; sourceTree = "<group>"; };
 		CF1268B41538ACC500E0C1AD /* lumoriasignbig@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lumoriasignbig@2x.png"; sourceTree = "<group>"; };
-		CF1268B71538ACC500E0C1AD /* missionlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missionlock.png; sourceTree = "<group>"; };
-		CF1268B81538ACC500E0C1AD /* missionlock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "missionlock@2x.png"; sourceTree = "<group>"; };
+		CF1268B71538ACC500E0C1AD /* missionlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = missionlock.png; path = "../Map Images/missionlock.png"; sourceTree = "<group>"; };
+		CF1268B81538ACC500E0C1AD /* missionlock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "missionlock@2x.png"; path = "../Map Images/missionlock@2x.png"; sourceTree = "<group>"; };
 		CF1268BB1538ACC500E0C1AD /* opencity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = opencity.png; sourceTree = "<group>"; };
 		CF1268BC1538ACC500E0C1AD /* opencity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "opencity@2x.png"; sourceTree = "<group>"; };
 		CF1268BD1538ACC500E0C1AD /* path.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = path.png; sourceTree = "<group>"; };
@@ -3285,6 +3303,22 @@
 		CF48CAAB157784F000802A39 /* leftgate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftgate@2x.png"; sourceTree = "<group>"; };
 		CF48CAAC157784F100802A39 /* rightgate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rightgate.png; sourceTree = "<group>"; };
 		CF48CAAD157784F100802A39 /* rightgate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rightgate@2x.png"; sourceTree = "<group>"; };
+		CF49CB93169BB9CF00725DB0 /* claninwarbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = claninwarbg.png; sourceTree = "<group>"; };
+		CF49CB94169BB9CF00725DB0 /* claninwarbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "claninwarbg@2x.png"; sourceTree = "<group>"; };
+		CF49CB95169BB9CF00725DB0 /* clanwarbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clanwarbg.png; sourceTree = "<group>"; };
+		CF49CB96169BB9CF00725DB0 /* clanwarbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clanwarbg@2x.png"; sourceTree = "<group>"; };
+		CF49CB97169BB9CF00725DB0 /* crown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crown.png; sourceTree = "<group>"; };
+		CF49CB98169BB9CF00725DB0 /* crown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "crown@2x.png"; sourceTree = "<group>"; };
+		CF49CB99169BB9CF00725DB0 /* towernamebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = towernamebg.png; sourceTree = "<group>"; };
+		CF49CB9A169BB9CF00725DB0 /* towernamebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "towernamebg@2x.png"; sourceTree = "<group>"; };
+		CF49CB9B169BB9CF00725DB0 /* warbluebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warbluebar.png; sourceTree = "<group>"; };
+		CF49CB9C169BB9CF00725DB0 /* warbluebar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warbluebar@2x.png"; sourceTree = "<group>"; };
+		CF49CB9D169BB9CF00725DB0 /* warendsinbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warendsinbg.png; sourceTree = "<group>"; };
+		CF49CB9E169BB9CF00725DB0 /* warendsinbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warendsinbg@2x.png"; sourceTree = "<group>"; };
+		CF49CB9F169BB9CF00725DB0 /* warredbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warredbar.png; sourceTree = "<group>"; };
+		CF49CBA0169BB9CF00725DB0 /* warredbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warredbar@2x.png"; sourceTree = "<group>"; };
+		CF49CBA1169BB9CF00725DB0 /* warticker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warticker.png; sourceTree = "<group>"; };
+		CF49CBA2169BB9CF00725DB0 /* warticker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warticker@2x.png"; sourceTree = "<group>"; };
 		CF4E450416787CE1005DAE18 /* ResetStaminaView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResetStaminaView.xib; sourceTree = "<group>"; };
 		CF4E450616788277005DAE18 /* ResetStaminaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetStaminaView.h; sourceTree = "<group>"; };
 		CF4E450716788277005DAE18 /* ResetStaminaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetStaminaView.m; sourceTree = "<group>"; };
@@ -5242,6 +5276,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF49CB92169BB9CF00725DB0 /* Clan Tower images */,
 				CF1B4FDC167C42F400B73276 /* Tournament Images */,
 				CFE95483166E40DD00DA63CF /* Boss Event Images */,
 				CFF4A03316290FF600A452A7 /* Three Card Monte Images */,
@@ -5539,6 +5574,8 @@
 				CF3CF2971574D5B900CD04D7 /* 3dcheckmark@2x.png */,
 				CF3CF2921574B39F00CD04D7 /* 3darrow.png */,
 				CF3CF2931574B39F00CD04D7 /* 3darrow@2x.png */,
+				CF1268B71538ACC500E0C1AD /* missionlock.png */,
+				CF1268B81538ACC500E0C1AD /* missionlock@2x.png */,
 				CF1268361538ACC500E0C1AD /* overheadattackbutton.png */,
 				CF1268371538ACC500E0C1AD /* overheadattackbutton@2x.png */,
 				CF1268381538ACC500E0C1AD /* overheadprofilebutton.png */,
@@ -5717,8 +5754,6 @@
 				CF1268B21538ACC500E0C1AD /* lumoriasign@2x.png */,
 				CF1268B31538ACC500E0C1AD /* lumoriasignbig.png */,
 				CF1268B41538ACC500E0C1AD /* lumoriasignbig@2x.png */,
-				CF1268B71538ACC500E0C1AD /* missionlock.png */,
-				CF1268B81538ACC500E0C1AD /* missionlock@2x.png */,
 				CF1268BB1538ACC500E0C1AD /* opencity.png */,
 				CF1268BC1538ACC500E0C1AD /* opencity@2x.png */,
 				CF1268BD1538ACC500E0C1AD /* path.png */,
@@ -6910,6 +6945,29 @@
 			);
 			name = Leaderboard;
 			path = leaderboards;
+			sourceTree = "<group>";
+		};
+		CF49CB92169BB9CF00725DB0 /* Clan Tower images */ = {
+			isa = PBXGroup;
+			children = (
+				CF49CB93169BB9CF00725DB0 /* claninwarbg.png */,
+				CF49CB94169BB9CF00725DB0 /* claninwarbg@2x.png */,
+				CF49CB95169BB9CF00725DB0 /* clanwarbg.png */,
+				CF49CB96169BB9CF00725DB0 /* clanwarbg@2x.png */,
+				CF49CB97169BB9CF00725DB0 /* crown.png */,
+				CF49CB98169BB9CF00725DB0 /* crown@2x.png */,
+				CF49CB99169BB9CF00725DB0 /* towernamebg.png */,
+				CF49CB9A169BB9CF00725DB0 /* towernamebg@2x.png */,
+				CF49CB9B169BB9CF00725DB0 /* warbluebar.png */,
+				CF49CB9C169BB9CF00725DB0 /* warbluebar@2x.png */,
+				CF49CB9D169BB9CF00725DB0 /* warendsinbg.png */,
+				CF49CB9E169BB9CF00725DB0 /* warendsinbg@2x.png */,
+				CF49CB9F169BB9CF00725DB0 /* warredbar.png */,
+				CF49CBA0169BB9CF00725DB0 /* warredbar@2x.png */,
+				CF49CBA1169BB9CF00725DB0 /* warticker.png */,
+				CF49CBA2169BB9CF00725DB0 /* warticker@2x.png */,
+			);
+			path = "Clan Tower images";
 			sourceTree = "<group>";
 		};
 		CF62E6B415FEC58900DF850F /* Clan images */ = {
@@ -9301,6 +9359,24 @@
 				CFF0000416819AB2004C3B27 /* tourneyicon@2x.png in Resources */,
 				CFEE92C816967440007CEBAE /* bazaarlock@2x.png in Resources */,
 				CFEE92C916967440007CEBAE /* bazaarlock.png in Resources */,
+				CF49CB90169BB4CA00725DB0 /* missionlock.png in Resources */,
+				CF49CB91169BB4CA00725DB0 /* missionlock@2x.png in Resources */,
+				CF49CBA3169BB9CF00725DB0 /* claninwarbg.png in Resources */,
+				CF49CBA4169BB9CF00725DB0 /* claninwarbg@2x.png in Resources */,
+				CF49CBA5169BB9CF00725DB0 /* clanwarbg.png in Resources */,
+				CF49CBA6169BB9CF00725DB0 /* clanwarbg@2x.png in Resources */,
+				CF49CBA7169BB9CF00725DB0 /* crown.png in Resources */,
+				CF49CBA8169BB9CF00725DB0 /* crown@2x.png in Resources */,
+				CF49CBA9169BB9CF00725DB0 /* towernamebg.png in Resources */,
+				CF49CBAA169BB9CF00725DB0 /* towernamebg@2x.png in Resources */,
+				CF49CBAB169BB9CF00725DB0 /* warbluebar.png in Resources */,
+				CF49CBAC169BB9CF00725DB0 /* warbluebar@2x.png in Resources */,
+				CF49CBAD169BB9CF00725DB0 /* warendsinbg.png in Resources */,
+				CF49CBAE169BB9CF00725DB0 /* warendsinbg@2x.png in Resources */,
+				CF49CBAF169BB9CF00725DB0 /* warredbar.png in Resources */,
+				CF49CBB0169BB9CF00725DB0 /* warredbar@2x.png in Resources */,
+				CF49CBB1169BB9CF00725DB0 /* warticker.png in Resources */,
+				CF49CBB2169BB9CF00725DB0 /* warticker@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

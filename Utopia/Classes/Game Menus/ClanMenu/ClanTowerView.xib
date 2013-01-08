@@ -61,10 +61,6 @@
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
 						</object>
-						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">bluetower.png</string>
-						</object>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<int key="type">2</int>
 							<double key="pointSize">15</double>
@@ -275,7 +271,7 @@
 						<string key="NSFrame">{{16, 111}, {119, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="375234353"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -310,7 +306,7 @@
 					<object class="IBUIImageView" id="375234353">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{43, 132}, {69, 25}}</string>
+						<string key="NSFrame">{{33, 132}, {84, 25}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="806652903"/>
@@ -327,7 +323,7 @@
 					<object class="IBUILabel" id="806652903">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">301</int>
-						<string key="NSFrame">{{43, 133}, {69, 21}}</string>
+						<string key="NSFrame">{{38, 133}, {74, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -403,7 +399,7 @@
 						<string key="NSFrame">{{0, 34}, {125, 31}}</string>
 						<reference key="NSSuperview" ref="1042823842"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="869514004"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">4</int>
@@ -435,6 +431,7 @@
 								<string key="NSFrame">{{21, 2}, {101, 21}}</string>
 								<reference key="NSSuperview" ref="869514004"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -758,7 +755,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">58</int>
+			<int key="maxID">59</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -772,6 +769,8 @@
 						<string key="badProgressBar">ProgressBar</string>
 						<string key="bottomLabel">UILabel</string>
 						<string key="buttonLabel">UILabel</string>
+						<string key="claimButtonView">UIView</string>
+						<string key="concedeView">UIView</string>
 						<string key="goodProgressBar">ProgressBar</string>
 						<string key="leftHourLabel">UILabel</string>
 						<string key="leftMinuteLabel">UILabel</string>
@@ -785,6 +784,7 @@
 						<string key="rightHourLabel">UILabel</string>
 						<string key="rightMinuteLabel">UILabel</string>
 						<string key="rightSecondLabel">UILabel</string>
+						<string key="sameSideLabel">UIView</string>
 						<string key="warView">UIView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -811,6 +811,14 @@
 						<object class="IBToOneOutletInfo" key="buttonLabel">
 							<string key="name">buttonLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="claimButtonView">
+							<string key="name">claimButtonView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="concedeView">
+							<string key="name">concedeView</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="goodProgressBar">
 							<string key="name">goodProgressBar</string>
@@ -864,6 +872,10 @@
 							<string key="name">rightSecondLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="sameSideLabel">
+							<string key="name">sameSideLabel</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="warView">
 							<string key="name">warView</string>
 							<string key="candidateClassName">UIView</string>
@@ -877,17 +889,20 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ClanTowerTab</string>
 					<string key="superclassName">UIView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">redButtonClicked:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">redButtonClicked:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="concedeClicked:">id</string>
+						<string key="redButtonClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="concedeClicked:">
+							<string key="name">concedeClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="redButtonClicked:">
 							<string key="name">redButtonClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="infoView">ClanTowerInfoView</string>
 						<string key="nibView">ClanTowerView</string>
@@ -1000,12 +1015,11 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="bluetower.png">{149, 172}</string>
 			<string key="claninwarbg.png">{125, 31}</string>
 			<string key="crown.png">{16, 15}</string>
 			<string key="towernamebg.png">{136, 28}</string>
 			<string key="vs.png">{86, 71}</string>
-			<string key="warendsinbg.png">{69, 25}</string>
+			<string key="warendsinbg.png">{84, 25}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1929</string>
 	</data>

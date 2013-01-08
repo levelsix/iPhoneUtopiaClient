@@ -1497,6 +1497,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if ([ProfileViewController isInitialized]) {
     [[ProfileViewController sharedProfileViewController] receivedFullUserProtos:proto.requestedUsersList];
   }
+  if ([ClanMenuController sharedClanMenuController]) {
+    [[ClanMenuController sharedClanMenuController] receivedUsers:proto];
+  }
   
   GameState *gs = [GameState sharedGameState];
   [gs removeNonFullUserUpdatesForTag:tag];
