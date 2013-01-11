@@ -1279,80 +1279,20 @@
 					<string key="superclassName">PullRefreshTableViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="backClicked:">id</string>
-						<string key="cancelRemoveClicked:">id</string>
-						<string key="closeFilterPage:">id</string>
-						<string key="collectClicked:">id</string>
-						<string key="doneClicked:">id</string>
-						<string key="listAnItemClicked:">id</string>
-						<string key="listButtonClicked:">id</string>
 						<string key="longLicenseClicked:">id</string>
-						<string key="minusButtonClicked:">id</string>
-						<string key="openFilterPage:">id</string>
-						<string key="removeItemClicked:">id</string>
-						<string key="searchBarClicked:">id</string>
 						<string key="shortLicenseClicked:">id</string>
-						<string key="submitClicked:">id</string>
-						<string key="submitCloseClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="backClicked:">
 							<string key="name">backClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="cancelRemoveClicked:">
-							<string key="name">cancelRemoveClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="closeFilterPage:">
-							<string key="name">closeFilterPage:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="collectClicked:">
-							<string key="name">collectClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="doneClicked:">
-							<string key="name">doneClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="listAnItemClicked:">
-							<string key="name">listAnItemClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="listButtonClicked:">
-							<string key="name">listButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="longLicenseClicked:">
 							<string key="name">longLicenseClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="minusButtonClicked:">
-							<string key="name">minusButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openFilterPage:">
-							<string key="name">openFilterPage:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="removeItemClicked:">
-							<string key="name">removeItemClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="searchBarClicked:">
-							<string key="name">searchBarClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="shortLicenseClicked:">
 							<string key="name">shortLicenseClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="submitClicked:">
-							<string key="name">submitClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="submitCloseClicked:">
-							<string key="name">submitCloseClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

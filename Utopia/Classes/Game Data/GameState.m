@@ -1155,12 +1155,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [self updateTournamentButton];
   
+  Globals *gl = [Globals sharedGlobals];
+  
   _tournamentTimers = [[NSMutableArray array] retain];
   for (LeaderboardEventProto *e in _staticTournaments) {
     NSTimer *timer;
     NSTimeInterval timeInterval;
     
-    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.startDate/1000.0] timeIntervalSinceNow];
+    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.startDate/1000.0+gl.tournamentNumHrsToDisplayAfterEnd*3600] timeIntervalSinceNow];
     if (timeInterval > 0) {
       timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateTournamentButton) userInfo:nil repeats:NO];
       [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
@@ -1177,9 +1179,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (LeaderboardEventProto *) getCurrentTournament {
+  Globals *gl = [Globals sharedGlobals];
   double curTime = [[NSDate date] timeIntervalSince1970]*1000.0;
   for (LeaderboardEventProto *p in _staticTournaments) {
-    if (curTime > p.startDate && curTime < p.lastShowDate) {
+    if (curTime > p.startDate+gl.tournamentNumHrsToDisplayAfterEnd*3600000l && curTime < p.lastShowDate) {
       return p;
     }
   }
@@ -1340,6 +1343,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticPossessEquipJobs = [[[NSMutableDictionary alloc] init] autorelease];
   self.staticUpgradeStructJobs = [[[NSMutableDictionary alloc] init] autorelease];
   self.staticBosses = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticBossEvents = [[[NSMutableArray alloc] init] autorelease];
+  self.staticLockBoxEvents = [[[NSMutableArray alloc] init] autorelease];
+  self.staticGoldSales = [[[NSMutableArray alloc] init] autorelease];
+  self.staticTournaments = [[[NSMutableArray alloc] init] autorelease];
   self.clanTierLevels = nil;
 }
 

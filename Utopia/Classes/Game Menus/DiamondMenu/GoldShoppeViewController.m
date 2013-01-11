@@ -302,6 +302,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 
 #pragma mark - View lifecycle
 
+- (id) init {
+  Globals *gl = [Globals sharedGlobals];
+  return [self initWithNibName:@"GoldShoppeViewController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.goldShoppeNibName]];
+}
+
 - (void) setTimer:(NSTimer *)t {
   if (timer != t) {
     [timer invalidate];
@@ -440,7 +445,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   
   GoldPackageView *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil) {
-    [[NSBundle mainBundle] loadNibNamed:@"GoldPackageView" owner:self options:nil];
+    Globals *gl = [Globals sharedGlobals];
+    [[Globals bundleNamed:gl.downloadableNibConstants.goldShoppeNibName] loadNibNamed:@"GoldPackageView" owner:self options:nil];
     cell = self.itemView;
   }
   

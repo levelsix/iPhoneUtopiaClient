@@ -17,6 +17,7 @@
 #import "TopBar.h"
 #import "QuestLogController.h"
 #import "BossEventMenuController.h"
+#import <AudioToolbox/AudioServices.h>
 
 #define LAST_BOSS_RESET_STAMINA_TIME_KEY @"Last boss reset stamina time key"
 
@@ -758,6 +759,8 @@
   CCRepeatForever *a = [CCRepeatForever actionWithAction:[CCSequence actions:m.copy, m.reverse, m.reverse, m.copy, nil]];
   a.tag = SHAKE_SCREEN_ACTION_TAG;
   [self runAction:a];
+  
+  AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 
 - (void) dropItems:(BossActionResponseProto *)barp fromSprite:(MapSprite *)sprite {

@@ -5375,6 +5375,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t initStamina;
 @property int32_t minClanMembersToHoldClanTower;
 @property (retain) StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
+@property (retain) StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5942,6 +5943,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMinLevelConstants_ = !!value;
 }
 @synthesize minLevelConstants;
+- (BOOL) hasLeaderboardConstants {
+  return !!hasLeaderboardConstants_;
+}
+- (void) setHasLeaderboardConstants:(BOOL) value {
+  hasLeaderboardConstants_ = !!value;
+}
+@synthesize leaderboardConstants;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5958,6 +5966,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.expansionConstants = nil;
   self.downloadableNibConstants = nil;
   self.minLevelConstants = nil;
+  self.leaderboardConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -6042,6 +6051,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.initStamina = 0;
     self.minClanMembersToHoldClanTower = 0;
     self.minLevelConstants = [StartupResponseProto_StartupConstants_BazaarMinLevelConstants defaultInstance];
+    self.leaderboardConstants = [StartupResponseProto_StartupConstants_LeaderboardEventConstants defaultInstance];
   }
   return self;
 }
@@ -6331,6 +6341,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMinLevelConstants) {
     [output writeMessage:93 value:self.minLevelConstants];
   }
+  if (self.hasLeaderboardConstants) {
+    [output writeMessage:94 value:self.leaderboardConstants];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6599,6 +6612,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMinLevelConstants) {
     size += computeMessageSize(93, self.minLevelConstants);
   }
+  if (self.hasLeaderboardConstants) {
+    size += computeMessageSize(94, self.leaderboardConstants);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -6629,6 +6645,297 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_LeaderboardEventConstants ()
+@property int32_t winsWeight;
+@property int32_t lossesWeight;
+@property int32_t fleesWeight;
+@property int32_t numHoursToShowAfterEventEnd;
+@end
+
+@implementation StartupResponseProto_StartupConstants_LeaderboardEventConstants
+
+- (BOOL) hasWinsWeight {
+  return !!hasWinsWeight_;
+}
+- (void) setHasWinsWeight:(BOOL) value {
+  hasWinsWeight_ = !!value;
+}
+@synthesize winsWeight;
+- (BOOL) hasLossesWeight {
+  return !!hasLossesWeight_;
+}
+- (void) setHasLossesWeight:(BOOL) value {
+  hasLossesWeight_ = !!value;
+}
+@synthesize lossesWeight;
+- (BOOL) hasFleesWeight {
+  return !!hasFleesWeight_;
+}
+- (void) setHasFleesWeight:(BOOL) value {
+  hasFleesWeight_ = !!value;
+}
+@synthesize fleesWeight;
+- (BOOL) hasNumHoursToShowAfterEventEnd {
+  return !!hasNumHoursToShowAfterEventEnd_;
+}
+- (void) setHasNumHoursToShowAfterEventEnd:(BOOL) value {
+  hasNumHoursToShowAfterEventEnd_ = !!value;
+}
+@synthesize numHoursToShowAfterEventEnd;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.winsWeight = 0;
+    self.lossesWeight = 0;
+    self.fleesWeight = 0;
+    self.numHoursToShowAfterEventEnd = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_LeaderboardEventConstants* defaultStartupResponseProto_StartupConstants_LeaderboardEventConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_LeaderboardEventConstants class]) {
+    defaultStartupResponseProto_StartupConstants_LeaderboardEventConstantsInstance = [[StartupResponseProto_StartupConstants_LeaderboardEventConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_LeaderboardEventConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_LeaderboardEventConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasWinsWeight) {
+    [output writeInt32:1 value:self.winsWeight];
+  }
+  if (self.hasLossesWeight) {
+    [output writeInt32:2 value:self.lossesWeight];
+  }
+  if (self.hasFleesWeight) {
+    [output writeInt32:3 value:self.fleesWeight];
+  }
+  if (self.hasNumHoursToShowAfterEventEnd) {
+    [output writeInt32:4 value:self.numHoursToShowAfterEventEnd];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasWinsWeight) {
+    size += computeInt32Size(1, self.winsWeight);
+  }
+  if (self.hasLossesWeight) {
+    size += computeInt32Size(2, self.lossesWeight);
+  }
+  if (self.hasFleesWeight) {
+    size += computeInt32Size(3, self.fleesWeight);
+  }
+  if (self.hasNumHoursToShowAfterEventEnd) {
+    size += computeInt32Size(4, self.numHoursToShowAfterEventEnd);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_LeaderboardEventConstants*)[[[StartupResponseProto_StartupConstants_LeaderboardEventConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_LeaderboardEventConstants*)[[[StartupResponseProto_StartupConstants_LeaderboardEventConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_LeaderboardEventConstants*)[[[StartupResponseProto_StartupConstants_LeaderboardEventConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_LeaderboardEventConstants*)[[[StartupResponseProto_StartupConstants_LeaderboardEventConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_LeaderboardEventConstants*)[[[StartupResponseProto_StartupConstants_LeaderboardEventConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_LeaderboardEventConstants*)[[[StartupResponseProto_StartupConstants_LeaderboardEventConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_LeaderboardEventConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_LeaderboardEventConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_LeaderboardEventConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_LeaderboardEventConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_LeaderboardEventConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_LeaderboardEventConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_LeaderboardEventConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_LeaderboardEventConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_LeaderboardEventConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_LeaderboardEventConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_LeaderboardEventConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasWinsWeight) {
+    [self setWinsWeight:other.winsWeight];
+  }
+  if (other.hasLossesWeight) {
+    [self setLossesWeight:other.lossesWeight];
+  }
+  if (other.hasFleesWeight) {
+    [self setFleesWeight:other.fleesWeight];
+  }
+  if (other.hasNumHoursToShowAfterEventEnd) {
+    [self setNumHoursToShowAfterEventEnd:other.numHoursToShowAfterEventEnd];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setWinsWeight:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setLossesWeight:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setFleesWeight:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setNumHoursToShowAfterEventEnd:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasWinsWeight {
+  return result.hasWinsWeight;
+}
+- (int32_t) winsWeight {
+  return result.winsWeight;
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) setWinsWeight:(int32_t) value {
+  result.hasWinsWeight = YES;
+  result.winsWeight = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) clearWinsWeight {
+  result.hasWinsWeight = NO;
+  result.winsWeight = 0;
+  return self;
+}
+- (BOOL) hasLossesWeight {
+  return result.hasLossesWeight;
+}
+- (int32_t) lossesWeight {
+  return result.lossesWeight;
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) setLossesWeight:(int32_t) value {
+  result.hasLossesWeight = YES;
+  result.lossesWeight = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) clearLossesWeight {
+  result.hasLossesWeight = NO;
+  result.lossesWeight = 0;
+  return self;
+}
+- (BOOL) hasFleesWeight {
+  return result.hasFleesWeight;
+}
+- (int32_t) fleesWeight {
+  return result.fleesWeight;
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) setFleesWeight:(int32_t) value {
+  result.hasFleesWeight = YES;
+  result.fleesWeight = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) clearFleesWeight {
+  result.hasFleesWeight = NO;
+  result.fleesWeight = 0;
+  return self;
+}
+- (BOOL) hasNumHoursToShowAfterEventEnd {
+  return result.hasNumHoursToShowAfterEventEnd;
+}
+- (int32_t) numHoursToShowAfterEventEnd {
+  return result.numHoursToShowAfterEventEnd;
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) setNumHoursToShowAfterEventEnd:(int32_t) value {
+  result.hasNumHoursToShowAfterEventEnd = YES;
+  result.numHoursToShowAfterEventEnd = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) clearNumHoursToShowAfterEventEnd {
+  result.hasNumHoursToShowAfterEventEnd = NO;
+  result.numHoursToShowAfterEventEnd = 0;
+  return self;
 }
 @end
 
@@ -7006,6 +7313,8 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
 @property (retain) NSString* goldMineNibName;
 @property (retain) NSString* expansionNibName;
 @property (retain) NSString* filtersNibName;
+@property (retain) NSString* blacksmithNibName;
+@property (retain) NSString* goldShoppeNibName;
 @end
 
 @implementation StartupResponseProto_StartupConstants_DownloadableNibConstants
@@ -7052,6 +7361,20 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
   hasFiltersNibName_ = !!value;
 }
 @synthesize filtersNibName;
+- (BOOL) hasBlacksmithNibName {
+  return !!hasBlacksmithNibName_;
+}
+- (void) setHasBlacksmithNibName:(BOOL) value {
+  hasBlacksmithNibName_ = !!value;
+}
+@synthesize blacksmithNibName;
+- (BOOL) hasGoldShoppeNibName {
+  return !!hasGoldShoppeNibName_;
+}
+- (void) setHasGoldShoppeNibName:(BOOL) value {
+  hasGoldShoppeNibName_ = !!value;
+}
+@synthesize goldShoppeNibName;
 - (void) dealloc {
   self.threeCardMonteNibName = nil;
   self.lockBoxNibName = nil;
@@ -7059,6 +7382,8 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
   self.goldMineNibName = nil;
   self.expansionNibName = nil;
   self.filtersNibName = nil;
+  self.blacksmithNibName = nil;
+  self.goldShoppeNibName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -7069,6 +7394,8 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
     self.goldMineNibName = @"";
     self.expansionNibName = @"";
     self.filtersNibName = @"";
+    self.blacksmithNibName = @"";
+    self.goldShoppeNibName = @"";
   }
   return self;
 }
@@ -7106,6 +7433,12 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
   if (self.hasFiltersNibName) {
     [output writeString:6 value:self.filtersNibName];
   }
+  if (self.hasBlacksmithNibName) {
+    [output writeString:7 value:self.blacksmithNibName];
+  }
+  if (self.hasGoldShoppeNibName) {
+    [output writeString:8 value:self.goldShoppeNibName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -7132,6 +7465,12 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
   }
   if (self.hasFiltersNibName) {
     size += computeStringSize(6, self.filtersNibName);
+  }
+  if (self.hasBlacksmithNibName) {
+    size += computeStringSize(7, self.blacksmithNibName);
+  }
+  if (self.hasGoldShoppeNibName) {
+    size += computeStringSize(8, self.goldShoppeNibName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -7226,6 +7565,12 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
   if (other.hasFiltersNibName) {
     [self setFiltersNibName:other.filtersNibName];
   }
+  if (other.hasBlacksmithNibName) {
+    [self setBlacksmithNibName:other.blacksmithNibName];
+  }
+  if (other.hasGoldShoppeNibName) {
+    [self setGoldShoppeNibName:other.goldShoppeNibName];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -7269,6 +7614,14 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
       }
       case 50: {
         [self setFiltersNibName:[input readString]];
+        break;
+      }
+      case 58: {
+        [self setBlacksmithNibName:[input readString]];
+        break;
+      }
+      case 66: {
+        [self setGoldShoppeNibName:[input readString]];
         break;
       }
     }
@@ -7368,6 +7721,38 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearFiltersNibName {
   result.hasFiltersNibName = NO;
   result.filtersNibName = @"";
+  return self;
+}
+- (BOOL) hasBlacksmithNibName {
+  return result.hasBlacksmithNibName;
+}
+- (NSString*) blacksmithNibName {
+  return result.blacksmithNibName;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setBlacksmithNibName:(NSString*) value {
+  result.hasBlacksmithNibName = YES;
+  result.blacksmithNibName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearBlacksmithNibName {
+  result.hasBlacksmithNibName = NO;
+  result.blacksmithNibName = @"";
+  return self;
+}
+- (BOOL) hasGoldShoppeNibName {
+  return result.hasGoldShoppeNibName;
+}
+- (NSString*) goldShoppeNibName {
+  return result.goldShoppeNibName;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setGoldShoppeNibName:(NSString*) value {
+  result.hasGoldShoppeNibName = YES;
+  result.goldShoppeNibName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearGoldShoppeNibName {
+  result.hasGoldShoppeNibName = NO;
+  result.goldShoppeNibName = @"";
   return self;
 }
 @end
@@ -11892,6 +12277,9 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasMinLevelConstants) {
     [self mergeMinLevelConstants:other.minLevelConstants];
   }
+  if (other.hasLeaderboardConstants) {
+    [self mergeLeaderboardConstants:other.leaderboardConstants];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -12305,6 +12693,15 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setMinLevelConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 754: {
+        StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_LeaderboardEventConstants builder];
+        if (self.hasLeaderboardConstants) {
+          [subBuilder mergeFrom:self.leaderboardConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setLeaderboardConstants:[subBuilder buildPartial]];
         break;
       }
     }
@@ -13847,6 +14244,36 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearMinLevelConstants {
   result.hasMinLevelConstants = NO;
   result.minLevelConstants = [StartupResponseProto_StartupConstants_BazaarMinLevelConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasLeaderboardConstants {
+  return result.hasLeaderboardConstants;
+}
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) leaderboardConstants {
+  return result.leaderboardConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setLeaderboardConstants:(StartupResponseProto_StartupConstants_LeaderboardEventConstants*) value {
+  result.hasLeaderboardConstants = YES;
+  result.leaderboardConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setLeaderboardConstantsBuilder:(StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) builderForValue {
+  return [self setLeaderboardConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeLeaderboardConstants:(StartupResponseProto_StartupConstants_LeaderboardEventConstants*) value {
+  if (result.hasLeaderboardConstants &&
+      result.leaderboardConstants != [StartupResponseProto_StartupConstants_LeaderboardEventConstants defaultInstance]) {
+    result.leaderboardConstants =
+      [[[StartupResponseProto_StartupConstants_LeaderboardEventConstants builderWithPrototype:result.leaderboardConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.leaderboardConstants = value;
+  }
+  result.hasLeaderboardConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearLeaderboardConstants {
+  result.hasLeaderboardConstants = NO;
+  result.leaderboardConstants = [StartupResponseProto_StartupConstants_LeaderboardEventConstants defaultInstance];
   return self;
 }
 @end
@@ -50690,6 +51117,7 @@ static RetrieveLeaderboardRankingsRequestProto* defaultRetrieveLeaderboardRankin
 @property int32_t afterThisRank;
 @property (retain) MinimumUserProtoWithLevelForLeaderboard* retriever;
 @property (retain) NSMutableArray* mutableResultPlayersList;
+@property (retain) NSMutableArray* mutableFullUsersList;
 @end
 
 @implementation RetrieveLeaderboardRankingsResponseProto
@@ -50730,10 +51158,12 @@ static RetrieveLeaderboardRankingsRequestProto* defaultRetrieveLeaderboardRankin
 }
 @synthesize retriever;
 @synthesize mutableResultPlayersList;
+@synthesize mutableFullUsersList;
 - (void) dealloc {
   self.sender = nil;
   self.retriever = nil;
   self.mutableResultPlayersList = nil;
+  self.mutableFullUsersList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -50765,6 +51195,13 @@ static RetrieveLeaderboardRankingsResponseProto* defaultRetrieveLeaderboardRanki
   id value = [mutableResultPlayersList objectAtIndex:index];
   return value;
 }
+- (NSArray*) fullUsersList {
+  return mutableFullUsersList;
+}
+- (FullUserProto*) fullUsersAtIndex:(int32_t) index {
+  id value = [mutableFullUsersList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -50786,6 +51223,9 @@ static RetrieveLeaderboardRankingsResponseProto* defaultRetrieveLeaderboardRanki
   }
   if (self.hasAfterThisRank) {
     [output writeInt32:6 value:self.afterThisRank];
+  }
+  for (FullUserProto* element in self.fullUsersList) {
+    [output writeMessage:7 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -50813,6 +51253,9 @@ static RetrieveLeaderboardRankingsResponseProto* defaultRetrieveLeaderboardRanki
   }
   if (self.hasAfterThisRank) {
     size += computeInt32Size(6, self.afterThisRank);
+  }
+  for (FullUserProto* element in self.fullUsersList) {
+    size += computeMessageSize(7, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -50919,6 +51362,12 @@ BOOL RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusIsValidVa
     }
     [result.mutableResultPlayersList addObjectsFromArray:other.mutableResultPlayersList];
   }
+  if (other.mutableFullUsersList.count > 0) {
+    if (result.mutableFullUsersList == nil) {
+      result.mutableFullUsersList = [NSMutableArray array];
+    }
+    [result.mutableFullUsersList addObjectsFromArray:other.mutableFullUsersList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -50979,6 +51428,12 @@ BOOL RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusIsValidVa
       }
       case 48: {
         [self setAfterThisRank:[input readInt32]];
+        break;
+      }
+      case 58: {
+        FullUserProto_Builder* subBuilder = [FullUserProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addFullUsers:[subBuilder buildPartial]];
         break;
       }
     }
@@ -51119,6 +51574,35 @@ BOOL RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusIsValidVa
     result.mutableResultPlayersList = [NSMutableArray array];
   }
   [result.mutableResultPlayersList addObject:value];
+  return self;
+}
+- (NSArray*) fullUsersList {
+  if (result.mutableFullUsersList == nil) { return [NSArray array]; }
+  return result.mutableFullUsersList;
+}
+- (FullUserProto*) fullUsersAtIndex:(int32_t) index {
+  return [result fullUsersAtIndex:index];
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) replaceFullUsersAtIndex:(int32_t) index with:(FullUserProto*) value {
+  [result.mutableFullUsersList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) addAllFullUsers:(NSArray*) values {
+  if (result.mutableFullUsersList == nil) {
+    result.mutableFullUsersList = [NSMutableArray array];
+  }
+  [result.mutableFullUsersList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clearFullUsersList {
+  result.mutableFullUsersList = nil;
+  return self;
+}
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) addFullUsers:(FullUserProto*) value {
+  if (result.mutableFullUsersList == nil) {
+    result.mutableFullUsersList = [NSMutableArray array];
+  }
+  [result.mutableFullUsersList addObject:value];
   return self;
 }
 @end

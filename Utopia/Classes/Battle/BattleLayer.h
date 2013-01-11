@@ -143,6 +143,7 @@
   
   BOOL _cameFromAviary;
   BOOL _cameFromClans;
+  BOOL _cameFromTournament;
   
   BOOL _clickedDone;
   id<BattleCalculator> _battleCalculator;

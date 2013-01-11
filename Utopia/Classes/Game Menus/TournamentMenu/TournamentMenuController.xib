@@ -950,6 +950,15 @@
 					<int key="connectionID">269</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">rulesClicked:</string>
+						<reference key="source" ref="72915330"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">288</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">dataSource</string>
 						<reference key="source" ref="193656238"/>
@@ -1262,7 +1271,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">287</int>
+			<int key="maxID">288</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1278,6 +1287,7 @@
 					<string key="className">LeaderboardCell</string>
 					<string key="superclassName">UITableViewCell</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="attackButton">UIView</string>
 						<string key="nameLabel">UIButton</string>
 						<string key="rankLabel">UILabel</string>
 						<string key="rightLabel">UILabel</string>
@@ -1285,6 +1295,10 @@
 						<string key="userIcon">UIButton</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="attackButton">
+							<string key="name">attackButton</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="nameLabel">
 							<string key="name">nameLabel</string>
 							<string key="candidateClassName">UIButton</string>
@@ -1407,6 +1421,20 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">TournamentMenuController</string>
 					<string key="superclassName">PullRefreshTableViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="closeClicked:">id</string>
+						<string key="rulesClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="closeClicked:">
+							<string key="name">closeClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="rulesClicked:">
+							<string key="name">rulesClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="bgdView">UIView</string>
 						<string key="eventTimeLabel">UILabel</string>

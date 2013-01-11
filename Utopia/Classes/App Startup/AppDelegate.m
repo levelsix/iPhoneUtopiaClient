@@ -38,6 +38,8 @@
 
 #define GIRAFFE_GRAPH_KEY    @"eee3b73ca3f9fc3322e11be77275c13a"
 
+#define FACEBOOK_APP_ID      @"308804055902016"
+
 #define SHOULD_VIDEO_USER    0
 
 @implementation AppDelegate
@@ -220,6 +222,9 @@
   
   // Mobile App Tracker
   [self setUpMobileAppTracker];
+  
+  // Publish install
+//  [FBSettings publishInstall:FACEBOOK_APP_ID];
   
   // AdColony
 //  adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];

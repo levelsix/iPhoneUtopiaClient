@@ -119,9 +119,9 @@ static BOOL shake_once = NO;
     
     [self begin];
     
-//    self.isAccelerometerEnabled = YES;
-//    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
-//    shake_once = NO;
+    self.isAccelerometerEnabled = YES;
+    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
+    shake_once = NO;
   }
   return self;
 }

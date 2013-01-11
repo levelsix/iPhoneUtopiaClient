@@ -329,6 +329,15 @@ message StartupResponseProto {
 		
 		optional BazaarMinLevelConstants minLevelConstants = 93;
 		
+		optional LeaderboardEventConstants leaderboardConstants = 94;
+		
+		message LeaderboardEventConstants {
+			optional int32 winsWeight = 1;
+			optional int32 lossesWeight = 2;
+			optional int32 fleesWeight = 3;
+			optional int32 numHoursToShowAfterEventEnd = 4;
+		}
+		
 		message BazaarMinLevelConstants {
 			optional int32 clanHouseMinLevel = 1;
 			optional int32 vaultMinLevel = 2;
@@ -345,6 +354,8 @@ message StartupResponseProto {
 			optional string goldMineNibName = 4;
 			optional string expansionNibName = 5;
 			optional string filtersNibName = 6;
+			optional string blacksmithNibName = 7;
+			optional string goldShoppeNibName = 8;
 		}
 		
 		message ThreeCardMonteConstants {
@@ -1805,6 +1816,8 @@ message RetrieveLeaderboardRankingsResponseProto {
 
 	optional MinimumUserProtoWithLevelForLeaderboard retriever = 3;
 	repeated MinimumUserProtoWithLevelForLeaderboard resultPlayers = 4;
+
+	repeated FullUserProto fullUsers = 7;
 	
 	enum RetrieveLeaderboardStatus {
 		SUCCESS = 0;

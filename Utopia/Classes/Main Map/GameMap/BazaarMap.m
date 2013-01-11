@@ -12,7 +12,7 @@
 
 #define NUM_ALLIES 8
 
-#define DEFAULT_BAZAAR_ZOOM 0.6
+#define DEFAULT_BAZAAR_ZOOM 0.45
 
 @implementation BazaarMap
 
@@ -138,7 +138,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
 
 - (void) moveToCenterAnimated:(BOOL)animated {
   [super moveToCenterAnimated:animated];
-  self.position = ccpAdd(self.position, ccp(-75, -50));
+  self.position = ccpAdd(self.position, ccp(-75, -35));
 }
 
 - (void) moveToCritStruct:(BazaarStructType)type animated:(BOOL)animated {

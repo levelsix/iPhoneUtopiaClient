@@ -40,6 +40,11 @@
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 
+- (id) init {
+  Globals *gl = [Globals sharedGlobals];
+  return [self initWithNibName:@"ForgeMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName]];
+}
+
 - (void)viewDidLoad
 {
   [super viewDidLoad];
@@ -996,7 +1001,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   
   ForgeItemView *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil) {
-    [[NSBundle mainBundle] loadNibNamed:@"ForgeItemView" owner:self options:nil];
+    Globals *gl = [Globals sharedGlobals];
+    [[Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName] loadNibNamed:@"ForgeItemView" owner:self options:nil];
     cell = self.itemView;
   }
   

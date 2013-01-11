@@ -1279,6 +1279,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.bossEventsList.count > 0) [gs addNewStaticBossEvents:proto.bossEventsList];
     if (proto.leaderboardEventsList.count > 0) [gs addNewStaticTournaments:proto.leaderboardEventsList];
     
+    [gs resetBossEventTimers];
+    [gs resetGoldSaleTimers];
+    [gs resetLockBoxTimers];
+    [gs resetTournamentTimers];
+    
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

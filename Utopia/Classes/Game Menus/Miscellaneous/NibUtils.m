@@ -442,6 +442,7 @@
 
 - (void) awakeFromNib {
   self.contentMode = UIViewContentModeLeft;
+  self.clipsToBounds = YES;
 }
 
 - (void) setPercentage:(float)p {

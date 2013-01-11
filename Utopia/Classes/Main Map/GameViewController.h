@@ -19,6 +19,9 @@
   BOOL _startedGame;
 }
 
+@property (nonatomic, retain) ProgressBar *loadingBar;
+@property (nonatomic, retain) UILabel *loadingLabel;
+
 - (void) fadeToLoadingScreen;
 - (void) connectedToHost;
 - (void) startupComplete;

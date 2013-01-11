@@ -66,6 +66,12 @@
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
 
+#define PART_0_PERCENT 0.f
+#define PART_1_PERCENT 0.05f
+#define PART_2_PERCENT 0.85f
+#define PART_3_PERCENT 1.f
+#define SECONDS_PER_PART 7.f
+
 @implementation GameView
 
 @synthesize glView;
@@ -184,19 +190,38 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   v.backgroundColor = [UIColor blackColor];
   
   UIImageView *imgView = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"ageofchaos.png"]];
-  imgView.transform = CGAffineTransformMakeRotation(M_PI/2);
   imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
   imgView.userInteractionEnabled = YES;
   [v addSubview:imgView];
   [imgView release];
   [v release];
   
-  UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-  // Remember to position at bottom right corner to account for the flip
-  spinner.center = CGPointMake(imgView.frame.size.height/2+70, imgView.frame.size.width/2);
-  [imgView addSubview:spinner];
-  [spinner startAnimating];
-  [spinner release];
+  self.loadingBar = [[ProgressBar alloc] initWithImage:[Globals imageNamed:@"loadingbar.png"]];
+  [self.loadingBar awakeFromNib];
+  self.loadingBar.center = CGPointMake(imgView.frame.size.width/2, imgView.frame.size.height/2+87);
+  [imgView addSubview:self.loadingBar];
+  self.loadingBar.percentage = 0.f;
+  [self.loadingBar release];
+  [self progressFrom:PART_0_PERCENT to:PART_1_PERCENT];
+  
+  self.loadingLabel = [[NiceFontLabel alloc] initWithFrame:CGRectZero];
+  [Globals adjustFontSizeForSize:12.f withUIView:self.loadingLabel];
+  [imgView addSubview:self.loadingLabel];
+  self.loadingLabel.text = @"Loading...";
+  self.loadingLabel.backgroundColor = [UIColor clearColor];
+  self.loadingLabel.textAlignment = NSTextAlignmentCenter;
+  self.loadingLabel.textColor = [UIColor whiteColor];
+  self.loadingLabel.shadowColor = [UIColor colorWithWhite:0.f alpha:0.3f];
+  self.loadingLabel.shadowOffset = CGSizeMake(0, 1);
+  [self.loadingLabel release];
+  
+  CGRect f = self.loadingLabel.frame;
+  f.origin = self.loadingBar.frame.origin;
+  f.origin.y -= 2.f;
+  f.size = self.loadingBar.image.size;
+  f.size.height += 4.f;
+  self.loadingLabel.frame = f;
+  [Globals adjustFontSizeForUILabel:self.loadingLabel];
   
   v.alpha = 0.f;
   [UIView animateWithDuration:1.5f delay:1.f options:UIViewAnimationOptionTransitionNone animations:^{
@@ -206,16 +231,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   }];
 }
 
+- (void) progressFrom:(float)f to:(float)t {
+  [self.loadingBar.layer removeAllAnimations];
+  self.loadingBar.percentage = f;
+  [UIView animateWithDuration:SECONDS_PER_PART animations:^{
+    self.loadingBar.percentage = t;
+  }];
+}
+
 - (void) connectedToHost {
   //  loadingLabel.string = @"Shining armor, so bright...";
+  [self progressFrom:PART_1_PERCENT to:PART_2_PERCENT];
 }
 
 - (void) startupComplete {
   //  loadingLabel.string = @"A little gel in the hair...";
+  [self progressFrom:PART_2_PERCENT to:PART_3_PERCENT];
 }
 
 - (void) loadPlayerCityComplete {
   //  loadingLabel.string = @"We're ready for warfare...";
+  [self progressFrom:PART_3_PERCENT to:1.f];
 }
 
 - (void) removeSplashImageView {
@@ -310,13 +346,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   }
   
   [self preloadLayer];
-//  [self performSelectorInBackground:@selector(preloadLayer) withObject:nil];
 }
 
 - (void) loadView {
   CGRect rect = [[UIScreen mainScreen] bounds];
   CGSize size = rect.size;
-  rect.size = CGSizeMake(rect.size.height, rect.size.width);//480, 320);
+  rect.size = CGSizeMake(rect.size.height, rect.size.width);
   rect.origin = CGPointMake((size.height-rect.size.width)/2, (size.width-rect.size.height)/2);
   GameView *v = [[GameView alloc] initWithFrame:rect];
   v.backgroundColor = [UIColor blackColor];

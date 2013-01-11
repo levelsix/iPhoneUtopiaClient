@@ -126,13 +126,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     animatingSpriteOffsets = [[NSMutableDictionary alloc] init];
     
     self.downloadableNibConstants =
-    [[[[[[[[StartupResponseProto_StartupConstants_DownloadableNibConstants builder]
-          setGoldMineNibName:@"GoldMine.2"]
-         setLockBoxNibName:@"LockBox.2"]
-        setMapNibName:@"TravelingMap.2"]
-       setThreeCardMonteNibName:@"ThreeCardMonte.2"]
-      setExpansionNibName:@"Expansion.2"]
-     setFiltersNibName:@"MarketplaceFilters.2"]
+    [[[[[[[[[[StartupResponseProto_StartupConstants_DownloadableNibConstants builder]
+             setGoldMineNibName:@"GoldMine.2"]
+            setLockBoxNibName:@"LockBox.2"]
+           setMapNibName:@"TravelingMap.2"]
+          setThreeCardMonteNibName:@"ThreeCardMonte.2"]
+         setExpansionNibName:@"Expansion.2"]
+        setFiltersNibName:@"MarketplaceFilters.2"]
+       setBlacksmithNibName:@"Blacksmith.2"]
+      setGoldShoppeNibName:@"GoldShoppe.2"]
      build];
     
   }
@@ -281,12 +283,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.mediumMonteCardPercentageChance = constants.threeCardMonteConstants.mediumMonteCardPercentageChance;
   self.goodMonteCardPercentageChance = constants.threeCardMonteConstants.goodMonteCardPercentageChance;
   
+  self.tournamentWinsWeight = constants.leaderboardConstants.winsWeight;
+  self.tournamentLossesWeight = constants.leaderboardConstants.lossesWeight;
+  self.tournamentFleesWeight = constants.leaderboardConstants.fleesWeight;
+  self.tournamentNumHrsToDisplayAfterEnd = constants.leaderboardConstants.numHoursToShowAfterEventEnd;
+  
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
   self.kiipRewardConditions = constants.kiipRewardConditions;
   
   if (constants.hasDownloadableNibConstants) {
-    self.downloadableNibConstants = constants.downloadableNibConstants;
+    StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder *b = [StartupResponseProto_StartupConstants_DownloadableNibConstants builderWithPrototype:self.downloadableNibConstants];
+    [b mergeFrom:constants.downloadableNibConstants];
+    self.downloadableNibConstants = [b build];
   }
   
   self.minLevelConstants = constants.minLevelConstants;
@@ -299,7 +308,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (void) asyncDownloadBundles {
   Globals *gl = [Globals sharedGlobals];
   StartupResponseProto_StartupConstants_DownloadableNibConstants *n = gl.downloadableNibConstants;
-  NSArray *bundleNames = [NSArray arrayWithObjects:n.filtersNibName, n.mapNibName, n.goldMineNibName, n.threeCardMonteNibName, n.expansionNibName, n.lockBoxNibName, nil];
+  NSArray *bundleNames = [NSArray arrayWithObjects:n.goldShoppeNibName, n.blacksmithNibName, n.filtersNibName, n.mapNibName, n.threeCardMonteNibName, n.expansionNibName, n.lockBoxNibName, n.goldMineNibName, nil];
   Downloader *dl = [Downloader sharedDownloader];
   
   int i = BUNDLE_SCHEDULE_INTERVAL;
@@ -1968,7 +1977,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   CGRect r = view.frame;
   r.size.width = label.frame.origin.x + size.width;
   view.frame = r;
-
+  
   view.center = oldCenter;
 }
 

@@ -450,8 +450,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     CCMenuItemSprite *fleeButton = [CCMenuItemSprite itemFromNormalSprite:flee selectedSprite:nil target:self selector:@selector(fleeClicked)];
     fleeButton.anchorPoint = ccp(0,0);
     
-//    NSLog(@"%@, %@", )
-    
     _bottomMenu = [CCMenu menuWithItems:pauseButton, fleeButton, nil];
     _bottomMenu.position = ccp(self.contentSize.width/2, 0);
     [self addChild:_bottomMenu];
@@ -713,6 +711,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     
     if ([TournamentMenuController isInitialized]) {
       [[TournamentMenuController sharedTournamentMenuController] closeClicked:nil];
+      _cameFromTournament = YES;
+    } else {
+      _cameFromTournament = NO;
     }
   } else {
     [self startBattle];
@@ -1541,6 +1542,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     } else if (_cameFromClans) {
       [ClanMenuController displayView];
       [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:TRANSITION_DURATION];
+    } else if (_cameFromTournament) {
+      [TournamentMenuController displayView];
+      [[CCDirector sharedDirector] popScene];
     } else {
       // This will cause the scene to be deallocated since there are no more references to it.
       [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:TRANSITION_DURATION];

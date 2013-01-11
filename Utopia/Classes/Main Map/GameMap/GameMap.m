@@ -522,16 +522,6 @@
     return frontLoc.origin.y <= backLoc.origin.y;
   }
   return front.position.y <= back.position.y;
-  //  // In the case where both x and y are overlapping, we must do some crazy stuff.
-  //  // Find the abs of the diff of x and y of both locs and use the one with a bigger diff.
-  //  float diffX = ABS(frontLoc.origin.x-backLoc.origin.x);
-  //  float diffY = ABS(frontLoc.origin.y-backLoc.origin.y);
-  //
-  //  if (diffX > diffY) {
-  //    return frontLoc.origin.x <= backLoc.origin.x;
-  //  } else {
-  //    return frontLoc.origin.y <= backLoc.origin.y;
-  //  }
 }
 
 - (Enemy *) enemyWithUserId:(int)userId {

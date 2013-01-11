@@ -46,6 +46,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIButton *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *typeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rightLabel;
+@property (nonatomic, retain) IBOutlet UIView *attackButton;
 
 @property (nonatomic, retain) MinimumUserProtoWithLevelForLeaderboard *user;
 

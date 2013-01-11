@@ -24,9 +24,13 @@
 
 @property (nonatomic, retain) NSMutableArray *leaderboardList;
 
+@property (nonatomic, retain) NSMutableDictionary *userDict;
+
 @property (nonatomic, retain) MinimumUserProtoWithLevelForLeaderboard *leaderboardMup;
 
 @property (nonatomic, assign) BOOL shouldReload;
+
+- (IBAction)attackClicked:(id)sender;
 
 - (void) refresh;
 

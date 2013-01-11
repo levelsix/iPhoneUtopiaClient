@@ -900,30 +900,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ClanMemberCell</string>
 					<string key="superclassName">UITableViewCell</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="acceptClicked:">id</string>
-						<string key="bootClicked:">id</string>
-						<string key="makeLeaderClicked:">id</string>
-						<string key="rejectClicked:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="acceptClicked:">
-							<string key="name">acceptClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="bootClicked:">
-							<string key="name">bootClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="makeLeaderClicked:">
-							<string key="name">makeLeaderClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="rejectClicked:">
-							<string key="name">rejectClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="attackButton">UIView</string>
 						<string key="attackLabel">UILabel</string>

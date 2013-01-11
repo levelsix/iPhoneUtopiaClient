@@ -11,6 +11,7 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "BattleLayer.h"
+#import "GenericPopupController.h"
 
 #define PRIZE_VIEW_SPACING 5.f
 
@@ -170,6 +171,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(TournamentMenuController);
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [self.view removeFromSuperview];
   }];
+}
+
+- (IBAction)rulesClicked:(id)sender {
+  Globals *gl = [Globals sharedGlobals];
+  NSString *desc = [NSString stringWithFormat:@"Every win is %d points, every loss is %d points, and every flee is %d points.", gl.tournamentWinsWeight, gl.tournamentLossesWeight, gl.tournamentFleesWeight];
+  [GenericPopupController displayNotificationViewWithText:desc title:@"Tournament Rules"];
 }
 
 - (void) refresh {

@@ -422,6 +422,8 @@
 @class StartupResponseProto_StartupConstants_GoldmineConstants_Builder;
 @class StartupResponseProto_StartupConstants_KiipRewardConditions;
 @class StartupResponseProto_StartupConstants_KiipRewardConditions_Builder;
+@class StartupResponseProto_StartupConstants_LeaderboardEventConstants;
+@class StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder;
 @class StartupResponseProto_StartupConstants_LockBoxConstants;
 @class StartupResponseProto_StartupConstants_LockBoxConstants_Builder;
 @class StartupResponseProto_StartupConstants_ThreeCardMonteConstants;
@@ -2487,10 +2489,11 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasHealthFormulaExponentBase_:1;
-  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
   BOOL hasLevelEquipBoostExponentBase_:1;
+  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
   BOOL hasInitStamina_:1;
+  BOOL hasMinClanMembersToHoldClanTower_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
   BOOL hasCarpenterImgVerticalPixelOffset_:1;
   BOOL hasMarketplaceImgVerticalPixelOffset_:1;
@@ -2501,6 +2504,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasNumDaysUntilFreeRetract_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
+  BOOL hasNumHoursBeforeReshowingLockBox_:1;
   BOOL hasMaxLengthOfChatString_:1;
   BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
   BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
@@ -2510,14 +2514,12 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasSizeOfAttackList_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasMinNameLength_:1;
-  BOOL hasNumHoursBeforeReshowingLockBox_:1;
-  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
   BOOL hasNumHoursBeforeReshowingBossEvent_:1;
-  BOOL hasAverageSizeOfLevelBracket_:1;
+  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasAverageSizeOfLevelBracket_:1;
   BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
-  BOOL hasMinClanMembersToHoldClanTower_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasArmoryXlength_:1;
@@ -2549,9 +2551,10 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasDefenseBaseCost_:1;
   BOOL hasAttackBaseCost_:1;
   BOOL hasStaminaBaseGain_:1;
-  BOOL hasExpansionConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
+  BOOL hasExpansionConstants_:1;
   BOOL hasMinLevelConstants_:1;
+  BOOL hasLeaderboardConstants_:1;
   BOOL hasLockBoxConstants_:1;
   BOOL hasGoldmineConstants_:1;
   BOOL hasThreeCardMonteConstants_:1;
@@ -2567,10 +2570,11 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   Float64 percentReturnedToUserForSellingEquipInArmory;
   Float64 cutOfVaultDepositTaken;
   Float64 healthFormulaExponentBase;
-  Float64 percentReturnedToUserForSellingNormStructure;
   Float64 levelEquipBoostExponentBase;
+  Float64 percentReturnedToUserForSellingNormStructure;
   int32_t maxCharLengthForWallPost;
   int32_t initStamina;
+  int32_t minClanMembersToHoldClanTower;
   int32_t aviaryImgVerticalPixelOffset;
   int32_t carpenterImgVerticalPixelOffset;
   int32_t marketplaceImgVerticalPixelOffset;
@@ -2581,6 +2585,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   int32_t numDaysUntilFreeRetract;
   int32_t diamondCostOfShortMarketplaceLicense;
   int32_t numHoursBeforeReshowingGoldSale;
+  int32_t numHoursBeforeReshowingLockBox;
   int32_t maxLengthOfChatString;
   int32_t diamondPriceForGroupChatPurchasePackage;
   int32_t numChatsGivenPerGroupChatPurchasePackage;
@@ -2590,14 +2595,12 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   int32_t sizeOfAttackList;
   int32_t maxNameLength;
   int32_t minNameLength;
-  int32_t numHoursBeforeReshowingLockBox;
-  int32_t adColonyVideosRequiredToRedeemDiamonds;
   int32_t numHoursBeforeReshowingBossEvent;
-  int32_t averageSizeOfLevelBracket;
+  int32_t adColonyVideosRequiredToRedeemDiamonds;
   int32_t levelToShowRateUsPopup;
+  int32_t averageSizeOfLevelBracket;
   int32_t bossEventNumberOfAttacksUntilSuperAttack;
   int32_t playerWallPostsRetrieveCap;
-  int32_t minClanMembersToHoldClanTower;
   int32_t maxLevelDifferenceForBattle;
   int32_t maxLevelForUser;
   int32_t armoryXlength;
@@ -2629,9 +2632,10 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   int32_t defenseBaseCost;
   int32_t attackBaseCost;
   int32_t staminaBaseGain;
-  StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
+  StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
   StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
+  StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
   StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
   StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
   StartupResponseProto_StartupConstants_ThreeCardMonteConstants* threeCardMonteConstants;
@@ -2725,6 +2729,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (BOOL) hasInitStamina;
 - (BOOL) hasMinClanMembersToHoldClanTower;
 - (BOOL) hasMinLevelConstants;
+- (BOOL) hasLeaderboardConstants;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2805,6 +2810,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 @property (readonly) int32_t initStamina;
 @property (readonly) int32_t minClanMembersToHoldClanTower;
 @property (readonly, retain) StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
+@property (readonly, retain) StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2827,6 +2833,81 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_LeaderboardEventConstants : PBGeneratedMessage {
+@private
+  BOOL hasWinsWeight_:1;
+  BOOL hasLossesWeight_:1;
+  BOOL hasFleesWeight_:1;
+  BOOL hasNumHoursToShowAfterEventEnd_:1;
+  int32_t winsWeight;
+  int32_t lossesWeight;
+  int32_t fleesWeight;
+  int32_t numHoursToShowAfterEventEnd;
+}
+- (BOOL) hasWinsWeight;
+- (BOOL) hasLossesWeight;
+- (BOOL) hasFleesWeight;
+- (BOOL) hasNumHoursToShowAfterEventEnd;
+@property (readonly) int32_t winsWeight;
+@property (readonly) int32_t lossesWeight;
+@property (readonly) int32_t fleesWeight;
+@property (readonly) int32_t numHoursToShowAfterEventEnd;
+
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_LeaderboardEventConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_LeaderboardEventConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) build;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_LeaderboardEventConstants*) other;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasWinsWeight;
+- (int32_t) winsWeight;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) setWinsWeight:(int32_t) value;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) clearWinsWeight;
+
+- (BOOL) hasLossesWeight;
+- (int32_t) lossesWeight;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) setLossesWeight:(int32_t) value;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) clearLossesWeight;
+
+- (BOOL) hasFleesWeight;
+- (int32_t) fleesWeight;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) setFleesWeight:(int32_t) value;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) clearFleesWeight;
+
+- (BOOL) hasNumHoursToShowAfterEventEnd;
+- (int32_t) numHoursToShowAfterEventEnd;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) setNumHoursToShowAfterEventEnd:(int32_t) value;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) clearNumHoursToShowAfterEventEnd;
 @end
 
 @interface StartupResponseProto_StartupConstants_BazaarMinLevelConstants : PBGeneratedMessage {
@@ -2930,12 +3011,16 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasGoldMineNibName_:1;
   BOOL hasExpansionNibName_:1;
   BOOL hasFiltersNibName_:1;
+  BOOL hasBlacksmithNibName_:1;
+  BOOL hasGoldShoppeNibName_:1;
   NSString* threeCardMonteNibName;
   NSString* lockBoxNibName;
   NSString* mapNibName;
   NSString* goldMineNibName;
   NSString* expansionNibName;
   NSString* filtersNibName;
+  NSString* blacksmithNibName;
+  NSString* goldShoppeNibName;
 }
 - (BOOL) hasThreeCardMonteNibName;
 - (BOOL) hasLockBoxNibName;
@@ -2943,12 +3028,16 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (BOOL) hasGoldMineNibName;
 - (BOOL) hasExpansionNibName;
 - (BOOL) hasFiltersNibName;
+- (BOOL) hasBlacksmithNibName;
+- (BOOL) hasGoldShoppeNibName;
 @property (readonly, retain) NSString* threeCardMonteNibName;
 @property (readonly, retain) NSString* lockBoxNibName;
 @property (readonly, retain) NSString* mapNibName;
 @property (readonly, retain) NSString* goldMineNibName;
 @property (readonly, retain) NSString* expansionNibName;
 @property (readonly, retain) NSString* filtersNibName;
+@property (readonly, retain) NSString* blacksmithNibName;
+@property (readonly, retain) NSString* goldShoppeNibName;
 
 + (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
@@ -3013,6 +3102,16 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (NSString*) filtersNibName;
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setFiltersNibName:(NSString*) value;
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearFiltersNibName;
+
+- (BOOL) hasBlacksmithNibName;
+- (NSString*) blacksmithNibName;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setBlacksmithNibName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearBlacksmithNibName;
+
+- (BOOL) hasGoldShoppeNibName;
+- (NSString*) goldShoppeNibName;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setGoldShoppeNibName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearGoldShoppeNibName;
 @end
 
 @interface StartupResponseProto_StartupConstants_ThreeCardMonteConstants : PBGeneratedMessage {
@@ -4530,6 +4629,13 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (StartupResponseProto_StartupConstants_Builder*) setMinLevelConstantsBuilder:(StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeMinLevelConstants:(StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMinLevelConstants;
+
+- (BOOL) hasLeaderboardConstants;
+- (StartupResponseProto_StartupConstants_LeaderboardEventConstants*) leaderboardConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setLeaderboardConstants:(StartupResponseProto_StartupConstants_LeaderboardEventConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setLeaderboardConstantsBuilder:(StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeLeaderboardConstants:(StartupResponseProto_StartupConstants_LeaderboardEventConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearLeaderboardConstants;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -12994,6 +13100,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   MinimumUserProtoWithLevelForLeaderboard* retriever;
   RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatus status;
   NSMutableArray* mutableResultPlayersList;
+  NSMutableArray* mutableFullUsersList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
@@ -13007,6 +13114,8 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 @property (readonly, retain) MinimumUserProtoWithLevelForLeaderboard* retriever;
 - (NSArray*) resultPlayersList;
 - (MinimumUserProtoWithLevelForLeaderboard*) resultPlayersAtIndex:(int32_t) index;
+- (NSArray*) fullUsersList;
+- (FullUserProto*) fullUsersAtIndex:(int32_t) index;
 
 + (RetrieveLeaderboardRankingsResponseProto*) defaultInstance;
 - (RetrieveLeaderboardRankingsResponseProto*) defaultInstance;
@@ -13077,6 +13186,13 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (RetrieveLeaderboardRankingsResponseProto_Builder*) addResultPlayers:(MinimumUserProtoWithLevelForLeaderboard*) value;
 - (RetrieveLeaderboardRankingsResponseProto_Builder*) addAllResultPlayers:(NSArray*) values;
 - (RetrieveLeaderboardRankingsResponseProto_Builder*) clearResultPlayersList;
+
+- (NSArray*) fullUsersList;
+- (FullUserProto*) fullUsersAtIndex:(int32_t) index;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) replaceFullUsersAtIndex:(int32_t) index with:(FullUserProto*) value;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) addFullUsers:(FullUserProto*) value;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) addAllFullUsers:(NSArray*) values;
+- (RetrieveLeaderboardRankingsResponseProto_Builder*) clearFullUsersList;
 @end
 
 @interface SendGroupChatRequestProto : PBGeneratedMessage {

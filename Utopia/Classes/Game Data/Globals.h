@@ -174,6 +174,12 @@
 @property (nonatomic, assign) float mediumMonteCardPercentageChance;
 @property (nonatomic, assign) float goodMonteCardPercentageChance;
 
+// Tournament Constants
+@property (nonatomic, assign) int tournamentWinsWeight;
+@property (nonatomic, assign) int tournamentLossesWeight;
+@property (nonatomic, assign) int tournamentFleesWeight;
+@property (nonatomic, assign) int tournamentNumHrsToDisplayAfterEnd;
+
 @property (nonatomic, copy) NSArray *productIdentifiers;
 @property (nonatomic, retain) NSDictionary *productIdentifiersToGold;
 

@@ -10,6 +10,7 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
+#import "BattleLayer.h"
 
 #define REFRESH_ROWS 5
 
@@ -84,6 +85,15 @@
   [(UIActivityIndicatorView *)[self.loadingCell viewWithTag:31] startAnimating];
 }
 
+- (IBAction)attackClicked:(id)sender {
+  LeaderboardCell *cell = (LeaderboardCell *)[[[sender superview] superview] superview];
+  MinimumUserProto *mup = cell.user.minUserProto;
+  FullUserProto *fup = [self.userDict objectForKey:[NSNumber numberWithInt:mup.userId]];
+  if (fup) {
+    [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup];
+  }
+}
+
 - (void) refresh {
   GameState *gs = [GameState sharedGameState];
   LeaderboardEventProto *e = [gs getCurrentTournament];
@@ -92,6 +102,8 @@
   [self.leaderboardList removeAllObjects];
   [self.leaderboardTable reloadData];
   self.shouldReload = NO;
+  
+  self.userDict = [NSMutableDictionary dictionary];
 }
 
 - (void) receivedLeaderboardResponse:(RetrieveLeaderboardRankingsResponseProto *)proto {
@@ -100,6 +112,10 @@
   
   [self.leaderboardTable reloadData];
   self.shouldReload = YES;
+  
+  for (FullUserProto *fup in proto.fullUsersList) {
+    [self.userDict setObject:fup forKey:[NSNumber numberWithInt:fup.userId]];
+  }
 }
 
 - (void) addUsersFrom:(NSArray *)arr toArray:(NSMutableArray *)mut {
@@ -187,6 +203,9 @@
   
   cell.rankLabel.textColor = [self colorForRank:u.leaderboardRank];
   
+  GameState *gs = [GameState sharedGameState];
+  cell.attackButton.hidden = [Globals userType:u.minUserProto.userType isAlliesWith:gs.type];
+  
   return cell;
 }
 
@@ -216,14 +235,15 @@
 
 - (void) dealloc
 {
-    self.youHeaderView = nil;
-    self.topPlayersHeaderView = nil;
-    self.leaderboardList = nil;
-    self.leaderboardMup = nil;
-    self.leaderboardTable = nil;
-    self.leaderboardCell = nil;
-    self.spinner = nil;
-    self.loadingCell = nil;
+  self.youHeaderView = nil;
+  self.topPlayersHeaderView = nil;
+  self.leaderboardList = nil;
+  self.leaderboardMup = nil;
+  self.leaderboardTable = nil;
+  self.leaderboardCell = nil;
+  self.spinner = nil;
+  self.loadingCell = nil;
+  self.userDict = nil;
   [super dealloc];
 }
 
