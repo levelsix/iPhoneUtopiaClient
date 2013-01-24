@@ -119,7 +119,6 @@
     [_overLayer addChild:label];
     label.anchorPoint = ccp(0, 0.5f);
     label.position = ccp(_overLayer.contentSize.width/2+75, _overLayer.contentSize.height/2+15);
-    NSLog(@"%f", label.position.x);
     
     CCMenuItem *okay = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"visitbutton.png"] selectedSprite:nil block:^(id sender) {
       [_overLayer removeFromParentAndCleanup:YES];

@@ -96,6 +96,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCUpgradeClanTierEvent:
     case EventProtocolRequestCConcedeClanTowerWar:
     case EventProtocolRequestCRetrieveLeaderboardRankingsEvent:
+    case EventProtocolRequestCSubmitEquipEnhancementEvent:
+    case EventProtocolRequestCCollectEquipEnhancementEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
@@ -180,6 +182,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSConcedeClanTowerWarEvent:
     case EventProtocolResponseSChangedClanTowerEvent:
     case EventProtocolResponseSRetrieveLeaderboardRankingsEvent:
+    case EventProtocolResponseSSubmitEquipEnhancementEvent:
+    case EventProtocolResponseSCollectEquipEnhancementEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

@@ -373,8 +373,8 @@
 - (void) updateForEquip:(UserEquip *)ue {
   Globals *gl = [Globals sharedGlobals];
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ue.equipId];
-  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level]];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level]];
+  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
   //  equipIcon.image = [Globals imageForEquip:fuep.equipId];
   [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
   nameLabel.text = fep.name;
@@ -610,8 +610,8 @@
   titleLabel.textColor = [Globals colorForRarity:fep.rarity];
   classLabel.text = [Globals stringForEquipClassType:fep.classType];
   typeLabel.text = [Globals stringForEquipType:fep.equipType];
-  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level]];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level]];
+  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
   levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
   descriptionLabel.text = fep.description;
   levelIcon.level = ue.level;
@@ -1265,10 +1265,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   Globals *gl = [Globals sharedGlobals];
   
   [arr sortUsingComparator:^NSComparisonResult(UserEquip *obj1, UserEquip *obj2) {
-    int compAttack = [gl calculateAttackForEquip:obj1.equipId level:obj1.level];
-    int compDefense = [gl calculateDefenseForEquip:obj1.equipId level:obj1.level];
-    int bestAttack = [gl calculateAttackForEquip:obj2.equipId level:obj2.level];
-    int bestDefense = [gl calculateDefenseForEquip:obj2.equipId level:obj2.level];
+    int compAttack = [gl calculateAttackForEquip:obj1.equipId level:obj1.level enhancePercent:obj1.enhancementPercentage];
+    int compDefense = [gl calculateDefenseForEquip:obj1.equipId level:obj1.level enhancePercent:obj1.enhancementPercentage];
+    int bestAttack = [gl calculateAttackForEquip:obj2.equipId level:obj2.level enhancePercent:obj2.enhancementPercentage];
+    int bestDefense = [gl calculateDefenseForEquip:obj2.equipId level:obj2.level enhancePercent:obj2.enhancementPercentage];
     
     if (compAttack+compDefense > bestDefense+bestAttack) {
       return NSOrderedAscending;
@@ -1349,13 +1349,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     }
   }
   
-  equips = [[[self sortEquips:equippables].mutableCopy autorelease] arrayByAddingObjectsFromArray:[self sortEquips:unequippables]];
-  [self.equipsTableDelegate loadEquips:equips curWeapon:weapon curArmor:armor curAmulet:amulet];
+  NSMutableArray *sortedEquips = [[self sortEquips:equippables].mutableCopy autorelease];
+  [sortedEquips addObjectsFromArray:[self sortEquips:unequippables]];
   
   int i;
   
-  for (i = 0; i < equips.count; i++) {
-    UserEquip *ue = [equips objectAtIndex:i];
+  for (i = 0; i < sortedEquips.count; i++) {
+    UserEquip *ue = [sortedEquips objectAtIndex:i];
     FullEquipProto *fep = [gs equipWithId:ue.equipId];
     
     // check if this item is equipped
@@ -1364,18 +1364,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       [Globals loadImageForEquip:fep.equipId toView:curWeaponView.equipIcon maskedView:nil];
       curWeaponView.equipIcon.hidden = NO;
       weaponFound = YES;
+      [sortedEquips removeObjectAtIndex:i];
+      [sortedEquips insertObject:ue atIndex:0];
     } else if (ue.userEquipId == armor && fep.equipType == FullEquipProto_EquipTypeArmor) {
       curArmorView.levelIcon.level = ue.level;
       [Globals loadImageForEquip:fep.equipId toView:curArmorView.equipIcon maskedView:nil];
       curArmorView.equipIcon.hidden = NO;
       armorFound = YES;
+      [sortedEquips removeObjectAtIndex:i];
+      [sortedEquips insertObject:ue atIndex:0];
     } else if (ue.userEquipId == amulet && fep.equipType == FullEquipProto_EquipTypeAmulet) {
       curAmuletView.levelIcon.level = ue.level;
       [Globals loadImageForEquip:fep.equipId toView:curAmuletView.equipIcon maskedView:nil];
       curAmuletView.equipIcon.hidden = NO;
       amuletFound = YES;
+      [sortedEquips removeObjectAtIndex:i];
+      [sortedEquips insertObject:ue atIndex:0];
     }
   }
+  
+  [self.equipsTableDelegate loadEquips:sortedEquips curWeapon:weapon curArmor:armor curAmulet:amulet];
   
   // Reload the cur scope
   self.curScope = self.curScope;

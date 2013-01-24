@@ -124,13 +124,13 @@
 
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
-@property (nonatomic, assign) float forgeMinDiamondCostForGuarantee;
+@property (nonatomic, assign) int forgeMinDiamondCostForGuarantee;
 @property (nonatomic, assign) float forgeDiamondCostForGuaranteeExponentialMultiplier;
-@property (nonatomic, assign) float forgeBaseMinutesToOneGold;
+@property (nonatomic, assign) int forgeBaseMinutesToOneGold;
 @property (nonatomic, assign) int forgeMaxEquipLevel;
 @property (nonatomic, assign) float levelEquipBoostExponentBase;
 
-@property (nonatomic, assign) float averageSizeOfLevelBracket;
+@property (nonatomic, assign) int averageSizeOfLevelBracket;
 @property (nonatomic, assign) float healthFormulaExponentBase;
 
 // Char mod constants
@@ -180,8 +180,22 @@
 @property (nonatomic, assign) int tournamentFleesWeight;
 @property (nonatomic, assign) int tournamentNumHrsToDisplayAfterEnd;
 
-@property (nonatomic, copy) NSArray *productIdentifiers;
-@property (nonatomic, retain) NSDictionary *productIdentifiersToGold;
+// Enhancement Constants
+@property (nonatomic, assign) int maxEnhancementLevel;
+@property (nonatomic, assign) int enhancePercentPerLevel;
+@property (nonatomic, assign) float enhanceTimeConstantA;
+@property (nonatomic, assign) float enhanceTimeConstantB;
+@property (nonatomic, assign) float enhanceTimeConstantC;
+@property (nonatomic, assign) float enhanceTimeConstantD;
+@property (nonatomic, assign) float enhanceTimeConstantE;
+@property (nonatomic, assign) float enhanceTimeConstantF;
+@property (nonatomic, assign) float enhanceTimeConstantG;
+@property (nonatomic, assign) float enhancePercentConstantA;
+@property (nonatomic, assign) float enhancePercentConstantB;
+@property (nonatomic, assign) float enhanceLevelExponentBase;
+
+@property (nonatomic, retain) NSDictionary *productIdsToPackages;
+@property (nonatomic, retain) NSArray *iapPackages;
 
 @property (nonatomic, retain) NSMutableDictionary *imageCache;
 @property (retain) NSMutableDictionary *imageViewsWaitingForDownloading;
@@ -318,8 +332,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (BOOL) canRetractMarketplacePostForFree:(FullMarketplacePostProto *)post;
 
 // Forging formulas
-- (int) calculateAttackForEquip:(int)equipId level:(int)level;
-- (int) calculateDefenseForEquip:(int)equipId level:(int)level;
+- (int) calculateAttackForEquip:(int)equipId level:(int)level enhancePercent:(int)enhancePercent;
+- (int) calculateDefenseForEquip:(int)equipId level:(int)level enhancePercent:(int)enhancePercent;
 - (float) calculateChanceOfSuccess:(int)equipId level:(int)level;
 - (int) calculateMinutesForForge:(int)equipId level:(int)level;
 - (int) calculateGoldCostToGuaranteeForgingSuccess:(int)equipId level:(int)level;
@@ -329,7 +343,18 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (int) calculateGoldCostToSpeedUpExpansion:(UserExpansion *)ue;
 - (int) calculateSilverCostForNewExpansion:(UserExpansion *)ue;
 
+// Enhancement formulas
+- (int) calculateMinutesToEnhance:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders;
+- (int) calculateGoldCostToSpeedUpEnhance:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders;
+- (float) calculatePercentOfLevel:(int)percentage;
+- (int) calculateEnhancementLevel:(int)percentage;
+- (int) calculateEnhancementPercentageToNextLevel:(int)percentage;
+- (int) calculateEnhancementPercentageIncrease:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders;
+- (int) calculateEnhancementPercentageIncrease:(UserEquip *)enhancingEquip feeder:(UserEquip *)feeder;
+
 + (void) adjustViewForCentering:(UIView *)view withLabel:(UILabel *)label;
+
+- (InAppPurchasePackageProto *) packageForProductId:(NSString *)pid;
 
 @end
 

@@ -185,6 +185,963 @@ BOOL ExpansionDirectionIsValidValue(ExpansionDirection value) {
       return NO;
   }
 }
+@interface EquipEnhancementProto ()
+@property int32_t enhancementId;
+@property int32_t userId;
+@property (retain) EquipEnhancementItemProto* enhancingEquip;
+@property (retain) NSMutableArray* mutableFeederEquipsList;
+@property int64_t startTime;
+@property int64_t timeOfSpeedup;
+@end
+
+@implementation EquipEnhancementProto
+
+- (BOOL) hasEnhancementId {
+  return !!hasEnhancementId_;
+}
+- (void) setHasEnhancementId:(BOOL) value {
+  hasEnhancementId_ = !!value;
+}
+@synthesize enhancementId;
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasEnhancingEquip {
+  return !!hasEnhancingEquip_;
+}
+- (void) setHasEnhancingEquip:(BOOL) value {
+  hasEnhancingEquip_ = !!value;
+}
+@synthesize enhancingEquip;
+@synthesize mutableFeederEquipsList;
+- (BOOL) hasStartTime {
+  return !!hasStartTime_;
+}
+- (void) setHasStartTime:(BOOL) value {
+  hasStartTime_ = !!value;
+}
+@synthesize startTime;
+- (BOOL) hasTimeOfSpeedup {
+  return !!hasTimeOfSpeedup_;
+}
+- (void) setHasTimeOfSpeedup:(BOOL) value {
+  hasTimeOfSpeedup_ = !!value;
+}
+@synthesize timeOfSpeedup;
+- (void) dealloc {
+  self.enhancingEquip = nil;
+  self.mutableFeederEquipsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.enhancementId = 0;
+    self.userId = 0;
+    self.enhancingEquip = [EquipEnhancementItemProto defaultInstance];
+    self.startTime = 0L;
+    self.timeOfSpeedup = 0L;
+  }
+  return self;
+}
+static EquipEnhancementProto* defaultEquipEnhancementProtoInstance = nil;
++ (void) initialize {
+  if (self == [EquipEnhancementProto class]) {
+    defaultEquipEnhancementProtoInstance = [[EquipEnhancementProto alloc] init];
+  }
+}
++ (EquipEnhancementProto*) defaultInstance {
+  return defaultEquipEnhancementProtoInstance;
+}
+- (EquipEnhancementProto*) defaultInstance {
+  return defaultEquipEnhancementProtoInstance;
+}
+- (NSArray*) feederEquipsList {
+  return mutableFeederEquipsList;
+}
+- (EquipEnhancementItemProto*) feederEquipsAtIndex:(int32_t) index {
+  id value = [mutableFeederEquipsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasEnhancementId) {
+    [output writeInt32:1 value:self.enhancementId];
+  }
+  if (self.hasUserId) {
+    [output writeInt32:2 value:self.userId];
+  }
+  if (self.hasEnhancingEquip) {
+    [output writeMessage:3 value:self.enhancingEquip];
+  }
+  for (EquipEnhancementItemProto* element in self.feederEquipsList) {
+    [output writeMessage:4 value:element];
+  }
+  if (self.hasStartTime) {
+    [output writeInt64:5 value:self.startTime];
+  }
+  if (self.hasTimeOfSpeedup) {
+    [output writeInt64:6 value:self.timeOfSpeedup];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasEnhancementId) {
+    size += computeInt32Size(1, self.enhancementId);
+  }
+  if (self.hasUserId) {
+    size += computeInt32Size(2, self.userId);
+  }
+  if (self.hasEnhancingEquip) {
+    size += computeMessageSize(3, self.enhancingEquip);
+  }
+  for (EquipEnhancementItemProto* element in self.feederEquipsList) {
+    size += computeMessageSize(4, element);
+  }
+  if (self.hasStartTime) {
+    size += computeInt64Size(5, self.startTime);
+  }
+  if (self.hasTimeOfSpeedup) {
+    size += computeInt64Size(6, self.timeOfSpeedup);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (EquipEnhancementProto*) parseFromData:(NSData*) data {
+  return (EquipEnhancementProto*)[[[EquipEnhancementProto builder] mergeFromData:data] build];
+}
++ (EquipEnhancementProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EquipEnhancementProto*)[[[EquipEnhancementProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EquipEnhancementProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EquipEnhancementProto*)[[[EquipEnhancementProto builder] mergeFromInputStream:input] build];
+}
++ (EquipEnhancementProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EquipEnhancementProto*)[[[EquipEnhancementProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EquipEnhancementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EquipEnhancementProto*)[[[EquipEnhancementProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EquipEnhancementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EquipEnhancementProto*)[[[EquipEnhancementProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EquipEnhancementProto_Builder*) builder {
+  return [[[EquipEnhancementProto_Builder alloc] init] autorelease];
+}
++ (EquipEnhancementProto_Builder*) builderWithPrototype:(EquipEnhancementProto*) prototype {
+  return [[EquipEnhancementProto builder] mergeFrom:prototype];
+}
+- (EquipEnhancementProto_Builder*) builder {
+  return [EquipEnhancementProto builder];
+}
+@end
+
+@interface EquipEnhancementProto_Builder()
+@property (retain) EquipEnhancementProto* result;
+@end
+
+@implementation EquipEnhancementProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[EquipEnhancementProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EquipEnhancementProto_Builder*) clear {
+  self.result = [[[EquipEnhancementProto alloc] init] autorelease];
+  return self;
+}
+- (EquipEnhancementProto_Builder*) clone {
+  return [EquipEnhancementProto builderWithPrototype:result];
+}
+- (EquipEnhancementProto*) defaultInstance {
+  return [EquipEnhancementProto defaultInstance];
+}
+- (EquipEnhancementProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EquipEnhancementProto*) buildPartial {
+  EquipEnhancementProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (EquipEnhancementProto_Builder*) mergeFrom:(EquipEnhancementProto*) other {
+  if (other == [EquipEnhancementProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasEnhancementId) {
+    [self setEnhancementId:other.enhancementId];
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasEnhancingEquip) {
+    [self mergeEnhancingEquip:other.enhancingEquip];
+  }
+  if (other.mutableFeederEquipsList.count > 0) {
+    if (result.mutableFeederEquipsList == nil) {
+      result.mutableFeederEquipsList = [NSMutableArray array];
+    }
+    [result.mutableFeederEquipsList addObjectsFromArray:other.mutableFeederEquipsList];
+  }
+  if (other.hasStartTime) {
+    [self setStartTime:other.startTime];
+  }
+  if (other.hasTimeOfSpeedup) {
+    [self setTimeOfSpeedup:other.timeOfSpeedup];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EquipEnhancementProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EquipEnhancementProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setEnhancementId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 26: {
+        EquipEnhancementItemProto_Builder* subBuilder = [EquipEnhancementItemProto builder];
+        if (self.hasEnhancingEquip) {
+          [subBuilder mergeFrom:self.enhancingEquip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setEnhancingEquip:[subBuilder buildPartial]];
+        break;
+      }
+      case 34: {
+        EquipEnhancementItemProto_Builder* subBuilder = [EquipEnhancementItemProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addFeederEquips:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        [self setStartTime:[input readInt64]];
+        break;
+      }
+      case 48: {
+        [self setTimeOfSpeedup:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasEnhancementId {
+  return result.hasEnhancementId;
+}
+- (int32_t) enhancementId {
+  return result.enhancementId;
+}
+- (EquipEnhancementProto_Builder*) setEnhancementId:(int32_t) value {
+  result.hasEnhancementId = YES;
+  result.enhancementId = value;
+  return self;
+}
+- (EquipEnhancementProto_Builder*) clearEnhancementId {
+  result.hasEnhancementId = NO;
+  result.enhancementId = 0;
+  return self;
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (EquipEnhancementProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (EquipEnhancementProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasEnhancingEquip {
+  return result.hasEnhancingEquip;
+}
+- (EquipEnhancementItemProto*) enhancingEquip {
+  return result.enhancingEquip;
+}
+- (EquipEnhancementProto_Builder*) setEnhancingEquip:(EquipEnhancementItemProto*) value {
+  result.hasEnhancingEquip = YES;
+  result.enhancingEquip = value;
+  return self;
+}
+- (EquipEnhancementProto_Builder*) setEnhancingEquipBuilder:(EquipEnhancementItemProto_Builder*) builderForValue {
+  return [self setEnhancingEquip:[builderForValue build]];
+}
+- (EquipEnhancementProto_Builder*) mergeEnhancingEquip:(EquipEnhancementItemProto*) value {
+  if (result.hasEnhancingEquip &&
+      result.enhancingEquip != [EquipEnhancementItemProto defaultInstance]) {
+    result.enhancingEquip =
+      [[[EquipEnhancementItemProto builderWithPrototype:result.enhancingEquip] mergeFrom:value] buildPartial];
+  } else {
+    result.enhancingEquip = value;
+  }
+  result.hasEnhancingEquip = YES;
+  return self;
+}
+- (EquipEnhancementProto_Builder*) clearEnhancingEquip {
+  result.hasEnhancingEquip = NO;
+  result.enhancingEquip = [EquipEnhancementItemProto defaultInstance];
+  return self;
+}
+- (NSArray*) feederEquipsList {
+  if (result.mutableFeederEquipsList == nil) { return [NSArray array]; }
+  return result.mutableFeederEquipsList;
+}
+- (EquipEnhancementItemProto*) feederEquipsAtIndex:(int32_t) index {
+  return [result feederEquipsAtIndex:index];
+}
+- (EquipEnhancementProto_Builder*) replaceFeederEquipsAtIndex:(int32_t) index with:(EquipEnhancementItemProto*) value {
+  [result.mutableFeederEquipsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (EquipEnhancementProto_Builder*) addAllFeederEquips:(NSArray*) values {
+  if (result.mutableFeederEquipsList == nil) {
+    result.mutableFeederEquipsList = [NSMutableArray array];
+  }
+  [result.mutableFeederEquipsList addObjectsFromArray:values];
+  return self;
+}
+- (EquipEnhancementProto_Builder*) clearFeederEquipsList {
+  result.mutableFeederEquipsList = nil;
+  return self;
+}
+- (EquipEnhancementProto_Builder*) addFeederEquips:(EquipEnhancementItemProto*) value {
+  if (result.mutableFeederEquipsList == nil) {
+    result.mutableFeederEquipsList = [NSMutableArray array];
+  }
+  [result.mutableFeederEquipsList addObject:value];
+  return self;
+}
+- (BOOL) hasStartTime {
+  return result.hasStartTime;
+}
+- (int64_t) startTime {
+  return result.startTime;
+}
+- (EquipEnhancementProto_Builder*) setStartTime:(int64_t) value {
+  result.hasStartTime = YES;
+  result.startTime = value;
+  return self;
+}
+- (EquipEnhancementProto_Builder*) clearStartTime {
+  result.hasStartTime = NO;
+  result.startTime = 0L;
+  return self;
+}
+- (BOOL) hasTimeOfSpeedup {
+  return result.hasTimeOfSpeedup;
+}
+- (int64_t) timeOfSpeedup {
+  return result.timeOfSpeedup;
+}
+- (EquipEnhancementProto_Builder*) setTimeOfSpeedup:(int64_t) value {
+  result.hasTimeOfSpeedup = YES;
+  result.timeOfSpeedup = value;
+  return self;
+}
+- (EquipEnhancementProto_Builder*) clearTimeOfSpeedup {
+  result.hasTimeOfSpeedup = NO;
+  result.timeOfSpeedup = 0L;
+  return self;
+}
+@end
+
+@interface EquipEnhancementItemProto ()
+@property int32_t equipId;
+@property int32_t level;
+@property int32_t enhancementPercentage;
+@end
+
+@implementation EquipEnhancementItemProto
+
+- (BOOL) hasEquipId {
+  return !!hasEquipId_;
+}
+- (void) setHasEquipId:(BOOL) value {
+  hasEquipId_ = !!value;
+}
+@synthesize equipId;
+- (BOOL) hasLevel {
+  return !!hasLevel_;
+}
+- (void) setHasLevel:(BOOL) value {
+  hasLevel_ = !!value;
+}
+@synthesize level;
+- (BOOL) hasEnhancementPercentage {
+  return !!hasEnhancementPercentage_;
+}
+- (void) setHasEnhancementPercentage:(BOOL) value {
+  hasEnhancementPercentage_ = !!value;
+}
+@synthesize enhancementPercentage;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.equipId = 0;
+    self.level = 0;
+    self.enhancementPercentage = 0;
+  }
+  return self;
+}
+static EquipEnhancementItemProto* defaultEquipEnhancementItemProtoInstance = nil;
++ (void) initialize {
+  if (self == [EquipEnhancementItemProto class]) {
+    defaultEquipEnhancementItemProtoInstance = [[EquipEnhancementItemProto alloc] init];
+  }
+}
++ (EquipEnhancementItemProto*) defaultInstance {
+  return defaultEquipEnhancementItemProtoInstance;
+}
+- (EquipEnhancementItemProto*) defaultInstance {
+  return defaultEquipEnhancementItemProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasEquipId) {
+    [output writeInt32:1 value:self.equipId];
+  }
+  if (self.hasLevel) {
+    [output writeInt32:2 value:self.level];
+  }
+  if (self.hasEnhancementPercentage) {
+    [output writeInt32:3 value:self.enhancementPercentage];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasEquipId) {
+    size += computeInt32Size(1, self.equipId);
+  }
+  if (self.hasLevel) {
+    size += computeInt32Size(2, self.level);
+  }
+  if (self.hasEnhancementPercentage) {
+    size += computeInt32Size(3, self.enhancementPercentage);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (EquipEnhancementItemProto*) parseFromData:(NSData*) data {
+  return (EquipEnhancementItemProto*)[[[EquipEnhancementItemProto builder] mergeFromData:data] build];
+}
++ (EquipEnhancementItemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EquipEnhancementItemProto*)[[[EquipEnhancementItemProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EquipEnhancementItemProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EquipEnhancementItemProto*)[[[EquipEnhancementItemProto builder] mergeFromInputStream:input] build];
+}
++ (EquipEnhancementItemProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EquipEnhancementItemProto*)[[[EquipEnhancementItemProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EquipEnhancementItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EquipEnhancementItemProto*)[[[EquipEnhancementItemProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EquipEnhancementItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EquipEnhancementItemProto*)[[[EquipEnhancementItemProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EquipEnhancementItemProto_Builder*) builder {
+  return [[[EquipEnhancementItemProto_Builder alloc] init] autorelease];
+}
++ (EquipEnhancementItemProto_Builder*) builderWithPrototype:(EquipEnhancementItemProto*) prototype {
+  return [[EquipEnhancementItemProto builder] mergeFrom:prototype];
+}
+- (EquipEnhancementItemProto_Builder*) builder {
+  return [EquipEnhancementItemProto builder];
+}
+@end
+
+@interface EquipEnhancementItemProto_Builder()
+@property (retain) EquipEnhancementItemProto* result;
+@end
+
+@implementation EquipEnhancementItemProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[EquipEnhancementItemProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EquipEnhancementItemProto_Builder*) clear {
+  self.result = [[[EquipEnhancementItemProto alloc] init] autorelease];
+  return self;
+}
+- (EquipEnhancementItemProto_Builder*) clone {
+  return [EquipEnhancementItemProto builderWithPrototype:result];
+}
+- (EquipEnhancementItemProto*) defaultInstance {
+  return [EquipEnhancementItemProto defaultInstance];
+}
+- (EquipEnhancementItemProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EquipEnhancementItemProto*) buildPartial {
+  EquipEnhancementItemProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (EquipEnhancementItemProto_Builder*) mergeFrom:(EquipEnhancementItemProto*) other {
+  if (other == [EquipEnhancementItemProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasEquipId) {
+    [self setEquipId:other.equipId];
+  }
+  if (other.hasLevel) {
+    [self setLevel:other.level];
+  }
+  if (other.hasEnhancementPercentage) {
+    [self setEnhancementPercentage:other.enhancementPercentage];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EquipEnhancementItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EquipEnhancementItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setEquipId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setLevel:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setEnhancementPercentage:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasEquipId {
+  return result.hasEquipId;
+}
+- (int32_t) equipId {
+  return result.equipId;
+}
+- (EquipEnhancementItemProto_Builder*) setEquipId:(int32_t) value {
+  result.hasEquipId = YES;
+  result.equipId = value;
+  return self;
+}
+- (EquipEnhancementItemProto_Builder*) clearEquipId {
+  result.hasEquipId = NO;
+  result.equipId = 0;
+  return self;
+}
+- (BOOL) hasLevel {
+  return result.hasLevel;
+}
+- (int32_t) level {
+  return result.level;
+}
+- (EquipEnhancementItemProto_Builder*) setLevel:(int32_t) value {
+  result.hasLevel = YES;
+  result.level = value;
+  return self;
+}
+- (EquipEnhancementItemProto_Builder*) clearLevel {
+  result.hasLevel = NO;
+  result.level = 0;
+  return self;
+}
+- (BOOL) hasEnhancementPercentage {
+  return result.hasEnhancementPercentage;
+}
+- (int32_t) enhancementPercentage {
+  return result.enhancementPercentage;
+}
+- (EquipEnhancementItemProto_Builder*) setEnhancementPercentage:(int32_t) value {
+  result.hasEnhancementPercentage = YES;
+  result.enhancementPercentage = value;
+  return self;
+}
+- (EquipEnhancementItemProto_Builder*) clearEnhancementPercentage {
+  result.hasEnhancementPercentage = NO;
+  result.enhancementPercentage = 0;
+  return self;
+}
+@end
+
+@interface InAppPurchasePackageProto ()
+@property (retain) NSString* packageId;
+@property int32_t currencyAmount;
+@property BOOL isGold;
+@property (retain) NSString* imageName;
+@end
+
+@implementation InAppPurchasePackageProto
+
+- (BOOL) hasPackageId {
+  return !!hasPackageId_;
+}
+- (void) setHasPackageId:(BOOL) value {
+  hasPackageId_ = !!value;
+}
+@synthesize packageId;
+- (BOOL) hasCurrencyAmount {
+  return !!hasCurrencyAmount_;
+}
+- (void) setHasCurrencyAmount:(BOOL) value {
+  hasCurrencyAmount_ = !!value;
+}
+@synthesize currencyAmount;
+- (BOOL) hasIsGold {
+  return !!hasIsGold_;
+}
+- (void) setHasIsGold:(BOOL) value {
+  hasIsGold_ = !!value;
+}
+- (BOOL) isGold {
+  return !!isGold_;
+}
+- (void) setIsGold:(BOOL) value {
+  isGold_ = !!value;
+}
+- (BOOL) hasImageName {
+  return !!hasImageName_;
+}
+- (void) setHasImageName:(BOOL) value {
+  hasImageName_ = !!value;
+}
+@synthesize imageName;
+- (void) dealloc {
+  self.packageId = nil;
+  self.imageName = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.packageId = @"";
+    self.currencyAmount = 0;
+    self.isGold = NO;
+    self.imageName = @"";
+  }
+  return self;
+}
+static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil;
++ (void) initialize {
+  if (self == [InAppPurchasePackageProto class]) {
+    defaultInAppPurchasePackageProtoInstance = [[InAppPurchasePackageProto alloc] init];
+  }
+}
++ (InAppPurchasePackageProto*) defaultInstance {
+  return defaultInAppPurchasePackageProtoInstance;
+}
+- (InAppPurchasePackageProto*) defaultInstance {
+  return defaultInAppPurchasePackageProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasPackageId) {
+    [output writeString:1 value:self.packageId];
+  }
+  if (self.hasCurrencyAmount) {
+    [output writeInt32:2 value:self.currencyAmount];
+  }
+  if (self.hasIsGold) {
+    [output writeBool:3 value:self.isGold];
+  }
+  if (self.hasImageName) {
+    [output writeString:4 value:self.imageName];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasPackageId) {
+    size += computeStringSize(1, self.packageId);
+  }
+  if (self.hasCurrencyAmount) {
+    size += computeInt32Size(2, self.currencyAmount);
+  }
+  if (self.hasIsGold) {
+    size += computeBoolSize(3, self.isGold);
+  }
+  if (self.hasImageName) {
+    size += computeStringSize(4, self.imageName);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (InAppPurchasePackageProto*) parseFromData:(NSData*) data {
+  return (InAppPurchasePackageProto*)[[[InAppPurchasePackageProto builder] mergeFromData:data] build];
+}
++ (InAppPurchasePackageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InAppPurchasePackageProto*)[[[InAppPurchasePackageProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (InAppPurchasePackageProto*) parseFromInputStream:(NSInputStream*) input {
+  return (InAppPurchasePackageProto*)[[[InAppPurchasePackageProto builder] mergeFromInputStream:input] build];
+}
++ (InAppPurchasePackageProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InAppPurchasePackageProto*)[[[InAppPurchasePackageProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (InAppPurchasePackageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (InAppPurchasePackageProto*)[[[InAppPurchasePackageProto builder] mergeFromCodedInputStream:input] build];
+}
++ (InAppPurchasePackageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InAppPurchasePackageProto*)[[[InAppPurchasePackageProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (InAppPurchasePackageProto_Builder*) builder {
+  return [[[InAppPurchasePackageProto_Builder alloc] init] autorelease];
+}
++ (InAppPurchasePackageProto_Builder*) builderWithPrototype:(InAppPurchasePackageProto*) prototype {
+  return [[InAppPurchasePackageProto builder] mergeFrom:prototype];
+}
+- (InAppPurchasePackageProto_Builder*) builder {
+  return [InAppPurchasePackageProto builder];
+}
+@end
+
+@interface InAppPurchasePackageProto_Builder()
+@property (retain) InAppPurchasePackageProto* result;
+@end
+
+@implementation InAppPurchasePackageProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[InAppPurchasePackageProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (InAppPurchasePackageProto_Builder*) clear {
+  self.result = [[[InAppPurchasePackageProto alloc] init] autorelease];
+  return self;
+}
+- (InAppPurchasePackageProto_Builder*) clone {
+  return [InAppPurchasePackageProto builderWithPrototype:result];
+}
+- (InAppPurchasePackageProto*) defaultInstance {
+  return [InAppPurchasePackageProto defaultInstance];
+}
+- (InAppPurchasePackageProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (InAppPurchasePackageProto*) buildPartial {
+  InAppPurchasePackageProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (InAppPurchasePackageProto_Builder*) mergeFrom:(InAppPurchasePackageProto*) other {
+  if (other == [InAppPurchasePackageProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasPackageId) {
+    [self setPackageId:other.packageId];
+  }
+  if (other.hasCurrencyAmount) {
+    [self setCurrencyAmount:other.currencyAmount];
+  }
+  if (other.hasIsGold) {
+    [self setIsGold:other.isGold];
+  }
+  if (other.hasImageName) {
+    [self setImageName:other.imageName];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (InAppPurchasePackageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (InAppPurchasePackageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setPackageId:[input readString]];
+        break;
+      }
+      case 16: {
+        [self setCurrencyAmount:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setIsGold:[input readBool]];
+        break;
+      }
+      case 34: {
+        [self setImageName:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasPackageId {
+  return result.hasPackageId;
+}
+- (NSString*) packageId {
+  return result.packageId;
+}
+- (InAppPurchasePackageProto_Builder*) setPackageId:(NSString*) value {
+  result.hasPackageId = YES;
+  result.packageId = value;
+  return self;
+}
+- (InAppPurchasePackageProto_Builder*) clearPackageId {
+  result.hasPackageId = NO;
+  result.packageId = @"";
+  return self;
+}
+- (BOOL) hasCurrencyAmount {
+  return result.hasCurrencyAmount;
+}
+- (int32_t) currencyAmount {
+  return result.currencyAmount;
+}
+- (InAppPurchasePackageProto_Builder*) setCurrencyAmount:(int32_t) value {
+  result.hasCurrencyAmount = YES;
+  result.currencyAmount = value;
+  return self;
+}
+- (InAppPurchasePackageProto_Builder*) clearCurrencyAmount {
+  result.hasCurrencyAmount = NO;
+  result.currencyAmount = 0;
+  return self;
+}
+- (BOOL) hasIsGold {
+  return result.hasIsGold;
+}
+- (BOOL) isGold {
+  return result.isGold;
+}
+- (InAppPurchasePackageProto_Builder*) setIsGold:(BOOL) value {
+  result.hasIsGold = YES;
+  result.isGold = value;
+  return self;
+}
+- (InAppPurchasePackageProto_Builder*) clearIsGold {
+  result.hasIsGold = NO;
+  result.isGold = NO;
+  return self;
+}
+- (BOOL) hasImageName {
+  return result.hasImageName;
+}
+- (NSString*) imageName {
+  return result.imageName;
+}
+- (InAppPurchasePackageProto_Builder*) setImageName:(NSString*) value {
+  result.hasImageName = YES;
+  result.imageName = value;
+  return self;
+}
+- (InAppPurchasePackageProto_Builder*) clearImageName {
+  result.hasImageName = NO;
+  result.imageName = @"";
+  return self;
+}
+@end
+
 @interface ColorProto ()
 @property int32_t red;
 @property int32_t green;
@@ -2695,6 +3652,11 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
 @property (retain) NSString* package5SaleIdentifier;
 @property (retain) NSString* goldShoppeImageName;
 @property (retain) NSString* goldBarImageName;
+@property (retain) NSString* packageS1SaleIdentifier;
+@property (retain) NSString* packageS2SaleIdentifier;
+@property (retain) NSString* packageS3SaleIdentifier;
+@property (retain) NSString* packageS4SaleIdentifier;
+@property (retain) NSString* packageS5SaleIdentifier;
 @end
 
 @implementation GoldSaleProto
@@ -2769,6 +3731,41 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   hasGoldBarImageName_ = !!value;
 }
 @synthesize goldBarImageName;
+- (BOOL) hasPackageS1SaleIdentifier {
+  return !!hasPackageS1SaleIdentifier_;
+}
+- (void) setHasPackageS1SaleIdentifier:(BOOL) value {
+  hasPackageS1SaleIdentifier_ = !!value;
+}
+@synthesize packageS1SaleIdentifier;
+- (BOOL) hasPackageS2SaleIdentifier {
+  return !!hasPackageS2SaleIdentifier_;
+}
+- (void) setHasPackageS2SaleIdentifier:(BOOL) value {
+  hasPackageS2SaleIdentifier_ = !!value;
+}
+@synthesize packageS2SaleIdentifier;
+- (BOOL) hasPackageS3SaleIdentifier {
+  return !!hasPackageS3SaleIdentifier_;
+}
+- (void) setHasPackageS3SaleIdentifier:(BOOL) value {
+  hasPackageS3SaleIdentifier_ = !!value;
+}
+@synthesize packageS3SaleIdentifier;
+- (BOOL) hasPackageS4SaleIdentifier {
+  return !!hasPackageS4SaleIdentifier_;
+}
+- (void) setHasPackageS4SaleIdentifier:(BOOL) value {
+  hasPackageS4SaleIdentifier_ = !!value;
+}
+@synthesize packageS4SaleIdentifier;
+- (BOOL) hasPackageS5SaleIdentifier {
+  return !!hasPackageS5SaleIdentifier_;
+}
+- (void) setHasPackageS5SaleIdentifier:(BOOL) value {
+  hasPackageS5SaleIdentifier_ = !!value;
+}
+@synthesize packageS5SaleIdentifier;
 - (void) dealloc {
   self.package1SaleIdentifier = nil;
   self.package2SaleIdentifier = nil;
@@ -2777,6 +3774,11 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   self.package5SaleIdentifier = nil;
   self.goldShoppeImageName = nil;
   self.goldBarImageName = nil;
+  self.packageS1SaleIdentifier = nil;
+  self.packageS2SaleIdentifier = nil;
+  self.packageS3SaleIdentifier = nil;
+  self.packageS4SaleIdentifier = nil;
+  self.packageS5SaleIdentifier = nil;
   [super dealloc];
 }
 - (id) init {
@@ -2791,6 +3793,11 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
     self.package5SaleIdentifier = @"";
     self.goldShoppeImageName = @"";
     self.goldBarImageName = @"";
+    self.packageS1SaleIdentifier = @"";
+    self.packageS2SaleIdentifier = @"";
+    self.packageS3SaleIdentifier = @"";
+    self.packageS4SaleIdentifier = @"";
+    self.packageS5SaleIdentifier = @"";
   }
   return self;
 }
@@ -2840,6 +3847,21 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
   if (self.hasGoldBarImageName) {
     [output writeString:10 value:self.goldBarImageName];
   }
+  if (self.hasPackageS1SaleIdentifier) {
+    [output writeString:11 value:self.packageS1SaleIdentifier];
+  }
+  if (self.hasPackageS2SaleIdentifier) {
+    [output writeString:12 value:self.packageS2SaleIdentifier];
+  }
+  if (self.hasPackageS3SaleIdentifier) {
+    [output writeString:13 value:self.packageS3SaleIdentifier];
+  }
+  if (self.hasPackageS4SaleIdentifier) {
+    [output writeString:14 value:self.packageS4SaleIdentifier];
+  }
+  if (self.hasPackageS5SaleIdentifier) {
+    [output writeString:15 value:self.packageS5SaleIdentifier];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2878,6 +3900,21 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
   }
   if (self.hasGoldBarImageName) {
     size += computeStringSize(10, self.goldBarImageName);
+  }
+  if (self.hasPackageS1SaleIdentifier) {
+    size += computeStringSize(11, self.packageS1SaleIdentifier);
+  }
+  if (self.hasPackageS2SaleIdentifier) {
+    size += computeStringSize(12, self.packageS2SaleIdentifier);
+  }
+  if (self.hasPackageS3SaleIdentifier) {
+    size += computeStringSize(13, self.packageS3SaleIdentifier);
+  }
+  if (self.hasPackageS4SaleIdentifier) {
+    size += computeStringSize(14, self.packageS4SaleIdentifier);
+  }
+  if (self.hasPackageS5SaleIdentifier) {
+    size += computeStringSize(15, self.packageS5SaleIdentifier);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2984,6 +4021,21 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
   if (other.hasGoldBarImageName) {
     [self setGoldBarImageName:other.goldBarImageName];
   }
+  if (other.hasPackageS1SaleIdentifier) {
+    [self setPackageS1SaleIdentifier:other.packageS1SaleIdentifier];
+  }
+  if (other.hasPackageS2SaleIdentifier) {
+    [self setPackageS2SaleIdentifier:other.packageS2SaleIdentifier];
+  }
+  if (other.hasPackageS3SaleIdentifier) {
+    [self setPackageS3SaleIdentifier:other.packageS3SaleIdentifier];
+  }
+  if (other.hasPackageS4SaleIdentifier) {
+    [self setPackageS4SaleIdentifier:other.packageS4SaleIdentifier];
+  }
+  if (other.hasPackageS5SaleIdentifier) {
+    [self setPackageS5SaleIdentifier:other.packageS5SaleIdentifier];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3043,6 +4095,26 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
       }
       case 82: {
         [self setGoldBarImageName:[input readString]];
+        break;
+      }
+      case 90: {
+        [self setPackageS1SaleIdentifier:[input readString]];
+        break;
+      }
+      case 98: {
+        [self setPackageS2SaleIdentifier:[input readString]];
+        break;
+      }
+      case 106: {
+        [self setPackageS3SaleIdentifier:[input readString]];
+        break;
+      }
+      case 114: {
+        [self setPackageS4SaleIdentifier:[input readString]];
+        break;
+      }
+      case 122: {
+        [self setPackageS5SaleIdentifier:[input readString]];
         break;
       }
     }
@@ -3206,6 +4278,86 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
 - (GoldSaleProto_Builder*) clearGoldBarImageName {
   result.hasGoldBarImageName = NO;
   result.goldBarImageName = @"";
+  return self;
+}
+- (BOOL) hasPackageS1SaleIdentifier {
+  return result.hasPackageS1SaleIdentifier;
+}
+- (NSString*) packageS1SaleIdentifier {
+  return result.packageS1SaleIdentifier;
+}
+- (GoldSaleProto_Builder*) setPackageS1SaleIdentifier:(NSString*) value {
+  result.hasPackageS1SaleIdentifier = YES;
+  result.packageS1SaleIdentifier = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearPackageS1SaleIdentifier {
+  result.hasPackageS1SaleIdentifier = NO;
+  result.packageS1SaleIdentifier = @"";
+  return self;
+}
+- (BOOL) hasPackageS2SaleIdentifier {
+  return result.hasPackageS2SaleIdentifier;
+}
+- (NSString*) packageS2SaleIdentifier {
+  return result.packageS2SaleIdentifier;
+}
+- (GoldSaleProto_Builder*) setPackageS2SaleIdentifier:(NSString*) value {
+  result.hasPackageS2SaleIdentifier = YES;
+  result.packageS2SaleIdentifier = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearPackageS2SaleIdentifier {
+  result.hasPackageS2SaleIdentifier = NO;
+  result.packageS2SaleIdentifier = @"";
+  return self;
+}
+- (BOOL) hasPackageS3SaleIdentifier {
+  return result.hasPackageS3SaleIdentifier;
+}
+- (NSString*) packageS3SaleIdentifier {
+  return result.packageS3SaleIdentifier;
+}
+- (GoldSaleProto_Builder*) setPackageS3SaleIdentifier:(NSString*) value {
+  result.hasPackageS3SaleIdentifier = YES;
+  result.packageS3SaleIdentifier = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearPackageS3SaleIdentifier {
+  result.hasPackageS3SaleIdentifier = NO;
+  result.packageS3SaleIdentifier = @"";
+  return self;
+}
+- (BOOL) hasPackageS4SaleIdentifier {
+  return result.hasPackageS4SaleIdentifier;
+}
+- (NSString*) packageS4SaleIdentifier {
+  return result.packageS4SaleIdentifier;
+}
+- (GoldSaleProto_Builder*) setPackageS4SaleIdentifier:(NSString*) value {
+  result.hasPackageS4SaleIdentifier = YES;
+  result.packageS4SaleIdentifier = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearPackageS4SaleIdentifier {
+  result.hasPackageS4SaleIdentifier = NO;
+  result.packageS4SaleIdentifier = @"";
+  return self;
+}
+- (BOOL) hasPackageS5SaleIdentifier {
+  return result.hasPackageS5SaleIdentifier;
+}
+- (NSString*) packageS5SaleIdentifier {
+  return result.packageS5SaleIdentifier;
+}
+- (GoldSaleProto_Builder*) setPackageS5SaleIdentifier:(NSString*) value {
+  result.hasPackageS5SaleIdentifier = YES;
+  result.packageS5SaleIdentifier = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearPackageS5SaleIdentifier {
+  result.hasPackageS5SaleIdentifier = NO;
+  result.packageS5SaleIdentifier = @"";
   return self;
 }
 @end
@@ -13392,6 +14544,7 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
 @property int32_t userId;
 @property int32_t equipId;
 @property int32_t level;
+@property int32_t enhancementPercentage;
 @end
 
 @implementation FullUserEquipProto
@@ -13424,6 +14577,13 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   hasLevel_ = !!value;
 }
 @synthesize level;
+- (BOOL) hasEnhancementPercentage {
+  return !!hasEnhancementPercentage_;
+}
+- (void) setHasEnhancementPercentage:(BOOL) value {
+  hasEnhancementPercentage_ = !!value;
+}
+@synthesize enhancementPercentage;
 - (void) dealloc {
   [super dealloc];
 }
@@ -13433,6 +14593,7 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
     self.userId = 0;
     self.equipId = 0;
     self.level = 0;
+    self.enhancementPercentage = 0;
   }
   return self;
 }
@@ -13464,6 +14625,9 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   if (self.hasLevel) {
     [output writeInt32:4 value:self.level];
   }
+  if (self.hasEnhancementPercentage) {
+    [output writeInt32:5 value:self.enhancementPercentage];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -13484,6 +14648,9 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   }
   if (self.hasLevel) {
     size += computeInt32Size(4, self.level);
+  }
+  if (self.hasEnhancementPercentage) {
+    size += computeInt32Size(5, self.enhancementPercentage);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -13572,6 +14739,9 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   if (other.hasLevel) {
     [self setLevel:other.level];
   }
+  if (other.hasEnhancementPercentage) {
+    [self setEnhancementPercentage:other.enhancementPercentage];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -13607,6 +14777,10 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
       }
       case 32: {
         [self setLevel:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setEnhancementPercentage:[input readInt32]];
         break;
       }
     }
@@ -13674,6 +14848,22 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
 - (FullUserEquipProto_Builder*) clearLevel {
   result.hasLevel = NO;
   result.level = 0;
+  return self;
+}
+- (BOOL) hasEnhancementPercentage {
+  return result.hasEnhancementPercentage;
+}
+- (int32_t) enhancementPercentage {
+  return result.enhancementPercentage;
+}
+- (FullUserEquipProto_Builder*) setEnhancementPercentage:(int32_t) value {
+  result.hasEnhancementPercentage = YES;
+  result.enhancementPercentage = value;
+  return self;
+}
+- (FullUserEquipProto_Builder*) clearEnhancementPercentage {
+  result.hasEnhancementPercentage = NO;
+  result.enhancementPercentage = 0;
   return self;
 }
 @end
@@ -17679,6 +18869,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @property int32_t diamondCost;
 @property int32_t coinCost;
 @property int32_t equipLevel;
+@property int32_t equipEnhancementPercent;
 @end
 
 @implementation FullMarketplacePostProto
@@ -17739,6 +18930,13 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   hasEquipLevel_ = !!value;
 }
 @synthesize equipLevel;
+- (BOOL) hasEquipEnhancementPercent {
+  return !!hasEquipEnhancementPercent_;
+}
+- (void) setHasEquipEnhancementPercent:(BOOL) value {
+  hasEquipEnhancementPercent_ = !!value;
+}
+@synthesize equipEnhancementPercent;
 - (void) dealloc {
   self.poster = nil;
   self.postedEquip = nil;
@@ -17754,6 +18952,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
     self.diamondCost = 0;
     self.coinCost = 0;
     self.equipLevel = 0;
+    self.equipEnhancementPercent = 0;
   }
   return self;
 }
@@ -17797,6 +18996,9 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (self.hasEquipLevel) {
     [output writeInt32:8 value:self.equipLevel];
   }
+  if (self.hasEquipEnhancementPercent) {
+    [output writeInt32:9 value:self.equipEnhancementPercent];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -17829,6 +19031,9 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   }
   if (self.hasEquipLevel) {
     size += computeInt32Size(8, self.equipLevel);
+  }
+  if (self.hasEquipEnhancementPercent) {
+    size += computeInt32Size(9, self.equipEnhancementPercent);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -17929,6 +19134,9 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (other.hasEquipLevel) {
     [self setEquipLevel:other.equipLevel];
   }
+  if (other.hasEquipEnhancementPercent) {
+    [self setEquipEnhancementPercent:other.equipEnhancementPercent];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -17995,6 +19203,10 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
       }
       case 64: {
         [self setEquipLevel:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setEquipEnhancementPercent:[input readInt32]];
         break;
       }
     }
@@ -18154,6 +19366,22 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
 - (FullMarketplacePostProto_Builder*) clearEquipLevel {
   result.hasEquipLevel = NO;
   result.equipLevel = 0;
+  return self;
+}
+- (BOOL) hasEquipEnhancementPercent {
+  return result.hasEquipEnhancementPercent;
+}
+- (int32_t) equipEnhancementPercent {
+  return result.equipEnhancementPercent;
+}
+- (FullMarketplacePostProto_Builder*) setEquipEnhancementPercent:(int32_t) value {
+  result.hasEquipEnhancementPercent = YES;
+  result.equipEnhancementPercent = value;
+  return self;
+}
+- (FullMarketplacePostProto_Builder*) clearEquipEnhancementPercent {
+  result.hasEquipEnhancementPercent = NO;
+  result.equipEnhancementPercent = 0;
   return self;
 }
 @end

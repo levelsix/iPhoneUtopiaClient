@@ -380,7 +380,15 @@
 }
 
 - (void) buttonClicked:(ProfileButton *)clickedButton selector:(SEL)sel {
-  if (_inAction || !_menuOut) {
+  if (_inAction) {
+    return;
+  }
+  
+  if (!_menuOut) {
+    // Used for programatically clicking a button
+    clickedButton.badgeNum = 0;
+    [self performSelector:sel];
+    [_expCircle stopNotification];
     return;
   }
   
@@ -430,7 +438,7 @@
 }
 
 - (void) button3Clicked:(id)sender {
-  [self buttonClicked:sender selector:@selector(openProfile)];
+  [self buttonClicked:[_menuItems objectAtIndex:1] selector:@selector(openProfile)];
   [Analytics openedMyProfile];
 }
 

@@ -123,6 +123,8 @@
   
   // Set the icon
   self.coinIcon.highlighted = !product.isGold;
+  
+  [Globals imageNamed:product.rewardPicName withImageView:self.pkgIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 - (void) setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -432,7 +434,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   Globals *gl = [Globals sharedGlobals];
   switch (_state) {
     case kPackagesState:
-      return gl.productIdentifiers.count;
+      return gl.iapPackages.count;
     case kEarnFreeState:
       return [_sponsoredOffers count];
     default:
@@ -456,8 +458,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
     Globals *gl = [Globals sharedGlobals];
     GoldSaleProto *sale = [gs getCurrentGoldSale];
     NSDictionary *dict = [[IAPHelper sharedIAPHelper] products];
-    id arr[5] = {sale.package1SaleIdentifier, sale.package2SaleIdentifier, sale.package3SaleIdentifier, sale.package4SaleIdentifier, sale.package5SaleIdentifier};
-    NSString *productId = [gl.productIdentifiers objectAtIndex:indexPath.row];
+    id arr[10] = {sale.package1SaleIdentifier, sale.packageS1SaleIdentifier, sale.package2SaleIdentifier, sale.packageS2SaleIdentifier, sale.package3SaleIdentifier, sale.packageS3SaleIdentifier, sale.package4SaleIdentifier, sale.packageS4SaleIdentifier, sale.package5SaleIdentifier, sale.packageS5SaleIdentifier};
+    NSString *productId = [[gl.iapPackages objectAtIndex:indexPath.row] packageId];
     NSString *saleProductId = arr[indexPath.row];
     SKProduct *product = [dict objectForKey:productId];
     SKProduct *saleProduct = [dict objectForKey:saleProductId];
@@ -469,7 +471,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   cell.productData = cellData;
   
   [cell updateForPurchaseData:cellData];
-  cell.pkgIcon.image = cellData.rewardPic;
   return cell;
 }
 

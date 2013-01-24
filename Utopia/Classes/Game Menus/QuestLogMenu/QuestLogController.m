@@ -136,8 +136,8 @@ static float originalLabelX = 0.f;
     equipIcon.equipId = fqp.equipIdGained;
     
     FullEquipProto *fep = [gs equipWithId:fqp.equipIdGained];
-    attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:1]];
-    defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:1]];
+    attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:1 enhancePercent:0]];
+    defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:1 enhancePercent:0]];
     
     smallExpLabel.text = [NSString stringWithFormat:@"%d", fqp.expGained];
     smallCoinLabel.text = [NSString stringWithFormat:@"%d", fqp.coinsGained];

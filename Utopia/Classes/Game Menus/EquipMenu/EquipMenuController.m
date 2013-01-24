@@ -57,8 +57,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   titleLabel.textColor = [Globals colorForRarity:fep.rarity];
   classLabel.text = [Globals stringForEquipClassType:fep.classType];
   typeLabel.text = [Globals stringForEquipType:fep.equipType];
-  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:1]];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:1]];
+  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:1 enhancePercent:0]];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:1 enhancePercent:0]];
   levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
   descriptionLabel.text = fep.description;
   

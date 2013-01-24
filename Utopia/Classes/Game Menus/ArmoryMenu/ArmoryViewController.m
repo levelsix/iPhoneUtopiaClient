@@ -232,8 +232,8 @@
   
   titleLabel.text = fep.name;
   titleLabel.textColor = [Globals colorForRarity:fep.rarity];
-  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:1]];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:1]];
+  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:1 enhancePercent:0]];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:1 enhancePercent:0]];
   
   if (fep.isBuyableInArmory) {
     priceView.hidden = NO;

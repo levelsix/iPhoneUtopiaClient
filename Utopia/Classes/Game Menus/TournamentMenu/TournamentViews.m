@@ -227,7 +227,9 @@
     if (shouldReload) {
       NSArray *arr = self.leaderboardList;
       MinimumUserProtoWithLevelForLeaderboard *mup = [arr lastObject];
-      [[OutgoingEventController sharedOutgoingEventController] retrieveLeaderboardForType:LeaderboardTypeEvent afterRank:mup.leaderboardRank];
+      GameState *gs = [GameState sharedGameState];
+      LeaderboardEventProto *e = [gs getCurrentTournament];
+      [[OutgoingEventController sharedOutgoingEventController] retrieveTournamentRanking:e.eventId afterRank:mup.leaderboardRank];
       self.shouldReload = NO;
     }
   }

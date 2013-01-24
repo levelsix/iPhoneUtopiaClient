@@ -18,18 +18,22 @@
 @dynamic primaryTitle;
 @dynamic secondaryTitle;
 @dynamic price;
-@dynamic rewardPic;
+@dynamic rewardPicName;
 @dynamic isGold;
 @dynamic salePrice;
 @dynamic discount;
 
--(UIImage *) rewardPic
+-(NSString *) rewardPicName
 {
-  return [Globals imageNamed:@"stack.png"];
+  Globals *gl = [Globals sharedGlobals];
+  InAppPurchasePackageProto *p = [gl packageForProductId:_product.productIdentifier];
+  return p.imageName;
 }
 
 - (BOOL) isGold {
-  return YES;
+  Globals *gl = [Globals sharedGlobals];
+  InAppPurchasePackageProto *p = [gl packageForProductId:_product.productIdentifier];
+  return p.isGold;
 }
 
 +(void) postAdTakeoverResignedNotificationForSender:(id)sender
@@ -73,16 +77,16 @@
   if (_saleProduct) {
     float normPrice = _product.price.floatValue;
     float salePrice = _saleProduct.price.floatValue;
-    return (int)roundf((normPrice-salePrice)/normPrice*100.f);
+    return (int)ceilf((normPrice-salePrice)/normPrice*100.f);
   }
   return 0;
 }
 
 -(NSString *) secondaryTitle
 {
-  return [NSString stringWithFormat:@"%@",
-          [[[Globals sharedGlobals] productIdentifiersToGold]
-           objectForKey:_product.productIdentifier]];
+  Globals *gl = [Globals sharedGlobals];
+  InAppPurchasePackageProto *p = [gl packageForProductId:_product.productIdentifier];
+  return [NSString stringWithFormat:@"%d",p.currencyAmount];
 }
 
 

@@ -546,13 +546,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   if (!gs.connected) {
     return;
   }
-  
+    
   // Only fire timers if it is less than the current time
   if (gs.currentEnergy < gs.maxEnergy) {
     NSTimeInterval energyComplete = gs.lastEnergyRefill.timeIntervalSinceNow+60*gl.energyRefillWaitMinutes+0.1;
     _energyTimer = [NSTimer timerWithTimeInterval:energyComplete target:self selector:@selector(energyRefillWaitComplete) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_energyTimer forMode:NSRunLoopCommonModes];
-    DDLogVerbose(@"Firing up energy timer with time %f. Cur: %d, Max: %d", energyComplete, gs.currentEnergy, gs.maxEnergy);
+    LNLog(@"Firing up energy timer with time %f. Cur: %d, Max: %d", energyComplete, gs.currentEnergy, gs.maxEnergy);
   } else {
     _energyTimer = nil;
   }

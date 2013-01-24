@@ -62,7 +62,7 @@
 - (void)loginAsUser:(NSString*)username withPassword:(NSString*)password onVHost:(NSString*)vhost
 {
 	amqp_rpc_reply_t reply = amqp_login(connection, [vhost UTF8String], 0, 131072, 0, AMQP_SASL_METHOD_PLAIN, [username UTF8String], [password UTF8String]);
-	
+    
 	if(reply.reply_type != AMQP_RESPONSE_NORMAL)
 	{
 		[NSException raise:@"AMQPLoginException" format:@"Failed to login to server as user %@ on vhost %@ using password %@: %@", username, vhost, password, [self errorDescriptionForReply:reply]];

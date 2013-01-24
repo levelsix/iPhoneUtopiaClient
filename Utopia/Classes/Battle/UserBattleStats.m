@@ -20,67 +20,67 @@
 - (int) weaponAttack {
   Globals *gl = [Globals sharedGlobals];
   if (_userProto) {
-    return _userProto.hasWeaponEquippedUserEquip ? [gl calculateAttackForEquip:_userProto.weaponEquippedUserEquip.equipId level:_userProto.weaponEquippedUserEquip.level] : 1;
+    return _userProto.hasWeaponEquippedUserEquip ? [gl calculateAttackForEquip:_userProto.weaponEquippedUserEquip.equipId level:_userProto.weaponEquippedUserEquip.level enhancePercent:_userProto.weaponEquippedUserEquip.enhancementPercentage] : 1;
   }
   
   GameState *gs = [GameState sharedGameState];
   UserEquip *eq = [gs myEquipWithUserEquipId:gs.weaponEquipped];
-  return eq ? [gl calculateAttackForEquip:eq.equipId level:eq.level] : 1;
+  return eq ? [gl calculateAttackForEquip:eq.equipId level:eq.level enhancePercent:eq.enhancementPercentage] : 1;
 }
 
 - (int) armorAttack {
   Globals *gl = [Globals sharedGlobals];
   if (_userProto) {
-    return _userProto.hasArmorEquippedUserEquip ? [gl calculateAttackForEquip:_userProto.armorEquippedUserEquip.equipId level:_userProto.armorEquippedUserEquip.level] : 1;
+    return _userProto.hasArmorEquippedUserEquip ? [gl calculateAttackForEquip:_userProto.armorEquippedUserEquip.equipId level:_userProto.armorEquippedUserEquip.level enhancePercent:_userProto.armorEquippedUserEquip.enhancementPercentage] : 1;
   }
   
   GameState *gs = [GameState sharedGameState];
   UserEquip *eq = [gs myEquipWithUserEquipId:gs.armorEquipped];
-  return eq ? [gl calculateAttackForEquip:eq.equipId level:eq.level] : 1;
+  return eq ? [gl calculateAttackForEquip:eq.equipId level:eq.level enhancePercent:eq.enhancementPercentage] : 1;
 }
 
 - (int) amuletAttack {
   Globals *gl = [Globals sharedGlobals];
   if (_userProto) {
-    return _userProto.hasAmuletEquippedUserEquip ? [gl calculateAttackForEquip:_userProto.amuletEquippedUserEquip.equipId level:_userProto.amuletEquippedUserEquip.level] : 1;
+    return _userProto.hasAmuletEquippedUserEquip ? [gl calculateAttackForEquip:_userProto.amuletEquippedUserEquip.equipId level:_userProto.amuletEquippedUserEquip.level enhancePercent:_userProto.amuletEquippedUserEquip.enhancementPercentage] : 1;
   }
   
   GameState *gs = [GameState sharedGameState];
   UserEquip *eq = [gs myEquipWithUserEquipId:gs.amuletEquipped];
-  return eq ? [gl calculateAttackForEquip:eq.equipId level:eq.level] : 1;
+  return eq ? [gl calculateAttackForEquip:eq.equipId level:eq.level enhancePercent:eq.enhancementPercentage] : 1;
 }
 
 - (int) weaponDefense {
   Globals *gl = [Globals sharedGlobals];
   if (_userProto) {
-    return _userProto.hasWeaponEquippedUserEquip ? [gl calculateDefenseForEquip:_userProto.weaponEquippedUserEquip.equipId level:_userProto.weaponEquippedUserEquip.level] : 1;
+    return _userProto.hasWeaponEquippedUserEquip ? [gl calculateDefenseForEquip:_userProto.weaponEquippedUserEquip.equipId level:_userProto.weaponEquippedUserEquip.level enhancePercent:_userProto.weaponEquippedUserEquip.enhancementPercentage] : 1;
   }
   
   GameState *gs = [GameState sharedGameState];
   UserEquip *eq = [gs myEquipWithUserEquipId:gs.weaponEquipped];
-  return eq ? [gl calculateDefenseForEquip:eq.equipId level:eq.level] : 1;
+  return eq ? [gl calculateDefenseForEquip:eq.equipId level:eq.level enhancePercent:eq.enhancementPercentage] : 1;
 }
 
 - (int) armorDefense {
   Globals *gl = [Globals sharedGlobals];
   if (_userProto) {
-    return _userProto.hasArmorEquippedUserEquip ? [gl calculateDefenseForEquip:_userProto.armorEquippedUserEquip.equipId level:_userProto.armorEquippedUserEquip.level] : 1;
+    return _userProto.hasArmorEquippedUserEquip ? [gl calculateDefenseForEquip:_userProto.armorEquippedUserEquip.equipId level:_userProto.armorEquippedUserEquip.level enhancePercent:_userProto.armorEquippedUserEquip.enhancementPercentage] : 1;
   }
   
   GameState *gs = [GameState sharedGameState];
   UserEquip *eq = [gs myEquipWithUserEquipId:gs.armorEquipped];
-  return eq ? [gl calculateDefenseForEquip:eq.equipId level:eq.level] : 1;
+  return eq ? [gl calculateDefenseForEquip:eq.equipId level:eq.level enhancePercent:eq.enhancementPercentage] : 1;
 }
 
 - (int) amuletDefense {
   Globals *gl = [Globals sharedGlobals];
   if (_userProto) {
-    return _userProto.hasAmuletEquippedUserEquip ? [gl calculateDefenseForEquip:_userProto.amuletEquippedUserEquip.equipId level:_userProto.amuletEquippedUserEquip.level] : 1;
+    return _userProto.hasAmuletEquippedUserEquip ? [gl calculateDefenseForEquip:_userProto.amuletEquippedUserEquip.equipId level:_userProto.amuletEquippedUserEquip.level enhancePercent:_userProto.amuletEquippedUserEquip.enhancementPercentage] : 1;
   }
   
   GameState *gs = [GameState sharedGameState];
   UserEquip *eq = [gs myEquipWithUserEquipId:gs.amuletEquipped];
-  return eq ? [gl calculateDefenseForEquip:eq.equipId level:eq.level] : 1;
+  return eq ? [gl calculateDefenseForEquip:eq.equipId level:eq.level enhancePercent:eq.enhancementPercentage] : 1;
 }
 
 -(int32_t)level

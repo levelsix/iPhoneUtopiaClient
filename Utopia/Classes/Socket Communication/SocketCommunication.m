@@ -316,7 +316,6 @@ static NSString *udid = nil;
   NSString *advertiserId = nil;
   if ([device respondsToSelector:@selector(identifierForVendor)]) {
     advertiserId = device.identifierForVendor.UUIDString;
-    NSLog(@"%@", advertiserId);
   }
   
   StartupRequestProto_Builder *bldr = [[[[[[StartupRequestProto builder]
@@ -1128,6 +1127,28 @@ static NSString *udid = nil;
                                                    setAfterThisRank:afterThisRank]
                                                   build];
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveLeaderboardRankingsEvent];
+}
+
+- (int) sendSubmitEquipEnhancementMessage:(int)enhancingId feeders:(NSArray *)feeders clientTime:(uint64_t)clientTime {
+  SubmitEquipEnhancementRequestProto *req = [[[[[[SubmitEquipEnhancementRequestProto builder]
+                                                 setSender:_sender]
+                                                setEnhancingUserEquipId:enhancingId]
+                                               setClientTime:clientTime]
+                                              addAllFeederUserEquipIds:feeders]
+                                             build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCSubmitEquipEnhancementEvent];
+}
+
+- (int) sendCollectEquipEnhancementMessage:(int)enhancementId speedup:(BOOL)speedup time:(uint64_t)clientTime {
+  CollectEquipEnhancementRequestProto *req = [[[[[[CollectEquipEnhancementRequestProto builder]
+                                                  setSender:_sender]
+                                                 setEquipEnhancementId:enhancementId]
+                                                setSpeedUp:speedup]
+                                               setClientTime:clientTime]
+                                              build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCCollectEquipEnhancementEvent];
 }
 
 - (int) addAttackSkillPoint {

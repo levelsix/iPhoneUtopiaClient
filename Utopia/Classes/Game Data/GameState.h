@@ -203,6 +203,7 @@
 @property (retain) NSArray *allies;
 
 @property (retain) ForgeAttempt *forgeAttempt;
+@property (retain) EquipEnhancementProto *equipEnhancement;
 
 @property (retain) NSDate *lastGoldmineRetrieval;
 
@@ -291,6 +292,9 @@
 - (void) beginForgeTimer;
 - (void) stopForgeTimer;
 
+- (void) beginEnhancementTimer;
+- (void) stopEnhancementTimer;
+
 - (void) beginGoldmineTimer;
 - (void) goldmineTimeComplete;
 - (void) stopGoldmineTimer;
@@ -318,6 +322,8 @@
 
 - (void) resetGoldSaleTimers;
 - (GoldSaleProto *) getCurrentGoldSale;
+
+- (BOOL) isEngagedInClanTowerWar;
 
 - (NSArray *) mktSearchEquipsSimilarToString:(NSString *)string;
 

@@ -27,12 +27,18 @@
 @property (nonatomic, retain) IBOutlet UILabel *middleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *ownerLabel;
 
+@property (nonatomic, retain) IBOutlet UILabel *leftDayLabel;
+@property (nonatomic, retain) IBOutlet UILabel *rightDayLabel;
 @property (nonatomic, retain) IBOutlet UILabel *leftHourLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rightHourLabel;
 @property (nonatomic, retain) IBOutlet UILabel *leftMinuteLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rightMinuteLabel;
 @property (nonatomic, retain) IBOutlet UILabel *leftSecondLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rightSecondLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *dayLabelsView;
+@property (nonatomic, retain) IBOutlet UIView *otherTimeLabelsView;
+@property (nonatomic, retain) IBOutlet UIView *timeLabelsContainerView;
 
 @property (nonatomic, retain) IBOutlet UILabel *bottomLabel;
 

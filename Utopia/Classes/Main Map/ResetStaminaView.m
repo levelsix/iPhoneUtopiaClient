@@ -17,7 +17,7 @@
   Globals *gl = [Globals sharedGlobals];
   int percent = [gl percentOfSkillPointsInStamina];
   
-  self.descriptionLabel.text = [NSString stringWithFormat:@"You are only using %d%% of your skill points in Stamina. Redistribute skill points to defeat the boss with less refills!", percent];
+  self.descriptionLabel.text = [NSString stringWithFormat:@"You are only using %d%% of your skill points in Stamina. Redistribute skill points to defeat the boss faster!", percent];
   
   [Globals displayUIView:self];
   [Globals bounceView:self.popupView fadeInBgdView:self.bgdView];

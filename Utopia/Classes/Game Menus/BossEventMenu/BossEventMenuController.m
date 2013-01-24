@@ -146,8 +146,8 @@
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
   self.equipIcon.equipId = equipId;
-  self.attackLabel.text = [Globals commafyNumber:[gl calculateAttackForEquip:equipId level:1]];
-  self.defenseLabel.text = [Globals commafyNumber:[gl calculateDefenseForEquip:equipId level:1]];
+  self.attackLabel.text = [Globals commafyNumber:[gl calculateAttackForEquip:equipId level:1 enhancePercent:0]];
+  self.defenseLabel.text = [Globals commafyNumber:[gl calculateDefenseForEquip:equipId level:1 enhancePercent:0]];
   self.nameLabel.text = fep.name;
   self.nameLabel.textColor = [Globals colorForRarity:fep.rarity];
 }

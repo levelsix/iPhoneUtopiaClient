@@ -203,8 +203,9 @@
     self.priceIcon.highlighted = YES;
     self.priceLabel.text = [Globals commafyNumber:proto.diamondCost];
   }
-  self.attStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:proto.postedEquip.equipId level:proto.equipLevel]];
-  self.defStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:proto.postedEquip.equipId level:proto.equipLevel]];
+#warning fix mktplace
+  self.attStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:proto.postedEquip.equipId level:proto.equipLevel enhancePercent:0]];
+  self.defStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:proto.postedEquip.equipId level:proto.equipLevel enhancePercent:0]];
   self.postTitle.text = proto.postedEquip.name;
   self.postTitle.textColor = [Globals colorForRarity:proto.postedEquip.rarity];
   self.equipTypeLabel.text = [Globals stringForEquipType:proto.postedEquip.equipType];
@@ -231,8 +232,8 @@
   [Globals loadImageForEquip:fullEq.equipId toView:self.itemImageView maskedView:nil];
   self.mktProto = nil;
   self.equip = eq;
-  self.attStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:eq.equipId level:eq.level]];
-  self.defStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:eq.equipId level:eq.level]];
+  self.attStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:eq.equipId level:eq.level enhancePercent:eq.enhancementPercentage]];
+  self.defStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:eq.equipId level:eq.level enhancePercent:eq.enhancementPercentage]];
   self.levelIcon.level = eq.level;
   
   if ([Globals canEquip:fullEq]) {
@@ -290,8 +291,9 @@
   titleLabel.textColor = [Globals colorForRarity:fep.rarity];
   classLabel.text = [Globals stringForEquipClassType:fep.classType];
   typeLabel.text = [Globals stringForEquipType:fep.equipType];
-  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:m.equipLevel]];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:m.equipLevel]];
+#warning fix mktplace
+  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:m.equipLevel enhancePercent:0]];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:m.equipLevel enhancePercent:0]];
   levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
   levelIcon.level = m.equipLevel;
   [playerNameButton setTitle:[Globals fullNameWithName:m.poster.name clanTag:m.poster.clan.tag] forState:UIControlStateNormal];
@@ -492,8 +494,8 @@
   UserEquip *ue = [gs myEquipWithUserEquipId:gs.weaponEquipped];
   if (ue) {
     [Globals loadImageForEquip:ue.equipId toView:weaponIcon maskedView:nil];
-    weaponAttackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level]];
-    weaponDefenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level]];
+    weaponAttackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
+    weaponDefenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
   } else {
     weaponIcon.image = nil;
     weaponAttackLabel.text = @"0";
@@ -503,8 +505,8 @@
   ue = [gs myEquipWithUserEquipId:gs.armorEquipped];
   if (ue) {
     [Globals loadImageForEquip:ue.equipId toView:armorIcon maskedView:nil];
-    armorAttackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level]];
-    armorDefenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level]];
+    armorAttackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
+    armorDefenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
   } else {
     armorIcon.image = nil;
     armorAttackLabel.text = @"0";
@@ -514,8 +516,8 @@
   ue = [gs myEquipWithUserEquipId:gs.amuletEquipped];
   if (ue) {
     [Globals loadImageForEquip:ue.equipId toView:amuletIcon maskedView:nil];
-    amuletAttackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level]];
-    amuletDefenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level]];
+    amuletAttackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
+    amuletDefenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
   } else {
     amuletIcon.image = nil;
     amuletAttackLabel.text = @"0";

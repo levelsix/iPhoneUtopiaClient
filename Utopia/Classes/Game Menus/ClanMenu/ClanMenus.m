@@ -326,8 +326,8 @@
       int lvl2 = obj2.minUserProto.minUserProtoWithLevel.level;
       int range1 = ABS(gs.level-lvl1);
       int range2 = ABS(gs.level-lvl2);
-      bool inRange1 = range1 < gl.maxLevelDiffForBattle;
-      bool inRange2 = range2 < gl.maxLevelDiffForBattle;
+      bool inRange1 = range1 <= gl.maxLevelDiffForBattle;
+      bool inRange2 = range2 <= gl.maxLevelDiffForBattle;
       if (inRange1 && inRange2) {
         if (range1 < range2) {
           return NSOrderedAscending;
@@ -368,7 +368,6 @@
   
   leaderId = 0;
   myClan = isMyClan;
-  editModeOn = NO;
   
   [self.membersTable reloadData];
 }

@@ -172,35 +172,22 @@
     healthPercent = _battleConstants.battleHitAttackerPercentOfHealth;
   }
   
-  int health = [gl calculateHealthForLevel:attacker.level];
+  int health = [gl calculateHealthForLevel:defender.level];
   double hitStrength = health*healthPercent;
+  int levelDiff = attacker.level-defender.level;
   double totalEquipPortion = MIN(3*_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfEquipment*(((float)(attacker.weaponAttack+attacker.armorAttack+attacker.amuletAttack))/(defender.weaponDefense+defender.armorDefense+defender.amuletDefense)));
 	double weaponPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfWeapon*(((float)attacker.weaponAttack)/defender.weaponDefense));
   double armorPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfArmor*(((float)attacker.armorAttack)/defender.armorDefense));
   double amuletPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfAmulet*(((float)attacker.amuletAttack)/defender.armorDefense));
   double statsPortion = _battleConstants.battlePercentOfPlayerStats*(((float)attacker.attackStat)/defender.defenseStat);
 	
-	int battleFormula = (int) (hitStrength*(pow(totalEquipPortion+weaponPortion+armorPortion+amuletPortion+statsPortion,_battleConstants.battleAttackExpoMultiplier)));
+	int battleFormula = (int) (hitStrength*(pow((totalEquipPortion+weaponPortion+armorPortion+amuletPortion+statsPortion)*
+                                              pow(_battleConstants.battleEquipAndStatsWeight, levelDifference),
+                                              _battleConstants.battleAttackExpoMultiplier)));
   
   float skillAttack = [self skillMultForPercent:percent];
   
-  //  skillAttack = [self skillMultForPercent:percent];
-  //  userAttack  = attacker.attack;
-  //  
-  //  // Note:It may seem that this Nerf's the stronger character
-  //  // In reality, the only reason why we given an attack boost
-  //  // based on level is so that the battle lengths stay consistent.
-  //  // The risk is that this expandes the difference between levels
-  //  // (above better gear and skill points).  Thus we take the lower
-  //  // value as the attack boost
-  //  int lowerLevel = MIN(attacker.level, defender.level);
-  //  int levelAdjustment = (lowerLevel - 1)*_battleConstants.battleWeightGivenToLevel;
-  //  int attackStrength = [self afterDefenseAttackStrength:userAttack + levelAdjustment
-  //                                            forDefender:defender 
-  //                                             andPercent:percent];
-  //  attackStrength = (attackStrength*skillAttack)/100;
-  
-  // Get User attack values  
+  // Get User attack values   
   return battleFormula * skillAttack / 100.f;
 }
 

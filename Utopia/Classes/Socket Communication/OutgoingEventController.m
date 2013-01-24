@@ -301,11 +301,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
-- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold product:(SKProduct *)product {
+- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product {
   GameState *gs = [GameState sharedGameState];
   if (gs.connected) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt product:product];
-    [[GameState sharedGameState] addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
+    [[GameState sharedGameState] addUnrespondedUpdates:[GoldUpdate updateWithTag:tag change:gold], [SilverUpdate updateWithTag:tag change:silver], nil];
   }
   
   NSString *key = IAP_DEFAULTS_KEY;
@@ -459,7 +459,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [gs.marketplaceEquipPosts removeObject:proto];
       [proto release];
       
-      BOOL showsLicenseRow = YES;
+      BOOL showsLicenseRow = (mvc.state == kEquipSellingState);
       NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+showsLicenseRow inSection:0];
       NSIndexPath *z = nil;
       if (mvc.state == kEquipBuyingState && mktPostsFromSender.count == 0) {
@@ -656,7 +656,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int change = tInt/(gl.energyRefillWaitMinutes*60);
     int realChange = MIN(maxChange, change);
     NSDate *nextDate = [gs.lastEnergyRefill dateByAddingTimeInterval:realChange*gl.energyRefillWaitMinutes*60.f];
-    NSLog(@"Sending refill energy. Last time: %@, Next time: %@", gs.lastEnergyRefill, nextDate);
+    LNLog(@"Sending refill energy. Last time: %@, Next time: %@", gs.lastEnergyRefill, nextDate);
     EnergyUpdate *eu = [EnergyUpdate updateWithTag:tag change:realChange];
     LastEnergyRefillUpdate *leru = [LastEnergyRefillUpdate updateWithTag:tag prevDate:gs.lastEnergyRefill nextDate:nextDate];
     [gs addUnrespondedUpdates:eu, leru, nil];
@@ -1800,7 +1800,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   // Make sure clan controller checks member size and clan leader
   if (gs.clan) {
-    return [[SocketCommunication sharedSocketCommunication] sendLeaveClanMessage];
+    // Make sure clan is not engaged in a clan tower war
+    if ([gs isEngagedInClanTowerWar]) {
+      [Globals popupMessage:@"Sorry, you cannot leave this clan while engaged in a clan tower war."];
+    } else {
+      return [[SocketCommunication sharedSocketCommunication] sendLeaveClanMessage];
+    }
   } else {
     [Globals popupMessage:@"Attempting to leave clan without being in clan."];
   }
@@ -1839,7 +1844,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (!gs.clan || gs.clan.ownerId != gs.userId) {
     [Globals popupMessage:@"Attempting to respond to clan request while not clan leader."];
   } else {
-    return [[SocketCommunication sharedSocketCommunication] sendApproveOrRejectRequestToJoinClan:requesterId accept:accept];
+    if (accept && [gs isEngagedInClanTowerWar]) {
+      [Globals popupMessage:@"Sorry, you cannot accept new members while engaged in a clan tower war."];
+    } else {
+      return [[SocketCommunication sharedSocketCommunication] sendApproveOrRejectRequestToJoinClan:requesterId accept:accept];
+    }
   }
   return 0;
 }
@@ -1875,7 +1884,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (!gs.clan || gs.clan.ownerId != gs.userId) {
     [Globals popupMessage:@"Attempting to boot player while not clan leader."];
   } else {
-    return [[SocketCommunication sharedSocketCommunication] sendBootPlayerFromClan:playerId];
+    // Make sure clan is not engaged in a clan tower war
+    if ([gs isEngagedInClanTowerWar]) {
+      [Globals popupMessage:@"Sorry, you cannot boot a player while engaged in a clan tower war."];
+    } else {
+      return [[SocketCommunication sharedSocketCommunication] sendBootPlayerFromClan:playerId];
+    }
   }
   return 0;
 }
@@ -2135,6 +2149,49 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (int) concedeClanTower:(int)towerId {
   return [[SocketCommunication sharedSocketCommunication] sendConcedeClanTowerWar:towerId clientTime:[self getCurrentMilliseconds]];
+}
+
+- (void) submitEquipEnhancement:(int)enhancingId feeders:(NSArray *)feeders {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableSet *userEquips = [NSMutableSet set];
+  
+  if (gs.equipEnhancement) {
+    [Globals popupMessage:@"Attempting to submit enhancement while already enhancing equip."];
+  } else if (feeders.count <= 0) {
+    [Globals popupMessage:@"Attempting to submit enhancement without any feeder equips."];
+  } else {
+    UserEquip *e = [gs myEquipWithUserEquipId:enhancingId];
+    if (e) {
+      [userEquips addObject:e];
+      for (NSNumber *n in feeders) {
+        e = [gs myEquipWithUserEquipId:n.intValue];
+        if (e) {
+          [userEquips addObject:e];
+        } else {
+          [Globals popupMessage:@"One or more equips cannot be found."];
+          return;
+        }
+      }
+      
+      if (userEquips.count != feeders.count+1) {
+        [Globals popupMessage:@"Attempting to enhance with a repeated equip."];
+        return;
+      }
+    } else {
+      [Globals popupMessage:@"One or more equips cannot be found."];
+      return;
+    }
+    
+    [[SocketCommunication sharedSocketCommunication] sendSubmitEquipEnhancementMessage:enhancingId feeders:feeders clientTime:[self getCurrentMilliseconds]];
+    
+    [gs.myEquips removeObjectsInArray:userEquips.allObjects];
+  }
+}
+
+- (void) collectEquipEnhancement:(int)enhancementId speedup:(BOOL)speedup gold:(int)gold {
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendCollectEquipEnhancementMessage:enhancementId speedup:speedup time:[self getCurrentMilliseconds]];
+  [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gold]];
 }
 
 @end

@@ -37,13 +37,14 @@
 @synthesize equalPlusSign, twinkleIcon;
 @synthesize loadingView;
 @synthesize curItem;
+@synthesize forgingView, enhancingView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 
-- (id) init {
-  Globals *gl = [Globals sharedGlobals];
-  return [self initWithNibName:@"ForgeMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName]];
-}
+//- (id) init {
+//  Globals *gl = [Globals sharedGlobals];
+//  return [self initWithNibName:@"ForgeMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName]];
+//}
 
 - (void)viewDidLoad
 {
@@ -57,20 +58,24 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   self.backMovingView.hidden = YES;
   self.frontMovingView.hidden = YES;
   
-  [self.mainView insertSubview:self.frontMovingView aboveSubview:self.frontOldItemView];
-  [self.mainView insertSubview:self.backMovingView aboveSubview:self.backOldItemView];
+  [self.forgingView insertSubview:self.frontMovingView aboveSubview:self.frontOldItemView];
+  [self.forgingView insertSubview:self.backMovingView aboveSubview:self.backOldItemView];
   
   progressView.frame = notForgingMiddleView.frame;
-  [self.mainView addSubview:progressView];
+  [self.forgingView addSubview:progressView];
   
   statusView.frame = notForgingMiddleView.frame;
-  [self.mainView addSubview:statusView];
+  [self.forgingView addSubview:statusView];
   
   notEnoughQuantityView.frame = notForgingMiddleView.frame;
-  [self.mainView addSubview:notEnoughQuantityView];
+  [self.forgingView addSubview:notEnoughQuantityView];
   
   buyOneView.frame = forgeButton.frame;
-  [self.mainView addSubview:buyOneView];
+  [self.forgingView addSubview:buyOneView];
+  
+  self.enhancingView.frame = self.forgingView.frame;
+  [self.mainView addSubview:self.enhancingView];
+  self.forgingView.hidden = YES;
   
   backOldFrame = self.backOldItemView.frame;
   frontOldFrame = self.frontOldItemView.frame;
@@ -129,6 +134,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     self.buyOneView = nil;
     self.buyOneCoinIcon = nil;
     self.buyOneLabel = nil;
+    self.forgingView = nil;
+    self.enhancingView = nil;
   }
 }
 
@@ -150,6 +157,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   _forgedUserEquipId = 0;
   
   [self.coinBar updateLabels];
+  
+  [self.enhancingView reload];
   
   [[SoundEngine sharedSoundEngine] forgeEnter];
 }
@@ -229,10 +238,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
       } else if (best.quantity >= 2 && item.quantity < 2) {
         // Keep the old best
       } else {
-        int bestAttack = [gl calculateAttackForEquip:best.equipId level:best.level];
-        int bestDefense = [gl calculateDefenseForEquip:best.equipId level:best.level];
-        int curAttack = [gl calculateAttackForEquip:item.equipId level:item.level];
-        int curDefense = [gl calculateDefenseForEquip:item.equipId level:item.level];
+        int bestAttack = [gl calculateAttackForEquip:best.equipId level:best.level enhancePercent:0];
+        int bestDefense = [gl calculateDefenseForEquip:best.equipId level:best.level enhancePercent:0];
+        int curAttack = [gl calculateAttackForEquip:item.equipId level:item.level enhancePercent:0];
+        int curDefense = [gl calculateDefenseForEquip:item.equipId level:item.level enhancePercent:0];
         if (curAttack+curDefense > bestAttack+bestDefense) {
           best = item;
         }
@@ -302,10 +311,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   self.backOldItemView.alpha = 1.f;
   self.frontOldItemView.alpha = 1.f;
   
-  int oldAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level];
-  int oldDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level];
-  int newAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level+1];
-  int newDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level+1];
+  int oldAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level enhancePercent:0];
+  int oldDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level enhancePercent:0];
+  int newAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level+1 enhancePercent:0];
+  int newDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level+1 enhancePercent:0];
   
   self.backOldAttackLabel.text = [NSString stringWithFormat:@"%d", oldAttack];
   self.backOldDefenseLabel.text = [NSString stringWithFormat:@"%d", oldDefense];
@@ -361,10 +370,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   Globals *gl = [Globals sharedGlobals];
   //  FullEquipProto *fep = [gs equipWithId:fi.equipId];
   
-  int oldAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level];
-  int oldDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level];
-  int newAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level+1];
-  int newDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level+1];
+  int oldAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level enhancePercent:0];
+  int oldDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level enhancePercent:0];
+  int newAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level+1 enhancePercent:0];
+  int newDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level+1 enhancePercent:0];
   
   self.backOldAttackLabel.text = [NSString stringWithFormat:@"%d", oldAttack];
   self.backOldDefenseLabel.text = [NSString stringWithFormat:@"%d", oldDefense];
@@ -413,7 +422,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   }
   
   if (fiv) {
-    self.backMovingView.frame = [self.mainView convertRect:fiv.equipIcon.frame fromView:fiv.equipIcon.superview];
+    self.backMovingView.frame = [self.forgingView convertRect:fiv.equipIcon.frame fromView:fiv.equipIcon.superview];
     
     [Globals loadImageForEquip:fi.equipId toView:self.backOldEquipIcon maskedView:nil];
     self.backOldEquipIcon.alpha = 0.5f;
@@ -427,7 +436,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     self.upgrDefenseLabel.alpha = 0.f;
     
     [UIView animateWithDuration:0.5f delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
-      self.backMovingView.frame = [self.mainView convertRect:self.backOldEquipIcon.frame fromView:self.backOldEquipIcon.superview];
+      self.backMovingView.frame = [self.forgingView convertRect:self.backOldEquipIcon.frame fromView:self.backOldEquipIcon.superview];
       self.upgrEquipIcon.alpha = 1.f;
       self.backOldAttackLabel.alpha = 1.f;
       self.backOldDefenseLabel.alpha = 1.f;
@@ -483,10 +492,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
       }
     }
     
-    int oldAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level];
-    int oldDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level];
-    int newAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level+1];
-    int newDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level+1];
+    int oldAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level enhancePercent:0];
+    int oldDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level enhancePercent:0];
+    int newAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level+1 enhancePercent:0];
+    int newDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level+1 enhancePercent:0];
     
     self.backOldAttackLabel.text = [NSString stringWithFormat:@"%d", oldAttack];
     self.backOldDefenseLabel.text = [NSString stringWithFormat:@"%d", oldDefense];
@@ -543,8 +552,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     
     // If fiv is not nil, then animate it
     if (fiv) {
-      self.backMovingView.frame = [self.mainView convertRect:fiv.equipIcon.frame fromView:fiv.equipIcon.superview];
-      self.frontMovingView.frame = [self.mainView convertRect:fiv.equipIcon.frame fromView:fiv.equipIcon.superview];
+      self.backMovingView.frame = [self.forgingView convertRect:fiv.equipIcon.frame fromView:fiv.equipIcon.superview];
+      self.frontMovingView.frame = [self.forgingView convertRect:fiv.equipIcon.frame fromView:fiv.equipIcon.superview];
       
       [Globals loadImageForEquip:fi.equipId toView:self.backOldEquipIcon maskedView:nil];
       [Globals loadImageForEquip:fi.equipId toView:self.frontOldEquipIcon maskedView:nil];
@@ -563,8 +572,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
       self.upgrDefenseLabel.alpha = 0.f;
       
       [UIView animateWithDuration:0.5f delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
-        self.backMovingView.frame = [self.mainView convertRect:self.backOldEquipIcon.frame fromView:self.backOldEquipIcon.superview];
-        self.frontMovingView.frame = [self.mainView convertRect:self.frontOldEquipIcon.frame fromView:self.frontOldEquipIcon.superview];
+        self.backMovingView.frame = [self.forgingView convertRect:self.backOldEquipIcon.frame fromView:self.backOldEquipIcon.superview];
+        self.frontMovingView.frame = [self.forgingView convertRect:self.frontOldEquipIcon.frame fromView:self.frontOldEquipIcon.superview];
         self.upgrEquipIcon.alpha = 1.f;
         self.backOldAttackLabel.alpha = 1.f;
         self.backOldDefenseLabel.alpha = 1.f;
@@ -856,10 +865,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   Globals *gl = [Globals sharedGlobals];
   FullUserEquipProto *fuep1 = [equips objectAtIndex:0];
   FullUserEquipProto *fuep2 = [equips objectAtIndex:1];
-  int attack1 = [gl calculateAttackForEquip:fuep1.equipId level:fuep1.level];
-  int defense1 = [gl calculateDefenseForEquip:fuep1.equipId level:fuep1.level];
-  int attack2 = [gl calculateAttackForEquip:fuep2.equipId level:fuep2.level];
-  int defense2 = [gl calculateDefenseForEquip:fuep2.equipId level:fuep2.level];
+  int attack1 = [gl calculateAttackForEquip:fuep1.equipId level:fuep1.level enhancePercent:0];
+  int defense1 = [gl calculateDefenseForEquip:fuep1.equipId level:fuep1.level enhancePercent:0];
+  int attack2 = [gl calculateAttackForEquip:fuep2.equipId level:fuep2.level enhancePercent:0];
+  int defense2 = [gl calculateDefenseForEquip:fuep2.equipId level:fuep2.level enhancePercent:0];
   
   self.backOldAttackLabel.text = [NSString stringWithFormat:@"%d", attack1];
   self.backOldDefenseLabel.text = [NSString stringWithFormat:@"%d", defense1];
@@ -1081,7 +1090,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
                           botColor:[Globals colorForRarity:fep.rarity]];
       
       [Globals popupView:testView
-             onSuperView:self.mainView
+             onSuperView:self.forgingView
                  atPoint:startLoc
      withCompletionBlock:nil];
       

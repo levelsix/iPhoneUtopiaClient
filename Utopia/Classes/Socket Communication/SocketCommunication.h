@@ -151,6 +151,9 @@
 
 - (int) sendRetrieveLeaderboardRankingsMessage:(int)eventId afterThisRank:(int)afterThisRank;
 
+- (int) sendSubmitEquipEnhancementMessage:(int)enhancingId feeders:(NSArray *)feeders clientTime:(uint64_t)clientTime;
+- (int) sendCollectEquipEnhancementMessage:(int)enhancementId speedup:(BOOL)speedup time:(uint64_t)clientTime;
+
 - (int) addAttackSkillPoint;
 - (int) addDefenseSkillPoint;
 - (int) addEnergySkillPoint;

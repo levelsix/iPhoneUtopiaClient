@@ -10,6 +10,7 @@
 #import "NibUtils.h"
 #import "ForgeMenus.h"
 #import "CoinBar.h"
+#import "ForgeEnhanceView.h"
 
 @interface ForgeMenuController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
   CGRect backOldFrame;
@@ -74,6 +75,9 @@
 @property (nonatomic, retain) IBOutlet CoinBar *coinBar;
 
 @property (nonatomic, retain) IBOutlet ForgeItemView *itemView;
+
+@property (nonatomic, retain) IBOutlet UIView *forgingView;
+@property (nonatomic, retain) IBOutlet ForgeEnhanceView *enhancingView;
 
 @property (nonatomic, retain) NSMutableArray *forgeItems;
 @property (nonatomic, retain) ForgeItem *curItem;

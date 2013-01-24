@@ -181,6 +181,8 @@ message StartupResponseProto {
 	
 	repeated LeaderboardEventProto leaderboardEvents = 41;
 	
+	optional EquipEnhancementProto equipEnhancement = 42;
+	
 	message DailyBonusInfo {
 		optional int32 numConsecutiveDaysPlayed = 1;
 		optional bool firstTimeToday = 2;
@@ -211,8 +213,10 @@ message StartupResponseProto {
 	}
 		  
 	message StartupConstants {
+		// Keep for legacy reasons
 	  	repeated string productIds = 1;
 	  	repeated int32 productDiamondsGiven = 2;
+	  	
     	optional int32 maxLevelDifferenceForBattle = 6;
     	optional int32 maxLevelForUser = 62;
     	
@@ -330,6 +334,25 @@ message StartupResponseProto {
 		optional BazaarMinLevelConstants minLevelConstants = 93;
 		
 		optional LeaderboardEventConstants leaderboardConstants = 94;
+		
+		repeated InAppPurchasePackageProto inAppPurchasePackages = 95;
+		
+		optional EnhancementConstants enhanceConstants = 96;
+		
+		message EnhancementConstants {
+			optional int32 maxEnhancementLevel = 1;
+			optional int32 enhancePercentPerLevel = 2;
+			optional float enhanceTimeConstantA = 3;
+			optional float enhanceTimeConstantB = 4;
+			optional float enhanceTimeConstantC = 5;
+			optional float enhanceTimeConstantD = 6;
+			optional float enhanceTimeConstantE = 7;
+			optional float enhanceTimeConstantF = 8;
+			optional float enhanceTimeConstantG = 9;
+			optional float enhancePercentConstantA = 10;
+			optional float enhancePercentConstantB = 11;
+			optional float enhanceLevelExponentBase = 12;
+		}
 		
 		message LeaderboardEventConstants {
 			optional int32 winsWeight = 1;
@@ -451,6 +474,7 @@ message StartupResponseProto {
 			optional double battleAttackExpoMultiplier = 23;
 			optional double battlePercentOfEquipment = 24;
 			optional double battleIndividualEquipAttackCap = 25;
+			optional double battleEquipAndStatsWeight = 27;
 		}
 		
 		message ForgeConstants {
@@ -913,6 +937,7 @@ message InAppPurchaseResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional InAppPurchaseStatus status = 2;
 	optional int32 diamondsGained = 3;
+	optional int32 coinsGained = 7;
 	
 	optional string packageName = 4;
 	optional double packagePrice = 5;
@@ -2295,6 +2320,7 @@ message BeginClanTowerWarRequestProto {
 message BeginClanTowerWarResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional BeginClanTowerWarStatus status = 2;
+	optional int32 numMinutesTillNextAttack = 3;
 	
 	enum BeginClanTowerWarStatus {
 		SUCCESS = 0;
@@ -2305,6 +2331,7 @@ message BeginClanTowerWarResponseProto {
 		OTHER_FAIL = 5;
 		TOWER_ALREADY_CLAIMED = 6;
 		SAME_SIDE = 7;
+		NOT_ENOUGH_TIME_SINCE_LAST_BATTLE = 8;
 	}
 }
 
@@ -2351,7 +2378,47 @@ message GeneralNotificationResponseProto {
 	optional ColorProto rgb = 3;
 }
 
-//if reset
-	//if owner, don't allow it
-	//else delete all user_clan stuff with that user_id
+message SubmitEquipEnhancementRequestProto {
+	optional MinimumUserProto sender = 1;
+	optional int32 enhancingUserEquipId = 2;
+	repeated int32 feederUserEquipIds = 3;
+	optional int64 clientTime = 4;
+}
+
+message SubmitEquipEnhancementResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional EnhanceEquipStatus status = 2;
+	optional EquipEnhancementProto equipToEnhance = 3;
+
+	enum EnhanceEquipStatus {
+		SUCCESS = 0;
+		OTHER_FAIL = 1;
+		CLIENT_TOO_APART_FROM_SERVER_TIME = 2;
+		MAIN_OR_FEEDER_OR_EQUIPS_NONEXISTENT = 3;
+		TRYING_TO_SURPASS_MAX_LEVEL = 4;
+		ALREADY_ENHANCING = 5;
+	}
+}
+
+message CollectEquipEnhancementRequestProto {
+	optional MinimumUserProto sender = 1;
+	optional int32 equipEnhancementId = 2;
+	optional int64 clientTime = 3; //this will be the time of speed up if speedUp is true
+	optional bool speedUp = 4;
+}
+
+message CollectEquipEnhancementResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional CollectEquipStatus status = 2;
+	optional FullUserEquipProto resultingEquip = 3;
+	
+	enum CollectEquipStatus {
+		SUCCESS = 0;
+		CLIENT_TOO_APART_FROM_SERVER_TIME = 1;
+		ENHANCEMENT_NOT_COMPLETE = 2;
+		OTHER_FAIL = 3;
+		NOT_ENOUGH_GOLD = 4;
+	}
+}
+
 	

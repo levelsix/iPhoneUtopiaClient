@@ -426,8 +426,28 @@
   if (level != l) {
     level = l;
     
-    if (level > 0 && level <= 10) {
+    Globals *gl = [Globals sharedGlobals];
+    if (level > 0 && level <= gl.forgeMaxEquipLevel) {
       [Globals imageNamed:[NSString stringWithFormat:@"lvl%d.png", l] withImageView:self maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    } else {
+      self.image = nil;
+    }
+  }
+}
+
+@end
+
+@implementation EnhancementLevelIcon
+
+@synthesize level;
+
+- (void) setLevel:(int)l {
+  if (level != l) {
+    level = l;
+    
+    Globals *gl = [Globals sharedGlobals];
+    if (level > 0 && level <= gl.maxEnhancementLevel) {
+      [Globals imageNamed:[NSString stringWithFormat:@"enhancelvl%d.png", l] withImageView:self maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     } else {
       self.image = nil;
     }

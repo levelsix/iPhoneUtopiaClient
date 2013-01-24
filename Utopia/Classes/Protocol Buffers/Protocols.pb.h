@@ -60,6 +60,10 @@
 @class ClanTierLevelProto_Builder;
 @class ClanTowerProto;
 @class ClanTowerProto_Builder;
+@class CollectEquipEnhancementRequestProto;
+@class CollectEquipEnhancementRequestProto_Builder;
+@class CollectEquipEnhancementResponseProto;
+@class CollectEquipEnhancementResponseProto_Builder;
 @class CollectForgeEquipsRequestProto;
 @class CollectForgeEquipsRequestProto_Builder;
 @class CollectForgeEquipsResponseProto;
@@ -98,6 +102,10 @@
 @class EnableAPNSRequestProto_Builder;
 @class EnableAPNSResponseProto;
 @class EnableAPNSResponseProto_Builder;
+@class EquipEnhancementItemProto;
+@class EquipEnhancementItemProto_Builder;
+@class EquipEnhancementProto;
+@class EquipEnhancementProto_Builder;
 @class EquipEquipmentRequestProto;
 @class EquipEquipmentRequestProto_Builder;
 @class EquipEquipmentResponseProto;
@@ -166,6 +174,8 @@
 @class GoldSaleProto_Builder;
 @class GroupChatMessageProto;
 @class GroupChatMessageProto_Builder;
+@class InAppPurchasePackageProto;
+@class InAppPurchasePackageProto_Builder;
 @class InAppPurchaseRequestProto;
 @class InAppPurchaseRequestProto_Builder;
 @class InAppPurchaseResponseProto;
@@ -412,6 +422,8 @@
 @class StartupResponseProto_StartupConstants_ClanConstants_Builder;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder;
+@class StartupResponseProto_StartupConstants_EnhancementConstants;
+@class StartupResponseProto_StartupConstants_EnhancementConstants_Builder;
 @class StartupResponseProto_StartupConstants_ExpansionConstants;
 @class StartupResponseProto_StartupConstants_ExpansionConstants_Builder;
 @class StartupResponseProto_StartupConstants_ForgeConstants;
@@ -432,6 +444,10 @@
 @class StartupResponseProto_TutorialConstants_Builder;
 @class StartupResponseProto_TutorialConstants_FullTutorialQuestProto;
 @class StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder;
+@class SubmitEquipEnhancementRequestProto;
+@class SubmitEquipEnhancementRequestProto_Builder;
+@class SubmitEquipEnhancementResponseProto;
+@class SubmitEquipEnhancementResponseProto_Builder;
 @class SubmitEquipsToBlacksmithRequestProto;
 @class SubmitEquipsToBlacksmithRequestProto_Builder;
 @class SubmitEquipsToBlacksmithResponseProto;
@@ -553,6 +569,8 @@ typedef enum {
   EventProtocolRequestCUpgradeClanTierEvent = 74,
   EventProtocolRequestCConcedeClanTowerWar = 75,
   EventProtocolRequestCRetrieveLeaderboardRankingsEvent = 76,
+  EventProtocolRequestCSubmitEquipEnhancementEvent = 78,
+  EventProtocolRequestCCollectEquipEnhancementEvent = 79,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -635,6 +653,8 @@ typedef enum {
   EventProtocolResponseSConcedeClanTowerWarEvent = 75,
   EventProtocolResponseSChangedClanTowerEvent = 76,
   EventProtocolResponseSRetrieveLeaderboardRankingsEvent = 77,
+  EventProtocolResponseSSubmitEquipEnhancementEvent = 78,
+  EventProtocolResponseSCollectEquipEnhancementEvent = 79,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

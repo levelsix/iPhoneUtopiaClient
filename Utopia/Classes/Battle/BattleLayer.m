@@ -226,8 +226,8 @@
   nameLabel.text = fep.name;
   nameLabel.textColor = [Globals colorForRarity:fep.rarity];
   equipIcon.equipId = fep.equipId;
-  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fuep.equipId level:fuep.level]];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fuep.equipId level:fuep.level]];
+  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fuep.equipId level:fuep.level enhancePercent:fuep.enhancementPercentage]];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fuep.equipId level:fuep.level enhancePercent:fuep.enhancementPercentage]];
   levelIcon.level = fuep.level;
   
   statsView.hidden = NO;
@@ -591,9 +591,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     return NO;
   }
   
-  if (ABS(gs.level-user.level) > gl.maxLevelDiffForBattle) {
-    [Globals popupMessage:@"The level difference is too much to start battle."];
-    return NO;
+  // Check if this is a clan tower battle
+  int myClan = gs.clan.clanId;
+  int enemyClan = user.clan.clanId;
+  BOOL isClanTowerBattle = NO;
+  if (myClan > 0 && enemyClan > 0) {
+    for (ClanTowerProto *ctp in gs.clanTowers) {
+      if (ctp.hasTowerAttacker && ctp.hasTowerOwner) {
+        int ownerId = ctp.towerOwner.clanId;
+        int attackerId = ctp.towerAttacker.clanId;
+        
+        if (myClan == ownerId && enemyClan == attackerId) {
+          isClanTowerBattle = YES;
+        }
+        if (myClan == attackerId && enemyClan == ownerId) {
+          isClanTowerBattle = YES;
+        }
+      }
+    }
+  }
+  
+  if (!isClanTowerBattle) {
+    if (ABS(gs.level-user.level) > gl.maxLevelDiffForBattle) {
+      [Globals popupMessage:@"The level difference is too much to start battle."];
+      return NO;
+    }
   }
   
   if (_fup != user) {
@@ -683,6 +705,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
       } else {
         _cameFromAviary = NO;
       }
+    } else {
+      _cameFromAviary = NO;
     }
     
     if ([MarketplaceViewController isInitialized]) {
@@ -695,8 +719,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     
     if ([ClanMenuController isInitialized]) {
       ClanMenuController *cmc = [ClanMenuController sharedClanMenuController];
-      _cameFromClans = YES;
-      [cmc close];
+      if (cmc.view.superview) {
+        _cameFromClans = YES;
+        [cmc close];
+      } else {
+        _cameFromClans = NO;
+      }
     } else {
       _cameFromClans = NO;
     }
@@ -710,8 +738,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     }
     
     if ([TournamentMenuController isInitialized]) {
-      [[TournamentMenuController sharedTournamentMenuController] closeClicked:nil];
-      _cameFromTournament = YES;
+      TournamentMenuController *tmc = [TournamentMenuController sharedTournamentMenuController];
+      if (tmc.view.superview) {
+        [tmc closeClicked:nil];
+        _cameFromTournament = YES;
+      } else {
+        _cameFromTournament = NO;
+      }
     } else {
       _cameFromTournament = NO;
     }

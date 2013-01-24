@@ -9,6 +9,7 @@
 #import "InGameNotification.h"
 #import "ActivityFeedController.h"
 #import "ProfileViewController.h"
+#import "TopBar.h"
 
 @implementation InGameNotification
 
@@ -19,9 +20,8 @@
   } else if (self.notification.type != kNotificationWallPost) {
     [ActivityFeedController displayView];
   } else {
-    [[ProfileViewController sharedProfileViewController] loadMyProfile];
-    [[ProfileViewController sharedProfileViewController] setState:kProfileState];
-    [ProfileViewController displayView];
+    // This will remove the badge as well as displaying the profile
+    [[[TopBar sharedTopBar] profilePic] button3Clicked:nil];
   }
 }
 

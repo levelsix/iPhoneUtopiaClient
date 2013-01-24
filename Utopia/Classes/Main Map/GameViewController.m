@@ -70,7 +70,7 @@
 #define PART_1_PERCENT 0.05f
 #define PART_2_PERCENT 0.85f
 #define PART_3_PERCENT 1.f
-#define SECONDS_PER_PART 7.f
+#define SECONDS_PER_PART 10.f
 
 @implementation GameView
 

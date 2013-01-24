@@ -272,28 +272,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   NSNumber *num = [NSNumber numberWithInt:itemId];
   id p = [dict objectForKey:num];
   int numTimes = 1;
-//  if (dict == _staticEquips && numTimes % 10 == 1) {
-//    NSLog(@"Looking for equip %d. Iter: %d", itemId, numTimes);
-//    if (numTimes == 1 && dict.count > 0) {
-//      NSArray *arr = [dict allKeys];
-//      NSMutableString *str = [NSMutableString stringWithFormat:@"{%d", [[arr objectAtIndex:0] intValue]];
-//      for (int i = 1; i < arr.count; i++) {
-//        [str appendString:[NSString stringWithFormat:@", %d", [[arr objectAtIndex:i] intValue]]];
-//      }
-//      NSLog(@"Eq: %@}", str);
-//    }
-//  }
-//  if (dict == _staticStructs && numTimes % 10 == 1) {
-//    NSLog(@"Looking for struct %d. Iter: %d", itemId, numTimes);
-//    if (numTimes == 1 && dict.count > 0) {
-//      NSArray *arr = [dict allKeys];
-//      NSMutableString *str = [NSMutableString stringWithFormat:@"{%d", [[arr objectAtIndex:0] intValue]];
-//      for (int i = 1; i < arr.count; i++) {
-//        [str appendString:[NSString stringWithFormat:@", %d", [[arr objectAtIndex:i] intValue]]];
-//      }
-//      NSLog(@"St: %@}", str);
-//    }
-//  }
   while (!p) {
     numTimes++;
     if (numTimes == 50 || (numTimes %= 100) == 99) {
@@ -907,6 +885,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) beginEnhancementTimer {
+  
+}
+
+- (void) stopEnhancementTimer {
+  
+}
+
 - (void) beginGoldmineTimer {
   [self stopGoldmineTimer];
   Globals *gl = [Globals sharedGlobals];
@@ -1162,14 +1148,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     NSTimer *timer;
     NSTimeInterval timeInterval;
     
-    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.startDate/1000.0+gl.tournamentNumHrsToDisplayAfterEnd*3600] timeIntervalSinceNow];
+    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.startDate/1000.0] timeIntervalSinceNow];
     if (timeInterval > 0) {
       timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateTournamentButton) userInfo:nil repeats:NO];
       [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
       [_tournamentTimers addObject:timer];
     }
     
-    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.endDate/1000.0] timeIntervalSinceNow];
+    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.endDate/1000.0+gl.tournamentNumHrsToDisplayAfterEnd*3600] timeIntervalSinceNow];
     if (timeInterval > 0) {
       timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateTournamentButton) userInfo:nil repeats:NO];
       [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
@@ -1182,7 +1168,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   Globals *gl = [Globals sharedGlobals];
   double curTime = [[NSDate date] timeIntervalSince1970]*1000.0;
   for (LeaderboardEventProto *p in _staticTournaments) {
-    if (curTime > p.startDate+gl.tournamentNumHrsToDisplayAfterEnd*3600000l && curTime < p.lastShowDate) {
+    if (curTime > p.startDate && curTime < p.lastShowDate+gl.tournamentNumHrsToDisplayAfterEnd*3600000l) {
       return p;
     }
   }
@@ -1319,6 +1305,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return arr;
 }
 
+- (BOOL) isEngagedInClanTowerWar {
+  for (ClanTowerProto *ctp in self.clanTowers) {
+    if (ctp.hasTowerAttacker && ctp.hasTowerOwner) {
+      if (ctp.towerAttacker.clanId == self.clan.clanId || ctp.towerOwner.clanId == self.clan.clanId) {
+        return YES;
+      }
+    }
+  }
+  return NO;
+}
+
 - (void) purgeStaticData {
   [_staticQuests removeAllObjects];
   [_staticBuildStructJobs removeAllObjects];
@@ -1398,6 +1395,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.clanTierLevels = nil;
   self.clanTowers = nil;
   
+  
+  self.equipEnhancement = nil;
+  
   self.clan = nil;
   self.userId = 0;
   
@@ -1461,6 +1461,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.mktSearchEquips = nil;
   self.userExpansion = nil;
   self.clanTowers = nil;
+  self.equipEnhancement = nil;
   [self stopAllLockBoxTimers];
   [self stopAllBossEventTimers];
   [self stopForgeTimer];

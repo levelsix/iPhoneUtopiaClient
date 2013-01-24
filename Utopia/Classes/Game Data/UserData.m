@@ -30,6 +30,7 @@
     self.equipId = proto.equipId;
     self.level = proto.level;
     self.userEquipId = proto.userEquipId;
+    self.enhancementPercentage = proto.enhancementPercentage;
   }
   return self;
 }
@@ -38,8 +39,25 @@
   return [[[self alloc] initWithEquipProto:proto] autorelease];
 }
 
+- (id) initWithEquipEnhancementItemProto:(EquipEnhancementItemProto *)proto {
+  if ((self = [super init])){
+    self.equipId = proto.equipId;
+    self.level = proto.level;
+    self.enhancementPercentage = proto.enhancementPercentage;
+  }
+  return self;
+}
+
++ (id) userEquipWithEquipEnhancementItemProto:(EquipEnhancementItemProto *)proto {
+  return [[[self alloc] initWithEquipEnhancementItemProto:proto] autorelease];
+}
+
 - (NSString *) description {
   return [NSString stringWithFormat:@"%p: Level %d %@, UserEquipId:%d", self, level, [[GameState sharedGameState] equipWithId:equipId].name, userEquipId];
+}
+
+- (BOOL) isEqual:(UserEquip *)object {
+  return object.userEquipId == userEquipId;
 }
 
 @end

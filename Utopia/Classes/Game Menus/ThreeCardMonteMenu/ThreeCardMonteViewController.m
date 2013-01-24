@@ -121,8 +121,8 @@ typedef enum {
       equipItemLevelIcon.level = level;
       equipItemAttackIcon.highlighted = (type != MEDIUM);
       equipItemDefenseIcon.highlighted = (type != MEDIUM);
-      equipItemAttackLabel.text = [Globals commafyNumber:[gl calculateAttackForEquip:fep.equipId level:level]];
-      equipItemDefenseLabel.text = [Globals commafyNumber:[gl calculateDefenseForEquip:fep.equipId level:level]];
+      equipItemAttackLabel.text = [Globals commafyNumber:[gl calculateAttackForEquip:fep.equipId level:level enhancePercent:0]];
+      equipItemDefenseLabel.text = [Globals commafyNumber:[gl calculateDefenseForEquip:fep.equipId level:level enhancePercent:0]];
       
       equipItemNameLabel.textColor = textColor;
       equipItemAttackLabel.textColor = textColor;

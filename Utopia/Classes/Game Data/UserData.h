@@ -19,8 +19,10 @@
 @property (nonatomic, assign) int equipId;
 @property (nonatomic, assign) int level;
 @property (nonatomic, assign) int durability;
+@property (nonatomic, assign) int enhancementPercentage;
 
 + (id) userEquipWithProto:(FullUserEquipProto *)proto;
++ (id) userEquipWithEquipEnhancementItemProto:(EquipEnhancementItemProto *)proto;
 
 @end
 

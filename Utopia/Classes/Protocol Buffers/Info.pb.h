@@ -22,6 +22,10 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
+@class EquipEnhancementItemProto;
+@class EquipEnhancementItemProto_Builder;
+@class EquipEnhancementProto;
+@class EquipEnhancementProto_Builder;
 @class FullBossProto;
 @class FullBossProto_Builder;
 @class FullCityProto;
@@ -64,6 +68,8 @@
 @class GoldSaleProto_Builder;
 @class GroupChatMessageProto;
 @class GroupChatMessageProto_Builder;
+@class InAppPurchasePackageProto;
+@class InAppPurchasePackageProto_Builder;
 @class LeaderboardEventProto;
 @class LeaderboardEventProto_Builder;
 @class LeaderboardEventRewardProto;
@@ -315,6 +321,243 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
+@end
+
+@interface EquipEnhancementProto : PBGeneratedMessage {
+@private
+  BOOL hasStartTime_:1;
+  BOOL hasTimeOfSpeedup_:1;
+  BOOL hasEnhancementId_:1;
+  BOOL hasUserId_:1;
+  BOOL hasEnhancingEquip_:1;
+  int64_t startTime;
+  int64_t timeOfSpeedup;
+  int32_t enhancementId;
+  int32_t userId;
+  EquipEnhancementItemProto* enhancingEquip;
+  NSMutableArray* mutableFeederEquipsList;
+}
+- (BOOL) hasEnhancementId;
+- (BOOL) hasUserId;
+- (BOOL) hasEnhancingEquip;
+- (BOOL) hasStartTime;
+- (BOOL) hasTimeOfSpeedup;
+@property (readonly) int32_t enhancementId;
+@property (readonly) int32_t userId;
+@property (readonly, retain) EquipEnhancementItemProto* enhancingEquip;
+@property (readonly) int64_t startTime;
+@property (readonly) int64_t timeOfSpeedup;
+- (NSArray*) feederEquipsList;
+- (EquipEnhancementItemProto*) feederEquipsAtIndex:(int32_t) index;
+
++ (EquipEnhancementProto*) defaultInstance;
+- (EquipEnhancementProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EquipEnhancementProto_Builder*) builder;
++ (EquipEnhancementProto_Builder*) builder;
++ (EquipEnhancementProto_Builder*) builderWithPrototype:(EquipEnhancementProto*) prototype;
+
++ (EquipEnhancementProto*) parseFromData:(NSData*) data;
++ (EquipEnhancementProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EquipEnhancementProto*) parseFromInputStream:(NSInputStream*) input;
++ (EquipEnhancementProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EquipEnhancementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EquipEnhancementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EquipEnhancementProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EquipEnhancementProto* result;
+}
+
+- (EquipEnhancementProto*) defaultInstance;
+
+- (EquipEnhancementProto_Builder*) clear;
+- (EquipEnhancementProto_Builder*) clone;
+
+- (EquipEnhancementProto*) build;
+- (EquipEnhancementProto*) buildPartial;
+
+- (EquipEnhancementProto_Builder*) mergeFrom:(EquipEnhancementProto*) other;
+- (EquipEnhancementProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EquipEnhancementProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasEnhancementId;
+- (int32_t) enhancementId;
+- (EquipEnhancementProto_Builder*) setEnhancementId:(int32_t) value;
+- (EquipEnhancementProto_Builder*) clearEnhancementId;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (EquipEnhancementProto_Builder*) setUserId:(int32_t) value;
+- (EquipEnhancementProto_Builder*) clearUserId;
+
+- (BOOL) hasEnhancingEquip;
+- (EquipEnhancementItemProto*) enhancingEquip;
+- (EquipEnhancementProto_Builder*) setEnhancingEquip:(EquipEnhancementItemProto*) value;
+- (EquipEnhancementProto_Builder*) setEnhancingEquipBuilder:(EquipEnhancementItemProto_Builder*) builderForValue;
+- (EquipEnhancementProto_Builder*) mergeEnhancingEquip:(EquipEnhancementItemProto*) value;
+- (EquipEnhancementProto_Builder*) clearEnhancingEquip;
+
+- (NSArray*) feederEquipsList;
+- (EquipEnhancementItemProto*) feederEquipsAtIndex:(int32_t) index;
+- (EquipEnhancementProto_Builder*) replaceFeederEquipsAtIndex:(int32_t) index with:(EquipEnhancementItemProto*) value;
+- (EquipEnhancementProto_Builder*) addFeederEquips:(EquipEnhancementItemProto*) value;
+- (EquipEnhancementProto_Builder*) addAllFeederEquips:(NSArray*) values;
+- (EquipEnhancementProto_Builder*) clearFeederEquipsList;
+
+- (BOOL) hasStartTime;
+- (int64_t) startTime;
+- (EquipEnhancementProto_Builder*) setStartTime:(int64_t) value;
+- (EquipEnhancementProto_Builder*) clearStartTime;
+
+- (BOOL) hasTimeOfSpeedup;
+- (int64_t) timeOfSpeedup;
+- (EquipEnhancementProto_Builder*) setTimeOfSpeedup:(int64_t) value;
+- (EquipEnhancementProto_Builder*) clearTimeOfSpeedup;
+@end
+
+@interface EquipEnhancementItemProto : PBGeneratedMessage {
+@private
+  BOOL hasEquipId_:1;
+  BOOL hasLevel_:1;
+  BOOL hasEnhancementPercentage_:1;
+  int32_t equipId;
+  int32_t level;
+  int32_t enhancementPercentage;
+}
+- (BOOL) hasEquipId;
+- (BOOL) hasLevel;
+- (BOOL) hasEnhancementPercentage;
+@property (readonly) int32_t equipId;
+@property (readonly) int32_t level;
+@property (readonly) int32_t enhancementPercentage;
+
++ (EquipEnhancementItemProto*) defaultInstance;
+- (EquipEnhancementItemProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EquipEnhancementItemProto_Builder*) builder;
++ (EquipEnhancementItemProto_Builder*) builder;
++ (EquipEnhancementItemProto_Builder*) builderWithPrototype:(EquipEnhancementItemProto*) prototype;
+
++ (EquipEnhancementItemProto*) parseFromData:(NSData*) data;
++ (EquipEnhancementItemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EquipEnhancementItemProto*) parseFromInputStream:(NSInputStream*) input;
++ (EquipEnhancementItemProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EquipEnhancementItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EquipEnhancementItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EquipEnhancementItemProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EquipEnhancementItemProto* result;
+}
+
+- (EquipEnhancementItemProto*) defaultInstance;
+
+- (EquipEnhancementItemProto_Builder*) clear;
+- (EquipEnhancementItemProto_Builder*) clone;
+
+- (EquipEnhancementItemProto*) build;
+- (EquipEnhancementItemProto*) buildPartial;
+
+- (EquipEnhancementItemProto_Builder*) mergeFrom:(EquipEnhancementItemProto*) other;
+- (EquipEnhancementItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EquipEnhancementItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasEquipId;
+- (int32_t) equipId;
+- (EquipEnhancementItemProto_Builder*) setEquipId:(int32_t) value;
+- (EquipEnhancementItemProto_Builder*) clearEquipId;
+
+- (BOOL) hasLevel;
+- (int32_t) level;
+- (EquipEnhancementItemProto_Builder*) setLevel:(int32_t) value;
+- (EquipEnhancementItemProto_Builder*) clearLevel;
+
+- (BOOL) hasEnhancementPercentage;
+- (int32_t) enhancementPercentage;
+- (EquipEnhancementItemProto_Builder*) setEnhancementPercentage:(int32_t) value;
+- (EquipEnhancementItemProto_Builder*) clearEnhancementPercentage;
+@end
+
+@interface InAppPurchasePackageProto : PBGeneratedMessage {
+@private
+  BOOL hasIsGold_:1;
+  BOOL hasCurrencyAmount_:1;
+  BOOL hasPackageId_:1;
+  BOOL hasImageName_:1;
+  BOOL isGold_:1;
+  int32_t currencyAmount;
+  NSString* packageId;
+  NSString* imageName;
+}
+- (BOOL) hasPackageId;
+- (BOOL) hasCurrencyAmount;
+- (BOOL) hasIsGold;
+- (BOOL) hasImageName;
+@property (readonly, retain) NSString* packageId;
+@property (readonly) int32_t currencyAmount;
+- (BOOL) isGold;
+@property (readonly, retain) NSString* imageName;
+
++ (InAppPurchasePackageProto*) defaultInstance;
+- (InAppPurchasePackageProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (InAppPurchasePackageProto_Builder*) builder;
++ (InAppPurchasePackageProto_Builder*) builder;
++ (InAppPurchasePackageProto_Builder*) builderWithPrototype:(InAppPurchasePackageProto*) prototype;
+
++ (InAppPurchasePackageProto*) parseFromData:(NSData*) data;
++ (InAppPurchasePackageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (InAppPurchasePackageProto*) parseFromInputStream:(NSInputStream*) input;
++ (InAppPurchasePackageProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (InAppPurchasePackageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (InAppPurchasePackageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface InAppPurchasePackageProto_Builder : PBGeneratedMessage_Builder {
+@private
+  InAppPurchasePackageProto* result;
+}
+
+- (InAppPurchasePackageProto*) defaultInstance;
+
+- (InAppPurchasePackageProto_Builder*) clear;
+- (InAppPurchasePackageProto_Builder*) clone;
+
+- (InAppPurchasePackageProto*) build;
+- (InAppPurchasePackageProto*) buildPartial;
+
+- (InAppPurchasePackageProto_Builder*) mergeFrom:(InAppPurchasePackageProto*) other;
+- (InAppPurchasePackageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (InAppPurchasePackageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasPackageId;
+- (NSString*) packageId;
+- (InAppPurchasePackageProto_Builder*) setPackageId:(NSString*) value;
+- (InAppPurchasePackageProto_Builder*) clearPackageId;
+
+- (BOOL) hasCurrencyAmount;
+- (int32_t) currencyAmount;
+- (InAppPurchasePackageProto_Builder*) setCurrencyAmount:(int32_t) value;
+- (InAppPurchasePackageProto_Builder*) clearCurrencyAmount;
+
+- (BOOL) hasIsGold;
+- (BOOL) isGold;
+- (InAppPurchasePackageProto_Builder*) setIsGold:(BOOL) value;
+- (InAppPurchasePackageProto_Builder*) clearIsGold;
+
+- (BOOL) hasImageName;
+- (NSString*) imageName;
+- (InAppPurchasePackageProto_Builder*) setImageName:(NSString*) value;
+- (InAppPurchasePackageProto_Builder*) clearImageName;
 @end
 
 @interface ColorProto : PBGeneratedMessage {
@@ -926,6 +1169,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasPackage5SaleIdentifier_:1;
   BOOL hasGoldShoppeImageName_:1;
   BOOL hasGoldBarImageName_:1;
+  BOOL hasPackageS1SaleIdentifier_:1;
+  BOOL hasPackageS2SaleIdentifier_:1;
+  BOOL hasPackageS3SaleIdentifier_:1;
+  BOOL hasPackageS4SaleIdentifier_:1;
+  BOOL hasPackageS5SaleIdentifier_:1;
   int64_t startDate;
   int64_t endDate;
   int32_t saleId;
@@ -936,6 +1184,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   NSString* package5SaleIdentifier;
   NSString* goldShoppeImageName;
   NSString* goldBarImageName;
+  NSString* packageS1SaleIdentifier;
+  NSString* packageS2SaleIdentifier;
+  NSString* packageS3SaleIdentifier;
+  NSString* packageS4SaleIdentifier;
+  NSString* packageS5SaleIdentifier;
 }
 - (BOOL) hasSaleId;
 - (BOOL) hasStartDate;
@@ -947,6 +1200,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasPackage5SaleIdentifier;
 - (BOOL) hasGoldShoppeImageName;
 - (BOOL) hasGoldBarImageName;
+- (BOOL) hasPackageS1SaleIdentifier;
+- (BOOL) hasPackageS2SaleIdentifier;
+- (BOOL) hasPackageS3SaleIdentifier;
+- (BOOL) hasPackageS4SaleIdentifier;
+- (BOOL) hasPackageS5SaleIdentifier;
 @property (readonly) int32_t saleId;
 @property (readonly) int64_t startDate;
 @property (readonly) int64_t endDate;
@@ -957,6 +1215,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) NSString* package5SaleIdentifier;
 @property (readonly, retain) NSString* goldShoppeImageName;
 @property (readonly, retain) NSString* goldBarImageName;
+@property (readonly, retain) NSString* packageS1SaleIdentifier;
+@property (readonly, retain) NSString* packageS2SaleIdentifier;
+@property (readonly, retain) NSString* packageS3SaleIdentifier;
+@property (readonly, retain) NSString* packageS4SaleIdentifier;
+@property (readonly, retain) NSString* packageS5SaleIdentifier;
 
 + (GoldSaleProto*) defaultInstance;
 - (GoldSaleProto*) defaultInstance;
@@ -1041,6 +1304,31 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (NSString*) goldBarImageName;
 - (GoldSaleProto_Builder*) setGoldBarImageName:(NSString*) value;
 - (GoldSaleProto_Builder*) clearGoldBarImageName;
+
+- (BOOL) hasPackageS1SaleIdentifier;
+- (NSString*) packageS1SaleIdentifier;
+- (GoldSaleProto_Builder*) setPackageS1SaleIdentifier:(NSString*) value;
+- (GoldSaleProto_Builder*) clearPackageS1SaleIdentifier;
+
+- (BOOL) hasPackageS2SaleIdentifier;
+- (NSString*) packageS2SaleIdentifier;
+- (GoldSaleProto_Builder*) setPackageS2SaleIdentifier:(NSString*) value;
+- (GoldSaleProto_Builder*) clearPackageS2SaleIdentifier;
+
+- (BOOL) hasPackageS3SaleIdentifier;
+- (NSString*) packageS3SaleIdentifier;
+- (GoldSaleProto_Builder*) setPackageS3SaleIdentifier:(NSString*) value;
+- (GoldSaleProto_Builder*) clearPackageS3SaleIdentifier;
+
+- (BOOL) hasPackageS4SaleIdentifier;
+- (NSString*) packageS4SaleIdentifier;
+- (GoldSaleProto_Builder*) setPackageS4SaleIdentifier:(NSString*) value;
+- (GoldSaleProto_Builder*) clearPackageS4SaleIdentifier;
+
+- (BOOL) hasPackageS5SaleIdentifier;
+- (NSString*) packageS5SaleIdentifier;
+- (GoldSaleProto_Builder*) setPackageS5SaleIdentifier:(NSString*) value;
+- (GoldSaleProto_Builder*) clearPackageS5SaleIdentifier;
 @end
 
 @interface GroupChatMessageProto : PBGeneratedMessage {
@@ -3509,19 +3797,23 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasUserId_:1;
   BOOL hasEquipId_:1;
   BOOL hasLevel_:1;
+  BOOL hasEnhancementPercentage_:1;
   int32_t userEquipId;
   int32_t userId;
   int32_t equipId;
   int32_t level;
+  int32_t enhancementPercentage;
 }
 - (BOOL) hasUserEquipId;
 - (BOOL) hasUserId;
 - (BOOL) hasEquipId;
 - (BOOL) hasLevel;
+- (BOOL) hasEnhancementPercentage;
 @property (readonly) int32_t userEquipId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t equipId;
 @property (readonly) int32_t level;
+@property (readonly) int32_t enhancementPercentage;
 
 + (FullUserEquipProto*) defaultInstance;
 - (FullUserEquipProto*) defaultInstance;
@@ -3576,6 +3868,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) level;
 - (FullUserEquipProto_Builder*) setLevel:(int32_t) value;
 - (FullUserEquipProto_Builder*) clearLevel;
+
+- (BOOL) hasEnhancementPercentage;
+- (int32_t) enhancementPercentage;
+- (FullUserEquipProto_Builder*) setEnhancementPercentage:(int32_t) value;
+- (FullUserEquipProto_Builder*) clearEnhancementPercentage;
 @end
 
 @interface FullStructureProto : PBGeneratedMessage {
@@ -4549,6 +4846,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasDiamondCost_:1;
   BOOL hasCoinCost_:1;
   BOOL hasEquipLevel_:1;
+  BOOL hasEquipEnhancementPercent_:1;
   BOOL hasPoster_:1;
   BOOL hasPostedEquip_:1;
   BOOL hasPostType_:1;
@@ -4557,6 +4855,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t diamondCost;
   int32_t coinCost;
   int32_t equipLevel;
+  int32_t equipEnhancementPercent;
   MinimumUserProto* poster;
   FullEquipProto* postedEquip;
   MarketplacePostType postType;
@@ -4569,6 +4868,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasDiamondCost;
 - (BOOL) hasCoinCost;
 - (BOOL) hasEquipLevel;
+- (BOOL) hasEquipEnhancementPercent;
 @property (readonly) int32_t marketplacePostId;
 @property (readonly, retain) MinimumUserProto* poster;
 @property (readonly) MarketplacePostType postType;
@@ -4577,6 +4877,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t diamondCost;
 @property (readonly) int32_t coinCost;
 @property (readonly) int32_t equipLevel;
+@property (readonly) int32_t equipEnhancementPercent;
 
 + (FullMarketplacePostProto*) defaultInstance;
 - (FullMarketplacePostProto*) defaultInstance;
@@ -4655,6 +4956,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) equipLevel;
 - (FullMarketplacePostProto_Builder*) setEquipLevel:(int32_t) value;
 - (FullMarketplacePostProto_Builder*) clearEquipLevel;
+
+- (BOOL) hasEquipEnhancementPercent;
+- (int32_t) equipEnhancementPercent;
+- (FullMarketplacePostProto_Builder*) setEquipEnhancementPercent:(int32_t) value;
+- (FullMarketplacePostProto_Builder*) clearEquipEnhancementPercent;
 @end
 
 @interface FullUserCritstructProto : PBGeneratedMessage {

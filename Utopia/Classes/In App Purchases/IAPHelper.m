@@ -29,7 +29,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 }
 
 - (void)requestProducts {
-  NSMutableSet *productIds = [NSMutableSet setWithArray:[[[Globals sharedGlobals] productIdentifiersToGold] allKeys]];
+  Globals *gl = [Globals sharedGlobals];
+  NSMutableSet *productIds = [NSMutableSet setWithArray:gl.productIdsToPackages.allKeys];
   
   if (productIds.count > 0) {
     self.request = [[[SKProductsRequest alloc] initWithProductIdentifiers:productIds] autorelease];
@@ -106,10 +107,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   Globals *gl = [Globals sharedGlobals];
   NSString *encodedReceipt = [self base64forData:transaction.transactionReceipt];
   NSString *productId = transaction.payment.productIdentifier;
-  NSNumber *goldAmt = [gl.productIdentifiersToGold objectForKey:productId];
+  InAppPurchasePackageProto *pkg = [gl packageForProductId:productId];
+  int goldAmt = pkg.isGold ? pkg.currencyAmount : 0;
+  int silverAmt = !pkg.isGold ? pkg.currencyAmount : 0;
   SKProduct *prod = [self.products objectForKey:productId];
   
-  [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt.intValue product:prod];
+  [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt silverAmt:silverAmt product:prod];
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 

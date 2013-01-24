@@ -29,8 +29,17 @@
 @property (nonatomic, retain) IBOutlet UIImageView *forgingTag;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
 
-@property (nonatomic, retain) ForgeItem *forgeItem;
+@property (nonatomic, retain) IBOutlet ProgressBar *topProgressBar;
+@property (nonatomic, retain) IBOutlet ProgressBar *bottomProgressBar;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *enhanceLevelIcon;
 
+@property (nonatomic, retain) IBOutlet UIView *forgeView;
+@property (nonatomic, retain) IBOutlet UIView *enhanceView;
+
+@property (nonatomic, retain) ForgeItem *forgeItem;
+@property (nonatomic, retain) UserEquip *userEquip;
+
+- (void) loadForUserEquip:(UserEquip *)ue;
 - (void) loadForForgeItem:(ForgeItem *)fi;
 
 @end

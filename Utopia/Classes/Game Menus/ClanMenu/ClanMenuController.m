@@ -726,7 +726,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   
   // Reload current state
   if (state == kClanTower) {
-    [self.membersView preloadMembersForClan:self.membersView.clanId leader:self.membersView.leader.minUserProto.minUserProtoWithLevel.minUserProto.userId orderByClosest:NO];
+    [self.membersView preloadMembersForClan:self.membersView.clanId leader:self.membersView.leader.minUserProto.minUserProtoWithLevel.minUserProto.userId orderByClosest:YES];
     [self.clanTowerTab updateForCurrentTowers];
   } else {
     self.state = self.state;
@@ -998,7 +998,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
     if (p.towerOwner.clanId == gs.clan.clanId || p.towerAttacker.clanId == gs.clan.clanId) {
       MinimumClanProto *clan = p.towerOwner.clanId == gs.clan.clanId ? p.towerAttacker : p.towerOwner;
       
-      [self.membersView preloadMembersForClan:clan.clanId leader:clan.ownerId orderByClosest:YES];
+      if (self.membersView.clanId != clan.clanId) {
+        [self.membersView preloadMembersForClan:clan.clanId leader:clan.ownerId orderByClosest:YES];
+      }
       _browsingClanId = clan.clanId;
       
       if (self.topBar.hidden || self.topBar.alpha == 0.f) {

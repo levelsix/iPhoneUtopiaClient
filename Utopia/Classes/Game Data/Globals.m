@@ -43,7 +43,6 @@ static NSMutableSet *_pulsingViews;
 @synthesize energyRefillWaitMinutes, staminaRefillWaitMinutes;
 @synthesize energyRefillCost, staminaRefillCost;
 @synthesize maxRepeatedNormStructs;
-@synthesize productIdentifiers, productIdentifiersToGold;
 @synthesize imageCache, imageViewsWaitingForDownloading;
 @synthesize armoryXLength, armoryYLength, carpenterXLength, carpenterYLength, aviaryXLength;
 @synthesize aviaryYLength, marketplaceXLength, marketplaceYLength, vaultXLength, vaultYLength;
@@ -142,19 +141,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants {
-  self.productIdentifiers = constants.productIdsList;
+  self.iapPackages = constants.inAppPurchasePackagesList;
   NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjects:constants.productDiamondsGivenList forKeys:constants.productIdsList];
+  
+  for (InAppPurchasePackageProto *pkg in self.iapPackages) {
+    [dict setObject:pkg forKey:pkg.packageId];
+  }
+  
   if (constants.productIdsList.count >= 5) {
     GameState *gs = [GameState sharedGameState];
     for (GoldSaleProto *p in gs.staticGoldSales) {
-      if (p.hasPackage1SaleIdentifier) [dict setObject:[constants.productDiamondsGivenList objectAtIndex:0] forKey:p.package1SaleIdentifier];
-      if (p.hasPackage2SaleIdentifier) [dict setObject:[constants.productDiamondsGivenList objectAtIndex:1] forKey:p.package2SaleIdentifier];
-      if (p.hasPackage3SaleIdentifier) [dict setObject:[constants.productDiamondsGivenList objectAtIndex:2] forKey:p.package3SaleIdentifier];
-      if (p.hasPackage4SaleIdentifier) [dict setObject:[constants.productDiamondsGivenList objectAtIndex:3] forKey:p.package4SaleIdentifier];
-      if (p.hasPackage5SaleIdentifier) [dict setObject:[constants.productDiamondsGivenList objectAtIndex:4] forKey:p.package5SaleIdentifier];
+      if (p.hasPackage1SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:0] forKey:p.package1SaleIdentifier];
+      if (p.hasPackage2SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:2] forKey:p.package2SaleIdentifier];
+      if (p.hasPackage3SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:4] forKey:p.package3SaleIdentifier];
+      if (p.hasPackage4SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:6] forKey:p.package4SaleIdentifier];
+      if (p.hasPackage5SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:8] forKey:p.package5SaleIdentifier];
+      if (p.hasPackageS1SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:1] forKey:p.packageS1SaleIdentifier];
+      if (p.hasPackageS2SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:3] forKey:p.packageS2SaleIdentifier];
+      if (p.hasPackageS3SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:5] forKey:p.packageS3SaleIdentifier];
+      if (p.hasPackageS4SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:7] forKey:p.packageS4SaleIdentifier];
+      if (p.hasPackageS5SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:9] forKey:p.packageS5SaleIdentifier];
     }
   }
-  self.productIdentifiersToGold = dict;
+  self.productIdsToPackages = dict;
+  [[IAPHelper sharedIAPHelper] requestProducts];
   
   self.maxLevelDiffForBattle = constants.maxLevelDifferenceForBattle;
   self.maxLevelForUser = constants.maxLevelForUser;
@@ -238,6 +248,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.greatLikelihood = constants.battleConstants.battleGreatLikelihood;
   self.goodLikelihood = constants.battleConstants.battleGoodLikelihood;
   self.missLikelihood = constants.battleConstants.battleMissLikelihood;
+  self.battleEquipAndStatsWeight = constants.battleConstants.battleEquipAndStatsWeight;
   
   self.forgeBaseMinutesToOneGold = constants.forgeConstants.forgeBaseMinutesToOneGold;
   self.forgeDiamondCostForGuaranteeExponentialMultiplier = constants.forgeConstants.forgeDiamondCostForGuaranteeExponentialMultiplier;
@@ -288,6 +299,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.tournamentFleesWeight = constants.leaderboardConstants.fleesWeight;
   self.tournamentNumHrsToDisplayAfterEnd = constants.leaderboardConstants.numHoursToShowAfterEventEnd;
   
+  self.maxEnhancementLevel = constants.enhanceConstants.maxEnhancementLevel;
+  self.enhancePercentPerLevel = constants.enhanceConstants.enhancePercentPerLevel;
+  self.enhanceTimeConstantA = constants.enhanceConstants.enhanceTimeConstantA;
+  self.enhanceTimeConstantB = constants.enhanceConstants.enhanceTimeConstantB;
+  self.enhanceTimeConstantC = constants.enhanceConstants.enhanceTimeConstantC;
+  self.enhanceTimeConstantD = constants.enhanceConstants.enhanceTimeConstantD;
+  self.enhanceTimeConstantE = constants.enhanceConstants.enhanceTimeConstantE;
+  self.enhanceTimeConstantF = constants.enhanceConstants.enhanceTimeConstantF;
+  self.enhanceTimeConstantG = constants.enhanceConstants.enhanceTimeConstantG;
+  self.enhancePercentConstantA = constants.enhanceConstants.enhancePercentConstantA;
+  self.enhancePercentConstantB = constants.enhanceConstants.enhancePercentConstantB;
+  self.enhanceLevelExponentBase = constants.enhanceConstants.enhanceLevelExponentBase;
+  
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
   self.kiipRewardConditions = constants.kiipRewardConditions;
@@ -319,12 +343,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       i += BUNDLE_SCHEDULE_INTERVAL;
     }
   }
-}
-
-- (void) setProductIdentifiersToGold:(NSDictionary *)productIds {
-  [productIdentifiersToGold release];
-  productIdentifiersToGold = [productIds retain];
-  [[IAPHelper sharedIAPHelper] requestProducts];
 }
 
 + (NSString *) font {
@@ -1497,31 +1515,33 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (float) calculateAttackForAttackStat:(int)attackStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet {
-  int weaponAttack = weapon ? [self calculateAttackForEquip:weapon.equipId level:weapon.level] : 0;
-  int armorAttack = armor ? [self calculateAttackForEquip:armor.equipId level:armor.level] : 0;
-  int amuletAttack = amulet ? [self calculateAttackForEquip:amulet.equipId level:amulet.level] : 0;
+  int weaponAttack = weapon ? [self calculateAttackForEquip:weapon.equipId level:weapon.level enhancePercent:weapon.enhancementPercentage] : 0;
+  int armorAttack = armor ? [self calculateAttackForEquip:armor.equipId level:armor.level enhancePercent:armor.enhancementPercentage] : 0;
+  int amuletAttack = amulet ? [self calculateAttackForEquip:amulet.equipId level:amulet.level enhancePercent:amulet.enhancementPercentage] : 0;
   
   return (weaponAttack+armorAttack+amuletAttack);
 }
 
 - (float) calculateDefenseForDefenseStat:(int)defenseStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet {
-  int weaponDefense = weapon ? [self calculateDefenseForEquip:weapon.equipId level:weapon.level] : 0;
-  int armorDefense = armor ? [self calculateDefenseForEquip:armor.equipId level:armor.level] : 0;
-  int amuletDefense = amulet ? [self calculateDefenseForEquip:amulet.equipId level:amulet.level] : 0;
+  int weaponDefense = weapon ? [self calculateDefenseForEquip:weapon.equipId level:weapon.level enhancePercent:weapon.enhancementPercentage] : 0;
+  int armorDefense = armor ? [self calculateDefenseForEquip:armor.equipId level:armor.level enhancePercent:armor.enhancementPercentage] : 0;
+  int amuletDefense = amulet ? [self calculateDefenseForEquip:amulet.equipId level:amulet.level enhancePercent:amulet.enhancementPercentage] : 0;
   
   return (weaponDefense+armorDefense+amuletDefense);
 }
 
-- (int) calculateAttackForEquip:(int)equipId level:(int)level {
+- (int) calculateAttackForEquip:(int)equipId level:(int)level enhancePercent:(int)enhancePercent {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
-  return (int)ceilf(fep.attackBoost*pow(self.levelEquipBoostExponentBase, level-1));
+  int enhanceLevel = [self calculateEnhancementLevel:enhancePercent];
+  return (int)ceilf(fep.attackBoost*pow(self.levelEquipBoostExponentBase, level-1)*pow(self.enhanceLevelExponentBase, enhanceLevel));
 }
 
-- (int) calculateDefenseForEquip:(int)equipId level:(int)level {
+- (int) calculateDefenseForEquip:(int)equipId level:(int)level enhancePercent:(int)enhancePercent {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
-  return (int)ceilf(fep.defenseBoost*pow(self.levelEquipBoostExponentBase, level-1));
+  int enhanceLevel = [self calculateEnhancementLevel:enhancePercent];
+  return (int)ceilf(fep.defenseBoost*pow(self.levelEquipBoostExponentBase, level-1)*pow(self.enhanceLevelExponentBase, enhanceLevel));
 }
 
 - (float) calculateChanceOfSuccess:(int)equipId level:(int)level {
@@ -1566,6 +1586,82 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateSilverCostForNewExpansion:(UserExpansion *)ue {
   return (int)(expansionPurchaseCostConstant*powf(expansionPurchaseCostExponentBase, ue.numCompletedExpansions));
+}
+
+- (int) calculateTotalMinutesToLevelUpEnhancementEquip:(UserEquip *)ue {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:ue.equipId];
+  double result = self.enhanceTimeConstantA*powf(ue.level, self.enhanceTimeConstantB);
+  LNLog(@"1=%f", result);
+  result = powf(result, self.enhanceTimeConstantC+self.enhanceTimeConstantD*(fep.rarity+1));
+  LNLog(@"2=%f", result);
+  result *= powf(self.enhanceTimeConstantE, (fep.minLevel/self.averageSizeOfLevelBracket*self.enhanceTimeConstantF));
+  LNLog(@"3=%f", result);
+  result *= powf(self.enhanceTimeConstantG, [self calculateEnhancementLevel:ue.enhancementPercentage]+1);
+  
+  LNLog(@"minutes=%f", result);
+  return (int)MAX(result, 1.f);
+}
+
+- (int) calculateMinutesToEnhance:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders {
+  if (!enhancingEquip || feeders.count <= 0) {
+    return 0;
+  }
+  
+  int pChange = [self calculateEnhancementPercentageIncrease:enhancingEquip feeders:feeders];
+  float percent = [self calculatePercentOfLevel:pChange];
+  int totalTime = [self calculateTotalMinutesToLevelUpEnhancementEquip:enhancingEquip];
+  int result = (int)ceilf(percent*totalTime);
+  
+  LNLog(@"time for enhance=%d", result);
+  return result;
+}
+
+- (int) calculateGoldCostToSpeedUpEnhance:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders {
+  int mins = [self calculateMinutesToEnhance:enhancingEquip feeders:feeders];
+  int result = (int)ceilf(((float)mins)/self.forgeBaseMinutesToOneGold);
+  
+  LNLog(@"diamonds=%d", result);
+  return result;
+}
+
+- (float) calculatePercentOfLevel:(int)percentage {
+  return ((float)percentage)/self.enhancePercentPerLevel;
+}
+
+- (int) calculateEnhancementLevel:(int)percentage {
+  return percentage / self.enhancePercentPerLevel;
+}
+
+- (int) calculateEnhancementPercentageToNextLevel:(int)percentage {
+  return percentage % self.enhancePercentPerLevel;
+}
+
+- (int) calculateEnhancementPercentageIncrease:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders {
+  int change = 0;
+  for (UserEquip *f in feeders) {
+    change += [self calculateEnhancementPercentageIncrease:enhancingEquip feeder:f];
+  }
+  
+  int maxChange = ([self calculateEnhancementLevel:enhancingEquip.enhancementPercentage]+1)*self.enhancePercentPerLevel-enhancingEquip.enhancementPercentage;
+  
+  LNLog(@"totalChange=%d maxChange=%d", change, maxChange);
+  return MIN(maxChange, change);
+}
+
+- (int) calculateEnhancementPercentageIncrease:(UserEquip *)enhancingEquip feeder:(UserEquip *)feeder {
+  int mainAttack = [self calculateAttackForEquip:enhancingEquip.equipId level:enhancingEquip.level enhancePercent:enhancingEquip.enhancementPercentage];
+  int mainDefense = [self calculateDefenseForEquip:enhancingEquip.equipId level:enhancingEquip.level enhancePercent:enhancingEquip.enhancementPercentage];
+  int feederAttack = [self calculateAttackForEquip:feeder.equipId level:feeder.level enhancePercent:feeder.enhancementPercentage];
+  int feederDefense = [self calculateDefenseForEquip:feeder.equipId level:feeder.level enhancePercent:feeder.enhancementPercentage];
+  
+  int mainStats = mainAttack + mainDefense;
+  int feederStats = feederAttack + feederDefense;
+  
+  int result = (int)((((float)feederStats)/mainStats)/(self.enhancePercentConstantA*powf(self.enhancePercentConstantB, [self calculateEnhancementLevel:enhancingEquip.enhancementPercentage]+1))*self.enhancePercentPerLevel);
+  
+  LNLog(@"percentage=%d", result);
+  return result;
 }
 
 - (BOOL) canRetractMarketplacePostForFree:(FullMarketplacePostProto *)post {
@@ -1874,11 +1970,11 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
     int curAttack = 0;
     int curDefense = 0;
     if (ue) {
-      curAttack = [gl calculateAttackForEquip:ue.equipId level:ue.level];
-      curDefense = [gl calculateDefenseForEquip:ue.equipId level:ue.level];
+      curAttack = [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage];
+      curDefense = [gl calculateDefenseForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage];
     }
-    int newAttack = [gl calculateAttackForEquip:equip.equipId level:equip.level];
-    int newDefense = [gl calculateDefenseForEquip:equip.equipId level:equip.level];
+    int newAttack = [gl calculateAttackForEquip:equip.equipId level:equip.level enhancePercent:equip.enhancementPercentage];
+    int newDefense = [gl calculateDefenseForEquip:equip.equipId level:equip.level enhancePercent:equip.enhancementPercentage];
     
     if (newAttack > curAttack || newDefense > curDefense) {
       [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Would you like to equip this %@?",
@@ -1985,8 +2081,11 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   return [UIColor colorWithRed:cp.red/255.f green:cp.green/255.f blue:cp.blue/255.f alpha:255.f];
 }
 
+- (InAppPurchasePackageProto *) packageForProductId:(NSString *)pid {
+  return [self.productIdsToPackages objectForKey:pid];
+}
+
 - (void) dealloc {
-  self.productIdentifiersToGold = nil;
   self.imageCache = nil;
   self.imageViewsWaitingForDownloading = nil;
   self.animatingSpriteOffsets = nil;

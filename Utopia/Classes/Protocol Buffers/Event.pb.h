@@ -60,6 +60,10 @@
 @class ClanTierLevelProto_Builder;
 @class ClanTowerProto;
 @class ClanTowerProto_Builder;
+@class CollectEquipEnhancementRequestProto;
+@class CollectEquipEnhancementRequestProto_Builder;
+@class CollectEquipEnhancementResponseProto;
+@class CollectEquipEnhancementResponseProto_Builder;
 @class CollectForgeEquipsRequestProto;
 @class CollectForgeEquipsRequestProto_Builder;
 @class CollectForgeEquipsResponseProto;
@@ -98,6 +102,10 @@
 @class EnableAPNSRequestProto_Builder;
 @class EnableAPNSResponseProto;
 @class EnableAPNSResponseProto_Builder;
+@class EquipEnhancementItemProto;
+@class EquipEnhancementItemProto_Builder;
+@class EquipEnhancementProto;
+@class EquipEnhancementProto_Builder;
 @class EquipEquipmentRequestProto;
 @class EquipEquipmentRequestProto_Builder;
 @class EquipEquipmentResponseProto;
@@ -166,6 +174,8 @@
 @class GoldSaleProto_Builder;
 @class GroupChatMessageProto;
 @class GroupChatMessageProto_Builder;
+@class InAppPurchasePackageProto;
+@class InAppPurchasePackageProto_Builder;
 @class InAppPurchaseRequestProto;
 @class InAppPurchaseRequestProto_Builder;
 @class InAppPurchaseResponseProto;
@@ -412,6 +422,8 @@
 @class StartupResponseProto_StartupConstants_ClanConstants_Builder;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder;
+@class StartupResponseProto_StartupConstants_EnhancementConstants;
+@class StartupResponseProto_StartupConstants_EnhancementConstants_Builder;
 @class StartupResponseProto_StartupConstants_ExpansionConstants;
 @class StartupResponseProto_StartupConstants_ExpansionConstants_Builder;
 @class StartupResponseProto_StartupConstants_ForgeConstants;
@@ -432,6 +444,10 @@
 @class StartupResponseProto_TutorialConstants_Builder;
 @class StartupResponseProto_TutorialConstants_FullTutorialQuestProto;
 @class StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder;
+@class SubmitEquipEnhancementRequestProto;
+@class SubmitEquipEnhancementRequestProto_Builder;
+@class SubmitEquipEnhancementResponseProto;
+@class SubmitEquipEnhancementResponseProto_Builder;
 @class SubmitEquipsToBlacksmithRequestProto;
 @class SubmitEquipsToBlacksmithRequestProto_Builder;
 @class SubmitEquipsToBlacksmithResponseProto;
@@ -1221,6 +1237,7 @@ typedef enum {
   BeginClanTowerWarResponseProto_BeginClanTowerWarStatusOtherFail = 5,
   BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyClaimed = 6,
   BeginClanTowerWarResponseProto_BeginClanTowerWarStatusSameSide = 7,
+  BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotEnoughTimeSinceLastBattle = 8,
 } BeginClanTowerWarResponseProto_BeginClanTowerWarStatus;
 
 BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginClanTowerWarResponseProto_BeginClanTowerWarStatus value);
@@ -1248,6 +1265,27 @@ typedef enum {
 } ChangedClanTowerResponseProto_ReasonForClanTowerChange;
 
 BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedClanTowerResponseProto_ReasonForClanTowerChange value);
+
+typedef enum {
+  SubmitEquipEnhancementResponseProto_EnhanceEquipStatusSuccess = 0,
+  SubmitEquipEnhancementResponseProto_EnhanceEquipStatusOtherFail = 1,
+  SubmitEquipEnhancementResponseProto_EnhanceEquipStatusClientTooApartFromServerTime = 2,
+  SubmitEquipEnhancementResponseProto_EnhanceEquipStatusMainOrFeederOrEquipsNonexistent = 3,
+  SubmitEquipEnhancementResponseProto_EnhanceEquipStatusTryingToSurpassMaxLevel = 4,
+  SubmitEquipEnhancementResponseProto_EnhanceEquipStatusAlreadyEnhancing = 5,
+} SubmitEquipEnhancementResponseProto_EnhanceEquipStatus;
+
+BOOL SubmitEquipEnhancementResponseProto_EnhanceEquipStatusIsValidValue(SubmitEquipEnhancementResponseProto_EnhanceEquipStatus value);
+
+typedef enum {
+  CollectEquipEnhancementResponseProto_CollectEquipStatusSuccess = 0,
+  CollectEquipEnhancementResponseProto_CollectEquipStatusClientTooApartFromServerTime = 1,
+  CollectEquipEnhancementResponseProto_CollectEquipStatusEnhancementNotComplete = 2,
+  CollectEquipEnhancementResponseProto_CollectEquipStatusOtherFail = 3,
+  CollectEquipEnhancementResponseProto_CollectEquipStatusNotEnoughGold = 4,
+} CollectEquipEnhancementResponseProto_CollectEquipStatus;
+
+BOOL CollectEquipEnhancementResponseProto_CollectEquipStatusIsValidValue(CollectEquipEnhancementResponseProto_CollectEquipStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -2012,11 +2050,12 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasSender_:1;
-  BOOL hasDailyBonusInfo_:1;
-  BOOL hasStartupConstants_:1;
-  BOOL hasUnhandledForgeAttempt_:1;
+  BOOL hasEquipEnhancement_:1;
   BOOL hasForgeAttemptEquip_:1;
+  BOOL hasUnhandledForgeAttempt_:1;
+  BOOL hasDailyBonusInfo_:1;
+  BOOL hasSender_:1;
+  BOOL hasStartupConstants_:1;
   BOOL hasTutorialConstants_:1;
   BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
@@ -2026,26 +2065,33 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   NSString* reviewPageConfirmationMessage;
   NSString* reviewPageUrl;
   NSString* appStoreUrl;
-  FullUserProto* sender;
-  StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
-  StartupResponseProto_StartupConstants* startupConstants;
-  UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
+  EquipEnhancementProto* equipEnhancement;
   FullEquipProto* forgeAttemptEquip;
+  UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
+  StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
+  FullUserProto* sender;
+  StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_TutorialConstants* tutorialConstants;
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableMktSearchEquipsList;
-  NSMutableArray* mutableGlobalChatsList;
-  NSMutableArray* mutableClanChatsList;
+  NSMutableArray* mutableUserEquipsList;
   NSMutableArray* mutableLeaderboardEventsList;
-  NSMutableArray* mutableGoldSalesList;
-  NSMutableArray* mutableClanTierLevelsList;
-  NSMutableArray* mutableClanTowersList;
-  NSMutableArray* mutableStaticStructsList;
-  NSMutableArray* mutableStaticEquipsList;
   NSMutableArray* mutableBossEventsList;
+  NSMutableArray* mutableStaticEquipsList;
+  NSMutableArray* mutableStaticStructsList;
+  NSMutableArray* mutableClanTowersList;
+  NSMutableArray* mutableClanTierLevelsList;
+  NSMutableArray* mutableGoldSalesList;
+  NSMutableArray* mutableClanChatsList;
+  NSMutableArray* mutableGlobalChatsList;
+  NSMutableArray* mutableMktSearchEquipsList;
+  NSMutableArray* mutableEquipsList;
+  NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableAlliesList;
+  NSMutableArray* mutableAllCitiesList;
+  NSMutableArray* mutableUserCityInfosList;
+  NSMutableArray* mutableInProgressIncompleteQuestsList;
   NSMutableArray* mutableUserLockBoxEventsList;
   NSMutableArray* mutableLockBoxEventsList;
   NSMutableArray* mutableClanBulletinPostNotificationsList;
@@ -2054,13 +2100,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   NSMutableArray* mutableAttackNotificationsList;
   NSMutableArray* mutableMarketplacePurchaseNotificationsList;
   NSMutableArray* mutableUserClanInfoList;
-  NSMutableArray* mutableEquipsList;
-  NSMutableArray* mutableUserEquipsList;
-  NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableInProgressCompleteQuestsList;
-  NSMutableArray* mutableInProgressIncompleteQuestsList;
-  NSMutableArray* mutableUserCityInfosList;
-  NSMutableArray* mutableAllCitiesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -2076,6 +2116,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (BOOL) hasPlayerHasBoughtInAppPurchase;
 - (BOOL) hasUnhandledForgeAttempt;
 - (BOOL) hasForgeAttemptEquip;
+- (BOOL) hasEquipEnhancement;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
 @property (readonly) StartupResponseProto_UpdateStatus updateStatus;
@@ -2090,6 +2131,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (BOOL) playerHasBoughtInAppPurchase;
 @property (readonly, retain) UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
 @property (readonly, retain) FullEquipProto* forgeAttemptEquip;
+@property (readonly, retain) EquipEnhancementProto* equipEnhancement;
 - (NSArray*) allCitiesList;
 - (FullCityProto*) allCitiesAtIndex:(int32_t) index;
 - (NSArray*) userCityInfosList;
@@ -2483,17 +2525,16 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasBossEventSuperAttack_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
+  BOOL hasBossEventSuperAttack_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasHealthFormulaExponentBase_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasMaxCharLengthForWallPost_:1;
-  BOOL hasInitStamina_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasMinClanMembersToHoldClanTower_:1;
+  BOOL hasNumHoursBeforeReshowingLockBox_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
   BOOL hasCarpenterImgVerticalPixelOffset_:1;
   BOOL hasMarketplaceImgVerticalPixelOffset_:1;
@@ -2503,8 +2544,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasNumDaysUntilFreeRetract_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
-  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
-  BOOL hasNumHoursBeforeReshowingLockBox_:1;
+  BOOL hasNumHoursBeforeReshowingBossEvent_:1;
   BOOL hasMaxLengthOfChatString_:1;
   BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
   BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
@@ -2514,12 +2554,14 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasSizeOfAttackList_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasMinNameLength_:1;
-  BOOL hasNumHoursBeforeReshowingBossEvent_:1;
-  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
-  BOOL hasAverageSizeOfLevelBracket_:1;
+  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
   BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
+  BOOL hasAverageSizeOfLevelBracket_:1;
+  BOOL hasInitStamina_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
+  BOOL hasMaxCharLengthForWallPost_:1;
+  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasArmoryXlength_:1;
@@ -2552,9 +2594,10 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasAttackBaseCost_:1;
   BOOL hasStaminaBaseGain_:1;
   BOOL hasDownloadableNibConstants_:1;
-  BOOL hasExpansionConstants_:1;
   BOOL hasMinLevelConstants_:1;
   BOOL hasLeaderboardConstants_:1;
+  BOOL hasEnhanceConstants_:1;
+  BOOL hasExpansionConstants_:1;
   BOOL hasLockBoxConstants_:1;
   BOOL hasGoldmineConstants_:1;
   BOOL hasThreeCardMonteConstants_:1;
@@ -2564,17 +2607,16 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasKiipRewardConditions_:1;
   BOOL hasBattleConstants_:1;
   BOOL hasFormulaConstants_:1;
-  Float64 bossEventSuperAttack;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+  Float64 bossEventSuperAttack;
   Float64 percentReturnedToUserForSellingEquipInArmory;
   Float64 cutOfVaultDepositTaken;
   Float64 healthFormulaExponentBase;
-  Float64 levelEquipBoostExponentBase;
   Float64 percentReturnedToUserForSellingNormStructure;
-  int32_t maxCharLengthForWallPost;
-  int32_t initStamina;
+  Float64 levelEquipBoostExponentBase;
   int32_t minClanMembersToHoldClanTower;
+  int32_t numHoursBeforeReshowingLockBox;
   int32_t aviaryImgVerticalPixelOffset;
   int32_t carpenterImgVerticalPixelOffset;
   int32_t marketplaceImgVerticalPixelOffset;
@@ -2584,8 +2626,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t numDaysUntilFreeRetract;
   int32_t diamondCostOfShortMarketplaceLicense;
-  int32_t numHoursBeforeReshowingGoldSale;
-  int32_t numHoursBeforeReshowingLockBox;
+  int32_t numHoursBeforeReshowingBossEvent;
   int32_t maxLengthOfChatString;
   int32_t diamondPriceForGroupChatPurchasePackage;
   int32_t numChatsGivenPerGroupChatPurchasePackage;
@@ -2595,12 +2636,14 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   int32_t sizeOfAttackList;
   int32_t maxNameLength;
   int32_t minNameLength;
-  int32_t numHoursBeforeReshowingBossEvent;
-  int32_t adColonyVideosRequiredToRedeemDiamonds;
   int32_t levelToShowRateUsPopup;
-  int32_t averageSizeOfLevelBracket;
+  int32_t adColonyVideosRequiredToRedeemDiamonds;
   int32_t bossEventNumberOfAttacksUntilSuperAttack;
+  int32_t averageSizeOfLevelBracket;
+  int32_t initStamina;
   int32_t playerWallPostsRetrieveCap;
+  int32_t maxCharLengthForWallPost;
+  int32_t numHoursBeforeReshowingGoldSale;
   int32_t maxLevelDifferenceForBattle;
   int32_t maxLevelForUser;
   int32_t armoryXlength;
@@ -2633,9 +2676,10 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   int32_t attackBaseCost;
   int32_t staminaBaseGain;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
-  StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
   StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
   StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
+  StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
+  StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
   StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
   StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
   StartupResponseProto_StartupConstants_ThreeCardMonteConstants* threeCardMonteConstants;
@@ -2648,6 +2692,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
+  NSMutableArray* mutableInAppPurchasePackagesList;
 }
 - (BOOL) hasMaxLevelDifferenceForBattle;
 - (BOOL) hasMaxLevelForUser;
@@ -2730,6 +2775,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (BOOL) hasMinClanMembersToHoldClanTower;
 - (BOOL) hasMinLevelConstants;
 - (BOOL) hasLeaderboardConstants;
+- (BOOL) hasEnhanceConstants;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2811,12 +2857,15 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 @property (readonly) int32_t minClanMembersToHoldClanTower;
 @property (readonly, retain) StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
 @property (readonly, retain) StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
+@property (readonly, retain) StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
 - (int32_t) productDiamondsGivenAtIndex:(int32_t) index;
 - (NSArray*) animatedSpriteOffsetsList;
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) animatedSpriteOffsetsAtIndex:(int32_t) index;
+- (NSArray*) inAppPurchasePackagesList;
+- (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
 
 + (StartupResponseProto_StartupConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants*) defaultInstance;
@@ -2833,6 +2882,153 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_EnhancementConstants : PBGeneratedMessage {
+@private
+  BOOL hasEnhanceTimeConstantA_:1;
+  BOOL hasEnhanceTimeConstantB_:1;
+  BOOL hasEnhanceTimeConstantC_:1;
+  BOOL hasEnhanceTimeConstantD_:1;
+  BOOL hasEnhanceTimeConstantE_:1;
+  BOOL hasEnhanceTimeConstantF_:1;
+  BOOL hasEnhanceTimeConstantG_:1;
+  BOOL hasEnhancePercentConstantA_:1;
+  BOOL hasEnhancePercentConstantB_:1;
+  BOOL hasEnhanceLevelExponentBase_:1;
+  BOOL hasMaxEnhancementLevel_:1;
+  BOOL hasEnhancePercentPerLevel_:1;
+  Float32 enhanceTimeConstantA;
+  Float32 enhanceTimeConstantB;
+  Float32 enhanceTimeConstantC;
+  Float32 enhanceTimeConstantD;
+  Float32 enhanceTimeConstantE;
+  Float32 enhanceTimeConstantF;
+  Float32 enhanceTimeConstantG;
+  Float32 enhancePercentConstantA;
+  Float32 enhancePercentConstantB;
+  Float32 enhanceLevelExponentBase;
+  int32_t maxEnhancementLevel;
+  int32_t enhancePercentPerLevel;
+}
+- (BOOL) hasMaxEnhancementLevel;
+- (BOOL) hasEnhancePercentPerLevel;
+- (BOOL) hasEnhanceTimeConstantA;
+- (BOOL) hasEnhanceTimeConstantB;
+- (BOOL) hasEnhanceTimeConstantC;
+- (BOOL) hasEnhanceTimeConstantD;
+- (BOOL) hasEnhanceTimeConstantE;
+- (BOOL) hasEnhanceTimeConstantF;
+- (BOOL) hasEnhanceTimeConstantG;
+- (BOOL) hasEnhancePercentConstantA;
+- (BOOL) hasEnhancePercentConstantB;
+- (BOOL) hasEnhanceLevelExponentBase;
+@property (readonly) int32_t maxEnhancementLevel;
+@property (readonly) int32_t enhancePercentPerLevel;
+@property (readonly) Float32 enhanceTimeConstantA;
+@property (readonly) Float32 enhanceTimeConstantB;
+@property (readonly) Float32 enhanceTimeConstantC;
+@property (readonly) Float32 enhanceTimeConstantD;
+@property (readonly) Float32 enhanceTimeConstantE;
+@property (readonly) Float32 enhanceTimeConstantF;
+@property (readonly) Float32 enhanceTimeConstantG;
+@property (readonly) Float32 enhancePercentConstantA;
+@property (readonly) Float32 enhancePercentConstantB;
+@property (readonly) Float32 enhanceLevelExponentBase;
+
++ (StartupResponseProto_StartupConstants_EnhancementConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_EnhancementConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_EnhancementConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_EnhancementConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_EnhancementConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_EnhancementConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_EnhancementConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_EnhancementConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_EnhancementConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_EnhancementConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_EnhancementConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_EnhancementConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_EnhancementConstants*) build;
+- (StartupResponseProto_StartupConstants_EnhancementConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_EnhancementConstants*) other;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMaxEnhancementLevel;
+- (int32_t) maxEnhancementLevel;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setMaxEnhancementLevel:(int32_t) value;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearMaxEnhancementLevel;
+
+- (BOOL) hasEnhancePercentPerLevel;
+- (int32_t) enhancePercentPerLevel;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhancePercentPerLevel:(int32_t) value;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhancePercentPerLevel;
+
+- (BOOL) hasEnhanceTimeConstantA;
+- (Float32) enhanceTimeConstantA;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceTimeConstantA:(Float32) value;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceTimeConstantA;
+
+- (BOOL) hasEnhanceTimeConstantB;
+- (Float32) enhanceTimeConstantB;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceTimeConstantB:(Float32) value;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceTimeConstantB;
+
+- (BOOL) hasEnhanceTimeConstantC;
+- (Float32) enhanceTimeConstantC;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceTimeConstantC:(Float32) value;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceTimeConstantC;
+
+- (BOOL) hasEnhanceTimeConstantD;
+- (Float32) enhanceTimeConstantD;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceTimeConstantD:(Float32) value;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceTimeConstantD;
+
+- (BOOL) hasEnhanceTimeConstantE;
+- (Float32) enhanceTimeConstantE;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceTimeConstantE:(Float32) value;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceTimeConstantE;
+
+- (BOOL) hasEnhanceTimeConstantF;
+- (Float32) enhanceTimeConstantF;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceTimeConstantF:(Float32) value;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceTimeConstantF;
+
+- (BOOL) hasEnhanceTimeConstantG;
+- (Float32) enhanceTimeConstantG;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceTimeConstantG:(Float32) value;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceTimeConstantG;
+
+- (BOOL) hasEnhancePercentConstantA;
+- (Float32) enhancePercentConstantA;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhancePercentConstantA:(Float32) value;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhancePercentConstantA;
+
+- (BOOL) hasEnhancePercentConstantB;
+- (Float32) enhancePercentConstantB;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhancePercentConstantB:(Float32) value;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhancePercentConstantB;
+
+- (BOOL) hasEnhanceLevelExponentBase;
+- (Float32) enhanceLevelExponentBase;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceLevelExponentBase:(Float32) value;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceLevelExponentBase;
 @end
 
 @interface StartupResponseProto_StartupConstants_LeaderboardEventConstants : PBGeneratedMessage {
@@ -3813,12 +4009,13 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 
 @interface StartupResponseProto_StartupConstants_BattleConstants : PBGeneratedMessage {
 @private
-  BOOL hasBattleIndividualEquipAttackCap_:1;
+  BOOL hasBattleEquipAndStatsWeight_:1;
   BOOL hasBattleWeightGivenToAttackStat_:1;
   BOOL hasBattleWeightGivenToAttackEquipSum_:1;
   BOOL hasBattleWeightGivenToDefenseStat_:1;
   BOOL hasBattleWeightGivenToDefenseEquipSum_:1;
   BOOL hasBattleWeightGivenToLevel_:1;
+  BOOL hasBattleIndividualEquipAttackCap_:1;
   BOOL hasBattlePercentOfEquipment_:1;
   BOOL hasBattleAttackExpoMultiplier_:1;
   BOOL hasBattlePercentOfPlayerStats_:1;
@@ -3839,12 +4036,13 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
   BOOL hasBattleGreatPercentThreshold_:1;
   BOOL hasBattlePerfectPercentThreshold_:1;
   BOOL hasLocationBarMax_:1;
-  Float64 battleIndividualEquipAttackCap;
+  Float64 battleEquipAndStatsWeight;
   Float64 battleWeightGivenToAttackStat;
   Float64 battleWeightGivenToAttackEquipSum;
   Float64 battleWeightGivenToDefenseStat;
   Float64 battleWeightGivenToDefenseEquipSum;
   Float64 battleWeightGivenToLevel;
+  Float64 battleIndividualEquipAttackCap;
   Float64 battlePercentOfEquipment;
   Float64 battleAttackExpoMultiplier;
   Float64 battlePercentOfPlayerStats;
@@ -3892,6 +4090,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (BOOL) hasBattleAttackExpoMultiplier;
 - (BOOL) hasBattlePercentOfEquipment;
 - (BOOL) hasBattleIndividualEquipAttackCap;
+- (BOOL) hasBattleEquipAndStatsWeight;
 @property (readonly) Float32 locationBarMax;
 @property (readonly) Float64 battleWeightGivenToAttackStat;
 @property (readonly) Float64 battleWeightGivenToAttackEquipSum;
@@ -3918,6 +4117,7 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 @property (readonly) Float64 battleAttackExpoMultiplier;
 @property (readonly) Float64 battlePercentOfEquipment;
 @property (readonly) Float64 battleIndividualEquipAttackCap;
+@property (readonly) Float64 battleEquipAndStatsWeight;
 
 + (StartupResponseProto_StartupConstants_BattleConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_BattleConstants*) defaultInstance;
@@ -4082,6 +4282,11 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (Float64) battleIndividualEquipAttackCap;
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleIndividualEquipAttackCap:(Float64) value;
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleIndividualEquipAttackCap;
+
+- (BOOL) hasBattleEquipAndStatsWeight;
+- (Float64) battleEquipAndStatsWeight;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleEquipAndStatsWeight:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleEquipAndStatsWeight;
 @end
 
 @interface StartupResponseProto_StartupConstants_ForgeConstants : PBGeneratedMessage {
@@ -4636,6 +4841,20 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (StartupResponseProto_StartupConstants_Builder*) setLeaderboardConstantsBuilder:(StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeLeaderboardConstants:(StartupResponseProto_StartupConstants_LeaderboardEventConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearLeaderboardConstants;
+
+- (NSArray*) inAppPurchasePackagesList;
+- (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
+- (StartupResponseProto_StartupConstants_Builder*) replaceInAppPurchasePackagesAtIndex:(int32_t) index with:(InAppPurchasePackageProto*) value;
+- (StartupResponseProto_StartupConstants_Builder*) addInAppPurchasePackages:(InAppPurchasePackageProto*) value;
+- (StartupResponseProto_StartupConstants_Builder*) addAllInAppPurchasePackages:(NSArray*) values;
+- (StartupResponseProto_StartupConstants_Builder*) clearInAppPurchasePackagesList;
+
+- (BOOL) hasEnhanceConstants;
+- (StartupResponseProto_StartupConstants_EnhancementConstants*) enhanceConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setEnhanceConstants:(StartupResponseProto_StartupConstants_EnhancementConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setEnhanceConstantsBuilder:(StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeEnhanceConstants:(StartupResponseProto_StartupConstants_EnhancementConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearEnhanceConstants;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -5476,6 +5695,13 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (StartupResponseProto_Builder*) addLeaderboardEvents:(LeaderboardEventProto*) value;
 - (StartupResponseProto_Builder*) addAllLeaderboardEvents:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearLeaderboardEventsList;
+
+- (BOOL) hasEquipEnhancement;
+- (EquipEnhancementProto*) equipEnhancement;
+- (StartupResponseProto_Builder*) setEquipEnhancement:(EquipEnhancementProto*) value;
+- (StartupResponseProto_Builder*) setEquipEnhancementBuilder:(EquipEnhancementProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) mergeEquipEnhancement:(EquipEnhancementProto*) value;
+- (StartupResponseProto_Builder*) clearEquipEnhancement;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
@@ -7565,12 +7791,14 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 @private
   BOOL hasPackagePrice_:1;
   BOOL hasDiamondsGained_:1;
+  BOOL hasCoinsGained_:1;
   BOOL hasPackageName_:1;
   BOOL hasReceipt_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   Float64 packagePrice;
   int32_t diamondsGained;
+  int32_t coinsGained;
   NSString* packageName;
   NSString* receipt;
   MinimumUserProto* sender;
@@ -7579,12 +7807,14 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasDiamondsGained;
+- (BOOL) hasCoinsGained;
 - (BOOL) hasPackageName;
 - (BOOL) hasPackagePrice;
 - (BOOL) hasReceipt;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) InAppPurchaseResponseProto_InAppPurchaseStatus status;
 @property (readonly) int32_t diamondsGained;
+@property (readonly) int32_t coinsGained;
 @property (readonly, retain) NSString* packageName;
 @property (readonly) Float64 packagePrice;
 @property (readonly, retain) NSString* receipt;
@@ -7639,6 +7869,11 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (int32_t) diamondsGained;
 - (InAppPurchaseResponseProto_Builder*) setDiamondsGained:(int32_t) value;
 - (InAppPurchaseResponseProto_Builder*) clearDiamondsGained;
+
+- (BOOL) hasCoinsGained;
+- (int32_t) coinsGained;
+- (InAppPurchaseResponseProto_Builder*) setCoinsGained:(int32_t) value;
+- (InAppPurchaseResponseProto_Builder*) clearCoinsGained;
 
 - (BOOL) hasPackageName;
 - (NSString*) packageName;
@@ -16201,15 +16436,19 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 
 @interface BeginClanTowerWarResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasNumMinutesTillNextAttack_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
+  int32_t numMinutesTillNextAttack;
   MinimumUserProto* sender;
   BeginClanTowerWarResponseProto_BeginClanTowerWarStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasNumMinutesTillNextAttack;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) BeginClanTowerWarResponseProto_BeginClanTowerWarStatus status;
+@property (readonly) int32_t numMinutesTillNextAttack;
 
 + (BeginClanTowerWarResponseProto*) defaultInstance;
 - (BeginClanTowerWarResponseProto*) defaultInstance;
@@ -16256,6 +16495,11 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (BeginClanTowerWarResponseProto_BeginClanTowerWarStatus) status;
 - (BeginClanTowerWarResponseProto_Builder*) setStatus:(BeginClanTowerWarResponseProto_BeginClanTowerWarStatus) value;
 - (BeginClanTowerWarResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasNumMinutesTillNextAttack;
+- (int32_t) numMinutesTillNextAttack;
+- (BeginClanTowerWarResponseProto_Builder*) setNumMinutesTillNextAttack:(int32_t) value;
+- (BeginClanTowerWarResponseProto_Builder*) clearNumMinutesTillNextAttack;
 @end
 
 @interface ConcedeClanTowerWarRequestProto : PBGeneratedMessage {
@@ -16509,5 +16753,300 @@ BOOL ChangedClanTowerResponseProto_ReasonForClanTowerChangeIsValidValue(ChangedC
 - (GeneralNotificationResponseProto_Builder*) setRgbBuilder:(ColorProto_Builder*) builderForValue;
 - (GeneralNotificationResponseProto_Builder*) mergeRgb:(ColorProto*) value;
 - (GeneralNotificationResponseProto_Builder*) clearRgb;
+@end
+
+@interface SubmitEquipEnhancementRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasEnhancingUserEquipId_:1;
+  BOOL hasSender_:1;
+  int64_t clientTime;
+  int32_t enhancingUserEquipId;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableFeederUserEquipIdsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasEnhancingUserEquipId;
+- (BOOL) hasClientTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t enhancingUserEquipId;
+@property (readonly) int64_t clientTime;
+- (NSArray*) feederUserEquipIdsList;
+- (int32_t) feederUserEquipIdsAtIndex:(int32_t) index;
+
++ (SubmitEquipEnhancementRequestProto*) defaultInstance;
+- (SubmitEquipEnhancementRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SubmitEquipEnhancementRequestProto_Builder*) builder;
++ (SubmitEquipEnhancementRequestProto_Builder*) builder;
++ (SubmitEquipEnhancementRequestProto_Builder*) builderWithPrototype:(SubmitEquipEnhancementRequestProto*) prototype;
+
++ (SubmitEquipEnhancementRequestProto*) parseFromData:(NSData*) data;
++ (SubmitEquipEnhancementRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SubmitEquipEnhancementRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (SubmitEquipEnhancementRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SubmitEquipEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SubmitEquipEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SubmitEquipEnhancementRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SubmitEquipEnhancementRequestProto* result;
+}
+
+- (SubmitEquipEnhancementRequestProto*) defaultInstance;
+
+- (SubmitEquipEnhancementRequestProto_Builder*) clear;
+- (SubmitEquipEnhancementRequestProto_Builder*) clone;
+
+- (SubmitEquipEnhancementRequestProto*) build;
+- (SubmitEquipEnhancementRequestProto*) buildPartial;
+
+- (SubmitEquipEnhancementRequestProto_Builder*) mergeFrom:(SubmitEquipEnhancementRequestProto*) other;
+- (SubmitEquipEnhancementRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SubmitEquipEnhancementRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SubmitEquipEnhancementRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SubmitEquipEnhancementRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SubmitEquipEnhancementRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SubmitEquipEnhancementRequestProto_Builder*) clearSender;
+
+- (BOOL) hasEnhancingUserEquipId;
+- (int32_t) enhancingUserEquipId;
+- (SubmitEquipEnhancementRequestProto_Builder*) setEnhancingUserEquipId:(int32_t) value;
+- (SubmitEquipEnhancementRequestProto_Builder*) clearEnhancingUserEquipId;
+
+- (NSArray*) feederUserEquipIdsList;
+- (int32_t) feederUserEquipIdsAtIndex:(int32_t) index;
+- (SubmitEquipEnhancementRequestProto_Builder*) replaceFeederUserEquipIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (SubmitEquipEnhancementRequestProto_Builder*) addFeederUserEquipIds:(int32_t) value;
+- (SubmitEquipEnhancementRequestProto_Builder*) addAllFeederUserEquipIds:(NSArray*) values;
+- (SubmitEquipEnhancementRequestProto_Builder*) clearFeederUserEquipIdsList;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (SubmitEquipEnhancementRequestProto_Builder*) setClientTime:(int64_t) value;
+- (SubmitEquipEnhancementRequestProto_Builder*) clearClientTime;
+@end
+
+@interface SubmitEquipEnhancementResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasEquipToEnhance_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  EquipEnhancementProto* equipToEnhance;
+  SubmitEquipEnhancementResponseProto_EnhanceEquipStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasEquipToEnhance;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) SubmitEquipEnhancementResponseProto_EnhanceEquipStatus status;
+@property (readonly, retain) EquipEnhancementProto* equipToEnhance;
+
++ (SubmitEquipEnhancementResponseProto*) defaultInstance;
+- (SubmitEquipEnhancementResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SubmitEquipEnhancementResponseProto_Builder*) builder;
++ (SubmitEquipEnhancementResponseProto_Builder*) builder;
++ (SubmitEquipEnhancementResponseProto_Builder*) builderWithPrototype:(SubmitEquipEnhancementResponseProto*) prototype;
+
++ (SubmitEquipEnhancementResponseProto*) parseFromData:(NSData*) data;
++ (SubmitEquipEnhancementResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SubmitEquipEnhancementResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (SubmitEquipEnhancementResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SubmitEquipEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SubmitEquipEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SubmitEquipEnhancementResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SubmitEquipEnhancementResponseProto* result;
+}
+
+- (SubmitEquipEnhancementResponseProto*) defaultInstance;
+
+- (SubmitEquipEnhancementResponseProto_Builder*) clear;
+- (SubmitEquipEnhancementResponseProto_Builder*) clone;
+
+- (SubmitEquipEnhancementResponseProto*) build;
+- (SubmitEquipEnhancementResponseProto*) buildPartial;
+
+- (SubmitEquipEnhancementResponseProto_Builder*) mergeFrom:(SubmitEquipEnhancementResponseProto*) other;
+- (SubmitEquipEnhancementResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SubmitEquipEnhancementResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SubmitEquipEnhancementResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SubmitEquipEnhancementResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SubmitEquipEnhancementResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SubmitEquipEnhancementResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (SubmitEquipEnhancementResponseProto_EnhanceEquipStatus) status;
+- (SubmitEquipEnhancementResponseProto_Builder*) setStatus:(SubmitEquipEnhancementResponseProto_EnhanceEquipStatus) value;
+- (SubmitEquipEnhancementResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasEquipToEnhance;
+- (EquipEnhancementProto*) equipToEnhance;
+- (SubmitEquipEnhancementResponseProto_Builder*) setEquipToEnhance:(EquipEnhancementProto*) value;
+- (SubmitEquipEnhancementResponseProto_Builder*) setEquipToEnhanceBuilder:(EquipEnhancementProto_Builder*) builderForValue;
+- (SubmitEquipEnhancementResponseProto_Builder*) mergeEquipToEnhance:(EquipEnhancementProto*) value;
+- (SubmitEquipEnhancementResponseProto_Builder*) clearEquipToEnhance;
+@end
+
+@interface CollectEquipEnhancementRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSpeedUp_:1;
+  BOOL hasClientTime_:1;
+  BOOL hasEquipEnhancementId_:1;
+  BOOL hasSender_:1;
+  BOOL speedUp_:1;
+  int64_t clientTime;
+  int32_t equipEnhancementId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasEquipEnhancementId;
+- (BOOL) hasClientTime;
+- (BOOL) hasSpeedUp;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t equipEnhancementId;
+@property (readonly) int64_t clientTime;
+- (BOOL) speedUp;
+
++ (CollectEquipEnhancementRequestProto*) defaultInstance;
+- (CollectEquipEnhancementRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CollectEquipEnhancementRequestProto_Builder*) builder;
++ (CollectEquipEnhancementRequestProto_Builder*) builder;
++ (CollectEquipEnhancementRequestProto_Builder*) builderWithPrototype:(CollectEquipEnhancementRequestProto*) prototype;
+
++ (CollectEquipEnhancementRequestProto*) parseFromData:(NSData*) data;
++ (CollectEquipEnhancementRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectEquipEnhancementRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (CollectEquipEnhancementRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectEquipEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CollectEquipEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CollectEquipEnhancementRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  CollectEquipEnhancementRequestProto* result;
+}
+
+- (CollectEquipEnhancementRequestProto*) defaultInstance;
+
+- (CollectEquipEnhancementRequestProto_Builder*) clear;
+- (CollectEquipEnhancementRequestProto_Builder*) clone;
+
+- (CollectEquipEnhancementRequestProto*) build;
+- (CollectEquipEnhancementRequestProto*) buildPartial;
+
+- (CollectEquipEnhancementRequestProto_Builder*) mergeFrom:(CollectEquipEnhancementRequestProto*) other;
+- (CollectEquipEnhancementRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CollectEquipEnhancementRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CollectEquipEnhancementRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CollectEquipEnhancementRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (CollectEquipEnhancementRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CollectEquipEnhancementRequestProto_Builder*) clearSender;
+
+- (BOOL) hasEquipEnhancementId;
+- (int32_t) equipEnhancementId;
+- (CollectEquipEnhancementRequestProto_Builder*) setEquipEnhancementId:(int32_t) value;
+- (CollectEquipEnhancementRequestProto_Builder*) clearEquipEnhancementId;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (CollectEquipEnhancementRequestProto_Builder*) setClientTime:(int64_t) value;
+- (CollectEquipEnhancementRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasSpeedUp;
+- (BOOL) speedUp;
+- (CollectEquipEnhancementRequestProto_Builder*) setSpeedUp:(BOOL) value;
+- (CollectEquipEnhancementRequestProto_Builder*) clearSpeedUp;
+@end
+
+@interface CollectEquipEnhancementResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasResultingEquip_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  FullUserEquipProto* resultingEquip;
+  CollectEquipEnhancementResponseProto_CollectEquipStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasResultingEquip;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) CollectEquipEnhancementResponseProto_CollectEquipStatus status;
+@property (readonly, retain) FullUserEquipProto* resultingEquip;
+
++ (CollectEquipEnhancementResponseProto*) defaultInstance;
+- (CollectEquipEnhancementResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CollectEquipEnhancementResponseProto_Builder*) builder;
++ (CollectEquipEnhancementResponseProto_Builder*) builder;
++ (CollectEquipEnhancementResponseProto_Builder*) builderWithPrototype:(CollectEquipEnhancementResponseProto*) prototype;
+
++ (CollectEquipEnhancementResponseProto*) parseFromData:(NSData*) data;
++ (CollectEquipEnhancementResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectEquipEnhancementResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (CollectEquipEnhancementResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectEquipEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CollectEquipEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CollectEquipEnhancementResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  CollectEquipEnhancementResponseProto* result;
+}
+
+- (CollectEquipEnhancementResponseProto*) defaultInstance;
+
+- (CollectEquipEnhancementResponseProto_Builder*) clear;
+- (CollectEquipEnhancementResponseProto_Builder*) clone;
+
+- (CollectEquipEnhancementResponseProto*) build;
+- (CollectEquipEnhancementResponseProto*) buildPartial;
+
+- (CollectEquipEnhancementResponseProto_Builder*) mergeFrom:(CollectEquipEnhancementResponseProto*) other;
+- (CollectEquipEnhancementResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CollectEquipEnhancementResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CollectEquipEnhancementResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CollectEquipEnhancementResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (CollectEquipEnhancementResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CollectEquipEnhancementResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (CollectEquipEnhancementResponseProto_CollectEquipStatus) status;
+- (CollectEquipEnhancementResponseProto_Builder*) setStatus:(CollectEquipEnhancementResponseProto_CollectEquipStatus) value;
+- (CollectEquipEnhancementResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasResultingEquip;
+- (FullUserEquipProto*) resultingEquip;
+- (CollectEquipEnhancementResponseProto_Builder*) setResultingEquip:(FullUserEquipProto*) value;
+- (CollectEquipEnhancementResponseProto_Builder*) setResultingEquipBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (CollectEquipEnhancementResponseProto_Builder*) mergeResultingEquip:(FullUserEquipProto*) value;
+- (CollectEquipEnhancementResponseProto_Builder*) clearResultingEquip;
 @end
 

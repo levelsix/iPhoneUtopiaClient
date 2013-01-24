@@ -18,7 +18,7 @@
 @property(nonatomic, readonly) BOOL isGold;
 @property(nonatomic, readonly) NSString *price;
 @property(nonatomic, readonly) NSString *salePrice;
-@property(nonatomic, readonly) UIImage  *rewardPic;
+@property(nonatomic, readonly) NSString *rewardPicName;
 @property(nonatomic, readonly) int discount;
 
 -(void) makePurchaseWithViewController:(UIViewController *)controller;

@@ -305,6 +305,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRetrieveLeaderboardRankingsEvent:
       responseClass = [RetrieveLeaderboardRankingsResponseProto class];
       break;
+    case EventProtocolResponseSSubmitEquipEnhancementEvent:
+      responseClass = [SubmitEquipEnhancementResponseProto class];
+      break;
+    case EventProtocolResponseSCollectEquipEnhancementEvent:
+      responseClass = [CollectEquipEnhancementResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -508,6 +514,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.hasUnhandledForgeAttempt) {
       [gs setForgeAttempt:[ForgeAttempt forgeAttemptWithUnhandledBlacksmithAttemptProto:proto.unhandledForgeAttempt]];
       [gs beginForgeTimer];
+    }
+    
+    if (proto.hasEquipEnhancement) {
+      gs.equipEnhancement = proto.equipEnhancement;
+      [gs beginEnhancementTimer];
     }
     
     [gs goldmineTimeComplete];
@@ -1219,7 +1230,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [defaults removeObjectForKey:key];
       for (NSString *receipt in arr) {
         LNLog(@"Sending over unresponded receipt.");
-        [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0 product:nil];
+        [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0 silverAmt:0 product:nil];
       }
     }
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
@@ -2342,6 +2353,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [Globals popupMessage:@"You must be a clan leader to claim a tower or wage war."];
     } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotEnoughClanMembers) {
       [Globals popupMessage:[NSString stringWithFormat:@"You need at least %d members to claim a tower or wage war.", gl.minClanMembersToHoldClanTower]];
+    } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotEnoughTimeSinceLastBattle) {
+      int numMins = proto.numMinutesTillNextAttack;
+      int hrs = numMins / 60;
+      int mins = numMins % 60;
+      NSString *h = hrs > 0 ? [NSString stringWithFormat:@"%dh ", hrs] : @"";
+      NSString *m = [NSString stringWithFormat:@"%dm", mins];
+      [Globals popupMessage:[NSString stringWithFormat:@"Your warriors are ashamed! You can wage war again in %@%@.", h, m]];
     } else {
       [Globals popupMessage:@"Server failed to perform clan tower action."];
     }
@@ -2403,8 +2421,50 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
+    [Globals popupMessage:@"Server failed to send back leaderboard rankings."];
+    
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
+}
+
+- (void) handleSubmitEquipEnhancementResponseProto:(FullEvent *)fe {
+  SubmitEquipEnhancementResponseProto *proto = (SubmitEquipEnhancementResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Submit equip enhancement received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == SubmitEquipEnhancementResponseProto_EnhanceEquipStatusSuccess) {
+    gs.equipEnhancement = proto.equipToEnhance;
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to submit equip enhancement."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+  
+  ForgeMenuController *fmc = [ForgeMenuController sharedForgeMenuController];
+  [fmc.enhancingView receivedSubmitEquipEnhancementResponse:proto];
+}
+
+- (void) handleCollectEquipEnhancementResponseProto:(FullEvent *)fe {
+  CollectEquipEnhancementResponseProto *proto = (CollectEquipEnhancementResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Collect equip enhancement received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == CollectEquipEnhancementResponseProto_CollectEquipStatusSuccess) {
+    gs.equipEnhancement = nil;
+    [gs addToMyEquips:[NSArray arrayWithObject:proto.resultingEquip]];
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to collect equip enhancement."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+  
+  ForgeMenuController *fmc = [ForgeMenuController sharedForgeMenuController];
+  [fmc.enhancingView receivedCollectEquipEnhancementResponse:proto];
 }
 
 @end

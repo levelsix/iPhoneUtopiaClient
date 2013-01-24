@@ -71,9 +71,9 @@
     back.percentage = 1.f;
     front.percentage = percent;
     
-    [self bringSubviewToFront:front];
-    [self bringSubviewToFront:self.ownerPercentLabel];
-    [self bringSubviewToFront:self.attackerPercentLabel];
+    [self.warView bringSubviewToFront:front];
+    [self.warView bringSubviewToFront:self.ownerPercentLabel];
+    [self.warView bringSubviewToFront:self.attackerPercentLabel];
     
     double roundedPercent = round(percent*1000)/10.;
     self.ownerPercentLabel.text = [NSString stringWithFormat:@"%.1f%%", roundedPercent];
@@ -99,7 +99,7 @@
 - (void) updateTimeForTower:(ClanTowerProto *)t {
   if (t.hasTowerOwner && t.hasTowerAttacker) {
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:t.ownedStartTime/1000.];
-    NSString *ts = [Globals convertTimeToString:-date.timeIntervalSinceNow withDays:NO];
+    NSString *ts = [Globals convertTimeToString:-date.timeIntervalSinceNow withDays:YES];
     NSString *rev = [ts reverseString];
     
     self.rightSecondLabel.text = [rev substringWithRange:NSMakeRange(0, 1)];
@@ -107,7 +107,41 @@
     self.rightMinuteLabel.text = [rev substringWithRange:NSMakeRange(3, 1)];
     self.leftMinuteLabel.text = [rev substringWithRange:NSMakeRange(4, 1)];
     self.rightHourLabel.text = [rev substringWithRange:NSMakeRange(6, 1)];
-    self.leftHourLabel.text = [rev substringWithRange:NSMakeRange(7, rev.length-7)];
+    self.leftHourLabel.text = [rev substringWithRange:NSMakeRange(7, 1)];
+    
+    if (rev.length > 8) {
+      if (rev.length == 10) rev = [rev stringByAppendingString:@"0"];
+      self.rightDayLabel.text = [rev substringWithRange:NSMakeRange(9, 1)];
+      self.leftDayLabel.text = [rev substringWithRange:NSMakeRange(10, 1)];
+      
+      if (self.dayLabelsView.hidden) {
+        self.dayLabelsView.hidden = NO;
+        
+        CGRect r = self.otherTimeLabelsView.frame;
+        r.origin.x = CGRectGetMaxX(self.dayLabelsView.frame);
+        self.otherTimeLabelsView.frame = r;
+        
+        r = self.timeLabelsContainerView.frame;
+        r.size.width = CGRectGetMaxX(self.otherTimeLabelsView.frame);
+        self.timeLabelsContainerView.frame = r;
+        
+        self.timeLabelsContainerView.center = CGPointMake(self.timeLabelsContainerView.superview.frame.size.width/2, self.timeLabelsContainerView.center.y);
+      }
+    } else {
+      if (!self.dayLabelsView.hidden) {
+        self.dayLabelsView.hidden = YES;
+        
+        CGRect r = self.otherTimeLabelsView.frame;
+        r.origin.x = 0;
+        self.otherTimeLabelsView.frame = r;
+        
+        r = self.timeLabelsContainerView.frame;
+        r.size.width = CGRectGetMaxX(self.otherTimeLabelsView.frame);
+        self.timeLabelsContainerView.frame = r;
+        
+        self.timeLabelsContainerView.center = CGPointMake(self.timeLabelsContainerView.superview.frame.size.width/2, self.timeLabelsContainerView.center.y);
+      }
+    }
   }
 }
 
@@ -129,6 +163,17 @@
   self.concedeView = nil;
   self.sameSideLabel = nil;
   self.claimButtonView = nil;
+  self.rightDayLabel = nil;
+  self.leftDayLabel = nil;
+  self.rightHourLabel = nil;
+  self.leftHourLabel = nil;
+  self.rightMinuteLabel = nil;
+  self.leftMinuteLabel = nil;
+  self.rightSecondLabel = nil;
+  self.leftSecondLabel = nil;
+  self.dayLabelsView = nil;
+  self.otherTimeLabelsView = nil;
+  self.timeLabelsContainerView = nil;
   [super dealloc];
 }
 

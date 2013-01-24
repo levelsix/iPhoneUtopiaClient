@@ -122,6 +122,12 @@
 
 @end
 
+@interface EnhancementLevelIcon : UIImageView
+
+@property (nonatomic, assign) int level;
+
+@end
+
 @interface ProgressBar : UIImageView
 
 @property (nonatomic, assign) float percentage;

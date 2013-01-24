@@ -48,10 +48,6 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">bronzeprizebg.png</string>
-						</object>
 					</object>
 					<object class="IBUIImageView" id="304980330">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -113,6 +109,7 @@
 						<string key="NSFrame">{{10, 110}, {80, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -276,6 +273,7 @@
 					<string key="className">LeaderboardCell</string>
 					<string key="superclassName">UITableViewCell</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="attackButton">UIView</string>
 						<string key="nameLabel">UIButton</string>
 						<string key="rankLabel">UILabel</string>
 						<string key="rightLabel">UILabel</string>
@@ -283,6 +281,10 @@
 						<string key="userIcon">UIButton</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="attackButton">
+							<string key="name">attackButton</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="nameLabel">
 							<string key="name">nameLabel</string>
 							<string key="candidateClassName">UIButton</string>
@@ -355,6 +357,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">TournamentLeaderboardView</string>
 					<string key="superclassName">UIView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">attackClicked:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">attackClicked:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">attackClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="leaderboardCell">LeaderboardCell</string>
 						<string key="leaderboardTable">UITableView</string>
@@ -397,17 +410,20 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">TournamentMenuController</string>
 					<string key="superclassName">PullRefreshTableViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">closeClicked:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">closeClicked:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="closeClicked:">id</string>
+						<string key="rulesClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="closeClicked:">
 							<string key="name">closeClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+						<object class="IBActionInfo" key="rulesClicked:">
+							<string key="name">rulesClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="bgdView">UIView</string>
 						<string key="eventTimeLabel">UILabel</string>
@@ -490,10 +506,10 @@
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="bronzeprizebg.png">{100, 138}</string>
-			<string key="refillgoldstack.png">{65, 52}</string>
-		</dictionary>
+		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="NS.key.0">refillgoldstack.png</string>
+			<string key="NS.object.0">{65, 52}</string>
+		</object>
 		<string key="IBCocoaTouchPluginVersion">1929</string>
 	</data>
 </archive>

@@ -2,6 +2,30 @@ package com.lvl6.proto;
 
 option java_outer_classname = "InfoProto";
 
+message EquipEnhancementProto {
+	optional int32 enhancementId = 1;
+	optional int32 userId = 2;
+	optional EquipEnhancementItemProto enhancingEquip = 3;
+	repeated EquipEnhancementItemProto feederEquips = 4;
+	optional int64 startTime = 5;
+	optional int64 timeOfSpeedup = 6;
+}
+
+message EquipEnhancementItemProto {
+	optional int32 equipId = 1;
+	optional int32 level = 2;
+	optional int32 enhancementPercentage = 3;
+}
+
+message InAppPurchasePackageProto {
+	optional string packageId = 1;
+	optional int32 currencyAmount = 2;
+	optional bool isGold = 3;
+	optional string imageName = 4;
+}
+
+//------------------------------------------------------------------------------------------
+
 message ColorProto {
 	optional int32 red = 1;
 	optional int32 green = 2;
@@ -81,6 +105,11 @@ message GoldSaleProto {
 	optional string package5SaleIdentifier = 8;
 	optional string goldShoppeImageName = 9;
 	optional string goldBarImageName = 10;
+	optional string packageS1SaleIdentifier = 11;
+	optional string packageS2SaleIdentifier = 12;
+	optional string packageS3SaleIdentifier = 13;
+	optional string packageS4SaleIdentifier = 14;
+	optional string packageS5SaleIdentifier = 15;
 }
 
 //-----------------------------------------------------------------------------------------
@@ -451,6 +480,7 @@ message FullUserEquipProto {
 	optional int32 userId = 2;
 	optional int32 equipId = 3;
 	optional int32 level = 4;
+	optional int32 enhancementPercentage = 5;
 }
 
 //------------------------------------------------------------------------------------------
@@ -597,6 +627,7 @@ message FullMarketplacePostProto {
 	optional int32 diamondCost = 6;
 	optional int32 coinCost = 7;
 	optional int32 equipLevel = 8;
+	optional int32 equipEnhancementPercent = 9;
 }
 
 //------------------------------------------------------------------------------------------

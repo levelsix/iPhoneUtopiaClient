@@ -3265,6 +3265,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableStaticEquipsList;
 @property (retain) NSMutableArray* mutableBossEventsList;
 @property (retain) NSMutableArray* mutableLeaderboardEventsList;
+@property (retain) EquipEnhancementProto* equipEnhancement;
 @end
 
 @implementation StartupResponseProto
@@ -3399,6 +3400,13 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableStaticEquipsList;
 @synthesize mutableBossEventsList;
 @synthesize mutableLeaderboardEventsList;
+- (BOOL) hasEquipEnhancement {
+  return !!hasEquipEnhancement_;
+}
+- (void) setHasEquipEnhancement:(BOOL) value {
+  hasEquipEnhancement_ = !!value;
+}
+@synthesize equipEnhancement;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3436,6 +3444,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableStaticEquipsList = nil;
   self.mutableBossEventsList = nil;
   self.mutableLeaderboardEventsList = nil;
+  self.equipEnhancement = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3454,6 +3463,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.playerHasBoughtInAppPurchase = NO;
     self.unhandledForgeAttempt = [UnhandledBlacksmithAttemptProto defaultInstance];
     self.forgeAttemptEquip = [FullEquipProto defaultInstance];
+    self.equipEnhancement = [EquipEnhancementProto defaultInstance];
   }
   return self;
 }
@@ -3785,6 +3795,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (LeaderboardEventProto* element in self.leaderboardEventsList) {
     [output writeMessage:41 value:element];
   }
+  if (self.hasEquipEnhancement) {
+    [output writeMessage:42 value:self.equipEnhancement];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3921,6 +3934,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (LeaderboardEventProto* element in self.leaderboardEventsList) {
     size += computeMessageSize(41, element);
+  }
+  if (self.hasEquipEnhancement) {
+    size += computeMessageSize(42, self.equipEnhancement);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5376,6 +5392,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t minClanMembersToHoldClanTower;
 @property (retain) StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
 @property (retain) StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
+@property (retain) NSMutableArray* mutableInAppPurchasePackagesList;
+@property (retain) StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5950,6 +5968,14 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasLeaderboardConstants_ = !!value;
 }
 @synthesize leaderboardConstants;
+@synthesize mutableInAppPurchasePackagesList;
+- (BOOL) hasEnhanceConstants {
+  return !!hasEnhanceConstants_;
+}
+- (void) setHasEnhanceConstants:(BOOL) value {
+  hasEnhanceConstants_ = !!value;
+}
+@synthesize enhanceConstants;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5967,6 +5993,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.downloadableNibConstants = nil;
   self.minLevelConstants = nil;
   self.leaderboardConstants = nil;
+  self.mutableInAppPurchasePackagesList = nil;
+  self.enhanceConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -6052,6 +6080,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.minClanMembersToHoldClanTower = 0;
     self.minLevelConstants = [StartupResponseProto_StartupConstants_BazaarMinLevelConstants defaultInstance];
     self.leaderboardConstants = [StartupResponseProto_StartupConstants_LeaderboardEventConstants defaultInstance];
+    self.enhanceConstants = [StartupResponseProto_StartupConstants_EnhancementConstants defaultInstance];
   }
   return self;
 }
@@ -6086,6 +6115,13 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) animatedSpriteOffsetsAtIndex:(int32_t) index {
   id value = [mutableAnimatedSpriteOffsetsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) inAppPurchasePackagesList {
+  return mutableInAppPurchasePackagesList;
+}
+- (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index {
+  id value = [mutableInAppPurchasePackagesList objectAtIndex:index];
   return value;
 }
 - (BOOL) isInitialized {
@@ -6343,6 +6379,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasLeaderboardConstants) {
     [output writeMessage:94 value:self.leaderboardConstants];
+  }
+  for (InAppPurchasePackageProto* element in self.inAppPurchasePackagesList) {
+    [output writeMessage:95 value:element];
+  }
+  if (self.hasEnhanceConstants) {
+    [output writeMessage:96 value:self.enhanceConstants];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -6615,6 +6657,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasLeaderboardConstants) {
     size += computeMessageSize(94, self.leaderboardConstants);
   }
+  for (InAppPurchasePackageProto* element in self.inAppPurchasePackagesList) {
+    size += computeMessageSize(95, element);
+  }
+  if (self.hasEnhanceConstants) {
+    size += computeMessageSize(96, self.enhanceConstants);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -6645,6 +6693,601 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_EnhancementConstants ()
+@property int32_t maxEnhancementLevel;
+@property int32_t enhancePercentPerLevel;
+@property Float32 enhanceTimeConstantA;
+@property Float32 enhanceTimeConstantB;
+@property Float32 enhanceTimeConstantC;
+@property Float32 enhanceTimeConstantD;
+@property Float32 enhanceTimeConstantE;
+@property Float32 enhanceTimeConstantF;
+@property Float32 enhanceTimeConstantG;
+@property Float32 enhancePercentConstantA;
+@property Float32 enhancePercentConstantB;
+@property Float32 enhanceLevelExponentBase;
+@end
+
+@implementation StartupResponseProto_StartupConstants_EnhancementConstants
+
+- (BOOL) hasMaxEnhancementLevel {
+  return !!hasMaxEnhancementLevel_;
+}
+- (void) setHasMaxEnhancementLevel:(BOOL) value {
+  hasMaxEnhancementLevel_ = !!value;
+}
+@synthesize maxEnhancementLevel;
+- (BOOL) hasEnhancePercentPerLevel {
+  return !!hasEnhancePercentPerLevel_;
+}
+- (void) setHasEnhancePercentPerLevel:(BOOL) value {
+  hasEnhancePercentPerLevel_ = !!value;
+}
+@synthesize enhancePercentPerLevel;
+- (BOOL) hasEnhanceTimeConstantA {
+  return !!hasEnhanceTimeConstantA_;
+}
+- (void) setHasEnhanceTimeConstantA:(BOOL) value {
+  hasEnhanceTimeConstantA_ = !!value;
+}
+@synthesize enhanceTimeConstantA;
+- (BOOL) hasEnhanceTimeConstantB {
+  return !!hasEnhanceTimeConstantB_;
+}
+- (void) setHasEnhanceTimeConstantB:(BOOL) value {
+  hasEnhanceTimeConstantB_ = !!value;
+}
+@synthesize enhanceTimeConstantB;
+- (BOOL) hasEnhanceTimeConstantC {
+  return !!hasEnhanceTimeConstantC_;
+}
+- (void) setHasEnhanceTimeConstantC:(BOOL) value {
+  hasEnhanceTimeConstantC_ = !!value;
+}
+@synthesize enhanceTimeConstantC;
+- (BOOL) hasEnhanceTimeConstantD {
+  return !!hasEnhanceTimeConstantD_;
+}
+- (void) setHasEnhanceTimeConstantD:(BOOL) value {
+  hasEnhanceTimeConstantD_ = !!value;
+}
+@synthesize enhanceTimeConstantD;
+- (BOOL) hasEnhanceTimeConstantE {
+  return !!hasEnhanceTimeConstantE_;
+}
+- (void) setHasEnhanceTimeConstantE:(BOOL) value {
+  hasEnhanceTimeConstantE_ = !!value;
+}
+@synthesize enhanceTimeConstantE;
+- (BOOL) hasEnhanceTimeConstantF {
+  return !!hasEnhanceTimeConstantF_;
+}
+- (void) setHasEnhanceTimeConstantF:(BOOL) value {
+  hasEnhanceTimeConstantF_ = !!value;
+}
+@synthesize enhanceTimeConstantF;
+- (BOOL) hasEnhanceTimeConstantG {
+  return !!hasEnhanceTimeConstantG_;
+}
+- (void) setHasEnhanceTimeConstantG:(BOOL) value {
+  hasEnhanceTimeConstantG_ = !!value;
+}
+@synthesize enhanceTimeConstantG;
+- (BOOL) hasEnhancePercentConstantA {
+  return !!hasEnhancePercentConstantA_;
+}
+- (void) setHasEnhancePercentConstantA:(BOOL) value {
+  hasEnhancePercentConstantA_ = !!value;
+}
+@synthesize enhancePercentConstantA;
+- (BOOL) hasEnhancePercentConstantB {
+  return !!hasEnhancePercentConstantB_;
+}
+- (void) setHasEnhancePercentConstantB:(BOOL) value {
+  hasEnhancePercentConstantB_ = !!value;
+}
+@synthesize enhancePercentConstantB;
+- (BOOL) hasEnhanceLevelExponentBase {
+  return !!hasEnhanceLevelExponentBase_;
+}
+- (void) setHasEnhanceLevelExponentBase:(BOOL) value {
+  hasEnhanceLevelExponentBase_ = !!value;
+}
+@synthesize enhanceLevelExponentBase;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.maxEnhancementLevel = 0;
+    self.enhancePercentPerLevel = 0;
+    self.enhanceTimeConstantA = 0;
+    self.enhanceTimeConstantB = 0;
+    self.enhanceTimeConstantC = 0;
+    self.enhanceTimeConstantD = 0;
+    self.enhanceTimeConstantE = 0;
+    self.enhanceTimeConstantF = 0;
+    self.enhanceTimeConstantG = 0;
+    self.enhancePercentConstantA = 0;
+    self.enhancePercentConstantB = 0;
+    self.enhanceLevelExponentBase = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_EnhancementConstants* defaultStartupResponseProto_StartupConstants_EnhancementConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_EnhancementConstants class]) {
+    defaultStartupResponseProto_StartupConstants_EnhancementConstantsInstance = [[StartupResponseProto_StartupConstants_EnhancementConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_EnhancementConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_EnhancementConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_EnhancementConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMaxEnhancementLevel) {
+    [output writeInt32:1 value:self.maxEnhancementLevel];
+  }
+  if (self.hasEnhancePercentPerLevel) {
+    [output writeInt32:2 value:self.enhancePercentPerLevel];
+  }
+  if (self.hasEnhanceTimeConstantA) {
+    [output writeFloat:3 value:self.enhanceTimeConstantA];
+  }
+  if (self.hasEnhanceTimeConstantB) {
+    [output writeFloat:4 value:self.enhanceTimeConstantB];
+  }
+  if (self.hasEnhanceTimeConstantC) {
+    [output writeFloat:5 value:self.enhanceTimeConstantC];
+  }
+  if (self.hasEnhanceTimeConstantD) {
+    [output writeFloat:6 value:self.enhanceTimeConstantD];
+  }
+  if (self.hasEnhanceTimeConstantE) {
+    [output writeFloat:7 value:self.enhanceTimeConstantE];
+  }
+  if (self.hasEnhanceTimeConstantF) {
+    [output writeFloat:8 value:self.enhanceTimeConstantF];
+  }
+  if (self.hasEnhanceTimeConstantG) {
+    [output writeFloat:9 value:self.enhanceTimeConstantG];
+  }
+  if (self.hasEnhancePercentConstantA) {
+    [output writeFloat:10 value:self.enhancePercentConstantA];
+  }
+  if (self.hasEnhancePercentConstantB) {
+    [output writeFloat:11 value:self.enhancePercentConstantB];
+  }
+  if (self.hasEnhanceLevelExponentBase) {
+    [output writeFloat:12 value:self.enhanceLevelExponentBase];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMaxEnhancementLevel) {
+    size += computeInt32Size(1, self.maxEnhancementLevel);
+  }
+  if (self.hasEnhancePercentPerLevel) {
+    size += computeInt32Size(2, self.enhancePercentPerLevel);
+  }
+  if (self.hasEnhanceTimeConstantA) {
+    size += computeFloatSize(3, self.enhanceTimeConstantA);
+  }
+  if (self.hasEnhanceTimeConstantB) {
+    size += computeFloatSize(4, self.enhanceTimeConstantB);
+  }
+  if (self.hasEnhanceTimeConstantC) {
+    size += computeFloatSize(5, self.enhanceTimeConstantC);
+  }
+  if (self.hasEnhanceTimeConstantD) {
+    size += computeFloatSize(6, self.enhanceTimeConstantD);
+  }
+  if (self.hasEnhanceTimeConstantE) {
+    size += computeFloatSize(7, self.enhanceTimeConstantE);
+  }
+  if (self.hasEnhanceTimeConstantF) {
+    size += computeFloatSize(8, self.enhanceTimeConstantF);
+  }
+  if (self.hasEnhanceTimeConstantG) {
+    size += computeFloatSize(9, self.enhanceTimeConstantG);
+  }
+  if (self.hasEnhancePercentConstantA) {
+    size += computeFloatSize(10, self.enhancePercentConstantA);
+  }
+  if (self.hasEnhancePercentConstantB) {
+    size += computeFloatSize(11, self.enhancePercentConstantB);
+  }
+  if (self.hasEnhanceLevelExponentBase) {
+    size += computeFloatSize(12, self.enhanceLevelExponentBase);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_EnhancementConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_EnhancementConstants*)[[[StartupResponseProto_StartupConstants_EnhancementConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_EnhancementConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_EnhancementConstants*)[[[StartupResponseProto_StartupConstants_EnhancementConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_EnhancementConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_EnhancementConstants*)[[[StartupResponseProto_StartupConstants_EnhancementConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_EnhancementConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_EnhancementConstants*)[[[StartupResponseProto_StartupConstants_EnhancementConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_EnhancementConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_EnhancementConstants*)[[[StartupResponseProto_StartupConstants_EnhancementConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_EnhancementConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_EnhancementConstants*)[[[StartupResponseProto_StartupConstants_EnhancementConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_EnhancementConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_EnhancementConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_EnhancementConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_EnhancementConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_EnhancementConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_EnhancementConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_EnhancementConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_EnhancementConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_EnhancementConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_EnhancementConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_EnhancementConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_EnhancementConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_EnhancementConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_EnhancementConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasMaxEnhancementLevel) {
+    [self setMaxEnhancementLevel:other.maxEnhancementLevel];
+  }
+  if (other.hasEnhancePercentPerLevel) {
+    [self setEnhancePercentPerLevel:other.enhancePercentPerLevel];
+  }
+  if (other.hasEnhanceTimeConstantA) {
+    [self setEnhanceTimeConstantA:other.enhanceTimeConstantA];
+  }
+  if (other.hasEnhanceTimeConstantB) {
+    [self setEnhanceTimeConstantB:other.enhanceTimeConstantB];
+  }
+  if (other.hasEnhanceTimeConstantC) {
+    [self setEnhanceTimeConstantC:other.enhanceTimeConstantC];
+  }
+  if (other.hasEnhanceTimeConstantD) {
+    [self setEnhanceTimeConstantD:other.enhanceTimeConstantD];
+  }
+  if (other.hasEnhanceTimeConstantE) {
+    [self setEnhanceTimeConstantE:other.enhanceTimeConstantE];
+  }
+  if (other.hasEnhanceTimeConstantF) {
+    [self setEnhanceTimeConstantF:other.enhanceTimeConstantF];
+  }
+  if (other.hasEnhanceTimeConstantG) {
+    [self setEnhanceTimeConstantG:other.enhanceTimeConstantG];
+  }
+  if (other.hasEnhancePercentConstantA) {
+    [self setEnhancePercentConstantA:other.enhancePercentConstantA];
+  }
+  if (other.hasEnhancePercentConstantB) {
+    [self setEnhancePercentConstantB:other.enhancePercentConstantB];
+  }
+  if (other.hasEnhanceLevelExponentBase) {
+    [self setEnhanceLevelExponentBase:other.enhanceLevelExponentBase];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setMaxEnhancementLevel:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setEnhancePercentPerLevel:[input readInt32]];
+        break;
+      }
+      case 29: {
+        [self setEnhanceTimeConstantA:[input readFloat]];
+        break;
+      }
+      case 37: {
+        [self setEnhanceTimeConstantB:[input readFloat]];
+        break;
+      }
+      case 45: {
+        [self setEnhanceTimeConstantC:[input readFloat]];
+        break;
+      }
+      case 53: {
+        [self setEnhanceTimeConstantD:[input readFloat]];
+        break;
+      }
+      case 61: {
+        [self setEnhanceTimeConstantE:[input readFloat]];
+        break;
+      }
+      case 69: {
+        [self setEnhanceTimeConstantF:[input readFloat]];
+        break;
+      }
+      case 77: {
+        [self setEnhanceTimeConstantG:[input readFloat]];
+        break;
+      }
+      case 85: {
+        [self setEnhancePercentConstantA:[input readFloat]];
+        break;
+      }
+      case 93: {
+        [self setEnhancePercentConstantB:[input readFloat]];
+        break;
+      }
+      case 101: {
+        [self setEnhanceLevelExponentBase:[input readFloat]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMaxEnhancementLevel {
+  return result.hasMaxEnhancementLevel;
+}
+- (int32_t) maxEnhancementLevel {
+  return result.maxEnhancementLevel;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setMaxEnhancementLevel:(int32_t) value {
+  result.hasMaxEnhancementLevel = YES;
+  result.maxEnhancementLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearMaxEnhancementLevel {
+  result.hasMaxEnhancementLevel = NO;
+  result.maxEnhancementLevel = 0;
+  return self;
+}
+- (BOOL) hasEnhancePercentPerLevel {
+  return result.hasEnhancePercentPerLevel;
+}
+- (int32_t) enhancePercentPerLevel {
+  return result.enhancePercentPerLevel;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhancePercentPerLevel:(int32_t) value {
+  result.hasEnhancePercentPerLevel = YES;
+  result.enhancePercentPerLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhancePercentPerLevel {
+  result.hasEnhancePercentPerLevel = NO;
+  result.enhancePercentPerLevel = 0;
+  return self;
+}
+- (BOOL) hasEnhanceTimeConstantA {
+  return result.hasEnhanceTimeConstantA;
+}
+- (Float32) enhanceTimeConstantA {
+  return result.enhanceTimeConstantA;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceTimeConstantA:(Float32) value {
+  result.hasEnhanceTimeConstantA = YES;
+  result.enhanceTimeConstantA = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceTimeConstantA {
+  result.hasEnhanceTimeConstantA = NO;
+  result.enhanceTimeConstantA = 0;
+  return self;
+}
+- (BOOL) hasEnhanceTimeConstantB {
+  return result.hasEnhanceTimeConstantB;
+}
+- (Float32) enhanceTimeConstantB {
+  return result.enhanceTimeConstantB;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceTimeConstantB:(Float32) value {
+  result.hasEnhanceTimeConstantB = YES;
+  result.enhanceTimeConstantB = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceTimeConstantB {
+  result.hasEnhanceTimeConstantB = NO;
+  result.enhanceTimeConstantB = 0;
+  return self;
+}
+- (BOOL) hasEnhanceTimeConstantC {
+  return result.hasEnhanceTimeConstantC;
+}
+- (Float32) enhanceTimeConstantC {
+  return result.enhanceTimeConstantC;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceTimeConstantC:(Float32) value {
+  result.hasEnhanceTimeConstantC = YES;
+  result.enhanceTimeConstantC = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceTimeConstantC {
+  result.hasEnhanceTimeConstantC = NO;
+  result.enhanceTimeConstantC = 0;
+  return self;
+}
+- (BOOL) hasEnhanceTimeConstantD {
+  return result.hasEnhanceTimeConstantD;
+}
+- (Float32) enhanceTimeConstantD {
+  return result.enhanceTimeConstantD;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceTimeConstantD:(Float32) value {
+  result.hasEnhanceTimeConstantD = YES;
+  result.enhanceTimeConstantD = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceTimeConstantD {
+  result.hasEnhanceTimeConstantD = NO;
+  result.enhanceTimeConstantD = 0;
+  return self;
+}
+- (BOOL) hasEnhanceTimeConstantE {
+  return result.hasEnhanceTimeConstantE;
+}
+- (Float32) enhanceTimeConstantE {
+  return result.enhanceTimeConstantE;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceTimeConstantE:(Float32) value {
+  result.hasEnhanceTimeConstantE = YES;
+  result.enhanceTimeConstantE = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceTimeConstantE {
+  result.hasEnhanceTimeConstantE = NO;
+  result.enhanceTimeConstantE = 0;
+  return self;
+}
+- (BOOL) hasEnhanceTimeConstantF {
+  return result.hasEnhanceTimeConstantF;
+}
+- (Float32) enhanceTimeConstantF {
+  return result.enhanceTimeConstantF;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceTimeConstantF:(Float32) value {
+  result.hasEnhanceTimeConstantF = YES;
+  result.enhanceTimeConstantF = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceTimeConstantF {
+  result.hasEnhanceTimeConstantF = NO;
+  result.enhanceTimeConstantF = 0;
+  return self;
+}
+- (BOOL) hasEnhanceTimeConstantG {
+  return result.hasEnhanceTimeConstantG;
+}
+- (Float32) enhanceTimeConstantG {
+  return result.enhanceTimeConstantG;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceTimeConstantG:(Float32) value {
+  result.hasEnhanceTimeConstantG = YES;
+  result.enhanceTimeConstantG = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceTimeConstantG {
+  result.hasEnhanceTimeConstantG = NO;
+  result.enhanceTimeConstantG = 0;
+  return self;
+}
+- (BOOL) hasEnhancePercentConstantA {
+  return result.hasEnhancePercentConstantA;
+}
+- (Float32) enhancePercentConstantA {
+  return result.enhancePercentConstantA;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhancePercentConstantA:(Float32) value {
+  result.hasEnhancePercentConstantA = YES;
+  result.enhancePercentConstantA = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhancePercentConstantA {
+  result.hasEnhancePercentConstantA = NO;
+  result.enhancePercentConstantA = 0;
+  return self;
+}
+- (BOOL) hasEnhancePercentConstantB {
+  return result.hasEnhancePercentConstantB;
+}
+- (Float32) enhancePercentConstantB {
+  return result.enhancePercentConstantB;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhancePercentConstantB:(Float32) value {
+  result.hasEnhancePercentConstantB = YES;
+  result.enhancePercentConstantB = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhancePercentConstantB {
+  result.hasEnhancePercentConstantB = NO;
+  result.enhancePercentConstantB = 0;
+  return self;
+}
+- (BOOL) hasEnhanceLevelExponentBase {
+  return result.hasEnhanceLevelExponentBase;
+}
+- (Float32) enhanceLevelExponentBase {
+  return result.enhanceLevelExponentBase;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceLevelExponentBase:(Float32) value {
+  result.hasEnhanceLevelExponentBase = YES;
+  result.enhanceLevelExponentBase = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceLevelExponentBase {
+  result.hasEnhanceLevelExponentBase = NO;
+  result.enhanceLevelExponentBase = 0;
+  return self;
 }
 @end
 
@@ -10548,6 +11191,7 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
 @property Float64 battleAttackExpoMultiplier;
 @property Float64 battlePercentOfEquipment;
 @property Float64 battleIndividualEquipAttackCap;
+@property Float64 battleEquipAndStatsWeight;
 @end
 
 @implementation StartupResponseProto_StartupConstants_BattleConstants
@@ -10734,6 +11378,13 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
   hasBattleIndividualEquipAttackCap_ = !!value;
 }
 @synthesize battleIndividualEquipAttackCap;
+- (BOOL) hasBattleEquipAndStatsWeight {
+  return !!hasBattleEquipAndStatsWeight_;
+}
+- (void) setHasBattleEquipAndStatsWeight:(BOOL) value {
+  hasBattleEquipAndStatsWeight_ = !!value;
+}
+@synthesize battleEquipAndStatsWeight;
 - (void) dealloc {
   [super dealloc];
 }
@@ -10765,6 +11416,7 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
     self.battleAttackExpoMultiplier = 0;
     self.battlePercentOfEquipment = 0;
     self.battleIndividualEquipAttackCap = 0;
+    self.battleEquipAndStatsWeight = 0;
   }
   return self;
 }
@@ -10862,6 +11514,9 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (self.hasBattleHitDefenderPercentOfHealth) {
     [output writeDouble:26 value:self.battleHitDefenderPercentOfHealth];
   }
+  if (self.hasBattleEquipAndStatsWeight) {
+    [output writeDouble:27 value:self.battleEquipAndStatsWeight];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -10948,6 +11603,9 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   }
   if (self.hasBattleHitDefenderPercentOfHealth) {
     size += computeDoubleSize(26, self.battleHitDefenderPercentOfHealth);
+  }
+  if (self.hasBattleEquipAndStatsWeight) {
+    size += computeDoubleSize(27, self.battleEquipAndStatsWeight);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -11102,6 +11760,9 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (other.hasBattleIndividualEquipAttackCap) {
     [self setBattleIndividualEquipAttackCap:other.battleIndividualEquipAttackCap];
   }
+  if (other.hasBattleEquipAndStatsWeight) {
+    [self setBattleEquipAndStatsWeight:other.battleEquipAndStatsWeight];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -11225,6 +11886,10 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
       }
       case 209: {
         [self setBattleHitDefenderPercentOfHealth:[input readDouble]];
+        break;
+      }
+      case 217: {
+        [self setBattleEquipAndStatsWeight:[input readDouble]];
         break;
       }
     }
@@ -11644,6 +12309,22 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleIndividualEquipAttackCap {
   result.hasBattleIndividualEquipAttackCap = NO;
   result.battleIndividualEquipAttackCap = 0;
+  return self;
+}
+- (BOOL) hasBattleEquipAndStatsWeight {
+  return result.hasBattleEquipAndStatsWeight;
+}
+- (Float64) battleEquipAndStatsWeight {
+  return result.battleEquipAndStatsWeight;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleEquipAndStatsWeight:(Float64) value {
+  result.hasBattleEquipAndStatsWeight = YES;
+  result.battleEquipAndStatsWeight = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleEquipAndStatsWeight {
+  result.hasBattleEquipAndStatsWeight = NO;
+  result.battleEquipAndStatsWeight = 0;
   return self;
 }
 @end
@@ -12280,6 +12961,15 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasLeaderboardConstants) {
     [self mergeLeaderboardConstants:other.leaderboardConstants];
   }
+  if (other.mutableInAppPurchasePackagesList.count > 0) {
+    if (result.mutableInAppPurchasePackagesList == nil) {
+      result.mutableInAppPurchasePackagesList = [NSMutableArray array];
+    }
+    [result.mutableInAppPurchasePackagesList addObjectsFromArray:other.mutableInAppPurchasePackagesList];
+  }
+  if (other.hasEnhanceConstants) {
+    [self mergeEnhanceConstants:other.enhanceConstants];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -12702,6 +13392,21 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setLeaderboardConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 762: {
+        InAppPurchasePackageProto_Builder* subBuilder = [InAppPurchasePackageProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addInAppPurchasePackages:[subBuilder buildPartial]];
+        break;
+      }
+      case 770: {
+        StartupResponseProto_StartupConstants_EnhancementConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_EnhancementConstants builder];
+        if (self.hasEnhanceConstants) {
+          [subBuilder mergeFrom:self.enhanceConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setEnhanceConstants:[subBuilder buildPartial]];
         break;
       }
     }
@@ -14274,6 +14979,65 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearLeaderboardConstants {
   result.hasLeaderboardConstants = NO;
   result.leaderboardConstants = [StartupResponseProto_StartupConstants_LeaderboardEventConstants defaultInstance];
+  return self;
+}
+- (NSArray*) inAppPurchasePackagesList {
+  if (result.mutableInAppPurchasePackagesList == nil) { return [NSArray array]; }
+  return result.mutableInAppPurchasePackagesList;
+}
+- (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index {
+  return [result inAppPurchasePackagesAtIndex:index];
+}
+- (StartupResponseProto_StartupConstants_Builder*) replaceInAppPurchasePackagesAtIndex:(int32_t) index with:(InAppPurchasePackageProto*) value {
+  [result.mutableInAppPurchasePackagesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) addAllInAppPurchasePackages:(NSArray*) values {
+  if (result.mutableInAppPurchasePackagesList == nil) {
+    result.mutableInAppPurchasePackagesList = [NSMutableArray array];
+  }
+  [result.mutableInAppPurchasePackagesList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearInAppPurchasePackagesList {
+  result.mutableInAppPurchasePackagesList = nil;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) addInAppPurchasePackages:(InAppPurchasePackageProto*) value {
+  if (result.mutableInAppPurchasePackagesList == nil) {
+    result.mutableInAppPurchasePackagesList = [NSMutableArray array];
+  }
+  [result.mutableInAppPurchasePackagesList addObject:value];
+  return self;
+}
+- (BOOL) hasEnhanceConstants {
+  return result.hasEnhanceConstants;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants*) enhanceConstants {
+  return result.enhanceConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setEnhanceConstants:(StartupResponseProto_StartupConstants_EnhancementConstants*) value {
+  result.hasEnhanceConstants = YES;
+  result.enhanceConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setEnhanceConstantsBuilder:(StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) builderForValue {
+  return [self setEnhanceConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeEnhanceConstants:(StartupResponseProto_StartupConstants_EnhancementConstants*) value {
+  if (result.hasEnhanceConstants &&
+      result.enhanceConstants != [StartupResponseProto_StartupConstants_EnhancementConstants defaultInstance]) {
+    result.enhanceConstants =
+      [[[StartupResponseProto_StartupConstants_EnhancementConstants builderWithPrototype:result.enhanceConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.enhanceConstants = value;
+  }
+  result.hasEnhanceConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearEnhanceConstants {
+  result.hasEnhanceConstants = NO;
+  result.enhanceConstants = [StartupResponseProto_StartupConstants_EnhancementConstants defaultInstance];
   return self;
 }
 @end
@@ -17044,6 +17808,9 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableLeaderboardEventsList addObjectsFromArray:other.mutableLeaderboardEventsList];
   }
+  if (other.hasEquipEnhancement) {
+    [self mergeEquipEnhancement:other.equipEnhancement];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -17319,6 +18086,15 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         LeaderboardEventProto_Builder* subBuilder = [LeaderboardEventProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addLeaderboardEvents:[subBuilder buildPartial]];
+        break;
+      }
+      case 338: {
+        EquipEnhancementProto_Builder* subBuilder = [EquipEnhancementProto builder];
+        if (self.hasEquipEnhancement) {
+          [subBuilder mergeFrom:self.equipEnhancement];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setEquipEnhancement:[subBuilder buildPartial]];
         break;
       }
     }
@@ -18415,6 +19191,36 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     result.mutableLeaderboardEventsList = [NSMutableArray array];
   }
   [result.mutableLeaderboardEventsList addObject:value];
+  return self;
+}
+- (BOOL) hasEquipEnhancement {
+  return result.hasEquipEnhancement;
+}
+- (EquipEnhancementProto*) equipEnhancement {
+  return result.equipEnhancement;
+}
+- (StartupResponseProto_Builder*) setEquipEnhancement:(EquipEnhancementProto*) value {
+  result.hasEquipEnhancement = YES;
+  result.equipEnhancement = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) setEquipEnhancementBuilder:(EquipEnhancementProto_Builder*) builderForValue {
+  return [self setEquipEnhancement:[builderForValue build]];
+}
+- (StartupResponseProto_Builder*) mergeEquipEnhancement:(EquipEnhancementProto*) value {
+  if (result.hasEquipEnhancement &&
+      result.equipEnhancement != [EquipEnhancementProto defaultInstance]) {
+    result.equipEnhancement =
+      [[[EquipEnhancementProto builderWithPrototype:result.equipEnhancement] mergeFrom:value] buildPartial];
+  } else {
+    result.equipEnhancement = value;
+  }
+  result.hasEquipEnhancement = YES;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearEquipEnhancement {
+  result.hasEquipEnhancement = NO;
+  result.equipEnhancement = [EquipEnhancementProto defaultInstance];
   return self;
 }
 @end
@@ -27307,6 +28113,7 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 @property (retain) MinimumUserProto* sender;
 @property InAppPurchaseResponseProto_InAppPurchaseStatus status;
 @property int32_t diamondsGained;
+@property int32_t coinsGained;
 @property (retain) NSString* packageName;
 @property Float64 packagePrice;
 @property (retain) NSString* receipt;
@@ -27335,6 +28142,13 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   hasDiamondsGained_ = !!value;
 }
 @synthesize diamondsGained;
+- (BOOL) hasCoinsGained {
+  return !!hasCoinsGained_;
+}
+- (void) setHasCoinsGained:(BOOL) value {
+  hasCoinsGained_ = !!value;
+}
+@synthesize coinsGained;
 - (BOOL) hasPackageName {
   return !!hasPackageName_;
 }
@@ -27367,6 +28181,7 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
     self.sender = [MinimumUserProto defaultInstance];
     self.status = InAppPurchaseResponseProto_InAppPurchaseStatusSuccess;
     self.diamondsGained = 0;
+    self.coinsGained = 0;
     self.packageName = @"";
     self.packagePrice = 0;
     self.receipt = @"";
@@ -27407,6 +28222,9 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   if (self.hasReceipt) {
     [output writeString:6 value:self.receipt];
   }
+  if (self.hasCoinsGained) {
+    [output writeInt32:7 value:self.coinsGained];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -27433,6 +28251,9 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   }
   if (self.hasReceipt) {
     size += computeStringSize(6, self.receipt);
+  }
+  if (self.hasCoinsGained) {
+    size += computeInt32Size(7, self.coinsGained);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -27528,6 +28349,9 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
   if (other.hasDiamondsGained) {
     [self setDiamondsGained:other.diamondsGained];
   }
+  if (other.hasCoinsGained) {
+    [self setCoinsGained:other.coinsGained];
+  }
   if (other.hasPackageName) {
     [self setPackageName:other.packageName];
   }
@@ -27590,6 +28414,10 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
       }
       case 50: {
         [self setReceipt:[input readString]];
+        break;
+      }
+      case 56: {
+        [self setCoinsGained:[input readInt32]];
         break;
       }
     }
@@ -27655,6 +28483,22 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
 - (InAppPurchaseResponseProto_Builder*) clearDiamondsGained {
   result.hasDiamondsGained = NO;
   result.diamondsGained = 0;
+  return self;
+}
+- (BOOL) hasCoinsGained {
+  return result.hasCoinsGained;
+}
+- (int32_t) coinsGained {
+  return result.coinsGained;
+}
+- (InAppPurchaseResponseProto_Builder*) setCoinsGained:(int32_t) value {
+  result.hasCoinsGained = YES;
+  result.coinsGained = value;
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder*) clearCoinsGained {
+  result.hasCoinsGained = NO;
+  result.coinsGained = 0;
   return self;
 }
 - (BOOL) hasPackageName {
@@ -64421,6 +65265,7 @@ static BeginClanTowerWarRequestProto* defaultBeginClanTowerWarRequestProtoInstan
 @interface BeginClanTowerWarResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property BeginClanTowerWarResponseProto_BeginClanTowerWarStatus status;
+@property int32_t numMinutesTillNextAttack;
 @end
 
 @implementation BeginClanTowerWarResponseProto
@@ -64439,6 +65284,13 @@ static BeginClanTowerWarRequestProto* defaultBeginClanTowerWarRequestProtoInstan
   hasStatus_ = !!value;
 }
 @synthesize status;
+- (BOOL) hasNumMinutesTillNextAttack {
+  return !!hasNumMinutesTillNextAttack_;
+}
+- (void) setHasNumMinutesTillNextAttack:(BOOL) value {
+  hasNumMinutesTillNextAttack_ = !!value;
+}
+@synthesize numMinutesTillNextAttack;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -64447,6 +65299,7 @@ static BeginClanTowerWarRequestProto* defaultBeginClanTowerWarRequestProtoInstan
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = BeginClanTowerWarResponseProto_BeginClanTowerWarStatusSuccess;
+    self.numMinutesTillNextAttack = 0;
   }
   return self;
 }
@@ -64472,6 +65325,9 @@ static BeginClanTowerWarResponseProto* defaultBeginClanTowerWarResponseProtoInst
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
+  if (self.hasNumMinutesTillNextAttack) {
+    [output writeInt32:3 value:self.numMinutesTillNextAttack];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -64486,6 +65342,9 @@ static BeginClanTowerWarResponseProto* defaultBeginClanTowerWarResponseProtoInst
   }
   if (self.hasStatus) {
     size += computeEnumSize(2, self.status);
+  }
+  if (self.hasNumMinutesTillNextAttack) {
+    size += computeInt32Size(3, self.numMinutesTillNextAttack);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -64530,6 +65389,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
     case BeginClanTowerWarResponseProto_BeginClanTowerWarStatusOtherFail:
     case BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyClaimed:
     case BeginClanTowerWarResponseProto_BeginClanTowerWarStatusSameSide:
+    case BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotEnoughTimeSinceLastBattle:
       return YES;
     default:
       return NO;
@@ -64583,6 +65443,9 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.hasNumMinutesTillNextAttack) {
+    [self setNumMinutesTillNextAttack:other.numMinutesTillNextAttack];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -64620,6 +65483,10 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
+        break;
+      }
+      case 24: {
+        [self setNumMinutesTillNextAttack:[input readInt32]];
         break;
       }
     }
@@ -64669,6 +65536,22 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
 - (BeginClanTowerWarResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = BeginClanTowerWarResponseProto_BeginClanTowerWarStatusSuccess;
+  return self;
+}
+- (BOOL) hasNumMinutesTillNextAttack {
+  return result.hasNumMinutesTillNextAttack;
+}
+- (int32_t) numMinutesTillNextAttack {
+  return result.numMinutesTillNextAttack;
+}
+- (BeginClanTowerWarResponseProto_Builder*) setNumMinutesTillNextAttack:(int32_t) value {
+  result.hasNumMinutesTillNextAttack = YES;
+  result.numMinutesTillNextAttack = value;
+  return self;
+}
+- (BeginClanTowerWarResponseProto_Builder*) clearNumMinutesTillNextAttack {
+  result.hasNumMinutesTillNextAttack = NO;
+  result.numMinutesTillNextAttack = 0;
   return self;
 }
 @end
@@ -65724,6 +66607,1278 @@ static GeneralNotificationResponseProto* defaultGeneralNotificationResponseProto
 - (GeneralNotificationResponseProto_Builder*) clearRgb {
   result.hasRgb = NO;
   result.rgb = [ColorProto defaultInstance];
+  return self;
+}
+@end
+
+@interface SubmitEquipEnhancementRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t enhancingUserEquipId;
+@property (retain) NSMutableArray* mutableFeederUserEquipIdsList;
+@property int64_t clientTime;
+@end
+
+@implementation SubmitEquipEnhancementRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasEnhancingUserEquipId {
+  return !!hasEnhancingUserEquipId_;
+}
+- (void) setHasEnhancingUserEquipId:(BOOL) value {
+  hasEnhancingUserEquipId_ = !!value;
+}
+@synthesize enhancingUserEquipId;
+@synthesize mutableFeederUserEquipIdsList;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableFeederUserEquipIdsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.enhancingUserEquipId = 0;
+    self.clientTime = 0L;
+  }
+  return self;
+}
+static SubmitEquipEnhancementRequestProto* defaultSubmitEquipEnhancementRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [SubmitEquipEnhancementRequestProto class]) {
+    defaultSubmitEquipEnhancementRequestProtoInstance = [[SubmitEquipEnhancementRequestProto alloc] init];
+  }
+}
++ (SubmitEquipEnhancementRequestProto*) defaultInstance {
+  return defaultSubmitEquipEnhancementRequestProtoInstance;
+}
+- (SubmitEquipEnhancementRequestProto*) defaultInstance {
+  return defaultSubmitEquipEnhancementRequestProtoInstance;
+}
+- (NSArray*) feederUserEquipIdsList {
+  return mutableFeederUserEquipIdsList;
+}
+- (int32_t) feederUserEquipIdsAtIndex:(int32_t) index {
+  id value = [mutableFeederUserEquipIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasEnhancingUserEquipId) {
+    [output writeInt32:2 value:self.enhancingUserEquipId];
+  }
+  for (NSNumber* value in self.mutableFeederUserEquipIdsList) {
+    [output writeInt32:3 value:[value intValue]];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:4 value:self.clientTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasEnhancingUserEquipId) {
+    size += computeInt32Size(2, self.enhancingUserEquipId);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableFeederUserEquipIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableFeederUserEquipIdsList.count;
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(4, self.clientTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SubmitEquipEnhancementRequestProto*) parseFromData:(NSData*) data {
+  return (SubmitEquipEnhancementRequestProto*)[[[SubmitEquipEnhancementRequestProto builder] mergeFromData:data] build];
+}
++ (SubmitEquipEnhancementRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SubmitEquipEnhancementRequestProto*)[[[SubmitEquipEnhancementRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SubmitEquipEnhancementRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SubmitEquipEnhancementRequestProto*)[[[SubmitEquipEnhancementRequestProto builder] mergeFromInputStream:input] build];
+}
++ (SubmitEquipEnhancementRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SubmitEquipEnhancementRequestProto*)[[[SubmitEquipEnhancementRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SubmitEquipEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SubmitEquipEnhancementRequestProto*)[[[SubmitEquipEnhancementRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SubmitEquipEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SubmitEquipEnhancementRequestProto*)[[[SubmitEquipEnhancementRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SubmitEquipEnhancementRequestProto_Builder*) builder {
+  return [[[SubmitEquipEnhancementRequestProto_Builder alloc] init] autorelease];
+}
++ (SubmitEquipEnhancementRequestProto_Builder*) builderWithPrototype:(SubmitEquipEnhancementRequestProto*) prototype {
+  return [[SubmitEquipEnhancementRequestProto builder] mergeFrom:prototype];
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) builder {
+  return [SubmitEquipEnhancementRequestProto builder];
+}
+@end
+
+@interface SubmitEquipEnhancementRequestProto_Builder()
+@property (retain) SubmitEquipEnhancementRequestProto* result;
+@end
+
+@implementation SubmitEquipEnhancementRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SubmitEquipEnhancementRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) clear {
+  self.result = [[[SubmitEquipEnhancementRequestProto alloc] init] autorelease];
+  return self;
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) clone {
+  return [SubmitEquipEnhancementRequestProto builderWithPrototype:result];
+}
+- (SubmitEquipEnhancementRequestProto*) defaultInstance {
+  return [SubmitEquipEnhancementRequestProto defaultInstance];
+}
+- (SubmitEquipEnhancementRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SubmitEquipEnhancementRequestProto*) buildPartial {
+  SubmitEquipEnhancementRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) mergeFrom:(SubmitEquipEnhancementRequestProto*) other {
+  if (other == [SubmitEquipEnhancementRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasEnhancingUserEquipId) {
+    [self setEnhancingUserEquipId:other.enhancingUserEquipId];
+  }
+  if (other.mutableFeederUserEquipIdsList.count > 0) {
+    if (result.mutableFeederUserEquipIdsList == nil) {
+      result.mutableFeederUserEquipIdsList = [NSMutableArray array];
+    }
+    [result.mutableFeederUserEquipIdsList addObjectsFromArray:other.mutableFeederUserEquipIdsList];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setEnhancingUserEquipId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self addFeederUserEquipIds:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasEnhancingUserEquipId {
+  return result.hasEnhancingUserEquipId;
+}
+- (int32_t) enhancingUserEquipId {
+  return result.enhancingUserEquipId;
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) setEnhancingUserEquipId:(int32_t) value {
+  result.hasEnhancingUserEquipId = YES;
+  result.enhancingUserEquipId = value;
+  return self;
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) clearEnhancingUserEquipId {
+  result.hasEnhancingUserEquipId = NO;
+  result.enhancingUserEquipId = 0;
+  return self;
+}
+- (NSArray*) feederUserEquipIdsList {
+  if (result.mutableFeederUserEquipIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableFeederUserEquipIdsList;
+}
+- (int32_t) feederUserEquipIdsAtIndex:(int32_t) index {
+  return [result feederUserEquipIdsAtIndex:index];
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) replaceFeederUserEquipIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableFeederUserEquipIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) addFeederUserEquipIds:(int32_t) value {
+  if (result.mutableFeederUserEquipIdsList == nil) {
+    result.mutableFeederUserEquipIdsList = [NSMutableArray array];
+  }
+  [result.mutableFeederUserEquipIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) addAllFeederUserEquipIds:(NSArray*) values {
+  if (result.mutableFeederUserEquipIdsList == nil) {
+    result.mutableFeederUserEquipIdsList = [NSMutableArray array];
+  }
+  [result.mutableFeederUserEquipIdsList addObjectsFromArray:values];
+  return self;
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) clearFeederUserEquipIdsList {
+  result.mutableFeederUserEquipIdsList = nil;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (SubmitEquipEnhancementRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+@end
+
+@interface SubmitEquipEnhancementResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property SubmitEquipEnhancementResponseProto_EnhanceEquipStatus status;
+@property (retain) EquipEnhancementProto* equipToEnhance;
+@end
+
+@implementation SubmitEquipEnhancementResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (BOOL) hasEquipToEnhance {
+  return !!hasEquipToEnhance_;
+}
+- (void) setHasEquipToEnhance:(BOOL) value {
+  hasEquipToEnhance_ = !!value;
+}
+@synthesize equipToEnhance;
+- (void) dealloc {
+  self.sender = nil;
+  self.equipToEnhance = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = SubmitEquipEnhancementResponseProto_EnhanceEquipStatusSuccess;
+    self.equipToEnhance = [EquipEnhancementProto defaultInstance];
+  }
+  return self;
+}
+static SubmitEquipEnhancementResponseProto* defaultSubmitEquipEnhancementResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [SubmitEquipEnhancementResponseProto class]) {
+    defaultSubmitEquipEnhancementResponseProtoInstance = [[SubmitEquipEnhancementResponseProto alloc] init];
+  }
+}
++ (SubmitEquipEnhancementResponseProto*) defaultInstance {
+  return defaultSubmitEquipEnhancementResponseProtoInstance;
+}
+- (SubmitEquipEnhancementResponseProto*) defaultInstance {
+  return defaultSubmitEquipEnhancementResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  if (self.hasEquipToEnhance) {
+    [output writeMessage:3 value:self.equipToEnhance];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  if (self.hasEquipToEnhance) {
+    size += computeMessageSize(3, self.equipToEnhance);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SubmitEquipEnhancementResponseProto*) parseFromData:(NSData*) data {
+  return (SubmitEquipEnhancementResponseProto*)[[[SubmitEquipEnhancementResponseProto builder] mergeFromData:data] build];
+}
++ (SubmitEquipEnhancementResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SubmitEquipEnhancementResponseProto*)[[[SubmitEquipEnhancementResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SubmitEquipEnhancementResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SubmitEquipEnhancementResponseProto*)[[[SubmitEquipEnhancementResponseProto builder] mergeFromInputStream:input] build];
+}
++ (SubmitEquipEnhancementResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SubmitEquipEnhancementResponseProto*)[[[SubmitEquipEnhancementResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SubmitEquipEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SubmitEquipEnhancementResponseProto*)[[[SubmitEquipEnhancementResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SubmitEquipEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SubmitEquipEnhancementResponseProto*)[[[SubmitEquipEnhancementResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SubmitEquipEnhancementResponseProto_Builder*) builder {
+  return [[[SubmitEquipEnhancementResponseProto_Builder alloc] init] autorelease];
+}
++ (SubmitEquipEnhancementResponseProto_Builder*) builderWithPrototype:(SubmitEquipEnhancementResponseProto*) prototype {
+  return [[SubmitEquipEnhancementResponseProto builder] mergeFrom:prototype];
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) builder {
+  return [SubmitEquipEnhancementResponseProto builder];
+}
+@end
+
+BOOL SubmitEquipEnhancementResponseProto_EnhanceEquipStatusIsValidValue(SubmitEquipEnhancementResponseProto_EnhanceEquipStatus value) {
+  switch (value) {
+    case SubmitEquipEnhancementResponseProto_EnhanceEquipStatusSuccess:
+    case SubmitEquipEnhancementResponseProto_EnhanceEquipStatusOtherFail:
+    case SubmitEquipEnhancementResponseProto_EnhanceEquipStatusClientTooApartFromServerTime:
+    case SubmitEquipEnhancementResponseProto_EnhanceEquipStatusMainOrFeederOrEquipsNonexistent:
+    case SubmitEquipEnhancementResponseProto_EnhanceEquipStatusTryingToSurpassMaxLevel:
+    case SubmitEquipEnhancementResponseProto_EnhanceEquipStatusAlreadyEnhancing:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface SubmitEquipEnhancementResponseProto_Builder()
+@property (retain) SubmitEquipEnhancementResponseProto* result;
+@end
+
+@implementation SubmitEquipEnhancementResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SubmitEquipEnhancementResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) clear {
+  self.result = [[[SubmitEquipEnhancementResponseProto alloc] init] autorelease];
+  return self;
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) clone {
+  return [SubmitEquipEnhancementResponseProto builderWithPrototype:result];
+}
+- (SubmitEquipEnhancementResponseProto*) defaultInstance {
+  return [SubmitEquipEnhancementResponseProto defaultInstance];
+}
+- (SubmitEquipEnhancementResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SubmitEquipEnhancementResponseProto*) buildPartial {
+  SubmitEquipEnhancementResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) mergeFrom:(SubmitEquipEnhancementResponseProto*) other {
+  if (other == [SubmitEquipEnhancementResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.hasEquipToEnhance) {
+    [self mergeEquipToEnhance:other.equipToEnhance];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (SubmitEquipEnhancementResponseProto_EnhanceEquipStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        EquipEnhancementProto_Builder* subBuilder = [EquipEnhancementProto builder];
+        if (self.hasEquipToEnhance) {
+          [subBuilder mergeFrom:self.equipToEnhance];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setEquipToEnhance:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (SubmitEquipEnhancementResponseProto_EnhanceEquipStatus) status {
+  return result.status;
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) setStatus:(SubmitEquipEnhancementResponseProto_EnhanceEquipStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = SubmitEquipEnhancementResponseProto_EnhanceEquipStatusSuccess;
+  return self;
+}
+- (BOOL) hasEquipToEnhance {
+  return result.hasEquipToEnhance;
+}
+- (EquipEnhancementProto*) equipToEnhance {
+  return result.equipToEnhance;
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) setEquipToEnhance:(EquipEnhancementProto*) value {
+  result.hasEquipToEnhance = YES;
+  result.equipToEnhance = value;
+  return self;
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) setEquipToEnhanceBuilder:(EquipEnhancementProto_Builder*) builderForValue {
+  return [self setEquipToEnhance:[builderForValue build]];
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) mergeEquipToEnhance:(EquipEnhancementProto*) value {
+  if (result.hasEquipToEnhance &&
+      result.equipToEnhance != [EquipEnhancementProto defaultInstance]) {
+    result.equipToEnhance =
+      [[[EquipEnhancementProto builderWithPrototype:result.equipToEnhance] mergeFrom:value] buildPartial];
+  } else {
+    result.equipToEnhance = value;
+  }
+  result.hasEquipToEnhance = YES;
+  return self;
+}
+- (SubmitEquipEnhancementResponseProto_Builder*) clearEquipToEnhance {
+  result.hasEquipToEnhance = NO;
+  result.equipToEnhance = [EquipEnhancementProto defaultInstance];
+  return self;
+}
+@end
+
+@interface CollectEquipEnhancementRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t equipEnhancementId;
+@property int64_t clientTime;
+@property BOOL speedUp;
+@end
+
+@implementation CollectEquipEnhancementRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasEquipEnhancementId {
+  return !!hasEquipEnhancementId_;
+}
+- (void) setHasEquipEnhancementId:(BOOL) value {
+  hasEquipEnhancementId_ = !!value;
+}
+@synthesize equipEnhancementId;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
+- (BOOL) hasSpeedUp {
+  return !!hasSpeedUp_;
+}
+- (void) setHasSpeedUp:(BOOL) value {
+  hasSpeedUp_ = !!value;
+}
+- (BOOL) speedUp {
+  return !!speedUp_;
+}
+- (void) setSpeedUp:(BOOL) value {
+  speedUp_ = !!value;
+}
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.equipEnhancementId = 0;
+    self.clientTime = 0L;
+    self.speedUp = NO;
+  }
+  return self;
+}
+static CollectEquipEnhancementRequestProto* defaultCollectEquipEnhancementRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [CollectEquipEnhancementRequestProto class]) {
+    defaultCollectEquipEnhancementRequestProtoInstance = [[CollectEquipEnhancementRequestProto alloc] init];
+  }
+}
++ (CollectEquipEnhancementRequestProto*) defaultInstance {
+  return defaultCollectEquipEnhancementRequestProtoInstance;
+}
+- (CollectEquipEnhancementRequestProto*) defaultInstance {
+  return defaultCollectEquipEnhancementRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasEquipEnhancementId) {
+    [output writeInt32:2 value:self.equipEnhancementId];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:3 value:self.clientTime];
+  }
+  if (self.hasSpeedUp) {
+    [output writeBool:4 value:self.speedUp];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasEquipEnhancementId) {
+    size += computeInt32Size(2, self.equipEnhancementId);
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(3, self.clientTime);
+  }
+  if (self.hasSpeedUp) {
+    size += computeBoolSize(4, self.speedUp);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (CollectEquipEnhancementRequestProto*) parseFromData:(NSData*) data {
+  return (CollectEquipEnhancementRequestProto*)[[[CollectEquipEnhancementRequestProto builder] mergeFromData:data] build];
+}
++ (CollectEquipEnhancementRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectEquipEnhancementRequestProto*)[[[CollectEquipEnhancementRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CollectEquipEnhancementRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CollectEquipEnhancementRequestProto*)[[[CollectEquipEnhancementRequestProto builder] mergeFromInputStream:input] build];
+}
++ (CollectEquipEnhancementRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectEquipEnhancementRequestProto*)[[[CollectEquipEnhancementRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectEquipEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CollectEquipEnhancementRequestProto*)[[[CollectEquipEnhancementRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CollectEquipEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectEquipEnhancementRequestProto*)[[[CollectEquipEnhancementRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectEquipEnhancementRequestProto_Builder*) builder {
+  return [[[CollectEquipEnhancementRequestProto_Builder alloc] init] autorelease];
+}
++ (CollectEquipEnhancementRequestProto_Builder*) builderWithPrototype:(CollectEquipEnhancementRequestProto*) prototype {
+  return [[CollectEquipEnhancementRequestProto builder] mergeFrom:prototype];
+}
+- (CollectEquipEnhancementRequestProto_Builder*) builder {
+  return [CollectEquipEnhancementRequestProto builder];
+}
+@end
+
+@interface CollectEquipEnhancementRequestProto_Builder()
+@property (retain) CollectEquipEnhancementRequestProto* result;
+@end
+
+@implementation CollectEquipEnhancementRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[CollectEquipEnhancementRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CollectEquipEnhancementRequestProto_Builder*) clear {
+  self.result = [[[CollectEquipEnhancementRequestProto alloc] init] autorelease];
+  return self;
+}
+- (CollectEquipEnhancementRequestProto_Builder*) clone {
+  return [CollectEquipEnhancementRequestProto builderWithPrototype:result];
+}
+- (CollectEquipEnhancementRequestProto*) defaultInstance {
+  return [CollectEquipEnhancementRequestProto defaultInstance];
+}
+- (CollectEquipEnhancementRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CollectEquipEnhancementRequestProto*) buildPartial {
+  CollectEquipEnhancementRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (CollectEquipEnhancementRequestProto_Builder*) mergeFrom:(CollectEquipEnhancementRequestProto*) other {
+  if (other == [CollectEquipEnhancementRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasEquipEnhancementId) {
+    [self setEquipEnhancementId:other.equipEnhancementId];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  if (other.hasSpeedUp) {
+    [self setSpeedUp:other.speedUp];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CollectEquipEnhancementRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CollectEquipEnhancementRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setEquipEnhancementId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 32: {
+        [self setSpeedUp:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (CollectEquipEnhancementRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CollectEquipEnhancementRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CollectEquipEnhancementRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CollectEquipEnhancementRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasEquipEnhancementId {
+  return result.hasEquipEnhancementId;
+}
+- (int32_t) equipEnhancementId {
+  return result.equipEnhancementId;
+}
+- (CollectEquipEnhancementRequestProto_Builder*) setEquipEnhancementId:(int32_t) value {
+  result.hasEquipEnhancementId = YES;
+  result.equipEnhancementId = value;
+  return self;
+}
+- (CollectEquipEnhancementRequestProto_Builder*) clearEquipEnhancementId {
+  result.hasEquipEnhancementId = NO;
+  result.equipEnhancementId = 0;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (CollectEquipEnhancementRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (CollectEquipEnhancementRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+- (BOOL) hasSpeedUp {
+  return result.hasSpeedUp;
+}
+- (BOOL) speedUp {
+  return result.speedUp;
+}
+- (CollectEquipEnhancementRequestProto_Builder*) setSpeedUp:(BOOL) value {
+  result.hasSpeedUp = YES;
+  result.speedUp = value;
+  return self;
+}
+- (CollectEquipEnhancementRequestProto_Builder*) clearSpeedUp {
+  result.hasSpeedUp = NO;
+  result.speedUp = NO;
+  return self;
+}
+@end
+
+@interface CollectEquipEnhancementResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property CollectEquipEnhancementResponseProto_CollectEquipStatus status;
+@property (retain) FullUserEquipProto* resultingEquip;
+@end
+
+@implementation CollectEquipEnhancementResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (BOOL) hasResultingEquip {
+  return !!hasResultingEquip_;
+}
+- (void) setHasResultingEquip:(BOOL) value {
+  hasResultingEquip_ = !!value;
+}
+@synthesize resultingEquip;
+- (void) dealloc {
+  self.sender = nil;
+  self.resultingEquip = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = CollectEquipEnhancementResponseProto_CollectEquipStatusSuccess;
+    self.resultingEquip = [FullUserEquipProto defaultInstance];
+  }
+  return self;
+}
+static CollectEquipEnhancementResponseProto* defaultCollectEquipEnhancementResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [CollectEquipEnhancementResponseProto class]) {
+    defaultCollectEquipEnhancementResponseProtoInstance = [[CollectEquipEnhancementResponseProto alloc] init];
+  }
+}
++ (CollectEquipEnhancementResponseProto*) defaultInstance {
+  return defaultCollectEquipEnhancementResponseProtoInstance;
+}
+- (CollectEquipEnhancementResponseProto*) defaultInstance {
+  return defaultCollectEquipEnhancementResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  if (self.hasResultingEquip) {
+    [output writeMessage:3 value:self.resultingEquip];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  if (self.hasResultingEquip) {
+    size += computeMessageSize(3, self.resultingEquip);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (CollectEquipEnhancementResponseProto*) parseFromData:(NSData*) data {
+  return (CollectEquipEnhancementResponseProto*)[[[CollectEquipEnhancementResponseProto builder] mergeFromData:data] build];
+}
++ (CollectEquipEnhancementResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectEquipEnhancementResponseProto*)[[[CollectEquipEnhancementResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CollectEquipEnhancementResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CollectEquipEnhancementResponseProto*)[[[CollectEquipEnhancementResponseProto builder] mergeFromInputStream:input] build];
+}
++ (CollectEquipEnhancementResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectEquipEnhancementResponseProto*)[[[CollectEquipEnhancementResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectEquipEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CollectEquipEnhancementResponseProto*)[[[CollectEquipEnhancementResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CollectEquipEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectEquipEnhancementResponseProto*)[[[CollectEquipEnhancementResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectEquipEnhancementResponseProto_Builder*) builder {
+  return [[[CollectEquipEnhancementResponseProto_Builder alloc] init] autorelease];
+}
++ (CollectEquipEnhancementResponseProto_Builder*) builderWithPrototype:(CollectEquipEnhancementResponseProto*) prototype {
+  return [[CollectEquipEnhancementResponseProto builder] mergeFrom:prototype];
+}
+- (CollectEquipEnhancementResponseProto_Builder*) builder {
+  return [CollectEquipEnhancementResponseProto builder];
+}
+@end
+
+BOOL CollectEquipEnhancementResponseProto_CollectEquipStatusIsValidValue(CollectEquipEnhancementResponseProto_CollectEquipStatus value) {
+  switch (value) {
+    case CollectEquipEnhancementResponseProto_CollectEquipStatusSuccess:
+    case CollectEquipEnhancementResponseProto_CollectEquipStatusClientTooApartFromServerTime:
+    case CollectEquipEnhancementResponseProto_CollectEquipStatusEnhancementNotComplete:
+    case CollectEquipEnhancementResponseProto_CollectEquipStatusOtherFail:
+    case CollectEquipEnhancementResponseProto_CollectEquipStatusNotEnoughGold:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface CollectEquipEnhancementResponseProto_Builder()
+@property (retain) CollectEquipEnhancementResponseProto* result;
+@end
+
+@implementation CollectEquipEnhancementResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[CollectEquipEnhancementResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CollectEquipEnhancementResponseProto_Builder*) clear {
+  self.result = [[[CollectEquipEnhancementResponseProto alloc] init] autorelease];
+  return self;
+}
+- (CollectEquipEnhancementResponseProto_Builder*) clone {
+  return [CollectEquipEnhancementResponseProto builderWithPrototype:result];
+}
+- (CollectEquipEnhancementResponseProto*) defaultInstance {
+  return [CollectEquipEnhancementResponseProto defaultInstance];
+}
+- (CollectEquipEnhancementResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CollectEquipEnhancementResponseProto*) buildPartial {
+  CollectEquipEnhancementResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (CollectEquipEnhancementResponseProto_Builder*) mergeFrom:(CollectEquipEnhancementResponseProto*) other {
+  if (other == [CollectEquipEnhancementResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.hasResultingEquip) {
+    [self mergeResultingEquip:other.resultingEquip];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CollectEquipEnhancementResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CollectEquipEnhancementResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (CollectEquipEnhancementResponseProto_CollectEquipStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasResultingEquip) {
+          [subBuilder mergeFrom:self.resultingEquip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setResultingEquip:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (CollectEquipEnhancementResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CollectEquipEnhancementResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CollectEquipEnhancementResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CollectEquipEnhancementResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (CollectEquipEnhancementResponseProto_CollectEquipStatus) status {
+  return result.status;
+}
+- (CollectEquipEnhancementResponseProto_Builder*) setStatus:(CollectEquipEnhancementResponseProto_CollectEquipStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (CollectEquipEnhancementResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = CollectEquipEnhancementResponseProto_CollectEquipStatusSuccess;
+  return self;
+}
+- (BOOL) hasResultingEquip {
+  return result.hasResultingEquip;
+}
+- (FullUserEquipProto*) resultingEquip {
+  return result.resultingEquip;
+}
+- (CollectEquipEnhancementResponseProto_Builder*) setResultingEquip:(FullUserEquipProto*) value {
+  result.hasResultingEquip = YES;
+  result.resultingEquip = value;
+  return self;
+}
+- (CollectEquipEnhancementResponseProto_Builder*) setResultingEquipBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setResultingEquip:[builderForValue build]];
+}
+- (CollectEquipEnhancementResponseProto_Builder*) mergeResultingEquip:(FullUserEquipProto*) value {
+  if (result.hasResultingEquip &&
+      result.resultingEquip != [FullUserEquipProto defaultInstance]) {
+    result.resultingEquip =
+      [[[FullUserEquipProto builderWithPrototype:result.resultingEquip] mergeFrom:value] buildPartial];
+  } else {
+    result.resultingEquip = value;
+  }
+  result.hasResultingEquip = YES;
+  return self;
+}
+- (CollectEquipEnhancementResponseProto_Builder*) clearResultingEquip {
+  result.hasResultingEquip = NO;
+  result.resultingEquip = [FullUserEquipProto defaultInstance];
   return self;
 }
 @end

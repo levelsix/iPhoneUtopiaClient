@@ -35,7 +35,7 @@
 - (void) logout;
 - (void) reconnect;
 
-- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold product:(SKProduct *)product;
+- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product;
 
 - (void) retrieveMostRecentMarketplacePosts:(int)searchEquipId;
 - (void) retrieveMoreMarketplacePosts:(int)searchEquipId;
@@ -148,5 +148,8 @@
 - (int) claimTower:(int)towerId;
 - (int) beginTowerWar:(int)towerId;
 - (int) concedeClanTower:(int)towerId;
+
+- (void) submitEquipEnhancement:(int)enhancingId feeders:(NSArray *)feeders;
+- (void) collectEquipEnhancement:(int)enhancementId speedup:(BOOL)speedup gold:(int)gold;
 
 @end
