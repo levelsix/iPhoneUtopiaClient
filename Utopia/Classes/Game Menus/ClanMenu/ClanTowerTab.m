@@ -303,17 +303,19 @@
 }
 
 - (void) loadClanTowerList:(BOOL)animated {
-  if (_selectedView) {
-    _selectedView.frame = [self.scrollView convertRect:_selectedView.frame fromView:self];
-    [self.scrollView addSubview:_selectedView];
-  }
-  
+  ClanTowerView *v = _selectedView;
   _currentTowerId = 0;
   if (animated) {
     [UIView animateWithDuration:0.3f animations:^{
       [self updateForCurrentTowers];
+    } completion:^(BOOL finished) {
+      v.frame = [self.scrollView convertRect:v.frame fromView:self];
+      [self.scrollView addSubview:v];
     }];
   } else {
+    if (_selectedView) {
+      [self.scrollView addSubview:_selectedView];
+    }
     [self updateForCurrentTowers];
   }
   
@@ -326,14 +328,19 @@
   if (_currentTowerId == 0) {
     NSArray *towers = gs.clanTowers;
     
+    CGPoint pt;
     for (int i = 0; i < towers.count; i++) {
       ClanTowerView *tv = [self getTowerViewForIndex:i];
       ClanTowerProto *ctp = [towers objectAtIndex:i];
       [tv updateForTower:ctp];
       
-      [self.scrollView addSubview:tv];
-      
-      tv.center = CGPointMake((TOWER_VIEW_SPACING+tv.frame.size.width)*(i+0.5), self.scrollView.frame.size.height/2);
+      pt = CGPointMake((TOWER_VIEW_SPACING+tv.frame.size.width)*(i+0.5), self.scrollView.frame.size.height/2);
+      if (tv.superview == self) {
+        tv.center = [self convertPoint:pt fromView:self.scrollView];
+      } else {
+        [self.scrollView addSubview:tv];
+        tv.center = pt;
+      }
       
       tv.bgdButton.tag = i;
       
@@ -341,7 +348,7 @@
     }
     
     ClanTowerView *tv = [self.towerViews lastObject];
-    self.scrollView.contentSize = CGSizeMake(CGRectGetMaxX(tv.frame)+TOWER_VIEW_SPACING/2, self.scrollView.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(pt.x+tv.frame.size.width/2+TOWER_VIEW_SPACING/2, self.scrollView.frame.size.height);
     
     if (towers.count < self.towerViews.count) {
       [self.towerViews removeObjectsInRange:NSMakeRange(towers.count, self.towerViews.count-towers.count)];
@@ -363,15 +370,26 @@
   }
 }
 
+- (void) displayTowerWithId:(int)towerId {
+  GameState *gs = [GameState sharedGameState];
+  int index = [gs.clanTowers indexOfObject:[gs clanTowerWithId:towerId]];
+  UIView *fake = [[[UIView alloc] init] autorelease];
+  fake.tag = index;
+  [self towerViewClicked:fake];
+}
+
 - (IBAction)towerViewClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
-  int tag = [(UIButton *)sender tag];
+  int tag = [(UIView *)sender tag];
   ClanTowerProto *ctp = [gs.clanTowers objectAtIndex:tag];
   ClanTowerView *tv = [self.towerViews objectAtIndex:tag];
   
   if (_currentTowerId == 0) {
     [self.infoView updateForTower:ctp];
-    [self animateTowerView:tv];
+    
+    // Can tell if its faked or not by the superview
+    BOOL animated = ((UIView *)sender).superview != nil;
+    [self moveTowerView:tv animated:animated];
     _currentTowerId = ctp.towerId;
     _selectedView = tv;
     [[ClanMenuController sharedClanMenuController] towerClicked:ctp];
@@ -411,7 +429,7 @@
   [[ClanMenuController sharedClanMenuController] beginLoading:tag];
 }
 
-- (void) animateTowerView:(ClanTowerView *)tv {
+- (void) moveTowerView:(ClanTowerView *)tv animated:(BOOL)animated {
   [self addSubview:self.infoView];
   self.infoView.center = CGPointMake(CGRectGetMaxX(self.scrollView.frame)-self.infoView.frame.size.width/2-5.f,
                                      CGRectGetMidY(self.scrollView.frame));
@@ -421,12 +439,18 @@
   [self addSubview:tv];
   tv.frame = newFrame;
   
-  [UIView animateWithDuration:0.3f animations:^{
+  void (^changes)(void) = ^{
     self.scrollView.alpha = 0.f;
     self.infoView.alpha = 1.f;
     tv.center = CGPointMake(CGRectGetMinX(self.scrollView.frame)+(TOWER_VIEW_SPACING+tv.frame.size.width)/2.f,
                             CGRectGetMidY(self.scrollView.frame));
-  }];
+  };
+  
+  if (animated) {
+    [UIView animateWithDuration:0.3f animations:changes];
+  } else {
+    changes();
+  }
 }
 
 - (void) dealloc {

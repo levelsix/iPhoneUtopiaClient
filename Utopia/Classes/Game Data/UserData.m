@@ -825,3 +825,14 @@
 @implementation BossReward
 
 @end
+
+@implementation ClanTowerUserBattle
+
+- (void) dealloc {
+  self.attacker = nil;
+  self.defender = nil;
+  self.date = nil;
+  [super dealloc];
+}
+
+@end

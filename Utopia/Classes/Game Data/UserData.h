@@ -248,3 +248,14 @@ typedef enum {
 @property (nonatomic, assign) int value;
 
 @end
+
+@interface ClanTowerUserBattle : NSObject
+
+@property (nonatomic, retain) MinimumUserProto *attacker;
+@property (nonatomic, retain) MinimumUserProto *defender;
+@property (nonatomic, assign) BOOL attackerWon;
+@property (nonatomic, assign) int pointsGained;
+@property (nonatomic, assign) int towerId;
+@property (nonatomic, retain) NSDate *date;
+
+@end

@@ -98,6 +98,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRetrieveLeaderboardRankingsEvent:
     case EventProtocolRequestCSubmitEquipEnhancementEvent:
     case EventProtocolRequestCCollectEquipEnhancementEvent:
+    case EventProtocolRequestCRetrieveClanTowerScoresEvent:
+    case EventProtocolRequestCRetrieveBoosterPackEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
@@ -184,6 +186,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSRetrieveLeaderboardRankingsEvent:
     case EventProtocolResponseSSubmitEquipEnhancementEvent:
     case EventProtocolResponseSCollectEquipEnhancementEvent:
+    case EventProtocolResponseSRetrieveClanTowerScoresEvent:
+    case EventProtocolResponseSRetrieveBoosterPackEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

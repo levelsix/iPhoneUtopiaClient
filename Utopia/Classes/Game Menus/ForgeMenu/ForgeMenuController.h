@@ -11,6 +11,19 @@
 #import "ForgeMenus.h"
 #import "CoinBar.h"
 #import "ForgeEnhanceView.h"
+#import "LeaderboardController.h"
+
+@interface ForgeTopBar : UIView {
+  BOOL _trackingButton1;
+  BOOL _trackingButton2;
+  
+  int _clickedButtons;
+}
+
+@property (nonatomic, retain) IBOutlet UIImageView *button1;
+@property (nonatomic, retain) IBOutlet UIImageView *button2;
+
+@end
 
 @interface ForgeMenuController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
   CGRect backOldFrame;
@@ -86,6 +99,9 @@
 + (void) displayView;
 + (void) removeView;
 + (void) purgeSingleton;
+
+- (void) displayForgeMenu;
+- (void) displayEnhanceMenu;
 
 - (void) reloadCurrentItem;
 - (IBAction) closeClicked:(id)sender;

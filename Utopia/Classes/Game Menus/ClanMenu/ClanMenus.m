@@ -300,11 +300,11 @@
 }
 
 - (void) loadForMembers:(NSArray *)mem isMyClan:(BOOL)isMyClan {
+  GameState *gs = [GameState sharedGameState];
   NSMutableArray *m = [NSMutableArray array];
   NSMutableArray *r = [NSMutableArray array];
   
   if (isMyClan) {
-    GameState *gs = [GameState sharedGameState];
     leaderId = gs.clan.ownerId;
   }
   
@@ -368,6 +368,10 @@
   
   leaderId = 0;
   myClan = isMyClan;
+  
+  if (isMyClan && leaderId != gs.userId) {
+    editModeOn = NO;
+  }
   
   [self.membersTable reloadData];
 }
@@ -505,12 +509,15 @@
 - (void) layoutSubviews {
   [super layoutSubviews];
   
+  [self.gradientLayer removeFromSuperlayer];
+  
   CAGradientLayer *gradient = [CAGradientLayer layer];
   gradient.frame = self.bounds;
   UIColor *topColor = [UIColor colorWithRed:35/255.f green:35/255.f blue:35/255.f alpha:0.5f];
   UIColor *botColor = [UIColor colorWithRed:12/255.f green:12/255.f blue:12/255.f alpha:0.5f];
   gradient.colors = [NSArray arrayWithObjects:(id)[topColor CGColor], (id)[botColor CGColor], nil];
   [self.contentView.layer insertSublayer:gradient atIndex:0];
+  self.gradientLayer = gradient;
   
   self.selectedBackgroundView = [[[UIView alloc] initWithFrame:self.bounds] autorelease];
   self.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.5f];
@@ -920,7 +927,7 @@
 - (void) updateForBoardPost:(ClanBulletinPostProto *)boardPost {
   [playerIcon setImage:[Globals squareImageForUser:boardPost.poster.userType] forState:UIControlStateNormal];
   [nameLabel setTitle:boardPost.poster.name forState:UIControlStateNormal];
-  timeLabel.text = [Globals stringForTimeSinceNow:[NSDate dateWithTimeIntervalSince1970:boardPost.timeOfPost/1000.0]];
+  timeLabel.text = [Globals stringForTimeSinceNow:[NSDate dateWithTimeIntervalSince1970:boardPost.timeOfPost/1000.0] shortened:NO];
   postLabel.text = boardPost.content;
   
   CGSize size = postLabel.frame.size;

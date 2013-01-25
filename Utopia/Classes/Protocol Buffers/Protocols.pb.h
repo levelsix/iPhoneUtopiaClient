@@ -24,6 +24,10 @@
 @class BeginGoldmineTimerRequestProto_Builder;
 @class BeginGoldmineTimerResponseProto;
 @class BeginGoldmineTimerResponseProto_Builder;
+@class BoosterItemProto;
+@class BoosterItemProto_Builder;
+@class BoosterPackProto;
+@class BoosterPackProto_Builder;
 @class BootPlayerFromClanRequestProto;
 @class BootPlayerFromClanRequestProto_Builder;
 @class BootPlayerFromClanResponseProto;
@@ -217,6 +221,8 @@
 @class MinimumUserPossessEquipJobProto;
 @class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
+@class MinimumUserProtoForClanTowerScores;
+@class MinimumUserProtoForClanTowerScores_Builder;
 @class MinimumUserProtoForClans;
 @class MinimumUserProtoForClans_Builder;
 @class MinimumUserProtoWithBattleHistory;
@@ -332,6 +338,10 @@
 @class RetractRequestJoinClanRequestProto_Builder;
 @class RetractRequestJoinClanResponseProto;
 @class RetractRequestJoinClanResponseProto_Builder;
+@class RetrieveBoosterPackRequestProto;
+@class RetrieveBoosterPackRequestProto_Builder;
+@class RetrieveBoosterPackResponseProto;
+@class RetrieveBoosterPackResponseProto_Builder;
 @class RetrieveClanBulletinPostsRequestProto;
 @class RetrieveClanBulletinPostsRequestProto_Builder;
 @class RetrieveClanBulletinPostsResponseProto;
@@ -340,6 +350,10 @@
 @class RetrieveClanInfoRequestProto_Builder;
 @class RetrieveClanInfoResponseProto;
 @class RetrieveClanInfoResponseProto_Builder;
+@class RetrieveClanTowerScoresRequestProto;
+@class RetrieveClanTowerScoresRequestProto_Builder;
+@class RetrieveClanTowerScoresResponseProto;
+@class RetrieveClanTowerScoresResponseProto_Builder;
 @class RetrieveCurrencyFromNormStructureRequestProto;
 @class RetrieveCurrencyFromNormStructureRequestProto_Builder;
 @class RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval;
@@ -478,6 +492,10 @@
 @class UseSkillPointRequestProto_Builder;
 @class UseSkillPointResponseProto;
 @class UseSkillPointResponseProto_Builder;
+@class UserBoosterItemProto;
+@class UserBoosterItemProto_Builder;
+@class UserBoosterPackProto;
+@class UserBoosterPackProto_Builder;
 @class UserCreateRequestProto;
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
@@ -571,6 +589,8 @@ typedef enum {
   EventProtocolRequestCRetrieveLeaderboardRankingsEvent = 76,
   EventProtocolRequestCSubmitEquipEnhancementEvent = 78,
   EventProtocolRequestCCollectEquipEnhancementEvent = 79,
+  EventProtocolRequestCRetrieveClanTowerScoresEvent = 80,
+  EventProtocolRequestCRetrieveBoosterPackEvent = 81,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -655,6 +675,8 @@ typedef enum {
   EventProtocolResponseSRetrieveLeaderboardRankingsEvent = 77,
   EventProtocolResponseSSubmitEquipEnhancementEvent = 78,
   EventProtocolResponseSCollectEquipEnhancementEvent = 79,
+  EventProtocolResponseSRetrieveClanTowerScoresEvent = 80,
+  EventProtocolResponseSRetrieveBoosterPackEvent = 81,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

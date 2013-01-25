@@ -311,6 +311,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSCollectEquipEnhancementEvent:
       responseClass = [CollectEquipEnhancementResponseProto class];
       break;
+    case EventProtocolResponseSRetrieveClanTowerScoresEvent:
+      responseClass = [RetrieveClanTowerScoresResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -1513,7 +1516,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if ([ProfileViewController isInitialized]) {
     [[ProfileViewController sharedProfileViewController] receivedFullUserProtos:proto.requestedUsersList];
   }
-  if ([ClanMenuController sharedClanMenuController]) {
+  if ([ClanMenuController isInitialized]) {
     [[ClanMenuController sharedClanMenuController] receivedUsers:proto];
   }
   
@@ -2024,7 +2027,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Boot player from clan response received with status %d.", proto.status);
   
-  [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  if ([ClanMenuController isInitialized]) {
+    [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  }
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess) {
@@ -2068,7 +2073,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess) {
-    [[ClanMenuController sharedClanMenuController] receivedWallPosts:proto];
+    if ([ClanMenuController isInitialized]) {
+      [[ClanMenuController sharedClanMenuController] receivedWallPosts:proto];
+    }
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -2089,7 +2096,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.clan = proto.minClan;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
     }
-    [[ClanMenuController sharedClanMenuController] receivedUpgradeClanTier:proto];
+    
+    if ([ClanMenuController isInitialized]) {
+      [[ClanMenuController sharedClanMenuController] receivedUpgradeClanTier:proto];
+    }
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -2359,7 +2369,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       int mins = numMins % 60;
       NSString *h = hrs > 0 ? [NSString stringWithFormat:@"%dh ", hrs] : @"";
       NSString *m = [NSString stringWithFormat:@"%dm", mins];
-      [Globals popupMessage:[NSString stringWithFormat:@"Your warriors are ashamed! You can wage war again in %@%@.", h, m]];
+      [Globals popupMessage:[NSString stringWithFormat:@"Morale is down from defeat! You can wage war again in %@%@.", h, m]];
     } else {
       [Globals popupMessage:@"Server failed to perform clan tower action."];
     }
@@ -2376,6 +2386,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.clanTowersList.count > 0) {
     [gs updateClanTowers:proto.clanTowersList];
+  }
+  
+  if (proto.reason == ChangedClanTowerResponseProto_ReasonForClanTowerChangeNumBattleWinsChanged) {
+    LNLog(@"attackerId=%d, defenderId=%d, attackerWon=%d, pointsGained=%d", proto.attackerUser.userId, proto.defenderUser.userId, proto.attackerWon, proto.pointsGained);
+    for (ClanTowerProto *ctp in proto.clanTowersList) {
+      ClanTowerUserBattle *ctub = [[ClanTowerUserBattle alloc] init];
+      ctub.attacker = proto.attackerUser;
+      ctub.defender = proto.defenderUser;
+      ctub.attackerWon = proto.attackerWon;
+      ctub.pointsGained = proto.pointsGained;
+      ctub.date = [NSDate date];
+      ctub.towerId = ctp.towerId;
+      [gs addClanTowerUserBattle:ctub];
+      [ctub release];
+    }
+  } else {
+    for (ClanTowerProto *ctp in proto.clanTowersList) {
+      [gs removeClanTowerUserBattlesForTowerId:ctp.towerId];
+    }
   }
 }
 
@@ -2465,6 +2494,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   ForgeMenuController *fmc = [ForgeMenuController sharedForgeMenuController];
   [fmc.enhancingView receivedCollectEquipEnhancementResponse:proto];
+}
+
+- (void) handleRetrieveClanTowerScoresResponseProto:(FullEvent *)fe {
+  RetrieveClanTowerScoresResponseProto *proto = (RetrieveClanTowerScoresResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve clan tower scores received with status %d, %d owner members, %d attacker members.", proto.status, proto.ownerMembersList.count, proto.attackerMembersList.count);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RetrieveClanTowerScoresResponseProto_RetrieveClanTowerScoresStatusSuccess) {
+    if ([ClanMenuController isInitialized]) {
+      [[ClanMenuController sharedClanMenuController] receivedClanTowerScores:proto];
+    }
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to retrieve clan tower scores."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
 }
 
 @end

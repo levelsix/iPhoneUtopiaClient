@@ -166,6 +166,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     
     _requestedClans = [[NSMutableArray alloc] init];
     
+    _clanTowerUserBattles = [[NSMutableArray alloc] init];
+    
     _silver = 10000;
     _gold = 50;
     _vaultBalance = 2500;
@@ -1284,6 +1286,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
+- (void) addClanTowerUserBattle:(ClanTowerUserBattle *)ctub {
+  if (ctub) {
+    [self.clanTowerUserBattles insertObject:ctub atIndex:0];
+    
+    if ([ClanMenuController isInitialized]) {
+      ClanMenuController *cmc = [ClanMenuController sharedClanMenuController];
+      [cmc.clanTowerScoresTab addedUserBattle:ctub];
+    }
+  }
+}
+
+- (void) removeClanTowerUserBattlesForTowerId:(int)towerId {
+  NSArray *objs = [self clanTowerUserBattlesForTowerId:towerId];
+  [self.clanTowerUserBattles removeObjectsInArray:objs];
+  
+  if ([ClanMenuController isInitialized]) {
+    ClanMenuController *cmc = [ClanMenuController sharedClanMenuController];
+    [cmc.clanTowerScoresTab removedUserBattlesForTowerId:towerId];
+  }
+}
+
+- (NSArray *) clanTowerUserBattlesForTowerId:(int)towerId {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (ClanTowerUserBattle *ctub in self.clanTowerUserBattles) {
+    if (ctub.towerId == towerId) {
+      [arr addObject:ctub];
+    }
+  }
+  return arr;
+}
+
 - (NSArray *) mktSearchEquipsSimilarToString:(NSString *)string {
   NSMutableArray *arr = [NSMutableArray array];
   for (FullEquipProto *eq in _mktSearchEquips) {
@@ -1394,7 +1427,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   self.clanTierLevels = nil;
   self.clanTowers = nil;
-  
+  self.clanTowerUserBattles = [NSMutableArray array];
   
   self.equipEnhancement = nil;
   
@@ -1462,6 +1495,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.userExpansion = nil;
   self.clanTowers = nil;
   self.equipEnhancement = nil;
+  self.clanTowerUserBattles = nil;
   [self stopAllLockBoxTimers];
   [self stopAllBossEventTimers];
   [self stopForgeTimer];

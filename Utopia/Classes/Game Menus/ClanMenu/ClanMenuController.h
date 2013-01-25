@@ -10,6 +10,7 @@
 #import "NibUtils.h"
 #import "ClanMenus.h"
 #import "ClanTowerTab.h"
+#import "ClanTowerScoresTab.h"
 
 // Can't reuse internal enum names..
 typedef LeaderboardBarButton ClanBarButton;
@@ -105,6 +106,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet ClanBoardView *clanBoardView;
 @property (nonatomic, retain) IBOutlet UIView *clanAboutView;
 @property (nonatomic, retain) IBOutlet ClanTowerTab *clanTowerTab;
+@property (nonatomic, retain) IBOutlet ClanTowerScoresTab *clanTowerScoresTab;
 
 @property (nonatomic, retain) IBOutlet UIView *goldView;
 @property (nonatomic, retain) IBOutlet UIView *editView;
@@ -133,11 +135,13 @@ typedef enum {
 - (void) receivedPostOnWall:(PostOnClanBulletinResponseProto *)proto;
 - (void) receivedUpgradeClanTier:(UpgradeClanTierLevelResponseProto *)proto;
 - (void) receivedUsers:(RetrieveUsersForUserIdsResponseProto *)proto;
+- (void) receivedClanTowerScores:(RetrieveClanTowerScoresResponseProto *)proto;
 
 - (void) topBarButtonClicked:(ClanBarButton)button;
 
 - (void) towerClicked:(ClanTowerProto *)p;
 - (void) viewClan:(FullClanProtoWithClanSize *)clan;
+- (void) viewTower:(int)towerId;
 
 - (void) loadTransferOwnership;
 - (void) loadForClan:(MinimumClanProto *)clan;

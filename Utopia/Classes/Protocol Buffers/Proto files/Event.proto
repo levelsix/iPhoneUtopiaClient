@@ -2359,6 +2359,11 @@ message ChangedClanTowerResponseProto {
 	repeated ClanTowerProto clanTowers = 1;
 	optional ReasonForClanTowerChange reason = 2;
 	
+	optional MinimumUserProto attackerUser = 3;
+	optional MinimumUserProto defenderUser = 4;
+	optional bool attackerWon = 5;
+	optional int32 pointsGained = 6;
+	
 	enum ReasonForClanTowerChange {
 		ATTACKER_CONCEDED = 0;
 		OWNER_CONCEDED = 1;
@@ -2419,6 +2424,41 @@ message CollectEquipEnhancementResponseProto {
 		OTHER_FAIL = 3;
 		NOT_ENOUGH_GOLD = 4;
 	}
+}
+
+message RetrieveClanTowerScoresRequestProto {
+	optional MinimumUserProto sender = 1;
+	optional int32 towerId = 2;
+}
+
+message RetrieveClanTowerScoresResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional RetrieveClanTowerScoresStatus status = 2;
+	repeated MinimumUserProtoForClanTowerScores ownerMembers = 3;
+	repeated MinimumUserProtoForClanTowerScores attackerMembers = 4;
+	optional int32 towerId = 5;
+	
+	enum RetrieveClanTowerScoresStatus {
+		SUCCESS = 0;
+		OTHER_FAIL = 1;
+	}
+}
+
+//requesting all booster packs and related booster items
+message RetrieveBoosterPackRequestProto {
+     optional MinimumUserProto sender = 1;
+}
+
+message RetrieveBoosterPackResponseProto {
+	optional MinimumUserProto sender = 1;
+	repeated BoosterPackProto packs = 2;
+	repeated UserBoosterPackProto userPacks = 3;
+	optional RetrieveBoosterPackStatus status = 4;
+	
+	enum RetrieveBoosterPackStatus {
+     	SUCCESS = 0;
+     	SOME_FAIL = 1;
+     }
 }
 
 	

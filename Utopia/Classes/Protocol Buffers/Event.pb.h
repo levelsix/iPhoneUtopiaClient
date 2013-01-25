@@ -24,6 +24,10 @@
 @class BeginGoldmineTimerRequestProto_Builder;
 @class BeginGoldmineTimerResponseProto;
 @class BeginGoldmineTimerResponseProto_Builder;
+@class BoosterItemProto;
+@class BoosterItemProto_Builder;
+@class BoosterPackProto;
+@class BoosterPackProto_Builder;
 @class BootPlayerFromClanRequestProto;
 @class BootPlayerFromClanRequestProto_Builder;
 @class BootPlayerFromClanResponseProto;
@@ -217,6 +221,8 @@
 @class MinimumUserPossessEquipJobProto;
 @class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
+@class MinimumUserProtoForClanTowerScores;
+@class MinimumUserProtoForClanTowerScores_Builder;
 @class MinimumUserProtoForClans;
 @class MinimumUserProtoForClans_Builder;
 @class MinimumUserProtoWithBattleHistory;
@@ -332,6 +338,10 @@
 @class RetractRequestJoinClanRequestProto_Builder;
 @class RetractRequestJoinClanResponseProto;
 @class RetractRequestJoinClanResponseProto_Builder;
+@class RetrieveBoosterPackRequestProto;
+@class RetrieveBoosterPackRequestProto_Builder;
+@class RetrieveBoosterPackResponseProto;
+@class RetrieveBoosterPackResponseProto_Builder;
 @class RetrieveClanBulletinPostsRequestProto;
 @class RetrieveClanBulletinPostsRequestProto_Builder;
 @class RetrieveClanBulletinPostsResponseProto;
@@ -340,6 +350,10 @@
 @class RetrieveClanInfoRequestProto_Builder;
 @class RetrieveClanInfoResponseProto;
 @class RetrieveClanInfoResponseProto_Builder;
+@class RetrieveClanTowerScoresRequestProto;
+@class RetrieveClanTowerScoresRequestProto_Builder;
+@class RetrieveClanTowerScoresResponseProto;
+@class RetrieveClanTowerScoresResponseProto_Builder;
 @class RetrieveCurrencyFromNormStructureRequestProto;
 @class RetrieveCurrencyFromNormStructureRequestProto_Builder;
 @class RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval;
@@ -478,6 +492,10 @@
 @class UseSkillPointRequestProto_Builder;
 @class UseSkillPointResponseProto;
 @class UseSkillPointResponseProto_Builder;
+@class UserBoosterItemProto;
+@class UserBoosterItemProto_Builder;
+@class UserBoosterPackProto;
+@class UserBoosterPackProto_Builder;
 @class UserCreateRequestProto;
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
@@ -1286,6 +1304,20 @@ typedef enum {
 } CollectEquipEnhancementResponseProto_CollectEquipStatus;
 
 BOOL CollectEquipEnhancementResponseProto_CollectEquipStatusIsValidValue(CollectEquipEnhancementResponseProto_CollectEquipStatus value);
+
+typedef enum {
+  RetrieveClanTowerScoresResponseProto_RetrieveClanTowerScoresStatusSuccess = 0,
+  RetrieveClanTowerScoresResponseProto_RetrieveClanTowerScoresStatusOtherFail = 1,
+} RetrieveClanTowerScoresResponseProto_RetrieveClanTowerScoresStatus;
+
+BOOL RetrieveClanTowerScoresResponseProto_RetrieveClanTowerScoresStatusIsValidValue(RetrieveClanTowerScoresResponseProto_RetrieveClanTowerScoresStatus value);
+
+typedef enum {
+  RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusSuccess = 0,
+  RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusSomeFail = 1,
+} RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus;
+
+BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -16631,12 +16663,28 @@ BOOL CollectEquipEnhancementResponseProto_CollectEquipStatusIsValidValue(Collect
 
 @interface ChangedClanTowerResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasAttackerWon_:1;
+  BOOL hasPointsGained_:1;
+  BOOL hasAttackerUser_:1;
+  BOOL hasDefenderUser_:1;
   BOOL hasReason_:1;
+  BOOL attackerWon_:1;
+  int32_t pointsGained;
+  MinimumUserProto* attackerUser;
+  MinimumUserProto* defenderUser;
   ChangedClanTowerResponseProto_ReasonForClanTowerChange reason;
   NSMutableArray* mutableClanTowersList;
 }
 - (BOOL) hasReason;
+- (BOOL) hasAttackerUser;
+- (BOOL) hasDefenderUser;
+- (BOOL) hasAttackerWon;
+- (BOOL) hasPointsGained;
 @property (readonly) ChangedClanTowerResponseProto_ReasonForClanTowerChange reason;
+@property (readonly, retain) MinimumUserProto* attackerUser;
+@property (readonly, retain) MinimumUserProto* defenderUser;
+- (BOOL) attackerWon;
+@property (readonly) int32_t pointsGained;
 - (NSArray*) clanTowersList;
 - (ClanTowerProto*) clanTowersAtIndex:(int32_t) index;
 
@@ -16685,6 +16733,30 @@ BOOL CollectEquipEnhancementResponseProto_CollectEquipStatusIsValidValue(Collect
 - (ChangedClanTowerResponseProto_ReasonForClanTowerChange) reason;
 - (ChangedClanTowerResponseProto_Builder*) setReason:(ChangedClanTowerResponseProto_ReasonForClanTowerChange) value;
 - (ChangedClanTowerResponseProto_Builder*) clearReason;
+
+- (BOOL) hasAttackerUser;
+- (MinimumUserProto*) attackerUser;
+- (ChangedClanTowerResponseProto_Builder*) setAttackerUser:(MinimumUserProto*) value;
+- (ChangedClanTowerResponseProto_Builder*) setAttackerUserBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ChangedClanTowerResponseProto_Builder*) mergeAttackerUser:(MinimumUserProto*) value;
+- (ChangedClanTowerResponseProto_Builder*) clearAttackerUser;
+
+- (BOOL) hasDefenderUser;
+- (MinimumUserProto*) defenderUser;
+- (ChangedClanTowerResponseProto_Builder*) setDefenderUser:(MinimumUserProto*) value;
+- (ChangedClanTowerResponseProto_Builder*) setDefenderUserBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ChangedClanTowerResponseProto_Builder*) mergeDefenderUser:(MinimumUserProto*) value;
+- (ChangedClanTowerResponseProto_Builder*) clearDefenderUser;
+
+- (BOOL) hasAttackerWon;
+- (BOOL) attackerWon;
+- (ChangedClanTowerResponseProto_Builder*) setAttackerWon:(BOOL) value;
+- (ChangedClanTowerResponseProto_Builder*) clearAttackerWon;
+
+- (BOOL) hasPointsGained;
+- (int32_t) pointsGained;
+- (ChangedClanTowerResponseProto_Builder*) setPointsGained:(int32_t) value;
+- (ChangedClanTowerResponseProto_Builder*) clearPointsGained;
 @end
 
 @interface GeneralNotificationResponseProto : PBGeneratedMessage {
@@ -17048,5 +17120,281 @@ BOOL CollectEquipEnhancementResponseProto_CollectEquipStatusIsValidValue(Collect
 - (CollectEquipEnhancementResponseProto_Builder*) setResultingEquipBuilder:(FullUserEquipProto_Builder*) builderForValue;
 - (CollectEquipEnhancementResponseProto_Builder*) mergeResultingEquip:(FullUserEquipProto*) value;
 - (CollectEquipEnhancementResponseProto_Builder*) clearResultingEquip;
+@end
+
+@interface RetrieveClanTowerScoresRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasTowerId_:1;
+  BOOL hasSender_:1;
+  int32_t towerId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasTowerId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t towerId;
+
++ (RetrieveClanTowerScoresRequestProto*) defaultInstance;
+- (RetrieveClanTowerScoresRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveClanTowerScoresRequestProto_Builder*) builder;
++ (RetrieveClanTowerScoresRequestProto_Builder*) builder;
++ (RetrieveClanTowerScoresRequestProto_Builder*) builderWithPrototype:(RetrieveClanTowerScoresRequestProto*) prototype;
+
++ (RetrieveClanTowerScoresRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveClanTowerScoresRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveClanTowerScoresRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveClanTowerScoresRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveClanTowerScoresRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveClanTowerScoresRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveClanTowerScoresRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveClanTowerScoresRequestProto* result;
+}
+
+- (RetrieveClanTowerScoresRequestProto*) defaultInstance;
+
+- (RetrieveClanTowerScoresRequestProto_Builder*) clear;
+- (RetrieveClanTowerScoresRequestProto_Builder*) clone;
+
+- (RetrieveClanTowerScoresRequestProto*) build;
+- (RetrieveClanTowerScoresRequestProto*) buildPartial;
+
+- (RetrieveClanTowerScoresRequestProto_Builder*) mergeFrom:(RetrieveClanTowerScoresRequestProto*) other;
+- (RetrieveClanTowerScoresRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveClanTowerScoresRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveClanTowerScoresRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveClanTowerScoresRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveClanTowerScoresRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveClanTowerScoresRequestProto_Builder*) clearSender;
+
+- (BOOL) hasTowerId;
+- (int32_t) towerId;
+- (RetrieveClanTowerScoresRequestProto_Builder*) setTowerId:(int32_t) value;
+- (RetrieveClanTowerScoresRequestProto_Builder*) clearTowerId;
+@end
+
+@interface RetrieveClanTowerScoresResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasTowerId_:1;
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  int32_t towerId;
+  MinimumUserProto* sender;
+  RetrieveClanTowerScoresResponseProto_RetrieveClanTowerScoresStatus status;
+  NSMutableArray* mutableOwnerMembersList;
+  NSMutableArray* mutableAttackerMembersList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasTowerId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RetrieveClanTowerScoresResponseProto_RetrieveClanTowerScoresStatus status;
+@property (readonly) int32_t towerId;
+- (NSArray*) ownerMembersList;
+- (MinimumUserProtoForClanTowerScores*) ownerMembersAtIndex:(int32_t) index;
+- (NSArray*) attackerMembersList;
+- (MinimumUserProtoForClanTowerScores*) attackerMembersAtIndex:(int32_t) index;
+
++ (RetrieveClanTowerScoresResponseProto*) defaultInstance;
+- (RetrieveClanTowerScoresResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveClanTowerScoresResponseProto_Builder*) builder;
++ (RetrieveClanTowerScoresResponseProto_Builder*) builder;
++ (RetrieveClanTowerScoresResponseProto_Builder*) builderWithPrototype:(RetrieveClanTowerScoresResponseProto*) prototype;
+
++ (RetrieveClanTowerScoresResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveClanTowerScoresResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveClanTowerScoresResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveClanTowerScoresResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveClanTowerScoresResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveClanTowerScoresResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveClanTowerScoresResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveClanTowerScoresResponseProto* result;
+}
+
+- (RetrieveClanTowerScoresResponseProto*) defaultInstance;
+
+- (RetrieveClanTowerScoresResponseProto_Builder*) clear;
+- (RetrieveClanTowerScoresResponseProto_Builder*) clone;
+
+- (RetrieveClanTowerScoresResponseProto*) build;
+- (RetrieveClanTowerScoresResponseProto*) buildPartial;
+
+- (RetrieveClanTowerScoresResponseProto_Builder*) mergeFrom:(RetrieveClanTowerScoresResponseProto*) other;
+- (RetrieveClanTowerScoresResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveClanTowerScoresResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveClanTowerScoresResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveClanTowerScoresResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveClanTowerScoresResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveClanTowerScoresResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (RetrieveClanTowerScoresResponseProto_RetrieveClanTowerScoresStatus) status;
+- (RetrieveClanTowerScoresResponseProto_Builder*) setStatus:(RetrieveClanTowerScoresResponseProto_RetrieveClanTowerScoresStatus) value;
+- (RetrieveClanTowerScoresResponseProto_Builder*) clearStatus;
+
+- (NSArray*) ownerMembersList;
+- (MinimumUserProtoForClanTowerScores*) ownerMembersAtIndex:(int32_t) index;
+- (RetrieveClanTowerScoresResponseProto_Builder*) replaceOwnerMembersAtIndex:(int32_t) index with:(MinimumUserProtoForClanTowerScores*) value;
+- (RetrieveClanTowerScoresResponseProto_Builder*) addOwnerMembers:(MinimumUserProtoForClanTowerScores*) value;
+- (RetrieveClanTowerScoresResponseProto_Builder*) addAllOwnerMembers:(NSArray*) values;
+- (RetrieveClanTowerScoresResponseProto_Builder*) clearOwnerMembersList;
+
+- (NSArray*) attackerMembersList;
+- (MinimumUserProtoForClanTowerScores*) attackerMembersAtIndex:(int32_t) index;
+- (RetrieveClanTowerScoresResponseProto_Builder*) replaceAttackerMembersAtIndex:(int32_t) index with:(MinimumUserProtoForClanTowerScores*) value;
+- (RetrieveClanTowerScoresResponseProto_Builder*) addAttackerMembers:(MinimumUserProtoForClanTowerScores*) value;
+- (RetrieveClanTowerScoresResponseProto_Builder*) addAllAttackerMembers:(NSArray*) values;
+- (RetrieveClanTowerScoresResponseProto_Builder*) clearAttackerMembersList;
+
+- (BOOL) hasTowerId;
+- (int32_t) towerId;
+- (RetrieveClanTowerScoresResponseProto_Builder*) setTowerId:(int32_t) value;
+- (RetrieveClanTowerScoresResponseProto_Builder*) clearTowerId;
+@end
+
+@interface RetrieveBoosterPackRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+
++ (RetrieveBoosterPackRequestProto*) defaultInstance;
+- (RetrieveBoosterPackRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveBoosterPackRequestProto_Builder*) builder;
++ (RetrieveBoosterPackRequestProto_Builder*) builder;
++ (RetrieveBoosterPackRequestProto_Builder*) builderWithPrototype:(RetrieveBoosterPackRequestProto*) prototype;
+
++ (RetrieveBoosterPackRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveBoosterPackRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveBoosterPackRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveBoosterPackRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveBoosterPackRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveBoosterPackRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveBoosterPackRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveBoosterPackRequestProto* result;
+}
+
+- (RetrieveBoosterPackRequestProto*) defaultInstance;
+
+- (RetrieveBoosterPackRequestProto_Builder*) clear;
+- (RetrieveBoosterPackRequestProto_Builder*) clone;
+
+- (RetrieveBoosterPackRequestProto*) build;
+- (RetrieveBoosterPackRequestProto*) buildPartial;
+
+- (RetrieveBoosterPackRequestProto_Builder*) mergeFrom:(RetrieveBoosterPackRequestProto*) other;
+- (RetrieveBoosterPackRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveBoosterPackRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveBoosterPackRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveBoosterPackRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveBoosterPackRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveBoosterPackRequestProto_Builder*) clearSender;
+@end
+
+@interface RetrieveBoosterPackResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus status;
+  NSMutableArray* mutablePacksList;
+  NSMutableArray* mutableUserPacksList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus status;
+- (NSArray*) packsList;
+- (BoosterPackProto*) packsAtIndex:(int32_t) index;
+- (NSArray*) userPacksList;
+- (UserBoosterPackProto*) userPacksAtIndex:(int32_t) index;
+
++ (RetrieveBoosterPackResponseProto*) defaultInstance;
+- (RetrieveBoosterPackResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveBoosterPackResponseProto_Builder*) builder;
++ (RetrieveBoosterPackResponseProto_Builder*) builder;
++ (RetrieveBoosterPackResponseProto_Builder*) builderWithPrototype:(RetrieveBoosterPackResponseProto*) prototype;
+
++ (RetrieveBoosterPackResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveBoosterPackResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveBoosterPackResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveBoosterPackResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveBoosterPackResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveBoosterPackResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveBoosterPackResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveBoosterPackResponseProto* result;
+}
+
+- (RetrieveBoosterPackResponseProto*) defaultInstance;
+
+- (RetrieveBoosterPackResponseProto_Builder*) clear;
+- (RetrieveBoosterPackResponseProto_Builder*) clone;
+
+- (RetrieveBoosterPackResponseProto*) build;
+- (RetrieveBoosterPackResponseProto*) buildPartial;
+
+- (RetrieveBoosterPackResponseProto_Builder*) mergeFrom:(RetrieveBoosterPackResponseProto*) other;
+- (RetrieveBoosterPackResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveBoosterPackResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveBoosterPackResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveBoosterPackResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveBoosterPackResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveBoosterPackResponseProto_Builder*) clearSender;
+
+- (NSArray*) packsList;
+- (BoosterPackProto*) packsAtIndex:(int32_t) index;
+- (RetrieveBoosterPackResponseProto_Builder*) replacePacksAtIndex:(int32_t) index with:(BoosterPackProto*) value;
+- (RetrieveBoosterPackResponseProto_Builder*) addPacks:(BoosterPackProto*) value;
+- (RetrieveBoosterPackResponseProto_Builder*) addAllPacks:(NSArray*) values;
+- (RetrieveBoosterPackResponseProto_Builder*) clearPacksList;
+
+- (NSArray*) userPacksList;
+- (UserBoosterPackProto*) userPacksAtIndex:(int32_t) index;
+- (RetrieveBoosterPackResponseProto_Builder*) replaceUserPacksAtIndex:(int32_t) index with:(UserBoosterPackProto*) value;
+- (RetrieveBoosterPackResponseProto_Builder*) addUserPacks:(UserBoosterPackProto*) value;
+- (RetrieveBoosterPackResponseProto_Builder*) addAllUserPacks:(NSArray*) values;
+- (RetrieveBoosterPackResponseProto_Builder*) clearUserPacksList;
+
+- (BOOL) hasStatus;
+- (RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus) status;
+- (RetrieveBoosterPackResponseProto_Builder*) setStatus:(RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus) value;
+- (RetrieveBoosterPackResponseProto_Builder*) clearStatus;
 @end
 

@@ -194,7 +194,7 @@ static float buttonInitialWidth = 159.f;
   r.size.width = buttonSize.width;
   nameButton.frame = r;
   
-  self.timeLabel.text = [Globals stringForTimeSinceNow:msg.date];
+  self.timeLabel.text = [Globals stringForTimeSinceNow:msg.date shortened:NO];
   
   r = timeLabel.frame;
   r.origin.x = MAX(CGRectGetMaxX(nameButton.frame), textLabel.frame.origin.x+size.width-r.size.width);

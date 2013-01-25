@@ -78,6 +78,7 @@
 
 @property (nonatomic, retain) NSTimer *timer;
 
+- (void) displayTowerWithId:(int)towerId;
 - (void) loadClanTowerList:(BOOL)animated;
 - (void) updateForCurrentTowers;
 

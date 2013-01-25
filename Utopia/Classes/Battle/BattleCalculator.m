@@ -174,7 +174,7 @@
   
   int health = [gl calculateHealthForLevel:defender.level];
   double hitStrength = health*healthPercent;
-  int levelDiff = attacker.level-defender.level;
+  int levelDifference = attacker.level-defender.level;
   double totalEquipPortion = MIN(3*_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfEquipment*(((float)(attacker.weaponAttack+attacker.armorAttack+attacker.amuletAttack))/(defender.weaponDefense+defender.armorDefense+defender.amuletDefense)));
 	double weaponPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfWeapon*(((float)attacker.weaponAttack)/defender.weaponDefense));
   double armorPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfArmor*(((float)attacker.armorAttack)/defender.armorDefense));

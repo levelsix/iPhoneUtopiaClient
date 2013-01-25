@@ -1151,6 +1151,15 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCCollectEquipEnhancementEvent];
 }
 
+- (int) sendRetrieveClanTowerScoresMessage:(int)towerId {
+  RetrieveClanTowerScoresRequestProto *req = [[[[RetrieveClanTowerScoresRequestProto builder]
+                                                setSender:_sender]
+                                               setTowerId:towerId]
+                                              build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveClanTowerScoresEvent];
+}
+
 - (int) addAttackSkillPoint {
   [self flush:EventProtocolRequestCUseSkillPointEvent];
   self.attackPoints++;

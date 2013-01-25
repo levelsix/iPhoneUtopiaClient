@@ -154,6 +154,8 @@
 - (int) sendSubmitEquipEnhancementMessage:(int)enhancingId feeders:(NSArray *)feeders clientTime:(uint64_t)clientTime;
 - (int) sendCollectEquipEnhancementMessage:(int)enhancementId speedup:(BOOL)speedup time:(uint64_t)clientTime;
 
+- (int) sendRetrieveClanTowerScoresMessage:(int)towerId;
+
 - (int) addAttackSkillPoint;
 - (int) addDefenseSkillPoint;
 - (int) addEnergySkillPoint;

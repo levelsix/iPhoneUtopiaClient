@@ -152,4 +152,6 @@
 - (void) submitEquipEnhancement:(int)enhancingId feeders:(NSArray *)feeders;
 - (void) collectEquipEnhancement:(int)enhancementId speedup:(BOOL)speedup gold:(int)gold;
 
+- (void) retrieveClanTowerScores:(int)towerId;
+
 @end

@@ -313,6 +313,7 @@
   self.typeLabel = nil;
   self.rankLabel = nil;
   self.rightLabel = nil;
+  self.attackButton = nil;
   [super dealloc];
 }
 

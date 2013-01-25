@@ -248,7 +248,7 @@
 + (NSString *) spriteImageNameForUser:(UserType)type;
 + (NSString *) animatedSpritePrefix:(UserType)type;
 + (NSString *) battleAnimationFileForUser:(UserType)type;
-+ (NSString *) stringForTimeSinceNow:(NSDate *)date;
++ (NSString *) stringForTimeSinceNow:(NSDate *)date shortened:(BOOL)shortened ;
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep;
 + (BOOL) class:(UserType)ut canEquip:(EquipClassType) ct;
 + (BOOL) canEquip:(FullEquipProto *)fep;

@@ -10,13 +10,23 @@
 #import "ActivityFeedController.h"
 #import "ProfileViewController.h"
 #import "TopBar.h"
+#import "GameState.h"
+#import "ClanMenuController.h"
 
 @implementation InGameNotification
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   self.hidden = YES;
   if (self.notification.type == kNotificationGeneral) {
-    // Do nothing
+    // Check if a clan tower is mentioned inside
+    GameState *gs = [GameState sharedGameState];
+    for (ClanTowerProto *ctp in gs.clanTowers) {
+      if ([self.notification.title rangeOfString:ctp.towerName].length > 0) {
+        [[ClanMenuController sharedClanMenuController] viewTower:ctp.towerId];
+        [ClanMenuController displayView];
+        break;
+      }
+    }
   } else if (self.notification.type != kNotificationWallPost) {
     [ActivityFeedController displayView];
   } else {

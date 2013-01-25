@@ -17,6 +17,136 @@
 #import "EquipDeltaView.h"
 #import "SoundEngine.h"
 
+@implementation ForgeTopBar
+
+@synthesize button1, button2;
+
+- (void) awakeFromNib {
+  [self clickButton:kButton1];
+  [self unclickButton:kButton2];
+}
+
+- (void) loadForIsGlobal:(BOOL)isGlobal {
+  [self unclickButton:kButton1];
+  [self unclickButton:kButton2];
+  [self clickButton:isGlobal ? kButton1 : kButton2];
+}
+
+- (void) clickButton:(LeaderboardBarButton)button {
+  switch (button) {
+    case kButton1:
+      button1.hidden = NO;
+      _clickedButtons |= kButton1;
+      break;
+      
+    case kButton2:
+      button2.hidden = NO;
+      _clickedButtons |= kButton2;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) unclickButton:(LeaderboardBarButton)button {
+  switch (button) {
+    case kButton1:
+      button1.hidden = YES;
+      _clickedButtons &= ~kButton1;
+      break;
+      
+    case kButton2:
+      button2.hidden = YES;
+      _clickedButtons &= ~kButton2;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (!(_clickedButtons & kButton1) && [button1 pointInside:pt withEvent:nil]) {
+    _trackingButton1 = YES;
+    [self clickButton:kButton1];
+  }
+  
+  pt = [touch locationInView:button2];
+  if (!(_clickedButtons & kButton2) && [button2 pointInside:pt withEvent:nil]) {
+    _trackingButton2 = YES;
+    [self clickButton:kButton2];
+  }
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (_trackingButton1) {
+    if (CGRectContainsPoint(CGRectInset(button1.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton1];
+    } else {
+      [self unclickButton:kButton1];
+    }
+  }
+  
+  pt = [touch locationInView:button2];
+  if (_trackingButton2) {
+    if (CGRectContainsPoint(CGRectInset(button2.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton2];
+    } else {
+      [self unclickButton:kButton2];
+    }
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (_trackingButton1) {
+    if (CGRectContainsPoint(CGRectInset(button1.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton1];
+      [self unclickButton:kButton2];
+      
+      [[ForgeMenuController sharedForgeMenuController] displayForgeMenu];
+    } else {
+      [self unclickButton:kButton1];
+    }
+  }
+  
+  pt = [touch locationInView:button2];
+  if (_trackingButton2) {
+    if (CGRectContainsPoint(CGRectInset(button2.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton2];
+      [self unclickButton:kButton1];
+      
+      [[ForgeMenuController sharedForgeMenuController] displayEnhanceMenu];
+    } else {
+      [self unclickButton:kButton2];
+    }
+  }
+  
+  _trackingButton1 = NO;
+  _trackingButton2 = NO;
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self unclickButton:kButton1];
+  [self unclickButton:kButton2];
+  _trackingButton1 = NO;
+  _trackingButton2 = NO;
+}
+
+- (void) dealloc {
+  self.button2 = nil;
+  self.button1 = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation ForgeMenuController
 
 @synthesize topBar, mainView, bgdView;
@@ -75,11 +205,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   
   self.enhancingView.frame = self.forgingView.frame;
   [self.mainView addSubview:self.enhancingView];
-  self.forgingView.hidden = YES;
   
   backOldFrame = self.backOldItemView.frame;
   frontOldFrame = self.frontOldItemView.frame;
   upgrFrame = self.upgrItemView.frame;
+  
+  [self displayForgeMenu];
 }
 
 - (void)didReceiveMemoryWarning
@@ -161,6 +292,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   [self.enhancingView reload];
   
   [[SoundEngine sharedSoundEngine] forgeEnter];
+}
+
+- (void) displayForgeMenu {
+  self.enhancingView.hidden = YES;
+  self.forgingView.hidden = NO;
+}
+
+- (void) displayEnhanceMenu {
+  self.enhancingView.hidden = NO;
+  self.forgingView.hidden = YES;
 }
 
 - (void) loadForgeItems {

@@ -72,6 +72,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize battlePercentOfPlayerStats, battleAttackExpoMultiplier;
 @synthesize battleHitAttackerPercentOfHealth, battleHitDefenderPercentOfHealth;
 @synthesize battlePercentOfEquipment, battleIndividualEquipAttackCap;
+@synthesize battleEquipAndStatsWeight;
 @synthesize maxLevelForUser;
 @synthesize adColonyVideosRequiredToRedeemGold;
 @synthesize diamondCostToChangeName, diamondCostToResetCharacter, diamondCostToResetSkillPoints, diamondCostToChangeCharacterType;
@@ -538,7 +539,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return nil;
 }
 
-+ (NSString *) stringForTimeSinceNow:(NSDate *)date {
++ (NSString *) stringForTimeSinceNow:(NSDate *)date shortened:(BOOL)shortened {
   int time = -1*[date timeIntervalSinceNow];
   
   
@@ -548,17 +549,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   int interval = 1;
   if (time < interval*60) {
-    return [NSString stringWithFormat:@"%d second%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
+    return [NSString stringWithFormat:@"%d %@%@ ago", time / interval, shortened ? @"sec" : @"second", time / interval != 1 ? @"s" : @""];
   }
   
   interval *= 60;
   if (time < interval*60) {
-    return [NSString stringWithFormat:@"%d minute%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
+    return [NSString stringWithFormat:@"%d %@%@ ago", time / interval, shortened ? @"min" : @"minute", time / interval != 1 ? @"s" : @""];
   }
   
   interval *= 60;
   if (time < interval*24) {
-    return [NSString stringWithFormat:@"%d hour%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
+    return [NSString stringWithFormat:@"%d %@%@ ago", time / interval, shortened ? @"hr" : @"hour", time / interval != 1 ? @"s" : @""];
   }
   
   interval *= 24;

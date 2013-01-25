@@ -47,7 +47,7 @@
   NSString *name = [Globals fullNameWithName:notification.otherPlayer.name clanTag:notification.otherPlayer.clan.tag];
   [userIcon setImage:[Globals squareImageForUser:notification.otherPlayer.userType] forState:UIControlStateNormal];
   
-  timeLabel.text = [Globals stringForTimeSinceNow:n.time];
+  timeLabel.text = [Globals stringForTimeSinceNow:n.time shortened:NO];
   
   if (notification.type == kNotificationBattle) {
     FullEquipProto *fep = nil;

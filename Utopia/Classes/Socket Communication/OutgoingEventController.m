@@ -2194,4 +2194,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gold]];
 }
 
+- (void) retrieveClanTowerScores:(int)towerId {
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveClanTowerScoresMessage:towerId];
+}
+
 @end

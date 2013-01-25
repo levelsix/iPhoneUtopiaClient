@@ -111,117 +111,118 @@
   NSTimer *_expansionTimer;
 }
 
-@property (assign) BOOL isTutorial;
-@property (assign) BOOL connected;
-@property (assign) int userId;
-@property (retain) NSString *name;
-@property (assign) UserType type;
-@property (assign) int level;
-@property (assign) int defense;
-@property (assign) int attack;
-@property (assign) int currentEnergy;
-@property (assign) int maxEnergy;
-@property (assign) int currentStamina;
-@property (assign) int maxStamina;
-@property (assign) int gold;
-@property (assign) int silver;
-@property (assign) int vaultBalance;
-@property (retain) NSString *referralCode;
-@property (assign) int battlesWon;
-@property (assign) int battlesLost;
-@property (assign) int flees;
-@property (assign) CLLocationCoordinate2D location;
-@property (assign) int skillPoints;
-@property (assign) int experience;
-@property (assign) int tasksCompleted;
-@property (assign) int numReferrals;
-@property (assign) int marketplaceGoldEarnings;
-@property (assign) int marketplaceSilverEarnings;
-@property (assign) int numMarketplaceSalesUnredeemed;
-@property (assign) int numPostsInMarketplace;
-@property (assign) int weaponEquipped;
-@property (assign) int armorEquipped;
-@property (assign) int amuletEquipped;
-@property (assign) int playerHasBoughtInAppPurchase;
-@property (retain) NSDate *lastEnergyRefill;
-@property (retain) NSDate *lastStaminaRefill;
-@property (assign) int numAdColonyVideosWatched;
-@property (assign) int numGroupChatsRemaining;
-@property (assign) BOOL isAdmin;
+@property (nonatomic, assign) BOOL isTutorial;
+@property (nonatomic, assign) BOOL connected;
+@property (nonatomic, assign) int userId;
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, assign) UserType type;
+@property (nonatomic, assign) int level;
+@property (nonatomic, assign) int defense;
+@property (nonatomic, assign) int attack;
+@property (nonatomic, assign) int currentEnergy;
+@property (nonatomic, assign) int maxEnergy;
+@property (nonatomic, assign) int currentStamina;
+@property (nonatomic, assign) int maxStamina;
+@property (nonatomic, assign) int gold;
+@property (nonatomic, assign) int silver;
+@property (nonatomic, assign) int vaultBalance;
+@property (nonatomic, retain) NSString *referralCode;
+@property (nonatomic, assign) int battlesWon;
+@property (nonatomic, assign) int battlesLost;
+@property (nonatomic, assign) int flees;
+@property (nonatomic, assign) CLLocationCoordinate2D location;
+@property (nonatomic, assign) int skillPoints;
+@property (nonatomic, assign) int experience;
+@property (nonatomic, assign) int tasksCompleted;
+@property (nonatomic, assign) int numReferrals;
+@property (nonatomic, assign) int marketplaceGoldEarnings;
+@property (nonatomic, assign) int marketplaceSilverEarnings;
+@property (nonatomic, assign) int numMarketplaceSalesUnredeemed;
+@property (nonatomic, assign) int numPostsInMarketplace;
+@property (nonatomic, assign) int weaponEquipped;
+@property (nonatomic, assign) int armorEquipped;
+@property (nonatomic, assign) int amuletEquipped;
+@property (nonatomic, assign) int playerHasBoughtInAppPurchase;
+@property (nonatomic, retain) NSDate *lastEnergyRefill;
+@property (nonatomic, retain) NSDate *lastStaminaRefill;
+@property (nonatomic, assign) int numAdColonyVideosWatched;
+@property (nonatomic, assign) int numGroupChatsRemaining;
+@property (nonatomic, assign) BOOL isAdmin;
 
-@property (retain) NSString *deviceToken;
+@property (nonatomic, retain) NSString *deviceToken;
 
-@property (retain) NSDate *lastShortLicensePurchaseTime;
-@property (retain) NSDate *lastLongLicensePurchaseTime;
+@property (nonatomic, retain) NSDate *lastShortLicensePurchaseTime;
+@property (nonatomic, retain) NSDate *lastLongLicensePurchaseTime;
 
-@property (assign) int expRequiredForCurrentLevel;
-@property (assign) int expRequiredForNextLevel;
+@property (nonatomic, assign) int expRequiredForCurrentLevel;
+@property (nonatomic, assign) int expRequiredForNextLevel;
 
-@property (retain) NSMutableArray *marketplaceEquipPosts;
-@property (retain) NSMutableArray *marketplaceEquipPostsFromSender;
+@property (nonatomic, retain) NSMutableArray *marketplaceEquipPosts;
+@property (nonatomic, retain) NSMutableArray *marketplaceEquipPostsFromSender;
 
-@property (retain) NSMutableDictionary *staticStructs;
-@property (retain) NSMutableDictionary *staticTasks;
-@property (retain) NSMutableDictionary *staticBosses;
-@property (retain) NSMutableDictionary *staticQuests;
-@property (retain) NSMutableDictionary *staticCities;
-@property (retain) NSMutableDictionary *staticEquips;
-@property (retain) NSMutableDictionary *staticBuildStructJobs;
-@property (retain) NSMutableDictionary *staticDefeatTypeJobs;
-@property (retain) NSMutableDictionary *staticPossessEquipJobs;
-@property (retain) NSMutableDictionary *staticUpgradeStructJobs;
-@property (retain) NSMutableArray *staticLockBoxEvents;
-@property (retain) NSMutableArray *staticGoldSales;
-@property (retain) NSMutableArray *staticBossEvents;
-@property (retain) NSMutableArray *staticTournaments;
+@property (nonatomic, retain) NSMutableDictionary *staticStructs;
+@property (nonatomic, retain) NSMutableDictionary *staticTasks;
+@property (nonatomic, retain) NSMutableDictionary *staticBosses;
+@property (nonatomic, retain) NSMutableDictionary *staticQuests;
+@property (nonatomic, retain) NSMutableDictionary *staticCities;
+@property (nonatomic, retain) NSMutableDictionary *staticEquips;
+@property (nonatomic, retain) NSMutableDictionary *staticBuildStructJobs;
+@property (nonatomic, retain) NSMutableDictionary *staticDefeatTypeJobs;
+@property (nonatomic, retain) NSMutableDictionary *staticPossessEquipJobs;
+@property (nonatomic, retain) NSMutableDictionary *staticUpgradeStructJobs;
+@property (nonatomic, retain) NSMutableArray *staticLockBoxEvents;
+@property (nonatomic, retain) NSMutableArray *staticGoldSales;
+@property (nonatomic, retain) NSMutableArray *staticBossEvents;
+@property (nonatomic, retain) NSMutableArray *staticTournaments;
 
-@property (retain) NSArray *carpenterStructs;
-@property (retain) NSArray *armoryWeapons;
-@property (retain) NSArray *armoryArmor;
-@property (retain) NSArray *armoryAmulets;
+@property (nonatomic, retain) NSArray *carpenterStructs;
+@property (nonatomic, retain) NSArray *armoryWeapons;
+@property (nonatomic, retain) NSArray *armoryArmor;
+@property (nonatomic, retain) NSArray *armoryAmulets;
 
-@property (retain) NSMutableArray *myEquips;
-@property (retain) NSMutableArray *myStructs;
-@property (retain) NSMutableDictionary *myCities;
-@property (retain) NSMutableDictionary *myLockBoxEvents;
+@property (nonatomic, retain) NSMutableArray *myEquips;
+@property (nonatomic, retain) NSMutableArray *myStructs;
+@property (nonatomic, retain) NSMutableDictionary *myCities;
+@property (nonatomic, retain) NSMutableDictionary *myLockBoxEvents;
 
-@property (retain) NSMutableDictionary *inProgressCompleteQuests;
-@property (retain) NSMutableDictionary *inProgressIncompleteQuests;
-@property (retain) NSMutableDictionary *availableQuests;
+@property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
+@property (nonatomic, retain) NSMutableDictionary *inProgressIncompleteQuests;
+@property (nonatomic, retain) NSMutableDictionary *availableQuests;
 
-@property (retain) NSMutableArray *attackList;
-@property (retain) NSMutableArray *attackMapList;
-@property (retain) NSMutableArray *notifications;
-@property (retain) NSMutableArray *wallPosts;
-@property (retain) NSMutableArray *globalChatMessages;
-@property (retain) NSMutableArray *clanChatMessages;
+@property (nonatomic, retain) NSMutableArray *attackList;
+@property (nonatomic, retain) NSMutableArray *attackMapList;
+@property (nonatomic, retain) NSMutableArray *notifications;
+@property (nonatomic, retain) NSMutableArray *wallPosts;
+@property (nonatomic, retain) NSMutableArray *globalChatMessages;
+@property (nonatomic, retain) NSMutableArray *clanChatMessages;
 
-@property (retain) NSMutableArray *unrespondedUpdates;
+@property (nonatomic, retain) NSMutableArray *unrespondedUpdates;
 
-@property (retain) NSDate *lastLogoutTime;
+@property (nonatomic, retain) NSDate *lastLogoutTime;
 
-@property (retain) NSArray *allies;
+@property (nonatomic, retain) NSArray *allies;
 
-@property (retain) ForgeAttempt *forgeAttempt;
-@property (retain) EquipEnhancementProto *equipEnhancement;
+@property (nonatomic, retain) ForgeAttempt *forgeAttempt;
+@property (nonatomic, retain) EquipEnhancementProto *equipEnhancement;
 
-@property (retain) NSDate *lastGoldmineRetrieval;
+@property (nonatomic, retain) NSDate *lastGoldmineRetrieval;
 
-@property (retain) MinimumClanProto *clan;
-@property (retain) NSMutableArray *requestedClans;
+@property (nonatomic, retain) MinimumClanProto *clan;
+@property (nonatomic, retain) NSMutableArray *requestedClans;
 
 @property (nonatomic, copy) NSArray *mktSearchEquips;
 
-@property (nonatomic, retain) UserExpansion *userExpansion;
+@property (nonatomic, nonatomic, retain) UserExpansion *userExpansion;
 
-@property (retain) NSMutableArray *lockBoxEventTimers;
-@property (retain) NSMutableArray *goldSaleTimers;
-@property (retain) NSMutableArray *bossEventTimers;
-@property (retain) NSMutableArray *tournamentTimers;
+@property (nonatomic, retain) NSMutableArray *lockBoxEventTimers;
+@property (nonatomic, retain) NSMutableArray *goldSaleTimers;
+@property (nonatomic, retain) NSMutableArray *bossEventTimers;
+@property (nonatomic, retain) NSMutableArray *tournamentTimers;
 
-@property (retain) NSDictionary *clanTierLevels;
+@property (nonatomic, retain) NSDictionary *clanTierLevels;
 
-@property (retain) NSArray *clanTowers;
+@property (nonatomic, retain) NSArray *clanTowers;
+@property (nonatomic, retain) NSMutableArray *clanTowerUserBattles;
 
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
@@ -319,6 +320,9 @@
 
 - (void) updateClanTowers:(NSArray *)arr;
 - (ClanTowerProto *) clanTowerWithId:(int)towerId;
+- (void) addClanTowerUserBattle:(ClanTowerUserBattle *)ctub;
+- (void) removeClanTowerUserBattlesForTowerId:(int)towerId;
+- (NSArray *) clanTowerUserBattlesForTowerId:(int)towerId;
 
 - (void) resetGoldSaleTimers;
 - (GoldSaleProto *) getCurrentGoldSale;

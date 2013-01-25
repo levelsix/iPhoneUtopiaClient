@@ -759,7 +759,7 @@
 - (void) updateForWallPost:(PlayerWallPostProto *)wallPost {
   [playerIcon setImage:[Globals squareImageForUser:wallPost.poster.userType] forState:UIControlStateNormal];
   [nameLabel setTitle:[Globals fullNameWithName:wallPost.poster.name clanTag:wallPost.poster.clan.tag] forState:UIControlStateNormal];
-  timeLabel.text = [Globals stringForTimeSinceNow:[NSDate dateWithTimeIntervalSince1970:wallPost.timeOfPost/1000.0]];
+  timeLabel.text = [Globals stringForTimeSinceNow:[NSDate dateWithTimeIntervalSince1970:wallPost.timeOfPost/1000.0] shortened:NO];
   postLabel.text = wallPost.content;
   
   CGSize size = postLabel.frame.size;

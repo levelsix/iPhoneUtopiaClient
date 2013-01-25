@@ -2,6 +2,10 @@
 
 #import "ProtocolBuffers.h"
 
+@class BoosterItemProto;
+@class BoosterItemProto_Builder;
+@class BoosterPackProto;
+@class BoosterPackProto_Builder;
 @class BossEventProto;
 @class BossEventProto_Builder;
 @class BuildStructJobProto;
@@ -89,6 +93,8 @@
 @class MinimumUserPossessEquipJobProto;
 @class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
+@class MinimumUserProtoForClanTowerScores;
+@class MinimumUserProtoForClanTowerScores_Builder;
 @class MinimumUserProtoForClans;
 @class MinimumUserProtoForClans_Builder;
 @class MinimumUserProtoWithBattleHistory;
@@ -116,6 +122,10 @@
 @class UnhandledBlacksmithAttemptProto_Builder;
 @class UpgradeStructJobProto;
 @class UpgradeStructJobProto_Builder;
+@class UserBoosterItemProto;
+@class UserBoosterItemProto_Builder;
+@class UserBoosterPackProto;
+@class UserBoosterPackProto_Builder;
 @class UserLockBoxEventProto;
 @class UserLockBoxEventProto_Builder;
 @class UserLockBoxItemProto;
@@ -321,6 +331,394 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
+@end
+
+@interface UserBoosterPackProto : PBGeneratedMessage {
+@private
+  BOOL hasBoosterPackId_:1;
+  BOOL hasUserId_:1;
+  int32_t boosterPackId;
+  int32_t userId;
+  NSMutableArray* mutableUserBoosterItemsList;
+}
+- (BOOL) hasBoosterPackId;
+- (BOOL) hasUserId;
+@property (readonly) int32_t boosterPackId;
+@property (readonly) int32_t userId;
+- (NSArray*) userBoosterItemsList;
+- (UserBoosterItemProto*) userBoosterItemsAtIndex:(int32_t) index;
+
++ (UserBoosterPackProto*) defaultInstance;
+- (UserBoosterPackProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserBoosterPackProto_Builder*) builder;
++ (UserBoosterPackProto_Builder*) builder;
++ (UserBoosterPackProto_Builder*) builderWithPrototype:(UserBoosterPackProto*) prototype;
+
++ (UserBoosterPackProto*) parseFromData:(NSData*) data;
++ (UserBoosterPackProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserBoosterPackProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserBoosterPackProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserBoosterPackProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserBoosterPackProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserBoosterPackProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UserBoosterPackProto* result;
+}
+
+- (UserBoosterPackProto*) defaultInstance;
+
+- (UserBoosterPackProto_Builder*) clear;
+- (UserBoosterPackProto_Builder*) clone;
+
+- (UserBoosterPackProto*) build;
+- (UserBoosterPackProto*) buildPartial;
+
+- (UserBoosterPackProto_Builder*) mergeFrom:(UserBoosterPackProto*) other;
+- (UserBoosterPackProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserBoosterPackProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasBoosterPackId;
+- (int32_t) boosterPackId;
+- (UserBoosterPackProto_Builder*) setBoosterPackId:(int32_t) value;
+- (UserBoosterPackProto_Builder*) clearBoosterPackId;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (UserBoosterPackProto_Builder*) setUserId:(int32_t) value;
+- (UserBoosterPackProto_Builder*) clearUserId;
+
+- (NSArray*) userBoosterItemsList;
+- (UserBoosterItemProto*) userBoosterItemsAtIndex:(int32_t) index;
+- (UserBoosterPackProto_Builder*) replaceUserBoosterItemsAtIndex:(int32_t) index with:(UserBoosterItemProto*) value;
+- (UserBoosterPackProto_Builder*) addUserBoosterItems:(UserBoosterItemProto*) value;
+- (UserBoosterPackProto_Builder*) addAllUserBoosterItems:(NSArray*) values;
+- (UserBoosterPackProto_Builder*) clearUserBoosterItemsList;
+@end
+
+@interface UserBoosterItemProto : PBGeneratedMessage {
+@private
+  BOOL hasBoosterItemId_:1;
+  BOOL hasUserId_:1;
+  BOOL hasNumReceived_:1;
+  int32_t boosterItemId;
+  int32_t userId;
+  int32_t numReceived;
+}
+- (BOOL) hasBoosterItemId;
+- (BOOL) hasUserId;
+- (BOOL) hasNumReceived;
+@property (readonly) int32_t boosterItemId;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t numReceived;
+
++ (UserBoosterItemProto*) defaultInstance;
+- (UserBoosterItemProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserBoosterItemProto_Builder*) builder;
++ (UserBoosterItemProto_Builder*) builder;
++ (UserBoosterItemProto_Builder*) builderWithPrototype:(UserBoosterItemProto*) prototype;
+
++ (UserBoosterItemProto*) parseFromData:(NSData*) data;
++ (UserBoosterItemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserBoosterItemProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserBoosterItemProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserBoosterItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserBoosterItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserBoosterItemProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UserBoosterItemProto* result;
+}
+
+- (UserBoosterItemProto*) defaultInstance;
+
+- (UserBoosterItemProto_Builder*) clear;
+- (UserBoosterItemProto_Builder*) clone;
+
+- (UserBoosterItemProto*) build;
+- (UserBoosterItemProto*) buildPartial;
+
+- (UserBoosterItemProto_Builder*) mergeFrom:(UserBoosterItemProto*) other;
+- (UserBoosterItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserBoosterItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasBoosterItemId;
+- (int32_t) boosterItemId;
+- (UserBoosterItemProto_Builder*) setBoosterItemId:(int32_t) value;
+- (UserBoosterItemProto_Builder*) clearBoosterItemId;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (UserBoosterItemProto_Builder*) setUserId:(int32_t) value;
+- (UserBoosterItemProto_Builder*) clearUserId;
+
+- (BOOL) hasNumReceived;
+- (int32_t) numReceived;
+- (UserBoosterItemProto_Builder*) setNumReceived:(int32_t) value;
+- (UserBoosterItemProto_Builder*) clearNumReceived;
+@end
+
+@interface BoosterPackProto : PBGeneratedMessage {
+@private
+  BOOL hasId_:1;
+  BOOL hasCoinCost_:1;
+  BOOL hasDiamondCost_:1;
+  BOOL hasNumEquips_:1;
+  BOOL hasName_:1;
+  BOOL hasImage_:1;
+  BOOL hasDescription_:1;
+  int32_t id;
+  int32_t coinCost;
+  int32_t diamondCost;
+  int32_t numEquips;
+  NSString* name;
+  NSString* image;
+  NSString* description;
+  NSMutableArray* mutableBoosterItemsList;
+}
+- (BOOL) hasId;
+- (BOOL) hasCoinCost;
+- (BOOL) hasDiamondCost;
+- (BOOL) hasName;
+- (BOOL) hasImage;
+- (BOOL) hasDescription;
+- (BOOL) hasNumEquips;
+@property (readonly) int32_t id;
+@property (readonly) int32_t coinCost;
+@property (readonly) int32_t diamondCost;
+@property (readonly, retain) NSString* name;
+@property (readonly, retain) NSString* image;
+@property (readonly, retain) NSString* description;
+@property (readonly) int32_t numEquips;
+- (NSArray*) boosterItemsList;
+- (BoosterItemProto*) boosterItemsAtIndex:(int32_t) index;
+
++ (BoosterPackProto*) defaultInstance;
+- (BoosterPackProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BoosterPackProto_Builder*) builder;
++ (BoosterPackProto_Builder*) builder;
++ (BoosterPackProto_Builder*) builderWithPrototype:(BoosterPackProto*) prototype;
+
++ (BoosterPackProto*) parseFromData:(NSData*) data;
++ (BoosterPackProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BoosterPackProto*) parseFromInputStream:(NSInputStream*) input;
++ (BoosterPackProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BoosterPackProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BoosterPackProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BoosterPackProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BoosterPackProto* result;
+}
+
+- (BoosterPackProto*) defaultInstance;
+
+- (BoosterPackProto_Builder*) clear;
+- (BoosterPackProto_Builder*) clone;
+
+- (BoosterPackProto*) build;
+- (BoosterPackProto*) buildPartial;
+
+- (BoosterPackProto_Builder*) mergeFrom:(BoosterPackProto*) other;
+- (BoosterPackProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BoosterPackProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasId;
+- (int32_t) id;
+- (BoosterPackProto_Builder*) setId:(int32_t) value;
+- (BoosterPackProto_Builder*) clearId;
+
+- (BOOL) hasCoinCost;
+- (int32_t) coinCost;
+- (BoosterPackProto_Builder*) setCoinCost:(int32_t) value;
+- (BoosterPackProto_Builder*) clearCoinCost;
+
+- (BOOL) hasDiamondCost;
+- (int32_t) diamondCost;
+- (BoosterPackProto_Builder*) setDiamondCost:(int32_t) value;
+- (BoosterPackProto_Builder*) clearDiamondCost;
+
+- (BOOL) hasName;
+- (NSString*) name;
+- (BoosterPackProto_Builder*) setName:(NSString*) value;
+- (BoosterPackProto_Builder*) clearName;
+
+- (BOOL) hasImage;
+- (NSString*) image;
+- (BoosterPackProto_Builder*) setImage:(NSString*) value;
+- (BoosterPackProto_Builder*) clearImage;
+
+- (BOOL) hasDescription;
+- (NSString*) description;
+- (BoosterPackProto_Builder*) setDescription:(NSString*) value;
+- (BoosterPackProto_Builder*) clearDescription;
+
+- (BOOL) hasNumEquips;
+- (int32_t) numEquips;
+- (BoosterPackProto_Builder*) setNumEquips:(int32_t) value;
+- (BoosterPackProto_Builder*) clearNumEquips;
+
+- (NSArray*) boosterItemsList;
+- (BoosterItemProto*) boosterItemsAtIndex:(int32_t) index;
+- (BoosterPackProto_Builder*) replaceBoosterItemsAtIndex:(int32_t) index with:(BoosterItemProto*) value;
+- (BoosterPackProto_Builder*) addBoosterItems:(BoosterItemProto*) value;
+- (BoosterPackProto_Builder*) addAllBoosterItems:(NSArray*) values;
+- (BoosterPackProto_Builder*) clearBoosterItemsList;
+@end
+
+@interface BoosterItemProto : PBGeneratedMessage {
+@private
+  BOOL hasIsSpecial_:1;
+  BOOL hasId_:1;
+  BOOL hasEquipId_:1;
+  BOOL hasQuantity_:1;
+  BOOL isSpecial_:1;
+  int32_t id;
+  int32_t equipId;
+  int32_t quantity;
+}
+- (BOOL) hasId;
+- (BOOL) hasEquipId;
+- (BOOL) hasQuantity;
+- (BOOL) hasIsSpecial;
+@property (readonly) int32_t id;
+@property (readonly) int32_t equipId;
+@property (readonly) int32_t quantity;
+- (BOOL) isSpecial;
+
++ (BoosterItemProto*) defaultInstance;
+- (BoosterItemProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BoosterItemProto_Builder*) builder;
++ (BoosterItemProto_Builder*) builder;
++ (BoosterItemProto_Builder*) builderWithPrototype:(BoosterItemProto*) prototype;
+
++ (BoosterItemProto*) parseFromData:(NSData*) data;
++ (BoosterItemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BoosterItemProto*) parseFromInputStream:(NSInputStream*) input;
++ (BoosterItemProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BoosterItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BoosterItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BoosterItemProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BoosterItemProto* result;
+}
+
+- (BoosterItemProto*) defaultInstance;
+
+- (BoosterItemProto_Builder*) clear;
+- (BoosterItemProto_Builder*) clone;
+
+- (BoosterItemProto*) build;
+- (BoosterItemProto*) buildPartial;
+
+- (BoosterItemProto_Builder*) mergeFrom:(BoosterItemProto*) other;
+- (BoosterItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BoosterItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasId;
+- (int32_t) id;
+- (BoosterItemProto_Builder*) setId:(int32_t) value;
+- (BoosterItemProto_Builder*) clearId;
+
+- (BOOL) hasEquipId;
+- (int32_t) equipId;
+- (BoosterItemProto_Builder*) setEquipId:(int32_t) value;
+- (BoosterItemProto_Builder*) clearEquipId;
+
+- (BOOL) hasQuantity;
+- (int32_t) quantity;
+- (BoosterItemProto_Builder*) setQuantity:(int32_t) value;
+- (BoosterItemProto_Builder*) clearQuantity;
+
+- (BOOL) hasIsSpecial;
+- (BOOL) isSpecial;
+- (BoosterItemProto_Builder*) setIsSpecial:(BOOL) value;
+- (BoosterItemProto_Builder*) clearIsSpecial;
+@end
+
+@interface MinimumUserProtoForClanTowerScores : PBGeneratedMessage {
+@private
+  BOOL hasPointsGained_:1;
+  BOOL hasPointsLost_:1;
+  BOOL hasMinUserProtoWithLevel_:1;
+  int32_t pointsGained;
+  int32_t pointsLost;
+  MinimumUserProtoWithLevel* minUserProtoWithLevel;
+}
+- (BOOL) hasMinUserProtoWithLevel;
+- (BOOL) hasPointsGained;
+- (BOOL) hasPointsLost;
+@property (readonly, retain) MinimumUserProtoWithLevel* minUserProtoWithLevel;
+@property (readonly) int32_t pointsGained;
+@property (readonly) int32_t pointsLost;
+
++ (MinimumUserProtoForClanTowerScores*) defaultInstance;
+- (MinimumUserProtoForClanTowerScores*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MinimumUserProtoForClanTowerScores_Builder*) builder;
++ (MinimumUserProtoForClanTowerScores_Builder*) builder;
++ (MinimumUserProtoForClanTowerScores_Builder*) builderWithPrototype:(MinimumUserProtoForClanTowerScores*) prototype;
+
++ (MinimumUserProtoForClanTowerScores*) parseFromData:(NSData*) data;
++ (MinimumUserProtoForClanTowerScores*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserProtoForClanTowerScores*) parseFromInputStream:(NSInputStream*) input;
++ (MinimumUserProtoForClanTowerScores*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserProtoForClanTowerScores*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MinimumUserProtoForClanTowerScores*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MinimumUserProtoForClanTowerScores_Builder : PBGeneratedMessage_Builder {
+@private
+  MinimumUserProtoForClanTowerScores* result;
+}
+
+- (MinimumUserProtoForClanTowerScores*) defaultInstance;
+
+- (MinimumUserProtoForClanTowerScores_Builder*) clear;
+- (MinimumUserProtoForClanTowerScores_Builder*) clone;
+
+- (MinimumUserProtoForClanTowerScores*) build;
+- (MinimumUserProtoForClanTowerScores*) buildPartial;
+
+- (MinimumUserProtoForClanTowerScores_Builder*) mergeFrom:(MinimumUserProtoForClanTowerScores*) other;
+- (MinimumUserProtoForClanTowerScores_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MinimumUserProtoForClanTowerScores_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMinUserProtoWithLevel;
+- (MinimumUserProtoWithLevel*) minUserProtoWithLevel;
+- (MinimumUserProtoForClanTowerScores_Builder*) setMinUserProtoWithLevel:(MinimumUserProtoWithLevel*) value;
+- (MinimumUserProtoForClanTowerScores_Builder*) setMinUserProtoWithLevelBuilder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
+- (MinimumUserProtoForClanTowerScores_Builder*) mergeMinUserProtoWithLevel:(MinimumUserProtoWithLevel*) value;
+- (MinimumUserProtoForClanTowerScores_Builder*) clearMinUserProtoWithLevel;
+
+- (BOOL) hasPointsGained;
+- (int32_t) pointsGained;
+- (MinimumUserProtoForClanTowerScores_Builder*) setPointsGained:(int32_t) value;
+- (MinimumUserProtoForClanTowerScores_Builder*) clearPointsGained;
+
+- (BOOL) hasPointsLost;
+- (int32_t) pointsLost;
+- (MinimumUserProtoForClanTowerScores_Builder*) setPointsLost:(int32_t) value;
+- (MinimumUserProtoForClanTowerScores_Builder*) clearPointsLost;
 @end
 
 @interface EquipEnhancementProto : PBGeneratedMessage {
@@ -989,6 +1387,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasOwnerBattlesWin_:1;
   BOOL hasAttackerBattlesWin_:1;
   BOOL hasNumHoursForBattle_:1;
+  BOOL hasCurrentBattleId_:1;
   BOOL hasTowerName_:1;
   BOOL hasTowerImageName_:1;
   BOOL hasTowerOwner_:1;
@@ -1004,6 +1403,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t ownerBattlesWin;
   int32_t attackerBattlesWin;
   int32_t numHoursForBattle;
+  int32_t currentBattleId;
   NSString* towerName;
   NSString* towerImageName;
   MinimumClanProto* towerOwner;
@@ -1025,6 +1425,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasNumHoursForBattle;
 - (BOOL) hasLastRewardGiven;
 - (BOOL) hasTitleColor;
+- (BOOL) hasCurrentBattleId;
 @property (readonly) int32_t towerId;
 @property (readonly, retain) NSString* towerName;
 @property (readonly, retain) NSString* towerImageName;
@@ -1040,6 +1441,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t numHoursForBattle;
 @property (readonly) int64_t lastRewardGiven;
 @property (readonly, retain) ColorProto* titleColor;
+@property (readonly) int32_t currentBattleId;
 
 + (ClanTowerProto*) defaultInstance;
 - (ClanTowerProto*) defaultInstance;
@@ -1155,6 +1557,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (ClanTowerProto_Builder*) setTitleColorBuilder:(ColorProto_Builder*) builderForValue;
 - (ClanTowerProto_Builder*) mergeTitleColor:(ColorProto*) value;
 - (ClanTowerProto_Builder*) clearTitleColor;
+
+- (BOOL) hasCurrentBattleId;
+- (int32_t) currentBattleId;
+- (ClanTowerProto_Builder*) setCurrentBattleId:(int32_t) value;
+- (ClanTowerProto_Builder*) clearCurrentBattleId;
 @end
 
 @interface GoldSaleProto : PBGeneratedMessage {

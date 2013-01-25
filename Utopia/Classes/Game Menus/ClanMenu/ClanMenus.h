@@ -97,6 +97,7 @@ typedef enum {
 @property (nonatomic, retain) FullClanProtoWithClanSize *clan;
 @property (nonatomic, retain) IBOutlet UILabel *topLabel;
 @property (nonatomic, retain) IBOutlet UILabel *botLabel;
+@property (nonatomic, retain) CAGradientLayer *gradientLayer;
 
 @end
 

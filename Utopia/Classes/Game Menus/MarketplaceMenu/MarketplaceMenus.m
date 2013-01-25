@@ -203,9 +203,8 @@
     self.priceIcon.highlighted = YES;
     self.priceLabel.text = [Globals commafyNumber:proto.diamondCost];
   }
-#warning fix mktplace
-  self.attStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:proto.postedEquip.equipId level:proto.equipLevel enhancePercent:0]];
-  self.defStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:proto.postedEquip.equipId level:proto.equipLevel enhancePercent:0]];
+  self.attStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:proto.postedEquip.equipId level:proto.equipLevel enhancePercent:proto.equipEnhancementPercent]];
+  self.defStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:proto.postedEquip.equipId level:proto.equipLevel enhancePercent:proto.equipEnhancementPercent]];
   self.postTitle.text = proto.postedEquip.name;
   self.postTitle.textColor = [Globals colorForRarity:proto.postedEquip.rarity];
   self.equipTypeLabel.text = [Globals stringForEquipType:proto.postedEquip.equipType];
@@ -291,9 +290,8 @@
   titleLabel.textColor = [Globals colorForRarity:fep.rarity];
   classLabel.text = [Globals stringForEquipClassType:fep.classType];
   typeLabel.text = [Globals stringForEquipType:fep.equipType];
-#warning fix mktplace
-  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:m.equipLevel enhancePercent:0]];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:m.equipLevel enhancePercent:0]];
+  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:m.equipLevel enhancePercent:m.equipEnhancementPercent]];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:m.equipLevel enhancePercent:m.equipEnhancementPercent]];
   levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
   levelIcon.level = m.equipLevel;
   [playerNameButton setTitle:[Globals fullNameWithName:m.poster.name clanTag:m.poster.clan.tag] forState:UIControlStateNormal];
