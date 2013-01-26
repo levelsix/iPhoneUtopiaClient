@@ -272,7 +272,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(BossEventMenuController);
 
 - (void) didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
-  if (!self.view.superview) {
+  if (self.isViewLoaded && !self.view.superview) {
     self.view = nil;
     self.eventTimeLabel = nil;
     self.mainView = nil;

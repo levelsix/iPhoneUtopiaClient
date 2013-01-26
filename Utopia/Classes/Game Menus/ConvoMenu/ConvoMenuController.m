@@ -94,7 +94,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ConvoMenuController);
 - (void) didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  if (!self.view.superview) {
+  if (self.isViewLoaded && !self.view.superview) {
     self.view = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

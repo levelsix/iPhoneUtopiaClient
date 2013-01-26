@@ -1435,7 +1435,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) retrieveUsersForUserIds:(NSArray *)userIds {
   GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveUsersForUserIds:[[NSSet setWithArray:userIds] allObjects]];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveUsersForUserIds:[[NSSet setWithArray:userIds] allObjects] includePotentialPoints:NO];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+}
+
+- (void) retrieveUsersForUserIdsWithPoints:(NSArray *)userIds {
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveUsersForUserIds:[[NSSet setWithArray:userIds] allObjects] includePotentialPoints:YES];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
@@ -2192,6 +2198,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   int tag = [[SocketCommunication sharedSocketCommunication] sendCollectEquipEnhancementMessage:enhancementId speedup:speedup time:[self getCurrentMilliseconds]];
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gold]];
+  [gs stopEnhancementTimer];
 }
 
 - (void) retrieveClanTowerScores:(int)towerId {

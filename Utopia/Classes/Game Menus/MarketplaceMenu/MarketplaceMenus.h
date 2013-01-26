@@ -42,6 +42,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *leatherBackground;
 @property (nonatomic, retain) IBOutlet UILabel *equipTypeLabel;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *enhanceIcon;
 
 @property (nonatomic, assign) MarketCellState state;
 @property (nonatomic, retain) FullMarketplacePostProto *mktProto;
@@ -87,6 +88,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIButton *playerNameButton;
 @property (nonatomic, retain) IBOutlet EquipButton *equipIcon;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *enhanceIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *armoryPriceIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *postedPriceIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *savePriceIcon;

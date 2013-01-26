@@ -11650,12 +11650,16 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
 
 @interface RetrieveUsersForUserIdsRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasIncludePotentialPointsForClanTowers_:1;
   BOOL hasSender_:1;
+  BOOL includePotentialPointsForClanTowers_:1;
   MinimumUserProto* sender;
   NSMutableArray* mutableRequestedUserIdsList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasIncludePotentialPointsForClanTowers;
 @property (readonly, retain) MinimumUserProto* sender;
+- (BOOL) includePotentialPointsForClanTowers;
 - (NSArray*) requestedUserIdsList;
 - (int32_t) requestedUserIdsAtIndex:(int32_t) index;
 
@@ -11706,18 +11710,26 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
 - (RetrieveUsersForUserIdsRequestProto_Builder*) addRequestedUserIds:(int32_t) value;
 - (RetrieveUsersForUserIdsRequestProto_Builder*) addAllRequestedUserIds:(NSArray*) values;
 - (RetrieveUsersForUserIdsRequestProto_Builder*) clearRequestedUserIdsList;
+
+- (BOOL) hasIncludePotentialPointsForClanTowers;
+- (BOOL) includePotentialPointsForClanTowers;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) setIncludePotentialPointsForClanTowers:(BOOL) value;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clearIncludePotentialPointsForClanTowers;
 @end
 
 @interface RetrieveUsersForUserIdsResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
+  NSMutableArray* mutablePotentialPointsList;
   NSMutableArray* mutableRequestedUsersList;
 }
 - (BOOL) hasSender;
 @property (readonly, retain) MinimumUserProto* sender;
 - (NSArray*) requestedUsersList;
 - (FullUserProto*) requestedUsersAtIndex:(int32_t) index;
+- (NSArray*) potentialPointsList;
+- (int32_t) potentialPointsAtIndex:(int32_t) index;
 
 + (RetrieveUsersForUserIdsResponseProto*) defaultInstance;
 - (RetrieveUsersForUserIdsResponseProto*) defaultInstance;
@@ -11766,6 +11778,13 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
 - (RetrieveUsersForUserIdsResponseProto_Builder*) addRequestedUsers:(FullUserProto*) value;
 - (RetrieveUsersForUserIdsResponseProto_Builder*) addAllRequestedUsers:(NSArray*) values;
 - (RetrieveUsersForUserIdsResponseProto_Builder*) clearRequestedUsersList;
+
+- (NSArray*) potentialPointsList;
+- (int32_t) potentialPointsAtIndex:(int32_t) index;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) replacePotentialPointsAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addPotentialPoints:(int32_t) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addAllPotentialPoints:(NSArray*) values;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clearPotentialPointsList;
 @end
 
 @interface PostOnPlayerWallRequestProto : PBGeneratedMessage {

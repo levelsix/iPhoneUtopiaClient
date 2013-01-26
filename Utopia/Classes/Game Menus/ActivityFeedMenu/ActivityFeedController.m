@@ -99,6 +99,16 @@
     [userIcon setImage:[Globals imageNamed:@"blacksmithicon.png"] forState:UIControlStateNormal];
     
     buttonLabel.text = @"Visit";
+  } else if (notification.type == kNotificationEnhance) {
+    FullEquipProto *fep = [gs equipWithId:notification.forgeEquipId];
+    titleLabel.text = [NSString stringWithFormat:@"The Blacksmith has enhanced your %@.", fep.name];
+    subtitleLabel.text = @"Visit to collect it.";
+    
+    titleLabel.textColor = [Globals orangeColor];
+    [button setImage:[Globals imageNamed:@"checkstatus.png"] forState:UIControlStateNormal];
+    [userIcon setImage:[Globals imageNamed:@"blacksmithicon.png"] forState:UIControlStateNormal];
+    
+    buttonLabel.text = @"Visit";
   } else if (notification.type == kNotificationGoldmine) {
     if (notification.goldmineCollect) {
       titleLabel.text = [NSString stringWithFormat:@"The Gold Mine has produced %d gold.", gl.goldAmountFromGoldminePickup];
@@ -169,6 +179,10 @@
     [Analytics clickedRevenge];
   } else if (notification.type == kNotificationForge) {
     [ForgeMenuController displayView];
+    [[ActivityFeedController sharedActivityFeedController] close];
+  } else if (notification.type == kNotificationEnhance) {
+    [ForgeMenuController displayView];
+    [[ForgeMenuController sharedForgeMenuController] displayEnhanceMenu];
     [[ActivityFeedController sharedActivityFeedController] close];
   } else if (notification.type == kNotificationGoldmine) {
     [[GameLayer sharedGameLayer] loadBazaarMap];
@@ -323,7 +337,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  if (!self.view.superview) {
+  if (self.isViewLoaded && !self.view.superview) {
     self.view = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

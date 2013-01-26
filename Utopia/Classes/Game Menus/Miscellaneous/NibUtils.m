@@ -346,6 +346,9 @@
   self.darkOverlay = [[[UIImageView alloc] initWithFrame:self.bounds] autorelease];
   self.darkOverlay.contentMode = UIViewContentModeScaleAspectFit;
   
+  self.level = 1;
+  self.enhancePercent = 0;
+  
   [self addSubview:darkOverlay];
 }
 
@@ -359,7 +362,7 @@
 
 - (void) equipClicked {
   if (equipId != 0) {
-    [EquipMenuController displayViewForEquip:self.equipId];
+    [EquipMenuController displayViewForEquip:self.equipId level:self.level enhancePercent:self.enhancePercent];
   }
 }
 

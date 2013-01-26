@@ -49,15 +49,18 @@
 @synthesize leftRarityLabel1, leftRarityLabel2, leftRarityLabel3;
 @synthesize leftEquipIcon1, leftEquipIcon2, leftEquipIcon3;
 @synthesize leftEquipLevelIcon1, leftEquipLevelIcon2, leftEquipLevelIcon3;
+@synthesize leftEnhanceLevelIcon1, leftEnhanceLevelIcon2, leftEnhanceLevelIcon3;
 @synthesize rightRarityLabel1, rightRarityLabel2, rightRarityLabel3;
 @synthesize rightEquipIcon1, rightEquipIcon2, rightEquipIcon3;
 @synthesize rightEquipLevelIcon1, rightEquipLevelIcon2, rightEquipLevelIcon3;
+@synthesize rightEnhanceLevelIcon1, rightEnhanceLevelIcon2, rightEnhanceLevelIcon3;
 @synthesize coinsGainedLabel, coinsLostLabel, expGainedLabel;
 @synthesize winLabelsView, defeatLabelsView;
 @synthesize mainView, bgdView;
 
 - (void) loadBattleSummaryForBattleResponse:(BattleResponseProto *)brp enemy:(FullUserProto *)fup {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
   leftNameLabel.text = gs.name;
   leftLevelLabel.text = [NSString stringWithFormat:@"Lvl %d", gs.level];
@@ -68,99 +71,129 @@
   rightPlayerIcon.image = [Globals squareImageForUser:fup.userType];
   
   UILabel *rarityLabel = leftRarityLabel1;
-  EquipButton *imgView = leftEquipIcon1;
+  EquipButton *equipButton = leftEquipIcon1;
   EquipLevelIcon *levelIcon = leftEquipLevelIcon1;
+  EnhancementLevelIcon *enhanceIcon = leftEnhanceLevelIcon1;
   UserEquip *ue = [gs myEquipWithUserEquipId:gs.weaponEquipped];
   if (ue) {
     FullEquipProto *fep = [gs equipWithId:ue.equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    imgView.equipId = fep.equipId;
+    equipButton.equipId = fep.equipId;
+    equipButton.level = ue.level;
+    equipButton.enhancePercent = ue.enhancementPercentage;
     levelIcon.level = ue.level;
+    enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
   } else {
     rarityLabel.text = @"";
-    imgView.image = nil;
+    equipButton.image = nil;
     levelIcon.level = 0;
+    enhanceIcon.level = 0;
   }
   
   rarityLabel = leftRarityLabel2;
-  imgView = leftEquipIcon2;
+  equipButton = leftEquipIcon2;
   levelIcon = leftEquipLevelIcon2;
+  enhanceIcon = leftEnhanceLevelIcon2;
   ue = [gs myEquipWithUserEquipId:gs.armorEquipped];
   if (ue) {
     FullEquipProto *fep = [gs equipWithId:ue.equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    imgView.equipId = fep.equipId;
+    equipButton.equipId = fep.equipId;
+    equipButton.level = ue.level;
+    equipButton.enhancePercent = ue.enhancementPercentage;
     levelIcon.level = ue.level;
+    enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
   } else {
     rarityLabel.text = @"";
-    imgView.image = nil;
+    equipButton.image = nil;
     levelIcon.level = 0;
+    enhanceIcon.level = 0;
   }
   
   rarityLabel = leftRarityLabel3;
-  imgView = leftEquipIcon3;
+  equipButton = leftEquipIcon3;
   levelIcon = leftEquipLevelIcon3;
+  enhanceIcon = leftEnhanceLevelIcon3;
   ue = [gs myEquipWithUserEquipId:gs.amuletEquipped];
   if (ue) {
     FullEquipProto *fep = [gs equipWithId:ue.equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    imgView.equipId = fep.equipId;
+    equipButton.equipId = fep.equipId;
+    equipButton.level = ue.level;
+    equipButton.enhancePercent = ue.enhancementPercentage;
     levelIcon.level = ue.level;
+    enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
   } else {
     rarityLabel.text = @"";
-    imgView.image = nil;
+    equipButton.image = nil;
     levelIcon.level = 0;
+    enhanceIcon.level = 0;
   }
   
   rarityLabel = rightRarityLabel1;
-  imgView = rightEquipIcon1;
+  equipButton = rightEquipIcon1;
   levelIcon = rightEquipLevelIcon1;
+  enhanceIcon = rightEnhanceLevelIcon1;
   FullUserEquipProto *fuep = fup.weaponEquippedUserEquip;
   if (fup.hasWeaponEquippedUserEquip) {
     FullEquipProto *fep = [gs equipWithId:fuep.equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    imgView.equipId = fep.equipId;
+    equipButton.equipId = fep.equipId;
+    equipButton.level = fuep.level;
+    equipButton.enhancePercent = fuep.enhancementPercentage;
     levelIcon.level = fuep.level;
+    enhanceIcon.level = [gl calculateEnhancementLevel:fuep.enhancementPercentage];
   } else {
     rarityLabel.text = @"";
-    imgView.image = nil;
+    equipButton.image = nil;
     levelIcon.level = 0;
+    enhanceIcon.level = 0;
   }
   
   rarityLabel = rightRarityLabel2;
-  imgView = rightEquipIcon2;
+  equipButton = rightEquipIcon2;
   levelIcon = rightEquipLevelIcon2;
+  enhanceIcon = rightEnhanceLevelIcon2;
   fuep = fup.armorEquippedUserEquip;
   if (fup.hasArmorEquippedUserEquip) {
     FullEquipProto *fep = [gs equipWithId:fuep.equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    imgView.equipId = fep.equipId;
+    equipButton.equipId = fep.equipId;
+    equipButton.level = fuep.level;
+    equipButton.enhancePercent = fuep.enhancementPercentage;
     levelIcon.level = fuep.level;
+    enhanceIcon.level = [gl calculateEnhancementLevel:fuep.enhancementPercentage];
   } else {
     rarityLabel.text = @"";
-    imgView.image = nil;
+    equipButton.image = nil;
     levelIcon.level = 0;
+    enhanceIcon.level = 0;
   }
   
   rarityLabel = rightRarityLabel3;
-  imgView = rightEquipIcon3;
+  equipButton = rightEquipIcon3;
   levelIcon = rightEquipLevelIcon3;
+  enhanceIcon = rightEnhanceLevelIcon3;
   fuep = fup.amuletEquippedUserEquip;
   if (fup.hasAmuletEquippedUserEquip) {
     FullEquipProto *fep = [gs equipWithId:fuep.equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    imgView.equipId = fep.equipId;
+    equipButton.equipId = fep.equipId;
+    equipButton.level = fuep.level;
+    equipButton.enhancePercent = fuep.enhancementPercentage;
     levelIcon.level = fuep.level;
+    enhanceIcon.level = [gl calculateEnhancementLevel:fuep.enhancementPercentage];
   } else {
     rarityLabel.text = @"";
-    imgView.image = nil;
+    equipButton.image = nil;
     levelIcon.level = 0;
+    enhanceIcon.level = 0;
   }
   
   if (brp.hasExpGained) {
@@ -193,6 +226,9 @@
   self.leftEquipLevelIcon1 = nil;
   self.leftEquipLevelIcon2 = nil;
   self.leftEquipLevelIcon3 = nil;
+  self.leftEnhanceLevelIcon1 = nil;
+  self.leftEnhanceLevelIcon2 = nil;
+  self.leftEnhanceLevelIcon3 = nil;
   self.rightRarityLabel1 = nil;
   self.rightRarityLabel2 = nil;
   self.rightRarityLabel3 = nil;
@@ -202,6 +238,9 @@
   self.rightEquipLevelIcon1 = nil;
   self.rightEquipLevelIcon2 = nil;
   self.rightEquipLevelIcon3 = nil;
+  self.rightEnhanceLevelIcon1 = nil;
+  self.rightEnhanceLevelIcon2 = nil;
+  self.rightEnhanceLevelIcon3 = nil;
   self.coinsGainedLabel = nil;
   self.coinsLostLabel = nil;
   self.expGainedLabel = nil;
@@ -229,9 +268,11 @@
   attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fuep.equipId level:fuep.level enhancePercent:fuep.enhancementPercentage]];
   defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fuep.equipId level:fuep.level enhancePercent:fuep.enhancementPercentage]];
   levelIcon.level = fuep.level;
+  self.enhanceIcon.level = [gl calculateEnhancementLevel:fuep.enhancementPercentage];
   
   statsView.hidden = NO;
   levelIcon.hidden = NO;
+  self.enhanceIcon.hidden = NO;
 }
 
 - (void) loadForLockBox:(int)eventId {
@@ -245,6 +286,7 @@
   
   statsView.hidden = YES;
   levelIcon.hidden = YES;
+  self.enhanceIcon.hidden = YES;
 }
 
 - (void) dealloc {
@@ -255,6 +297,7 @@
   self.mainView = nil;
   self.bgdView = nil;
   self.levelIcon = nil;
+  self.enhanceIcon = nil;
   self.statsView = nil;
   [super dealloc];
 }

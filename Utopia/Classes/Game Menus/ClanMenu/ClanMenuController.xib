@@ -4884,6 +4884,30 @@ KGNvbWluZyBzb29uISk</string>
 				<object class="IBPartialClassDescription">
 					<string key="className">ClanMenuController</string>
 					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="backClicked:">id</string>
+						<string key="editClicked:">id</string>
+						<string key="goldBarClicked:">id</string>
+						<string key="upgradeClanClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="backClicked:">
+							<string key="name">backClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="editClicked:">
+							<string key="name">editClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="goldBarClicked:">
+							<string key="name">goldBarClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="upgradeClanClicked:">
+							<string key="name">upgradeClanClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="backLabel">UILabel</string>
 						<string key="backView">UIView</string>
@@ -4893,6 +4917,7 @@ KGNvbWluZyBzb29uISk</string>
 						<string key="clanBrowseView">ClanBrowseView</string>
 						<string key="clanCreateView">ClanCreateView</string>
 						<string key="clanInfoView">ClanInfoView</string>
+						<string key="clanTowerScoresTab">ClanTowerScoresTab</string>
 						<string key="clanTowerTab">ClanTowerTab</string>
 						<string key="containerView">UIView</string>
 						<string key="editLabel">UILabel</string>
@@ -4937,6 +4962,10 @@ KGNvbWluZyBzb29uISk</string>
 						<object class="IBToOneOutletInfo" key="clanInfoView">
 							<string key="name">clanInfoView</string>
 							<string key="candidateClassName">ClanInfoView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="clanTowerScoresTab">
+							<string key="name">clanTowerScoresTab</string>
+							<string key="candidateClassName">ClanTowerScoresTab</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="clanTowerTab">
 							<string key="name">clanTowerTab</string>
@@ -5198,11 +5227,111 @@ KGNvbWluZyBzb29uISk</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">ClanTowerScoresCell</string>
+					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="gainedLabel">UILabel</string>
+						<string key="lostLabel">UILabel</string>
+						<string key="nameLabel">UIButton</string>
+						<string key="rankLabel">UILabel</string>
+						<string key="slashLabel">UILabel</string>
+						<string key="userIcon">UIButton</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="gainedLabel">
+							<string key="name">gainedLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="lostLabel">
+							<string key="name">lostLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="nameLabel">
+							<string key="name">nameLabel</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="rankLabel">
+							<string key="name">rankLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="slashLabel">
+							<string key="name">slashLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="userIcon">
+							<string key="name">userIcon</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanTowerScoresCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanTowerScoresTab</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="attackerLabel">UILabel</string>
+						<string key="attackerSpinner">UIActivityIndicatorView</string>
+						<string key="attackerTable">UITableView</string>
+						<string key="ownerLabel">UILabel</string>
+						<string key="ownerSpinner">UIActivityIndicatorView</string>
+						<string key="ownerTable">UITableView</string>
+						<string key="scoresCell">ClanTowerScoresCell</string>
+						<string key="tickerDelegate">ClanTowerTickerDelegate</string>
+						<string key="tickerTable">UITableView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="attackerLabel">
+							<string key="name">attackerLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="attackerSpinner">
+							<string key="name">attackerSpinner</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="attackerTable">
+							<string key="name">attackerTable</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ownerLabel">
+							<string key="name">ownerLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ownerSpinner">
+							<string key="name">ownerSpinner</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ownerTable">
+							<string key="name">ownerTable</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="scoresCell">
+							<string key="name">scoresCell</string>
+							<string key="candidateClassName">ClanTowerScoresCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tickerDelegate">
+							<string key="name">tickerDelegate</string>
+							<string key="candidateClassName">ClanTowerTickerDelegate</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tickerTable">
+							<string key="name">tickerTable</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanTowerScoresTab.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">ClanTowerTab</string>
 					<string key="superclassName">UIView</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="concedeClicked:">id</string>
 						<string key="redButtonClicked:">id</string>
+						<string key="towerViewClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="concedeClicked:">
@@ -5211,6 +5340,10 @@ KGNvbWluZyBzb29uISk</string>
 						</object>
 						<object class="IBActionInfo" key="redButtonClicked:">
 							<string key="name">redButtonClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="towerViewClicked:">
+							<string key="name">towerViewClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -5236,6 +5369,67 @@ KGNvbWluZyBzb29uISk</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/ClanTowerTab.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanTowerTickerCell</string>
+					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="attackerLabel">UILabel</string>
+						<string key="defenderLabel">UILabel</string>
+						<string key="endLabel">UILabel</string>
+						<string key="middleLabel">UILabel</string>
+						<string key="pointsLabel">UILabel</string>
+						<string key="timeLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="attackerLabel">
+							<string key="name">attackerLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="defenderLabel">
+							<string key="name">defenderLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="endLabel">
+							<string key="name">endLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="middleLabel">
+							<string key="name">middleLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="pointsLabel">
+							<string key="name">pointsLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeLabel">
+							<string key="name">timeLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanTowerTickerCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ClanTowerTickerDelegate</string>
+					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">tickerCell</string>
+						<string key="NS.object.0">ClanTowerTickerCell</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">tickerCell</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">tickerCell</string>
+							<string key="candidateClassName">ClanTowerTickerCell</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ClanTowerTickerDelegate.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

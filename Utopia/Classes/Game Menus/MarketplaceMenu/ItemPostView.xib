@@ -66,7 +66,7 @@
 								<string key="NSFrame">{{17, 0}, {445, 46}}</string>
 								<reference key="NSSuperview" ref="382439755"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="847323657"/>
+								<reference key="NSNextKeyView" ref="197471742"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">4</int>
@@ -87,7 +87,7 @@
 								<string key="NSFrame">{{27, 10}, {28, 26}}</string>
 								<reference key="NSSuperview" ref="382439755"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="197471742"/>
+								<reference key="NSNextKeyView" ref="437920589"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -372,7 +372,6 @@
 										<string key="NSFrame">{{15, 4}, {69, 22}}</string>
 										<reference key="NSSuperview" ref="73586500"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -408,7 +407,19 @@
 							<object class="IBUIImageView" id="197471742">
 								<reference key="NSNextResponder" ref="382439755"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{28, 10}, {12, 12}}</string>
+								<string key="NSFrame">{{25, 8}, {12, 12}}</string>
+								<reference key="NSSuperview" ref="382439755"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="847323657"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							</object>
+							<object class="IBUIImageView" id="437920589">
+								<reference key="NSNextResponder" ref="382439755"/>
+								<int key="NSvFlags">256</int>
+								<string key="NSFrame">{{45, 8}, {12, 12}}</string>
 								<reference key="NSSuperview" ref="382439755"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="367480153"/>
@@ -478,7 +489,6 @@
 						<string key="NSFrame">{{1, 3}, {97, 22}}</string>
 						<reference key="NSSuperview" ref="543668207"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -546,7 +556,6 @@
 						<string key="NSFrame">{{70, 0}, {30, 30}}</string>
 						<reference key="NSSuperview" ref="1056539006"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -634,7 +643,6 @@
 						<string key="NSFrame">{{33, 4}, {64, 22}}</string>
 						<reference key="NSSuperview" ref="697480060"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:328</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -753,7 +761,6 @@
 						<string key="NSFrame">{{86, 12}, {56, 20}}</string>
 						<reference key="NSSuperview" ref="1035562811"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -931,6 +938,14 @@
 					<int key="connectionID">234</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">enhanceIcon</string>
+						<reference key="source" ref="400043074"/>
+						<reference key="destination" ref="437920589"/>
+					</object>
+					<int key="connectionID">238</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">listButtonClicked:</string>
 						<reference key="source" ref="180341307"/>
@@ -1007,6 +1022,7 @@
 							<reference ref="370005057"/>
 							<reference ref="890841154"/>
 							<reference ref="197471742"/>
+							<reference ref="437920589"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -1227,6 +1243,11 @@
 						<reference key="object" ref="112670488"/>
 						<reference key="parent" ref="400043074"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">237</int>
+						<reference key="object" ref="437920589"/>
+						<reference key="parent" ref="400043074"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1276,6 +1297,8 @@
 				<string key="232.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="233.CustomClassName">EquipLevelIcon</string>
 				<string key="233.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="237.CustomClassName">EnhancementLevelIcon</string>
+				<string key="237.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="25.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="3.CustomClassName">ItemPostView</string>
 				<string key="3.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1288,7 +1311,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">236</int>
+			<int key="maxID">238</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1323,6 +1346,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/CoinBar.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">EnhancementLevelIcon</string>
+					<string key="superclassName">UIImageView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/EnhancementLevelIcon.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1400,6 +1431,7 @@
 						<string key="attStatLabel">UILabel</string>
 						<string key="buyButton">UIView</string>
 						<string key="defStatLabel">UILabel</string>
+						<string key="enhanceIcon">EnhancementLevelIcon</string>
 						<string key="equipTypeLabel">UILabel</string>
 						<string key="itemImageView">UIImageView</string>
 						<string key="leatherBackground">UIImageView</string>
@@ -1427,6 +1459,10 @@
 						<object class="IBToOneOutletInfo" key="defStatLabel">
 							<string key="name">defStatLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="enhanceIcon">
+							<string key="name">enhanceIcon</string>
+							<string key="candidateClassName">EnhancementLevelIcon</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="equipTypeLabel">
 							<string key="name">equipTypeLabel</string>
@@ -1523,6 +1559,7 @@
 						<string key="classLabel">UILabel</string>
 						<string key="crossOutView">UIView</string>
 						<string key="defenseLabel">UILabel</string>
+						<string key="enhanceIcon">EnhancementLevelIcon</string>
 						<string key="equipIcon">EquipButton</string>
 						<string key="levelIcon">EquipLevelIcon</string>
 						<string key="levelLabel">UILabel</string>
@@ -1565,6 +1602,10 @@
 						<object class="IBToOneOutletInfo" key="defenseLabel">
 							<string key="name">defenseLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="enhanceIcon">
+							<string key="name">enhanceIcon</string>
+							<string key="candidateClassName">EnhancementLevelIcon</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="equipIcon">
 							<string key="name">equipIcon</string>
@@ -1811,80 +1852,20 @@
 					<string key="superclassName">PullRefreshTableViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="backClicked:">id</string>
-						<string key="cancelRemoveClicked:">id</string>
-						<string key="closeFilterPage:">id</string>
-						<string key="collectClicked:">id</string>
-						<string key="doneClicked:">id</string>
-						<string key="listAnItemClicked:">id</string>
-						<string key="listButtonClicked:">id</string>
 						<string key="longLicenseClicked:">id</string>
-						<string key="minusButtonClicked:">id</string>
-						<string key="openFilterPage:">id</string>
-						<string key="removeItemClicked:">id</string>
-						<string key="searchBarClicked:">id</string>
 						<string key="shortLicenseClicked:">id</string>
-						<string key="submitClicked:">id</string>
-						<string key="submitCloseClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="backClicked:">
 							<string key="name">backClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="cancelRemoveClicked:">
-							<string key="name">cancelRemoveClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="closeFilterPage:">
-							<string key="name">closeFilterPage:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="collectClicked:">
-							<string key="name">collectClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="doneClicked:">
-							<string key="name">doneClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="listAnItemClicked:">
-							<string key="name">listAnItemClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="listButtonClicked:">
-							<string key="name">listButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="longLicenseClicked:">
 							<string key="name">longLicenseClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="minusButtonClicked:">
-							<string key="name">minusButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openFilterPage:">
-							<string key="name">openFilterPage:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="removeItemClicked:">
-							<string key="name">removeItemClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="searchBarClicked:">
-							<string key="name">searchBarClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="shortLicenseClicked:">
 							<string key="name">shortLicenseClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="submitClicked:">
-							<string key="name">submitClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="submitCloseClicked:">
-							<string key="name">submitCloseClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

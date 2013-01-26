@@ -30,16 +30,18 @@
 @property (nonatomic, retain) IBOutlet UIView *tooLowLevelView;
 @property (nonatomic, retain) IBOutlet UIButton *buyButton;
 @property (nonatomic, retain) IBOutlet UILabel *buyLabel;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *enhanceIcon;
 
 @property (nonatomic, retain) IBOutlet LoadingView *loadingView;
 
 + (EquipMenuController *)sharedEquipMenuController;
-+ (void) displayViewForEquip:(int)equipId;
++ (void) displayViewForEquip:(int)equipId level:(int)level enhancePercent:(int)enhancePercent;
 + (void) displayView;
 + (void) removeView;
 + (void) purgeSingleton;
 
-- (void) updateForEquip:(int)equipId;
+- (void) updateForEquip:(int)equipId level:(int)level enhancePercent:(int)enhancePercent;
 - (void) receivedArmoryResponse:(ArmoryResponseProto *)proto;
 
 @end

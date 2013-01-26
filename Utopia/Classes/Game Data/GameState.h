@@ -101,6 +101,7 @@
   
   ForgeAttempt *_forgeAttempt;
   NSTimer *_forgeTimer;
+  NSTimer *_enhanceTimer;
   
   NSDate *_lastGoldmineRetrieval;
   NSTimer *_goldmineTimer;
@@ -224,6 +225,8 @@
 @property (nonatomic, retain) NSArray *clanTowers;
 @property (nonatomic, retain) NSMutableArray *clanTowerUserBattles;
 
+@property (nonatomic, assign) int clanChatBadgeNum;
+
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
 
@@ -254,6 +257,7 @@
 - (void) addWallPost:(PlayerWallPostProto *)wallPost;
 - (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin;
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope;
+- (void) clanChatViewed;
 
 - (UserEquip *) myEquipWithId:(int)equipId level:(int)level;
 - (NSArray *) myEquipsWithId:(int)equipId level:(int)level;

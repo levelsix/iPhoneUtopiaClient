@@ -25,10 +25,18 @@
   
   MinimumClanProto *mcp = ctub.attackerWon ? ctub.attacker.clan : ctub.defender.clan;
   self.pointsLabel.text = [NSString stringWithFormat:@"+%d %@", ctub.pointsGained, mcp.tag];
-  self.pointsLabel.textColor = mcp.isGood ? [Globals blueColor] : [Globals redColor];
   
-  CGSize s = [self.attackerLabel.text sizeWithFont:self.attackerLabel.font];
-  CGRect r = self.attackerLabel.frame;
+  CGSize s;
+  CGRect r;
+  
+  s = [self.timeLabel.text sizeWithFont:self.timeLabel.font];
+  r = self.timeLabel.frame;
+  r.origin.x += r.size.width-s.width;
+  r.size.width = s.width;
+  self.timeLabel.frame = r;
+  
+  s = [self.attackerLabel.text sizeWithFont:self.attackerLabel.font];
+  r = self.attackerLabel.frame;
   r.size.width = s.width;
   self.attackerLabel.frame = r;
   
@@ -50,15 +58,9 @@
   r.size.width = s.width;
   self.endLabel.frame = r;
   
-  s = [self.timeLabel.text sizeWithFont:self.timeLabel.font];
-  r = self.timeLabel.frame;
-  r.origin.x = CGRectGetMaxX(self.endLabel.frame)+2;
-  r.size.width = s.width;
-  self.timeLabel.frame = r;
-  
-  s = [self.pointsLabel.text sizeWithFont:self.timeLabel.font];
+  s = [self.pointsLabel.text sizeWithFont:self.pointsLabel.font];
   r = self.pointsLabel.frame;
-  r.origin.x = CGRectGetMaxX(self.timeLabel.frame)+2;
+  r.origin.x = CGRectGetMaxX(self.endLabel.frame)+2;
   r.size.width = s.width;
   self.pointsLabel.frame = r;
 }

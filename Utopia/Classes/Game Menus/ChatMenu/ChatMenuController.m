@@ -22,6 +22,11 @@
 - (void) awakeFromNib {
   [self clickButton:kButton1];
   [self unclickButton:kButton2];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (gs.clanChatBadgeNum > 0) {
+    self.button2Label.text = [NSString stringWithFormat:@"CLAN (%d)", gs.clanChatBadgeNum];
+  }
 }
 
 - (void) loadForIsGlobal:(BOOL)isGlobal {
@@ -140,6 +145,7 @@
 - (void) dealloc {
   self.button2 = nil;
   self.button1 = nil;
+  self.button2Label = nil;
   [super dealloc];
 }
 
@@ -358,7 +364,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     isGlobal = YES;
   } else {
     isGlobal = i;
+    
+    if (i == NO) {
+      [gs clanChatViewed];
+    }
   }
+  
   [self.chatTable reloadData];
   [self.topBar loadForIsGlobal:isGlobal];
   [self updateNumChatsLabel];
@@ -525,7 +536,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  if (!self.view.superview) {
+  if (self.isViewLoaded && !self.view.superview) {
     self.view = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

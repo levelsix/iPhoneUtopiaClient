@@ -2464,6 +2464,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SubmitEquipEnhancementResponseProto_EnhanceEquipStatusSuccess) {
     gs.equipEnhancement = proto.equipToEnhance;
+    [gs beginEnhancementTimer];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

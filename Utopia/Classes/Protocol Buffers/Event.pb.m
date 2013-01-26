@@ -44771,6 +44771,7 @@ static SendAdminMessageResponseProto* defaultSendAdminMessageResponseProtoInstan
 @interface RetrieveUsersForUserIdsRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableRequestedUserIdsList;
+@property BOOL includePotentialPointsForClanTowers;
 @end
 
 @implementation RetrieveUsersForUserIdsRequestProto
@@ -44783,6 +44784,18 @@ static SendAdminMessageResponseProto* defaultSendAdminMessageResponseProtoInstan
 }
 @synthesize sender;
 @synthesize mutableRequestedUserIdsList;
+- (BOOL) hasIncludePotentialPointsForClanTowers {
+  return !!hasIncludePotentialPointsForClanTowers_;
+}
+- (void) setHasIncludePotentialPointsForClanTowers:(BOOL) value {
+  hasIncludePotentialPointsForClanTowers_ = !!value;
+}
+- (BOOL) includePotentialPointsForClanTowers {
+  return !!includePotentialPointsForClanTowers_;
+}
+- (void) setIncludePotentialPointsForClanTowers:(BOOL) value {
+  includePotentialPointsForClanTowers_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.mutableRequestedUserIdsList = nil;
@@ -44791,6 +44804,7 @@ static SendAdminMessageResponseProto* defaultSendAdminMessageResponseProtoInstan
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.includePotentialPointsForClanTowers = NO;
   }
   return self;
 }
@@ -44823,6 +44837,9 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
   for (NSNumber* value in self.mutableRequestedUserIdsList) {
     [output writeInt32:2 value:[value intValue]];
   }
+  if (self.hasIncludePotentialPointsForClanTowers) {
+    [output writeBool:3 value:self.includePotentialPointsForClanTowers];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -44842,6 +44859,9 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
     }
     size += dataSize;
     size += 1 * self.mutableRequestedUserIdsList.count;
+  }
+  if (self.hasIncludePotentialPointsForClanTowers) {
+    size += computeBoolSize(3, self.includePotentialPointsForClanTowers);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -44927,6 +44947,9 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
     }
     [result.mutableRequestedUserIdsList addObjectsFromArray:other.mutableRequestedUserIdsList];
   }
+  if (other.hasIncludePotentialPointsForClanTowers) {
+    [self setIncludePotentialPointsForClanTowers:other.includePotentialPointsForClanTowers];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -44959,6 +44982,10 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
       }
       case 16: {
         [self addRequestedUserIds:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setIncludePotentialPointsForClanTowers:[input readBool]];
         break;
       }
     }
@@ -45025,11 +45052,28 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
   result.mutableRequestedUserIdsList = nil;
   return self;
 }
+- (BOOL) hasIncludePotentialPointsForClanTowers {
+  return result.hasIncludePotentialPointsForClanTowers;
+}
+- (BOOL) includePotentialPointsForClanTowers {
+  return result.includePotentialPointsForClanTowers;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) setIncludePotentialPointsForClanTowers:(BOOL) value {
+  result.hasIncludePotentialPointsForClanTowers = YES;
+  result.includePotentialPointsForClanTowers = value;
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clearIncludePotentialPointsForClanTowers {
+  result.hasIncludePotentialPointsForClanTowers = NO;
+  result.includePotentialPointsForClanTowers = NO;
+  return self;
+}
 @end
 
 @interface RetrieveUsersForUserIdsResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableRequestedUsersList;
+@property (retain) NSMutableArray* mutablePotentialPointsList;
 @end
 
 @implementation RetrieveUsersForUserIdsResponseProto
@@ -45042,9 +45086,11 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
 }
 @synthesize sender;
 @synthesize mutableRequestedUsersList;
+@synthesize mutablePotentialPointsList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableRequestedUsersList = nil;
+  self.mutablePotentialPointsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -45072,6 +45118,13 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
   id value = [mutableRequestedUsersList objectAtIndex:index];
   return value;
 }
+- (NSArray*) potentialPointsList {
+  return mutablePotentialPointsList;
+}
+- (int32_t) potentialPointsAtIndex:(int32_t) index {
+  id value = [mutablePotentialPointsList objectAtIndex:index];
+  return [value intValue];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -45081,6 +45134,9 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
   }
   for (FullUserProto* element in self.requestedUsersList) {
     [output writeMessage:2 value:element];
+  }
+  for (NSNumber* value in self.mutablePotentialPointsList) {
+    [output writeInt32:3 value:[value intValue]];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -45096,6 +45152,14 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
   }
   for (FullUserProto* element in self.requestedUsersList) {
     size += computeMessageSize(2, element);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutablePotentialPointsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutablePotentialPointsList.count;
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -45181,6 +45245,12 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
     }
     [result.mutableRequestedUsersList addObjectsFromArray:other.mutableRequestedUsersList];
   }
+  if (other.mutablePotentialPointsList.count > 0) {
+    if (result.mutablePotentialPointsList == nil) {
+      result.mutablePotentialPointsList = [NSMutableArray array];
+    }
+    [result.mutablePotentialPointsList addObjectsFromArray:other.mutablePotentialPointsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -45215,6 +45285,10 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
         FullUserProto_Builder* subBuilder = [FullUserProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRequestedUsers:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self addPotentialPoints:[input readInt32]];
         break;
       }
     }
@@ -45277,6 +45351,37 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
     result.mutableRequestedUsersList = [NSMutableArray array];
   }
   [result.mutableRequestedUsersList addObject:value];
+  return self;
+}
+- (NSArray*) potentialPointsList {
+  if (result.mutablePotentialPointsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutablePotentialPointsList;
+}
+- (int32_t) potentialPointsAtIndex:(int32_t) index {
+  return [result potentialPointsAtIndex:index];
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) replacePotentialPointsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutablePotentialPointsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addPotentialPoints:(int32_t) value {
+  if (result.mutablePotentialPointsList == nil) {
+    result.mutablePotentialPointsList = [NSMutableArray array];
+  }
+  [result.mutablePotentialPointsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addAllPotentialPoints:(NSArray*) values {
+  if (result.mutablePotentialPointsList == nil) {
+    result.mutablePotentialPointsList = [NSMutableArray array];
+  }
+  [result.mutablePotentialPointsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clearPotentialPointsList {
+  result.mutablePotentialPointsList = nil;
   return self;
 }
 @end

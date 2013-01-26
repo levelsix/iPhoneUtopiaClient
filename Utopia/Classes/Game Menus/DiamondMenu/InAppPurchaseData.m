@@ -77,7 +77,7 @@
   if (_saleProduct) {
     float normPrice = _product.price.floatValue;
     float salePrice = _saleProduct.price.floatValue;
-    return (int)ceilf((normPrice-salePrice)/normPrice*100.f);
+    return (int)roundf((normPrice-salePrice)/normPrice*100.f);
   }
   return 0;
 }

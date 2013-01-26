@@ -110,6 +110,8 @@
 @interface EquipButton : UIImageView
 
 @property (nonatomic, assign) int equipId;
+@property (nonatomic, assign) int level;
+@property (nonatomic, assign) int enhancePercent;
 @property (nonatomic, retain) UIImageView *darkOverlay;
 
 - (void) equipClicked;

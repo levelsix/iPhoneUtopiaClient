@@ -544,7 +544,6 @@
 										<string key="NSFrame">{{234, 203}, {218, 45}}</string>
 										<reference key="NSSuperview" ref="991513778"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -1347,7 +1346,6 @@
 						<string key="NSFrame">{{5, 27}, {216, 17}}</string>
 						<reference key="NSSuperview" ref="267232664"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -1407,7 +1405,6 @@
 								<string key="NSFrame">{{28, 30}, {37, 37}}</string>
 								<reference key="NSSuperview" ref="1005149518"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -1502,7 +1499,6 @@
 						<string key="NSFrame">{{77, 11}, {134, 24}}</string>
 						<reference key="NSSuperview" ref="284284991"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -1548,7 +1544,6 @@
 				<string key="NSFrameSize">{226, 48}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClipsSubviews">YES</bool>
@@ -1627,7 +1622,6 @@
 						<string key="NSFrame">{{104, 0}, {115, 45}}</string>
 						<reference key="NSSuperview" ref="378067463"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -1767,7 +1761,6 @@
 						<string key="NSFrame">{{256, 237}, {201, 19}}</string>
 						<reference key="NSSuperview" ref="53543506"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -2747,7 +2740,6 @@
 								<string key="NSFrame">{{30, -1}, {19, 20}}</string>
 								<reference key="NSSuperview" ref="458477505"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<int key="IBUITag">1</int>
@@ -3136,6 +3128,14 @@
 						<reference key="destination" ref="53543506"/>
 					</object>
 					<int key="connectionID">332</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">navBar</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="220237846"/>
+					</object>
+					<int key="connectionID">568</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -4973,7 +4973,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">567</int>
+			<int key="maxID">568</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5299,6 +5299,7 @@
 						<string key="itemView">ForgeItemView</string>
 						<string key="loadingView">LoadingView</string>
 						<string key="mainView">UIView</string>
+						<string key="navBar">ForgeTopBar</string>
 						<string key="notEnoughQuantityView">UIView</string>
 						<string key="notForgingMiddleView">UIView</string>
 						<string key="okayButton">UIButton</string>
@@ -5444,6 +5445,10 @@
 						<object class="IBToOneOutletInfo" key="mainView">
 							<string key="name">mainView</string>
 							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="navBar">
+							<string key="name">navBar</string>
+							<string key="candidateClassName">ForgeTopBar</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="notEnoughQuantityView">
 							<string key="name">notEnoughQuantityView</string>

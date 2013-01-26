@@ -764,9 +764,10 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveUserEquipForUser];
 }
 
-- (int) sendRetrieveUsersForUserIds:(NSArray *)userIds {
-  RetrieveUsersForUserIdsRequestProto *req = [[[[RetrieveUsersForUserIdsRequestProto builder]
+- (int) sendRetrieveUsersForUserIds:(NSArray *)userIds includePotentialPoints:(BOOL)points {
+  RetrieveUsersForUserIdsRequestProto *req = [[[[[RetrieveUsersForUserIdsRequestProto builder]
                                                 setSender:_sender]
+                                                setIncludePotentialPointsForClanTowers:points]
                                                addAllRequestedUserIds:userIds]
                                               build];
   

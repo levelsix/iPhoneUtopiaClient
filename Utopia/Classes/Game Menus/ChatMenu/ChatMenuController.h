@@ -20,6 +20,8 @@
 @property (nonatomic, retain) IBOutlet UIImageView *button1;
 @property (nonatomic, retain) IBOutlet UIImageView *button2;
 
+@property (nonatomic, retain) IBOutlet UILabel *button2Label;
+
 @end
 
 @interface ChatCell : UITableViewCell

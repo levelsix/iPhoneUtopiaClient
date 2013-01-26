@@ -1387,7 +1387,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasOwnerBattlesWin_:1;
   BOOL hasAttackerBattlesWin_:1;
   BOOL hasNumHoursForBattle_:1;
-  BOOL hasCurrentBattleId_:1;
   BOOL hasTowerName_:1;
   BOOL hasTowerImageName_:1;
   BOOL hasTowerOwner_:1;
@@ -1403,7 +1402,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t ownerBattlesWin;
   int32_t attackerBattlesWin;
   int32_t numHoursForBattle;
-  int32_t currentBattleId;
   NSString* towerName;
   NSString* towerImageName;
   MinimumClanProto* towerOwner;
@@ -1425,7 +1423,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasNumHoursForBattle;
 - (BOOL) hasLastRewardGiven;
 - (BOOL) hasTitleColor;
-- (BOOL) hasCurrentBattleId;
 @property (readonly) int32_t towerId;
 @property (readonly, retain) NSString* towerName;
 @property (readonly, retain) NSString* towerImageName;
@@ -1441,7 +1438,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t numHoursForBattle;
 @property (readonly) int64_t lastRewardGiven;
 @property (readonly, retain) ColorProto* titleColor;
-@property (readonly) int32_t currentBattleId;
 
 + (ClanTowerProto*) defaultInstance;
 - (ClanTowerProto*) defaultInstance;
@@ -1557,11 +1553,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (ClanTowerProto_Builder*) setTitleColorBuilder:(ColorProto_Builder*) builderForValue;
 - (ClanTowerProto_Builder*) mergeTitleColor:(ColorProto*) value;
 - (ClanTowerProto_Builder*) clearTitleColor;
-
-- (BOOL) hasCurrentBattleId;
-- (int32_t) currentBattleId;
-- (ClanTowerProto_Builder*) setCurrentBattleId:(int32_t) value;
-- (ClanTowerProto_Builder*) clearCurrentBattleId;
 @end
 
 @interface GoldSaleProto : PBGeneratedMessage {

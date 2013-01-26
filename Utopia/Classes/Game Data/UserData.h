@@ -92,6 +92,7 @@ typedef enum {
   kNotificationMarketplace,
   kNotificationReferral,
   kNotificationForge,
+  kNotificationEnhance,
   kNotificationWallPost,
   kNotificationGoldmine,
   kNotificationGeneral
@@ -124,6 +125,7 @@ typedef enum {
 - (id) initWithMarketplaceResponse:(PurchaseFromMarketplaceResponseProto *)proto;
 - (id) initWithReferralResponse:(ReferralCodeUsedResponseProto *)proto;
 - (id) initWithForgeAttempt:(ForgeAttempt *)fa;
+- (id) initWithEnhancement:(EquipEnhancementProto *)ee;
 - (id) initWithWallPost:(PlayerWallPostProto *)proto;
 - (id) initWithGoldmineRetrieval:(NSDate *)goldmineStart;
 - (id) initWithTitle:(NSString *)t subtitle:(NSString *)st color:(UIColor *)c;

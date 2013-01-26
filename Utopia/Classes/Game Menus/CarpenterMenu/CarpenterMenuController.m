@@ -511,7 +511,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
 - (void) didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
-  if (!self.view.superview) {
+  if (self.isViewLoaded && !self.view.superview) {
     self.view = nil;
   self.carpRow = nil;
   self.coinBar = nil;

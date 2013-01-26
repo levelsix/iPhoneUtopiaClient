@@ -41,12 +41,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   [self.loadingView stop];
 }
 
-+ (void) displayViewForEquip:(int)equipId {
-  [[EquipMenuController sharedEquipMenuController] updateForEquip:equipId];
++ (void) displayViewForEquip:(int)equipId level:(int)level enhancePercent:(int)enhancePercent {
+  [[EquipMenuController sharedEquipMenuController] updateForEquip:equipId level:level enhancePercent:enhancePercent];
   [self displayView];
 }
 
-- (void) updateForEquip:(int)eq {
+- (void) updateForEquip:(int)eq level:(int)level enhancePercent:(int)enhancePercent {
   equipId = eq;
   
   GameState *gs = [GameState sharedGameState];
@@ -57,28 +57,31 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   titleLabel.textColor = [Globals colorForRarity:fep.rarity];
   classLabel.text = [Globals stringForEquipClassType:fep.classType];
   typeLabel.text = [Globals stringForEquipType:fep.equipType];
-  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:1 enhancePercent:0]];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:1 enhancePercent:0]];
+  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:level enhancePercent:enhancePercent]];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:level enhancePercent:enhancePercent]];
   levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
   descriptionLabel.text = fep.description;
+  self.levelIcon.level = level;
+  self.enhanceIcon.level = [gl calculateEnhancementLevel:enhancePercent];
   
+  priceIcon.highlighted = [Globals sellsForGoldInMarketplace:fep];
   if (!fep.isBuyableInArmory) {
-    priceIcon.highlighted = NO;
     priceLabel.text = @"Item must be found.";
     buyButton.enabled = NO;
     buyLabel.alpha = 0.75f;
   } else if (![Globals class:gs.type canEquip:fep.classType]) {
-    priceIcon.highlighted = NO;
     priceLabel.text = [NSString stringWithFormat:@"Item not available for %@s", [Globals classForUserType:gs.type]];
     buyButton.enabled = NO;
     buyLabel.alpha = 0.75f;
+  } else if (level > 1 || [gl calculateEnhancementLevel:enhancePercent] > 0) {
+    priceLabel.text = [NSString stringWithFormat:@"Upgraded items are not available."];
+    buyButton.enabled = NO;
+    buyLabel.alpha = 0.75f;
   } else if (fep.diamondPrice > 0) {
-    priceIcon.highlighted = YES;
     priceLabel.text = [Globals commafyNumber:fep.diamondPrice];
     buyButton.enabled = YES;
     buyLabel.alpha = 1.f;
   } else if (fep.coinPrice > 0) {
-    priceIcon.highlighted = NO;
     priceLabel.text = [Globals commafyNumber:fep.coinPrice];
     buyButton.enabled = YES;
     buyLabel.alpha = 1.f;
@@ -160,7 +163,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  if (!self.view.superview) {
+  if (self.isViewLoaded && !self.view.superview) {
     self.view = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -181,6 +184,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
     self.buyButton = nil;
     self.buyLabel = nil;
     self.loadingView = nil;
+    self.levelIcon = nil;
+    self.enhanceIcon = nil;
   }
 }
 

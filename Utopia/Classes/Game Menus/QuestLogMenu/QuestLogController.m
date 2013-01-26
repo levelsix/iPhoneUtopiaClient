@@ -1118,7 +1118,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  if (!self.view.superview) {
+  if (self.isViewLoaded && !self.view.superview) {
     self.view = nil;
     // Release any retained subviews of the main view.
     self.mainView = nil;

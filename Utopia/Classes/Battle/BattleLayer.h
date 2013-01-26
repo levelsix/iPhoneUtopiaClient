@@ -39,21 +39,27 @@
 @property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel1;
 @property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon1;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *leftEquipLevelIcon1;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *leftEnhanceLevelIcon1;
 @property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel2;
 @property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon2;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *leftEquipLevelIcon2;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *leftEnhanceLevelIcon2;
 @property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel3;
 @property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon3;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *leftEquipLevelIcon3;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *leftEnhanceLevelIcon3;
 @property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel1;
 @property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon1;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *rightEquipLevelIcon1;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *rightEnhanceLevelIcon1;
 @property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel2;
 @property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon2;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *rightEquipLevelIcon2;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *rightEnhanceLevelIcon2;
 @property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel3;
 @property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon3;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *rightEquipLevelIcon3;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *rightEnhanceLevelIcon3;
 
 @property (nonatomic, retain) IBOutlet UILabel *coinsGainedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *coinsLostLabel;
@@ -74,6 +80,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *enhanceIcon;
 
 @property (nonatomic, retain) IBOutlet UIView *statsView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;

@@ -26,7 +26,7 @@
   [self unclickButton:kButton2];
 }
 
-- (void) loadForIsGlobal:(BOOL)isGlobal {
+- (void) loadForForge:(BOOL)isGlobal {
   [self unclickButton:kButton1];
   [self unclickButton:kButton2];
   [self clickButton:isGlobal ? kButton1 : kButton2];
@@ -216,7 +216,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  if (!self.view.superview) {
+  if (self.isViewLoaded && !self.view.superview) {
     self.view = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -267,6 +267,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     self.buyOneLabel = nil;
     self.forgingView = nil;
     self.enhancingView = nil;
+    self.navBar = nil;
   }
 }
 
@@ -295,13 +296,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 }
 
 - (void) displayForgeMenu {
+  [self.navBar loadForForge:YES];
   self.enhancingView.hidden = YES;
   self.forgingView.hidden = NO;
+  [self loadForgeItems];
 }
 
 - (void) displayEnhanceMenu {
+  [self.navBar loadForForge:NO];
   self.enhancingView.hidden = NO;
   self.forgingView.hidden = YES;
+  [self.enhancingView reload];
 }
 
 - (void) loadForgeItems {
@@ -795,9 +800,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (void) submitEquips:(BOOL)guaranteed {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  NSArray *equips = [gs myEquipsWithId:self.curItem.equipId level:self.curItem.level];
+  NSMutableArray *equips = [[[gs myEquipsWithId:self.curItem.equipId level:self.curItem.level] mutableCopy] autorelease];
   
   if (equips.count >= 2) {
+    // Prioritize lower percentage ones
+    [equips sortUsingComparator:^NSComparisonResult(UserEquip *obj1, UserEquip *obj2) {
+      if (obj1.enhancementPercentage < obj2.enhancementPercentage) {
+        return NSOrderedAscending;
+      } else if (obj1.enhancementPercentage > obj2.enhancementPercentage) {
+        return NSOrderedDescending;
+      }
+      return NSOrderedSame;
+    }];
+    
     UserEquip *ue1 = [equips objectAtIndex:0];
     UserEquip *ue2 = [equips objectAtIndex:1];
     FullEquipProto *fep = [gs equipWithId:ue1.equipId];
@@ -1187,6 +1202,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   }
   [self.loadingView stop];
   [self.forgeTableView reloadData];
+  [self.enhancingView.enhanceTableView reloadData];
   [self selectRow:[self.forgeItems indexOfObject:self.curItem] animated:NO];
 }
 

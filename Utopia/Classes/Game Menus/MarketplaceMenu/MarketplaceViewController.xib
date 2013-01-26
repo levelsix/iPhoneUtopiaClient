@@ -2476,6 +2476,19 @@
 								<string key="NSFrame">{{82, 71}, {23, 23}}</string>
 								<reference key="NSSuperview" ref="307259393"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="560066254"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<int key="IBUIContentMode">4</int>
+								<bool key="IBUIMultipleTouchEnabled">YES</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							</object>
+							<object class="IBUIImageView" id="560066254">
+								<reference key="NSNextResponder" ref="307259393"/>
+								<int key="NSvFlags">256</int>
+								<string key="NSFrame">{{133, 71}, {23, 23}}</string>
+								<reference key="NSSuperview" ref="307259393"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="834041904"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -2975,6 +2988,14 @@
 					<int key="connectionID">450</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">enhanceIcon</string>
+						<reference key="source" ref="232663426"/>
+						<reference key="destination" ref="560066254"/>
+					</object>
+					<int key="connectionID">631</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">closeClicked:</string>
 						<reference key="source" ref="779603095"/>
@@ -3372,6 +3393,7 @@
 							<reference ref="893275467"/>
 							<reference ref="690626607"/>
 							<reference ref="550234197"/>
+							<reference ref="560066254"/>
 						</array>
 						<reference key="parent" ref="232663426"/>
 					</object>
@@ -3907,6 +3929,11 @@
 						<reference key="object" ref="402044882"/>
 						<reference key="parent" ref="312035602"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">630</int>
+						<reference key="object" ref="560066254"/>
+						<reference key="parent" ref="307259393"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -4067,6 +4094,8 @@
 				<string key="625.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="63.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="0.0" key="63.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
+				<string key="630.CustomClassName">EnhancementLevelIcon</string>
+				<string key="630.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="71.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="74.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="77.CustomClassName">NiceFontLabel</string>
@@ -4096,7 +4125,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">629</int>
+			<int key="maxID">631</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4131,6 +4160,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/CoinBar.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">EnhancementLevelIcon</string>
+					<string key="superclassName">UIImageView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/EnhancementLevelIcon.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -4242,6 +4279,7 @@
 						<string key="classLabel">UILabel</string>
 						<string key="crossOutView">UIView</string>
 						<string key="defenseLabel">UILabel</string>
+						<string key="enhanceIcon">EnhancementLevelIcon</string>
 						<string key="equipIcon">EquipButton</string>
 						<string key="levelIcon">EquipLevelIcon</string>
 						<string key="levelLabel">UILabel</string>
@@ -4284,6 +4322,10 @@
 						<object class="IBToOneOutletInfo" key="defenseLabel">
 							<string key="name">defenseLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="enhanceIcon">
+							<string key="name">enhanceIcon</string>
+							<string key="candidateClassName">EnhancementLevelIcon</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="equipIcon">
 							<string key="name">equipIcon</string>

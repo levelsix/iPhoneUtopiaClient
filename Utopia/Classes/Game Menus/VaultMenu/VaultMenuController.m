@@ -174,7 +174,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 
 - (void) didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
-  if (!self.view.superview) {
+  if (self.isViewLoaded && !self.view.superview) {
     self.view = nil;
     self.depositButton = nil;
     self.withdrawButton = nil;

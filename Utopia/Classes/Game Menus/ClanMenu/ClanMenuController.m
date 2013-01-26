@@ -1303,7 +1303,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
           for (MinimumUserProtoForClans *m in proto.membersList) {
             [ids addObject:[NSNumber numberWithInt:m.minUserProto.minUserProtoWithLevel.minUserProto.userId]];
           }
-          [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIds:ids];
+          [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIdsWithPoints:ids];
         }
       }
     }
@@ -1519,7 +1519,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  if (!self.view.superview) {
+  if (self.isViewLoaded && !self.view.superview) {
     self.view = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

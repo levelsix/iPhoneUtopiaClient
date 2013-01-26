@@ -4445,7 +4445,6 @@ static BossEventProto* defaultBossEventProtoInstance = nil;
 @property int32_t numHoursForBattle;
 @property int64_t lastRewardGiven;
 @property (retain) ColorProto* titleColor;
-@property int32_t currentBattleId;
 @end
 
 @implementation ClanTowerProto
@@ -4555,13 +4554,6 @@ static BossEventProto* defaultBossEventProtoInstance = nil;
   hasTitleColor_ = !!value;
 }
 @synthesize titleColor;
-- (BOOL) hasCurrentBattleId {
-  return !!hasCurrentBattleId_;
-}
-- (void) setHasCurrentBattleId:(BOOL) value {
-  hasCurrentBattleId_ = !!value;
-}
-@synthesize currentBattleId;
 - (void) dealloc {
   self.towerName = nil;
   self.towerImageName = nil;
@@ -4587,7 +4579,6 @@ static BossEventProto* defaultBossEventProtoInstance = nil;
     self.numHoursForBattle = 0;
     self.lastRewardGiven = 0L;
     self.titleColor = [ColorProto defaultInstance];
-    self.currentBattleId = 0;
   }
   return self;
 }
@@ -4652,9 +4643,6 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   if (self.hasTitleColor) {
     [output writeMessage:15 value:self.titleColor];
   }
-  if (self.hasCurrentBattleId) {
-    [output writeInt32:16 value:self.currentBattleId];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -4708,9 +4696,6 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   }
   if (self.hasTitleColor) {
     size += computeMessageSize(15, self.titleColor);
-  }
-  if (self.hasCurrentBattleId) {
-    size += computeInt32Size(16, self.currentBattleId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4832,9 +4817,6 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   if (other.hasTitleColor) {
     [self mergeTitleColor:other.titleColor];
   }
-  if (other.hasCurrentBattleId) {
-    [self setCurrentBattleId:other.currentBattleId];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4929,10 +4911,6 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setTitleColor:[subBuilder buildPartial]];
-        break;
-      }
-      case 128: {
-        [self setCurrentBattleId:[input readInt32]];
         break;
       }
     }
@@ -5218,22 +5196,6 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
 - (ClanTowerProto_Builder*) clearTitleColor {
   result.hasTitleColor = NO;
   result.titleColor = [ColorProto defaultInstance];
-  return self;
-}
-- (BOOL) hasCurrentBattleId {
-  return result.hasCurrentBattleId;
-}
-- (int32_t) currentBattleId {
-  return result.currentBattleId;
-}
-- (ClanTowerProto_Builder*) setCurrentBattleId:(int32_t) value {
-  result.hasCurrentBattleId = YES;
-  result.currentBattleId = value;
-  return self;
-}
-- (ClanTowerProto_Builder*) clearCurrentBattleId {
-  result.hasCurrentBattleId = NO;
-  result.currentBattleId = 0;
   return self;
 }
 @end

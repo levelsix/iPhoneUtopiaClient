@@ -565,18 +565,60 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   
-  if ([ChatMenuController isInitialized] && [ChatMenuController sharedChatMenuController].view.superview) {
+  if ([ChatMenuController isInitialized]) {
     ChatMenuController *cmc = [ChatMenuController sharedChatMenuController];
-    if ((cmc.isGlobal && scope == GroupChatScopeGlobal) || (!cmc.isGlobal && scope == GroupChatScopeClan)) {
-      NSIndexPath *path = [NSIndexPath indexPathForRow:arrCount-1 inSection:0];
-      [cmc.chatTable insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
-      
-      // Give 100 pixels of leniency
-      if (cmc.chatTable.contentOffset.y > cmc.chatTable.contentSize.height-cmc.chatTable.frame.size.height-100) {
-        [cmc.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    if (cmc.view.superview) {
+      if ((cmc.isGlobal && scope == GroupChatScopeGlobal) || (!cmc.isGlobal && scope == GroupChatScopeClan)) {
+        NSIndexPath *path = [NSIndexPath indexPathForRow:arrCount-1 inSection:0];
+        [cmc.chatTable insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
+        
+        // Give 100 pixels of leniency
+        if (cmc.chatTable.contentOffset.y > cmc.chatTable.contentSize.height-cmc.chatTable.frame.size.height-100) {
+          [cmc.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        }
       }
     }
   }
+  
+  // Check whether we should add to the badge num
+  // If both the chat bottom view and the menu are not global
+  if (scope == GroupChatScopeClan) {
+    BOOL shouldIncrement = YES;
+    if (!btm.isGlobal) {
+      shouldIncrement = NO;
+    }
+    
+    if (shouldIncrement && [ChatMenuController isInitialized]) {
+      ChatMenuController *cmc = [ChatMenuController sharedChatMenuController];
+      if (cmc.view.superview && !cmc.isGlobal) {
+        shouldIncrement = NO;
+      }
+    }
+    
+    if (shouldIncrement && [cm.date compare:self.lastLogoutTime] == NSOrderedDescending) {
+      self.clanChatBadgeNum++;
+      
+      btm.badgeLabel.text = [NSString stringWithFormat:@"%d", self.clanChatBadgeNum];
+      btm.badgeView.hidden = NO;
+      
+      if ([ChatMenuController isInitialized]) {
+        ChatMenuController *cmc = [ChatMenuController sharedChatMenuController];
+        cmc.topBar.button2Label.text = [NSString stringWithFormat:@"CLAN (%d)", self.clanChatBadgeNum];
+      }
+    }
+  }
+}
+
+- (void) clanChatViewed {
+  ChatBottomView *btm = [[TopBar sharedTopBar] chatBottomView];
+  btm.badgeView.hidden = YES;
+  
+  if ([ChatMenuController isInitialized]) {
+    ChatMenuController *cmc = [ChatMenuController sharedChatMenuController];
+    cmc.topBar.button2Label.text = @"CLAN";
+  }
+  
+  self.clanChatBadgeNum = 0;
 }
 
 - (UserEquip *) myEquipWithId:(int)equipId level:(int)level {
@@ -863,7 +905,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     NSDate *endTime = [fa.startTime dateByAddingTimeInterval:seconds];
     
     if ([endTime compare:[NSDate date]] == NSOrderedDescending) {
-      _forgeTimer = [[NSTimer timerWithTimeInterval:  endTime.timeIntervalSinceNow target:self selector:@selector(forgeWaitTimeComplete) userInfo:nil repeats:NO] retain];
+      _forgeTimer = [[NSTimer timerWithTimeInterval:endTime.timeIntervalSinceNow target:self selector:@selector(forgeWaitTimeComplete) userInfo:nil repeats:NO] retain];
       [[NSRunLoop mainRunLoop] addTimer:_forgeTimer forMode:NSRunLoopCommonModes];
     } else {
       [self forgeWaitTimeComplete];
@@ -888,11 +930,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) beginEnhancementTimer {
+  [self stopEnhancementTimer];
+  Globals *gl = [Globals sharedGlobals];
+  EquipEnhancementProto *ee = self.equipEnhancement;
+  int mins = [gl calculateMinutesToEnhance:(UserEquip *)ee.enhancingEquip feeders:ee.feederEquipsList];
+  NSDate *end = [NSDate dateWithTimeIntervalSince1970:ee.startTime/1000.+mins*60];
   
+  if ([end compare:[NSDate date]] == NSOrderedDescending) {
+    _enhanceTimer = [[NSTimer timerWithTimeInterval:end.timeIntervalSinceNow target:self selector:@selector(beginEnhancementTimer) userInfo:nil repeats:NO] retain];
+    [[NSRunLoop mainRunLoop] addTimer:_enhanceTimer forMode:NSRunLoopCommonModes];
+  } else {
+    UserNotification *un = [[UserNotification alloc] initWithEnhancement:self.equipEnhancement];
+    [self addNotification:un];
+    [un release];
+  }
 }
 
 - (void) stopEnhancementTimer {
-  
+  if (_enhanceTimer) {
+    [_enhanceTimer invalidate];
+    [_enhanceTimer release];
+    _enhanceTimer = nil;
+  }
 }
 
 - (void) beginGoldmineTimer {
@@ -1429,6 +1488,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.clanTowers = nil;
   self.clanTowerUserBattles = [NSMutableArray array];
   
+  [self stopEnhancementTimer];
   self.equipEnhancement = nil;
   
   self.clan = nil;
@@ -1499,6 +1559,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self stopAllLockBoxTimers];
   [self stopAllBossEventTimers];
   [self stopForgeTimer];
+  [self stopEnhancementTimer];
   [self stopExpansionTimer];
   [self stopAllGoldSaleTimers];
   [self stopAllTournamentTimers];

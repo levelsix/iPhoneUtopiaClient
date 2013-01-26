@@ -92,6 +92,7 @@
 
 - (void) retrieveEquipsForUser:(int)userId;
 - (void) retrieveUsersForUserIds:(NSArray *)userIds;
+- (void) retrieveUsersForUserIdsWithPoints:(NSArray *)userIds;
 
 - (void) retrieveMostRecentWallPostsForPlayer:(int)playerId;
 - (void) retrieveWallPostsForPlayer:(int)playerId beforePostId:(int)postId;

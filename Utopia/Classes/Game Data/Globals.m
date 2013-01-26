@@ -152,16 +152,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if (constants.productIdsList.count >= 5) {
     GameState *gs = [GameState sharedGameState];
     for (GoldSaleProto *p in gs.staticGoldSales) {
-      if (p.hasPackage1SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:0] forKey:p.package1SaleIdentifier];
-      if (p.hasPackage2SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:2] forKey:p.package2SaleIdentifier];
-      if (p.hasPackage3SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:4] forKey:p.package3SaleIdentifier];
-      if (p.hasPackage4SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:6] forKey:p.package4SaleIdentifier];
-      if (p.hasPackage5SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:8] forKey:p.package5SaleIdentifier];
-      if (p.hasPackageS1SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:1] forKey:p.packageS1SaleIdentifier];
-      if (p.hasPackageS2SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:3] forKey:p.packageS2SaleIdentifier];
-      if (p.hasPackageS3SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:5] forKey:p.packageS3SaleIdentifier];
-      if (p.hasPackageS4SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:7] forKey:p.packageS4SaleIdentifier];
-      if (p.hasPackageS5SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:9] forKey:p.packageS5SaleIdentifier];
+      if (self.iapPackages.count > 0) {
+        if (p.hasPackage1SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:0] forKey:p.package1SaleIdentifier];
+        if (p.hasPackage2SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:2] forKey:p.package2SaleIdentifier];
+        if (p.hasPackage3SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:4] forKey:p.package3SaleIdentifier];
+        if (p.hasPackage4SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:6] forKey:p.package4SaleIdentifier];
+        if (p.hasPackage5SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:8] forKey:p.package5SaleIdentifier];
+        if (p.hasPackageS1SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:1] forKey:p.packageS1SaleIdentifier];
+        if (p.hasPackageS2SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:3] forKey:p.packageS2SaleIdentifier];
+        if (p.hasPackageS3SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:5] forKey:p.packageS3SaleIdentifier];
+        if (p.hasPackageS4SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:7] forKey:p.packageS4SaleIdentifier];
+        if (p.hasPackageS5SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:9] forKey:p.packageS5SaleIdentifier];
+      }
     }
   }
   self.productIdsToPackages = dict;
@@ -812,37 +814,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     NSString *documentsPath = [paths objectAtIndex:0];
     
     BOOL fileExists = NO;
-    
-    //    NSURL *directoryURL = [NSURL URLWithString:documentsPath];
-    //
-    //    if (directoryURL) {
-    //      NSArray *keys = [NSArray arrayWithObjects:
-    //                       NSURLIsDirectoryKey, NSURLIsPackageKey, NSURLLocalizedNameKey, nil];
-    //
-    //      NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager]
-    //                                           enumeratorAtURL:directoryURL
-    //                                           includingPropertiesForKeys:keys
-    //                                           options:(NSDirectoryEnumerationSkipsPackageDescendants |
-    //                                                    NSDirectoryEnumerationSkipsHiddenFiles)
-    //                                           errorHandler:^(NSURL *url, NSError *error) {
-    //                                             // Handle the error.
-    //                                             // Return YES if the enumeration should continue after the error.
-    //                                             return YES;
-    //                                           }];
-    //
-    //      for (NSURL *url in enumerator) {
-    //        if ([url.lastPathComponent isEqualToString:resName]) {
-    //          fullpath  = url.path;
-    //          fileExists = YES;
-    //          break;
-    //        }
-    //      }
-    //    } else {
     fullpath = [documentsPath stringByAppendingPathComponent:resName];
     if ([[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
       fileExists = YES;
     }
-    //    }
     
     if (!fileExists) {
       // Image not in docs: download it
@@ -1452,7 +1427,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep {
-  return fep.rarity == FullEquipProto_RarityEpic || fep.rarity == FullEquipProto_RarityLegendary || !(fep.diamondPrice == 0);
+  return fep.rarity == FullEquipProto_RarityRare || fep.rarity == FullEquipProto_RarityEpic ||
+    fep.rarity == FullEquipProto_RarityLegendary || !(fep.diamondPrice == 0);
 }
 
 // Formulas
@@ -1593,14 +1569,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:ue.equipId];
   double result = self.enhanceTimeConstantA*powf(ue.level, self.enhanceTimeConstantB);
-  LNLog(@"1=%f", result);
   result = powf(result, self.enhanceTimeConstantC+self.enhanceTimeConstantD*(fep.rarity+1));
-  LNLog(@"2=%f", result);
   result *= powf(self.enhanceTimeConstantE, (fep.minLevel/self.averageSizeOfLevelBracket*self.enhanceTimeConstantF));
-  LNLog(@"3=%f", result);
   result *= powf(self.enhanceTimeConstantG, [self calculateEnhancementLevel:ue.enhancementPercentage]+1);
   
-  LNLog(@"minutes=%f", result);
+//  LNLog(@"minutes=%f", result);
   return (int)MAX(result, 1.f);
 }
 
@@ -1614,7 +1587,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int totalTime = [self calculateTotalMinutesToLevelUpEnhancementEquip:enhancingEquip];
   int result = (int)ceilf(percent*totalTime);
   
-  LNLog(@"time for enhance=%d", result);
+//  LNLog(@"time for enhance=%d", result);
   return result;
 }
 
@@ -1622,7 +1595,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int mins = [self calculateMinutesToEnhance:enhancingEquip feeders:feeders];
   int result = (int)ceilf(((float)mins)/self.forgeBaseMinutesToOneGold);
   
-  LNLog(@"diamonds=%d", result);
+//  LNLog(@"diamonds=%d", result);
   return result;
 }
 
@@ -1646,7 +1619,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   int maxChange = ([self calculateEnhancementLevel:enhancingEquip.enhancementPercentage]+1)*self.enhancePercentPerLevel-enhancingEquip.enhancementPercentage;
   
-  LNLog(@"totalChange=%d maxChange=%d", change, maxChange);
+//  LNLog(@"totalChange=%d maxChange=%d", change, maxChange);
   return MIN(maxChange, change);
 }
 
@@ -1661,7 +1634,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   int result = (int)((((float)feederStats)/mainStats)/(self.enhancePercentConstantA*powf(self.enhancePercentConstantB, [self calculateEnhancementLevel:enhancingEquip.enhancementPercentage]+1))*self.enhancePercentPerLevel);
   
-  LNLog(@"percentage=%d", result);
+//  LNLog(@"percentage=%d", result);
   return result;
 }
 
@@ -1704,7 +1677,6 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 }
 
 + (void) popupMessage:(NSString *)msg {
-  //  [[[[UIAlertView alloc] initWithTitle:@"Notification" message:msg  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
   [GenericPopupController displayNotificationViewWithText:msg title:nil];
 }
 

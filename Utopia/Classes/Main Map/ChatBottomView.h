@@ -29,6 +29,9 @@
 @property (nonatomic, retain) IBOutlet UIImageView *globalIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *clanIcon;
 
+@property (nonatomic, retain) IBOutlet UIView *badgeView;
+@property (nonatomic, retain) IBOutlet UILabel *badgeLabel;
+
 // Determines if we are on global or clan chat
 @property (nonatomic, assign) BOOL isGlobal;
 

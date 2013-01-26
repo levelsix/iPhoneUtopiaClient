@@ -165,7 +165,7 @@
   
   self.battleRecordLabel.text = [NSString stringWithFormat:@"W: %@ - L: %@ - F: %@", [Globals commafyNumber:mup.minUserProto.battlesWon], [Globals commafyNumber:mup.minUserProto.battlesLost], [Globals commafyNumber:mup.minUserProto.battlesFled]];
   
-  self.attackLabel.text = [NSString stringWithFormat:@"W: %@ - L: %@ - F: %@", [Globals commafyNumber:mup.minUserProto.battlesWon], [Globals commafyNumber:mup.minUserProto.battlesLost], [Globals commafyNumber:mup.minUserProto.battlesFled]];
+  self.attackLabel.text = nil;
 }
 
 - (void) editMemberConfiguration {
@@ -264,6 +264,7 @@
 
 - (void) wakeup {
   self.userDict = [NSMutableDictionary dictionary];
+  self.pointsDict = [NSMutableDictionary dictionary];
 }
 
 - (void) cleanup {
@@ -271,6 +272,7 @@
   self.requesters = nil;
   self.members = nil;
   self.userDict = nil;
+  self.pointsDict = nil;
 }
 
 - (void) preloadMembersForClan:(int)ci leader:(int)li orderByClosest:(BOOL)orderByClosest {
@@ -377,10 +379,21 @@
 }
 
 - (void) receivedUsers:(RetrieveUsersForUserIdsResponseProto *)proto {
-  for (FullUserProto *fup in proto.requestedUsersList) {
-    [self.userDict setObject:fup forKey:[NSNumber numberWithInt:fup.userId]];
+  BOOL changed = NO;
+  for (int i = 0; i < proto.requestedUsersList.count; i++) {
+    FullUserProto *fup = [proto.requestedUsersList objectAtIndex:i];
+    NSNumber *pointsGained = [proto.potentialPointsList objectAtIndex:i];
+    
+    if (pointsGained) {
+      changed = YES;
+      [self.userDict setObject:fup forKey:[NSNumber numberWithInt:fup.userId]];
+      [self.pointsDict setObject:pointsGained forKey:[NSNumber numberWithInt:fup.userId]];
+    }
   }
-  [self.membersTable reloadData];
+  
+  if (changed) {
+    [self.membersTable reloadData];
+  }
 }
 
 - (IBAction)attackClicked:(id)sender {
@@ -459,24 +472,35 @@
     if (_orderByClosest) {
       [cell attackConfiguration];
       
-      if ([self.userDict objectForKey:[NSNumber numberWithInt:self.leader.minUserProto.minUserProtoWithLevel.minUserProto.userId]]) {
+      NSNumber *userId = [NSNumber numberWithInt:self.leader.minUserProto.minUserProtoWithLevel.minUserProto.userId];
+      if ([self.userDict objectForKey:userId]) {
         cell.attackSpinner.hidden = YES;
         cell.attackButton.hidden = NO;
+      }
+      NSNumber *pts = [self.pointsDict objectForKey:userId];
+      if (pts) {
+        cell.attackLabel.text = [NSString stringWithFormat:@"+%@ Points", [Globals commafyNumber:pts.intValue]];
       }
     } else {
       [cell battleRecordConfiguration];
     }
   } else if (indexPath.section == 2) {
-    [cell loadForUser:[self.members objectAtIndex:indexPath.row]];
+    MinimumUserProtoForClans *mup = [self.members objectAtIndex:indexPath.row];
+    [cell loadForUser:mup];
     if (editModeOn) {
       [cell editMemberConfiguration];
     } else {
       if (_orderByClosest) {
         [cell attackConfiguration];
         
-        if ([self.userDict objectForKey:[NSNumber numberWithInt:self.leader.minUserProto.minUserProtoWithLevel.minUserProto.userId]]) {
+        NSNumber *userId = [NSNumber numberWithInt:mup.minUserProto.minUserProtoWithLevel.minUserProto.userId];
+        if ([self.userDict objectForKey:userId]) {
           cell.attackSpinner.hidden = YES;
           cell.attackButton.hidden = NO;
+        }
+        NSNumber *pts = [self.pointsDict objectForKey:userId];
+        if (pts) {
+          cell.attackLabel.text = [NSString stringWithFormat:@"+%@ Points", [Globals commafyNumber:pts.intValue]];
         }
       } else {
         [cell battleRecordConfiguration];

@@ -75,6 +75,7 @@
 @property (nonatomic, retain) IBOutlet ClanMemberCell *memberCell;
 
 @property (nonatomic, retain) NSMutableDictionary *userDict;
+@property (nonatomic, retain) NSMutableDictionary *pointsDict;
 
 - (void) preloadMembersForClan:(int)ci leader:(int)leaderId orderByClosest:(BOOL)orderByClosest;
 - (void) loadForMembers:(NSArray *)m isMyClan:(BOOL)isMyClan;

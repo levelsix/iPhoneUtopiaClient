@@ -96,7 +96,7 @@
 - (int) sendUserQuestDetailsMessage:(int)questId;
 
 - (int) sendRetrieveUserEquipForUserMessage:(int)userId;
-- (int) sendRetrieveUsersForUserIds:(NSArray *)userIds;
+- (int) sendRetrieveUsersForUserIds:(NSArray *)userIds includePotentialPoints:(BOOL)points;
 
 - (int) sendRetrievePlayerWallPostsMessage:(int)playerId beforePostId:(int)beforePostId;
 - (int) sendPostOnPlayerWallMessage:(int)playerId withContent:(NSString *)content;

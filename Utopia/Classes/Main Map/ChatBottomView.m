@@ -49,6 +49,7 @@
   self.chatView2.hidden = YES;
   self.chatView3.hidden = YES;
   self.isGlobal = YES;
+  self.badgeView.hidden = YES;
 }
 
 - (void) setIsGlobal:(BOOL)i {
@@ -61,10 +62,12 @@
     clanIcon.hidden = YES;
     arr = gs.globalChatMessages;
   } else {
+    [gs clanChatViewed];
     globalIcon.hidden = YES;
     clanIcon.hidden = NO;
     arr = gs.clanChatMessages;
   }
+  
   self.chatView1.hidden = YES;
   self.chatView2.hidden = YES;
   self.chatView3.hidden = YES;
@@ -75,7 +78,7 @@
   if (arr.count >= 2) {
     [self addChat:[arr objectAtIndex:arr.count-2]];
   } else {
-    [self addNotification:[NSString stringWithFormat:@"You have entered %@ chat!", isGlobal?@"Global":@"Clan"]];
+    [self addNotification:[NSString stringWithFormat:@"You have entered %@ chat!", isGlobal ? @"Global" : @"Clan"]];
   }
   if (arr.count >= 1) {
     [self addChat:arr.lastObject];
@@ -168,6 +171,8 @@
   self.globalIcon = nil;
   self.clanIcon = nil;
   self.mainView = nil;
+  self.badgeView = nil;
+  self.badgeLabel = nil;
   [super dealloc];
 }
 

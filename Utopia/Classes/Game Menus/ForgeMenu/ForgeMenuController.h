@@ -39,6 +39,7 @@
 @property (nonatomic, retain) IBOutlet UIView *topBar;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
+@property (nonatomic, retain) IBOutlet ForgeTopBar *navBar;
 
 @property (nonatomic, retain) IBOutlet UITableView *forgeTableView;
 @property (nonatomic, retain) IBOutlet LoadingView *loadingView;

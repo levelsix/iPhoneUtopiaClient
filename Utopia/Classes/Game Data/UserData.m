@@ -53,7 +53,7 @@
 }
 
 - (NSString *) description {
-  return [NSString stringWithFormat:@"%p: Level %d %@, UserEquipId:%d", self, level, [[GameState sharedGameState] equipWithId:equipId].name, userEquipId];
+  return [NSString stringWithFormat:@"%p: Level %d %@, UserEquipId:%d, Enhancement:%d", self, level, [[GameState sharedGameState] equipWithId:equipId].name, userEquipId, _enhancementPercentage];
 }
 
 - (BOOL) isEqual:(UserEquip *)object {
@@ -377,6 +377,17 @@
     }
     self.type = kNotificationForge;
     self.forgeEquipId = fa.equipId;
+  }
+  return self;
+}
+
+- (id) initWithEnhancement:(EquipEnhancementProto *)ee {
+  if ((self = [super init])) {
+    Globals *gl = [Globals sharedGlobals];
+    int mins = [gl calculateMinutesToEnhance:(UserEquip *)ee.enhancingEquip feeders:ee.feederEquipsList];
+    self.time = [NSDate dateWithTimeIntervalSince1970:ee.startTime/1000.+mins*60];
+    self.type = kNotificationEnhance;
+    self.forgeEquipId = ee.enhancingEquip.equipId;
   }
   return self;
 }

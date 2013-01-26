@@ -212,6 +212,7 @@
   self.mktProto = proto;
   self.equip = nil;
   self.levelIcon.level = proto.equipLevel;
+  self.enhanceIcon.level = [gl calculateEnhancementLevel:proto.equipEnhancementPercent];
   
   if ([Globals canEquip:proto.postedEquip]) {
     self.leatherBackground.highlighted = NO;
@@ -234,6 +235,7 @@
   self.attStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:eq.equipId level:eq.level enhancePercent:eq.enhancementPercentage]];
   self.defStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:eq.equipId level:eq.level enhancePercent:eq.enhancementPercentage]];
   self.levelIcon.level = eq.level;
+  self.enhanceIcon.level = [gl calculateEnhancementLevel:eq.enhancementPercentage];
   
   if ([Globals canEquip:fullEq]) {
     self.leatherBackground.highlighted = NO;
@@ -252,6 +254,7 @@
   self.buyButton = nil;
   self.listButton = nil;
   self.levelIcon = nil;
+  self.enhanceIcon = nil;
   self.removeButton = nil;
   self.priceField = nil;
   self.priceLabel = nil;
@@ -294,6 +297,7 @@
   defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:m.equipLevel enhancePercent:m.equipEnhancementPercent]];
   levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
   levelIcon.level = m.equipLevel;
+  self.enhanceIcon.level = [gl calculateEnhancementLevel:m.equipEnhancementPercent];
   [playerNameButton setTitle:[Globals fullNameWithName:m.poster.name clanTag:m.poster.clan.tag] forState:UIControlStateNormal];
   
   if ([Globals sellsForGoldInMarketplace:fep]) {
@@ -356,6 +360,8 @@
   }
   
   equipIcon.equipId = fep.equipId;
+  equipIcon.level = m.equipLevel;
+  equipIcon.enhancePercent = m.equipEnhancementPercent;
   
   if ([Globals class:gs.type canEquip:fep.classType]) {
     wrongClassView.hidden = YES;
@@ -464,6 +470,7 @@
   self.mainView = nil;
   self.bgdView = nil;
   self.levelIcon = nil;
+  self.enhanceIcon = nil;
   [super dealloc];
 }
 

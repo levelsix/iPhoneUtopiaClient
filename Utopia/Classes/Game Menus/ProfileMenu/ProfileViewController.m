@@ -380,6 +380,7 @@
   nameLabel.text = fep.name;
   nameLabel.textColor = [Globals colorForRarity:fep.rarity];
   levelIcon.level = ue.level;
+  _enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
   
   self.equip = ue;
   
@@ -425,6 +426,7 @@
   self.equip = nil;
   self.darkOverlay = nil;
   self.levelIcon = nil;
+  self.enhanceIcon = nil;
   [super dealloc];
 }
 
@@ -451,6 +453,7 @@
   equipIcon.hidden = YES;
   equipIcon.image = nil;
   levelIcon.level = 0;
+  _enhanceIcon.level = 0;
   self.knownView.hidden = YES;
   self.unknownView.hidden = NO;
 }
@@ -500,6 +503,7 @@
 - (void) dealloc {
   self.equipIcon = nil;
   self.levelIcon = nil;
+  self.enhanceIcon = nil;
   self.selectedView = nil;
   self.typeLabel = nil;
   self.knownView = nil;
@@ -615,8 +619,11 @@
   levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
   descriptionLabel.text = fep.description;
   levelIcon.level = ue.level;
+  self.enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
   
   equipIcon.equipId = fep.equipId;
+  equipIcon.level = ue.level;
+  equipIcon.enhancePercent = ue.enhancementPercentage;
   
   if ([Globals canEquip:fep]) {
     equipButton.enabled = YES;
@@ -727,6 +734,7 @@
   self.levelLabel = nil;
   self.equipIcon = nil;
   self.levelIcon = nil;
+  self.enhanceIcon = nil;
   self.descriptionLabel = nil;
   self.wrongClassView = nil;
   self.tooLowLevelView = nil;
@@ -1174,6 +1182,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (void) doEquippingAnimation:(EquipView *)ev forType:(FullEquipProto_EquipType)type {
+  Globals *gl = [Globals sharedGlobals];
+  
   equippingView.frame = [equipTabView convertRect:ev.equipIcon.frame fromView:ev.equipIcon.superview];
   equippingView.image = ev.equipIcon.image;
   equippingView.hidden = NO;
@@ -1210,6 +1220,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   [UIView commitAnimations];
   cev.levelIcon.level = ev.equip.level;
+  cev.enhanceIcon.level = [gl calculateEnhancementLevel:ev.equip.enhancementPercentage];
 }
 
 - (void) finishedEquippingAnimation {
@@ -1229,7 +1240,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [Globals bounceView:equipPopup.mainView fadeInBgdView:equipPopup.bgdView];
     equipPopup.frame = self.view.bounds;
   } else {
-    [EquipMenuController displayViewForEquip:fuep.equipId];
+    [EquipMenuController displayViewForEquip:fuep.equipId level:fuep.level enhancePercent:fuep.enhancementPercentage];
   }
 }
 
@@ -1327,6 +1338,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (void) loadEquips:(NSArray *)equips curWeapon:(int)weapon curArmor:(int)armor curAmulet:(int)amulet {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
   BOOL weaponFound = NO, armorFound = NO, amuletFound = NO;
   
@@ -1361,6 +1373,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     // check if this item is equipped
     if (ue.userEquipId == weapon && fep.equipType == FullEquipProto_EquipTypeWeapon) {
       curWeaponView.levelIcon.level = ue.level;
+      curWeaponView.enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
       [Globals loadImageForEquip:fep.equipId toView:curWeaponView.equipIcon maskedView:nil];
       curWeaponView.equipIcon.hidden = NO;
       weaponFound = YES;
@@ -1368,6 +1381,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       [sortedEquips insertObject:ue atIndex:0];
     } else if (ue.userEquipId == armor && fep.equipType == FullEquipProto_EquipTypeArmor) {
       curArmorView.levelIcon.level = ue.level;
+      curArmorView.enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
       [Globals loadImageForEquip:fep.equipId toView:curArmorView.equipIcon maskedView:nil];
       curArmorView.equipIcon.hidden = NO;
       armorFound = YES;
@@ -1375,6 +1389,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       [sortedEquips insertObject:ue atIndex:0];
     } else if (ue.userEquipId == amulet && fep.equipType == FullEquipProto_EquipTypeAmulet) {
       curAmuletView.levelIcon.level = ue.level;
+      curAmuletView.enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
       [Globals loadImageForEquip:fep.equipId toView:curAmuletView.equipIcon maskedView:nil];
       curAmuletView.equipIcon.hidden = NO;
       amuletFound = YES;
@@ -2043,7 +2058,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 - (void) didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-  if (!self.view.superview) {
+  if (self.isViewLoaded && !self.view.superview) {
     self.view = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

@@ -47,6 +47,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *enhanceIcon;
 
 @property (nonatomic, retain) UIView *darkOverlay;
 
@@ -114,6 +115,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *knownView;
 @property (nonatomic, retain) IBOutlet UIView *unknownView;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *enhanceIcon;
 @property (nonatomic, retain) IBOutlet UILabel *typeLabel;
 @property (nonatomic, assign) BOOL selected;
 
@@ -135,6 +137,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, retain) IBOutlet EquipButton *equipIcon;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *enhanceIcon;
 @property (nonatomic, retain) IBOutlet UIView *wrongClassView;
 @property (nonatomic, retain) IBOutlet UIView *tooLowLevelView;
 @property (nonatomic, retain) IBOutlet UIButton *equipButton;
