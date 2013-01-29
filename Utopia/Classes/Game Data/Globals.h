@@ -363,3 +363,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (void) recursivelyApplyOpacity:(GLubyte)opacity;
 
 @end
+
+@interface RecursiveFadeTo : CCFadeTo
+
+@end

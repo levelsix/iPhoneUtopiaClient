@@ -908,8 +908,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
    [CCSequence actionOne:[CCEaseIn actionWithAction:
                           [CCRotateBy actionWithDuration:duration angle:END_TRIANGLE_ROTATION-START_TRIANGLE_ROTATION] rate:2.5]
                      two:[CCCallFunc actionWithTarget:self selector:@selector(comboBarClicked)]]];
-  //  [_comboProgressTimer runAction:[CCSequence actionOne:[CCEaseIn actionWithAction:[CCProgressFromTo actionWithDuration:duration from:0 to:100] rate:2.5]
-  //                                                   two:[CCCallFunc actionWithTarget:self selector:@selector(comboBarClicked)]]];
   
   [self runAction:[CCSequence actions:
                    [CCDelayTime actionWithDuration:DELAY_BEFORE_COMBO_BAR_WINDUP_SOUND],
@@ -1155,14 +1153,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                                [CCDelayTime actionWithDuration:0.5],
                                [CCCallFunc actionWithTarget:self selector:@selector(doEnemyAttackAnimation)],
                                nil]];
-  
-  //  float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
-  //  [_flippedComboProgressTimer runAction:[CCSequence actions:[CCEaseIn actionWithAction:[CCProgressFromTo actionWithDuration:perc*duration/100 from:0 to:perc] rate:2.5],
-  //                                         [CCCallBlock actionWithBlock:^{[self showEnemyBattleWordForPercentage:perc];}],
-  //
-  //  [CCDelayTime actionWithDuration:02.5],
-  //                                         [CCCallFunc actionWithTarget:self selector:@selector(doEnemyAttackAnimation)],
-  //                                         nil]];
   
   [self runAction:[CCSequence actions:
                    [CCDelayTime actionWithDuration:DELAY_BEFORE_COMBO_BAR_WINDUP_SOUND],

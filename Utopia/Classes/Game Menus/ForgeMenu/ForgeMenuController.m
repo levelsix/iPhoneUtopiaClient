@@ -303,10 +303,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 }
 
 - (void) displayEnhanceMenu {
-  [self.navBar loadForForge:NO];
-  self.enhancingView.hidden = NO;
-  self.forgingView.hidden = YES;
-  [self.enhancingView reload];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (gl.minLevelConstants.enhancingMinLevel > gs.level) {
+    [Globals popupMessage:[NSString stringWithFormat:@"Enhancement unlocks at level %d.", gl.minLevelConstants.enhancingMinLevel]];
+    [self displayForgeMenu];
+  } else {
+    [self.navBar loadForForge:NO];
+    self.enhancingView.hidden = NO;
+    self.forgingView.hidden = YES;
+    [self.enhancingView reload];
+  }
 }
 
 - (void) loadForgeItems {

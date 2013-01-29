@@ -55,6 +55,8 @@
 #import "ThreeCardMonteViewController.h"
 #import "CharSelectionViewController.h"
 #import "TournamentMenuController.h"
+#import "TutorialBattleLayer.h"
+#import "GameLayer.h"
 
 #define DOOR_CLOSE_DURATION 1.5f
 #define DOOR_OPEN_DURATION 1.f

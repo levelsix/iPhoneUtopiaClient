@@ -120,7 +120,7 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   self.view.alpha = 0.f;
-  [UIView animateWithDuration:5.f delay:0.f options:UIViewAnimationOptionAllowUserInteraction animations:^{
+  [UIView animateWithDuration:2.f delay:0.f options:UIViewAnimationOptionAllowUserInteraction animations:^{
     self.view.alpha = 1.f;
   } completion:nil];
   
@@ -347,7 +347,7 @@
   
   _submitted = YES;
   
-  [UIView animateWithDuration:4.f animations:^{
+  [UIView animateWithDuration:2.f animations:^{
     self.view.alpha = 0.f;
   } completion:^(BOOL finished) {
     [self.view removeFromSuperview];

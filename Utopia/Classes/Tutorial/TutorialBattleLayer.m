@@ -57,27 +57,24 @@
   _rightNameBg.position = ccp(_rightNameBg.parent.contentSize.width-_rightNameLabel.contentSize.width-_rightNameLabel.position.x-15, _rightNameBg.position.y);
   
   [_battleCalculator release];
-  FullUserProto_Builder *builder = [[[FullUserProto builder] setAttack:ENEMY_ATTACK] 
-                                    setDefense:ENEMY_ATTACK];
-  _battleCalculator = [BattleCalculator 
-                       createWithRightStats:[UserBattleStats 
-                                             createWithFullUserProto:[builder build]] 
+  FullUserProto_Builder *builder = [[[[FullUserProto builder] setAttack:ENEMY_ATTACK]
+                                    setDefense:ENEMY_ATTACK] setLevel:1];
+  _battleCalculator = [BattleCalculator
+                       createWithRightStats:[UserBattleStats
+                                             createWithFullUserProto:[builder build]]
                        andLeftStats:[UserBattleStats createFromGameState]];
   [_battleCalculator retain];
   
   _ccArrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
-  [self addChild:_ccArrow];
   _ccArrow.visible = NO;
   
   _tapToAttack = [CCSprite spriteWithFile:@"tapanywheretoattack.png"];
-  [self addChild:_tapToAttack];
+  [self addChild:_tapToAttack z:1];
   _tapToAttack.opacity = 0.f;
   _tapToAttack.position = ccp(self.contentSize.width/2, self.contentSize.height/2+100);
   
-  _tryAgain = [CCSprite spriteWithFile:@"tryagain.png"];
-  [self addChild:_tryAgain z:1];
+  _tryAgain = [[CCSprite spriteWithFile:@"tryagain.png"] retain];
   _tryAgain.opacity = 0.f;
-  _tryAgain.position = ccp(self.contentSize.width/2, self.contentSize.height/2+130);
   
   _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
   _uiArrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
@@ -104,6 +101,12 @@
 }
 
 - (void) startMyTurn {
+  if (!_firstAttack) {
+    [_overLayer removeFromParentAndCleanup:YES];
+    _overLayer = nil;
+  }
+  [super startMyTurn];
+  
   if (_firstTurn) {
     _attackButton.visible = YES;
     _comboBar.visible = NO;
@@ -114,37 +117,38 @@
     _overLayer = [CCSprite spriteWithFile:@"attackbuttonlight.png"];
     [self addChild:_overLayer z:5];
     _overLayer.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    _overLayer.visible = NO;
     
-    CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hit attack before the timer runs out!" dimensions:CGSizeMake(150, 53) alignment:UITextAlignmentLeft lineBreakMode:UILineBreakModeWordWrap fontName:@"DINCond-Black" fontSize:20.f];
-    [_overLayer addChild:label];
-    label.anchorPoint = ccp(0, 0.5f);
-    label.position = ccp(_overLayer.contentSize.width/2+75, _overLayer.contentSize.height/2+15);
+    CCSprite *instr = [CCSprite spriteWithFile:@"tapbegin.png"];
+    [_overLayer addChild:instr];
+    instr.anchorPoint = ccp(0, 0);
     
-    CCMenuItem *okay = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"visitbutton.png"] selectedSprite:nil block:^(id sender) {
-      [_overLayer removeFromParentAndCleanup:YES];
-      _firstTurn = NO;
-      [self startMyTurn];
-    }];
-    okay.anchorPoint = ccp(0, 0.5f);
-    CCMenu *menu = [CCMenu menuWithItems:okay, nil];
-    menu.anchorPoint = ccp(0, 0.5f);
-    [_overLayer addChild:menu];
-    menu.position = ccpAdd(label.position, ccp(0, -label.contentSize.height));
+    [_attackProgressTimer stopAllActions];
+    [_attackProgressTimer runAction:[CCSequence actions:[CCProgressFromTo actionWithDuration:ATTACK_BUTTON_ANIMATION/10.f from:100 to:90],
+                                     [CCCallBlock actionWithBlock:
+                                      ^{
+                                        _firstTurn = NO;
+                                        _overLayer.visible = YES;
+                                        _ccArrow.visible = YES;
+                                      }],
+                                     [CCDelayTime actionWithDuration:2],
+                                     [CCProgressFromTo actionWithDuration:ATTACK_BUTTON_ANIMATION from:90 to:0],
+                                     [CCCallFunc actionWithTarget:self selector:@selector(turnMissed)], nil]];
     
-    label = [CCLabelFX labelWithString:@"OKAY" fontName:@"DINCond-Black" fontSize:16.f shadowOffset:CGSizeMake(0, -1) shadowBlur:0.3f shadowColor:ccc4(191, 54, 0, 20) fillColor:ccc4(255, 255, 255, 255)];
-    [okay addChild:label];
-    label.position = ccp(okay.contentSize.width/2, okay.contentSize.height/2);
+    [_overLayer addChild:_ccArrow];
+    [_overLayer addChild:_tryAgain];
+    _tryAgain.position = ccp(_overLayer.contentSize.width/2, _tryAgain.contentSize.height/2);
   } else {
-    [super startMyTurn];
     _ccArrow.visible = YES;
-    CGPoint pos = ccp(_attackButton.position.x,
-                      _attackButton.position.y+_attackButton.contentSize.height/2+_ccArrow.contentSize.height/2);
-    _ccArrow.position = pos;
-    [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
     
     _tapToAttack.opacity = 0.f;
     [_tapToAttack stopAllActions];
   }
+  
+  CGPoint pos = ccp(_ccArrow.parent.contentSize.width/2,
+                    _attackButton.position.y+_attackButton.contentSize.height/2+_ccArrow.contentSize.height/2);
+  _ccArrow.position = pos;
+  [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
 }
 
 - (void) turnMissed {
@@ -159,53 +163,135 @@
 }
 
 - (void) attackStart {
-  if (_firstTurn) {
+  if (_firstTurn && !_overLayer.visible) {
     return;
   }
   
   _ccArrow.visible = NO;
   if (_firstAttack) {
+    [_ccArrow removeFromParentAndCleanup:YES];
+    [self addChild:_ccArrow];
+    [_tryAgain removeFromParentAndCleanup:YES];
+    [self addChild:_tryAgain z:1];
+    _tryAgain.position = ccp(self.contentSize.width/2, _tryAgain.contentSize.height/2);
+    _tryAgain.opacity = 0;
+    [_overLayer removeFromParentAndCleanup:YES];
+    
+    _attackMoving = NO;
     [_attackProgressTimer stopAllActions];
     
     _bottomMenu.visible = NO;
     _attackButton.visible = NO;
+    _isAnimating = YES;
     
     _comboBar.visible = YES;
-    _comboBarMoving = NO;
-    
-    _triangle.rotation = 180;
+    _comboBarMoving = YES;
     
     _overLayer = [CCSprite spriteWithFile:@"combowheellight.png"];
     [self addChild:_overLayer z:5];
     _overLayer.position = ccp(_overLayer.contentSize.width/2, self.contentSize.height/2);
     
-    CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap anywhere on the screen to engage your attack." dimensions:CGSizeMake(200, 53) alignment:UITextAlignmentLeft lineBreakMode:UILineBreakModeWordWrap fontName:@"DINCond-Black" fontSize:20.f];
-    [_overLayer addChild:label];
-    label.anchorPoint = ccp(0, 1.f);
-    label.position = ccp(self.contentSize.width/2, self.contentSize.height/2+45);
+    CCSprite *whenArrow = [CCSprite spriteWithFile:@"arrow1.png"];
+    CCSprite *whenthis = [CCSprite spriteWithFile:@"whenthis.png"];
+    whenArrow.anchorPoint = ccp(0,0);
+    whenthis.anchorPoint = ccp(0,0);
+    whenArrow.opacity = 0;
+    whenthis.opacity = 0;
+    [whenthis addChild:whenArrow];
+    [_overLayer addChild:whenthis];
     
-    CCLabelTTF *label2 = [CCLabelTTF labelWithString:@"Aim for the max!" dimensions:CGSizeMake(150, 30) alignment:UITextAlignmentLeft lineBreakMode:UILineBreakModeWordWrap fontName:@"DINCond-Black" fontSize:20.f];
-    label2.color = ccc3(255, 200, 0);
-    [_overLayer addChild:label2];
-    label2.anchorPoint = ccp(0, 1.f);
-    label2.position = ccpAdd(label.position, ccp(0, -label.contentSize.height));
+    CCSprite *reachesArrow = [CCSprite spriteWithFile:@"arrow2.png"];
+    CCSprite *reachesthis = [CCSprite spriteWithFile:@"reachesthis.png"];
+    reachesArrow.anchorPoint = ccp(0,0);
+    reachesthis.anchorPoint = ccp(0,0);
+    reachesArrow.opacity = 0;
+    reachesthis.opacity = 0;
+    [reachesthis addChild:reachesArrow];
+    [_overLayer addChild:reachesthis];
     
-    CCMenuItem *okay = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"visitbutton.png"] selectedSprite:nil block:^(id sender) {
-      [_overLayer removeFromParentAndCleanup:YES];
-      _firstAttack = NO;
-      [self attackStart];
-    }];
-    okay.anchorPoint = ccp(0, 1.f);
-    CCMenu *menu = [CCMenu menuWithItems:okay, nil];
-    menu.anchorPoint = ccp(0, 1.f);
-    [_overLayer addChild:menu];
-    menu.position = ccpAdd(label2.position, ccp(0, -label2.contentSize.height));
+    CCSprite *tapPerfect = [CCSprite spriteWithFile:@"tapforaperfectattack.png"];
+    tapPerfect.anchorPoint = ccp(0,0);
+    tapPerfect.opacity = 0;
+    [_overLayer addChild:tapPerfect];
     
-    label = [CCLabelFX labelWithString:@"OKAY" fontName:@"DINCond-Black" fontSize:16.f shadowOffset:CGSizeMake(0, -1) shadowBlur:0.3f shadowColor:ccc4(191, 54, 0, 20) fillColor:ccc4(255, 255, 255, 255)];
-    [okay addChild:label];
-    label.position = ccp(okay.contentSize.width/2, okay.contentSize.height/2);
+    CCSprite *maxLayer = [CCSprite spriteWithFile:@"combowheelmaxedbg.png"];
+    maxLayer.position = ccp(maxLayer.contentSize.width/2, self.contentSize.height/2);
+    CCSprite *maxArrow = [CCSprite spriteWithFile:@"arrow3.png"];
+    CCSprite *barmaxed = [CCSprite spriteWithFile:@"barismaxed.png"];
+    CCSprite *tapanywhere = [CCSprite spriteWithFile:@"tapanywheretoengageattack.png"];
+    maxArrow.anchorPoint = ccp(0,0);
+    barmaxed.anchorPoint = ccp(0,0);
+    tapanywhere.anchorPoint = ccp(0,0);
+    [barmaxed addChild:maxArrow];
+    [barmaxed addChild:tapanywhere];
+    [maxLayer addChild:barmaxed];
+    
+    float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
+    _triangle.rotation = START_TRIANGLE_ROTATION;
+    
+    float firstStop = 1.f/12;
+    float secondStop = 5.f/6;
+    float firstRot = START_TRIANGLE_ROTATION+firstStop*(END_TRIANGLE_ROTATION-START_TRIANGLE_ROTATION);
+    float secondRot = START_TRIANGLE_ROTATION+secondStop*(END_TRIANGLE_ROTATION-START_TRIANGLE_ROTATION);
+    
+    float baseSecs = 1.5f;
+    
+    [self runAction:[CCSequence actions:
+                     [CCCallBlock actionWithBlock:
+                      ^{
+                        [_triangle runAction:[CCRotateBy actionWithDuration:duration*firstStop angle:firstRot-_triangle.rotation]];
+                      }],
+                     [CCDelayTime actionWithDuration:duration*firstStop],
+                     [CCCallBlock actionWithBlock:
+                      ^{
+                        [whenthis runAction:[CCSequence actions:[RecursiveFadeTo actionWithDuration:0.2f opacity:255], [CCDelayTime actionWithDuration:baseSecs-0.3f], [RecursiveFadeTo actionWithDuration:0.1f opacity:100], nil]];
+                        [reachesthis runAction:[CCSequence actions:[CCDelayTime actionWithDuration:baseSecs], [RecursiveFadeTo actionWithDuration:0.2f opacity:255],
+                                                [CCDelayTime actionWithDuration:baseSecs-0.3f], [RecursiveFadeTo actionWithDuration:0.1f opacity:100], nil]];
+                        [tapPerfect runAction:[CCSequence actions:[CCDelayTime actionWithDuration:baseSecs*2], [CCFadeIn actionWithDuration:0.2f], nil]];
+                      }],
+                     [CCDelayTime actionWithDuration:baseSecs*3+0.5f],
+                     [CCCallBlock actionWithBlock:
+                      ^{
+                        [_overLayer removeFromParentAndCleanup:YES];
+                        [_triangle runAction:[CCRotateBy actionWithDuration:duration*secondStop angle:secondRot-_triangle.rotation]];
+                      }],
+                     [CCDelayTime actionWithDuration:duration*secondStop+0.05f],
+                     [CCCallBlock actionWithBlock:
+                      ^{
+                        _overLayer = maxLayer;
+                        [self addChild:_overLayer z:5];
+                        _allowAttackingForFirstAttack = YES;
+                      }],
+                     nil]];
+    
+    //    CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap anywhere on the screen to engage your attack." dimensions:CGSizeMake(200, 53) alignment:UITextAlignmentLeft lineBreakMode:UILineBreakModeWordWrap fontName:@"DINCond-Black" fontSize:20.f];
+    //    [_overLayer addChild:label];
+    //    label.anchorPoint = ccp(0, 1.f);
+    //    label.position = ccp(self.contentSize.width/2, self.contentSize.height/2+45);
+    //
+    //    CCLabelTTF *label2 = [CCLabelTTF labelWithString:@"Aim for the max!" dimensions:CGSizeMake(150, 30) alignment:UITextAlignmentLeft lineBreakMode:UILineBreakModeWordWrap fontName:@"DINCond-Black" fontSize:20.f];
+    //    label2.color = ccc3(255, 200, 0);
+    //    [_overLayer addChild:label2];
+    //    label2.anchorPoint = ccp(0, 1.f);
+    //    label2.position = ccpAdd(label.position, ccp(0, -label.contentSize.height));
+    //
+    //    CCMenuItem *okay = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"visitbutton.png"] selectedSprite:nil block:^(id sender) {
+    //      [_overLayer removeFromParentAndCleanup:YES];
+    //      _firstAttack = NO;
+    //      [self attackStart];
+    //    }];
+    //    okay.anchorPoint = ccp(0, 1.f);
+    //    CCMenu *menu = [CCMenu menuWithItems:okay, nil];
+    //    menu.anchorPoint = ccp(0, 1.f);
+    //    [_overLayer addChild:menu];
+    //    menu.position = ccpAdd(label2.position, ccp(0, -label2.contentSize.height));
+    //
+    //    label = [CCLabelFX labelWithString:@"OKAY" fontName:@"DINCond-Black" fontSize:16.f shadowOffset:CGSizeMake(0, -1) shadowBlur:0.3f shadowColor:ccc4(191, 54, 0, 20) fillColor:ccc4(255, 255, 255, 255)];
+    //    [okay addChild:label];
+    //    label.position = ccp(okay.contentSize.width/2, okay.contentSize.height/2);
   } else {
     [super attackStart];
+    
     [_ccArrow stopAllActions];
     _tryAgain.opacity = 0;
     [_tryAgain stopAllActions];
@@ -217,10 +303,35 @@
   }
 }
 
+- (void) startEnemyTurn {
+  if (_firstAttack) {
+    _overLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 100)];
+    [self addChild:_overLayer z:5];
+    
+    CCSprite *oppAttack = [CCSprite spriteWithFile:@"opponentsattack.png"];
+    oppAttack.position = ccp(_overLayer.contentSize.width/2, _overLayer.contentSize.height/2);
+    [_overLayer addChild:oppAttack];
+    
+    _firstAttack = NO;
+    
+    [oppAttack runAction:[CCSequence actions:[CCDelayTime actionWithDuration:3.5f], [CCCallFunc actionWithTarget:self selector:@selector(startEnemyTurn)], nil]];
+  } else {
+    [_overLayer removeFromParentAndCleanup:YES];
+    _overLayer = nil;
+    [super startEnemyTurn];
+  }
+}
+
 - (void) comboBarClicked {
+  if (_firstAttack && !_allowAttackingForFirstAttack) {
+    return;
+  }
+  
   if (_comboBarMoving) {
     [_triangle stopAllActions];
     _comboBarMoving = NO;
+    [_overLayer removeFromParentAndCleanup:YES];
+    _overLayer = nil;	
     
     float percentage = (_triangle.rotation-START_TRIANGLE_ROTATION)/(END_TRIANGLE_ROTATION-START_TRIANGLE_ROTATION)*100;
     _damageDone = [self calculateMyDamageForPercentage:percentage];
@@ -247,7 +358,7 @@
   }
   _clickedDone = YES;
   
-  [_left runAction: [CCSequence actions: 
+  [_left runAction: [CCSequence actions:
                      [CCDelayTime actionWithDuration:0.1],
                      [CCMoveBy actionWithDuration:0.2 position:ccp(-3*_right.contentSize.width/4, 0)],
                      [CCCallFunc actionWithTarget:self selector:@selector(displayStolenEquip)],
@@ -407,6 +518,7 @@
 - (void) dealloc {
   [_uiArrow release];
   [_ccArrow release];
+  [_tryAgain release];
   [super dealloc];
 }
 

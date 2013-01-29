@@ -12,10 +12,11 @@
   CCSprite *_ccArrow;
   CCSprite *_tapToAttack;
   CCSprite *_tryAgain;
-  CCSprite *_overLayer;
+  CCNode *_overLayer;
   
   BOOL _firstTurn;
   BOOL _firstAttack;
+  BOOL _allowAttackingForFirstAttack;
   
   UIImageView *_uiArrow;
 }

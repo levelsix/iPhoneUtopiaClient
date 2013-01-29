@@ -172,14 +172,16 @@
     healthPercent = _battleConstants.battleHitAttackerPercentOfHealth;
   }
   
-  int health = [gl calculateHealthForLevel:defender.level];
+  int healthOfAttacker = [gl calculateHealthForLevel:attacker.level];
+  int healthOfDefender = [gl calculateHealthForLevel:defender.level];
+  int health = (healthOfAttacker + healthOfDefender)*(attacker.level/(float)(attacker.level + defender.level));
   double hitStrength = health*healthPercent;
-  int levelDifference = attacker.level-defender.level;
+  int levelDifference = defender.level-attacker.level;
   double totalEquipPortion = MIN(3*_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfEquipment*(((float)(attacker.weaponAttack+attacker.armorAttack+attacker.amuletAttack))/(defender.weaponDefense+defender.armorDefense+defender.amuletDefense)));
 	double weaponPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfWeapon*(((float)attacker.weaponAttack)/defender.weaponDefense));
   double armorPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfArmor*(((float)attacker.armorAttack)/defender.armorDefense));
   double amuletPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfAmulet*(((float)attacker.amuletAttack)/defender.armorDefense));
-  double statsPortion = _battleConstants.battlePercentOfPlayerStats*(((float)attacker.attackStat)/defender.defenseStat);
+  double statsPortion = _battleConstants.battlePercentOfPlayerStats*(((float)attacker.attackStat)/defender.defenseStat)*pow(_battleConstants.battleEquipAndStatsWeight,levelDifference);
 	
 	int battleFormula = (int) (hitStrength*(pow((totalEquipPortion+weaponPortion+armorPortion+amuletPortion+statsPortion)*
                                               pow(_battleConstants.battleEquipAndStatsWeight, levelDifference),

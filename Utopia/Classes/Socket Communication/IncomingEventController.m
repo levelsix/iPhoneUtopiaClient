@@ -691,7 +691,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusSuccess) {
     // Duplicate receipt might occur if you close app before response comes back
     if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusDuplicateReceipt) {
-      [Globals popupMessage:@"Sorry! Server failed to process in app purchase! Please send us an email at support@lvl6.com"];
+      [Globals popupMessage:@"Sorry! The In App Purchase failed! Please 	email at support@lvl6.com"];
       [Analytics inAppPurchaseFailed];
     }
     [gs removeAndUndoAllUpdatesForTag:tag];
@@ -829,7 +829,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to post item."];
+    if (proto.status == PostToMarketplaceResponseProto_PostToMarketplaceStatusUserAlreadyMaxMarketplacePosts) {
+      [Globals popupMessage:@"You have already reached the maximum number of posts."];;
+    } else {
+      [Globals popupMessage:@"Server failed to post item."];
+    }
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }

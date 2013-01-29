@@ -2083,3 +2083,12 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 }
 
 @end
+
+@implementation RecursiveFadeTo
+
+-(void) update: (ccTime) t
+{
+	[target_ recursivelyApplyOpacity:fromOpacity_ + ( toOpacity_ - fromOpacity_ ) * t];
+}
+
+@end

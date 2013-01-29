@@ -86,7 +86,7 @@
 {
   Globals *gl = [Globals sharedGlobals];
   InAppPurchasePackageProto *p = [gl packageForProductId:_product.productIdentifier];
-  return [NSString stringWithFormat:@"%d",p.currencyAmount];
+  return [NSString stringWithFormat:@"%@",[Globals commafyNumber:p.currencyAmount]];
 }
 
 

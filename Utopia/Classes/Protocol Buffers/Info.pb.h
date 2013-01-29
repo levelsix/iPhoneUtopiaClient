@@ -6752,6 +6752,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasUserId_:1;
   BOOL hasEquipId_:1;
   BOOL hasDiamondGuaranteeCost_:1;
+  BOOL hasEquipOneEnhancementPercent_:1;
+  BOOL hasEquipTwoEnhancementPercent_:1;
   BOOL guaranteed_:1;
   BOOL attemptComplete_:1;
   int64_t goalLevel;
@@ -6761,6 +6763,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t userId;
   int32_t equipId;
   int32_t diamondGuaranteeCost;
+  int32_t equipOneEnhancementPercent;
+  int32_t equipTwoEnhancementPercent;
 }
 - (BOOL) hasBlacksmithId;
 - (BOOL) hasUserId;
@@ -6771,6 +6775,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasDiamondGuaranteeCost;
 - (BOOL) hasTimeOfSpeedup;
 - (BOOL) hasAttemptComplete;
+- (BOOL) hasEquipOneEnhancementPercent;
+- (BOOL) hasEquipTwoEnhancementPercent;
 @property (readonly) int32_t blacksmithId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t equipId;
@@ -6780,6 +6786,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t diamondGuaranteeCost;
 @property (readonly) int64_t timeOfSpeedup;
 - (BOOL) attemptComplete;
+@property (readonly) int32_t equipOneEnhancementPercent;
+@property (readonly) int32_t equipTwoEnhancementPercent;
 
 + (UnhandledBlacksmithAttemptProto*) defaultInstance;
 - (UnhandledBlacksmithAttemptProto*) defaultInstance;
@@ -6859,5 +6867,15 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) attemptComplete;
 - (UnhandledBlacksmithAttemptProto_Builder*) setAttemptComplete:(BOOL) value;
 - (UnhandledBlacksmithAttemptProto_Builder*) clearAttemptComplete;
+
+- (BOOL) hasEquipOneEnhancementPercent;
+- (int32_t) equipOneEnhancementPercent;
+- (UnhandledBlacksmithAttemptProto_Builder*) setEquipOneEnhancementPercent:(int32_t) value;
+- (UnhandledBlacksmithAttemptProto_Builder*) clearEquipOneEnhancementPercent;
+
+- (BOOL) hasEquipTwoEnhancementPercent;
+- (int32_t) equipTwoEnhancementPercent;
+- (UnhandledBlacksmithAttemptProto_Builder*) setEquipTwoEnhancementPercent:(int32_t) value;
+- (UnhandledBlacksmithAttemptProto_Builder*) clearEquipTwoEnhancementPercent;
 @end
 

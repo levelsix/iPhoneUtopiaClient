@@ -26691,6 +26691,8 @@ static PlayerWallPostProto* defaultPlayerWallPostProtoInstance = nil;
 @property int32_t diamondGuaranteeCost;
 @property int64_t timeOfSpeedup;
 @property BOOL attemptComplete;
+@property int32_t equipOneEnhancementPercent;
+@property int32_t equipTwoEnhancementPercent;
 @end
 
 @implementation UnhandledBlacksmithAttemptProto
@@ -26768,6 +26770,20 @@ static PlayerWallPostProto* defaultPlayerWallPostProtoInstance = nil;
 - (void) setAttemptComplete:(BOOL) value {
   attemptComplete_ = !!value;
 }
+- (BOOL) hasEquipOneEnhancementPercent {
+  return !!hasEquipOneEnhancementPercent_;
+}
+- (void) setHasEquipOneEnhancementPercent:(BOOL) value {
+  hasEquipOneEnhancementPercent_ = !!value;
+}
+@synthesize equipOneEnhancementPercent;
+- (BOOL) hasEquipTwoEnhancementPercent {
+  return !!hasEquipTwoEnhancementPercent_;
+}
+- (void) setHasEquipTwoEnhancementPercent:(BOOL) value {
+  hasEquipTwoEnhancementPercent_ = !!value;
+}
+@synthesize equipTwoEnhancementPercent;
 - (void) dealloc {
   [super dealloc];
 }
@@ -26782,6 +26798,8 @@ static PlayerWallPostProto* defaultPlayerWallPostProtoInstance = nil;
     self.diamondGuaranteeCost = 0;
     self.timeOfSpeedup = 0L;
     self.attemptComplete = NO;
+    self.equipOneEnhancementPercent = 0;
+    self.equipTwoEnhancementPercent = 0;
   }
   return self;
 }
@@ -26828,6 +26846,12 @@ static UnhandledBlacksmithAttemptProto* defaultUnhandledBlacksmithAttemptProtoIn
   if (self.hasAttemptComplete) {
     [output writeBool:10 value:self.attemptComplete];
   }
+  if (self.hasEquipOneEnhancementPercent) {
+    [output writeInt32:11 value:self.equipOneEnhancementPercent];
+  }
+  if (self.hasEquipTwoEnhancementPercent) {
+    [output writeInt32:12 value:self.equipTwoEnhancementPercent];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -26863,6 +26887,12 @@ static UnhandledBlacksmithAttemptProto* defaultUnhandledBlacksmithAttemptProtoIn
   }
   if (self.hasAttemptComplete) {
     size += computeBoolSize(10, self.attemptComplete);
+  }
+  if (self.hasEquipOneEnhancementPercent) {
+    size += computeInt32Size(11, self.equipOneEnhancementPercent);
+  }
+  if (self.hasEquipTwoEnhancementPercent) {
+    size += computeInt32Size(12, self.equipTwoEnhancementPercent);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -26966,6 +26996,12 @@ static UnhandledBlacksmithAttemptProto* defaultUnhandledBlacksmithAttemptProtoIn
   if (other.hasAttemptComplete) {
     [self setAttemptComplete:other.attemptComplete];
   }
+  if (other.hasEquipOneEnhancementPercent) {
+    [self setEquipOneEnhancementPercent:other.equipOneEnhancementPercent];
+  }
+  if (other.hasEquipTwoEnhancementPercent) {
+    [self setEquipTwoEnhancementPercent:other.equipTwoEnhancementPercent];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -27021,6 +27057,14 @@ static UnhandledBlacksmithAttemptProto* defaultUnhandledBlacksmithAttemptProtoIn
       }
       case 80: {
         [self setAttemptComplete:[input readBool]];
+        break;
+      }
+      case 88: {
+        [self setEquipOneEnhancementPercent:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setEquipTwoEnhancementPercent:[input readInt32]];
         break;
       }
     }
@@ -27168,6 +27212,38 @@ static UnhandledBlacksmithAttemptProto* defaultUnhandledBlacksmithAttemptProtoIn
 - (UnhandledBlacksmithAttemptProto_Builder*) clearAttemptComplete {
   result.hasAttemptComplete = NO;
   result.attemptComplete = NO;
+  return self;
+}
+- (BOOL) hasEquipOneEnhancementPercent {
+  return result.hasEquipOneEnhancementPercent;
+}
+- (int32_t) equipOneEnhancementPercent {
+  return result.equipOneEnhancementPercent;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) setEquipOneEnhancementPercent:(int32_t) value {
+  result.hasEquipOneEnhancementPercent = YES;
+  result.equipOneEnhancementPercent = value;
+  return self;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) clearEquipOneEnhancementPercent {
+  result.hasEquipOneEnhancementPercent = NO;
+  result.equipOneEnhancementPercent = 0;
+  return self;
+}
+- (BOOL) hasEquipTwoEnhancementPercent {
+  return result.hasEquipTwoEnhancementPercent;
+}
+- (int32_t) equipTwoEnhancementPercent {
+  return result.equipTwoEnhancementPercent;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) setEquipTwoEnhancementPercent:(int32_t) value {
+  result.hasEquipTwoEnhancementPercent = YES;
+  result.equipTwoEnhancementPercent = value;
+  return self;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) clearEquipTwoEnhancementPercent {
+  result.hasEquipTwoEnhancementPercent = NO;
+  result.equipTwoEnhancementPercent = 0;
   return self;
 }
 @end

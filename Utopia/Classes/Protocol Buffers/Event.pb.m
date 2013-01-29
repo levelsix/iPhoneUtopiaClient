@@ -7589,6 +7589,7 @@ static StartupResponseProto_StartupConstants_LeaderboardEventConstants* defaultS
 @property int32_t marketplaceMinLevel;
 @property int32_t blacksmithMinLevel;
 @property int32_t leaderboardMinLevel;
+@property int32_t enhancingMinLevel;
 @end
 
 @implementation StartupResponseProto_StartupConstants_BazaarMinLevelConstants
@@ -7635,6 +7636,13 @@ static StartupResponseProto_StartupConstants_LeaderboardEventConstants* defaultS
   hasLeaderboardMinLevel_ = !!value;
 }
 @synthesize leaderboardMinLevel;
+- (BOOL) hasEnhancingMinLevel {
+  return !!hasEnhancingMinLevel_;
+}
+- (void) setHasEnhancingMinLevel:(BOOL) value {
+  hasEnhancingMinLevel_ = !!value;
+}
+@synthesize enhancingMinLevel;
 - (void) dealloc {
   [super dealloc];
 }
@@ -7646,6 +7654,7 @@ static StartupResponseProto_StartupConstants_LeaderboardEventConstants* defaultS
     self.marketplaceMinLevel = 0;
     self.blacksmithMinLevel = 0;
     self.leaderboardMinLevel = 0;
+    self.enhancingMinLevel = 0;
   }
   return self;
 }
@@ -7683,6 +7692,9 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
   if (self.hasLeaderboardMinLevel) {
     [output writeInt32:6 value:self.leaderboardMinLevel];
   }
+  if (self.hasEnhancingMinLevel) {
+    [output writeInt32:7 value:self.enhancingMinLevel];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -7709,6 +7721,9 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
   }
   if (self.hasLeaderboardMinLevel) {
     size += computeInt32Size(6, self.leaderboardMinLevel);
+  }
+  if (self.hasEnhancingMinLevel) {
+    size += computeInt32Size(7, self.enhancingMinLevel);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -7803,6 +7818,9 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
   if (other.hasLeaderboardMinLevel) {
     [self setLeaderboardMinLevel:other.leaderboardMinLevel];
   }
+  if (other.hasEnhancingMinLevel) {
+    [self setEnhancingMinLevel:other.enhancingMinLevel];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -7846,6 +7864,10 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
       }
       case 48: {
         [self setLeaderboardMinLevel:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setEnhancingMinLevel:[input readInt32]];
         break;
       }
     }
@@ -7945,6 +7967,22 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
 - (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearLeaderboardMinLevel {
   result.hasLeaderboardMinLevel = NO;
   result.leaderboardMinLevel = 0;
+  return self;
+}
+- (BOOL) hasEnhancingMinLevel {
+  return result.hasEnhancingMinLevel;
+}
+- (int32_t) enhancingMinLevel {
+  return result.enhancingMinLevel;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setEnhancingMinLevel:(int32_t) value {
+  result.hasEnhancingMinLevel = YES;
+  result.enhancingMinLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearEnhancingMinLevel {
+  result.hasEnhancingMinLevel = NO;
+  result.enhancingMinLevel = 0;
   return self;
 }
 @end

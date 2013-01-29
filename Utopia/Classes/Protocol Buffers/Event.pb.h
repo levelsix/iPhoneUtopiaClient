@@ -3146,12 +3146,14 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
   BOOL hasMarketplaceMinLevel_:1;
   BOOL hasBlacksmithMinLevel_:1;
   BOOL hasLeaderboardMinLevel_:1;
+  BOOL hasEnhancingMinLevel_:1;
   int32_t clanHouseMinLevel;
   int32_t vaultMinLevel;
   int32_t armoryMinLevel;
   int32_t marketplaceMinLevel;
   int32_t blacksmithMinLevel;
   int32_t leaderboardMinLevel;
+  int32_t enhancingMinLevel;
 }
 - (BOOL) hasClanHouseMinLevel;
 - (BOOL) hasVaultMinLevel;
@@ -3159,12 +3161,14 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
 - (BOOL) hasMarketplaceMinLevel;
 - (BOOL) hasBlacksmithMinLevel;
 - (BOOL) hasLeaderboardMinLevel;
+- (BOOL) hasEnhancingMinLevel;
 @property (readonly) int32_t clanHouseMinLevel;
 @property (readonly) int32_t vaultMinLevel;
 @property (readonly) int32_t armoryMinLevel;
 @property (readonly) int32_t marketplaceMinLevel;
 @property (readonly) int32_t blacksmithMinLevel;
 @property (readonly) int32_t leaderboardMinLevel;
+@property (readonly) int32_t enhancingMinLevel;
 
 + (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_BazaarMinLevelConstants*) defaultInstance;
@@ -3229,6 +3233,11 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
 - (int32_t) leaderboardMinLevel;
 - (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setLeaderboardMinLevel:(int32_t) value;
 - (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearLeaderboardMinLevel;
+
+- (BOOL) hasEnhancingMinLevel;
+- (int32_t) enhancingMinLevel;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setEnhancingMinLevel:(int32_t) value;
+- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearEnhancingMinLevel;
 @end
 
 @interface StartupResponseProto_StartupConstants_DownloadableNibConstants : PBGeneratedMessage {

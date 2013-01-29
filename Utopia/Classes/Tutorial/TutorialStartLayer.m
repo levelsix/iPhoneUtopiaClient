@@ -125,7 +125,7 @@
   float curPos = _bgd.position.x;
   float finalPos = -_bgd.contentSize.width+self.contentSize.width;
   [_bgd runAction: [CCSequence actions:
-                    [CCMoveTo actionWithDuration:(finalPos-curPos)/finalPos*1.f position:ccp(finalPos,0)],
+                    [CCMoveTo actionWithDuration:(finalPos-curPos)/finalPos*0.7f position:ccp(finalPos,0)],
                     [CCCallFunc actionWithTarget:self selector:@selector(firstPartOfPanDone)], nil]];
   
   _backButton.visible = NO;
@@ -180,7 +180,7 @@
 - (void) flashComplete {
   NSString *text = [[TutorialConstants sharedTutorialConstants] beforeCharSelectionText];
   _label.string = text;
-  [_label runAction:[CCFadeIn actionWithDuration:0.3f]];
+  [_label runAction:[CCFadeIn actionWithDuration:0.05f]];
   [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.f], [CCCallFunc actionWithTarget:self selector:@selector(showTapToContinue)], nil]];
   _beforeCharSelectPhase = YES;
 }
