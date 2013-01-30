@@ -347,7 +347,7 @@
   
   _submitted = YES;
   
-  [UIView animateWithDuration:2.f animations:^{
+  [UIView animateWithDuration:1.f animations:^{
     self.view.alpha = 0.f;
   } completion:^(BOOL finished) {
     [self.view removeFromSuperview];

@@ -144,6 +144,9 @@ static BOOL shake_once = NO;
   } else {
     _topBar = [TopBar sharedTopBar];
     [self addChild:_topBar z:2];
+    
+    CCLayer *black = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 255)];
+    [self addChild:black z:5 tag:9];
   }
 }
 
@@ -215,10 +218,6 @@ static BOOL shake_once = NO;
   EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
   [EAGLContext setCurrentContext:k_context];
   
-  [self unloadCurrentMissionMap];
-  CCLayer *layer = [CCLayer node];
-  [self.parent addChild:layer z:1000];
-  
   TutorialMissionMap *map = [TutorialMissionMap sharedTutorialMissionMap];
   currentCity = 1;
   _missionMap = map;
@@ -230,7 +229,6 @@ static BOOL shake_once = NO;
   [map allowBlink];
   
   [self closeHomeMap];
-  [layer removeFromParentAndCleanup:YES];
   
   [pool release];
 }

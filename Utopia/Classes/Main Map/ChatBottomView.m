@@ -58,13 +58,13 @@
   GameState *gs = [GameState sharedGameState];
   NSArray *arr = nil;
   if (isGlobal) {
-    globalIcon.hidden = NO;
-    clanIcon.hidden = YES;
+    globalIcon.hidden = YES;
+    clanIcon.hidden = NO;
     arr = gs.globalChatMessages;
   } else {
     [gs clanChatViewed];
-    globalIcon.hidden = YES;
-    clanIcon.hidden = NO;
+    globalIcon.hidden = NO;
+    clanIcon.hidden = YES;
     arr = gs.clanChatMessages;
   }
   

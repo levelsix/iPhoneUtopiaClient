@@ -149,7 +149,7 @@
                     [CCEaseIn actionWithAction:[CCFadeTo actionWithDuration:dur opacity:255] rate:4],
                     [CCCallFunc actionWithTarget:self selector:@selector(removeBg)],
                     [CCFadeTo actionWithDuration:0.5 opacity:0],
-                    [CCDelayTime actionWithDuration:2],
+                    [CCDelayTime actionWithDuration:0.2],
                     [CCCallFunc actionWithTarget:self selector:@selector(flashComplete)],
                     nil]];
   
@@ -180,7 +180,7 @@
 - (void) flashComplete {
   NSString *text = [[TutorialConstants sharedTutorialConstants] beforeCharSelectionText];
   _label.string = text;
-  [_label runAction:[CCFadeIn actionWithDuration:0.05f]];
+  [_label runAction:[CCFadeIn actionWithDuration:0.2f]];
   [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.f], [CCCallFunc actionWithTarget:self selector:@selector(showTapToContinue)], nil]];
   _beforeCharSelectPhase = YES;
 }

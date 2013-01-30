@@ -616,6 +616,7 @@
 - (void) setState:(ClanBrowseState)s {
   state = s;
   [browseClansTable reloadData];
+  [browseClansTable setContentOffset:ccp(0,0) animated:YES];
 }
 
 - (void) loadClans:(NSArray *)clans isForSearch:(BOOL)search {

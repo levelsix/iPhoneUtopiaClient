@@ -142,31 +142,48 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants {
-  self.iapPackages = constants.inAppPurchasePackagesList;
-  NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjects:constants.productDiamondsGivenList forKeys:constants.productIdsList];
-  
-  for (InAppPurchasePackageProto *pkg in self.iapPackages) {
-    [dict setObject:pkg forKey:pkg.packageId];
-  }
-  
-  if (constants.productIdsList.count >= 5) {
-    GameState *gs = [GameState sharedGameState];
-    for (GoldSaleProto *p in gs.staticGoldSales) {
-      if (self.iapPackages.count > 0) {
-        if (p.hasPackage1SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:0] forKey:p.package1SaleIdentifier];
-        if (p.hasPackage2SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:2] forKey:p.package2SaleIdentifier];
-        if (p.hasPackage3SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:4] forKey:p.package3SaleIdentifier];
-        if (p.hasPackage4SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:6] forKey:p.package4SaleIdentifier];
-        if (p.hasPackage5SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:8] forKey:p.package5SaleIdentifier];
-        if (p.hasPackageS1SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:1] forKey:p.packageS1SaleIdentifier];
-        if (p.hasPackageS2SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:3] forKey:p.packageS2SaleIdentifier];
-        if (p.hasPackageS3SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:5] forKey:p.packageS3SaleIdentifier];
-        if (p.hasPackageS4SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:7] forKey:p.packageS4SaleIdentifier];
-        if (p.hasPackageS5SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:9] forKey:p.packageS5SaleIdentifier];
+  if (constants.inAppPurchasePackagesList.count > 0) {
+    self.iapPackages = constants.inAppPurchasePackagesList;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    
+    for (InAppPurchasePackageProto *pkg in self.iapPackages) {
+      [dict setObject:pkg forKey:pkg.packageId];
+    }
+    
+    if (constants.productIdsList.count >= 5) {
+      GameState *gs = [GameState sharedGameState];
+      for (GoldSaleProto *p in gs.staticGoldSales) {
+        if (self.iapPackages.count > 0) {
+          if (p.hasPackage1SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:0] forKey:p.package1SaleIdentifier];
+          if (p.hasPackage2SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:2] forKey:p.package2SaleIdentifier];
+          if (p.hasPackage3SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:4] forKey:p.package3SaleIdentifier];
+          if (p.hasPackage4SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:6] forKey:p.package4SaleIdentifier];
+          if (p.hasPackage5SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:8] forKey:p.package5SaleIdentifier];
+          if (p.hasPackageS1SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:1] forKey:p.packageS1SaleIdentifier];
+          if (p.hasPackageS2SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:3] forKey:p.packageS2SaleIdentifier];
+          if (p.hasPackageS3SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:5] forKey:p.packageS3SaleIdentifier];
+          if (p.hasPackageS4SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:7] forKey:p.packageS4SaleIdentifier];
+          if (p.hasPackageS5SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:9] forKey:p.packageS5SaleIdentifier];
+        }
       }
     }
+    self.productIdsToPackages = dict;
+  } else {
+    NSMutableArray *pkgs = [NSMutableArray array];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    for (int i = 0; i < constants.productIdsList.count && i < constants.productDiamondsGivenList.count; i++) {
+      InAppPurchasePackageProto_Builder *iap = [InAppPurchasePackageProto builder];
+      iap.isGold = YES;
+      iap.imageName = @"stack.png";
+      iap.packageId = [constants.productIdsList objectAtIndex:i];
+      iap.currencyAmount = [[constants.productDiamondsGivenList objectAtIndex:i] intValue];
+      InAppPurchasePackageProto *pkg = [iap build];
+      [pkgs addObject:pkg];
+      [dict setObject:pkg forKey:pkg.packageId];
+    }
+    self.iapPackages = pkgs;
+    self.productIdsToPackages = dict;
   }
-  self.productIdsToPackages = dict;
   [[IAPHelper sharedIAPHelper] requestProducts];
   
   self.maxLevelDiffForBattle = constants.maxLevelDifferenceForBattle;
@@ -1535,11 +1552,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateGoldCostToGuaranteeForgingSuccess:(int)equipId level:(int)level {
-  return (int)([self calculateGoldCostToSpeedUpForging:equipId level:level]/[self calculateChanceOfSuccess:equipId level:level]);
+  float chanceOfSuccess = [self calculateChanceOfSuccess:equipId level:level];
+  int goldCost = [self calculateGoldCostToSpeedUpForging:equipId level:level];
+  return (int)(goldCost/chanceOfSuccess);
 }
 
 - (int) calculateGoldCostToSpeedUpForging:(int)equipId level:(int)level {
-  return (int)ceil([self calculateMinutesForForge:equipId level:level]/self.forgeBaseMinutesToOneGold);
+  return (int)ceil([self calculateMinutesForForge:equipId level:level]/(float)self.forgeBaseMinutesToOneGold);
 }
 
 - (int) calculateRetailValueForEquip:(int)equipId level:(int)level {
@@ -1600,14 +1619,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (float) calculatePercentOfLevel:(int)percentage {
+  if (!self.enhancePercentPerLevel) return 0;
   return ((float)percentage)/self.enhancePercentPerLevel;
 }
 
 - (int) calculateEnhancementLevel:(int)percentage {
+  if (!self.enhancePercentPerLevel) return 0;
   return percentage / self.enhancePercentPerLevel;
 }
 
 - (int) calculateEnhancementPercentageToNextLevel:(int)percentage {
+  if (!self.enhancePercentPerLevel) return 0;
   return percentage % self.enhancePercentPerLevel;
 }
 

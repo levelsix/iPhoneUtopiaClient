@@ -125,7 +125,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     self.selected = nil;
     
-    _acceptQuestPhase = YES;
+    _acceptQuestPhase = NO;
     _doBattlePhase = NO;
     _doTaskPhase = NO;
     _canUnclick = YES;
@@ -210,6 +210,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   
   [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.f], [CCCallFunc actionWithTarget:self selector:@selector(showTapToContinue)], nil]];
   
+  // Remove the black overlay
+  [self.parent removeChildByTag:9 cleanup:YES];
+  
   // Must do blink separately b/c layer is added to parent
   CCLayer *bot = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 255)];
   bot.contentSize = CGSizeMake(bot.contentSize.width, bot.contentSize.height/2);
@@ -265,6 +268,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   [DialogMenuController displayViewForText:text];
   
   [self centerOnQuestGiver];
+  _acceptQuestPhase = YES;
   
   [[TopBar sharedTopBar] start];
 }

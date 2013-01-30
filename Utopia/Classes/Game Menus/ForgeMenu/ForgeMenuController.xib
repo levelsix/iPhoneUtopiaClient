@@ -117,13 +117,12 @@
 									<object class="IBUIImageView" id="1007259246">
 										<reference key="NSNextResponder" ref="220237846"/>
 										<int key="NSvFlags">256</int>
-										<string key="NSFrame">{{83, 0}, {83, 27}}</string>
+										<string key="NSFrame">{{82, 0}, {84, 27}}</string>
 										<reference key="NSSuperview" ref="220237846"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="543530374"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
-										<int key="IBUIContentMode">4</int>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<reference key="IBUIImage" ref="742119139"/>
