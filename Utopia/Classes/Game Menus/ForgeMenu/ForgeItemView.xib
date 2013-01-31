@@ -165,7 +165,7 @@
 							<object class="IBUIImageView" id="683499477">
 								<reference key="NSNextResponder" ref="279206088"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{121, 35}, {11, 11}}</string>
+								<string key="NSFrame">{{126, 35}, {11, 11}}</string>
 								<reference key="NSSuperview" ref="279206088"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="253323756"/>
@@ -182,7 +182,7 @@
 							<object class="IBUILabel" id="253323756">
 								<reference key="NSNextResponder" ref="279206088"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{136, 32}, {19, 15}}</string>
+								<string key="NSFrame">{{140, 32}, {27, 15}}</string>
 								<reference key="NSSuperview" ref="279206088"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="227513925"/>
@@ -256,7 +256,7 @@
 							<object class="IBUILabel" id="735950458">
 								<reference key="NSNextResponder" ref="279206088"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{98, 32}, {22, 15}}</string>
+								<string key="NSFrame">{{102, 32}, {27, 15}}</string>
 								<reference key="NSSuperview" ref="279206088"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="683499477"/>
@@ -554,10 +554,10 @@
 							<reference ref="253323756"/>
 							<reference ref="510109276"/>
 							<reference ref="127065143"/>
-							<reference ref="735950458"/>
 							<reference ref="465341754"/>
 							<reference ref="832845086"/>
 							<reference ref="227513925"/>
+							<reference ref="735950458"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -1021,6 +1021,7 @@
 						<string key="itemView">ForgeItemView</string>
 						<string key="loadingView">LoadingView</string>
 						<string key="mainView">UIView</string>
+						<string key="navBar">ForgeTopBar</string>
 						<string key="notEnoughQuantityView">UIView</string>
 						<string key="notForgingMiddleView">UIView</string>
 						<string key="okayButton">UIButton</string>
@@ -1167,6 +1168,10 @@
 							<string key="name">mainView</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="navBar">
+							<string key="name">navBar</string>
+							<string key="candidateClassName">ForgeTopBar</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="notEnoughQuantityView">
 							<string key="name">notEnoughQuantityView</string>
 							<string key="candidateClassName">UIView</string>
@@ -1273,6 +1278,28 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/ForgeStatusView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ForgeTopBar</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="button1">UIImageView</string>
+						<string key="button2">UIImageView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="button1">
+							<string key="name">button1</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button2">
+							<string key="name">button2</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ForgeTopBar.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

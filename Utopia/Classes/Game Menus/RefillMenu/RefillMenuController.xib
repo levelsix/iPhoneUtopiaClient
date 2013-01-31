@@ -1528,6 +1528,14 @@
 					<int key="connectionID">190</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">silverButtonLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="101160855"/>
+					</object>
+					<int key="connectionID">192</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">getMoreGoldClicked:</string>
 						<reference key="source" ref="513595622"/>
@@ -2135,7 +2143,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">191</int>
+			<int key="maxID">192</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2213,6 +2221,7 @@
 						<string key="loadingView">LoadingView</string>
 						<string key="needGoldLabel">UILabel</string>
 						<string key="rev">RequiresEquipView</string>
+						<string key="silverButtonLabel">UILabel</string>
 						<string key="silverDescLabel">UILabel</string>
 						<string key="silverView">UIView</string>
 						<string key="spkrDescLabel">UILabel</string>
@@ -2284,6 +2293,10 @@
 						<object class="IBToOneOutletInfo" key="rev">
 							<string key="name">rev</string>
 							<string key="candidateClassName">RequiresEquipView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="silverButtonLabel">
+							<string key="name">silverButtonLabel</string>
+							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="silverDescLabel">
 							<string key="name">silverDescLabel</string>

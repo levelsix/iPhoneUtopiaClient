@@ -39,6 +39,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *curGoldLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *silverDescLabel;
+@property (nonatomic, retain) IBOutlet UILabel *silverButtonLabel;
 
 @property (nonatomic, retain) IBOutlet UIImageView *enstImageView;
 @property (nonatomic, retain) IBOutlet UILabel *enstTitleLabel;

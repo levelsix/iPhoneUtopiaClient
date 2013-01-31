@@ -223,15 +223,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   int realBalance = [[GameState sharedGameState] vaultBalance];
   
   NSString *newStr = [NSString stringWithFormat:@"%09d", realBalance];
-  _index = [self firstDifference:vaultBalance second:newStr];
+  int potentialIndex = [self firstDifference:vaultBalance second:newStr];
   self.vaultBalance = newStr;
   if (!_animating && realBalance != num) {
+    _index = potentialIndex;
     _animating = YES;
     [self animateNextNum];
   } else {
-    // This means that when the completion block ends, it will increment
-    // _index by 1, which basically starts it back at the left most digit.
-    _index--;
+    if (potentialIndex <= _index) {
+      // This means that when the completion block ends, it will increment
+      // _index by 1, which basically starts it back at the left most digit.
+      _index =  potentialIndex-1;
+    }
   }
 }
 

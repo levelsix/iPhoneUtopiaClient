@@ -135,8 +135,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 
 - (void) displayBuySilverView:(int)needsSilver {
   GameState *gs = [GameState sharedGameState];
-  _silverNeeded = needsSilver;
+  _silverNeeded = needsSilver-gs.silver;
   silverDescLabel.text = [NSString stringWithFormat:@"You have %@ silver in the vault.", [Globals commafyNumber:gs.vaultBalance]];
+  if (gs.vaultBalance < _silverNeeded	) {
+    self.silverButtonLabel.text = @"Get More!";
+  } else {
+    self.silverButtonLabel.text = @"Open Vault";
+  }
   
   [self openView:silverView];
 }
@@ -363,8 +368,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   [self closeView:silverView];
   [self closeView:itemsView];
   GameState *gs = [GameState sharedGameState];
-  [[VaultMenuController sharedVaultMenuController] setDefaultValue:_silverNeeded-gs.silver];
-  [VaultMenuController displayView];
+  if (_silverNeeded > gs.vaultBalance) {
+    [GoldShoppeViewController displayView];
+  } else {
+    [[VaultMenuController sharedVaultMenuController] setDefaultValue:_silverNeeded];
+    [VaultMenuController displayView];
+  }
   [Analytics clickedGetMoreSilver];
 }
 

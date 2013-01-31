@@ -110,6 +110,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     SilverUpdate *su = [SilverUpdate updateWithTag:tag change:amount];
     VaultUpdate *vu = [VaultUpdate updateWithTag:tag change:-amount];
     [gs addUnrespondedUpdates:su, vu, nil];
+    
+    // Post notification so all UI with that bar can update
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil]];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Unable to withdraw %d coins. Currently only have %d coins in vault.", amount, gs.vaultBalance]];
   }
