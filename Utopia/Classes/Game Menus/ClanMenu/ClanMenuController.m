@@ -1038,6 +1038,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
       _browsingClanId = clan.clanId;
       
     } else {
+      [self.clanTowerScoresTab preloadForTowerId:p.towerId];
       [self.topBar loadClanTowerTwoButtonConfiguration];
     }
     

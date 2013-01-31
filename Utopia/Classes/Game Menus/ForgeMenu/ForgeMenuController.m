@@ -431,8 +431,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 }
 
 - (void) selectRow:(int)index animated:(BOOL)animated {
-  [self.forgeTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:animated scrollPosition:UITableViewScrollPositionMiddle];
-  [self loadRightViewForForgeItem:[self.forgeItems objectAtIndex:index] fromItemView:nil];
+  if (index < [self.forgeTableView numberOfRowsInSection:0]) {
+    [self.forgeTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:animated scrollPosition:UITableViewScrollPositionMiddle];
+    [self loadRightViewForForgeItem:[self.forgeItems objectAtIndex:index] fromItemView:nil];
+  } else {
+    [self loadRightViewForForgeItem:nil fromItemView:nil];
+  }
 }
 
 - (void) reloadCurrentItem {
@@ -696,7 +700,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     
     // Removing forge penalty
     if (true) {
-      self.bottomLabel.text = @"Equips will be returned if forge fails.";
+      self.bottomLabel.text = @"Note: Enhancements will be lost if the forge succeeds.";
       self.bottomLabel.textColor = [Globals creamColor];
     } else {
       self.bottomLabel.text = @"One equip will drop a level if forge fails.";
