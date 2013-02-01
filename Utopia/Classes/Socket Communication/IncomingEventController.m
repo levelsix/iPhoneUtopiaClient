@@ -33,7 +33,7 @@
 #import "VaultMenuController.h"
 #import "TopBar.h"
 #import "FullEvent.h"
-#import "KiipDelegate.h"
+//#import "KiipDelegate.h"
 #import "EquipMenuController.h"
 #import "ForgeMenuController.h"
 #import "RefillMenuController.h"
@@ -1434,7 +1434,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
     
     if (proto.shouldGiveKiipReward) {
-      [KiipDelegate postAchievementNotificationAchievement:QUEST_REDEEM_KIIP_REWARD];
+//      [KiipDelegate postAchievementNotificationAchievement:QUEST_REDEEM_KIIP_REWARD];
     }
   } else {
     [Globals popupMessage:@"Server failed to redeem quest"];

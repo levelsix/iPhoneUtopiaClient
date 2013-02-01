@@ -11730,15 +11730,18 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
-  NSMutableArray* mutablePotentialPointsList;
+  NSMutableArray* mutablePotentialPointsGainedList;
+  NSMutableArray* mutablePotentialPointsLostList;
   NSMutableArray* mutableRequestedUsersList;
 }
 - (BOOL) hasSender;
 @property (readonly, retain) MinimumUserProto* sender;
 - (NSArray*) requestedUsersList;
 - (FullUserProto*) requestedUsersAtIndex:(int32_t) index;
-- (NSArray*) potentialPointsList;
-- (int32_t) potentialPointsAtIndex:(int32_t) index;
+- (NSArray*) potentialPointsGainedList;
+- (int32_t) potentialPointsGainedAtIndex:(int32_t) index;
+- (NSArray*) potentialPointsLostList;
+- (int32_t) potentialPointsLostAtIndex:(int32_t) index;
 
 + (RetrieveUsersForUserIdsResponseProto*) defaultInstance;
 - (RetrieveUsersForUserIdsResponseProto*) defaultInstance;
@@ -11788,12 +11791,19 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
 - (RetrieveUsersForUserIdsResponseProto_Builder*) addAllRequestedUsers:(NSArray*) values;
 - (RetrieveUsersForUserIdsResponseProto_Builder*) clearRequestedUsersList;
 
-- (NSArray*) potentialPointsList;
-- (int32_t) potentialPointsAtIndex:(int32_t) index;
-- (RetrieveUsersForUserIdsResponseProto_Builder*) replacePotentialPointsAtIndex:(int32_t) index with:(int32_t) value;
-- (RetrieveUsersForUserIdsResponseProto_Builder*) addPotentialPoints:(int32_t) value;
-- (RetrieveUsersForUserIdsResponseProto_Builder*) addAllPotentialPoints:(NSArray*) values;
-- (RetrieveUsersForUserIdsResponseProto_Builder*) clearPotentialPointsList;
+- (NSArray*) potentialPointsGainedList;
+- (int32_t) potentialPointsGainedAtIndex:(int32_t) index;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) replacePotentialPointsGainedAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addPotentialPointsGained:(int32_t) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addAllPotentialPointsGained:(NSArray*) values;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clearPotentialPointsGainedList;
+
+- (NSArray*) potentialPointsLostList;
+- (int32_t) potentialPointsLostAtIndex:(int32_t) index;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) replacePotentialPointsLostAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addPotentialPointsLost:(int32_t) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addAllPotentialPointsLost:(NSArray*) values;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clearPotentialPointsLostList;
 @end
 
 @interface PostOnPlayerWallRequestProto : PBGeneratedMessage {

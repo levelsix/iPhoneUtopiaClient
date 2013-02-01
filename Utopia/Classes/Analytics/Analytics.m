@@ -7,7 +7,7 @@
 //
 
 #import "Analytics.h"
-#import "Apsalar.h"
+//#import "Apsalar.h"
 #import "Globals.h"
 #import "GameState.h"
 #import <StoreKit/StoreKit.h>
@@ -158,7 +158,7 @@
 
 + (void) event:(NSString *)event {
 #ifndef DEBUG
-  [Apsalar event:event];
+//  [Apsalar event:event];
   [Crittercism leaveBreadcrumb:event];
   [GGEventLog logEvent:event];
 #endif
@@ -166,7 +166,7 @@
 
 + (void) event:(NSString *)event withArgs:(NSDictionary *)args {
 #ifndef DEBUG
-  [Apsalar event:event withArgs:args];
+//  [Apsalar event:event withArgs:args];
   [Crittercism leaveBreadcrumb:event];
   [GGEventLog logEvent:event withCustomProperties:args];
 #endif

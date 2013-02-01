@@ -12,7 +12,7 @@
 #import "IAPHelper.h"
 #import "FlurryClipsSponsoredOffer.h"
 #import "TwitterSponsoredOffer.h"
-#import "AdColonySponsoredOffer.h"
+//#import "AdColonySponsoredOffer.h"
 
 @implementation InAppPurchaseData
 @dynamic primaryTitle;

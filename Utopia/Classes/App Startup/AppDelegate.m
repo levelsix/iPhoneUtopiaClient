@@ -17,13 +17,14 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 #import "Globals.h"
-#import "Apsalar.h"
+//#import "Apsalar.h"
 #import "LoggingContextFilter.h"
 #import "SoundEngine.h"
 #import "Crittercism.h"
 #import "Downloader.h"
 #import "GGEventLog.h"
 #import <MobileAppTracker/MobileAppTracker.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
 #define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
@@ -200,7 +201,7 @@
   //  }
 #ifndef DEBUG
   [GGEventLog initializeApiKey:GIRAFFE_GRAPH_KEY trackCampaignSource:YES];
-  [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
+//  [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
 #endif
   [Analytics beganApp];
   [Analytics openedApp];
@@ -224,7 +225,7 @@
   [self setUpMobileAppTracker];
   
   // Publish install
-//  [FBSettings publishInstall:FACEBOOK_APP_ID];
+  [FBSettings publishInstall:FACEBOOK_APP_ID];
   
   // AdColony
 //  adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];
@@ -249,7 +250,7 @@
 //  [TestFlight takeOff:TEST_FLIGHT_API_KEY];  
   
   // Kiip.me
-  kiipDelegate = [[KiipDelegate create] retain];
+//  kiipDelegate = [[KiipDelegate create] retain];
   
   [self removeLocalNotifications];
 
@@ -301,7 +302,7 @@
   }
   [Analytics suspendedApp];
 #ifndef DEBUG
-  [Apsalar endSession];
+//  [Apsalar endSession];
 #endif
 }
 
@@ -310,7 +311,7 @@
   self.isActive = YES;
   
 #ifndef DEBUG
-  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];
+//  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];
 #endif
   [Analytics beganApp];
   [Analytics resumedApp];
@@ -342,7 +343,7 @@
   
   [Analytics terminatedApp];
 #ifndef DEBUG
-  [Apsalar endSession];
+//  [Apsalar endSession];
 #endif
 }
 
@@ -488,7 +489,7 @@
 //  [tapJoyDelegate      release];
 //  [flurryClipsDelegate release];
 //  [facebookDelegate    release];
-  [kiipDelegate        release];
+//  [kiipDelegate        release];
 	[window release];
 	[super dealloc];
 }

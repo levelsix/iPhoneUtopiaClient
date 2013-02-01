@@ -526,7 +526,7 @@
     if (!enhancingId) {
       [Globals popupMessage:@"You must click an item from the left to begin enhancing."];
     } else if (feederIds.count <= 0) {
-      [Globals popupMessage:@"You must enhance this item with atleast one other item."];
+      [Globals popupMessage:@"You must enhance this item with at least one other item."];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] submitEquipEnhancement:enhancingId feeders:feederIds];
       

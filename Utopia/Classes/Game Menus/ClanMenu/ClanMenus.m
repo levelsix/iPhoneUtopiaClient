@@ -165,7 +165,9 @@
   
   self.battleRecordLabel.text = [NSString stringWithFormat:@"W: %@ - L: %@ - F: %@", [Globals commafyNumber:mup.minUserProto.battlesWon], [Globals commafyNumber:mup.minUserProto.battlesLost], [Globals commafyNumber:mup.minUserProto.battlesFled]];
   
-  self.attackLabel.text = nil;
+  self.gainedLabel.text = nil;
+  self.lostLabel.text = nil;
+  self.slashLabel.text = nil;
 }
 
 - (void) editMemberConfiguration {
@@ -244,6 +246,12 @@
   self.battleRecordLabel = nil;
   self.editMemberView = nil;
   self.respondInviteView = nil;
+  self.attackButton = nil;
+  self.attackSpinner = nil;
+  self.attackView = nil;
+  self.gainedLabel = nil;
+  self.slashLabel = nil;
+  self.lostLabel = nil;
   [super dealloc];
 }
 
@@ -264,7 +272,8 @@
 
 - (void) wakeup {
   self.userDict = [NSMutableDictionary dictionary];
-  self.pointsDict = [NSMutableDictionary dictionary];
+  self.pointsGainedDict = [NSMutableDictionary dictionary];
+  self.pointsLostDict = [NSMutableDictionary dictionary];
 }
 
 - (void) cleanup {
@@ -272,7 +281,8 @@
   self.requesters = nil;
   self.members = nil;
   self.userDict = nil;
-  self.pointsDict = nil;
+  self.pointsGainedDict = nil;
+  self.pointsLostDict = nil;
 }
 
 - (void) preloadMembersForClan:(int)ci leader:(int)li orderByClosest:(BOOL)orderByClosest {
@@ -382,12 +392,14 @@
   BOOL changed = NO;
   for (int i = 0; i < proto.requestedUsersList.count; i++) {
     FullUserProto *fup = [proto.requestedUsersList objectAtIndex:i];
-    NSNumber *pointsGained = [proto.potentialPointsList objectAtIndex:i];
+    NSNumber *pointsGained = [proto.potentialPointsGainedList objectAtIndex:i];
+    NSNumber *pointsLost = [proto.potentialPointsLostList objectAtIndex:i];
     
-    if (pointsGained) {
+    if (pointsGained && pointsLost) {
       changed = YES;
       [self.userDict setObject:fup forKey:[NSNumber numberWithInt:fup.userId]];
-      [self.pointsDict setObject:pointsGained forKey:[NSNumber numberWithInt:fup.userId]];
+      [self.pointsGainedDict setObject:pointsGained forKey:[NSNumber numberWithInt:fup.userId]];
+      [self.pointsLostDict setObject:pointsLost forKey:[NSNumber numberWithInt:fup.userId]];
     }
   }
   
@@ -464,6 +476,8 @@
     cell = self.memberCell;
   }
   
+  NSNumber *ptsGained = nil;
+  NSNumber *ptsLost = nil;
   if (indexPath.section == 0) {
     [cell loadForUser:[self.requesters objectAtIndex:indexPath.row]];
     [cell respondInviteConfiguration];
@@ -477,10 +491,8 @@
         cell.attackSpinner.hidden = YES;
         cell.attackButton.hidden = NO;
       }
-      NSNumber *pts = [self.pointsDict objectForKey:userId];
-      if (pts) {
-        cell.attackLabel.text = [NSString stringWithFormat:@"+%@ Points", [Globals commafyNumber:pts.intValue]];
-      }
+      ptsGained = [self.pointsGainedDict objectForKey:userId];
+      ptsLost = [self.pointsLostDict objectForKey:userId];
     } else {
       [cell battleRecordConfiguration];
     }
@@ -498,14 +510,37 @@
           cell.attackSpinner.hidden = YES;
           cell.attackButton.hidden = NO;
         }
-        NSNumber *pts = [self.pointsDict objectForKey:userId];
-        if (pts) {
-          cell.attackLabel.text = [NSString stringWithFormat:@"+%@ Points", [Globals commafyNumber:pts.intValue]];
-        }
+        ptsGained = [self.pointsGainedDict objectForKey:userId];
+        ptsLost = [self.pointsLostDict objectForKey:userId];
       } else {
         [cell battleRecordConfiguration];
       }
     }
+  }
+  
+  
+  if (ptsGained && ptsLost) {
+    cell.gainedLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:ptsGained.intValue]];
+    cell.lostLabel.text = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:ptsLost.intValue]];
+    cell.slashLabel.text = @"|";
+    
+    CGSize s = [cell.lostLabel.text sizeWithFont:cell.lostLabel.font];
+    CGRect r = cell.lostLabel.frame;
+    r.origin.x = CGRectGetMaxX(r)-s.width;
+    r.size.width = s.width;
+    cell.lostLabel.frame = r;
+    
+    s = [cell.slashLabel.text sizeWithFont:cell.slashLabel.font];
+    r = cell.slashLabel.frame;
+    r.origin.x = cell.lostLabel.frame.origin.x-2-s.width;
+    r.size.width = s.width;
+    cell.slashLabel.frame = r;
+    
+    s = [cell.gainedLabel.text sizeWithFont:cell.gainedLabel.font];
+    r = cell.gainedLabel.frame;
+    r.origin.x = cell.slashLabel.frame.origin.x-2-s.width;
+    r.size.width = s.width;
+    cell.gainedLabel.frame = r;
   }
   
   return cell;

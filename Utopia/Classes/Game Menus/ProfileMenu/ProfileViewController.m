@@ -15,7 +15,7 @@
 #import "GenericPopupController.h"
 #import "EquipMenuController.h"
 #import "EquipDeltaView.h"
-#import "KiipDelegate.h"
+//#import "KiipDelegate.h"
 #import "RefillMenuController.h"
 #import "CharSelectionViewController.h"
 #import "ArmoryViewController.h"
@@ -2037,9 +2037,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     NSSet *levelupDict = [NSSet setWithArray:levelUpRewards];
     
     if ([levelupDict containsObject:[NSNumber numberWithInt:gs.level]]) {
-      NSString *curAchievement = [NSString stringWithFormat:@"level_up_%d",
-                                  gs.level];
-      [KiipDelegate postAchievementNotificationAchievement:curAchievement];
+//      NSString *curAchievement = [NSString stringWithFormat:@"level_up_%d",
+//                                  gs.level];
+//      [KiipDelegate postAchievementNotificationAchievement:curAchievement];
     }
     
     // Show the level up popup here

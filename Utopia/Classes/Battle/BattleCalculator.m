@@ -183,9 +183,11 @@
   double amuletPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfAmulet*(((float)attacker.amuletAttack)/defender.armorDefense));
   double statsPortion = _battleConstants.battlePercentOfPlayerStats*(((float)attacker.attackStat)/defender.defenseStat)*pow(_battleConstants.battleEquipAndStatsWeight,levelDifference);
 	
+  int level = attacker.level;
+  double weight = -0.03125*pow(level, 3)+0.0004*pow(level, 2)-0.0016*level+1.0821;
 	int battleFormula = (int) (hitStrength*(pow((totalEquipPortion+weaponPortion+armorPortion+amuletPortion+statsPortion)*
                                               pow(_battleConstants.battleEquipAndStatsWeight, levelDifference),
-                                              _battleConstants.battleAttackExpoMultiplier)));
+                                              _battleConstants.battleAttackExpoMultiplier))/weight);
   
   float skillAttack = [self skillMultForPercent:percent];
   

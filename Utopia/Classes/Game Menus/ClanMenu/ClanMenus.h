@@ -47,7 +47,9 @@
 
 @property (nonatomic, retain) IBOutlet UIView *attackView;
 @property (nonatomic, retain) IBOutlet UIView *attackButton;
-@property (nonatomic, retain) IBOutlet UILabel *attackLabel;
+@property (nonatomic, retain) IBOutlet UILabel *gainedLabel;
+@property (nonatomic, retain) IBOutlet UILabel *slashLabel;
+@property (nonatomic, retain) IBOutlet UILabel *lostLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *attackSpinner;
 
 @property (nonatomic, retain) MinimumUserProtoForClans *user;
@@ -75,7 +77,8 @@
 @property (nonatomic, retain) IBOutlet ClanMemberCell *memberCell;
 
 @property (nonatomic, retain) NSMutableDictionary *userDict;
-@property (nonatomic, retain) NSMutableDictionary *pointsDict;
+@property (nonatomic, retain) NSMutableDictionary *pointsGainedDict;
+@property (nonatomic, retain) NSMutableDictionary *pointsLostDict;
 
 - (void) preloadMembersForClan:(int)ci leader:(int)leaderId orderByClosest:(BOOL)orderByClosest;
 - (void) loadForMembers:(NSArray *)m isMyClan:(BOOL)isMyClan;

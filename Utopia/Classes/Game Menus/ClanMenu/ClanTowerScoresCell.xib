@@ -126,7 +126,6 @@
 								<string key="NSFrame">{{147, 21}, {33, 21}}</string>
 								<reference key="NSSuperview" ref="840079767"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -352,11 +351,11 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="190660707"/>
 							<reference ref="952183561"/>
-							<reference ref="838628538"/>
 							<reference ref="94426035"/>
 							<reference ref="1044913122"/>
 							<reference ref="995960411"/>
 							<reference ref="330746356"/>
+							<reference ref="838628538"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>

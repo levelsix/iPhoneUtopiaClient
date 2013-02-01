@@ -24,7 +24,7 @@
 #import "GenericPopupController.h"
 #import "ClanMenuController.h"
 #import "ChatMenuController.h"
-#import "KiipDelegate.h"
+//#import "KiipDelegate.h"
 #import "TournamentMenuController.h"
 
 #define FAKE_PLAYER_RAND 6
@@ -1478,7 +1478,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _clickedDone = YES;
   
   if (brp.shouldGiveKiipReward) {
-    [KiipDelegate postAchievementNotificationAchievement:BATTLE_WON_KIIP_REWARD];
+//    [KiipDelegate postAchievementNotificationAchievement:BATTLE_WON_KIIP_REWARD];
     
   }
   
