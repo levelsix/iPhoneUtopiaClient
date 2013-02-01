@@ -700,7 +700,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     
     // Removing forge penalty
     if (true) {
-      self.bottomLabel.text = @"Note: Enhancements will be lost if the forge succeeds.";
+      self.bottomLabel.text = @"Enhancements will be lost if the forge succeeds.";
       self.bottomLabel.textColor = [Globals creamColor];
     } else {
       self.bottomLabel.text = @"One equip will drop a level if forge fails.";

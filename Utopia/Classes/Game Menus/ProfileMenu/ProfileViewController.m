@@ -714,7 +714,13 @@
 //}
 
 - (IBAction)postClicked:(id)sender {
-  [self.mktPostView updateForEquip:userEquip andAddToSuperView:self.superview];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (gs.level < gl.minLevelConstants.marketplaceMinLevel) {
+    [Globals popupMessage:[NSString stringWithFormat:@"You cannot post to the marketplace until level %d.", gl.minLevelConstants.marketplaceMinLevel]];
+  } else {
+    [self.mktPostView updateForEquip:userEquip andAddToSuperView:self.superview];
+  }
 }
 
 - (IBAction)postOkayClicked:(id)sender
@@ -1834,7 +1840,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (IBAction)clanClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
-  if (_fup.clan) {
+  Globals *gl = [Globals sharedGlobals];
+  if (gs.level < gl.minLevelConstants.clanHouseMinLevel) {
+    [Globals popupMessage:[NSString stringWithFormat:@"You cannot access the clan house until level %d.", gl.minLevelConstants.clanHouseMinLevel]];
+  } else if (_fup.clan) {
     [ClanMenuController displayView];
     [[ClanMenuController sharedClanMenuController] loadForClan:_fup.clan];
   } else if (profileBar.state == kMyProfile && gs.clan) {

@@ -66,6 +66,7 @@
   self.enhanceLevelIcon = nil;
   self.itemChosenView = nil;
   self.itemNotChosenView = nil;
+  self.cancelButton = nil;
   [super dealloc];
 }
 
@@ -413,6 +414,7 @@
     EquipEnhancementProto *ee = gs.equipEnhancement;
     UserEquip *ue = [UserEquip userEquipWithEquipEnhancementItemProto:ee.enhancingEquip];
     [self.enhancingView updateForUserEquip:ue];
+    self.enhancingView.cancelButton.hidden = YES;
     
     for (int i = 0; i < ee.feederEquipsList.count && i < self.feederViews.count; i++) {
       EquipEnhancementItemProto *eei = [ee.feederEquipsList objectAtIndex:i];
@@ -466,9 +468,14 @@
       break;
     }
   }
-  for (int i = 0; i < arr.count; i++) {
+  int i = 0;
+  for (; i < arr.count; i++) {
     ForgeEnhanceItemView *fiv = [self.feederViews objectAtIndex:i];
     fiv.checkmark.hidden = NO;
+  }
+  for (; i < [self feederEquips].count; i++) {
+    ForgeEnhanceItemView *fiv = [self.feederViews objectAtIndex:i];
+    fiv.checkmark.hidden = YES;
   }
 }
 
