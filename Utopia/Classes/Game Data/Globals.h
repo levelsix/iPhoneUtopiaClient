@@ -121,6 +121,7 @@
 @property (nonatomic, copy) NSString *reviewPageConfirmationMessage;
 
 @property (nonatomic, assign) int initStamina;
+@property (nonatomic, assign) BOOL useOldBattleFormula;
 
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;

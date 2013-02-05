@@ -31,22 +31,22 @@
   
   int attackRange = 0;
   if (randomPercent <= _battleStats.perfectLikelihood) {
-    locationOnBar = _battleConstants.locationBarMax - _battleConstants.battlePerfectPercentThreshold; 
+    locationOnBar = _battleConstants.locationBarMax - _battleConstants.battlePerfectPercentThreshold;
     attackRange  = _battleConstants.battlePerfectPercentThreshold;
   }
-  else if (randomPercent <= _battleStats.perfectLikelihood + 
+  else if (randomPercent <= _battleStats.perfectLikelihood +
            _battleStats.greatLikelihood) {
-    locationOnBar = _battleConstants.locationBarMax 
+    locationOnBar = _battleConstants.locationBarMax
     - _battleConstants.battleGreatPercentThreshold;
     attackRange = _battleConstants.battlePerfectPercentThreshold
     - _battleConstants.battleGreatPercentThreshold;
   }
-  else if (randomPercent <= _battleStats.perfectLikelihood + 
+  else if (randomPercent <= _battleStats.perfectLikelihood +
            _battleStats.greatLikelihood + _battleStats.goodLikelihood) {
-    locationOnBar = _battleConstants.locationBarMax 
+    locationOnBar = _battleConstants.locationBarMax
     - _battleConstants.battleGoodPercentThreshold;
     
-    attackRange = _battleConstants.battleGreatPercentThreshold 
+    attackRange = _battleConstants.battleGreatPercentThreshold
     - (int)_battleConstants.battleGoodPercentThreshold;
     
   }
@@ -74,7 +74,7 @@
   float distFromPerfect    = fabs(perfect - inputPercent);
   float percentFromPerfect = 0;
   
-  // Make the attack strength asymetric WRT the target 
+  // Make the attack strength asymetric WRT the target
   if (inputPercent > perfect) {
     int multOfPerfect  = perfect/fabs(100 - perfect);
     inputPercent = perfect - distFromPerfect*multOfPerfect;
@@ -96,7 +96,7 @@
   float distFromPerfect    = fabs(perfect - percent);
   float percentFromPerfect = 0;
   
-  // Make the attack strength asymetric WRT the target 
+  // Make the attack strength asymetric WRT the target
   if (percent > perfect) {
     int multOfPerfect  = perfect/fabs(100 - perfect);
     percentFromPerfect = distFromPerfect*multOfPerfect;
@@ -143,17 +143,17 @@
 }
 
 //-(int) afterDefenseAttackStrength:(int)attackStrength
-//                      forDefender:(UserBattleStats *)defender 
+//                      forDefender:(UserBattleStats *)defender
 //                       andPercent:(float)percent
 //{
 //  float accuracy = [self accuracyPercentForPercent:percent];
-//  
+//
 //  attackStrength = MAX(attackStrength - defender.defense, 0) + 6*ceil(accuracy);
-//  
+//
 //  return attackStrength;
 //}
 
--(int) attackStrengthForPercent:(float)percent 
+-(int) attackStrengthForPercent:(float)percent
                        andRight:(BOOL)rightAttack
 {
   // Get Skill-based attack values
@@ -172,26 +172,42 @@
     healthPercent = _battleConstants.battleHitAttackerPercentOfHealth;
   }
   
-  int healthOfAttacker = [gl calculateHealthForLevel:attacker.level];
-  int healthOfDefender = [gl calculateHealthForLevel:defender.level];
-  int health = (healthOfAttacker + healthOfDefender)*(attacker.level/(float)(attacker.level + defender.level));
-  double hitStrength = health*healthPercent;
-  int levelDifference = defender.level-attacker.level;
-  double totalEquipPortion = MIN(3*_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfEquipment*(((float)(attacker.weaponAttack+attacker.armorAttack+attacker.amuletAttack))/(defender.weaponDefense+defender.armorDefense+defender.amuletDefense)));
-	double weaponPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfWeapon*(((float)attacker.weaponAttack)/defender.weaponDefense));
-  double armorPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfArmor*(((float)attacker.armorAttack)/defender.armorDefense));
-  double amuletPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfAmulet*(((float)attacker.amuletAttack)/defender.armorDefense));
-  double statsPortion = _battleConstants.battlePercentOfPlayerStats*(((float)attacker.attackStat)/defender.defenseStat)*pow(_battleConstants.battleEquipAndStatsWeight,levelDifference);
-	
-  int level = attacker.level;
-  double weight = -0.03125*pow(level, 3)+0.0004*pow(level, 2)-0.0016*level+1.0821;
-	int battleFormula = (int) (hitStrength*(pow((totalEquipPortion+weaponPortion+armorPortion+amuletPortion+statsPortion)*
-                                              pow(_battleConstants.battleEquipAndStatsWeight, levelDifference),
-                                              _battleConstants.battleAttackExpoMultiplier))/weight);
+  BOOL useOldFormula = gl.useOldBattleFormula;
+  
+  int battleFormula;
+  if (useOldFormula) {
+    int health = [gl calculateHealthForLevel:attacker.level];
+    double hitStrength = health*healthPercent;
+    double totalEquipPortion = MIN(3*_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfEquipment*(((float)(attacker.weaponAttack+attacker.armorAttack+attacker.amuletAttack))/(defender.weaponDefense+defender.armorDefense+defender.amuletDefense)));
+    double weaponPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfWeapon*(((float)attacker.weaponAttack)/defender.weaponDefense));
+    double armorPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfArmor*(((float)attacker.armorAttack)/defender.armorDefense));
+    double amuletPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfAmulet*(((float)attacker.amuletAttack)/defender.armorDefense));
+    double statsPortion = _battleConstants.battlePercentOfPlayerStats*(((float)attacker.attackStat)/defender.defenseStat);
+    
+    battleFormula = (int) (hitStrength*(pow(totalEquipPortion+weaponPortion+armorPortion+amuletPortion+statsPortion,_battleConstants.battleAttackExpoMultiplier)));
+  } else {
+    int healthOfAttacker = [gl calculateHealthForLevel:attacker.level];
+    int healthOfDefender = [gl calculateHealthForLevel:defender.level];
+    int health = (healthOfAttacker + healthOfDefender)*(attacker.level/(float)(attacker.level + defender.level));
+    double hitStrength = health*healthPercent;
+    int levelDifference = defender.level-attacker.level;
+    double totalEquipPortion = MIN(3*_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfEquipment*(((float)(attacker.weaponAttack+attacker.armorAttack+attacker.amuletAttack))/(defender.weaponDefense+defender.armorDefense+defender.amuletDefense)));
+    double weaponPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfWeapon*(((float)attacker.weaponAttack)/defender.weaponDefense));
+    double armorPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfArmor*(((float)attacker.armorAttack)/defender.armorDefense));
+    double amuletPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfAmulet*(((float)attacker.amuletAttack)/defender.armorDefense));
+    double statsPortion = _battleConstants.battlePercentOfPlayerStats*(((float)attacker.attackStat)/defender.defenseStat)*pow(_battleConstants.battleEquipAndStatsWeight,levelDifference);
+    
+    int level = attacker.level;
+    double weight = -0.0000002*pow(level, 3)+0.00001*pow(level, 2)-0.0015*level+1.0825;
+    weight = MAX(weight*1.1, 1.);
+    battleFormula = (int) (hitStrength*(pow((totalEquipPortion+weaponPortion+armorPortion+amuletPortion+statsPortion)*
+                                            pow(_battleConstants.battleEquipAndStatsWeight, levelDifference),
+                                            _battleConstants.battleAttackExpoMultiplier))/weight);
+  }
   
   float skillAttack = [self skillMultForPercent:percent];
   
-  // Get User attack values   
+  // Get User attack values
   return battleFormula * skillAttack / 100.f;
 }
 
@@ -233,10 +249,10 @@
 +(id<BattleCalculator>) createWithRightStats:(id<UserBattleStats>)right
                                 andLeftStats:(id<UserBattleStats>)left
 {
-  BattleCalculator *calculator = [[BattleCalculator alloc] 
-                                  initWithRightStats:right 
+  BattleCalculator *calculator = [[BattleCalculator alloc]
+                                  initWithRightStats:right
                                   andLeftStats:left
-                                  andBattleConstants:[Globals sharedGlobals] 
+                                  andBattleConstants:[Globals sharedGlobals]
                                   andBattleStats:[Globals sharedGlobals]];
   [calculator autorelease];
   return calculator;

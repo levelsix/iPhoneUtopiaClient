@@ -252,6 +252,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.bossNumAttacksTillSuperAttack = constants.bossEventNumberOfAttacksUntilSuperAttack;
   self.initStamina = constants.initStamina;
   self.minClanMembersToHoldClanTower = constants.minClanMembersToHoldClanTower;
+  self.useOldBattleFormula = constants.useOldBattleFormula;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;

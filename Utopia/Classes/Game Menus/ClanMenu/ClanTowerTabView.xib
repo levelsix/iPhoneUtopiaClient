@@ -62,7 +62,6 @@
 						<string key="NSFrame">{{3, 36}, {474, 186}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -979,7 +978,6 @@
 												<string key="NSFrame">{{110, 1}, {18, 21}}</string>
 												<reference key="NSSuperview" ref="1069772667"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="IBUIOpaque">NO</bool>
 												<bool key="IBUIClipsSubviews">YES</bool>
@@ -1100,7 +1098,6 @@
 								<string key="NSFrame">{{37, 6}, {64, 20}}</string>
 								<reference key="NSSuperview" ref="200258653"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -1432,7 +1429,6 @@
 								<string key="NSFrameSize">{473, 43}</string>
 								<reference key="NSSuperview" ref="278207500"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="1023673953"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -1483,7 +1479,6 @@
 						<string key="NSFrame">{{100, 1}, {233, 21}}</string>
 						<reference key="NSSuperview" ref="485742457"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -2842,13 +2837,15 @@
 					<string key="superclassName">UITableViewCell</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="attackButton">UIView</string>
-						<string key="attackLabel">UILabel</string>
 						<string key="attackSpinner">UIActivityIndicatorView</string>
 						<string key="attackView">UIView</string>
 						<string key="battleRecordLabel">UILabel</string>
 						<string key="editMemberView">UIView</string>
+						<string key="gainedLabel">UILabel</string>
+						<string key="lostLabel">UILabel</string>
 						<string key="nameButton">UIButton</string>
 						<string key="respondInviteView">UIView</string>
+						<string key="slashLabel">UILabel</string>
 						<string key="typeLabel">UILabel</string>
 						<string key="userIcon">UIButton</string>
 					</dictionary>
@@ -2856,10 +2853,6 @@
 						<object class="IBToOneOutletInfo" key="attackButton">
 							<string key="name">attackButton</string>
 							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="attackLabel">
-							<string key="name">attackLabel</string>
-							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="attackSpinner">
 							<string key="name">attackSpinner</string>
@@ -2877,6 +2870,14 @@
 							<string key="name">editMemberView</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="gainedLabel">
+							<string key="name">gainedLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="lostLabel">
+							<string key="name">lostLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="nameButton">
 							<string key="name">nameButton</string>
 							<string key="candidateClassName">UIButton</string>
@@ -2884,6 +2885,10 @@
 						<object class="IBToOneOutletInfo" key="respondInviteView">
 							<string key="name">respondInviteView</string>
 							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="slashLabel">
+							<string key="name">slashLabel</string>
+							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="typeLabel">
 							<string key="name">typeLabel</string>

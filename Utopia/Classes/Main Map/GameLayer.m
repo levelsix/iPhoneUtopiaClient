@@ -295,7 +295,7 @@ static BOOL shake_once = NO;
     
     [CarpenterMenuController removeView];
     
-    [[SocketCommunication sharedSocketCommunication] flush:-1];
+    [[SocketCommunication sharedSocketCommunication] flush];
   }
 }
 

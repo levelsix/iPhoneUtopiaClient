@@ -5394,6 +5394,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
 @property (retain) NSMutableArray* mutableInAppPurchasePackagesList;
 @property (retain) StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
+@property BOOL useOldBattleFormula;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5976,6 +5977,18 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasEnhanceConstants_ = !!value;
 }
 @synthesize enhanceConstants;
+- (BOOL) hasUseOldBattleFormula {
+  return !!hasUseOldBattleFormula_;
+}
+- (void) setHasUseOldBattleFormula:(BOOL) value {
+  hasUseOldBattleFormula_ = !!value;
+}
+- (BOOL) useOldBattleFormula {
+  return !!useOldBattleFormula_;
+}
+- (void) setUseOldBattleFormula:(BOOL) value {
+  useOldBattleFormula_ = !!value;
+}
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -6081,6 +6094,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.minLevelConstants = [StartupResponseProto_StartupConstants_BazaarMinLevelConstants defaultInstance];
     self.leaderboardConstants = [StartupResponseProto_StartupConstants_LeaderboardEventConstants defaultInstance];
     self.enhanceConstants = [StartupResponseProto_StartupConstants_EnhancementConstants defaultInstance];
+    self.useOldBattleFormula = NO;
   }
   return self;
 }
@@ -6386,6 +6400,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasEnhanceConstants) {
     [output writeMessage:96 value:self.enhanceConstants];
   }
+  if (self.hasUseOldBattleFormula) {
+    [output writeBool:97 value:self.useOldBattleFormula];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6662,6 +6679,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasEnhanceConstants) {
     size += computeMessageSize(96, self.enhanceConstants);
+  }
+  if (self.hasUseOldBattleFormula) {
+    size += computeBoolSize(97, self.useOldBattleFormula);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -13008,6 +13028,9 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasEnhanceConstants) {
     [self mergeEnhanceConstants:other.enhanceConstants];
   }
+  if (other.hasUseOldBattleFormula) {
+    [self setUseOldBattleFormula:other.useOldBattleFormula];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -13445,6 +13468,10 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setEnhanceConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 776: {
+        [self setUseOldBattleFormula:[input readBool]];
         break;
       }
     }
@@ -15076,6 +15103,22 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearEnhanceConstants {
   result.hasEnhanceConstants = NO;
   result.enhanceConstants = [StartupResponseProto_StartupConstants_EnhancementConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasUseOldBattleFormula {
+  return result.hasUseOldBattleFormula;
+}
+- (BOOL) useOldBattleFormula {
+  return result.useOldBattleFormula;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setUseOldBattleFormula:(BOOL) value {
+  result.hasUseOldBattleFormula = YES;
+  result.useOldBattleFormula = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearUseOldBattleFormula {
+  result.hasUseOldBattleFormula = NO;
+  result.useOldBattleFormula = NO;
   return self;
 }
 @end

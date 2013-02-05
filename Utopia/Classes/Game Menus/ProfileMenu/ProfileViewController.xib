@@ -159,7 +159,7 @@
 							<object class="IBUILabel" id="752371805">
 								<reference key="NSNextResponder" ref="72824438"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{133, 26}, {24, 21}}</string>
+								<string key="NSFrame">{{132, 25}, {24, 21}}</string>
 								<reference key="NSSuperview" ref="72824438"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="966235254"/>
@@ -7269,17 +7269,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">MarketplacePostView</string>
 					<string key="superclassName">UIView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">closeClicked:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">closeClicked:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">closeClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="armoryPriceIcon">UIImageView</string>
 						<string key="armoryPriceLabel">UILabel</string>
@@ -7444,40 +7433,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ProfileEquipPopup</string>
 					<string key="superclassName">UIView</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="closeClicked:">id</string>
-						<string key="equipItemClicked:">id</string>
-						<string key="postClicked:">id</string>
-						<string key="postOkayClicked:">id</string>
-						<string key="tooLowLevelClicked:">id</string>
-						<string key="wrongClassClicked:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="closeClicked:">
-							<string key="name">closeClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="equipItemClicked:">
-							<string key="name">equipItemClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="postClicked:">
-							<string key="name">postClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="postOkayClicked:">
-							<string key="name">postOkayClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="tooLowLevelClicked:">
-							<string key="name">tooLowLevelClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="wrongClassClicked:">
-							<string key="name">wrongClassClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="attackLabel">UILabel</string>
 						<string key="bgdView">UIView</string>
@@ -7601,34 +7556,12 @@
 					<string key="className">ProfileViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="attackClicked:">id</string>
-						<string key="changeName:">id</string>
-						<string key="changeTypeClicked:">id</string>
-						<string key="clanClicked:">id</string>
 						<string key="closeClicked:">id</string>
 						<string key="goToArmoryClicked:">id</string>
-						<string key="resetGame:">id</string>
 						<string key="resetSkillsClicked:">id</string>
 						<string key="skillButtonClicked:">id</string>
-						<string key="visitClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="attackClicked:">
-							<string key="name">attackClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="changeName:">
-							<string key="name">changeName:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="changeTypeClicked:">
-							<string key="name">changeTypeClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="clanClicked:">
-							<string key="name">clanClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="closeClicked:">
 							<string key="name">closeClicked:</string>
 							<string key="candidateClassName">id</string>
@@ -7637,20 +7570,12 @@
 							<string key="name">goToArmoryClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="resetGame:">
-							<string key="name">resetGame:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="resetSkillsClicked:">
 							<string key="name">resetSkillsClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="skillButtonClicked:">
 							<string key="name">skillButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="visitClicked:">
-							<string key="name">visitClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -7961,20 +7886,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">WallTabView</string>
 					<string key="superclassName">UIView</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="postToWall:">id</string>
-						<string key="visitProfile:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="postToWall:">
-							<string key="name">postToWall:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="visitProfile:">
-							<string key="name">visitProfile:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="postCell">WallPostCell</string>
 						<string key="spinner">UIActivityIndicatorView</string>

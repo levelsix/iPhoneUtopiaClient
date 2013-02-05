@@ -1350,7 +1350,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     EnergyUpdate *eu = [EnergyUpdate updateWithTag:tag change:gs.maxEnergy-gs.currentEnergy];
     StaminaUpdate *su = [StaminaUpdate updateWithTag:tag change:gs.maxStamina-gs.currentStamina];
     ExpForNextLevelUpdate *efnlu = [ExpForNextLevelUpdate updateWithTag:tag prevLevel:gs.expRequiredForCurrentLevel curLevel:gs.expRequiredForNextLevel nextLevel:10000000];
-    [gs addUnrespondedUpdates:lu, eu, su, efnlu, nil];
+    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:gl.skillPointsGainedOnLevelup];
+    [gs addUnrespondedUpdates:lu, eu, su, efnlu, spu, nil];
     
     [[TopBar sharedTopBar] setUpEnergyTimer];
     [[TopBar sharedTopBar] setUpStaminaTimer];

@@ -167,6 +167,9 @@ static NSString *udid = nil;
   if (!gs.connected) {
     [[OutgoingEventController sharedOutgoingEventController] startup];
     [[GameViewController sharedGameViewController] connectedToHost];
+    
+    _flushTimer = [[NSTimer timerWithTimeInterval:10.f target:self selector:@selector(flush) userInfo:nil repeats:YES] retain];
+    [[NSRunLoop mainRunLoop] addTimer:_flushTimer forMode:NSRunLoopCommonModes];
   } else if (!gs.isTutorial) {
     [[OutgoingEventController sharedOutgoingEventController] reconnect];
   }
@@ -203,7 +206,7 @@ static NSString *udid = nil;
 
 - (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type flush:(BOOL)flush {
   if (flush) {
-    [self flush:-1];
+    [self flush];
   }
   
   NSMutableData *messageWithHeader = [NSMutableData data];
@@ -1162,31 +1165,31 @@ static NSString *udid = nil;
 }
 
 - (int) addAttackSkillPoint {
-  [self flush:EventProtocolRequestCUseSkillPointEvent];
+  [self flushWithInt:EventProtocolRequestCUseSkillPointEvent];
   self.attackPoints++;
   return _currentTagNum;
 }
 
 - (int) addDefenseSkillPoint {
-  [self flush:EventProtocolRequestCUseSkillPointEvent];
+  [self flushWithInt:EventProtocolRequestCUseSkillPointEvent];
   self.defensePoints++;
   return _currentTagNum;
 }
 
 - (int) addEnergySkillPoint {
-  [self flush:EventProtocolRequestCUseSkillPointEvent];
+  [self flushWithInt:EventProtocolRequestCUseSkillPointEvent];
   self.energyPoints++;
   return _currentTagNum;
 }
 
 - (int) addStaminaSkillPoint {
-  [self flush:EventProtocolRequestCUseSkillPointEvent];
+  [self flushWithInt:EventProtocolRequestCUseSkillPointEvent];
   self.staminaPoints++;
   return _currentTagNum;
 }
 
 - (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time {
-  [self flush:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
+  [self flushWithInt:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
   RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval *sr = [[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder]
                                                                          setUserStructId:userStructId]
                                                                         setTimeOfRetrieval:time]
@@ -1220,7 +1223,16 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent flush:NO];
 }
 
-- (void) flush:(int)type {
+- (void) flush {
+  [self flushWithInt:-1];
+}
+
+- (void) flushWithInt:(int)val {
+  [self flush:[NSNumber numberWithInt:val]];
+}
+
+- (void) flush:(NSNumber *)num {
+  int type = num.intValue;
   if (type != EventProtocolRequestCUseSkillPointEvent) {
     if (_attackPoints > 0 || _defensePoints > 0 || _energyPoints > 0 || _staminaPoints > 0) {
       [self sendUseSkillPointMessage];
@@ -1240,7 +1252,9 @@ static NSString *udid = nil;
 }
 
 - (void) closeDownConnection {
-  [self flush:-1];
+  [_flushTimer invalidate];
+  [_flushTimer release];
+  [self flush];
   [_connectionThread end];
   _connectionThread = nil;
   [_sender release];

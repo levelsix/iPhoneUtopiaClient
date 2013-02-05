@@ -126,7 +126,7 @@
     
     CCSprite *instr = [CCSprite spriteWithFile:@"tapbegin.png"];
     [_overLayer addChild:instr];
-    instr.anchorPoint = ccp(0, 0);
+    instr.position = ccp(_overLayer.contentSize.width/2, _overLayer.contentSize.height/2);	
     
     [_attackProgressTimer stopAllActions];
     [_attackProgressTimer runAction:[CCSequence actions:[CCProgressFromTo actionWithDuration:ATTACK_BUTTON_ANIMATION/10.f from:100 to:90],
@@ -267,6 +267,8 @@
   CCSprite *maxArrow = [CCSprite spriteWithFile:@"arrow3.png"];
   CCSprite *barmaxed = [CCSprite spriteWithFile:@"barismaxed.png"];
   CCSprite *tapanywhere = [CCSprite spriteWithFile:@"tapanywheretoengageattack.png"];
+  maxLayer.opacity = 0;
+  tapanywhere.opacity = 0;
   maxArrow.anchorPoint = ccp(0,0);
   barmaxed.anchorPoint = ccp(0,0);
   tapanywhere.anchorPoint = ccp(0,0);
@@ -288,7 +290,13 @@
                    [CCCallBlock actionWithBlock:
                     ^{
                       _overLayer = maxLayer;
+                      [_overLayer runAction:[CCFadeIn actionWithDuration:0.2f]];
                       [self addChild:_overLayer z:5];
+                    }],
+                   [CCDelayTime actionWithDuration:0.5f],
+                   [CCCallBlock actionWithBlock:
+                    ^{
+                      [tapanywhere runAction:[CCFadeIn actionWithDuration:0.2f]];
                       _allowAttackingForFirstAttack = YES;
                     }],
                    nil]];

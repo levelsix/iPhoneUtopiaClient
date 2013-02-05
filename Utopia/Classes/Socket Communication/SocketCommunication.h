@@ -24,6 +24,8 @@
   
   AMQPConnectionThread *_connectionThread;
   
+  NSTimer *_flushTimer;
+  
   int _numDisconnects;
 }
 
@@ -162,6 +164,9 @@
 - (int) addStaminaSkillPoint;
 - (int) sendUseSkillPointMessage;
 - (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time;
-- (void) flush:(int)type;
+
+- (void) flush;
+- (void) flushWithInt:(int)val;
+- (void) flush:(NSNumber *)type;
 
 @end
