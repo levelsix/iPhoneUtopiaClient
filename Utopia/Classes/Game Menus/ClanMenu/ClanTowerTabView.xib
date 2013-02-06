@@ -1457,6 +1457,30 @@
 						<reference key="IBUIBackgroundColor" ref="1023673953"/>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
+					<object class="IBUIButton" id="604322517">
+						<reference key="NSNextResponder" ref="54457341"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{447, -6}, {36, 30}}</string>
+						<reference key="NSSuperview" ref="54457341"/>
+						<reference key="NSWindow"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<bool key="IBUIOpaque">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<int key="IBUIContentHorizontalAlignment">0</int>
+						<int key="IBUIContentVerticalAlignment">0</int>
+						<reference key="IBUIHighlightedTitleColor" ref="341583672"/>
+						<object class="NSColor" key="IBUINormalTitleColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+						</object>
+						<reference key="IBUINormalTitleShadowColor" ref="655670140"/>
+						<object class="NSCustomResource" key="IBUINormalImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">forgeinfo.png</string>
+						</object>
+						<reference key="IBUIFontDescription" ref="94592318"/>
+						<reference key="IBUIFont" ref="258393664"/>
+					</object>
 				</array>
 				<string key="NSFrameSize">{480, 222}</string>
 				<reference key="NSSuperview"/>
@@ -1891,6 +1915,15 @@
 					</object>
 					<int key="connectionID">175</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">infoClicked:</string>
+						<reference key="source" ref="604322517"/>
+						<reference key="destination" ref="54457341"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">178</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -2275,6 +2308,7 @@
 							<reference ref="315548003"/>
 							<reference ref="909605074"/>
 							<reference ref="278207500"/>
+							<reference ref="604322517"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -2356,6 +2390,11 @@
 						<reference key="object" ref="993248873"/>
 						<reference key="parent" ref="278207500"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">177</int>
+						<reference key="object" ref="604322517"/>
+						<reference key="parent" ref="54457341"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -2414,6 +2453,7 @@
 				<string key="172.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="173.CustomClassName">CancellableTableView</string>
 				<string key="173.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="177.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="21.CustomClassName">NiceFontLabel</string>
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2478,7 +2518,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">176</int>
+			<int key="maxID">178</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3312,6 +3352,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ClanTowerScoresTab</string>
 					<string key="superclassName">UIView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">infoClicked:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">infoClicked:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">infoClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="attackerLabel">UILabel</string>
 						<string key="attackerSpinner">UIActivityIndicatorView</string>
@@ -3582,6 +3633,7 @@
 			<string key="clanstatstickerbg.png">{473, 47}</string>
 			<string key="clanwarbg.png">{297, 168}</string>
 			<string key="crown.png">{16, 15}</string>
+			<string key="forgeinfo.png">{14, 14}</string>
 			<string key="listattackbutton.png">{110, 34}</string>
 			<string key="postmessagebg.png">{473, 45}</string>
 			<string key="tbar.png">{480, 180}</string>

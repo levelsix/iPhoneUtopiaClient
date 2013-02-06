@@ -36,7 +36,7 @@
   self.itemChosenView.hidden = NO;
   self.itemNotChosenView.hidden = YES;
   
-  self.enhanceLevelIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage]+1;
+  self.enhanceLevelIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
   self.topProgressBar.percentage = [gl calculatePercentOfLevel:[gl calculateEnhancementPercentageToNextLevel:ue.enhancementPercentage]];
   self.bottomProgressBar.percentage = self.topProgressBar.percentage;
   
@@ -143,9 +143,8 @@
   
   ForgeItemView *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil) {
-    //    Glo bals *gl = [Globals sharedGlobals];
-#warning use other bundle
-    [[NSBundle mainBundle] loadNibNamed:@"ForgeItemView" owner:self options:nil];
+    Globals *gl = [Globals sharedGlobals];
+    [[Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName] loadNibNamed:@"ForgeItemView" owner:self options:nil];
     cell = self.itemView;
   }
   
@@ -409,7 +408,7 @@
       self.timeLabel.text = @"N/A";
     }
     
-    self.buttonLabel.text = @"Enhance";
+    self.buttonLabel.text = @"ENHANCE";
   } else {
     EquipEnhancementProto *ee = gs.equipEnhancement;
     UserEquip *ue = [UserEquip userEquipWithEquipEnhancementItemProto:ee.enhancingEquip];
@@ -450,11 +449,11 @@
   NSTimeInterval interval = date.timeIntervalSinceNow;
   if (interval > 0) {
     self.timeLabel.text = [NSString stringWithFormat:@"%@", [self convertSecsToString:interval]];
-    self.buttonLabel.text = @"Speed Up";
+    self.buttonLabel.text = @"SPEED UP";
   } else {
     self.timeLabel.text = @"Finished!";
     self.timer = nil;
-    self.buttonLabel.text = @"Collect";
+    self.buttonLabel.text = @"COLLECT";
   }
   
   int timePassed = interval > 0 ? secs-interval : secs;
@@ -615,7 +614,7 @@
 }
 
 - (IBAction)infoClicked:(id)sender {
-  [GenericPopupController displayNotificationViewWithText:@"S" title:@"Enhancement Information"];
+  [GenericPopupController displayNotificationViewWithText:@"Enhancement percent is determined by an equip's attack and defense stats." title:@"Enhancement Information"];
 }
 
 - (void) dealloc {

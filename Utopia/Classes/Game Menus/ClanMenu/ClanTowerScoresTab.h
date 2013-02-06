@@ -74,4 +74,6 @@
 - (void) addedUserBattle:(ClanTowerUserBattle *)ctub;
 - (void) removedUserBattlesForTowerId:(int)towerId;
 
+- (IBAction)infoClicked:(id)sender;
+
 @end

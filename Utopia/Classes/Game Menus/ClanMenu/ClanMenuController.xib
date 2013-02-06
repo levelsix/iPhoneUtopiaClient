@@ -4782,13 +4782,15 @@ KGNvbWluZyBzb29uISk</string>
 					<string key="superclassName">UITableViewCell</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="attackButton">UIView</string>
-						<string key="attackLabel">UILabel</string>
 						<string key="attackSpinner">UIActivityIndicatorView</string>
 						<string key="attackView">UIView</string>
 						<string key="battleRecordLabel">UILabel</string>
 						<string key="editMemberView">UIView</string>
+						<string key="gainedLabel">UILabel</string>
+						<string key="lostLabel">UILabel</string>
 						<string key="nameButton">UIButton</string>
 						<string key="respondInviteView">UIView</string>
+						<string key="slashLabel">UILabel</string>
 						<string key="typeLabel">UILabel</string>
 						<string key="userIcon">UIButton</string>
 					</dictionary>
@@ -4796,10 +4798,6 @@ KGNvbWluZyBzb29uISk</string>
 						<object class="IBToOneOutletInfo" key="attackButton">
 							<string key="name">attackButton</string>
 							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="attackLabel">
-							<string key="name">attackLabel</string>
-							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="attackSpinner">
 							<string key="name">attackSpinner</string>
@@ -4817,6 +4815,14 @@ KGNvbWluZyBzb29uISk</string>
 							<string key="name">editMemberView</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="gainedLabel">
+							<string key="name">gainedLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="lostLabel">
+							<string key="name">lostLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="nameButton">
 							<string key="name">nameButton</string>
 							<string key="candidateClassName">UIButton</string>
@@ -4824,6 +4830,10 @@ KGNvbWluZyBzb29uISk</string>
 						<object class="IBToOneOutletInfo" key="respondInviteView">
 							<string key="name">respondInviteView</string>
 							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="slashLabel">
+							<string key="name">slashLabel</string>
+							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="typeLabel">
 							<string key="name">typeLabel</string>
@@ -4884,30 +4894,6 @@ KGNvbWluZyBzb29uISk</string>
 				<object class="IBPartialClassDescription">
 					<string key="className">ClanMenuController</string>
 					<string key="superclassName">UIViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="backClicked:">id</string>
-						<string key="editClicked:">id</string>
-						<string key="goldBarClicked:">id</string>
-						<string key="upgradeClanClicked:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="backClicked:">
-							<string key="name">backClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="editClicked:">
-							<string key="name">editClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="goldBarClicked:">
-							<string key="name">goldBarClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="upgradeClanClicked:">
-							<string key="name">upgradeClanClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="backLabel">UILabel</string>
 						<string key="backView">UIView</string>
@@ -5271,6 +5257,17 @@ KGNvbWluZyBzb29uISk</string>
 				<object class="IBPartialClassDescription">
 					<string key="className">ClanTowerScoresTab</string>
 					<string key="superclassName">UIView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">infoClicked:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">infoClicked:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">infoClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="attackerLabel">UILabel</string>
 						<string key="attackerSpinner">UIActivityIndicatorView</string>
@@ -5331,7 +5328,6 @@ KGNvbWluZyBzb29uISk</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="concedeClicked:">id</string>
 						<string key="redButtonClicked:">id</string>
-						<string key="towerViewClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="concedeClicked:">
@@ -5340,10 +5336,6 @@ KGNvbWluZyBzb29uISk</string>
 						</object>
 						<object class="IBActionInfo" key="redButtonClicked:">
 							<string key="name">redButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="towerViewClicked:">
-							<string key="name">towerViewClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

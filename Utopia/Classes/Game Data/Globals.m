@@ -2073,7 +2073,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 }
 
 + (void) adjustViewForCentering:(UIView *)view withLabel:(UILabel *)label {
-  CGSize size = [label.text sizeWithFont:label.font constrainedToSize:label.frame.size];
+  CGSize size = [label.text sizeWithFont:label.font constrainedToSize:label.frame.size lineBreakMode:label.lineBreakMode];
   CGPoint oldCenter = view.center;
   
   CGRect r = view.frame;

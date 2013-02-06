@@ -92,10 +92,6 @@
 										<int key="IBUIContentMode">4</int>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<object class="NSCustomResource" key="IBUIImage">
-											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">mapfilter.png</string>
-										</object>
 									</object>
 									<object class="IBUIActivityIndicatorView" id="347530440">
 										<reference key="NSNextResponder" ref="241456325"/>
@@ -103,6 +99,7 @@
 										<string key="NSFrame">{{209, 97}, {20, 20}}</string>
 										<reference key="NSSuperview" ref="241456325"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -395,6 +392,7 @@
 						<string key="NSFrame">{{209, 97}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="686798292"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -448,6 +446,7 @@
 						<string key="NSFrame">{{121, 9}, {18, 32}}</string>
 						<reference key="NSSuperview" ref="668491491"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -565,6 +564,14 @@
 						<reference key="destination" ref="960983740"/>
 					</object>
 					<int key="connectionID">111</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">filterImageView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="623759793"/>
+					</object>
+					<int key="connectionID">114</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -734,11 +741,6 @@
 						<reference key="parent" ref="686798292"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">57</int>
-						<reference key="object" ref="153373807"/>
-						<reference key="parent" ref="669368384"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">91</int>
 						<reference key="object" ref="668491491"/>
 						<array class="NSMutableArray" key="children">
@@ -760,6 +762,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">113</int>
 						<reference key="object" ref="676189354"/>
+						<reference key="parent" ref="669368384"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">57</int>
+						<reference key="object" ref="153373807"/>
 						<reference key="parent" ref="669368384"/>
 					</object>
 				</array>
@@ -801,13 +808,27 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">113</int>
+			<int key="maxID">114</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">AttackListCell</string>
 					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="attackClicked:">id</string>
+						<string key="profileClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="attackClicked:">
+							<string key="name">attackClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="profileClicked:">
+							<string key="name">profileClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="nameLabel">UILabel</string>
 						<string key="typeLabel">UILabel</string>
@@ -868,6 +889,7 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="attackTableView">UITableView</string>
 						<string key="bgdView">UIView</string>
+						<string key="filterImageView">UIImageView</string>
 						<string key="listCell">AttackListCell</string>
 						<string key="listSpinner">UIActivityIndicatorView</string>
 						<string key="listTabView">UIView</string>
@@ -884,6 +906,10 @@
 						<object class="IBToOneOutletInfo" key="bgdView">
 							<string key="name">bgdView</string>
 							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="filterImageView">
+							<string key="name">filterImageView</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="listCell">
 							<string key="name">listCell</string>
@@ -982,7 +1008,6 @@
 			<string key="attackpopupborder.png">{445, 304}</string>
 			<string key="close1.png">{30, 30}</string>
 			<string key="listpulltorefresh.png">{18, 32}</string>
-			<string key="mapfilter.png">{438, 237}</string>
 			<string key="popupglow.png">{480, 320}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1929</string>

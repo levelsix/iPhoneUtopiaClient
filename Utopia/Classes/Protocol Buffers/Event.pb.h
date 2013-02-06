@@ -952,6 +952,7 @@ typedef enum {
   PostOnPlayerWallResponseProto_PostOnPlayerWallStatusNoContentSent = 1,
   PostOnPlayerWallResponseProto_PostOnPlayerWallStatusPostTooLarge = 2,
   PostOnPlayerWallResponseProto_PostOnPlayerWallStatusOtherFail = 3,
+  PostOnPlayerWallResponseProto_PostOnPlayerWallStatusBanned = 4,
 } PostOnPlayerWallResponseProto_PostOnPlayerWallStatus;
 
 BOOL PostOnPlayerWallResponseProto_PostOnPlayerWallStatusIsValidValue(PostOnPlayerWallResponseProto_PostOnPlayerWallStatus value);
@@ -1049,6 +1050,7 @@ typedef enum {
   SendGroupChatResponseProto_SendGroupChatStatusNotEnoughGroupChats = 2,
   SendGroupChatResponseProto_SendGroupChatStatusTooLong = 3,
   SendGroupChatResponseProto_SendGroupChatStatusOtherFail = 4,
+  SendGroupChatResponseProto_SendGroupChatStatusBanned = 5,
 } SendGroupChatResponseProto_SendGroupChatStatus;
 
 BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatResponseProto_SendGroupChatStatus value);
@@ -3254,6 +3256,7 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
   BOOL hasFiltersNibName_:1;
   BOOL hasBlacksmithNibName_:1;
   BOOL hasGoldShoppeNibName_:1;
+  BOOL hasBossEventNibName_:1;
   NSString* threeCardMonteNibName;
   NSString* lockBoxNibName;
   NSString* mapNibName;
@@ -3262,6 +3265,7 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
   NSString* filtersNibName;
   NSString* blacksmithNibName;
   NSString* goldShoppeNibName;
+  NSString* bossEventNibName;
 }
 - (BOOL) hasThreeCardMonteNibName;
 - (BOOL) hasLockBoxNibName;
@@ -3271,6 +3275,7 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
 - (BOOL) hasFiltersNibName;
 - (BOOL) hasBlacksmithNibName;
 - (BOOL) hasGoldShoppeNibName;
+- (BOOL) hasBossEventNibName;
 @property (readonly, retain) NSString* threeCardMonteNibName;
 @property (readonly, retain) NSString* lockBoxNibName;
 @property (readonly, retain) NSString* mapNibName;
@@ -3279,6 +3284,7 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
 @property (readonly, retain) NSString* filtersNibName;
 @property (readonly, retain) NSString* blacksmithNibName;
 @property (readonly, retain) NSString* goldShoppeNibName;
+@property (readonly, retain) NSString* bossEventNibName;
 
 + (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
@@ -3353,6 +3359,11 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
 - (NSString*) goldShoppeNibName;
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setGoldShoppeNibName:(NSString*) value;
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearGoldShoppeNibName;
+
+- (BOOL) hasBossEventNibName;
+- (NSString*) bossEventNibName;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setBossEventNibName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearBossEventNibName;
 @end
 
 @interface StartupResponseProto_StartupConstants_ThreeCardMonteConstants : PBGeneratedMessage {

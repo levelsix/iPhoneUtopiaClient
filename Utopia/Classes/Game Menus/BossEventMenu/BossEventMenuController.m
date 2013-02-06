@@ -170,10 +170,10 @@
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(BossEventMenuController);
 
-//- (id) init {
-//  Globals *gl = [Globals sharedGlobals];
-//  return [self initWithNibName:@"BossEventMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.BossEventNibName]];
-//}
+- (id) init {
+  Globals *gl = [Globals sharedGlobals];
+  return [self initWithNibName:@"BossEventMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.bossEventNibName]];
+}
 
 - (void) viewDidLoad {
   self.infoView.frame = self.eventView.frame;

@@ -376,6 +376,10 @@
   }
 }
 
+- (IBAction)infoClicked:(id)sender {
+  [Globals popupMessage:@"Green = Points won for clan. \nRed = Points lost for clan."];
+}
+
 - (void) dealloc {
   self.ownerMembers = nil;
   self.attackerMembers = nil;

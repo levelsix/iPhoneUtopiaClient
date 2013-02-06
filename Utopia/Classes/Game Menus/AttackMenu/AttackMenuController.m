@@ -257,6 +257,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   [super addPullToRefreshHeader:self.attackTableView];
   [self.attackTableView addSubview:self.refreshHeaderView];
   self.refreshHeaderView.center = ccp(self.attackTableView.frame.size.width/2, -self.refreshHeaderView.frame.size.height/2);
+  
+  [Globals imageNamed:@"mapfilter.png" withImageView:self.filterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
 }
 
 - (void) didReceiveMemoryWarning
@@ -278,6 +280,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
     self.refreshLabel = nil;
     self.refreshSpinner = nil;
     self.refreshArrow = nil;
+    self.filterImageView = nil;
   }
 }
 

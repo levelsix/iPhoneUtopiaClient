@@ -384,6 +384,10 @@
   ClanTowerProto *ctp = [gs.clanTowers objectAtIndex:tag];
   ClanTowerView *tv = [self.towerViews objectAtIndex:tag];
   
+  if (tv.superview == self) {
+    return;
+  }
+  
   if (_currentTowerId == 0) {
     [self.infoView updateForTower:ctp];
     
@@ -431,7 +435,7 @@
 
 - (void) moveTowerView:(ClanTowerView *)tv animated:(BOOL)animated {
   [self addSubview:self.infoView];
-  self.infoView.center = CGPointMake(CGRectGetMaxX(self.scrollView.frame)-self.infoView.frame.size.width/2-5.f,
+  self.infoView.center = CGPointMake(CGRectGetMaxX(self.scrollView.frame)-self.infoView.frame.size.width/2-12.f,
                                      CGRectGetMidY(self.scrollView.frame));
   self.infoView.alpha = 0.f;
   

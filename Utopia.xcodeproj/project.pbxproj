@@ -846,66 +846,6 @@
 		CF36B80C15509EBC00B8FD61 /* warningbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36B80A15509EBC00B8FD61 /* warningbg.png */; };
 		CF36B80D15509EBC00B8FD61 /* warningbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36B80B15509EBC00B8FD61 /* warningbg@2x.png */; };
 		CF36B81D1552305C00B8FD61 /* BazaarMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF36B81C1552305C00B8FD61 /* BazaarMap.m */; };
-		CF36C22F16A3DC0E003C9B36 /* enhancebarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C21D16A3DC0E003C9B36 /* enhancebarbg.png */; };
-		CF36C23016A3DC0E003C9B36 /* enhancebarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C21E16A3DC0E003C9B36 /* enhancebarbg@2x.png */; };
-		CF36C23316A3DC0E003C9B36 /* orangeenhancebar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22116A3DC0E003C9B36 /* orangeenhancebar.png */; };
-		CF36C23416A3DC0E003C9B36 /* orangeenhancebar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22216A3DC0E003C9B36 /* orangeenhancebar@2x.png */; };
-		CF36C23516A3DC0E003C9B36 /* removeenhanceitem.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22316A3DC0E003C9B36 /* removeenhanceitem.png */; };
-		CF36C23616A3DC0E003C9B36 /* removeenhanceitem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22416A3DC0E003C9B36 /* removeenhanceitem@2x.png */; };
-		CF36C23916A3DC0E003C9B36 /* forgewarning.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22716A3DC0E003C9B36 /* forgewarning.png */; };
-		CF36C23A16A3DC0E003C9B36 /* forgewarning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22816A3DC0E003C9B36 /* forgewarning@2x.png */; };
-		CF36C23B16A3DC0E003C9B36 /* yellowenhancebar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22916A3DC0E003C9B36 /* yellowenhancebar.png */; };
-		CF36C23C16A3DC0E003C9B36 /* yellowenhancebar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22A16A3DC0E003C9B36 /* yellowenhancebar@2x.png */; };
-		CF36C23D16A3DC16003C9B36 /* forgebuy1.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09725015BA243C00F8353B /* forgebuy1.png */; };
-		CF36C23E16A3DC16003C9B36 /* forgebuy1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09725115BA243C00F8353B /* forgebuy1@2x.png */; };
-		CF36C23F16A3DC16003C9B36 /* forgemarketplace.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09725215BA243C00F8353B /* forgemarketplace.png */; };
-		CF36C24016A3DC16003C9B36 /* forgemarketplace@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09725315BA243C00F8353B /* forgemarketplace@2x.png */; };
-		CF36C24116A3DC16003C9B36 /* failedx.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0F615B7A1FC00578F6F /* failedx.png */; };
-		CF36C24216A3DC16003C9B36 /* failedx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0F715B7A1FC00578F6F /* failedx@2x.png */; };
-		CF36C24316A3DC16003C9B36 /* forgechecknow.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0F815B7A1FC00578F6F /* forgechecknow.png */; };
-		CF36C24416A3DC16003C9B36 /* forgechecknow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0F915B7A1FC00578F6F /* forgechecknow@2x.png */; };
-		CF36C24516A3DC16003C9B36 /* forgeokaybutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0FA15B7A1FC00578F6F /* forgeokaybutton.png */; };
-		CF36C24616A3DC16003C9B36 /* forgeokaybutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0FB15B7A1FC00578F6F /* forgeokaybutton@2x.png */; };
-		CF36C24716A3DC16003C9B36 /* forgestatuscheckbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0FC15B7A1FC00578F6F /* forgestatuscheckbar.png */; };
-		CF36C24816A3DC16003C9B36 /* forgestatuscheckbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0FD15B7A1FC00578F6F /* forgestatuscheckbar@2x.png */; };
-		CF36C24916A3DC16003C9B36 /* plussign.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD69F6115B763AC00F90310 /* plussign.png */; };
-		CF36C24A16A3DC16003C9B36 /* plussign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD69F6215B763AC00F90310 /* plussign@2x.png */; };
-		CF36C24B16A3DC16003C9B36 /* forgebazaar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730715B69F1500A11A6E /* forgebazaar.png */; };
-		CF36C24C16A3DC16003C9B36 /* forgebazaar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730815B69F1500A11A6E /* forgebazaar@2x.png */; };
-		CF36C24D16A3DC16003C9B36 /* forgebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730915B69F1500A11A6E /* forgebg.png */; };
-		CF36C24E16A3DC16003C9B36 /* forgebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730A15B69F1500A11A6E /* forgebg@2x.png */; };
-		CF36C24F16A3DC16003C9B36 /* forgebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730B15B69F1500A11A6E /* forgebutton.png */; };
-		CF36C25016A3DC16003C9B36 /* forgebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730C15B69F1500A11A6E /* forgebutton@2x.png */; };
-		CF36C25116A3DC16003C9B36 /* forgebuttonbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD69F6915B769FF00F90310 /* forgebuttonbg.png */; };
-		CF36C25216A3DC16003C9B36 /* forgebuttonbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730E15B69F1500A11A6E /* forgebuttonbg@2x.png */; };
-		CF36C25316A3DC17003C9B36 /* forgeequals.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730F15B69F1500A11A6E /* forgeequals.png */; };
-		CF36C25416A3DC17003C9B36 /* forgeequals@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731015B69F1500A11A6E /* forgeequals@2x.png */; };
-		CF36C25516A3DC17003C9B36 /* forgefinishbarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731115B69F1500A11A6E /* forgefinishbarbg.png */; };
-		CF36C25616A3DC17003C9B36 /* forgefinishbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731215B69F1500A11A6E /* forgefinishbarbg@2x.png */; };
-		CF36C25716A3DC17003C9B36 /* forgefinishnow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731315B69F1500A11A6E /* forgefinishnow.png */; };
-		CF36C25816A3DC17003C9B36 /* forgefinishnow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731415B69F1500A11A6E /* forgefinishnow@2x.png */; };
-		CF36C25B16A3DC17003C9B36 /* forgecoinbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09724815BA1AC700F8353B /* forgecoinbar.png */; };
-		CF36C25C16A3DC17003C9B36 /* forgecoinbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09724915BA1AC700F8353B /* forgecoinbar@2x.png */; };
-		CF36C25D16A3DC17003C9B36 /* forgeinfo.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731515B69F1500A11A6E /* forgeinfo.png */; };
-		CF36C25E16A3DC17003C9B36 /* forgeinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731615B69F1500A11A6E /* forgeinfo@2x.png */; };
-		CF36C25F16A3DC17003C9B36 /* forgeweaponactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731915B69F1500A11A6E /* forgeweaponactive.png */; };
-		CF36C26016A3DC17003C9B36 /* forgeweaponactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731A15B69F1500A11A6E /* forgeweaponactive@2x.png */; };
-		CF36C26116A3DC17003C9B36 /* forgeweaponinactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09724C15BA214900F8353B /* forgeweaponinactive.png */; };
-		CF36C26216A3DC17003C9B36 /* forgeweaponinactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09724D15BA214900F8353B /* forgeweaponinactive@2x.png */; };
-		CF36C26316A3DC17003C9B36 /* forgeyellowbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731D15B69F1500A11A6E /* forgeyellowbar.png */; };
-		CF36C26416A3DC17003C9B36 /* forgeyellowbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731E15B69F1500A11A6E /* forgeyellowbar@2x.png */; };
-		CF36C26516A3DC17003C9B36 /* forgingtag.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731F15B69F1500A11A6E /* forgingtag.png */; };
-		CF36C26616A3DC17003C9B36 /* forgingtag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732015B69F1500A11A6E /* forgingtag@2x.png */; };
-		CF36C26716A3DC17003C9B36 /* newitembg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732315B69F1500A11A6E /* newitembg.png */; };
-		CF36C26816A3DC17003C9B36 /* newitembg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732415B69F1500A11A6E /* newitembg@2x.png */; };
-		CF36C26916A3DC17003C9B36 /* olditembg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732515B69F1500A11A6E /* olditembg.png */; };
-		CF36C26A16A3DC17003C9B36 /* olditembg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732615B69F1500A11A6E /* olditembg@2x.png */; };
-		CF36C26B16A3DC17003C9B36 /* overbigweaponstatsbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732715B69F1500A11A6E /* overbigweaponstatsbar.png */; };
-		CF36C26C16A3DC17003C9B36 /* overbigweaponstatsbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732815B69F1500A11A6E /* overbigweaponstatsbar@2x.png */; };
-		CF36C26D16A3DC17003C9B36 /* overlittleweaponstatsbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732915B69F1500A11A6E /* overlittleweaponstatsbar.png */; };
-		CF36C26E16A3DC17003C9B36 /* overlittleweaponstatsbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732A15B69F1500A11A6E /* overlittleweaponstatsbar@2x.png */; };
-		CF36C26F16A3DC17003C9B36 /* percenttimebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732B15B69F1500A11A6E /* percenttimebg.png */; };
-		CF36C27016A3DC17003C9B36 /* percenttimebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732C15B69F1500A11A6E /* percenttimebg@2x.png */; };
 		CF36C27316A40144003C9B36 /* ForgeEnhanceView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF36C27216A40143003C9B36 /* ForgeEnhanceView.m */; };
 		CF3BE08C1619475D00CA5A76 /* LockBoxMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3BE08A1619475D00CA5A76 /* LockBoxMenuController.m */; };
 		CF3BE094161A9AB100CA5A76 /* LockBoxMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3BE093161A9AB000CA5A76 /* LockBoxMenus.m */; };
@@ -1364,12 +1304,6 @@
 		CF94D83515E45DEA00A763EB /* Bazaar.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF94D83415E45DEA00A763EB /* Bazaar.tmx */; };
 		CF94D83815E465BE00A763EB /* upgrading.png in Resources */ = {isa = PBXBuildFile; fileRef = CF94D83615E465BD00A763EB /* upgrading.png */; };
 		CF94D83915E465BE00A763EB /* upgrading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF94D83715E465BD00A763EB /* upgrading@2x.png */; };
-		CF96178716B27BE900DD1AA0 /* forgenavactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CF96178116B27BE900DD1AA0 /* forgenavactive.png */; };
-		CF96178816B27BE900DD1AA0 /* forgenavactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF96178216B27BE900DD1AA0 /* forgenavactive@2x.png */; };
-		CF96178916B27BE900DD1AA0 /* forgenavbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF96178316B27BE900DD1AA0 /* forgenavbg.png */; };
-		CF96178A16B27BE900DD1AA0 /* forgenavbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF96178416B27BE900DD1AA0 /* forgenavbg@2x.png */; };
-		CF96178B16B27BE900DD1AA0 /* forgetopbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF96178516B27BE900DD1AA0 /* forgetopbar.png */; };
-		CF96178C16B27BE900DD1AA0 /* forgetopbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF96178616B27BE900DD1AA0 /* forgetopbar@2x.png */; };
 		CF984AF9169E853D00A58F61 /* Icon-Small-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF984AF8169E853D00A58F61 /* Icon-Small-50@2x.png */; };
 		CF9908E015BF6C900094F672 /* AllianceArcherWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF9908B815BF6C8F0094F672 /* AllianceArcherWalkNF.plist */; };
 		CF9908E115BF6C900094F672 /* AllianceArcherWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF9908B915BF6C8F0094F672 /* AllianceArcherWalkNF.pvr.ccz */; };
@@ -1432,8 +1366,6 @@
 		CFA3712315D302AF0066D72E /* attacknav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA3711915D302AF0066D72E /* attacknav@2x.png */; };
 		CFA3712615D302AF0066D72E /* listattackbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA3711C15D302AF0066D72E /* listattackbutton.png */; };
 		CFA3712715D302AF0066D72E /* listattackbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA3711D15D302AF0066D72E /* listattackbutton@2x.png */; };
-		CFA3712815D302AF0066D72E /* mapfilter.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA3711E15D302AF0066D72E /* mapfilter.png */; };
-		CFA3712915D302AF0066D72E /* mapfilter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA3711F15D302AF0066D72E /* mapfilter@2x.png */; };
 		CFA3713715D343040066D72E /* AttackListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA3713615D343030066D72E /* AttackListCell.xib */; };
 		CFA3713A15D346B60066D72E /* unequibbableitem.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA3713815D346A80066D72E /* unequibbableitem.png */; };
 		CFA3713B15D346B60066D72E /* unequibbableitem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA3713915D346AE0066D72E /* unequibbableitem@2x.png */; };
@@ -1677,30 +1609,10 @@
 		CFE9547C166E0DAF00DA63CF /* superattackpurple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95478166E0DAF00DA63CF /* superattackpurple@2x.png */; };
 		CFE95481166E380D00DA63CF /* BossEventMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE9547F166E380D00DA63CF /* BossEventMenuController.m */; };
 		CFE95482166E380D00DA63CF /* BossEventMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE95480166E380D00DA63CF /* BossEventMenuController.xib */; };
-		CFE95494166E40DD00DA63CF /* amulettag.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95484166E40DD00DA63CF /* amulettag.png */; };
-		CFE95495166E40DD00DA63CF /* amulettag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95485166E40DD00DA63CF /* amulettag@2x.png */; };
-		CFE95496166E40DD00DA63CF /* armortag.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95486166E40DD00DA63CF /* armortag.png */; };
-		CFE95497166E40DD00DA63CF /* armortag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95487166E40DD00DA63CF /* armortag@2x.png */; };
-		CFE95498166E40DD00DA63CF /* guaranteedleg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95488166E40DD00DA63CF /* guaranteedleg.png */; };
-		CFE95499166E40DD00DA63CF /* guaranteedleg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95489166E40DD00DA63CF /* guaranteedleg@2x.png */; };
-		CFE9549A166E40DD00DA63CF /* limiteditembg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9548A166E40DD00DA63CF /* limiteditembg.png */; };
-		CFE9549B166E40DD00DA63CF /* limiteditembg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9548B166E40DD00DA63CF /* limiteditembg@2x.png */; };
-		CFE9549C166E40DD00DA63CF /* or.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9548C166E40DD00DA63CF /* or.png */; };
-		CFE9549D166E40DD00DA63CF /* or@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9548D166E40DD00DA63CF /* or@2x.png */; };
-		CFE9549E166E40DD00DA63CF /* visitboss.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9548E166E40DD00DA63CF /* visitboss.png */; };
-		CFE9549F166E40DD00DA63CF /* visitboss@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9548F166E40DD00DA63CF /* visitboss@2x.png */; };
-		CFE954A0166E40DD00DA63CF /* visitbossbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95490166E40DD00DA63CF /* visitbossbg.png */; };
-		CFE954A1166E40DD00DA63CF /* visitbossbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95491166E40DD00DA63CF /* visitbossbg@2x.png */; };
-		CFE954A2166E40DD00DA63CF /* weapontag.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95492166E40DD00DA63CF /* weapontag.png */; };
-		CFE954A3166E40DD00DA63CF /* weapontag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE95493166E40DD00DA63CF /* weapontag@2x.png */; };
 		CFE954A6166EE6D300DA63CF /* superattackbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954A4166EE6D300DA63CF /* superattackbg.png */; };
 		CFE954A7166EE6D300DA63CF /* superattackbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954A5166EE6D300DA63CF /* superattackbg@2x.png */; };
 		CFE954AA166EE6E100DA63CF /* bossicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954A8166EE6E100DA63CF /* bossicon.png */; };
 		CFE954AB166EE6E100DA63CF /* bossicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954A9166EE6E100DA63CF /* bossicon@2x.png */; };
-		CFE954AC166EEA0F00DA63CF /* behindglow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2B4CA3162A411600758BC8 /* behindglow.png */; };
-		CFE954AD166EEA0F00DA63CF /* behindglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2B4CA4162A411600758BC8 /* behindglow@2x.png */; };
-		CFE954AE166EEA0F00DA63CF /* eventstar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2B4CA5162A411600758BC8 /* eventstar.png */; };
-		CFE954AF166EEA0F00DA63CF /* eventstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2B4CA6162A411600758BC8 /* eventstar@2x.png */; };
 		CFE954B2166F00A900DA63CF /* bossinfo.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B0166F00A900DA63CF /* bossinfo.png */; };
 		CFE954B3166F00A900DA63CF /* bossinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B1166F00A900DA63CF /* bossinfo@2x.png */; };
 		CFE954B6166F14F800DA63CF /* smallgoldstack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B4166F14F800DA63CF /* smallgoldstack.png */; };
@@ -1727,8 +1639,6 @@
 		CFECCDE51550971000171271 /* marketplacepopupbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDE11550971000171271 /* marketplacepopupbg@2x.png */; };
 		CFEE92C816967440007CEBAE /* bazaarlock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEE92C616967440007CEBAE /* bazaarlock@2x.png */; };
 		CFEE92C916967440007CEBAE /* bazaarlock.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEE92C716967440007CEBAE /* bazaarlock.png */; };
-		CFEEE15316B0C0A500F2C48D /* enhancecheckmarkbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEEE15116B0C0A500F2C48D /* enhancecheckmarkbg.png */; };
-		CFEEE15416B0C0A500F2C48D /* enhancecheckmarkbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEEE15216B0C0A500F2C48D /* enhancecheckmarkbg@2x.png */; };
 		CFEF7209156F2D80006362A4 /* MissionBuildingMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEF7208156F2D80006362A4 /* MissionBuildingMenus.m */; };
 		CFF0000316819AB2004C3B27 /* tourneyicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0000116819AB2004C3B27 /* tourneyicon.png */; };
 		CFF0000416819AB2004C3B27 /* tourneyicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0000216819AB2004C3B27 /* tourneyicon@2x.png */; };
@@ -1777,20 +1687,6 @@
 		CFF4A0751629361D00A452A7 /* goldmineicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA78423162275200026A7B4 /* goldmineicon.png */; };
 		CFF4A0761629361D00A452A7 /* goldmineicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA78424162275200026A7B4 /* goldmineicon@2x.png */; };
 		CFF4A078162942CD00A452A7 /* TravelingLoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF4A077162942CC00A452A7 /* TravelingLoadingView.xib */; };
-		CFF4C7E716A7A19300ABB1AC /* dottedborderbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7DB16A7A16D00ABB1AC /* dottedborderbg.png */; };
-		CFF4C7E816A7A19300ABB1AC /* dottedborderbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7DC16A7A16D00ABB1AC /* dottedborderbg@2x.png */; };
-		CFF4C7E916A7A19300ABB1AC /* enhancebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7DD16A7A16F00ABB1AC /* enhancebutton.png */; };
-		CFF4C7EA16A7A19300ABB1AC /* enhancebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7DE16A7A17100ABB1AC /* enhancebutton@2x.png */; };
-		CFF4C7EB16A7A19300ABB1AC /* enhanceitem.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7DF16A7A17400ABB1AC /* enhanceitem.png */; };
-		CFF4C7EC16A7A19300ABB1AC /* enhanceitem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7E016A7A17700ABB1AC /* enhanceitem@2x.png */; };
-		CFF4C7ED16A7A19300ABB1AC /* enhanceitemplus.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7E116A7A17A00ABB1AC /* enhanceitemplus.png */; };
-		CFF4C7EE16A7A19300ABB1AC /* enhanceitemplus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7E216A7A17D00ABB1AC /* enhanceitemplus@2x.png */; };
-		CFF4C7EF16A7A19300ABB1AC /* minusenhanceitem.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7E316A7A18100ABB1AC /* minusenhanceitem.png */; };
-		CFF4C7F016A7A19300ABB1AC /* minusenhanceitem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7E416A7A18500ABB1AC /* minusenhanceitem@2x.png */; };
-		CFF4C7F116A7A19300ABB1AC /* solidborderbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7E516A7A18900ABB1AC /* solidborderbg.png */; };
-		CFF4C7F216A7A19300ABB1AC /* solidborderbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7E616A7A18E00ABB1AC /* solidborderbg@2x.png */; };
-		CFF4C7F516A7A5A800ABB1AC /* enhancewithdotted.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7F316A7A5A700ABB1AC /* enhancewithdotted.png */; };
-		CFF4C7F616A7A5A800ABB1AC /* enhancewithdotted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7F416A7A5A800ABB1AC /* enhancewithdotted@2x.png */; };
 		CFF5F62016B22CF70073E16D /* warstatsheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5F61A16B22CF70073E16D /* warstatsheader.png */; };
 		CFF5F62116B22CF70073E16D /* warstatsheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5F61B16B22CF70073E16D /* warstatsheader@2x.png */; };
 		CFF5F62816B230BC0073E16D /* ClanTowerScoresTab.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF5F62716B230BC0073E16D /* ClanTowerScoresTab.m */; };
@@ -8916,8 +8812,6 @@
 				CFA3712315D302AF0066D72E /* attacknav@2x.png in Resources */,
 				CFA3712615D302AF0066D72E /* listattackbutton.png in Resources */,
 				CFA3712715D302AF0066D72E /* listattackbutton@2x.png in Resources */,
-				CFA3712815D302AF0066D72E /* mapfilter.png in Resources */,
-				CFA3712915D302AF0066D72E /* mapfilter@2x.png in Resources */,
 				CFA3713715D343040066D72E /* AttackListCell.xib in Resources */,
 				CFA3713A15D346B60066D72E /* unequibbableitem.png in Resources */,
 				CFA3713B15D346B60066D72E /* unequibbableitem@2x.png in Resources */,
@@ -9240,30 +9134,10 @@
 				CFE95479166E0DAF00DA63CF /* superattackpurple.png in Resources */,
 				CFE9547C166E0DAF00DA63CF /* superattackpurple@2x.png in Resources */,
 				CFE95482166E380D00DA63CF /* BossEventMenuController.xib in Resources */,
-				CFE95494166E40DD00DA63CF /* amulettag.png in Resources */,
-				CFE95495166E40DD00DA63CF /* amulettag@2x.png in Resources */,
-				CFE95496166E40DD00DA63CF /* armortag.png in Resources */,
-				CFE95497166E40DD00DA63CF /* armortag@2x.png in Resources */,
-				CFE95498166E40DD00DA63CF /* guaranteedleg.png in Resources */,
-				CFE95499166E40DD00DA63CF /* guaranteedleg@2x.png in Resources */,
-				CFE9549A166E40DD00DA63CF /* limiteditembg.png in Resources */,
-				CFE9549B166E40DD00DA63CF /* limiteditembg@2x.png in Resources */,
-				CFE9549C166E40DD00DA63CF /* or.png in Resources */,
-				CFE9549D166E40DD00DA63CF /* or@2x.png in Resources */,
-				CFE9549E166E40DD00DA63CF /* visitboss.png in Resources */,
-				CFE9549F166E40DD00DA63CF /* visitboss@2x.png in Resources */,
-				CFE954A0166E40DD00DA63CF /* visitbossbg.png in Resources */,
-				CFE954A1166E40DD00DA63CF /* visitbossbg@2x.png in Resources */,
-				CFE954A2166E40DD00DA63CF /* weapontag.png in Resources */,
-				CFE954A3166E40DD00DA63CF /* weapontag@2x.png in Resources */,
 				CFE954A6166EE6D300DA63CF /* superattackbg.png in Resources */,
 				CFE954A7166EE6D300DA63CF /* superattackbg@2x.png in Resources */,
 				CFE954AA166EE6E100DA63CF /* bossicon.png in Resources */,
 				CFE954AB166EE6E100DA63CF /* bossicon@2x.png in Resources */,
-				CFE954AC166EEA0F00DA63CF /* behindglow.png in Resources */,
-				CFE954AD166EEA0F00DA63CF /* behindglow@2x.png in Resources */,
-				CFE954AE166EEA0F00DA63CF /* eventstar.png in Resources */,
-				CFE954AF166EEA0F00DA63CF /* eventstar@2x.png in Resources */,
 				CFE954B2166F00A900DA63CF /* bossinfo.png in Resources */,
 				CFE954B3166F00A900DA63CF /* bossinfo@2x.png in Resources */,
 				CFE954B6166F14F800DA63CF /* smallgoldstack.png in Resources */,
@@ -9306,82 +9180,6 @@
 				CF49CBB5169D100100725DB0 /* loadingbar.png in Resources */,
 				CF49CBB6169D100100725DB0 /* loadingbar@2x.png in Resources */,
 				CF984AF9169E853D00A58F61 /* Icon-Small-50@2x.png in Resources */,
-				CF36C22F16A3DC0E003C9B36 /* enhancebarbg.png in Resources */,
-				CF36C23016A3DC0E003C9B36 /* enhancebarbg@2x.png in Resources */,
-				CF36C23316A3DC0E003C9B36 /* orangeenhancebar.png in Resources */,
-				CF36C23416A3DC0E003C9B36 /* orangeenhancebar@2x.png in Resources */,
-				CF36C23516A3DC0E003C9B36 /* removeenhanceitem.png in Resources */,
-				CF36C23616A3DC0E003C9B36 /* removeenhanceitem@2x.png in Resources */,
-				CF36C23916A3DC0E003C9B36 /* forgewarning.png in Resources */,
-				CF36C23A16A3DC0E003C9B36 /* forgewarning@2x.png in Resources */,
-				CF36C23B16A3DC0E003C9B36 /* yellowenhancebar.png in Resources */,
-				CF36C23C16A3DC0E003C9B36 /* yellowenhancebar@2x.png in Resources */,
-				CF36C23D16A3DC16003C9B36 /* forgebuy1.png in Resources */,
-				CF36C23E16A3DC16003C9B36 /* forgebuy1@2x.png in Resources */,
-				CF36C23F16A3DC16003C9B36 /* forgemarketplace.png in Resources */,
-				CF36C24016A3DC16003C9B36 /* forgemarketplace@2x.png in Resources */,
-				CF36C24116A3DC16003C9B36 /* failedx.png in Resources */,
-				CF36C24216A3DC16003C9B36 /* failedx@2x.png in Resources */,
-				CF36C24316A3DC16003C9B36 /* forgechecknow.png in Resources */,
-				CF36C24416A3DC16003C9B36 /* forgechecknow@2x.png in Resources */,
-				CF36C24516A3DC16003C9B36 /* forgeokaybutton.png in Resources */,
-				CF36C24616A3DC16003C9B36 /* forgeokaybutton@2x.png in Resources */,
-				CF36C24716A3DC16003C9B36 /* forgestatuscheckbar.png in Resources */,
-				CF36C24816A3DC16003C9B36 /* forgestatuscheckbar@2x.png in Resources */,
-				CF36C24916A3DC16003C9B36 /* plussign.png in Resources */,
-				CF36C24A16A3DC16003C9B36 /* plussign@2x.png in Resources */,
-				CF36C24B16A3DC16003C9B36 /* forgebazaar.png in Resources */,
-				CF36C24C16A3DC16003C9B36 /* forgebazaar@2x.png in Resources */,
-				CF36C24D16A3DC16003C9B36 /* forgebg.png in Resources */,
-				CF36C24E16A3DC16003C9B36 /* forgebg@2x.png in Resources */,
-				CF36C24F16A3DC16003C9B36 /* forgebutton.png in Resources */,
-				CF36C25016A3DC16003C9B36 /* forgebutton@2x.png in Resources */,
-				CF36C25116A3DC16003C9B36 /* forgebuttonbg.png in Resources */,
-				CF36C25216A3DC16003C9B36 /* forgebuttonbg@2x.png in Resources */,
-				CF36C25316A3DC17003C9B36 /* forgeequals.png in Resources */,
-				CF36C25416A3DC17003C9B36 /* forgeequals@2x.png in Resources */,
-				CF36C25516A3DC17003C9B36 /* forgefinishbarbg.png in Resources */,
-				CF36C25616A3DC17003C9B36 /* forgefinishbarbg@2x.png in Resources */,
-				CF36C25716A3DC17003C9B36 /* forgefinishnow.png in Resources */,
-				CF36C25816A3DC17003C9B36 /* forgefinishnow@2x.png in Resources */,
-				CF36C25B16A3DC17003C9B36 /* forgecoinbar.png in Resources */,
-				CF36C25C16A3DC17003C9B36 /* forgecoinbar@2x.png in Resources */,
-				CF36C25D16A3DC17003C9B36 /* forgeinfo.png in Resources */,
-				CF36C25E16A3DC17003C9B36 /* forgeinfo@2x.png in Resources */,
-				CF36C25F16A3DC17003C9B36 /* forgeweaponactive.png in Resources */,
-				CF36C26016A3DC17003C9B36 /* forgeweaponactive@2x.png in Resources */,
-				CF36C26116A3DC17003C9B36 /* forgeweaponinactive.png in Resources */,
-				CF36C26216A3DC17003C9B36 /* forgeweaponinactive@2x.png in Resources */,
-				CF36C26316A3DC17003C9B36 /* forgeyellowbar.png in Resources */,
-				CF36C26416A3DC17003C9B36 /* forgeyellowbar@2x.png in Resources */,
-				CF36C26516A3DC17003C9B36 /* forgingtag.png in Resources */,
-				CF36C26616A3DC17003C9B36 /* forgingtag@2x.png in Resources */,
-				CF36C26716A3DC17003C9B36 /* newitembg.png in Resources */,
-				CF36C26816A3DC17003C9B36 /* newitembg@2x.png in Resources */,
-				CF36C26916A3DC17003C9B36 /* olditembg.png in Resources */,
-				CF36C26A16A3DC17003C9B36 /* olditembg@2x.png in Resources */,
-				CF36C26B16A3DC17003C9B36 /* overbigweaponstatsbar.png in Resources */,
-				CF36C26C16A3DC17003C9B36 /* overbigweaponstatsbar@2x.png in Resources */,
-				CF36C26D16A3DC17003C9B36 /* overlittleweaponstatsbar.png in Resources */,
-				CF36C26E16A3DC17003C9B36 /* overlittleweaponstatsbar@2x.png in Resources */,
-				CF36C26F16A3DC17003C9B36 /* percenttimebg.png in Resources */,
-				CF36C27016A3DC17003C9B36 /* percenttimebg@2x.png in Resources */,
-				CFF4C7E716A7A19300ABB1AC /* dottedborderbg.png in Resources */,
-				CFF4C7E816A7A19300ABB1AC /* dottedborderbg@2x.png in Resources */,
-				CFF4C7E916A7A19300ABB1AC /* enhancebutton.png in Resources */,
-				CFF4C7EA16A7A19300ABB1AC /* enhancebutton@2x.png in Resources */,
-				CFF4C7EB16A7A19300ABB1AC /* enhanceitem.png in Resources */,
-				CFF4C7EC16A7A19300ABB1AC /* enhanceitem@2x.png in Resources */,
-				CFF4C7ED16A7A19300ABB1AC /* enhanceitemplus.png in Resources */,
-				CFF4C7EE16A7A19300ABB1AC /* enhanceitemplus@2x.png in Resources */,
-				CFF4C7EF16A7A19300ABB1AC /* minusenhanceitem.png in Resources */,
-				CFF4C7F016A7A19300ABB1AC /* minusenhanceitem@2x.png in Resources */,
-				CFF4C7F116A7A19300ABB1AC /* solidborderbg.png in Resources */,
-				CFF4C7F216A7A19300ABB1AC /* solidborderbg@2x.png in Resources */,
-				CFF4C7F516A7A5A800ABB1AC /* enhancewithdotted.png in Resources */,
-				CFF4C7F616A7A5A800ABB1AC /* enhancewithdotted@2x.png in Resources */,
-				CFEEE15316B0C0A500F2C48D /* enhancecheckmarkbg.png in Resources */,
-				CFEEE15416B0C0A500F2C48D /* enhancecheckmarkbg@2x.png in Resources */,
 				CFF5F62016B22CF70073E16D /* warstatsheader.png in Resources */,
 				CFF5F62116B22CF70073E16D /* warstatsheader@2x.png in Resources */,
 				CFF5F62A16B238530073E16D /* ClanTowerScoresCell.xib in Resources */,
@@ -9390,12 +9188,6 @@
 				CFF5F63116B246F50073E16D /* tbar.png in Resources */,
 				CFF5F63216B246F50073E16D /* tbar@2x.png in Resources */,
 				CFF5F63416B257640073E16D /* ClanTowerTickerCell.xib in Resources */,
-				CF96178716B27BE900DD1AA0 /* forgenavactive.png in Resources */,
-				CF96178816B27BE900DD1AA0 /* forgenavactive@2x.png in Resources */,
-				CF96178916B27BE900DD1AA0 /* forgenavbg.png in Resources */,
-				CF96178A16B27BE900DD1AA0 /* forgenavbg@2x.png in Resources */,
-				CF96178B16B27BE900DD1AA0 /* forgetopbar.png in Resources */,
-				CF96178C16B27BE900DD1AA0 /* forgetopbar@2x.png in Resources */,
 				CFF2DA8216B756E4008B5491 /* arrow1.png in Resources */,
 				CFF2DA8316B756E4008B5491 /* arrow1@2x.png in Resources */,
 				CFF2DA8416B756E4008B5491 /* arrow2.png in Resources */,

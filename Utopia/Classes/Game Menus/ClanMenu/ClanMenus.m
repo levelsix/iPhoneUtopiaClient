@@ -378,12 +378,12 @@
   self.members = m;
   self.requesters = r;
   
-  leaderId = 0;
-  myClan = isMyClan;
-  
-  if (isMyClan && leaderId != gs.userId) {
+  if (!isMyClan || leaderId != gs.userId) {
     editModeOn = NO;
   }
+  
+  leaderId = 0;
+  myClan = isMyClan;
   
   [self.membersTable reloadData];
 }

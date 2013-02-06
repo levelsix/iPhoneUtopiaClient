@@ -37,13 +37,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   NSURL *url = [[NSURL alloc] initWithString:[urlBase stringByAppendingString:imageName]];
   NSString *filePath = [[NSString alloc] initWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
   BOOL success = YES;
-  if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-    NSData *data = [[NSData alloc] initWithContentsOfURL:url];
-    if (data) {
-      success = [data writeToFile:filePath atomically:YES];
-    }
-    [data release];
+  
+  NSData *data = [[NSData alloc] initWithContentsOfURL:url];
+  if (data) {
+    success = [data writeToFile:filePath atomically:YES];
   }
+  [data release];
+  
   [url release];
   [filePath autorelease];
   return success ? filePath : nil;
@@ -112,6 +112,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   NSString *filePath = [self downloadFile:zipFile];
   if (filePath) {
     [SSZipArchive unzipFileAtPath:filePath toDestination:_cacheDir];
+    [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+  }
+}
+
+- (void) deletePreviousBundles:(NSString *)bundleName {
+  NSString *num = [bundleName pathExtension];
+  NSString *base = [bundleName stringByDeletingPathExtension];
+  int numVal = num.intValue;
+  
+  for (int i = 0; i < numVal; i++) {
+    NSString *filePath = [[NSString alloc] initWithFormat:@"%@/%@.%d",_cacheDir, base, i];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+      BOOL removed = [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+      dispatch_async(dispatch_get_main_queue(), ^(void) {
+        LNLog(@"Found and %@ %@.", removed ? @"successfully removed" : @"failed to remove", filePath);
+      });
+    }
   }
 }
 
@@ -121,6 +138,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5f]];
   dispatch_sync(_syncQueue, ^{
     [self downloadBundle:[bundleName stringByAppendingString:@".zip"]];
+    [self deletePreviousBundles:bundleName];
   });
   [self stopLoading];
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of bundle %@ complete", bundleName);
@@ -130,6 +148,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning async download of bundle %@", bundleName);
   dispatch_async(_asyncQueue, ^{
     [self downloadBundle:[bundleName stringByAppendingString:@".zip"]];
+    [self deletePreviousBundles:bundleName];
     dispatch_async(dispatch_get_main_queue(), ^(void) {
       ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of bundle %@ complete", bundleName);
     });

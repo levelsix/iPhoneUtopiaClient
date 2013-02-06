@@ -47,7 +47,7 @@
     self.enhanceLevelIcon.level = gl.maxEnhancementLevel;
     self.topProgressBar.percentage = 1.f;
   } else {
-    self.enhanceLevelIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage]+1;
+    self.enhanceLevelIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
     self.topProgressBar.percentage = [gl calculatePercentOfLevel:[gl calculateEnhancementPercentageToNextLevel:ue.enhancementPercentage]];
   }
   

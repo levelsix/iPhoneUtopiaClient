@@ -171,10 +171,10 @@
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 
-//- (id) init {
-//  Globals *gl = [Globals sharedGlobals];
-//  return [self initWithNibName:@"ForgeMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName]];
-//}
+- (id) init {
+  Globals *gl = [Globals sharedGlobals];
+  return [self initWithNibName:@"ForgeMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName]];
+}
 
 - (void)viewDidLoad
 {

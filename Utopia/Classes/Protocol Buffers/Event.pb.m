@@ -8016,6 +8016,7 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
 @property (retain) NSString* filtersNibName;
 @property (retain) NSString* blacksmithNibName;
 @property (retain) NSString* goldShoppeNibName;
+@property (retain) NSString* bossEventNibName;
 @end
 
 @implementation StartupResponseProto_StartupConstants_DownloadableNibConstants
@@ -8076,6 +8077,13 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
   hasGoldShoppeNibName_ = !!value;
 }
 @synthesize goldShoppeNibName;
+- (BOOL) hasBossEventNibName {
+  return !!hasBossEventNibName_;
+}
+- (void) setHasBossEventNibName:(BOOL) value {
+  hasBossEventNibName_ = !!value;
+}
+@synthesize bossEventNibName;
 - (void) dealloc {
   self.threeCardMonteNibName = nil;
   self.lockBoxNibName = nil;
@@ -8085,6 +8093,7 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
   self.filtersNibName = nil;
   self.blacksmithNibName = nil;
   self.goldShoppeNibName = nil;
+  self.bossEventNibName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -8097,6 +8106,7 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
     self.filtersNibName = @"";
     self.blacksmithNibName = @"";
     self.goldShoppeNibName = @"";
+    self.bossEventNibName = @"";
   }
   return self;
 }
@@ -8140,6 +8150,9 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
   if (self.hasGoldShoppeNibName) {
     [output writeString:8 value:self.goldShoppeNibName];
   }
+  if (self.hasBossEventNibName) {
+    [output writeString:9 value:self.bossEventNibName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -8172,6 +8185,9 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
   }
   if (self.hasGoldShoppeNibName) {
     size += computeStringSize(8, self.goldShoppeNibName);
+  }
+  if (self.hasBossEventNibName) {
+    size += computeStringSize(9, self.bossEventNibName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -8272,6 +8288,9 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
   if (other.hasGoldShoppeNibName) {
     [self setGoldShoppeNibName:other.goldShoppeNibName];
   }
+  if (other.hasBossEventNibName) {
+    [self setBossEventNibName:other.bossEventNibName];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8323,6 +8342,10 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
       }
       case 66: {
         [self setGoldShoppeNibName:[input readString]];
+        break;
+      }
+      case 74: {
+        [self setBossEventNibName:[input readString]];
         break;
       }
     }
@@ -8454,6 +8477,22 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearGoldShoppeNibName {
   result.hasGoldShoppeNibName = NO;
   result.goldShoppeNibName = @"";
+  return self;
+}
+- (BOOL) hasBossEventNibName {
+  return result.hasBossEventNibName;
+}
+- (NSString*) bossEventNibName {
+  return result.bossEventNibName;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setBossEventNibName:(NSString*) value {
+  result.hasBossEventNibName = YES;
+  result.bossEventNibName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearBossEventNibName {
+  result.hasBossEventNibName = NO;
+  result.bossEventNibName = @"";
   return self;
 }
 @end
@@ -45927,6 +45966,7 @@ BOOL PostOnPlayerWallResponseProto_PostOnPlayerWallStatusIsValidValue(PostOnPlay
     case PostOnPlayerWallResponseProto_PostOnPlayerWallStatusNoContentSent:
     case PostOnPlayerWallResponseProto_PostOnPlayerWallStatusPostTooLarge:
     case PostOnPlayerWallResponseProto_PostOnPlayerWallStatusOtherFail:
+    case PostOnPlayerWallResponseProto_PostOnPlayerWallStatusBanned:
       return YES;
     default:
       return NO;
@@ -53125,6 +53165,7 @@ BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatRes
     case SendGroupChatResponseProto_SendGroupChatStatusNotEnoughGroupChats:
     case SendGroupChatResponseProto_SendGroupChatStatusTooLong:
     case SendGroupChatResponseProto_SendGroupChatStatusOtherFail:
+    case SendGroupChatResponseProto_SendGroupChatStatusBanned:
       return YES;
     default:
       return NO;

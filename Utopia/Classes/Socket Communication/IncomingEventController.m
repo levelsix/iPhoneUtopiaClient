@@ -473,6 +473,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gs resetGoldSaleTimers];
   [gl updateConstants:proto.startupConstants];
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
+    if (proto.sender.userId == 0) {
+      LNLog(@"Received user id 0..");
+      return;
+    }
+    
     // Update user before creating map
     [gs updateUser:proto.sender timestamp:0];
     

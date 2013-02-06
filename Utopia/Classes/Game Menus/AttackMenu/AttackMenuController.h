@@ -68,6 +68,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *listSpinner;
 @property (nonatomic, retain) IBOutlet AttackListCell *listCell;
 @property (nonatomic, retain) IBOutlet UITableView *attackTableView;
+@property (nonatomic, retain) IBOutlet UIImageView *filterImageView;
 
 @property (nonatomic, assign) AttackListState state;
 
