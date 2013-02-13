@@ -19,6 +19,15 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
+BOOL PurchaseOptionIsValidValue(PurchaseOption value) {
+  switch (value) {
+    case PurchaseOptionOne:
+    case PurchaseOptionTwo:
+      return YES;
+    default:
+      return NO;
+  }
+}
 BOOL EquipClassTypeIsValidValue(EquipClassType value) {
   switch (value) {
     case EquipClassTypeWarrior:
@@ -711,39 +720,42 @@ static UserBoosterItemProto* defaultUserBoosterItemProtoInstance = nil;
 @end
 
 @interface BoosterPackProto ()
-@property int32_t id;
-@property int32_t coinCost;
-@property int32_t diamondCost;
+@property int32_t boosterPackId;
+@property BOOL costsCoins;
 @property (retain) NSString* name;
-@property (retain) NSString* image;
-@property (retain) NSString* description;
-@property int32_t numEquips;
+@property (retain) NSString* chestImage;
+@property (retain) NSString* middleImage;
+@property (retain) NSString* backgroundImage;
+@property int32_t minLevel;
+@property int32_t maxLevel;
 @property (retain) NSMutableArray* mutableBoosterItemsList;
+@property int32_t salePriceOne;
+@property int32_t retailPriceOne;
+@property int32_t salePriceTwo;
+@property int32_t retailPriceTwo;
 @end
 
 @implementation BoosterPackProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasBoosterPackId {
+  return !!hasBoosterPackId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasBoosterPackId:(BOOL) value {
+  hasBoosterPackId_ = !!value;
 }
-@synthesize id;
-- (BOOL) hasCoinCost {
-  return !!hasCoinCost_;
+@synthesize boosterPackId;
+- (BOOL) hasCostsCoins {
+  return !!hasCostsCoins_;
 }
-- (void) setHasCoinCost:(BOOL) value {
-  hasCoinCost_ = !!value;
+- (void) setHasCostsCoins:(BOOL) value {
+  hasCostsCoins_ = !!value;
 }
-@synthesize coinCost;
-- (BOOL) hasDiamondCost {
-  return !!hasDiamondCost_;
+- (BOOL) costsCoins {
+  return !!costsCoins_;
 }
-- (void) setHasDiamondCost:(BOOL) value {
-  hasDiamondCost_ = !!value;
+- (void) setCostsCoins:(BOOL) value {
+  costsCoins_ = !!value;
 }
-@synthesize diamondCost;
 - (BOOL) hasName {
   return !!hasName_;
 }
@@ -751,44 +763,92 @@ static UserBoosterItemProto* defaultUserBoosterItemProtoInstance = nil;
   hasName_ = !!value;
 }
 @synthesize name;
-- (BOOL) hasImage {
-  return !!hasImage_;
+- (BOOL) hasChestImage {
+  return !!hasChestImage_;
 }
-- (void) setHasImage:(BOOL) value {
-  hasImage_ = !!value;
+- (void) setHasChestImage:(BOOL) value {
+  hasChestImage_ = !!value;
 }
-@synthesize image;
-- (BOOL) hasDescription {
-  return !!hasDescription_;
+@synthesize chestImage;
+- (BOOL) hasMiddleImage {
+  return !!hasMiddleImage_;
 }
-- (void) setHasDescription:(BOOL) value {
-  hasDescription_ = !!value;
+- (void) setHasMiddleImage:(BOOL) value {
+  hasMiddleImage_ = !!value;
 }
-@synthesize description;
-- (BOOL) hasNumEquips {
-  return !!hasNumEquips_;
+@synthesize middleImage;
+- (BOOL) hasBackgroundImage {
+  return !!hasBackgroundImage_;
 }
-- (void) setHasNumEquips:(BOOL) value {
-  hasNumEquips_ = !!value;
+- (void) setHasBackgroundImage:(BOOL) value {
+  hasBackgroundImage_ = !!value;
 }
-@synthesize numEquips;
+@synthesize backgroundImage;
+- (BOOL) hasMinLevel {
+  return !!hasMinLevel_;
+}
+- (void) setHasMinLevel:(BOOL) value {
+  hasMinLevel_ = !!value;
+}
+@synthesize minLevel;
+- (BOOL) hasMaxLevel {
+  return !!hasMaxLevel_;
+}
+- (void) setHasMaxLevel:(BOOL) value {
+  hasMaxLevel_ = !!value;
+}
+@synthesize maxLevel;
 @synthesize mutableBoosterItemsList;
+- (BOOL) hasSalePriceOne {
+  return !!hasSalePriceOne_;
+}
+- (void) setHasSalePriceOne:(BOOL) value {
+  hasSalePriceOne_ = !!value;
+}
+@synthesize salePriceOne;
+- (BOOL) hasRetailPriceOne {
+  return !!hasRetailPriceOne_;
+}
+- (void) setHasRetailPriceOne:(BOOL) value {
+  hasRetailPriceOne_ = !!value;
+}
+@synthesize retailPriceOne;
+- (BOOL) hasSalePriceTwo {
+  return !!hasSalePriceTwo_;
+}
+- (void) setHasSalePriceTwo:(BOOL) value {
+  hasSalePriceTwo_ = !!value;
+}
+@synthesize salePriceTwo;
+- (BOOL) hasRetailPriceTwo {
+  return !!hasRetailPriceTwo_;
+}
+- (void) setHasRetailPriceTwo:(BOOL) value {
+  hasRetailPriceTwo_ = !!value;
+}
+@synthesize retailPriceTwo;
 - (void) dealloc {
   self.name = nil;
-  self.image = nil;
-  self.description = nil;
+  self.chestImage = nil;
+  self.middleImage = nil;
+  self.backgroundImage = nil;
   self.mutableBoosterItemsList = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
-    self.coinCost = 0;
-    self.diamondCost = 0;
+    self.boosterPackId = 0;
+    self.costsCoins = NO;
     self.name = @"";
-    self.image = @"";
-    self.description = @"";
-    self.numEquips = 0;
+    self.chestImage = @"";
+    self.middleImage = @"";
+    self.backgroundImage = @"";
+    self.minLevel = 0;
+    self.maxLevel = 0;
+    self.salePriceOne = 0;
+    self.retailPriceOne = 0;
+    self.salePriceTwo = 0;
+    self.retailPriceTwo = 0;
   }
   return self;
 }
@@ -815,29 +875,44 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasBoosterPackId) {
+    [output writeInt32:1 value:self.boosterPackId];
   }
-  if (self.hasCoinCost) {
-    [output writeInt32:2 value:self.coinCost];
-  }
-  if (self.hasDiamondCost) {
-    [output writeInt32:3 value:self.diamondCost];
+  if (self.hasCostsCoins) {
+    [output writeBool:2 value:self.costsCoins];
   }
   if (self.hasName) {
-    [output writeString:4 value:self.name];
+    [output writeString:3 value:self.name];
   }
-  if (self.hasImage) {
-    [output writeString:5 value:self.image];
+  if (self.hasChestImage) {
+    [output writeString:4 value:self.chestImage];
   }
-  if (self.hasDescription) {
-    [output writeString:6 value:self.description];
+  if (self.hasMiddleImage) {
+    [output writeString:5 value:self.middleImage];
   }
-  if (self.hasNumEquips) {
-    [output writeInt32:7 value:self.numEquips];
+  if (self.hasBackgroundImage) {
+    [output writeString:6 value:self.backgroundImage];
+  }
+  if (self.hasMinLevel) {
+    [output writeInt32:7 value:self.minLevel];
+  }
+  if (self.hasMaxLevel) {
+    [output writeInt32:8 value:self.maxLevel];
   }
   for (BoosterItemProto* element in self.boosterItemsList) {
-    [output writeMessage:8 value:element];
+    [output writeMessage:9 value:element];
+  }
+  if (self.hasSalePriceOne) {
+    [output writeInt32:10 value:self.salePriceOne];
+  }
+  if (self.hasRetailPriceOne) {
+    [output writeInt32:11 value:self.retailPriceOne];
+  }
+  if (self.hasSalePriceTwo) {
+    [output writeInt32:12 value:self.salePriceTwo];
+  }
+  if (self.hasRetailPriceTwo) {
+    [output writeInt32:13 value:self.retailPriceTwo];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -848,29 +923,44 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasBoosterPackId) {
+    size += computeInt32Size(1, self.boosterPackId);
   }
-  if (self.hasCoinCost) {
-    size += computeInt32Size(2, self.coinCost);
-  }
-  if (self.hasDiamondCost) {
-    size += computeInt32Size(3, self.diamondCost);
+  if (self.hasCostsCoins) {
+    size += computeBoolSize(2, self.costsCoins);
   }
   if (self.hasName) {
-    size += computeStringSize(4, self.name);
+    size += computeStringSize(3, self.name);
   }
-  if (self.hasImage) {
-    size += computeStringSize(5, self.image);
+  if (self.hasChestImage) {
+    size += computeStringSize(4, self.chestImage);
   }
-  if (self.hasDescription) {
-    size += computeStringSize(6, self.description);
+  if (self.hasMiddleImage) {
+    size += computeStringSize(5, self.middleImage);
   }
-  if (self.hasNumEquips) {
-    size += computeInt32Size(7, self.numEquips);
+  if (self.hasBackgroundImage) {
+    size += computeStringSize(6, self.backgroundImage);
+  }
+  if (self.hasMinLevel) {
+    size += computeInt32Size(7, self.minLevel);
+  }
+  if (self.hasMaxLevel) {
+    size += computeInt32Size(8, self.maxLevel);
   }
   for (BoosterItemProto* element in self.boosterItemsList) {
-    size += computeMessageSize(8, element);
+    size += computeMessageSize(9, element);
+  }
+  if (self.hasSalePriceOne) {
+    size += computeInt32Size(10, self.salePriceOne);
+  }
+  if (self.hasRetailPriceOne) {
+    size += computeInt32Size(11, self.retailPriceOne);
+  }
+  if (self.hasSalePriceTwo) {
+    size += computeInt32Size(12, self.salePriceTwo);
+  }
+  if (self.hasRetailPriceTwo) {
+    size += computeInt32Size(13, self.retailPriceTwo);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -947,32 +1037,47 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   if (other == [BoosterPackProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasBoosterPackId) {
+    [self setBoosterPackId:other.boosterPackId];
   }
-  if (other.hasCoinCost) {
-    [self setCoinCost:other.coinCost];
-  }
-  if (other.hasDiamondCost) {
-    [self setDiamondCost:other.diamondCost];
+  if (other.hasCostsCoins) {
+    [self setCostsCoins:other.costsCoins];
   }
   if (other.hasName) {
     [self setName:other.name];
   }
-  if (other.hasImage) {
-    [self setImage:other.image];
+  if (other.hasChestImage) {
+    [self setChestImage:other.chestImage];
   }
-  if (other.hasDescription) {
-    [self setDescription:other.description];
+  if (other.hasMiddleImage) {
+    [self setMiddleImage:other.middleImage];
   }
-  if (other.hasNumEquips) {
-    [self setNumEquips:other.numEquips];
+  if (other.hasBackgroundImage) {
+    [self setBackgroundImage:other.backgroundImage];
+  }
+  if (other.hasMinLevel) {
+    [self setMinLevel:other.minLevel];
+  }
+  if (other.hasMaxLevel) {
+    [self setMaxLevel:other.maxLevel];
   }
   if (other.mutableBoosterItemsList.count > 0) {
     if (result.mutableBoosterItemsList == nil) {
       result.mutableBoosterItemsList = [NSMutableArray array];
     }
     [result.mutableBoosterItemsList addObjectsFromArray:other.mutableBoosterItemsList];
+  }
+  if (other.hasSalePriceOne) {
+    [self setSalePriceOne:other.salePriceOne];
+  }
+  if (other.hasRetailPriceOne) {
+    [self setRetailPriceOne:other.retailPriceOne];
+  }
+  if (other.hasSalePriceTwo) {
+    [self setSalePriceTwo:other.salePriceTwo];
+  }
+  if (other.hasRetailPriceTwo) {
+    [self setRetailPriceTwo:other.retailPriceTwo];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -996,88 +1101,92 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setBoosterPackId:[input readInt32]];
         break;
       }
       case 16: {
-        [self setCoinCost:[input readInt32]];
+        [self setCostsCoins:[input readBool]];
         break;
       }
-      case 24: {
-        [self setDiamondCost:[input readInt32]];
-        break;
-      }
-      case 34: {
+      case 26: {
         [self setName:[input readString]];
         break;
       }
+      case 34: {
+        [self setChestImage:[input readString]];
+        break;
+      }
       case 42: {
-        [self setImage:[input readString]];
+        [self setMiddleImage:[input readString]];
         break;
       }
       case 50: {
-        [self setDescription:[input readString]];
+        [self setBackgroundImage:[input readString]];
         break;
       }
       case 56: {
-        [self setNumEquips:[input readInt32]];
+        [self setMinLevel:[input readInt32]];
         break;
       }
-      case 66: {
+      case 64: {
+        [self setMaxLevel:[input readInt32]];
+        break;
+      }
+      case 74: {
         BoosterItemProto_Builder* subBuilder = [BoosterItemProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addBoosterItems:[subBuilder buildPartial]];
         break;
       }
+      case 80: {
+        [self setSalePriceOne:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setRetailPriceOne:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setSalePriceTwo:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self setRetailPriceTwo:[input readInt32]];
+        break;
+      }
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasBoosterPackId {
+  return result.hasBoosterPackId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) boosterPackId {
+  return result.boosterPackId;
 }
-- (BoosterPackProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (BoosterPackProto_Builder*) setBoosterPackId:(int32_t) value {
+  result.hasBoosterPackId = YES;
+  result.boosterPackId = value;
   return self;
 }
-- (BoosterPackProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (BoosterPackProto_Builder*) clearBoosterPackId {
+  result.hasBoosterPackId = NO;
+  result.boosterPackId = 0;
   return self;
 }
-- (BOOL) hasCoinCost {
-  return result.hasCoinCost;
+- (BOOL) hasCostsCoins {
+  return result.hasCostsCoins;
 }
-- (int32_t) coinCost {
-  return result.coinCost;
+- (BOOL) costsCoins {
+  return result.costsCoins;
 }
-- (BoosterPackProto_Builder*) setCoinCost:(int32_t) value {
-  result.hasCoinCost = YES;
-  result.coinCost = value;
+- (BoosterPackProto_Builder*) setCostsCoins:(BOOL) value {
+  result.hasCostsCoins = YES;
+  result.costsCoins = value;
   return self;
 }
-- (BoosterPackProto_Builder*) clearCoinCost {
-  result.hasCoinCost = NO;
-  result.coinCost = 0;
-  return self;
-}
-- (BOOL) hasDiamondCost {
-  return result.hasDiamondCost;
-}
-- (int32_t) diamondCost {
-  return result.diamondCost;
-}
-- (BoosterPackProto_Builder*) setDiamondCost:(int32_t) value {
-  result.hasDiamondCost = YES;
-  result.diamondCost = value;
-  return self;
-}
-- (BoosterPackProto_Builder*) clearDiamondCost {
-  result.hasDiamondCost = NO;
-  result.diamondCost = 0;
+- (BoosterPackProto_Builder*) clearCostsCoins {
+  result.hasCostsCoins = NO;
+  result.costsCoins = NO;
   return self;
 }
 - (BOOL) hasName {
@@ -1096,52 +1205,84 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   result.name = @"";
   return self;
 }
-- (BOOL) hasImage {
-  return result.hasImage;
+- (BOOL) hasChestImage {
+  return result.hasChestImage;
 }
-- (NSString*) image {
-  return result.image;
+- (NSString*) chestImage {
+  return result.chestImage;
 }
-- (BoosterPackProto_Builder*) setImage:(NSString*) value {
-  result.hasImage = YES;
-  result.image = value;
+- (BoosterPackProto_Builder*) setChestImage:(NSString*) value {
+  result.hasChestImage = YES;
+  result.chestImage = value;
   return self;
 }
-- (BoosterPackProto_Builder*) clearImage {
-  result.hasImage = NO;
-  result.image = @"";
+- (BoosterPackProto_Builder*) clearChestImage {
+  result.hasChestImage = NO;
+  result.chestImage = @"";
   return self;
 }
-- (BOOL) hasDescription {
-  return result.hasDescription;
+- (BOOL) hasMiddleImage {
+  return result.hasMiddleImage;
 }
-- (NSString*) description {
-  return result.description;
+- (NSString*) middleImage {
+  return result.middleImage;
 }
-- (BoosterPackProto_Builder*) setDescription:(NSString*) value {
-  result.hasDescription = YES;
-  result.description = value;
+- (BoosterPackProto_Builder*) setMiddleImage:(NSString*) value {
+  result.hasMiddleImage = YES;
+  result.middleImage = value;
   return self;
 }
-- (BoosterPackProto_Builder*) clearDescription {
-  result.hasDescription = NO;
-  result.description = @"";
+- (BoosterPackProto_Builder*) clearMiddleImage {
+  result.hasMiddleImage = NO;
+  result.middleImage = @"";
   return self;
 }
-- (BOOL) hasNumEquips {
-  return result.hasNumEquips;
+- (BOOL) hasBackgroundImage {
+  return result.hasBackgroundImage;
 }
-- (int32_t) numEquips {
-  return result.numEquips;
+- (NSString*) backgroundImage {
+  return result.backgroundImage;
 }
-- (BoosterPackProto_Builder*) setNumEquips:(int32_t) value {
-  result.hasNumEquips = YES;
-  result.numEquips = value;
+- (BoosterPackProto_Builder*) setBackgroundImage:(NSString*) value {
+  result.hasBackgroundImage = YES;
+  result.backgroundImage = value;
   return self;
 }
-- (BoosterPackProto_Builder*) clearNumEquips {
-  result.hasNumEquips = NO;
-  result.numEquips = 0;
+- (BoosterPackProto_Builder*) clearBackgroundImage {
+  result.hasBackgroundImage = NO;
+  result.backgroundImage = @"";
+  return self;
+}
+- (BOOL) hasMinLevel {
+  return result.hasMinLevel;
+}
+- (int32_t) minLevel {
+  return result.minLevel;
+}
+- (BoosterPackProto_Builder*) setMinLevel:(int32_t) value {
+  result.hasMinLevel = YES;
+  result.minLevel = value;
+  return self;
+}
+- (BoosterPackProto_Builder*) clearMinLevel {
+  result.hasMinLevel = NO;
+  result.minLevel = 0;
+  return self;
+}
+- (BOOL) hasMaxLevel {
+  return result.hasMaxLevel;
+}
+- (int32_t) maxLevel {
+  return result.maxLevel;
+}
+- (BoosterPackProto_Builder*) setMaxLevel:(int32_t) value {
+  result.hasMaxLevel = YES;
+  result.maxLevel = value;
+  return self;
+}
+- (BoosterPackProto_Builder*) clearMaxLevel {
+  result.hasMaxLevel = NO;
+  result.maxLevel = 0;
   return self;
 }
 - (NSArray*) boosterItemsList {
@@ -1173,10 +1314,74 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   [result.mutableBoosterItemsList addObject:value];
   return self;
 }
+- (BOOL) hasSalePriceOne {
+  return result.hasSalePriceOne;
+}
+- (int32_t) salePriceOne {
+  return result.salePriceOne;
+}
+- (BoosterPackProto_Builder*) setSalePriceOne:(int32_t) value {
+  result.hasSalePriceOne = YES;
+  result.salePriceOne = value;
+  return self;
+}
+- (BoosterPackProto_Builder*) clearSalePriceOne {
+  result.hasSalePriceOne = NO;
+  result.salePriceOne = 0;
+  return self;
+}
+- (BOOL) hasRetailPriceOne {
+  return result.hasRetailPriceOne;
+}
+- (int32_t) retailPriceOne {
+  return result.retailPriceOne;
+}
+- (BoosterPackProto_Builder*) setRetailPriceOne:(int32_t) value {
+  result.hasRetailPriceOne = YES;
+  result.retailPriceOne = value;
+  return self;
+}
+- (BoosterPackProto_Builder*) clearRetailPriceOne {
+  result.hasRetailPriceOne = NO;
+  result.retailPriceOne = 0;
+  return self;
+}
+- (BOOL) hasSalePriceTwo {
+  return result.hasSalePriceTwo;
+}
+- (int32_t) salePriceTwo {
+  return result.salePriceTwo;
+}
+- (BoosterPackProto_Builder*) setSalePriceTwo:(int32_t) value {
+  result.hasSalePriceTwo = YES;
+  result.salePriceTwo = value;
+  return self;
+}
+- (BoosterPackProto_Builder*) clearSalePriceTwo {
+  result.hasSalePriceTwo = NO;
+  result.salePriceTwo = 0;
+  return self;
+}
+- (BOOL) hasRetailPriceTwo {
+  return result.hasRetailPriceTwo;
+}
+- (int32_t) retailPriceTwo {
+  return result.retailPriceTwo;
+}
+- (BoosterPackProto_Builder*) setRetailPriceTwo:(int32_t) value {
+  result.hasRetailPriceTwo = YES;
+  result.retailPriceTwo = value;
+  return self;
+}
+- (BoosterPackProto_Builder*) clearRetailPriceTwo {
+  result.hasRetailPriceTwo = NO;
+  result.retailPriceTwo = 0;
+  return self;
+}
 @end
 
 @interface BoosterItemProto ()
-@property int32_t id;
+@property int32_t boosterItemId;
 @property int32_t equipId;
 @property int32_t quantity;
 @property BOOL isSpecial;
@@ -1184,13 +1389,13 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
 
 @implementation BoosterItemProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasBoosterItemId {
+  return !!hasBoosterItemId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasBoosterItemId:(BOOL) value {
+  hasBoosterItemId_ = !!value;
 }
-@synthesize id;
+@synthesize boosterItemId;
 - (BOOL) hasEquipId {
   return !!hasEquipId_;
 }
@@ -1222,7 +1427,7 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
+    self.boosterItemId = 0;
     self.equipId = 0;
     self.quantity = 0;
     self.isSpecial = NO;
@@ -1245,8 +1450,8 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasBoosterItemId) {
+    [output writeInt32:1 value:self.boosterItemId];
   }
   if (self.hasEquipId) {
     [output writeInt32:2 value:self.equipId];
@@ -1266,8 +1471,8 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasBoosterItemId) {
+    size += computeInt32Size(1, self.boosterItemId);
   }
   if (self.hasEquipId) {
     size += computeInt32Size(2, self.equipId);
@@ -1353,8 +1558,8 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
   if (other == [BoosterItemProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasBoosterItemId) {
+    [self setBoosterItemId:other.boosterItemId];
   }
   if (other.hasEquipId) {
     [self setEquipId:other.equipId];
@@ -1387,7 +1592,7 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setBoosterItemId:[input readInt32]];
         break;
       }
       case 16: {
@@ -1405,20 +1610,20 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasBoosterItemId {
+  return result.hasBoosterItemId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) boosterItemId {
+  return result.boosterItemId;
 }
-- (BoosterItemProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (BoosterItemProto_Builder*) setBoosterItemId:(int32_t) value {
+  result.hasBoosterItemId = YES;
+  result.boosterItemId = value;
   return self;
 }
-- (BoosterItemProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (BoosterItemProto_Builder*) clearBoosterItemId {
+  result.hasBoosterItemId = NO;
+  result.boosterItemId = 0;
   return self;
 }
 - (BOOL) hasEquipId {
@@ -15104,6 +15309,7 @@ BOOL FullEquipProto_RarityIsValidValue(FullEquipProto_Rarity value) {
     case FullEquipProto_RarityCommon:
     case FullEquipProto_RarityUncommon:
     case FullEquipProto_RarityRare:
+    case FullEquipProto_RaritySuperrare:
     case FullEquipProto_RarityEpic:
     case FullEquipProto_RarityLegendary:
       return YES;

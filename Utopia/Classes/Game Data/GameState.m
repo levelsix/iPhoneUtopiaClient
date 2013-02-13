@@ -1408,6 +1408,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return NO;
 }
 
+- (void) addStaticBoosterPacks:(NSArray *)bpps userBoosterPacks:(NSArray *)ubpps {
+  self.boosterPacks = bpps;
+  self.myBoosterPacks = [NSMutableDictionary dictionary];
+  for (UserBoosterPackProto *ubpp in ubpps) {
+    [self.myBoosterPacks setObject:ubpp forKey:[NSNumber numberWithInt:ubpp.boosterPackId]];
+  }
+}
+
+- (UserBoosterPackProto *) myBoosterPackForId:(int)packId {
+  return [self.myBoosterPacks objectForKey:[NSNumber numberWithInt:packId]];
+}
+
+- (BoosterPackProto *) boosterPackForId:(int)packId {
+  for (BoosterPackProto *bpp in self.boosterPacks) {
+    if (bpp.boosterPackId == packId) {
+      return bpp;
+    }
+  }
+  return nil;
+}
+
 - (void) purgeStaticData {
   [_staticQuests removeAllObjects];
   [_staticBuildStructJobs removeAllObjects];
@@ -1475,6 +1496,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.armoryAmulets = nil;
   self.armoryArmor = nil;
   self.armoryWeapons = nil;
+  self.boosterPacks = nil;
+  self.myBoosterPacks = nil;
   
   self.unrespondedUpdates = [[[NSMutableArray alloc] init] autorelease];
   

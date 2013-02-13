@@ -479,17 +479,17 @@
           } else {
             ccPt.y = 0;
           }
-          
           ccPt = ccpSub([self convertTilePointToCCPoint:ccp(0, 0)], [self convertTilePointToCCPoint:ccPt]);
           float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccPt));
-          [_myPlayer stopWalking];
-          [_myPlayer performAnimation:ftp.animationType atLocation:ccpAdd(te.location.origin, pt) inDirection:angle];
           
           _taskProgBar.position = ccp(te.position.x, te.position.y+te.contentSize.height);
           [_taskProgBar animateBarWithText:ftp.processingText];
           _taskProgBar.visible = YES;
           _receivedTaskActionResponse = NO;
           _performingTask = YES;
+          
+          [_myPlayer stopWalking];
+          [_myPlayer performAnimation:ftp.animationType atLocation:ccpAdd(te.location.origin, pt) inDirection:angle];
           
           [Analytics taskExecuted:ftp.taskId];
         }

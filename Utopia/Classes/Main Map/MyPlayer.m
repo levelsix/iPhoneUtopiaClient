@@ -137,9 +137,9 @@
   GameState *gs = [GameState sharedGameState];
   
   // Alliance Warrior, Legion Mage, Both archers
-//  if (gs.type == UserTypeGoodWarrior || gs.type == UserTypeGoodArcher || gs.type == UserTypeBadArcher) {
+  if (gs.type == UserTypeGoodWarrior || gs.type == UserTypeGoodArcher || gs.type == UserTypeBadArcher) {
     type = AnimationTypeGenericAction;
-//  }
+  }
   
   NSString *dir = nil;
   NSString *plistDir = nil;

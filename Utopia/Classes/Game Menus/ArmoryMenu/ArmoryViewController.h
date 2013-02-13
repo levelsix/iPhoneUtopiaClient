@@ -11,109 +11,41 @@
 #import "Protocols.pb.h"
 #import "NibUtils.h"
 #import "CoinBar.h"
-
-typedef enum {
-  kWeaponButton = 1,
-  kArmorButton = 1 << 1,
-  kAmuletButton = 1 << 2
-} ArmoryBarButton;
-
-typedef enum {
-  kWeaponState = 1,
-  kArmorState,
-  kAmuletState
-} ArmoryState;
-
-@interface ArmoryBar : UIView {
-  BOOL _trackingWeapon;
-  BOOL _trackingArmor;
-  BOOL _trackingAmulet;
-  
-  int _clickedButtons;
-}
-
-@property (nonatomic, retain) IBOutlet UIImageView *weaponIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *armorIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *amuletIcon;
-
-@property (nonatomic, retain) IBOutlet UIImageView *weaponButtonClicked;
-@property (nonatomic, retain) IBOutlet UIImageView *armorButtonClicked;
-@property (nonatomic, retain) IBOutlet UIImageView *amuletButtonClicked;
-
-@end
-
-@interface ArmoryListing : UIView
-
-@property (nonatomic, retain) IBOutlet UIImageView *bgdView;
-@property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *maskedEquipIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *coinIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *equippedTag;
-
-@property (nonatomic, retain) IBOutlet UIView *priceView;
-@property (nonatomic, retain) IBOutlet UILabel *naLabel;
-
-@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-@property (nonatomic, retain) IBOutlet UILabel *attackLabel;
-@property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
-@property (nonatomic, retain) IBOutlet UILabel *priceLabel;
-
-@property (nonatomic, retain) UIView *darkOverlay;
-
-@property (nonatomic, retain) FullEquipProto *fep;
-
-@end
-
-@interface ArmoryListingContainer : UIView
-
-@property (nonatomic, retain) IBOutlet ArmoryListing *armoryListing;
-
-@end
+#import "ArmoryCarouselView.h"
 
 @interface ArmoryRow : UITableViewCell
 
-@property (nonatomic, retain) IBOutlet ArmoryListingContainer *listing1;
-@property (nonatomic, retain) IBOutlet ArmoryListingContainer *listing2;
-@property (nonatomic, retain) IBOutlet ArmoryListingContainer *listing3;
+@property (nonatomic, retain) IBOutlet UIButton *bgdView;
+@property (nonatomic, retain) IBOutlet UIImageView *chestIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *middleImageView;
+@property (nonatomic, retain) IBOutlet UILabel *levelsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *equipsLeftLabel;
+
+@property (nonatomic, retain) BoosterPackProto *boosterPack;
 
 @end
 
-@interface ArmoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-  ArmoryListing *_clickedAl;
-  CGRect _oldClickedRect;
-  CGSize _originalBuySellSize;
-  
-  ArmoryState _state;
-}
+@interface ArmoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) IBOutlet UITableView *armoryTableView;
 @property (nonatomic, retain) IBOutlet ArmoryRow *armoryRow;
 
-@property (nonatomic, retain) IBOutlet UIView *buySellView;
-@property (nonatomic, retain) IBOutlet LabelButton *buyButton;
-@property (nonatomic, retain) IBOutlet LabelButton *sellButton;
-@property (nonatomic, retain) IBOutlet UILabel *cantBuyLabel;
-@property (nonatomic, retain) IBOutlet UILabel *cantEquipLabel;
-@property (nonatomic, retain) IBOutlet UIView *cantEquipView;
-@property (nonatomic, retain) IBOutlet UILabel *numOwnedLabel;
-@property (nonatomic, retain) IBOutlet UILabel *equipDescriptionLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (nonatomic, retain) IBOutlet CoinBar *coinBar;
 
-@property (nonatomic, retain) IBOutlet ArmoryBar *armoryBar;
-
 @property (nonatomic, assign) BOOL equipClicked;
-
-@property (nonatomic, assign) ArmoryState state;
 
 @property (nonatomic, retain) IBOutlet LoadingView *loadingView;
 
-- (void) armoryListingClicked:(ArmoryListing *)al;
+@property (nonatomic, retain) NSArray *boosterPacks;
+@property (nonatomic, retain) IBOutlet ArmoryCarouselView *carouselView;
+@property (nonatomic, retain) IBOutlet ArmoryCardDisplayView *cardDisplayView;
+
 - (void) refresh;
 - (void) close;
 
-- (void) receivedArmoryResponse:(ArmoryResponseProto *)proto;
+- (IBAction)purchaseClicked:(UIView *)sender;
 
 + (ArmoryViewController *) sharedArmoryViewController;
 + (void) displayView;

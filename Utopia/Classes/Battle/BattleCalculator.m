@@ -172,7 +172,7 @@
     healthPercent = _battleConstants.battleHitAttackerPercentOfHealth;
   }
   
-  BOOL useOldFormula = gl.useOldBattleFormula;
+  BOOL useOldFormula = YES;//gl.useOldBattleFormula;
   
   int battleFormula;
   if (useOldFormula) {

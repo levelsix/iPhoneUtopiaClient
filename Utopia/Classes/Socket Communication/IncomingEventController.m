@@ -314,6 +314,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRetrieveClanTowerScoresEvent:
       responseClass = [RetrieveClanTowerScoresResponseProto class];
       break;
+    case EventProtocolResponseSRetrieveBoosterPackEvent:
+      responseClass = [RetrieveBoosterPackResponseProto class];
+      break;
+    case EventProtocolResponseSPurchaseBoosterPackEvent:
+      responseClass = [PurchaseBoosterPackResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -442,7 +448,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   [[EquipMenuController sharedEquipMenuController] receivedArmoryResponse:proto];
-  [[ArmoryViewController sharedArmoryViewController] receivedArmoryResponse:proto];
   [[ForgeMenuController sharedForgeMenuController] receivedArmoryResponse:success];
   [[RefillMenuController sharedRefillMenuController] receivedArmoryResponse:success equip:proto.fullUserEquipOfBoughtItem.equipId];
 }
@@ -1372,6 +1377,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to send back store data.."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRetrieveBoosterPackResponseProto:(FullEvent *)fe {
+  RetrieveBoosterPackResponseProto *proto = (RetrieveBoosterPackResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve booster pack response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusSuccess) {
+    [gs addStaticBoosterPacks:proto.packsList userBoosterPacks:proto.userPacksList];
+    
+    ArmoryViewController *avc = [ArmoryViewController sharedArmoryViewController];
+    [avc refresh];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to send back booster packs.."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
@@ -2520,6 +2545,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to retrieve clan tower scores."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
+  PurchaseBoosterPackResponseProto *proto = (PurchaseBoosterPackResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purchase booster pack received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
+    [gs addToMyEquips:proto.userEquipsList];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to purchase booster pack."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

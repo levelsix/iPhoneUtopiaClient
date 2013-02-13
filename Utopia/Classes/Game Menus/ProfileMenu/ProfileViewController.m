@@ -1489,7 +1489,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   curAmuletView.selected = NO;
   self.curScope = kEquipScopeWeapons;
   
-  if (self.state == kSkillsState) {
+  if (self.state == kSkillsState || self.state == kSpecialState) {
     self.state = kProfileState;
   }
   

@@ -31,4 +31,6 @@
 - (void) syncDownloadBundle:(NSString *)bundleName;
 - (void) asyncDownloadBundle:(NSString *)bundleName;
 
+- (void) purgeAllDownloadedData;
+
 @end

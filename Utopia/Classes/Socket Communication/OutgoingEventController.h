@@ -75,6 +75,7 @@
 - (void) retrieveStaticEquipsForUsers:(NSArray *)users;
 - (void) retrieveStructStore;
 - (void) retrieveEquipStore;
+- (void) retrieveBoosterPacks;
 
 - (void) loadPlayerCity:(int)userId;
 - (void) loadNeutralCity:(int)cityId;
@@ -154,5 +155,7 @@
 - (void) collectEquipEnhancement:(int)enhancementId speedup:(BOOL)speedup gold:(int)gold;
 
 - (void) retrieveClanTowerScores:(int)towerId;
+
+- (void) purchaseBoosterPack:(int)boosterPackId purchaseOption:(PurchaseOption)option;
 
 @end

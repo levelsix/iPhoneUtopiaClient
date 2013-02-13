@@ -158,6 +158,9 @@
 
 - (int) sendRetrieveClanTowerScoresMessage:(int)towerId;
 
+- (int) sendRetrieveBoosterPackMessage;
+- (int) sendPurchaseBoosterPackMessage:(int)boosterPackId purchaseOption:(PurchaseOption)purchaseOption clientTime:(uint64_t)clientTime;
+
 - (int) addAttackSkillPoint;
 - (int) addDefenseSkillPoint;
 - (int) addEnergySkillPoint;

@@ -180,11 +180,13 @@
 @property (nonatomic, retain) NSArray *armoryWeapons;
 @property (nonatomic, retain) NSArray *armoryArmor;
 @property (nonatomic, retain) NSArray *armoryAmulets;
+@property (nonatomic, retain) NSArray *boosterPacks;
 
 @property (nonatomic, retain) NSMutableArray *myEquips;
 @property (nonatomic, retain) NSMutableArray *myStructs;
 @property (nonatomic, retain) NSMutableDictionary *myCities;
 @property (nonatomic, retain) NSMutableDictionary *myLockBoxEvents;
+@property (nonatomic, retain) NSMutableDictionary *myBoosterPacks;
 
 @property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
 @property (nonatomic, retain) NSMutableDictionary *inProgressIncompleteQuests;
@@ -241,6 +243,7 @@
 - (FullBossProto *) bossWithId:(int)taskId;
 - (FullQuestProto *) questForQuestId:(int)questId;
 - (LockBoxEventProto *) lockBoxEventWithId:(int)eventId;
+- (BoosterPackProto *) boosterPackForId:(int)packId;
 
 - (int) weaponEquippedId;
 - (int) armorEquippedId;
@@ -267,6 +270,7 @@
 - (int) quantityOfEquip:(int)equipId level:(int)level;
 - (UserStruct *) myStructWithId:(int)structId;
 - (UserCity *) myCityWithId:(int)cityId;
+- (UserBoosterPackProto *) myBoosterPackForId:(int)packId;
 
 - (void) addToStaticStructs:(NSArray *)arr;
 - (void) addToStaticTasks:(NSArray *)arr;
@@ -282,6 +286,7 @@
 - (void) addNewStaticBossEvents:(NSArray *)events;
 - (void) addNewStaticTournaments:(NSArray *)events;
 - (void) addToClanTierLevels:(NSArray *) tiers;
+- (void) addStaticBoosterPacks:(NSArray *)bpps userBoosterPacks:(NSArray *)ubpps;
 
 - (ClanTierLevelProto *) clanTierForLevel:(int)level;
 - (int) maxClanTierLevel;

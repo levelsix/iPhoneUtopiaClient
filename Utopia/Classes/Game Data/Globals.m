@@ -460,19 +460,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (UIColor *) colorForRarity:(FullEquipProto_Rarity)rarity {
   switch (rarity) {
     case FullEquipProto_RarityCommon:
-      return [UIColor colorWithRed:236/255.f green:230/255.f blue:195/255.f alpha:1.f];
+      return [self creamColor];
       
     case FullEquipProto_RarityUncommon:
-      return [UIColor colorWithRed:160/255.f green:218/255.f blue:21/255.f alpha:1.f];
+      return [self greenColor];
       
     case FullEquipProto_RarityRare:
-      return [UIColor colorWithRed:12/255.f green:217/255.f blue:241/255.f alpha:1.f];
+      return [self blueColor];
+      
+    case FullEquipProto_RaritySuperrare:
+      return [self goldColor];
       
     case FullEquipProto_RarityEpic:
-      return [UIColor colorWithRed:138/255.f green:0/255.f blue:255/255.f alpha:1.f];
+      return [self purpleColor];
       
     case FullEquipProto_RarityLegendary:
-      return [UIColor colorWithRed:255/255.f green:49/255.f blue:49/255.f alpha:1.f];
+      return [self redColor];
       
     default:
       break;
@@ -489,6 +492,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       
     case FullEquipProto_RarityRare:
       return @"Rare";
+      
+    case FullEquipProto_RaritySuperrare:
+      return @"Super Rare";
       
     case FullEquipProto_RarityEpic:
       return @"Epic";
@@ -565,6 +571,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return @"Armor";
   } else if (type == FullEquipProto_EquipTypeAmulet) {
     return @"Amulet";
+  }
+  return nil;
+}
+
++ (NSString *) shortenedStringForEquipType:(FullEquipProto_EquipType)type {
+  if (type == FullEquipProto_EquipTypeWeapon) {
+    return @"weap";
+  } else if (type == FullEquipProto_EquipTypeArmor) {
+    return @"arm";
+  } else if (type == FullEquipProto_EquipTypeAmulet) {
+    return @"amu";
   }
   return nil;
 }
@@ -1888,6 +1905,10 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 
 + (UIColor *)blueColor {
   return [UIColor colorWithRed:15/255.f green:177/255.f blue:224/255.f alpha:1.f];
+}
+
++ (UIColor *)purpleColor {
+  return [UIColor colorWithRed:138/255.f green:0/255.f blue:255/255.f alpha:1.f];
 }
 
 + (GameMap *)mapForQuest:(FullQuestProto *)fqp {

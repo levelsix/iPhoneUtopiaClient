@@ -322,8 +322,8 @@ static NSString *udid = nil;
   }
   
   StartupRequestProto_Builder *bldr = [[[[[StartupRequestProto builder]
-                                           setUdid:udid]
-//                                          setApsalarId:[Apsalar apsalarID]]
+                                          setUdid:udid]
+                                         //                                          setApsalarId:[Apsalar apsalarID]]
                                          setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
                                         setIOs5Udid:device.uniqueIdentifier]
                                        setMacAddress:[self getMacAddress]];
@@ -769,7 +769,7 @@ static NSString *udid = nil;
 
 - (int) sendRetrieveUsersForUserIds:(NSArray *)userIds includePotentialPoints:(BOOL)points {
   RetrieveUsersForUserIdsRequestProto *req = [[[[[RetrieveUsersForUserIdsRequestProto builder]
-                                                setSender:_sender]
+                                                 setSender:_sender]
                                                 setIncludePotentialPointsForClanTowers:points]
                                                addAllRequestedUserIds:userIds]
                                               build];
@@ -1162,6 +1162,25 @@ static NSString *udid = nil;
                                               build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveClanTowerScoresEvent];
+}
+
+- (int) sendRetrieveBoosterPackMessage {
+  RetrieveBoosterPackRequestProto *req = [[[RetrieveBoosterPackRequestProto builder]
+                                           setSender:_sender]
+                                          build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveBoosterPackEvent];
+}
+
+- (int) sendPurchaseBoosterPackMessage:(int)boosterPackId purchaseOption:(PurchaseOption)purchaseOption clientTime:(uint64_t)clientTime {
+  PurchaseBoosterPackRequestProto *req = [[[[[[PurchaseBoosterPackRequestProto builder]
+                                              setSender:_sender]
+                                             setBoosterPackId:boosterPackId]
+                                            setClientTime:clientTime]
+                                           setPurchaseOption:purchaseOption]
+                                          build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCPurchaseBoosterPackEvent];
 }
 
 - (int) addAttackSkillPoint {

@@ -238,6 +238,7 @@
 + (NSString *) factionForUserType:(UserType)type;
 + (NSString *) stringForEquipClassType:(EquipClassType)type;
 + (NSString *) stringForEquipType:(FullEquipProto_EquipType)type;
++ (NSString *) shortenedStringForEquipType:(FullEquipProto_EquipType)type;
 + (NSString *) classForUserType:(UserType)type;
 + (PlayerClassType) playerClassTypeForUserType:(UserType)userType;
 
@@ -292,6 +293,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (UIColor *)orangeColor;
 + (UIColor *)redColor;
 + (UIColor *)blueColor;
++ (UIColor *)purpleColor;
 
 + (GameMap *) mapForQuest:(FullQuestProto *)fqp;
 + (NSString *) bazaarQuestGiverName;

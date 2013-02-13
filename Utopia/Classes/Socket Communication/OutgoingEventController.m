@@ -28,6 +28,10 @@
 #import "EquipDeltaView.h"
 #import "ForgeMenuController.h"
 #import "GoldShoppeViewController.h"
+#import "Downloader.h"
+
+#define CODE_PREFIX @"#~#"
+#define PURGE_CODE @"purgecache"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -1229,9 +1233,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) retrieveEquipStore {
-  // Used primarily for profile and battle
   GameState *gs = [GameState sharedGameState];
   int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataFromShopMessage:RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeEquipmentForArmory];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+}
+
+- (void) retrieveBoosterPacks {
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveBoosterPackMessage];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
@@ -1757,11 +1766,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (msg.length > gl.maxLengthOfChatString) {
     [Globals popupMessage:@"Attempting to send msg that exceeds appropriate length"];
   } else {
-    //  if ((scope == GroupChatScopeGlobal && gs.numGroupChatsRemaining > 0) || (scope != GroupChatScopeGlobal)) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendGroupChatMessage:scope message:msg clientTime:[self getCurrentMilliseconds]];
-    
-    if (scope == GroupChatScopeGlobal) {
-      [gs addUnrespondedUpdate:[ChatUpdate updateWithTag:tag change:-1]];
+    NSRange r = [msg rangeOfString:CODE_PREFIX];
+    if (r.length > 0) {
+      NSString *code = [msg stringByReplacingCharactersInRange:r withString:@""];
+      if ([code isEqualToString:PURGE_CODE]) {
+        [[Downloader sharedDownloader] purgeAllDownloadedData];
+        msg = @"All downloaded data has been purged.";
+      } else {
+        msg = @"Unaccepted code.";
+      }
+    } else {
+      //  if ((scope == GroupChatScopeGlobal && gs.numGroupChatsRemaining > 0) || (scope != GroupChatScopeGlobal)) {
+      int tag = [[SocketCommunication sharedSocketCommunication] sendGroupChatMessage:scope message:msg clientTime:[self getCurrentMilliseconds]];
+      
+      if (scope == GroupChatScopeGlobal) {
+        [gs addUnrespondedUpdate:[ChatUpdate updateWithTag:tag change:-1]];
+      }
     }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -2207,6 +2227,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) retrieveClanTowerScores:(int)towerId {
   [[SocketCommunication sharedSocketCommunication] sendRetrieveClanTowerScoresMessage:towerId];
+}
+
+- (void) purchaseBoosterPack:(int)boosterPackId purchaseOption:(PurchaseOption)option {
+  GameState *gs = [GameState sharedGameState];
+  BoosterPackProto *bpp = [gs boosterPackForId:boosterPackId];
+  if (!bpp) {
+    [Globals popupMessage:@"Unable to find booster pack."];
+  } else {
+    FullUserUpdate *u = nil;
+    int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseBoosterPackMessage:boosterPackId purchaseOption:option clientTime:[self getCurrentMilliseconds]];
+    
+    int price = 0;
+    if (option == PurchaseOptionOne) {
+      price = bpp.salePriceOne > 0 ? bpp.salePriceOne : bpp.retailPriceOne;
+    } else if (option == PurchaseOptionTwo) {
+      price = bpp.salePriceTwo > 0 ? bpp.salePriceTwo : bpp.retailPriceTwo;
+    }
+    
+    if (bpp.costsCoins) {
+      u = [SilverUpdate updateWithTag:tag change:-price];
+    } else {
+      u = [GoldUpdate updateWithTag:tag change:-price];
+    }
+    [gs addUnrespondedUpdate:u];
+  }
 }
 
 @end

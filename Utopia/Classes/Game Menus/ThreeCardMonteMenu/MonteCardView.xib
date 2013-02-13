@@ -42,7 +42,6 @@
 						<string key="NSFrameSize">{151, 189}</string>
 						<reference key="NSSuperview" ref="279564311"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">4</int>
@@ -74,7 +73,6 @@
 						<string key="NSFrameSize">{151, 189}</string>
 						<reference key="NSSuperview" ref="751575999"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">4</int>
@@ -175,7 +173,6 @@
 						<string key="NSFrame">{{31, 144}, {88, 23}}</string>
 						<reference key="NSSuperview" ref="654890785"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="900490484"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -339,7 +336,6 @@
 						<string key="NSFrame">{{31, 144}, {88, 23}}</string>
 						<reference key="NSSuperview" ref="369251101"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="900490484"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -444,7 +440,6 @@
 						<string key="NSFrame">{{31, 144}, {88, 23}}</string>
 						<reference key="NSSuperview" ref="505370799"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="900490484"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -587,7 +582,6 @@
 						<string key="NSFrame">{{31, 144}, {88, 23}}</string>
 						<reference key="NSSuperview" ref="609753430"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="900490484"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -1557,6 +1551,30 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ThreeCardMonteViewController</string>
 					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="bottomButtonClicked:">id</string>
+						<string key="closeClicked:">id</string>
+						<string key="goldClicked:">id</string>
+						<string key="infoClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="bottomButtonClicked:">
+							<string key="name">bottomButtonClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="closeClicked:">
+							<string key="name">closeClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="goldClicked:">
+							<string key="name">goldClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="infoClicked:">
+							<string key="name">infoClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="bgdView">UIView</string>
 						<string key="bottomButton">UIButton</string>

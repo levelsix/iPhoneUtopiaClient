@@ -69565,3 +69565,688 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
 }
 @end
 
+@interface PurchaseBoosterPackRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t boosterPackId;
+@property PurchaseOption purchaseOption;
+@property int64_t clientTime;
+@end
+
+@implementation PurchaseBoosterPackRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasBoosterPackId {
+  return !!hasBoosterPackId_;
+}
+- (void) setHasBoosterPackId:(BOOL) value {
+  hasBoosterPackId_ = !!value;
+}
+@synthesize boosterPackId;
+- (BOOL) hasPurchaseOption {
+  return !!hasPurchaseOption_;
+}
+- (void) setHasPurchaseOption:(BOOL) value {
+  hasPurchaseOption_ = !!value;
+}
+@synthesize purchaseOption;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.boosterPackId = 0;
+    self.purchaseOption = PurchaseOptionOne;
+    self.clientTime = 0L;
+  }
+  return self;
+}
+static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [PurchaseBoosterPackRequestProto class]) {
+    defaultPurchaseBoosterPackRequestProtoInstance = [[PurchaseBoosterPackRequestProto alloc] init];
+  }
+}
++ (PurchaseBoosterPackRequestProto*) defaultInstance {
+  return defaultPurchaseBoosterPackRequestProtoInstance;
+}
+- (PurchaseBoosterPackRequestProto*) defaultInstance {
+  return defaultPurchaseBoosterPackRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasBoosterPackId) {
+    [output writeInt32:2 value:self.boosterPackId];
+  }
+  if (self.hasPurchaseOption) {
+    [output writeEnum:3 value:self.purchaseOption];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:4 value:self.clientTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasBoosterPackId) {
+    size += computeInt32Size(2, self.boosterPackId);
+  }
+  if (self.hasPurchaseOption) {
+    size += computeEnumSize(3, self.purchaseOption);
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(4, self.clientTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PurchaseBoosterPackRequestProto*) parseFromData:(NSData*) data {
+  return (PurchaseBoosterPackRequestProto*)[[[PurchaseBoosterPackRequestProto builder] mergeFromData:data] build];
+}
++ (PurchaseBoosterPackRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseBoosterPackRequestProto*)[[[PurchaseBoosterPackRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseBoosterPackRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PurchaseBoosterPackRequestProto*)[[[PurchaseBoosterPackRequestProto builder] mergeFromInputStream:input] build];
+}
++ (PurchaseBoosterPackRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseBoosterPackRequestProto*)[[[PurchaseBoosterPackRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseBoosterPackRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PurchaseBoosterPackRequestProto*)[[[PurchaseBoosterPackRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PurchaseBoosterPackRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseBoosterPackRequestProto*)[[[PurchaseBoosterPackRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseBoosterPackRequestProto_Builder*) builder {
+  return [[[PurchaseBoosterPackRequestProto_Builder alloc] init] autorelease];
+}
++ (PurchaseBoosterPackRequestProto_Builder*) builderWithPrototype:(PurchaseBoosterPackRequestProto*) prototype {
+  return [[PurchaseBoosterPackRequestProto builder] mergeFrom:prototype];
+}
+- (PurchaseBoosterPackRequestProto_Builder*) builder {
+  return [PurchaseBoosterPackRequestProto builder];
+}
+@end
+
+@interface PurchaseBoosterPackRequestProto_Builder()
+@property (retain) PurchaseBoosterPackRequestProto* result;
+@end
+
+@implementation PurchaseBoosterPackRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PurchaseBoosterPackRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) clear {
+  self.result = [[[PurchaseBoosterPackRequestProto alloc] init] autorelease];
+  return self;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) clone {
+  return [PurchaseBoosterPackRequestProto builderWithPrototype:result];
+}
+- (PurchaseBoosterPackRequestProto*) defaultInstance {
+  return [PurchaseBoosterPackRequestProto defaultInstance];
+}
+- (PurchaseBoosterPackRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PurchaseBoosterPackRequestProto*) buildPartial {
+  PurchaseBoosterPackRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) mergeFrom:(PurchaseBoosterPackRequestProto*) other {
+  if (other == [PurchaseBoosterPackRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasBoosterPackId) {
+    [self setBoosterPackId:other.boosterPackId];
+  }
+  if (other.hasPurchaseOption) {
+    [self setPurchaseOption:other.purchaseOption];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PurchaseBoosterPackRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setBoosterPackId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (PurchaseOptionIsValidValue(value)) {
+          [self setPurchaseOption:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+      case 32: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (PurchaseBoosterPackRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasBoosterPackId {
+  return result.hasBoosterPackId;
+}
+- (int32_t) boosterPackId {
+  return result.boosterPackId;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) setBoosterPackId:(int32_t) value {
+  result.hasBoosterPackId = YES;
+  result.boosterPackId = value;
+  return self;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) clearBoosterPackId {
+  result.hasBoosterPackId = NO;
+  result.boosterPackId = 0;
+  return self;
+}
+- (BOOL) hasPurchaseOption {
+  return result.hasPurchaseOption;
+}
+- (PurchaseOption) purchaseOption {
+  return result.purchaseOption;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) setPurchaseOption:(PurchaseOption) value {
+  result.hasPurchaseOption = YES;
+  result.purchaseOption = value;
+  return self;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) clearPurchaseOption {
+  result.hasPurchaseOption = NO;
+  result.purchaseOption = PurchaseOptionOne;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (PurchaseBoosterPackRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+@end
+
+@interface PurchaseBoosterPackResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableUserEquipsList;
+@property (retain) UserBoosterPackProto* userBoosterPack;
+@property PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
+@end
+
+@implementation PurchaseBoosterPackResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableUserEquipsList;
+- (BOOL) hasUserBoosterPack {
+  return !!hasUserBoosterPack_;
+}
+- (void) setHasUserBoosterPack:(BOOL) value {
+  hasUserBoosterPack_ = !!value;
+}
+@synthesize userBoosterPack;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableUserEquipsList = nil;
+  self.userBoosterPack = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.userBoosterPack = [UserBoosterPackProto defaultInstance];
+    self.status = PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess;
+  }
+  return self;
+}
+static PurchaseBoosterPackResponseProto* defaultPurchaseBoosterPackResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [PurchaseBoosterPackResponseProto class]) {
+    defaultPurchaseBoosterPackResponseProtoInstance = [[PurchaseBoosterPackResponseProto alloc] init];
+  }
+}
++ (PurchaseBoosterPackResponseProto*) defaultInstance {
+  return defaultPurchaseBoosterPackResponseProtoInstance;
+}
+- (PurchaseBoosterPackResponseProto*) defaultInstance {
+  return defaultPurchaseBoosterPackResponseProtoInstance;
+}
+- (NSArray*) userEquipsList {
+  return mutableUserEquipsList;
+}
+- (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index {
+  id value = [mutableUserEquipsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (FullUserEquipProto* element in self.userEquipsList) {
+    [output writeMessage:2 value:element];
+  }
+  if (self.hasUserBoosterPack) {
+    [output writeMessage:3 value:self.userBoosterPack];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:4 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (FullUserEquipProto* element in self.userEquipsList) {
+    size += computeMessageSize(2, element);
+  }
+  if (self.hasUserBoosterPack) {
+    size += computeMessageSize(3, self.userBoosterPack);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(4, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PurchaseBoosterPackResponseProto*) parseFromData:(NSData*) data {
+  return (PurchaseBoosterPackResponseProto*)[[[PurchaseBoosterPackResponseProto builder] mergeFromData:data] build];
+}
++ (PurchaseBoosterPackResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseBoosterPackResponseProto*)[[[PurchaseBoosterPackResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseBoosterPackResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PurchaseBoosterPackResponseProto*)[[[PurchaseBoosterPackResponseProto builder] mergeFromInputStream:input] build];
+}
++ (PurchaseBoosterPackResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseBoosterPackResponseProto*)[[[PurchaseBoosterPackResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseBoosterPackResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PurchaseBoosterPackResponseProto*)[[[PurchaseBoosterPackResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PurchaseBoosterPackResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseBoosterPackResponseProto*)[[[PurchaseBoosterPackResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseBoosterPackResponseProto_Builder*) builder {
+  return [[[PurchaseBoosterPackResponseProto_Builder alloc] init] autorelease];
+}
++ (PurchaseBoosterPackResponseProto_Builder*) builderWithPrototype:(PurchaseBoosterPackResponseProto*) prototype {
+  return [[PurchaseBoosterPackResponseProto builder] mergeFrom:prototype];
+}
+- (PurchaseBoosterPackResponseProto_Builder*) builder {
+  return [PurchaseBoosterPackResponseProto builder];
+}
+@end
+
+BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus value) {
+  switch (value) {
+    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess:
+    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusNotEnoughGold:
+    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusNotEnoughSilver:
+    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusExceedingPurchaseLimit:
+    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusOtherFail:
+    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusClientTooApartFromServerTime:
+    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusBoosterPackSoldOut:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface PurchaseBoosterPackResponseProto_Builder()
+@property (retain) PurchaseBoosterPackResponseProto* result;
+@end
+
+@implementation PurchaseBoosterPackResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PurchaseBoosterPackResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) clear {
+  self.result = [[[PurchaseBoosterPackResponseProto alloc] init] autorelease];
+  return self;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) clone {
+  return [PurchaseBoosterPackResponseProto builderWithPrototype:result];
+}
+- (PurchaseBoosterPackResponseProto*) defaultInstance {
+  return [PurchaseBoosterPackResponseProto defaultInstance];
+}
+- (PurchaseBoosterPackResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PurchaseBoosterPackResponseProto*) buildPartial {
+  PurchaseBoosterPackResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) mergeFrom:(PurchaseBoosterPackResponseProto*) other {
+  if (other == [PurchaseBoosterPackResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableUserEquipsList.count > 0) {
+    if (result.mutableUserEquipsList == nil) {
+      result.mutableUserEquipsList = [NSMutableArray array];
+    }
+    [result.mutableUserEquipsList addObjectsFromArray:other.mutableUserEquipsList];
+  }
+  if (other.hasUserBoosterPack) {
+    [self mergeUserBoosterPack:other.userBoosterPack];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PurchaseBoosterPackResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserEquips:[subBuilder buildPartial]];
+        break;
+      }
+      case 26: {
+        UserBoosterPackProto_Builder* subBuilder = [UserBoosterPackProto builder];
+        if (self.hasUserBoosterPack) {
+          [subBuilder mergeFrom:self.userBoosterPack];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUserBoosterPack:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        int32_t value = [input readEnum];
+        if (PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (PurchaseBoosterPackResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) userEquipsList {
+  if (result.mutableUserEquipsList == nil) { return [NSArray array]; }
+  return result.mutableUserEquipsList;
+}
+- (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index {
+  return [result userEquipsAtIndex:index];
+}
+- (PurchaseBoosterPackResponseProto_Builder*) replaceUserEquipsAtIndex:(int32_t) index with:(FullUserEquipProto*) value {
+  [result.mutableUserEquipsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) addAllUserEquips:(NSArray*) values {
+  if (result.mutableUserEquipsList == nil) {
+    result.mutableUserEquipsList = [NSMutableArray array];
+  }
+  [result.mutableUserEquipsList addObjectsFromArray:values];
+  return self;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) clearUserEquipsList {
+  result.mutableUserEquipsList = nil;
+  return self;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) addUserEquips:(FullUserEquipProto*) value {
+  if (result.mutableUserEquipsList == nil) {
+    result.mutableUserEquipsList = [NSMutableArray array];
+  }
+  [result.mutableUserEquipsList addObject:value];
+  return self;
+}
+- (BOOL) hasUserBoosterPack {
+  return result.hasUserBoosterPack;
+}
+- (UserBoosterPackProto*) userBoosterPack {
+  return result.userBoosterPack;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) setUserBoosterPack:(UserBoosterPackProto*) value {
+  result.hasUserBoosterPack = YES;
+  result.userBoosterPack = value;
+  return self;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) setUserBoosterPackBuilder:(UserBoosterPackProto_Builder*) builderForValue {
+  return [self setUserBoosterPack:[builderForValue build]];
+}
+- (PurchaseBoosterPackResponseProto_Builder*) mergeUserBoosterPack:(UserBoosterPackProto*) value {
+  if (result.hasUserBoosterPack &&
+      result.userBoosterPack != [UserBoosterPackProto defaultInstance]) {
+    result.userBoosterPack =
+      [[[UserBoosterPackProto builderWithPrototype:result.userBoosterPack] mergeFrom:value] buildPartial];
+  } else {
+    result.userBoosterPack = value;
+  }
+  result.hasUserBoosterPack = YES;
+  return self;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) clearUserBoosterPack {
+  result.hasUserBoosterPack = NO;
+  result.userBoosterPack = [UserBoosterPackProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) status {
+  return result.status;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) setStatus:(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess;
+  return self;
+}
+@end
+

@@ -357,7 +357,7 @@ static float originalLabelX = 0.f;
 @synthesize questCell, recommendedQuestHeader;
 @synthesize availableQuests, inProgressQuests, completedQuests, recommendedQuest;
 
-- (void) reloadArrays {
+- (void) reloadArrays {	
   GameState *gs = [GameState sharedGameState];
   
   self.availableQuests = [[gs.availableQuests.allValues mutableCopy] autorelease];

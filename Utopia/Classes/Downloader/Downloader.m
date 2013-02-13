@@ -155,6 +155,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   });
 }
 
+- (void) purgeAllDownloadedData {
+  NSFileManager *fileMgr = [NSFileManager defaultManager];
+  NSArray *fileArray = [fileMgr contentsOfDirectoryAtPath:_cacheDir error:nil];
+  for (NSString *filename in fileArray)  {
+    [fileMgr removeItemAtPath:[_cacheDir stringByAppendingPathComponent:filename] error:NULL];
+  }
+}
+
 - (void) dealloc {
   dispatch_release(_syncQueue);
   dispatch_release(_asyncQueue);

@@ -274,6 +274,10 @@
 @class PostToMarketplaceRequestProto_Builder;
 @class PostToMarketplaceResponseProto;
 @class PostToMarketplaceResponseProto_Builder;
+@class PurchaseBoosterPackRequestProto;
+@class PurchaseBoosterPackRequestProto_Builder;
+@class PurchaseBoosterPackResponseProto;
+@class PurchaseBoosterPackResponseProto_Builder;
 @class PurchaseCityExpansionRequestProto;
 @class PurchaseCityExpansionRequestProto_Builder;
 @class PurchaseCityExpansionResponseProto;
@@ -1320,6 +1324,18 @@ typedef enum {
 } RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus;
 
 BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus value);
+
+typedef enum {
+  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess = 0,
+  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusNotEnoughGold = 1,
+  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusNotEnoughSilver = 2,
+  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusExceedingPurchaseLimit = 3,
+  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusOtherFail = 4,
+  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusClientTooApartFromServerTime = 5,
+  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusBoosterPackSoldOut = 6,
+} PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus;
+
+BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -17454,5 +17470,162 @@ BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(Retr
 - (RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus) status;
 - (RetrieveBoosterPackResponseProto_Builder*) setStatus:(RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus) value;
 - (RetrieveBoosterPackResponseProto_Builder*) clearStatus;
+@end
+
+@interface PurchaseBoosterPackRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasBoosterPackId_:1;
+  BOOL hasSender_:1;
+  BOOL hasPurchaseOption_:1;
+  int64_t clientTime;
+  int32_t boosterPackId;
+  MinimumUserProto* sender;
+  PurchaseOption purchaseOption;
+}
+- (BOOL) hasSender;
+- (BOOL) hasBoosterPackId;
+- (BOOL) hasPurchaseOption;
+- (BOOL) hasClientTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t boosterPackId;
+@property (readonly) PurchaseOption purchaseOption;
+@property (readonly) int64_t clientTime;
+
++ (PurchaseBoosterPackRequestProto*) defaultInstance;
+- (PurchaseBoosterPackRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PurchaseBoosterPackRequestProto_Builder*) builder;
++ (PurchaseBoosterPackRequestProto_Builder*) builder;
++ (PurchaseBoosterPackRequestProto_Builder*) builderWithPrototype:(PurchaseBoosterPackRequestProto*) prototype;
+
++ (PurchaseBoosterPackRequestProto*) parseFromData:(NSData*) data;
++ (PurchaseBoosterPackRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseBoosterPackRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (PurchaseBoosterPackRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseBoosterPackRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PurchaseBoosterPackRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PurchaseBoosterPackRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PurchaseBoosterPackRequestProto* result;
+}
+
+- (PurchaseBoosterPackRequestProto*) defaultInstance;
+
+- (PurchaseBoosterPackRequestProto_Builder*) clear;
+- (PurchaseBoosterPackRequestProto_Builder*) clone;
+
+- (PurchaseBoosterPackRequestProto*) build;
+- (PurchaseBoosterPackRequestProto*) buildPartial;
+
+- (PurchaseBoosterPackRequestProto_Builder*) mergeFrom:(PurchaseBoosterPackRequestProto*) other;
+- (PurchaseBoosterPackRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PurchaseBoosterPackRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PurchaseBoosterPackRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PurchaseBoosterPackRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseBoosterPackRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PurchaseBoosterPackRequestProto_Builder*) clearSender;
+
+- (BOOL) hasBoosterPackId;
+- (int32_t) boosterPackId;
+- (PurchaseBoosterPackRequestProto_Builder*) setBoosterPackId:(int32_t) value;
+- (PurchaseBoosterPackRequestProto_Builder*) clearBoosterPackId;
+
+- (BOOL) hasPurchaseOption;
+- (PurchaseOption) purchaseOption;
+- (PurchaseBoosterPackRequestProto_Builder*) setPurchaseOption:(PurchaseOption) value;
+- (PurchaseBoosterPackRequestProto_Builder*) clearPurchaseOption;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (PurchaseBoosterPackRequestProto_Builder*) setClientTime:(int64_t) value;
+- (PurchaseBoosterPackRequestProto_Builder*) clearClientTime;
+@end
+
+@interface PurchaseBoosterPackResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasUserBoosterPack_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  UserBoosterPackProto* userBoosterPack;
+  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
+  NSMutableArray* mutableUserEquipsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasUserBoosterPack;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) UserBoosterPackProto* userBoosterPack;
+@property (readonly) PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
+- (NSArray*) userEquipsList;
+- (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index;
+
++ (PurchaseBoosterPackResponseProto*) defaultInstance;
+- (PurchaseBoosterPackResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PurchaseBoosterPackResponseProto_Builder*) builder;
++ (PurchaseBoosterPackResponseProto_Builder*) builder;
++ (PurchaseBoosterPackResponseProto_Builder*) builderWithPrototype:(PurchaseBoosterPackResponseProto*) prototype;
+
++ (PurchaseBoosterPackResponseProto*) parseFromData:(NSData*) data;
++ (PurchaseBoosterPackResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseBoosterPackResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (PurchaseBoosterPackResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseBoosterPackResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PurchaseBoosterPackResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PurchaseBoosterPackResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PurchaseBoosterPackResponseProto* result;
+}
+
+- (PurchaseBoosterPackResponseProto*) defaultInstance;
+
+- (PurchaseBoosterPackResponseProto_Builder*) clear;
+- (PurchaseBoosterPackResponseProto_Builder*) clone;
+
+- (PurchaseBoosterPackResponseProto*) build;
+- (PurchaseBoosterPackResponseProto*) buildPartial;
+
+- (PurchaseBoosterPackResponseProto_Builder*) mergeFrom:(PurchaseBoosterPackResponseProto*) other;
+- (PurchaseBoosterPackResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PurchaseBoosterPackResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PurchaseBoosterPackResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PurchaseBoosterPackResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseBoosterPackResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PurchaseBoosterPackResponseProto_Builder*) clearSender;
+
+- (NSArray*) userEquipsList;
+- (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index;
+- (PurchaseBoosterPackResponseProto_Builder*) replaceUserEquipsAtIndex:(int32_t) index with:(FullUserEquipProto*) value;
+- (PurchaseBoosterPackResponseProto_Builder*) addUserEquips:(FullUserEquipProto*) value;
+- (PurchaseBoosterPackResponseProto_Builder*) addAllUserEquips:(NSArray*) values;
+- (PurchaseBoosterPackResponseProto_Builder*) clearUserEquipsList;
+
+- (BOOL) hasUserBoosterPack;
+- (UserBoosterPackProto*) userBoosterPack;
+- (PurchaseBoosterPackResponseProto_Builder*) setUserBoosterPack:(UserBoosterPackProto*) value;
+- (PurchaseBoosterPackResponseProto_Builder*) setUserBoosterPackBuilder:(UserBoosterPackProto_Builder*) builderForValue;
+- (PurchaseBoosterPackResponseProto_Builder*) mergeUserBoosterPack:(UserBoosterPackProto*) value;
+- (PurchaseBoosterPackResponseProto_Builder*) clearUserBoosterPack;
+
+- (BOOL) hasStatus;
+- (PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) status;
+- (PurchaseBoosterPackResponseProto_Builder*) setStatus:(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) value;
+- (PurchaseBoosterPackResponseProto_Builder*) clearStatus;
 @end
 

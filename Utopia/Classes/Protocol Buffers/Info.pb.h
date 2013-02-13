@@ -131,6 +131,13 @@
 @class UserLockBoxItemProto;
 @class UserLockBoxItemProto_Builder;
 typedef enum {
+  PurchaseOptionOne = 0,
+  PurchaseOptionTwo = 1,
+} PurchaseOption;
+
+BOOL PurchaseOptionIsValidValue(PurchaseOption value);
+
+typedef enum {
   EquipClassTypeWarrior = 0,
   EquipClassTypeArcher = 1,
   EquipClassTypeMage = 2,
@@ -270,8 +277,9 @@ typedef enum {
   FullEquipProto_RarityCommon = 0,
   FullEquipProto_RarityUncommon = 1,
   FullEquipProto_RarityRare = 2,
-  FullEquipProto_RarityEpic = 3,
-  FullEquipProto_RarityLegendary = 4,
+  FullEquipProto_RaritySuperrare = 3,
+  FullEquipProto_RarityEpic = 4,
+  FullEquipProto_RarityLegendary = 5,
 } FullEquipProto_Rarity;
 
 BOOL FullEquipProto_RarityIsValidValue(FullEquipProto_Rarity value);
@@ -468,36 +476,56 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface BoosterPackProto : PBGeneratedMessage {
 @private
-  BOOL hasId_:1;
-  BOOL hasCoinCost_:1;
-  BOOL hasDiamondCost_:1;
-  BOOL hasNumEquips_:1;
+  BOOL hasCostsCoins_:1;
+  BOOL hasBoosterPackId_:1;
+  BOOL hasMinLevel_:1;
+  BOOL hasMaxLevel_:1;
+  BOOL hasSalePriceOne_:1;
+  BOOL hasRetailPriceOne_:1;
+  BOOL hasSalePriceTwo_:1;
+  BOOL hasRetailPriceTwo_:1;
   BOOL hasName_:1;
-  BOOL hasImage_:1;
-  BOOL hasDescription_:1;
-  int32_t id;
-  int32_t coinCost;
-  int32_t diamondCost;
-  int32_t numEquips;
+  BOOL hasChestImage_:1;
+  BOOL hasMiddleImage_:1;
+  BOOL hasBackgroundImage_:1;
+  BOOL costsCoins_:1;
+  int32_t boosterPackId;
+  int32_t minLevel;
+  int32_t maxLevel;
+  int32_t salePriceOne;
+  int32_t retailPriceOne;
+  int32_t salePriceTwo;
+  int32_t retailPriceTwo;
   NSString* name;
-  NSString* image;
-  NSString* description;
+  NSString* chestImage;
+  NSString* middleImage;
+  NSString* backgroundImage;
   NSMutableArray* mutableBoosterItemsList;
 }
-- (BOOL) hasId;
-- (BOOL) hasCoinCost;
-- (BOOL) hasDiamondCost;
+- (BOOL) hasBoosterPackId;
+- (BOOL) hasCostsCoins;
 - (BOOL) hasName;
-- (BOOL) hasImage;
-- (BOOL) hasDescription;
-- (BOOL) hasNumEquips;
-@property (readonly) int32_t id;
-@property (readonly) int32_t coinCost;
-@property (readonly) int32_t diamondCost;
+- (BOOL) hasChestImage;
+- (BOOL) hasMiddleImage;
+- (BOOL) hasBackgroundImage;
+- (BOOL) hasMinLevel;
+- (BOOL) hasMaxLevel;
+- (BOOL) hasSalePriceOne;
+- (BOOL) hasRetailPriceOne;
+- (BOOL) hasSalePriceTwo;
+- (BOOL) hasRetailPriceTwo;
+@property (readonly) int32_t boosterPackId;
+- (BOOL) costsCoins;
 @property (readonly, retain) NSString* name;
-@property (readonly, retain) NSString* image;
-@property (readonly, retain) NSString* description;
-@property (readonly) int32_t numEquips;
+@property (readonly, retain) NSString* chestImage;
+@property (readonly, retain) NSString* middleImage;
+@property (readonly, retain) NSString* backgroundImage;
+@property (readonly) int32_t minLevel;
+@property (readonly) int32_t maxLevel;
+@property (readonly) int32_t salePriceOne;
+@property (readonly) int32_t retailPriceOne;
+@property (readonly) int32_t salePriceTwo;
+@property (readonly) int32_t retailPriceTwo;
 - (NSArray*) boosterItemsList;
 - (BoosterItemProto*) boosterItemsAtIndex:(int32_t) index;
 
@@ -535,40 +563,45 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BoosterPackProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (BoosterPackProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (BoosterPackProto_Builder*) setId:(int32_t) value;
-- (BoosterPackProto_Builder*) clearId;
+- (BOOL) hasBoosterPackId;
+- (int32_t) boosterPackId;
+- (BoosterPackProto_Builder*) setBoosterPackId:(int32_t) value;
+- (BoosterPackProto_Builder*) clearBoosterPackId;
 
-- (BOOL) hasCoinCost;
-- (int32_t) coinCost;
-- (BoosterPackProto_Builder*) setCoinCost:(int32_t) value;
-- (BoosterPackProto_Builder*) clearCoinCost;
-
-- (BOOL) hasDiamondCost;
-- (int32_t) diamondCost;
-- (BoosterPackProto_Builder*) setDiamondCost:(int32_t) value;
-- (BoosterPackProto_Builder*) clearDiamondCost;
+- (BOOL) hasCostsCoins;
+- (BOOL) costsCoins;
+- (BoosterPackProto_Builder*) setCostsCoins:(BOOL) value;
+- (BoosterPackProto_Builder*) clearCostsCoins;
 
 - (BOOL) hasName;
 - (NSString*) name;
 - (BoosterPackProto_Builder*) setName:(NSString*) value;
 - (BoosterPackProto_Builder*) clearName;
 
-- (BOOL) hasImage;
-- (NSString*) image;
-- (BoosterPackProto_Builder*) setImage:(NSString*) value;
-- (BoosterPackProto_Builder*) clearImage;
+- (BOOL) hasChestImage;
+- (NSString*) chestImage;
+- (BoosterPackProto_Builder*) setChestImage:(NSString*) value;
+- (BoosterPackProto_Builder*) clearChestImage;
 
-- (BOOL) hasDescription;
-- (NSString*) description;
-- (BoosterPackProto_Builder*) setDescription:(NSString*) value;
-- (BoosterPackProto_Builder*) clearDescription;
+- (BOOL) hasMiddleImage;
+- (NSString*) middleImage;
+- (BoosterPackProto_Builder*) setMiddleImage:(NSString*) value;
+- (BoosterPackProto_Builder*) clearMiddleImage;
 
-- (BOOL) hasNumEquips;
-- (int32_t) numEquips;
-- (BoosterPackProto_Builder*) setNumEquips:(int32_t) value;
-- (BoosterPackProto_Builder*) clearNumEquips;
+- (BOOL) hasBackgroundImage;
+- (NSString*) backgroundImage;
+- (BoosterPackProto_Builder*) setBackgroundImage:(NSString*) value;
+- (BoosterPackProto_Builder*) clearBackgroundImage;
+
+- (BOOL) hasMinLevel;
+- (int32_t) minLevel;
+- (BoosterPackProto_Builder*) setMinLevel:(int32_t) value;
+- (BoosterPackProto_Builder*) clearMinLevel;
+
+- (BOOL) hasMaxLevel;
+- (int32_t) maxLevel;
+- (BoosterPackProto_Builder*) setMaxLevel:(int32_t) value;
+- (BoosterPackProto_Builder*) clearMaxLevel;
 
 - (NSArray*) boosterItemsList;
 - (BoosterItemProto*) boosterItemsAtIndex:(int32_t) index;
@@ -576,24 +609,44 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BoosterPackProto_Builder*) addBoosterItems:(BoosterItemProto*) value;
 - (BoosterPackProto_Builder*) addAllBoosterItems:(NSArray*) values;
 - (BoosterPackProto_Builder*) clearBoosterItemsList;
+
+- (BOOL) hasSalePriceOne;
+- (int32_t) salePriceOne;
+- (BoosterPackProto_Builder*) setSalePriceOne:(int32_t) value;
+- (BoosterPackProto_Builder*) clearSalePriceOne;
+
+- (BOOL) hasRetailPriceOne;
+- (int32_t) retailPriceOne;
+- (BoosterPackProto_Builder*) setRetailPriceOne:(int32_t) value;
+- (BoosterPackProto_Builder*) clearRetailPriceOne;
+
+- (BOOL) hasSalePriceTwo;
+- (int32_t) salePriceTwo;
+- (BoosterPackProto_Builder*) setSalePriceTwo:(int32_t) value;
+- (BoosterPackProto_Builder*) clearSalePriceTwo;
+
+- (BOOL) hasRetailPriceTwo;
+- (int32_t) retailPriceTwo;
+- (BoosterPackProto_Builder*) setRetailPriceTwo:(int32_t) value;
+- (BoosterPackProto_Builder*) clearRetailPriceTwo;
 @end
 
 @interface BoosterItemProto : PBGeneratedMessage {
 @private
   BOOL hasIsSpecial_:1;
-  BOOL hasId_:1;
+  BOOL hasBoosterItemId_:1;
   BOOL hasEquipId_:1;
   BOOL hasQuantity_:1;
   BOOL isSpecial_:1;
-  int32_t id;
+  int32_t boosterItemId;
   int32_t equipId;
   int32_t quantity;
 }
-- (BOOL) hasId;
+- (BOOL) hasBoosterItemId;
 - (BOOL) hasEquipId;
 - (BOOL) hasQuantity;
 - (BOOL) hasIsSpecial;
-@property (readonly) int32_t id;
+@property (readonly) int32_t boosterItemId;
 @property (readonly) int32_t equipId;
 @property (readonly) int32_t quantity;
 - (BOOL) isSpecial;
@@ -632,10 +685,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BoosterItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (BoosterItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (BoosterItemProto_Builder*) setId:(int32_t) value;
-- (BoosterItemProto_Builder*) clearId;
+- (BOOL) hasBoosterItemId;
+- (int32_t) boosterItemId;
+- (BoosterItemProto_Builder*) setBoosterItemId:(int32_t) value;
+- (BoosterItemProto_Builder*) clearBoosterItemId;
 
 - (BOOL) hasEquipId;
 - (int32_t) equipId;
