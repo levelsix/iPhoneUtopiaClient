@@ -47,6 +47,8 @@
 
 - (IBAction)purchaseClicked:(UIView *)sender;
 
+- (void) receivedPurchaseBoosterPackResponse:(PurchaseBoosterPackResponseProto *)proto;
+
 + (ArmoryViewController *) sharedArmoryViewController;
 + (void) displayView;
 + (void) removeView;

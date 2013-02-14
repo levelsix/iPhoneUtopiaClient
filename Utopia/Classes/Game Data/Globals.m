@@ -769,6 +769,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [animation setDuration:SHAKE_DURATION];
   [animation setRepeatCount:repeatCt];
   [animation setAutoreverses:YES];
+  [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
   [animation setFromValue:[NSValue valueWithCGPoint:
                            CGPointMake(view.center.x - offset, view.center.y)]];
   [animation setToValue:[NSValue valueWithCGPoint:
@@ -1884,7 +1885,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 
 #pragma mark Colors
 + (UIColor *)creamColor {
-  return [UIColor colorWithRed:236/255.f green:230/255.f blue:195/255.f alpha:1.f];
+  return [UIColor colorWithRed:240/255.f green:237/255.f blue:213/255.f alpha:1.f];
 }
 
 + (UIColor *)goldColor {
@@ -1892,7 +1893,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 }
 
 + (UIColor *)greenColor {
-  return [UIColor colorWithRed:156/255.f green:202/255.f blue:16/255.f alpha:1.f];
+  return [UIColor colorWithRed:176/255.f green:223/255.f blue:33/255.f alpha:1.f];
 }
 
 + (UIColor *)orangeColor {
@@ -1900,15 +1901,15 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 }
 
 + (UIColor *)redColor {
-  return [UIColor colorWithRed:255/255.f green:0/255.f blue:0/255.f alpha:1.f];
+  return [UIColor colorWithRed:217/255.f green:0/255.f blue:0/255.f alpha:1.f];
 }
 
 + (UIColor *)blueColor {
-  return [UIColor colorWithRed:15/255.f green:177/255.f blue:224/255.f alpha:1.f];
+  return [UIColor colorWithRed:92/255.f green:228/255.f blue:255/255.f alpha:1.f];
 }
 
 + (UIColor *)purpleColor {
-  return [UIColor colorWithRed:138/255.f green:0/255.f blue:255/255.f alpha:1.f];
+  return [UIColor colorWithRed:156/255.f green:0/255.f blue:255/255.f alpha:1.f];
 }
 
 + (GameMap *)mapForQuest:(FullQuestProto *)fqp {

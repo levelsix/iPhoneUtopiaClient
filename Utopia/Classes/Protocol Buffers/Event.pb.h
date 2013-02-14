@@ -17551,9 +17551,13 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 
 @interface PurchaseBoosterPackResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasMinutesUntilLimitReset_:1;
+  BOOL hasNumPacksToExceedLimit_:1;
   BOOL hasSender_:1;
   BOOL hasUserBoosterPack_:1;
   BOOL hasStatus_:1;
+  int32_t minutesUntilLimitReset;
+  int32_t numPacksToExceedLimit;
   MinimumUserProto* sender;
   UserBoosterPackProto* userBoosterPack;
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
@@ -17562,9 +17566,13 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (BOOL) hasSender;
 - (BOOL) hasUserBoosterPack;
 - (BOOL) hasStatus;
+- (BOOL) hasMinutesUntilLimitReset;
+- (BOOL) hasNumPacksToExceedLimit;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly, retain) UserBoosterPackProto* userBoosterPack;
 @property (readonly) PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
+@property (readonly) int32_t minutesUntilLimitReset;
+@property (readonly) int32_t numPacksToExceedLimit;
 - (NSArray*) userEquipsList;
 - (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index;
 
@@ -17627,5 +17635,15 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) status;
 - (PurchaseBoosterPackResponseProto_Builder*) setStatus:(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) value;
 - (PurchaseBoosterPackResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasMinutesUntilLimitReset;
+- (int32_t) minutesUntilLimitReset;
+- (PurchaseBoosterPackResponseProto_Builder*) setMinutesUntilLimitReset:(int32_t) value;
+- (PurchaseBoosterPackResponseProto_Builder*) clearMinutesUntilLimitReset;
+
+- (BOOL) hasNumPacksToExceedLimit;
+- (int32_t) numPacksToExceedLimit;
+- (PurchaseBoosterPackResponseProto_Builder*) setNumPacksToExceedLimit:(int32_t) value;
+- (PurchaseBoosterPackResponseProto_Builder*) clearNumPacksToExceedLimit;
 @end
 

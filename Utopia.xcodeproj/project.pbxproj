@@ -1604,18 +1604,6 @@
 		CFE6769D15412C7B006FA813 /* QuestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE6769C15412C7B006FA813 /* QuestCell.xib */; };
 		CFE802BD16C6151E00B6B196 /* forgeinfo.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731515B69F1500A11A6E /* forgeinfo.png */; };
 		CFE802BE16C6151E00B6B196 /* forgeinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731615B69F1500A11A6E /* forgeinfo@2x.png */; };
-		CFE802CB16C615EA00B6B196 /* commonborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE802BF16C615EA00B6B196 /* commonborder.png */; };
-		CFE802CC16C615EA00B6B196 /* commonborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE802C016C615EA00B6B196 /* commonborder@2x.png */; };
-		CFE802CD16C615EA00B6B196 /* epicborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE802C116C615EA00B6B196 /* epicborder.png */; };
-		CFE802CE16C615EA00B6B196 /* epicborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE802C216C615EA00B6B196 /* epicborder@2x.png */; };
-		CFE802CF16C615EA00B6B196 /* legendaryborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE802C316C615EA00B6B196 /* legendaryborder.png */; };
-		CFE802D016C615EA00B6B196 /* legendaryborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE802C416C615EA00B6B196 /* legendaryborder@2x.png */; };
-		CFE802D116C615EA00B6B196 /* rareborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE802C516C615EA00B6B196 /* rareborder.png */; };
-		CFE802D216C615EA00B6B196 /* rareborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE802C616C615EA00B6B196 /* rareborder@2x.png */; };
-		CFE802D316C615EA00B6B196 /* superrareborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE802C716C615EA00B6B196 /* superrareborder.png */; };
-		CFE802D416C615EA00B6B196 /* superrareborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE802C816C615EA00B6B196 /* superrareborder@2x.png */; };
-		CFE802D516C615EA00B6B196 /* uncommonborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE802C916C615EA00B6B196 /* uncommonborder.png */; };
-		CFE802D616C615EA00B6B196 /* uncommonborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE802CA16C615EA00B6B196 /* uncommonborder@2x.png */; };
 		CFE8DD6A1621075F00781774 /* Treez@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE8DD661621075F00781774 /* Treez@2x.png */; };
 		CFE8DD6B1621075F00781774 /* FloorTiles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE8DD671621075F00781774 /* FloorTiles@2x.png */; };
 		CFE8DD6C1621075F00781774 /* Treez.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE8DD681621075F00781774 /* Treez.png */; };
@@ -1675,6 +1663,24 @@
 		CFF02BD3158C41980072965A /* refilltextbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF02BC3158C41980072965A /* refilltextbg.png */; };
 		CFF02BD4158C41980072965A /* refilltextbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF02BC4158C41980072965A /* refilltextbg@2x.png */; };
 		CFF02BD6158C41B80072965A /* RefillMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF02BD5158C41B80072965A /* RefillMenuController.xib */; };
+		CFF0D9DC16CB363D00B7F0EB /* commoncard.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9D016CB363D00B7F0EB /* commoncard.png */; };
+		CFF0D9DD16CB363D00B7F0EB /* commoncard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9D116CB363D00B7F0EB /* commoncard@2x.png */; };
+		CFF0D9DE16CB363D00B7F0EB /* epiccard.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9D216CB363D00B7F0EB /* epiccard.png */; };
+		CFF0D9DF16CB363D00B7F0EB /* epiccard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9D316CB363D00B7F0EB /* epiccard@2x.png */; };
+		CFF0D9E016CB363D00B7F0EB /* legendarycard.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9D416CB363D00B7F0EB /* legendarycard.png */; };
+		CFF0D9E116CB363D00B7F0EB /* legendarycard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9D516CB363D00B7F0EB /* legendarycard@2x.png */; };
+		CFF0D9E216CB363D00B7F0EB /* rarecard.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9D616CB363D00B7F0EB /* rarecard.png */; };
+		CFF0D9E316CB363D00B7F0EB /* rarecard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9D716CB363D00B7F0EB /* rarecard@2x.png */; };
+		CFF0D9E416CB363D00B7F0EB /* superrarecard.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9D816CB363D00B7F0EB /* superrarecard.png */; };
+		CFF0D9E516CB363D00B7F0EB /* superrarecard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9D916CB363D00B7F0EB /* superrarecard@2x.png */; };
+		CFF0D9E616CB363D00B7F0EB /* uncommoncard.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9DA16CB363D00B7F0EB /* uncommoncard.png */; };
+		CFF0D9E716CB363D00B7F0EB /* uncommoncard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9DB16CB363D00B7F0EB /* uncommoncard@2x.png */; };
+		CFF0D9EE16CC7E3D00B7F0EB /* spinner.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9E816CC7E3D00B7F0EB /* spinner.png */; };
+		CFF0D9EF16CC7E3D00B7F0EB /* spinner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9E916CC7E3D00B7F0EB /* spinner@2x.png */; };
+		CFF0D9F016CC7E3D00B7F0EB /* taptocontinue.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9EA16CC7E3D00B7F0EB /* taptocontinue.png */; };
+		CFF0D9F116CC7E3D00B7F0EB /* taptocontinue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9EB16CC7E3D00B7F0EB /* taptocontinue@2x.png */; };
+		CFF0D9F216CC7E3D00B7F0EB /* taptoflip.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9EC16CC7E3D00B7F0EB /* taptoflip.png */; };
+		CFF0D9F316CC7E3D00B7F0EB /* taptoflip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9ED16CC7E3D00B7F0EB /* taptoflip@2x.png */; };
 		CFF137D416C4CD5A0037FF09 /* superraredot.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF137D316C4CD5A0037FF09 /* superraredot.png */; };
 		CFF2DA8216B756E4008B5491 /* arrow1.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2DA6816B756E4008B5491 /* arrow1.png */; };
 		CFF2DA8316B756E4008B5491 /* arrow1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2DA6916B756E4008B5491 /* arrow1@2x.png */; };
@@ -1709,8 +1715,6 @@
 		CFF5829316C387AB00712C4F /* buychestbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5826116C387AA00712C4F /* buychestbutton@2x.png */; };
 		CFF5829416C387AB00712C4F /* bpcardback.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5826216C387AA00712C4F /* bpcardback.png */; };
 		CFF5829516C387AB00712C4F /* bpcardback@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5826316C387AA00712C4F /* bpcardback@2x.png */; };
-		CFF5829616C387AB00712C4F /* bpcardfront.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5826416C387AA00712C4F /* bpcardfront.png */; };
-		CFF5829716C387AB00712C4F /* bpcardfront@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5826516C387AA00712C4F /* bpcardfront@2x.png */; };
 		CFF5829816C387AB00712C4F /* cardnumbercollected.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5826616C387AA00712C4F /* cardnumbercollected.png */; };
 		CFF5829916C387AB00712C4F /* cardnumbercollected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5826716C387AA00712C4F /* cardnumbercollected@2x.png */; };
 		CFF5829A16C387AB00712C4F /* commondot.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5826816C387AA00712C4F /* commondot.png */; };
@@ -3970,18 +3974,6 @@
 		CFE6769C15412C7B006FA813 /* QuestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestCell.xib; sourceTree = "<group>"; };
 		CFE72A2015CB4F960014D5D1 /* TapJoySponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapJoySponsoredOffer.h; sourceTree = "<group>"; };
 		CFE72A2115CB4F960014D5D1 /* TapJoySponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapJoySponsoredOffer.m; sourceTree = "<group>"; };
-		CFE802BF16C615EA00B6B196 /* commonborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = commonborder.png; sourceTree = "<group>"; };
-		CFE802C016C615EA00B6B196 /* commonborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commonborder@2x.png"; sourceTree = "<group>"; };
-		CFE802C116C615EA00B6B196 /* epicborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = epicborder.png; sourceTree = "<group>"; };
-		CFE802C216C615EA00B6B196 /* epicborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "epicborder@2x.png"; sourceTree = "<group>"; };
-		CFE802C316C615EA00B6B196 /* legendaryborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = legendaryborder.png; sourceTree = "<group>"; };
-		CFE802C416C615EA00B6B196 /* legendaryborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "legendaryborder@2x.png"; sourceTree = "<group>"; };
-		CFE802C516C615EA00B6B196 /* rareborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rareborder.png; sourceTree = "<group>"; };
-		CFE802C616C615EA00B6B196 /* rareborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rareborder@2x.png"; sourceTree = "<group>"; };
-		CFE802C716C615EA00B6B196 /* superrareborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = superrareborder.png; sourceTree = "<group>"; };
-		CFE802C816C615EA00B6B196 /* superrareborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "superrareborder@2x.png"; sourceTree = "<group>"; };
-		CFE802C916C615EA00B6B196 /* uncommonborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uncommonborder.png; sourceTree = "<group>"; };
-		CFE802CA16C615EA00B6B196 /* uncommonborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uncommonborder@2x.png"; sourceTree = "<group>"; };
 		CFE8DD661621075F00781774 /* Treez@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Treez@2x.png"; sourceTree = "<group>"; };
 		CFE8DD671621075F00781774 /* FloorTiles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FloorTiles@2x.png"; sourceTree = "<group>"; };
 		CFE8DD681621075F00781774 /* Treez.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Treez.png; sourceTree = "<group>"; };
@@ -4064,6 +4056,24 @@
 		CFF02BC3158C41980072965A /* refilltextbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refilltextbg.png; sourceTree = "<group>"; };
 		CFF02BC4158C41980072965A /* refilltextbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "refilltextbg@2x.png"; sourceTree = "<group>"; };
 		CFF02BD5158C41B80072965A /* RefillMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefillMenuController.xib; sourceTree = "<group>"; };
+		CFF0D9D016CB363D00B7F0EB /* commoncard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = commoncard.png; sourceTree = "<group>"; };
+		CFF0D9D116CB363D00B7F0EB /* commoncard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commoncard@2x.png"; sourceTree = "<group>"; };
+		CFF0D9D216CB363D00B7F0EB /* epiccard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = epiccard.png; sourceTree = "<group>"; };
+		CFF0D9D316CB363D00B7F0EB /* epiccard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "epiccard@2x.png"; sourceTree = "<group>"; };
+		CFF0D9D416CB363D00B7F0EB /* legendarycard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = legendarycard.png; sourceTree = "<group>"; };
+		CFF0D9D516CB363D00B7F0EB /* legendarycard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "legendarycard@2x.png"; sourceTree = "<group>"; };
+		CFF0D9D616CB363D00B7F0EB /* rarecard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rarecard.png; sourceTree = "<group>"; };
+		CFF0D9D716CB363D00B7F0EB /* rarecard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rarecard@2x.png"; sourceTree = "<group>"; };
+		CFF0D9D816CB363D00B7F0EB /* superrarecard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = superrarecard.png; sourceTree = "<group>"; };
+		CFF0D9D916CB363D00B7F0EB /* superrarecard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "superrarecard@2x.png"; sourceTree = "<group>"; };
+		CFF0D9DA16CB363D00B7F0EB /* uncommoncard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uncommoncard.png; sourceTree = "<group>"; };
+		CFF0D9DB16CB363D00B7F0EB /* uncommoncard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uncommoncard@2x.png"; sourceTree = "<group>"; };
+		CFF0D9E816CC7E3D00B7F0EB /* spinner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spinner.png; sourceTree = "<group>"; };
+		CFF0D9E916CC7E3D00B7F0EB /* spinner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner@2x.png"; sourceTree = "<group>"; };
+		CFF0D9EA16CC7E3D00B7F0EB /* taptocontinue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = taptocontinue.png; sourceTree = "<group>"; };
+		CFF0D9EB16CC7E3D00B7F0EB /* taptocontinue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taptocontinue@2x.png"; sourceTree = "<group>"; };
+		CFF0D9EC16CC7E3D00B7F0EB /* taptoflip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = taptoflip.png; sourceTree = "<group>"; };
+		CFF0D9ED16CC7E3D00B7F0EB /* taptoflip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taptoflip@2x.png"; sourceTree = "<group>"; };
 		CFF137D316C4CD5A0037FF09 /* superraredot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = superraredot.png; sourceTree = "<group>"; };
 		CFF2DA6816B756E4008B5491 /* arrow1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow1.png; sourceTree = "<group>"; };
 		CFF2DA6916B756E4008B5491 /* arrow1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow1@2x.png"; sourceTree = "<group>"; };
@@ -4142,8 +4152,6 @@
 		CFF5826116C387AA00712C4F /* buychestbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buychestbutton@2x.png"; sourceTree = "<group>"; };
 		CFF5826216C387AA00712C4F /* bpcardback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bpcardback.png; sourceTree = "<group>"; };
 		CFF5826316C387AA00712C4F /* bpcardback@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bpcardback@2x.png"; sourceTree = "<group>"; };
-		CFF5826416C387AA00712C4F /* bpcardfront.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bpcardfront.png; sourceTree = "<group>"; };
-		CFF5826516C387AA00712C4F /* bpcardfront@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bpcardfront@2x.png"; sourceTree = "<group>"; };
 		CFF5826616C387AA00712C4F /* cardnumbercollected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cardnumbercollected.png; sourceTree = "<group>"; };
 		CFF5826716C387AA00712C4F /* cardnumbercollected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cardnumbercollected@2x.png"; sourceTree = "<group>"; };
 		CFF5826816C387AA00712C4F /* commondot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = commondot.png; sourceTree = "<group>"; };
@@ -7844,18 +7852,24 @@
 		CFF5825D16C387AA00712C4F /* Chest images */ = {
 			isa = PBXGroup;
 			children = (
-				CFE802BF16C615EA00B6B196 /* commonborder.png */,
-				CFE802C016C615EA00B6B196 /* commonborder@2x.png */,
-				CFE802C116C615EA00B6B196 /* epicborder.png */,
-				CFE802C216C615EA00B6B196 /* epicborder@2x.png */,
-				CFE802C316C615EA00B6B196 /* legendaryborder.png */,
-				CFE802C416C615EA00B6B196 /* legendaryborder@2x.png */,
-				CFE802C516C615EA00B6B196 /* rareborder.png */,
-				CFE802C616C615EA00B6B196 /* rareborder@2x.png */,
-				CFE802C716C615EA00B6B196 /* superrareborder.png */,
-				CFE802C816C615EA00B6B196 /* superrareborder@2x.png */,
-				CFE802C916C615EA00B6B196 /* uncommonborder.png */,
-				CFE802CA16C615EA00B6B196 /* uncommonborder@2x.png */,
+				CFF0D9E816CC7E3D00B7F0EB /* spinner.png */,
+				CFF0D9E916CC7E3D00B7F0EB /* spinner@2x.png */,
+				CFF0D9EA16CC7E3D00B7F0EB /* taptocontinue.png */,
+				CFF0D9EB16CC7E3D00B7F0EB /* taptocontinue@2x.png */,
+				CFF0D9EC16CC7E3D00B7F0EB /* taptoflip.png */,
+				CFF0D9ED16CC7E3D00B7F0EB /* taptoflip@2x.png */,
+				CFF0D9D016CB363D00B7F0EB /* commoncard.png */,
+				CFF0D9D116CB363D00B7F0EB /* commoncard@2x.png */,
+				CFF0D9D216CB363D00B7F0EB /* epiccard.png */,
+				CFF0D9D316CB363D00B7F0EB /* epiccard@2x.png */,
+				CFF0D9D416CB363D00B7F0EB /* legendarycard.png */,
+				CFF0D9D516CB363D00B7F0EB /* legendarycard@2x.png */,
+				CFF0D9D616CB363D00B7F0EB /* rarecard.png */,
+				CFF0D9D716CB363D00B7F0EB /* rarecard@2x.png */,
+				CFF0D9D816CB363D00B7F0EB /* superrarecard.png */,
+				CFF0D9D916CB363D00B7F0EB /* superrarecard@2x.png */,
+				CFF0D9DA16CB363D00B7F0EB /* uncommoncard.png */,
+				CFF0D9DB16CB363D00B7F0EB /* uncommoncard@2x.png */,
 				CFF582C216C3905500712C4F /* chest.png */,
 				CFF582C316C3905500712C4F /* chest@2x.png */,
 				CFF582C416C3905500712C4F /* examplemiddle.png */,
@@ -7866,8 +7880,6 @@
 				CFF5826116C387AA00712C4F /* buychestbutton@2x.png */,
 				CFF5826216C387AA00712C4F /* bpcardback.png */,
 				CFF5826316C387AA00712C4F /* bpcardback@2x.png */,
-				CFF5826416C387AA00712C4F /* bpcardfront.png */,
-				CFF5826516C387AA00712C4F /* bpcardfront@2x.png */,
 				CFF5826616C387AA00712C4F /* cardnumbercollected.png */,
 				CFF5826716C387AA00712C4F /* cardnumbercollected@2x.png */,
 				CFF5826816C387AA00712C4F /* commondot.png */,
@@ -9446,8 +9458,6 @@
 				CFF5829316C387AB00712C4F /* buychestbutton@2x.png in Resources */,
 				CFF5829416C387AB00712C4F /* bpcardback.png in Resources */,
 				CFF5829516C387AB00712C4F /* bpcardback@2x.png in Resources */,
-				CFF5829616C387AB00712C4F /* bpcardfront.png in Resources */,
-				CFF5829716C387AB00712C4F /* bpcardfront@2x.png in Resources */,
 				CFF5829816C387AB00712C4F /* cardnumbercollected.png in Resources */,
 				CFF5829916C387AB00712C4F /* cardnumbercollected@2x.png in Resources */,
 				CFF5829A16C387AB00712C4F /* commondot.png in Resources */,
@@ -9496,18 +9506,24 @@
 				CFF137D416C4CD5A0037FF09 /* superraredot.png in Resources */,
 				CFE802BD16C6151E00B6B196 /* forgeinfo.png in Resources */,
 				CFE802BE16C6151E00B6B196 /* forgeinfo@2x.png in Resources */,
-				CFE802CB16C615EA00B6B196 /* commonborder.png in Resources */,
-				CFE802CC16C615EA00B6B196 /* commonborder@2x.png in Resources */,
-				CFE802CD16C615EA00B6B196 /* epicborder.png in Resources */,
-				CFE802CE16C615EA00B6B196 /* epicborder@2x.png in Resources */,
-				CFE802CF16C615EA00B6B196 /* legendaryborder.png in Resources */,
-				CFE802D016C615EA00B6B196 /* legendaryborder@2x.png in Resources */,
-				CFE802D116C615EA00B6B196 /* rareborder.png in Resources */,
-				CFE802D216C615EA00B6B196 /* rareborder@2x.png in Resources */,
-				CFE802D316C615EA00B6B196 /* superrareborder.png in Resources */,
-				CFE802D416C615EA00B6B196 /* superrareborder@2x.png in Resources */,
-				CFE802D516C615EA00B6B196 /* uncommonborder.png in Resources */,
-				CFE802D616C615EA00B6B196 /* uncommonborder@2x.png in Resources */,
+				CFF0D9DC16CB363D00B7F0EB /* commoncard.png in Resources */,
+				CFF0D9DD16CB363D00B7F0EB /* commoncard@2x.png in Resources */,
+				CFF0D9DE16CB363D00B7F0EB /* epiccard.png in Resources */,
+				CFF0D9DF16CB363D00B7F0EB /* epiccard@2x.png in Resources */,
+				CFF0D9E016CB363D00B7F0EB /* legendarycard.png in Resources */,
+				CFF0D9E116CB363D00B7F0EB /* legendarycard@2x.png in Resources */,
+				CFF0D9E216CB363D00B7F0EB /* rarecard.png in Resources */,
+				CFF0D9E316CB363D00B7F0EB /* rarecard@2x.png in Resources */,
+				CFF0D9E416CB363D00B7F0EB /* superrarecard.png in Resources */,
+				CFF0D9E516CB363D00B7F0EB /* superrarecard@2x.png in Resources */,
+				CFF0D9E616CB363D00B7F0EB /* uncommoncard.png in Resources */,
+				CFF0D9E716CB363D00B7F0EB /* uncommoncard@2x.png in Resources */,
+				CFF0D9EE16CC7E3D00B7F0EB /* spinner.png in Resources */,
+				CFF0D9EF16CC7E3D00B7F0EB /* spinner@2x.png in Resources */,
+				CFF0D9F016CC7E3D00B7F0EB /* taptocontinue.png in Resources */,
+				CFF0D9F116CC7E3D00B7F0EB /* taptocontinue@2x.png in Resources */,
+				CFF0D9F216CC7E3D00B7F0EB /* taptoflip.png in Resources */,
+				CFF0D9F316CC7E3D00B7F0EB /* taptoflip@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

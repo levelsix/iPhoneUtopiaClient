@@ -1464,7 +1464,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
     
     if (proto.shouldGiveKiipReward) {
-//      [KiipDelegate postAchievementNotificationAchievement:QUEST_REDEEM_KIIP_REWARD];
+      //      [KiipDelegate postAchievementNotificationAchievement:QUEST_REDEEM_KIIP_REWARD];
     }
   } else {
     [Globals popupMessage:@"Server failed to redeem quest"];
@@ -2553,18 +2553,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
   PurchaseBoosterPackResponseProto *proto = (PurchaseBoosterPackResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purchase booster pack received with status %d.", proto.status);
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purchase booster pack received with status %d and %d equips.", proto.status, proto.userEquipsList.count);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
     [gs addToMyEquips:proto.userEquipsList];
+    [gs.myBoosterPacks setObject:proto.userBoosterPack forKey:[NSNumber numberWithInt:proto.userBoosterPack.boosterPackId]];
+    
+    for (UserBoosterItemProto *i in proto.userBoosterPack.userBoosterItemsList) {
+      NSLog(@"%d: %d", i.boosterItemId, i.numReceived);
+    }
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to purchase booster pack."];
+    if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusExceedingPurchaseLimit) {
+      int numMins = proto.minutesUntilLimitReset;
+      int hrs = numMins / 60;
+      int mins = numMins % 60;
+      NSString *h = hrs > 0 ? [NSString stringWithFormat:@"%dh ", hrs] : @"";
+      NSString *m = [NSString stringWithFormat:@"%dm", mins];
+      [Globals popupMessage:[NSString stringWithFormat:@"You may only buy %d more of this chest today. Please try again in %@%@", proto.numPacksToExceedLimit, h, m]];
+    } else {
+      [Globals popupMessage:@"Server failed to purchase booster pack."];
+    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
+  
+  [[ArmoryViewController sharedArmoryViewController] receivedPurchaseBoosterPackResponse:proto];
 }
 
 @end

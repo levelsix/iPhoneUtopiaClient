@@ -12,14 +12,6 @@
 
 @implementation ArmoryListing
 
-- (void) awakeFromNib {
-  self.overlay = [[UIImageView alloc] initWithFrame:self.bgdView.frame];
-  [self addSubview:self.overlay];
-  UIImage *overlayImg = [Globals maskImage:self.bgdView.image withColor:[UIColor colorWithWhite:0.f alpha:0.4f]];
-  self.overlay.image = overlayImg;
-  self.overlay.alpha = 0.f;
-}
-
 - (void) updateForEquip:(FullEquipProto *)fep numCollected:(int)collected total:(int)total {
   Globals *gl = [Globals sharedGlobals];
   
@@ -34,10 +26,16 @@
   NSString *base = [[[Globals stringForRarity:fep.rarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
   NSString *dotFile = [base stringByAppendingString:@"dot.png"];
   [Globals imageNamed:dotFile withImageView:self.dotIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  NSString *borderFile = [base stringByAppendingString:@"border.png"];
-  [Globals imageNamed:borderFile withImageView:self.borderIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  NSString *bgdFile = [base stringByAppendingString:@"card.png"];
+  [Globals imageNamed:bgdFile withImageView:self.bgdView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.amtCollectedLabel.text = [NSString stringWithFormat:@"%d / %d", total-collected, total];
+  
+  self.overlay = [[UIImageView alloc] initWithFrame:self.bgdView.frame];
+  [self addSubview:self.overlay];
+  UIImage *overlayImg = [Globals maskImage:self.bgdView.image withColor:[UIColor colorWithWhite:0.f alpha:0.4f]];
+  self.overlay.image = overlayImg;
+  self.overlay.alpha = 0.f;
 }
 
 - (void) dealloc {
@@ -51,13 +49,22 @@
   self.typeLabel = nil;
   self.dotIcon = nil;
   self.overlay = nil;
-  self.borderIcon = nil;
   [super dealloc];
 }
 
 @end
 
 @implementation ArmoryCardDisplayView
+
+- (void) awakeFromNib {
+  [self rotateSpinner];
+  
+  UIImageView *secondGlow = [[[UIImageView alloc] initWithImage:self.bgdView.image] autorelease];
+  secondGlow.contentMode = self.bgdView.contentMode;
+  secondGlow.autoresizingMask = self.bgdView.autoresizingMask;
+  secondGlow.frame = self.bgdView.bounds;
+  [self.bgdView addSubview:secondGlow];
+}
 
 - (ArmoryListing *) armoryListing {
   if (!_armoryListing) {
@@ -68,6 +75,12 @@
 }
 
 - (void) beginAnimatingForEquips:(NSArray *)equips {
+  if (equips.count <= 0) {
+    self.equips = nil;
+    [self removeFromSuperview];
+    return;
+  }
+  
   self.equips = equips;
   _currentIndex = 0;
   
@@ -76,13 +89,17 @@
     self.bgdView.alpha = 1.f;
   }];
   
+  self.spinnerView.alpha = 0.f;
+  self.tapToFlipView.alpha = 0.f;
+  self.tapToContinueView.alpha = 0.f;
+  
   [self showNextEquip];
 }
 
 - (void) fadeOutOldEquip {
-  [self addSubview:self.armoryListing];
+  [self insertSubview:self.armoryListing belowSubview:self.cardView];
   self.armoryListing.center = self.cardView.center;
-  [UIView animateWithDuration:0.2f animations:^{
+  [UIView animateWithDuration:0.3f animations:^{
     self.armoryListing.alpha = 0.f;
   }];
 }
@@ -100,15 +117,14 @@
     
     [self.cardView addSubview:self.cardBackImageView];
     self.cardView.center = CGPointMake(self.cardView.center.x, self.frame.size.height+self.cardView.frame.size.height/2);
-    [UIView animateWithDuration:0.3f animations:^{
+    [UIView animateWithDuration:1.f delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
       self.cardView.center = CGPointMake(self.cardView.center.x, self.frame.size.height/2);
     } completion:^(BOOL finished) {
-      self.armoryListing.alpha = 1.f;
       self.armoryListing.center = self.cardBackImageView.center;
       [self.armoryListing updateForEquip:[gs equipWithId:fuep.equipId] numCollected:0 total:0];
-      [UIView transitionFromView:self.cardBackImageView toView:self.armoryListing duration:0.2f options:UIViewAnimationOptionTransitionFlipFromRight completion:^(BOOL finished) {
-        self.buttonView.hidden = NO;
-      }];
+      
+      _tapToFlip = YES;
+      [self fadeImageView:self.tapToFlipView toAlpha:1.f];
     }];
     
     _currentIndex++;
@@ -117,12 +133,55 @@
   }
 }
 
+- (void) flipCard {
+  self.armoryListing.alpha = 1.f;
+  [UIView transitionFromView:self.cardBackImageView toView:self.armoryListing duration:1.8f options:UIViewAnimationOptionTransitionFlipFromRight completion:^(BOOL finished) {
+    self.buttonView.hidden = NO;
+    
+    _tapToContinue = YES;
+    [self fadeImageView:self.tapToContinueView toAlpha:1.f];
+    
+    [self fadeImageView:self.spinnerView toAlpha:0.3f];
+    [self rotateSpinner];
+  }];
+}
+
+- (void) rotateSpinner {
+  CABasicAnimation *fullRotation;
+  fullRotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+  fullRotation.fromValue = [NSNumber numberWithFloat:0];
+  fullRotation.toValue = [NSNumber numberWithFloat:M_PI * 360 / 180.0];
+  fullRotation.duration = 10.f;
+  fullRotation.repeatCount = MAXFLOAT;
+  [self.spinnerView.layer addAnimation:fullRotation forKey:@"360"];
+}
+
 - (void) endAnimatingForEquips {
   [UIView animateWithDuration:0.3f animations:^{
     self.bgdView.alpha = 0.f;
   } completion:^(BOOL finished) {
     [self removeFromSuperview];
+    self.equips = nil;
   }];
+}
+
+- (void) fadeImageView:(UIImageView *)iv toAlpha:(float)alpha {
+  [UIView animateWithDuration:0.3f animations:^{
+    iv.alpha = alpha;
+  }];
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  if (_tapToFlip) {
+    _tapToFlip = NO;
+    [self fadeImageView:self.tapToFlipView toAlpha:0.f];
+    [self flipCard];
+  } else if (_tapToContinue) {
+    _tapToContinue = NO;
+    [self fadeImageView:self.tapToContinueView toAlpha:0.f];
+    [self fadeImageView:self.spinnerView toAlpha:0.f];
+    [self showNextEquip];
+  }
 }
 
 - (void) dealloc {
@@ -132,6 +191,9 @@
   self.buttonView = nil;
   self.cardView = nil;
   self.equips = nil;
+  self.spinnerView = nil;
+  self.tapToFlipView = nil;
+  self.tapToContinueView = nil;
   [super dealloc];
 }
 
@@ -245,6 +307,7 @@
 }
 
 - (void) updateForBoosterPack:(BoosterPackProto *)bpp userPack:(UserBoosterPackProto *)ubpp {
+  Globals *gl = [Globals sharedGlobals];
   self.booster = bpp;
   self.userBooster = ubpp;
   
@@ -254,10 +317,25 @@
       [specials addObject:bip];
     }
   }
+  
+  [specials sortUsingComparator:^NSComparisonResult(BoosterItemProto *obj1, BoosterItemProto *obj2) {
+    int attack1 = [gl calculateAttackForEquip:obj1.equipId level:1 enhancePercent:0];
+    int defense1 = [gl calculateDefenseForEquip:obj1.equipId level:1 enhancePercent:0];
+    int attack2 = [gl calculateAttackForEquip:obj2.equipId level:1 enhancePercent:0];
+    int defense2 = [gl calculateDefenseForEquip:obj2.equipId level:1 enhancePercent:0];
+    if (attack1+defense1 < attack2+defense2) {
+      return NSOrderedDescending;
+    } else if (attack1+defense1 > attack2+defense2) {
+      return NSOrderedAscending;
+    }
+    return NSOrderedSame;
+  }];
+  
   self.specialItems = specials;
   
   [self updateBottomLabels];
   [self.carousel reloadData];
+  [self.carousel scrollToItemAtIndex:self.specialItems.count/2 animated:NO];
 }
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel
@@ -275,7 +353,9 @@
   }
   
   GameState *gs = [GameState sharedGameState];
-  BoosterItemProto *item = [self.specialItems objectAtIndex:index];
+  int arrIndex = index-self.specialItems.count/2;
+  arrIndex = arrIndex < 0 ? arrIndex*-2-1 : arrIndex*2;
+  BoosterItemProto *item = [self.specialItems objectAtIndex:arrIndex];
   FullEquipProto *equip = [gs equipWithId:item.equipId];
 
   UserBoosterItemProto *userItem = nil;
@@ -304,14 +384,6 @@
   }
 }
 
-//@property (nonatomic, retain) IBOutlet UIImageView *saleCoinIcon1;
-//@property (nonatomic, retain) IBOutlet UILabel *saleLabel1;
-//@property (nonatomic, retain) IBOutlet UIImageView *retailCoinIcon1;
-//@property (nonatomic, retain) IBOutlet UILabel *retailLabel1;
-//@property (nonatomic, retain) IBOutlet UIImageView *normalCoinIcon1;
-//@property (nonatomic, retain) IBOutlet UILabel *normalLabel1;
-//@property (nonatomic, retain) IBOutlet UIView *saleView1;
-//@property (nonatomic, retain) IBOutlet UIView *noSaleView1;
 - (void) dealloc {
   self.carousel = nil;
   self.booster = nil;

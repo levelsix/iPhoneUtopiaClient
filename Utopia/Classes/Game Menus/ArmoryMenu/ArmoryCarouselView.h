@@ -15,7 +15,6 @@
 @property (nonatomic, retain) IBOutlet UIImageView *bgdView;
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *dotIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *borderIcon;
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
@@ -33,13 +32,21 @@
 
 @interface ArmoryCardDisplayView : UIView {
   int _currentIndex;
+  
+  BOOL _tapToFlip;
+  BOOL _tapToContinue;
 }
 
-@property (nonatomic, retain) IBOutlet UIView *bgdView;
+@property (nonatomic, retain) IBOutlet UIImageView *bgdView;
 
 @property (nonatomic, retain) IBOutlet UIView *cardView;
 @property (nonatomic, retain) IBOutlet UIImageView *cardBackImageView;
 @property (nonatomic, retain) IBOutlet ArmoryListing *armoryListing;
+
+
+@property (nonatomic, retain) IBOutlet UIImageView *spinnerView;
+@property (nonatomic, retain) IBOutlet UIImageView *tapToFlipView;
+@property (nonatomic, retain) IBOutlet UIImageView *tapToContinueView;
 
 @property (nonatomic, retain) IBOutlet UIView *buttonView;
 

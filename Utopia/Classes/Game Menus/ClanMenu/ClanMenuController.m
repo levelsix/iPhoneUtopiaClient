@@ -1038,8 +1038,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
       _browsingClanId = clan.clanId;
       
     } else {
-      [self.clanTowerScoresTab preloadForTowerId:p.towerId];
-      [self.topBar loadClanTowerTwoButtonConfiguration];
+      if (self.clanTowerScoresTab.towerId != p.towerId) {
+        [self.clanTowerScoresTab preloadForTowerId:p.towerId];
+        [self.topBar loadClanTowerTwoButtonConfiguration];
+      }
     }
     
     if (self.topBar.hidden || self.topBar.alpha == 0.f) {

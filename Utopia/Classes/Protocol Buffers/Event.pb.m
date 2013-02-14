@@ -69886,6 +69886,8 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
 @property (retain) NSMutableArray* mutableUserEquipsList;
 @property (retain) UserBoosterPackProto* userBoosterPack;
 @property PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
+@property int32_t minutesUntilLimitReset;
+@property int32_t numPacksToExceedLimit;
 @end
 
 @implementation PurchaseBoosterPackResponseProto
@@ -69912,6 +69914,20 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
   hasStatus_ = !!value;
 }
 @synthesize status;
+- (BOOL) hasMinutesUntilLimitReset {
+  return !!hasMinutesUntilLimitReset_;
+}
+- (void) setHasMinutesUntilLimitReset:(BOOL) value {
+  hasMinutesUntilLimitReset_ = !!value;
+}
+@synthesize minutesUntilLimitReset;
+- (BOOL) hasNumPacksToExceedLimit {
+  return !!hasNumPacksToExceedLimit_;
+}
+- (void) setHasNumPacksToExceedLimit:(BOOL) value {
+  hasNumPacksToExceedLimit_ = !!value;
+}
+@synthesize numPacksToExceedLimit;
 - (void) dealloc {
   self.sender = nil;
   self.mutableUserEquipsList = nil;
@@ -69923,6 +69939,8 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
     self.sender = [MinimumUserProto defaultInstance];
     self.userBoosterPack = [UserBoosterPackProto defaultInstance];
     self.status = PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess;
+    self.minutesUntilLimitReset = 0;
+    self.numPacksToExceedLimit = 0;
   }
   return self;
 }
@@ -69961,6 +69979,12 @@ static PurchaseBoosterPackResponseProto* defaultPurchaseBoosterPackResponseProto
   if (self.hasStatus) {
     [output writeEnum:4 value:self.status];
   }
+  if (self.hasMinutesUntilLimitReset) {
+    [output writeInt32:5 value:self.minutesUntilLimitReset];
+  }
+  if (self.hasNumPacksToExceedLimit) {
+    [output writeInt32:6 value:self.numPacksToExceedLimit];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -69981,6 +70005,12 @@ static PurchaseBoosterPackResponseProto* defaultPurchaseBoosterPackResponseProto
   }
   if (self.hasStatus) {
     size += computeEnumSize(4, self.status);
+  }
+  if (self.hasMinutesUntilLimitReset) {
+    size += computeInt32Size(5, self.minutesUntilLimitReset);
+  }
+  if (self.hasNumPacksToExceedLimit) {
+    size += computeInt32Size(6, self.numPacksToExceedLimit);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -70086,6 +70116,12 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.hasMinutesUntilLimitReset) {
+    [self setMinutesUntilLimitReset:other.minutesUntilLimitReset];
+  }
+  if (other.hasNumPacksToExceedLimit) {
+    [self setNumPacksToExceedLimit:other.numPacksToExceedLimit];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -70138,6 +70174,14 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
         } else {
           [unknownFields mergeVarintField:4 value:value];
         }
+        break;
+      }
+      case 40: {
+        [self setMinutesUntilLimitReset:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setNumPacksToExceedLimit:[input readInt32]];
         break;
       }
     }
@@ -70246,6 +70290,38 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (PurchaseBoosterPackResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess;
+  return self;
+}
+- (BOOL) hasMinutesUntilLimitReset {
+  return result.hasMinutesUntilLimitReset;
+}
+- (int32_t) minutesUntilLimitReset {
+  return result.minutesUntilLimitReset;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) setMinutesUntilLimitReset:(int32_t) value {
+  result.hasMinutesUntilLimitReset = YES;
+  result.minutesUntilLimitReset = value;
+  return self;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) clearMinutesUntilLimitReset {
+  result.hasMinutesUntilLimitReset = NO;
+  result.minutesUntilLimitReset = 0;
+  return self;
+}
+- (BOOL) hasNumPacksToExceedLimit {
+  return result.hasNumPacksToExceedLimit;
+}
+- (int32_t) numPacksToExceedLimit {
+  return result.numPacksToExceedLimit;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) setNumPacksToExceedLimit:(int32_t) value {
+  result.hasNumPacksToExceedLimit = YES;
+  result.numPacksToExceedLimit = value;
+  return self;
+}
+- (PurchaseBoosterPackResponseProto_Builder*) clearNumPacksToExceedLimit {
+  result.hasNumPacksToExceedLimit = NO;
+  result.numPacksToExceedLimit = 0;
   return self;
 }
 @end

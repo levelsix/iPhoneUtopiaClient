@@ -480,6 +480,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasBoosterPackId_:1;
   BOOL hasMinLevel_:1;
   BOOL hasMaxLevel_:1;
+  BOOL hasDailyLimit_:1;
   BOOL hasSalePriceOne_:1;
   BOOL hasRetailPriceOne_:1;
   BOOL hasSalePriceTwo_:1;
@@ -492,6 +493,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t boosterPackId;
   int32_t minLevel;
   int32_t maxLevel;
+  int32_t dailyLimit;
   int32_t salePriceOne;
   int32_t retailPriceOne;
   int32_t salePriceTwo;
@@ -510,6 +512,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasBackgroundImage;
 - (BOOL) hasMinLevel;
 - (BOOL) hasMaxLevel;
+- (BOOL) hasDailyLimit;
 - (BOOL) hasSalePriceOne;
 - (BOOL) hasRetailPriceOne;
 - (BOOL) hasSalePriceTwo;
@@ -522,6 +525,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) NSString* backgroundImage;
 @property (readonly) int32_t minLevel;
 @property (readonly) int32_t maxLevel;
+@property (readonly) int32_t dailyLimit;
 @property (readonly) int32_t salePriceOne;
 @property (readonly) int32_t retailPriceOne;
 @property (readonly) int32_t salePriceTwo;
@@ -602,6 +606,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) maxLevel;
 - (BoosterPackProto_Builder*) setMaxLevel:(int32_t) value;
 - (BoosterPackProto_Builder*) clearMaxLevel;
+
+- (BOOL) hasDailyLimit;
+- (int32_t) dailyLimit;
+- (BoosterPackProto_Builder*) setDailyLimit:(int32_t) value;
+- (BoosterPackProto_Builder*) clearDailyLimit;
 
 - (NSArray*) boosterItemsList;
 - (BoosterItemProto*) boosterItemsAtIndex:(int32_t) index;

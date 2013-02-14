@@ -728,6 +728,7 @@ static UserBoosterItemProto* defaultUserBoosterItemProtoInstance = nil;
 @property (retain) NSString* backgroundImage;
 @property int32_t minLevel;
 @property int32_t maxLevel;
+@property int32_t dailyLimit;
 @property (retain) NSMutableArray* mutableBoosterItemsList;
 @property int32_t salePriceOne;
 @property int32_t retailPriceOne;
@@ -798,6 +799,13 @@ static UserBoosterItemProto* defaultUserBoosterItemProtoInstance = nil;
   hasMaxLevel_ = !!value;
 }
 @synthesize maxLevel;
+- (BOOL) hasDailyLimit {
+  return !!hasDailyLimit_;
+}
+- (void) setHasDailyLimit:(BOOL) value {
+  hasDailyLimit_ = !!value;
+}
+@synthesize dailyLimit;
 @synthesize mutableBoosterItemsList;
 - (BOOL) hasSalePriceOne {
   return !!hasSalePriceOne_;
@@ -845,6 +853,7 @@ static UserBoosterItemProto* defaultUserBoosterItemProtoInstance = nil;
     self.backgroundImage = @"";
     self.minLevel = 0;
     self.maxLevel = 0;
+    self.dailyLimit = 0;
     self.salePriceOne = 0;
     self.retailPriceOne = 0;
     self.salePriceTwo = 0;
@@ -899,20 +908,23 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   if (self.hasMaxLevel) {
     [output writeInt32:8 value:self.maxLevel];
   }
+  if (self.hasDailyLimit) {
+    [output writeInt32:9 value:self.dailyLimit];
+  }
   for (BoosterItemProto* element in self.boosterItemsList) {
-    [output writeMessage:9 value:element];
+    [output writeMessage:10 value:element];
   }
   if (self.hasSalePriceOne) {
-    [output writeInt32:10 value:self.salePriceOne];
+    [output writeInt32:11 value:self.salePriceOne];
   }
   if (self.hasRetailPriceOne) {
-    [output writeInt32:11 value:self.retailPriceOne];
+    [output writeInt32:12 value:self.retailPriceOne];
   }
   if (self.hasSalePriceTwo) {
-    [output writeInt32:12 value:self.salePriceTwo];
+    [output writeInt32:13 value:self.salePriceTwo];
   }
   if (self.hasRetailPriceTwo) {
-    [output writeInt32:13 value:self.retailPriceTwo];
+    [output writeInt32:14 value:self.retailPriceTwo];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -947,20 +959,23 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   if (self.hasMaxLevel) {
     size += computeInt32Size(8, self.maxLevel);
   }
+  if (self.hasDailyLimit) {
+    size += computeInt32Size(9, self.dailyLimit);
+  }
   for (BoosterItemProto* element in self.boosterItemsList) {
-    size += computeMessageSize(9, element);
+    size += computeMessageSize(10, element);
   }
   if (self.hasSalePriceOne) {
-    size += computeInt32Size(10, self.salePriceOne);
+    size += computeInt32Size(11, self.salePriceOne);
   }
   if (self.hasRetailPriceOne) {
-    size += computeInt32Size(11, self.retailPriceOne);
+    size += computeInt32Size(12, self.retailPriceOne);
   }
   if (self.hasSalePriceTwo) {
-    size += computeInt32Size(12, self.salePriceTwo);
+    size += computeInt32Size(13, self.salePriceTwo);
   }
   if (self.hasRetailPriceTwo) {
-    size += computeInt32Size(13, self.retailPriceTwo);
+    size += computeInt32Size(14, self.retailPriceTwo);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1061,6 +1076,9 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   if (other.hasMaxLevel) {
     [self setMaxLevel:other.maxLevel];
   }
+  if (other.hasDailyLimit) {
+    [self setDailyLimit:other.dailyLimit];
+  }
   if (other.mutableBoosterItemsList.count > 0) {
     if (result.mutableBoosterItemsList == nil) {
       result.mutableBoosterItemsList = [NSMutableArray array];
@@ -1132,25 +1150,29 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
         [self setMaxLevel:[input readInt32]];
         break;
       }
-      case 74: {
+      case 72: {
+        [self setDailyLimit:[input readInt32]];
+        break;
+      }
+      case 82: {
         BoosterItemProto_Builder* subBuilder = [BoosterItemProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addBoosterItems:[subBuilder buildPartial]];
         break;
       }
-      case 80: {
+      case 88: {
         [self setSalePriceOne:[input readInt32]];
         break;
       }
-      case 88: {
+      case 96: {
         [self setRetailPriceOne:[input readInt32]];
         break;
       }
-      case 96: {
+      case 104: {
         [self setSalePriceTwo:[input readInt32]];
         break;
       }
-      case 104: {
+      case 112: {
         [self setRetailPriceTwo:[input readInt32]];
         break;
       }
@@ -1283,6 +1305,22 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
 - (BoosterPackProto_Builder*) clearMaxLevel {
   result.hasMaxLevel = NO;
   result.maxLevel = 0;
+  return self;
+}
+- (BOOL) hasDailyLimit {
+  return result.hasDailyLimit;
+}
+- (int32_t) dailyLimit {
+  return result.dailyLimit;
+}
+- (BoosterPackProto_Builder*) setDailyLimit:(int32_t) value {
+  result.hasDailyLimit = YES;
+  result.dailyLimit = value;
+  return self;
+}
+- (BoosterPackProto_Builder*) clearDailyLimit {
+  result.hasDailyLimit = NO;
+  result.dailyLimit = 0;
   return self;
 }
 - (NSArray*) boosterItemsList {

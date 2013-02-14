@@ -1448,9 +1448,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   userNameLabel.text = fup.name;
   profilePicture.image = [Globals profileImageForUser:fup.userType];
-  winsLabel.text = [NSString stringWithFormat:@"%d", fup.battlesWon];
-  lossesLabel.text = [NSString stringWithFormat:@"%d", fup.battlesLost];
-  fleesLabel.text = [NSString stringWithFormat:@"%d", fup.flees];
+  winsLabel.text = [Globals commafyNumber:fup.battlesWon];
+  lossesLabel.text = [Globals commafyNumber:fup.battlesLost];
+  fleesLabel.text = [Globals commafyNumber:fup.flees];
   levelLabel.text = [NSString stringWithFormat:@"%d", fup.level];
   typeLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:fup.userType], [Globals classForUserType:fup.userType]];
   attackLabel.text = @"?";
@@ -1731,9 +1731,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   userNameLabel.text = gs.name;
   profilePicture.image = [Globals profileImageForUser:gs.type];
-  winsLabel.text = [NSString stringWithFormat:@"%d", gs.battlesWon];
-  lossesLabel.text = [NSString stringWithFormat:@"%d", gs.battlesLost];
-  fleesLabel.text = [NSString stringWithFormat:@"%d", gs.flees];
+  winsLabel.text = [Globals commafyNumber:gs.battlesWon];
+  lossesLabel.text = [Globals commafyNumber:gs.battlesLost];
+  fleesLabel.text = [Globals commafyNumber:gs.flees];
   levelLabel.text = [NSString stringWithFormat:@"%d", gs.level];
   typeLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:gs.type], [Globals classForUserType:gs.type]];
   codeLabel.text = gs.referralCode;

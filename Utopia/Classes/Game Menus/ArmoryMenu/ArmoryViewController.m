@@ -87,7 +87,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   self.carouselView.frame = self.armoryTableView.frame;
   [self.armoryTableView.superview addSubview:self.carouselView];
-  self.carouselView.hidden = YES;
 }
 
 - (void) didReceiveMemoryWarning {
@@ -102,6 +101,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     self.carouselView = nil;
     self.spinner = nil;
     self.loadingView = nil;
+    self.cardDisplayView = nil;
   }
 }
 
@@ -114,6 +114,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [self refresh];
   [self.loadingView stop];
   [coinBar updateLabels];
+  
+  self.carouselView.hidden = YES;
+  self.armoryTableView.hidden = NO;
   
   CGRect f = self.view.frame;
   self.view.center = CGPointMake(self.view.center.x, f.size.height*3/2);
@@ -198,6 +201,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 }
 
 - (IBAction)backClicked:(id)sender {
+  if (!self.armoryTableView.hidden) {
+    return;
+  }
+  
   CGRect curRect = self.armoryTableView.frame;
   CGRect r = self.armoryTableView.frame;
   r.origin.x = -r.size.width;
@@ -224,6 +231,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   }
   
   [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.carouselView.booster.boosterPackId purchaseOption:option];
+  [self.coinBar updateLabels];
   [self.loadingView display:self.view];
 }
 
@@ -246,8 +254,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 
 - (void) receivedPurchaseBoosterPackResponse:(PurchaseBoosterPackResponseProto *)proto {
   if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
+    self.cardDisplayView.frame = self.view.bounds;
     [self.view addSubview:_cardDisplayView];
     [self.cardDisplayView beginAnimatingForEquips:proto.userEquipsList];
+    
+    if (self.carouselView.booster.boosterPackId == proto.userBoosterPack.boosterPackId) {
+      [self.carouselView updateForBoosterPack:self.carouselView.booster userPack:proto.userBoosterPack];
+    }
+    [self.armoryTableView reloadData];
   }
   
   [self.loadingView stop];
