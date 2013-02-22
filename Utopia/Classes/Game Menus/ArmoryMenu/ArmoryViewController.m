@@ -293,7 +293,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   BOOL hasVisited = [def boolForKey:HAS_VISITED_ARMORY_KEY];
-  if (!hasVisited) {
+  if (!hasVisited && !_level) {
     [self displayInfo];
     
     [def setBool:YES forKey:HAS_VISITED_ARMORY_KEY];

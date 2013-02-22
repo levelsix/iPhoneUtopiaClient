@@ -469,11 +469,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   if (gs.level >= gl.minLevelToDisplayThreeCardMonte && gl.minLevelToDisplayThreeCardMonte > 0) {
     [ThreeCardMonteViewController sharedThreeCardMonteViewController];
-#warning change back
-    showThreeCardMonte = NO;
+    showThreeCardMonte = YES;
   }
-  
-//  [ArmoryViewController displayView];
   
   [[GameState sharedGameState] resetLockBoxTimers];
   
