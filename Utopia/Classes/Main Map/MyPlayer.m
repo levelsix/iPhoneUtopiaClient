@@ -35,7 +35,11 @@
     
     CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
     frame = frame ? frame : [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png", prefix]];
-    self.sprite = [CCSprite spriteWithSpriteFrame:frame];
+    if (frame) {
+      self.sprite = [CCSprite spriteWithSpriteFrame:frame];
+    } else {
+      self.sprite = [CCSprite node];
+    }
     
     CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
     self.sprite.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), ccp(cp.x, cp.y+5));

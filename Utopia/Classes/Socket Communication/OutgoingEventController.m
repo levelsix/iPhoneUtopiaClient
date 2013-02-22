@@ -340,6 +340,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   BOOL commonEquips = YES;
   BOOL uncommonEquips = YES;
   BOOL rareEquips = YES;
+  BOOL superRareEquips = YES;
   BOOL epicEquips = YES;
   BOOL legendaryEquips = YES;
   
@@ -363,8 +364,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if (!(rarityBarButton & (1 << 1))) legendaryEquips = NO;
     if (!(rarityBarButton & (1 << 2))) epicEquips = NO;
     if (!(rarityBarButton & (1 << 3))) rareEquips = NO;
-    if (!(rarityBarButton & (1 << 4))) uncommonEquips = NO;
-    if (!(rarityBarButton & (1 << 5))) commonEquips = NO;
+    if (!(rarityBarButton & (1 << 4))) superRareEquips = NO;
+    if (!(rarityBarButton & (1 << 5))) uncommonEquips = NO;
+    if (!(rarityBarButton & (1 << 6))) commonEquips = NO;
   }
   
   if (equipMin == 0) equipMin = 1;
@@ -374,7 +376,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (forgeMax == 0) forgeMax = gl.forgeMaxEquipLevel;
   
   int curNumEntries = [[GameState sharedGameState] marketplaceEquipPosts].count;
-  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageWithCurNumEntries:curNumEntries filter:filter commonEquips:commonEquips uncommonEquips:uncommonEquips rareEquips:rareEquips epicEquips:epicEquips legendaryEquips:legendaryEquips myClassOnly:myClassOnly minEquipLevel:equipMin maxEquipLevel:equipMax minForgeLevel:forgeMin maxForgeLevel:forgeMax sortOrder:sortOrder specificEquipId:searchEquipId];
+  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageWithCurNumEntries:curNumEntries filter:filter commonEquips:commonEquips uncommonEquips:uncommonEquips rareEquips:rareEquips superRareEquips:superRareEquips epicEquips:epicEquips legendaryEquips:legendaryEquips myClassOnly:myClassOnly minEquipLevel:equipMin maxEquipLevel:equipMax minForgeLevel:forgeMin maxForgeLevel:forgeMax sortOrder:sortOrder specificEquipId:searchEquipId];
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
@@ -2251,6 +2253,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       u = [GoldUpdate updateWithTag:tag change:-price];
     }
     [gs addUnrespondedUpdate:u];
+  }
+}
+
+- (void) resetBoosterPack:(int)boosterPackId {
+  GameState *gs = [GameState sharedGameState];
+  UserBoosterPackProto *bp = [gs myBoosterPackForId:boosterPackId];
+  
+  BOOL valid = NO;
+  
+  for (UserBoosterItemProto *i in bp.userBoosterItemsList) {
+    if (i.numReceived > 0) {
+      valid = YES;
+    }
+  }
+  
+  if (valid) {
+    [[SocketCommunication sharedSocketCommunication] sendResetBoosterPackMessage:boosterPackId];
+  } else {
+    [Globals popupMessage:@"Attempting to reset full chest."];
   }
 }
 

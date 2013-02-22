@@ -16,6 +16,8 @@
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
 #import "EquipDeltaView.h"
+#import "ArmoryViewController.h"
+#import "MarketplaceViewController.h"
 
 @implementation EquipMenuController
 
@@ -25,7 +27,7 @@
 @synthesize priceIcon, priceLabel;
 @synthesize descriptionLabel;
 @synthesize mainView, bgdView;
-@synthesize buyButton, buyLabel;
+@synthesize buyButton;
 @synthesize loadingView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
@@ -48,6 +50,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
 
 - (void) updateForEquip:(int)eq level:(int)level enhancePercent:(int)enhancePercent {
   equipId = eq;
+  _level = level;
   
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -65,26 +68,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   self.enhanceIcon.level = [gl calculateEnhancementLevel:enhancePercent];
   
   priceIcon.highlighted = [Globals sellsForGoldInMarketplace:fep];
-  if (!fep.isBuyableInArmory) {
+  if (fep.rarity == FullEquipProto_RarityLegendary) {
     priceLabel.text = @"Item must be found.";
     buyButton.enabled = NO;
-    buyLabel.alpha = 0.75f;
   } else if (![Globals class:gs.type canEquip:fep.classType]) {
     priceLabel.text = [NSString stringWithFormat:@"Item not available for %@s", [Globals classForUserType:gs.type]];
     buyButton.enabled = NO;
-    buyLabel.alpha = 0.75f;
-  } else if (level > 1 || [gl calculateEnhancementLevel:enhancePercent] > 0) {
-    priceLabel.text = [NSString stringWithFormat:@"Upgraded items are not available."];
-    buyButton.enabled = NO;
-    buyLabel.alpha = 0.75f;
-  } else if (fep.diamondPrice > 0) {
-    priceLabel.text = [Globals commafyNumber:fep.diamondPrice];
+  } else {
+    priceLabel.text = @"View item in Armory.";
     buyButton.enabled = YES;
-    buyLabel.alpha = 1.f;
-  } else if (fep.coinPrice > 0) {
-    priceLabel.text = [Globals commafyNumber:fep.coinPrice];
-    buyButton.enabled = YES;
-    buyLabel.alpha = 1.f;
   }
   
   [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
@@ -119,16 +111,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
 - (IBAction)buyClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
-  
-  if (fep.coinPrice > gs.silver) {
-    [[RefillMenuController sharedRefillMenuController] displayBuySilverView:fep.coinPrice];
-  } else if (fep.diamondPrice > gs.gold) {
-    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fep.diamondPrice];
-  } else {
-    [[OutgoingEventController sharedOutgoingEventController] buyEquip:equipId];
-    
-    [self.loadingView display:self.view];
-  }
+  [ArmoryViewController displayView];
+  [[ArmoryViewController sharedArmoryViewController] loadForLevel:fep.minLevel rarity:fep.rarity];
+}
+
+- (IBAction)marketplaceClicked:(id)sender {
+  [[MarketplaceViewController sharedMarketplaceViewController] searchForEquipId:equipId level:_level allowAllAbove:YES];
 }
 
 - (void) receivedArmoryResponse:(ArmoryResponseProto *)proto {
@@ -182,7 +170,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
     self.mainView = nil;
     self.bgdView = nil;
     self.buyButton = nil;
-    self.buyLabel = nil;
     self.loadingView = nil;
     self.levelIcon = nil;
     self.enhanceIcon = nil;

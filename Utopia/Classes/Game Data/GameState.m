@@ -20,8 +20,11 @@
 #import "HomeMap.h"
 #import "GoldShoppeViewController.h"
 #import "ClanMenuController.h"
+#import "Downloader.h"
 
 #define TagLog(...) //LNLog(__VA_ARGS__)
+
+#define PURGE_EQUIP_KEY @"Purge Equip Images"
 
 @implementation GameState
 
@@ -726,6 +729,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (FullEquipProto *p in arr) {
     [self.staticEquips setObject:p forKey:[NSNumber numberWithInt:p.equipId]];
   }
+  
+  // Purge all static equips if not done before
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  BOOL purged = [def boolForKey:PURGE_EQUIP_KEY];
+  if (!purged) {
+    for (FullEquipProto *eq in self.staticEquips.allValues) {
+      NSString *s = [Globals imageNameForEquip:eq.equipId];
+      NSString *resName = [CCFileUtils getDoubleResolutionImage:s validate:NO];
+      [[Downloader sharedDownloader] deleteFile:resName];
+    }
+    
+    [[Downloader sharedDownloader] deleteFile:@"enhancelvl1.png"];
+    [[Downloader sharedDownloader] deleteFile:@"enhancelvl2.png"];
+    [[Downloader sharedDownloader] deleteFile:@"enhancelvl3.png"];
+    [[Downloader sharedDownloader] deleteFile:@"enhancelvl4.png"];
+    [[Downloader sharedDownloader] deleteFile:@"enhancelvl5.png"];
+    
+    LNLog(@"Purged all equip images.");
+    [def setBool:YES forKey:PURGE_EQUIP_KEY];
+  }
 }
 
 - (void) addToStaticBuildStructJobs:(NSArray *)arr {
@@ -1334,6 +1357,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if ([ClanMenuController isInitialized]) {
     [[ClanMenuController sharedClanMenuController] updateClanTowers];
   }
+  
+  [[TopBar sharedTopBar] shouldDisplayTowerButton:[self isEngagedInClanTowerWar]];
 }
 
 - (ClanTowerProto *) clanTowerWithId:(int)towerId {
@@ -1398,6 +1423,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (BOOL) isEngagedInClanTowerWar {
+  if (!self.clan) {
+    return NO;
+  }
   for (ClanTowerProto *ctp in self.clanTowers) {
     if (ctp.hasTowerAttacker && ctp.hasTowerOwner) {
       if (ctp.towerAttacker.clanId == self.clan.clanId || ctp.towerOwner.clanId == self.clan.clanId) {
@@ -1457,6 +1485,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticLockBoxEvents = [[[NSMutableArray alloc] init] autorelease];
   self.staticGoldSales = [[[NSMutableArray alloc] init] autorelease];
   self.staticTournaments = [[[NSMutableArray alloc] init] autorelease];
+  self.boosterPacks = nil;
+  self.myBoosterPacks = nil;
   self.clanTierLevels = nil;
 }
 

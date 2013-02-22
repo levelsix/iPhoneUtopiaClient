@@ -12,6 +12,19 @@
 #import "NibUtils.h"
 #import "CoinBar.h"
 #import "ArmoryCarouselView.h"
+#import "LeaderboardController.h"
+
+@interface ArmoryTopBar : UIView {
+  BOOL _trackingButton1;
+  BOOL _trackingButton2;
+  
+  int _clickedButtons;
+}
+
+@property (nonatomic, retain) IBOutlet UIImageView *button1;
+@property (nonatomic, retain) IBOutlet UIImageView *button2;
+
+@end
 
 @interface ArmoryRow : UITableViewCell
 
@@ -25,7 +38,10 @@
 
 @end
 
-@interface ArmoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface ArmoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+  int _level;
+  BOOL _shouldCostCoins;
+}
 
 @property (nonatomic, retain) IBOutlet UITableView *armoryTableView;
 @property (nonatomic, retain) IBOutlet ArmoryRow *armoryRow;
@@ -42,12 +58,26 @@
 @property (nonatomic, retain) IBOutlet ArmoryCarouselView *carouselView;
 @property (nonatomic, retain) IBOutlet ArmoryCardDisplayView *cardDisplayView;
 
+@property (nonatomic, retain) IBOutlet UIView *backView;
+
+@property (nonatomic, retain) IBOutlet ArmoryTopBar *topBar;
+
+@property (nonatomic, retain) IBOutlet UIScrollView *infoScrollView;
+@property (nonatomic, retain) IBOutlet UIImageView *infoImageView;
+
 - (void) refresh;
 - (void) close;
 
+- (void) displayBuyChests;
+- (void) displayInfo;
+
+- (void) loadForLevel:(int)level rarity:(FullEquipProto_Rarity)rarity;
+
 - (IBAction)purchaseClicked:(UIView *)sender;
+- (IBAction)resetClicked:(id)sender;
 
 - (void) receivedPurchaseBoosterPackResponse:(PurchaseBoosterPackResponseProto *)proto;
+- (void) resetBoosterPackResponse:(ResetBoosterPackResponseProto *)proto;
 
 + (ArmoryViewController *) sharedArmoryViewController;
 + (void) displayView;

@@ -334,6 +334,10 @@
 @class RequestJoinClanRequestProto_Builder;
 @class RequestJoinClanResponseProto;
 @class RequestJoinClanResponseProto_Builder;
+@class ResetBoosterPackRequestProto;
+@class ResetBoosterPackRequestProto_Builder;
+@class ResetBoosterPackResponseProto;
+@class ResetBoosterPackResponseProto_Builder;
 @class RetractMarketplacePostRequestProto;
 @class RetractMarketplacePostRequestProto_Builder;
 @class RetractMarketplacePostResponseProto;
@@ -433,6 +437,8 @@
 @class StartupResponseProto_StartupConstants_BattleConstants_Builder;
 @class StartupResponseProto_StartupConstants_BazaarMinLevelConstants;
 @class StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder;
+@class StartupResponseProto_StartupConstants_BoosterPackConstants;
+@class StartupResponseProto_StartupConstants_BoosterPackConstants_Builder;
 @class StartupResponseProto_StartupConstants_Builder;
 @class StartupResponseProto_StartupConstants_CharacterModConstants;
 @class StartupResponseProto_StartupConstants_CharacterModConstants_Builder;
@@ -596,6 +602,7 @@ typedef enum {
   EventProtocolRequestCRetrieveClanTowerScoresEvent = 80,
   EventProtocolRequestCRetrieveBoosterPackEvent = 81,
   EventProtocolRequestCPurchaseBoosterPackEvent = 82,
+  EventProtocolRequestCResetBoosterPackEvent = 83,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -683,6 +690,7 @@ typedef enum {
   EventProtocolResponseSRetrieveClanTowerScoresEvent = 80,
   EventProtocolResponseSRetrieveBoosterPackEvent = 81,
   EventProtocolResponseSPurchaseBoosterPackEvent = 82,
+  EventProtocolResponseSResetBoosterPackEvent = 83,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

@@ -272,15 +272,16 @@
 
 @implementation RarityBar
 
-@synthesize comTab, uncTab, rareTab, epicTab, legTab;
+@synthesize comTab, uncTab, rareTab, srareTab, epicTab, legTab;
 
 - (int) serializeSettings {
   int i = 1;
   if ([self.legTab isTicked]) i |= 1 << 1;
   if ([self.epicTab isTicked]) i |= 1 << 2;
   if ([self.rareTab isTicked]) i |= 1 << 3;
-  if ([self.uncTab isTicked]) i |= 1 << 4;
-  if ([self.comTab isTicked]) i |= 1 << 5;
+  if ([self.srareTab isTicked]) i |= 1 << 4;
+  if ([self.uncTab isTicked]) i |= 1 << 5;
+  if ([self.comTab isTicked]) i |= 1 << 6;
   return i;
 }
 
@@ -290,12 +291,14 @@
     if (val & (1 << 1)) [self.legTab tick]; else [self.legTab untick];
     if (val & (1 << 2)) [self.epicTab tick]; else [self.epicTab untick];
     if (val & (1 << 3)) [self.rareTab tick]; else [self.rareTab untick];
-    if (val & (1 << 4)) [self.uncTab tick]; else [self.uncTab untick];
-    if (val & (1 << 5)) [self.comTab tick]; else [self.comTab untick];
+    if (val & (1 << 4)) [self.srareTab tick]; else [self.rareTab untick];
+    if (val & (1 << 5)) [self.uncTab tick]; else [self.uncTab untick];
+    if (val & (1 << 6)) [self.comTab tick]; else [self.comTab untick];
   } else {
     [self.legTab tick];
     [self.epicTab tick];
     [self.rareTab tick];
+    [self.srareTab tick];
     [self.uncTab tick];
     [self.comTab tick];
   }
@@ -305,6 +308,7 @@
   self.comTab = nil;
   self.uncTab = nil;
   self.rareTab = nil;
+  self.srareTab = nil;
   self.epicTab = nil;
   self.legTab = nil;
   [super dealloc];
@@ -900,6 +904,9 @@
       break;
     case FullEquipProto_RarityRare:
       [self.rarityBar.rareTab tick];
+      break;
+    case FullEquipProto_RaritySuperrare:
+      [self.rarityBar.srareTab tick];
       break;
     case FullEquipProto_RarityEpic:
       [self.rarityBar.epicTab tick];

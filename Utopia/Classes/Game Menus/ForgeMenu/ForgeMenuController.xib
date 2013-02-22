@@ -1928,7 +1928,7 @@
 									<object class="IBUIImageView" id="145347391">
 										<reference key="NSNextResponder" ref="503642793"/>
 										<int key="NSvFlags">256</int>
-										<string key="NSFrame">{{119, 28}, {11, 11}}</string>
+										<string key="NSFrame">{{140, 28}, {11, 11}}</string>
 										<reference key="NSSuperview" ref="503642793"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="903527824"/>
@@ -1942,7 +1942,7 @@
 									<object class="IBUILabel" id="903527824">
 										<reference key="NSNextResponder" ref="503642793"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{131, 25}, {26, 15}}</string>
+										<string key="NSFrame">{{152, 25}, {48, 15}}</string>
 										<reference key="NSSuperview" ref="503642793"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="1045096537"/>
@@ -2006,7 +2006,7 @@
 									<object class="IBUILabel" id="1061243404">
 										<reference key="NSNextResponder" ref="503642793"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{89, 25}, {26, 15}}</string>
+										<string key="NSFrame">{{89, 25}, {48, 15}}</string>
 										<reference key="NSSuperview" ref="503642793"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="145347391"/>
@@ -5251,16 +5251,46 @@
 					<string key="className">ForgeMenuController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="buyOneClicked:">id</string>
+						<string key="checkResultsClicked:">id</string>
 						<string key="closeClicked:">id</string>
+						<string key="finishNowClicked:">id</string>
 						<string key="forgeButtonClicked:">id</string>
+						<string key="goToMarketplaceClicked:">id</string>
+						<string key="infoClicked:">id</string>
+						<string key="okayClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="buyOneClicked:">
+							<string key="name">buyOneClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="checkResultsClicked:">
+							<string key="name">checkResultsClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="closeClicked:">
 							<string key="name">closeClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="finishNowClicked:">
+							<string key="name">finishNowClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="forgeButtonClicked:">
 							<string key="name">forgeButtonClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="goToMarketplaceClicked:">
+							<string key="name">goToMarketplaceClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="infoClicked:">
+							<string key="name">infoClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="okayClicked:">
+							<string key="name">okayClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

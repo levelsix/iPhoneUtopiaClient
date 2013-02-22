@@ -423,7 +423,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCInAppPurchaseEvent];
 }
 
-- (int) sendRetrieveCurrentMarketplacePostsMessageWithCurNumEntries:(int)curNumEntries filter:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter)filter commonEquips:(BOOL)commonEquips uncommonEquips:(BOOL)uncommonEquips rareEquips:(BOOL)rareEquips epicEquips:(BOOL)epicEquips legendaryEquips:(BOOL)legendaryEquips myClassOnly:(BOOL)myClassOnly minEquipLevel:(int)minEquipLevel maxEquipLevel:(int)maxEquipLevel minForgeLevel:(int)minForgeLevel maxForgeLevel:(int)maxForgeLevel sortOrder:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder)sortOrder specificEquipId:(int)specificEquipId {
+- (int) sendRetrieveCurrentMarketplacePostsMessageWithCurNumEntries:(int)curNumEntries filter:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter)filter commonEquips:(BOOL)commonEquips uncommonEquips:(BOOL)uncommonEquips rareEquips:(BOOL)rareEquips superRareEquips:(BOOL)superRareEquips epicEquips:(BOOL)epicEquips legendaryEquips:(BOOL)legendaryEquips myClassOnly:(BOOL)myClassOnly minEquipLevel:(int)minEquipLevel maxEquipLevel:(int)maxEquipLevel minForgeLevel:(int)minForgeLevel maxForgeLevel:(int)maxForgeLevel sortOrder:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder)sortOrder specificEquipId:(int)specificEquipId {
   RetrieveCurrentMarketplacePostsRequestProto_Builder *bldr = [[RetrieveCurrentMarketplacePostsRequestProto builder] setSender:_sender];
   
   bldr.currentNumOfEntries = curNumEntries;
@@ -431,6 +431,7 @@ static NSString *udid = nil;
   bldr.commonEquips = commonEquips;
   bldr.uncommonEquips = uncommonEquips;
   bldr.rareEquips = rareEquips;
+  bldr.superRareEquips = superRareEquips;
   bldr.epicEquips = epicEquips;
   bldr.legendaryEquips = legendaryEquips;
   bldr.myClassOnly = myClassOnly;
@@ -1181,6 +1182,15 @@ static NSString *udid = nil;
                                           build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCPurchaseBoosterPackEvent];
+}
+
+- (int) sendResetBoosterPackMessage:(int)boosterPackId {
+  ResetBoosterPackRequestProto *req = [[[[ResetBoosterPackRequestProto builder]
+                                         setSender:_sender]
+                                        setBoosterPackId:boosterPackId]
+                                       build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCResetBoosterPackEvent];
 }
 
 - (int) addAttackSkillPoint {

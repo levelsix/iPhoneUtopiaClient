@@ -30,8 +30,13 @@
   self.borderIcon.highlighted = YES;
   self.nameLabel.text = fep.name;
   self.nameLabel.textColor = [Globals colorForRarity:fep.rarity];
-  self.attackLabel.text = [Globals commafyNumber:[gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
-  self.defenseLabel.text = [Globals commafyNumber:[gl calculateDefenseForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
+  
+  int oldAttack = [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage];
+  int oldDefense = [gl calculateDefenseForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage];
+  int newAttack = [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage+gl.enhancePercentPerLevel];
+  int newDefense = [gl calculateDefenseForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage+gl.enhancePercentPerLevel];
+  self.attackLabel.text = [NSString stringWithFormat:@"%@+%@", [Globals commafyNumber:oldAttack], [Globals commafyNumber:newAttack-oldAttack]];
+  self.defenseLabel.text = [NSString stringWithFormat:@"%@+%@", [Globals commafyNumber:oldDefense], [Globals commafyNumber:newDefense-oldDefense]];
   
   self.itemChosenView.hidden = NO;
   self.itemNotChosenView.hidden = YES;
@@ -443,6 +448,7 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSArray *arr = [self feederEquips];
+  UserEquip *ue = self.enhancingView.userEquip;
   int secs = [gl calculateMinutesToEnhance:self.enhancingView.userEquip feeders:arr]*60;
   
   NSDate *date = [NSDate dateWithTimeIntervalSince1970:gs.equipEnhancement.startTime/1000.+secs];
@@ -458,6 +464,11 @@
   
   int timePassed = interval > 0 ? secs-interval : secs;
   float percentageOfTotal = ((float)timePassed)/secs;
+  
+  float base = [gl calculatePercentOfLevel:[gl calculateEnhancementPercentageToNextLevel:ue.enhancementPercentage]];
+  float increase = [gl calculatePercentOfLevel:[gl calculateEnhancementPercentageIncrease:ue feeders:arr]];
+  self.enhancingView.topProgressBar.percentage = base+percentageOfTotal*increase;
+  
   float totalPercentIncrease = [gl calculateEnhancementPercentageIncrease:self.enhancingView.userEquip feeders:arr];
   while (1) {
     float percentOfSubSection = [gl calculateEnhancementPercentageIncrease:self.enhancingView.userEquip feeders:arr]/totalPercentIncrease;
@@ -470,10 +481,14 @@
   int i = 0;
   for (; i < arr.count; i++) {
     ForgeEnhanceItemView *fiv = [self.feederViews objectAtIndex:i];
-    fiv.checkmark.hidden = NO;
+    if (fiv.checkmark.hidden) {
+      fiv.checkmark.hidden = NO;
+      [Globals bounceView:fiv.checkmark];
+    }
   }
   for (; i < [self feederEquips].count; i++) {
     ForgeEnhanceItemView *fiv = [self.feederViews objectAtIndex:i];
+    
     fiv.checkmark.hidden = YES;
   }
 }
@@ -606,7 +621,7 @@
     }
   }
   
-  [self performSelector:@selector(updateBottomView) withObject:nil afterDelay:0.35f];
+  [self performSelector:@selector(updateBottomView) withObject:nil afterDelay:0.5f];
   
   ForgeMenuController *fmc = [ForgeMenuController sharedForgeMenuController];
   [fmc.loadingView stop];

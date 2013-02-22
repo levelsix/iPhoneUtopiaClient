@@ -320,6 +320,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSPurchaseBoosterPackEvent:
       responseClass = [PurchaseBoosterPackResponseProto class];
       break;
+    case EventProtocolResponseSResetBoosterPackEvent:
+      responseClass = [ResetBoosterPackResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -2560,10 +2563,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToMyEquips:proto.userEquipsList];
     [gs.myBoosterPacks setObject:proto.userBoosterPack forKey:[NSNumber numberWithInt:proto.userBoosterPack.boosterPackId]];
     
-    for (UserBoosterItemProto *i in proto.userBoosterPack.userBoosterItemsList) {
-      NSLog(@"%d: %d", i.boosterItemId, i.numReceived);
-    }
-    
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusExceedingPurchaseLimit) {
@@ -2572,7 +2571,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       int mins = numMins % 60;
       NSString *h = hrs > 0 ? [NSString stringWithFormat:@"%dh ", hrs] : @"";
       NSString *m = [NSString stringWithFormat:@"%dm", mins];
-      [Globals popupMessage:[NSString stringWithFormat:@"You may only buy %d more of this chest today. Please try again in %@%@", proto.numPacksToExceedLimit, h, m]];
+      NSString *first = proto.numPacksToExceedLimit > 0 ? [NSString stringWithFormat:@"You may only buy %d more of this chest today.", proto.numPacksToExceedLimit] : @"You may not buy anymore of this chest today.";
+      [Globals popupMessage:[NSString stringWithFormat:@"%@ Buy more in %@%@.", first, h, m]];
     } else {
       [Globals popupMessage:@"Server failed to purchase booster pack."];
     }
@@ -2581,6 +2581,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   [[ArmoryViewController sharedArmoryViewController] receivedPurchaseBoosterPackResponse:proto];
+}
+
+- (void) handleResetBoosterPackResponseProto:(FullEvent *)fe {
+  ResetBoosterPackResponseProto *proto = (ResetBoosterPackResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Reset booster pack received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == ResetBoosterPackResponseProto_ResetBoosterPackStatusSuccess) {
+    [gs.myBoosterPacks setObject:proto.userBoosterPack forKey:[NSNumber numberWithInt:proto.userBoosterPack.boosterPackId]];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+  
+  [[ArmoryViewController sharedArmoryViewController] resetBoosterPackResponse:proto];
 }
 
 @end

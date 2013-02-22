@@ -1139,6 +1139,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
     [secondTopBar unclickButton:kButton2];
     [secondTopBar unclickButton:kButton3];
     [secondTopBar clickButton:_lastBrowseButton];
+    _lastButton = _lastBrowseButton;
     
     // Do animation
     self.clanBrowseView.hidden = NO;

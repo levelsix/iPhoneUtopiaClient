@@ -5395,6 +5395,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) NSMutableArray* mutableInAppPurchasePackagesList;
 @property (retain) StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
 @property BOOL useOldBattleFormula;
+@property (retain) StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5989,6 +5990,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 - (void) setUseOldBattleFormula:(BOOL) value {
   useOldBattleFormula_ = !!value;
 }
+- (BOOL) hasBoosterPackConstants {
+  return !!hasBoosterPackConstants_;
+}
+- (void) setHasBoosterPackConstants:(BOOL) value {
+  hasBoosterPackConstants_ = !!value;
+}
+@synthesize boosterPackConstants;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -6008,6 +6016,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.leaderboardConstants = nil;
   self.mutableInAppPurchasePackagesList = nil;
   self.enhanceConstants = nil;
+  self.boosterPackConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -6095,6 +6104,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.leaderboardConstants = [StartupResponseProto_StartupConstants_LeaderboardEventConstants defaultInstance];
     self.enhanceConstants = [StartupResponseProto_StartupConstants_EnhancementConstants defaultInstance];
     self.useOldBattleFormula = NO;
+    self.boosterPackConstants = [StartupResponseProto_StartupConstants_BoosterPackConstants defaultInstance];
   }
   return self;
 }
@@ -6403,6 +6413,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasUseOldBattleFormula) {
     [output writeBool:97 value:self.useOldBattleFormula];
   }
+  if (self.hasBoosterPackConstants) {
+    [output writeMessage:98 value:self.boosterPackConstants];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6683,6 +6696,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasUseOldBattleFormula) {
     size += computeBoolSize(97, self.useOldBattleFormula);
   }
+  if (self.hasBoosterPackConstants) {
+    size += computeMessageSize(98, self.boosterPackConstants);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -6713,6 +6729,260 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_BoosterPackConstants ()
+@property int32_t purchaseOptionOneNumBoosterItems;
+@property int32_t purchaseOptionTwoNumBoosterItems;
+@property (retain) NSString* infoImageName;
+@end
+
+@implementation StartupResponseProto_StartupConstants_BoosterPackConstants
+
+- (BOOL) hasPurchaseOptionOneNumBoosterItems {
+  return !!hasPurchaseOptionOneNumBoosterItems_;
+}
+- (void) setHasPurchaseOptionOneNumBoosterItems:(BOOL) value {
+  hasPurchaseOptionOneNumBoosterItems_ = !!value;
+}
+@synthesize purchaseOptionOneNumBoosterItems;
+- (BOOL) hasPurchaseOptionTwoNumBoosterItems {
+  return !!hasPurchaseOptionTwoNumBoosterItems_;
+}
+- (void) setHasPurchaseOptionTwoNumBoosterItems:(BOOL) value {
+  hasPurchaseOptionTwoNumBoosterItems_ = !!value;
+}
+@synthesize purchaseOptionTwoNumBoosterItems;
+- (BOOL) hasInfoImageName {
+  return !!hasInfoImageName_;
+}
+- (void) setHasInfoImageName:(BOOL) value {
+  hasInfoImageName_ = !!value;
+}
+@synthesize infoImageName;
+- (void) dealloc {
+  self.infoImageName = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.purchaseOptionOneNumBoosterItems = 0;
+    self.purchaseOptionTwoNumBoosterItems = 0;
+    self.infoImageName = @"";
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_BoosterPackConstants* defaultStartupResponseProto_StartupConstants_BoosterPackConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_BoosterPackConstants class]) {
+    defaultStartupResponseProto_StartupConstants_BoosterPackConstantsInstance = [[StartupResponseProto_StartupConstants_BoosterPackConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_BoosterPackConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_BoosterPackConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasPurchaseOptionOneNumBoosterItems) {
+    [output writeInt32:1 value:self.purchaseOptionOneNumBoosterItems];
+  }
+  if (self.hasPurchaseOptionTwoNumBoosterItems) {
+    [output writeInt32:2 value:self.purchaseOptionTwoNumBoosterItems];
+  }
+  if (self.hasInfoImageName) {
+    [output writeString:3 value:self.infoImageName];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasPurchaseOptionOneNumBoosterItems) {
+    size += computeInt32Size(1, self.purchaseOptionOneNumBoosterItems);
+  }
+  if (self.hasPurchaseOptionTwoNumBoosterItems) {
+    size += computeInt32Size(2, self.purchaseOptionTwoNumBoosterItems);
+  }
+  if (self.hasInfoImageName) {
+    size += computeStringSize(3, self.infoImageName);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_BoosterPackConstants*)[[[StartupResponseProto_StartupConstants_BoosterPackConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BoosterPackConstants*)[[[StartupResponseProto_StartupConstants_BoosterPackConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_BoosterPackConstants*)[[[StartupResponseProto_StartupConstants_BoosterPackConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BoosterPackConstants*)[[[StartupResponseProto_StartupConstants_BoosterPackConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_BoosterPackConstants*)[[[StartupResponseProto_StartupConstants_BoosterPackConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BoosterPackConstants*)[[[StartupResponseProto_StartupConstants_BoosterPackConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_BoosterPackConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_BoosterPackConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_BoosterPackConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_BoosterPackConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_BoosterPackConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_BoosterPackConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_BoosterPackConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_BoosterPackConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_BoosterPackConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_BoosterPackConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_BoosterPackConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_BoosterPackConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_BoosterPackConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_BoosterPackConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasPurchaseOptionOneNumBoosterItems) {
+    [self setPurchaseOptionOneNumBoosterItems:other.purchaseOptionOneNumBoosterItems];
+  }
+  if (other.hasPurchaseOptionTwoNumBoosterItems) {
+    [self setPurchaseOptionTwoNumBoosterItems:other.purchaseOptionTwoNumBoosterItems];
+  }
+  if (other.hasInfoImageName) {
+    [self setInfoImageName:other.infoImageName];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setPurchaseOptionOneNumBoosterItems:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setPurchaseOptionTwoNumBoosterItems:[input readInt32]];
+        break;
+      }
+      case 26: {
+        [self setInfoImageName:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasPurchaseOptionOneNumBoosterItems {
+  return result.hasPurchaseOptionOneNumBoosterItems;
+}
+- (int32_t) purchaseOptionOneNumBoosterItems {
+  return result.purchaseOptionOneNumBoosterItems;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) setPurchaseOptionOneNumBoosterItems:(int32_t) value {
+  result.hasPurchaseOptionOneNumBoosterItems = YES;
+  result.purchaseOptionOneNumBoosterItems = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) clearPurchaseOptionOneNumBoosterItems {
+  result.hasPurchaseOptionOneNumBoosterItems = NO;
+  result.purchaseOptionOneNumBoosterItems = 0;
+  return self;
+}
+- (BOOL) hasPurchaseOptionTwoNumBoosterItems {
+  return result.hasPurchaseOptionTwoNumBoosterItems;
+}
+- (int32_t) purchaseOptionTwoNumBoosterItems {
+  return result.purchaseOptionTwoNumBoosterItems;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) setPurchaseOptionTwoNumBoosterItems:(int32_t) value {
+  result.hasPurchaseOptionTwoNumBoosterItems = YES;
+  result.purchaseOptionTwoNumBoosterItems = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) clearPurchaseOptionTwoNumBoosterItems {
+  result.hasPurchaseOptionTwoNumBoosterItems = NO;
+  result.purchaseOptionTwoNumBoosterItems = 0;
+  return self;
+}
+- (BOOL) hasInfoImageName {
+  return result.hasInfoImageName;
+}
+- (NSString*) infoImageName {
+  return result.infoImageName;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) setInfoImageName:(NSString*) value {
+  result.hasInfoImageName = YES;
+  result.infoImageName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) clearInfoImageName {
+  result.hasInfoImageName = NO;
+  result.infoImageName = @"";
+  return self;
 }
 @end
 
@@ -13070,6 +13340,9 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasUseOldBattleFormula) {
     [self setUseOldBattleFormula:other.useOldBattleFormula];
   }
+  if (other.hasBoosterPackConstants) {
+    [self mergeBoosterPackConstants:other.boosterPackConstants];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -13511,6 +13784,15 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 776: {
         [self setUseOldBattleFormula:[input readBool]];
+        break;
+      }
+      case 786: {
+        StartupResponseProto_StartupConstants_BoosterPackConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_BoosterPackConstants builder];
+        if (self.hasBoosterPackConstants) {
+          [subBuilder mergeFrom:self.boosterPackConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setBoosterPackConstants:[subBuilder buildPartial]];
         break;
       }
     }
@@ -15158,6 +15440,36 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearUseOldBattleFormula {
   result.hasUseOldBattleFormula = NO;
   result.useOldBattleFormula = NO;
+  return self;
+}
+- (BOOL) hasBoosterPackConstants {
+  return result.hasBoosterPackConstants;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants*) boosterPackConstants {
+  return result.boosterPackConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setBoosterPackConstants:(StartupResponseProto_StartupConstants_BoosterPackConstants*) value {
+  result.hasBoosterPackConstants = YES;
+  result.boosterPackConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setBoosterPackConstantsBuilder:(StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) builderForValue {
+  return [self setBoosterPackConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeBoosterPackConstants:(StartupResponseProto_StartupConstants_BoosterPackConstants*) value {
+  if (result.hasBoosterPackConstants &&
+      result.boosterPackConstants != [StartupResponseProto_StartupConstants_BoosterPackConstants defaultInstance]) {
+    result.boosterPackConstants =
+      [[[StartupResponseProto_StartupConstants_BoosterPackConstants builderWithPrototype:result.boosterPackConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.boosterPackConstants = value;
+  }
+  result.hasBoosterPackConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearBoosterPackConstants {
+  result.hasBoosterPackConstants = NO;
+  result.boosterPackConstants = [StartupResponseProto_StartupConstants_BoosterPackConstants defaultInstance];
   return self;
 }
 @end
@@ -28914,6 +29226,7 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
 @property BOOL commonEquips;
 @property BOOL uncommonEquips;
 @property BOOL rareEquips;
+@property BOOL superRareEquips;
 @property BOOL epicEquips;
 @property BOOL legendaryEquips;
 @property BOOL myClassOnly;
@@ -28995,6 +29308,18 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
 }
 - (void) setRareEquips:(BOOL) value {
   rareEquips_ = !!value;
+}
+- (BOOL) hasSuperRareEquips {
+  return !!hasSuperRareEquips_;
+}
+- (void) setHasSuperRareEquips:(BOOL) value {
+  hasSuperRareEquips_ = !!value;
+}
+- (BOOL) superRareEquips {
+  return !!superRareEquips_;
+}
+- (void) setSuperRareEquips:(BOOL) value {
+  superRareEquips_ = !!value;
 }
 - (BOOL) hasEpicEquips {
   return !!hasEpicEquips_;
@@ -29087,6 +29412,7 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
     self.commonEquips = NO;
     self.uncommonEquips = NO;
     self.rareEquips = NO;
+    self.superRareEquips = NO;
     self.epicEquips = NO;
     self.legendaryEquips = NO;
     self.myClassOnly = NO;
@@ -29163,6 +29489,9 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   if (self.hasSpecificEquipId) {
     [output writeInt32:16 value:self.specificEquipId];
   }
+  if (self.hasSuperRareEquips) {
+    [output writeBool:17 value:self.superRareEquips];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -29219,6 +29548,9 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   }
   if (self.hasSpecificEquipId) {
     size += computeInt32Size(16, self.specificEquipId);
+  }
+  if (self.hasSuperRareEquips) {
+    size += computeBoolSize(17, self.superRareEquips);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -29339,6 +29671,9 @@ BOOL RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePosts
   }
   if (other.hasRareEquips) {
     [self setRareEquips:other.rareEquips];
+  }
+  if (other.hasSuperRareEquips) {
+    [self setSuperRareEquips:other.superRareEquips];
   }
   if (other.hasEpicEquips) {
     [self setEpicEquips:other.epicEquips];
@@ -29465,6 +29800,10 @@ BOOL RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePosts
       }
       case 128: {
         [self setSpecificEquipId:[input readInt32]];
+        break;
+      }
+      case 136: {
+        [self setSuperRareEquips:[input readBool]];
         break;
       }
     }
@@ -29594,6 +29933,22 @@ BOOL RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePosts
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearRareEquips {
   result.hasRareEquips = NO;
   result.rareEquips = NO;
+  return self;
+}
+- (BOOL) hasSuperRareEquips {
+  return result.hasSuperRareEquips;
+}
+- (BOOL) superRareEquips {
+  return result.superRareEquips;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSuperRareEquips:(BOOL) value {
+  result.hasSuperRareEquips = YES;
+  result.superRareEquips = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSuperRareEquips {
+  result.hasSuperRareEquips = NO;
+  result.superRareEquips = NO;
   return self;
 }
 - (BOOL) hasEpicEquips {
@@ -70053,7 +70408,6 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
     case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusExceedingPurchaseLimit:
     case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusOtherFail:
     case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusClientTooApartFromServerTime:
-    case PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusBoosterPackSoldOut:
       return YES;
     default:
       return NO;
@@ -70322,6 +70676,548 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (PurchaseBoosterPackResponseProto_Builder*) clearNumPacksToExceedLimit {
   result.hasNumPacksToExceedLimit = NO;
   result.numPacksToExceedLimit = 0;
+  return self;
+}
+@end
+
+@interface ResetBoosterPackRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t boosterPackId;
+@end
+
+@implementation ResetBoosterPackRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasBoosterPackId {
+  return !!hasBoosterPackId_;
+}
+- (void) setHasBoosterPackId:(BOOL) value {
+  hasBoosterPackId_ = !!value;
+}
+@synthesize boosterPackId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.boosterPackId = 0;
+  }
+  return self;
+}
+static ResetBoosterPackRequestProto* defaultResetBoosterPackRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [ResetBoosterPackRequestProto class]) {
+    defaultResetBoosterPackRequestProtoInstance = [[ResetBoosterPackRequestProto alloc] init];
+  }
+}
++ (ResetBoosterPackRequestProto*) defaultInstance {
+  return defaultResetBoosterPackRequestProtoInstance;
+}
+- (ResetBoosterPackRequestProto*) defaultInstance {
+  return defaultResetBoosterPackRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasBoosterPackId) {
+    [output writeInt32:2 value:self.boosterPackId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasBoosterPackId) {
+    size += computeInt32Size(2, self.boosterPackId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ResetBoosterPackRequestProto*) parseFromData:(NSData*) data {
+  return (ResetBoosterPackRequestProto*)[[[ResetBoosterPackRequestProto builder] mergeFromData:data] build];
+}
++ (ResetBoosterPackRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResetBoosterPackRequestProto*)[[[ResetBoosterPackRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ResetBoosterPackRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ResetBoosterPackRequestProto*)[[[ResetBoosterPackRequestProto builder] mergeFromInputStream:input] build];
+}
++ (ResetBoosterPackRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResetBoosterPackRequestProto*)[[[ResetBoosterPackRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ResetBoosterPackRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ResetBoosterPackRequestProto*)[[[ResetBoosterPackRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ResetBoosterPackRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResetBoosterPackRequestProto*)[[[ResetBoosterPackRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ResetBoosterPackRequestProto_Builder*) builder {
+  return [[[ResetBoosterPackRequestProto_Builder alloc] init] autorelease];
+}
++ (ResetBoosterPackRequestProto_Builder*) builderWithPrototype:(ResetBoosterPackRequestProto*) prototype {
+  return [[ResetBoosterPackRequestProto builder] mergeFrom:prototype];
+}
+- (ResetBoosterPackRequestProto_Builder*) builder {
+  return [ResetBoosterPackRequestProto builder];
+}
+@end
+
+@interface ResetBoosterPackRequestProto_Builder()
+@property (retain) ResetBoosterPackRequestProto* result;
+@end
+
+@implementation ResetBoosterPackRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ResetBoosterPackRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ResetBoosterPackRequestProto_Builder*) clear {
+  self.result = [[[ResetBoosterPackRequestProto alloc] init] autorelease];
+  return self;
+}
+- (ResetBoosterPackRequestProto_Builder*) clone {
+  return [ResetBoosterPackRequestProto builderWithPrototype:result];
+}
+- (ResetBoosterPackRequestProto*) defaultInstance {
+  return [ResetBoosterPackRequestProto defaultInstance];
+}
+- (ResetBoosterPackRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ResetBoosterPackRequestProto*) buildPartial {
+  ResetBoosterPackRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ResetBoosterPackRequestProto_Builder*) mergeFrom:(ResetBoosterPackRequestProto*) other {
+  if (other == [ResetBoosterPackRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasBoosterPackId) {
+    [self setBoosterPackId:other.boosterPackId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ResetBoosterPackRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ResetBoosterPackRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setBoosterPackId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ResetBoosterPackRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ResetBoosterPackRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ResetBoosterPackRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ResetBoosterPackRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasBoosterPackId {
+  return result.hasBoosterPackId;
+}
+- (int32_t) boosterPackId {
+  return result.boosterPackId;
+}
+- (ResetBoosterPackRequestProto_Builder*) setBoosterPackId:(int32_t) value {
+  result.hasBoosterPackId = YES;
+  result.boosterPackId = value;
+  return self;
+}
+- (ResetBoosterPackRequestProto_Builder*) clearBoosterPackId {
+  result.hasBoosterPackId = NO;
+  result.boosterPackId = 0;
+  return self;
+}
+@end
+
+@interface ResetBoosterPackResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) UserBoosterPackProto* userBoosterPack;
+@property ResetBoosterPackResponseProto_ResetBoosterPackStatus status;
+@end
+
+@implementation ResetBoosterPackResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasUserBoosterPack {
+  return !!hasUserBoosterPack_;
+}
+- (void) setHasUserBoosterPack:(BOOL) value {
+  hasUserBoosterPack_ = !!value;
+}
+@synthesize userBoosterPack;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  self.userBoosterPack = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.userBoosterPack = [UserBoosterPackProto defaultInstance];
+    self.status = ResetBoosterPackResponseProto_ResetBoosterPackStatusSuccess;
+  }
+  return self;
+}
+static ResetBoosterPackResponseProto* defaultResetBoosterPackResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ResetBoosterPackResponseProto class]) {
+    defaultResetBoosterPackResponseProtoInstance = [[ResetBoosterPackResponseProto alloc] init];
+  }
+}
++ (ResetBoosterPackResponseProto*) defaultInstance {
+  return defaultResetBoosterPackResponseProtoInstance;
+}
+- (ResetBoosterPackResponseProto*) defaultInstance {
+  return defaultResetBoosterPackResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasUserBoosterPack) {
+    [output writeMessage:2 value:self.userBoosterPack];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasUserBoosterPack) {
+    size += computeMessageSize(2, self.userBoosterPack);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(3, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ResetBoosterPackResponseProto*) parseFromData:(NSData*) data {
+  return (ResetBoosterPackResponseProto*)[[[ResetBoosterPackResponseProto builder] mergeFromData:data] build];
+}
++ (ResetBoosterPackResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResetBoosterPackResponseProto*)[[[ResetBoosterPackResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ResetBoosterPackResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ResetBoosterPackResponseProto*)[[[ResetBoosterPackResponseProto builder] mergeFromInputStream:input] build];
+}
++ (ResetBoosterPackResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResetBoosterPackResponseProto*)[[[ResetBoosterPackResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ResetBoosterPackResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ResetBoosterPackResponseProto*)[[[ResetBoosterPackResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ResetBoosterPackResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResetBoosterPackResponseProto*)[[[ResetBoosterPackResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ResetBoosterPackResponseProto_Builder*) builder {
+  return [[[ResetBoosterPackResponseProto_Builder alloc] init] autorelease];
+}
++ (ResetBoosterPackResponseProto_Builder*) builderWithPrototype:(ResetBoosterPackResponseProto*) prototype {
+  return [[ResetBoosterPackResponseProto builder] mergeFrom:prototype];
+}
+- (ResetBoosterPackResponseProto_Builder*) builder {
+  return [ResetBoosterPackResponseProto builder];
+}
+@end
+
+BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoosterPackResponseProto_ResetBoosterPackStatus value) {
+  switch (value) {
+    case ResetBoosterPackResponseProto_ResetBoosterPackStatusSuccess:
+    case ResetBoosterPackResponseProto_ResetBoosterPackStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface ResetBoosterPackResponseProto_Builder()
+@property (retain) ResetBoosterPackResponseProto* result;
+@end
+
+@implementation ResetBoosterPackResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ResetBoosterPackResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ResetBoosterPackResponseProto_Builder*) clear {
+  self.result = [[[ResetBoosterPackResponseProto alloc] init] autorelease];
+  return self;
+}
+- (ResetBoosterPackResponseProto_Builder*) clone {
+  return [ResetBoosterPackResponseProto builderWithPrototype:result];
+}
+- (ResetBoosterPackResponseProto*) defaultInstance {
+  return [ResetBoosterPackResponseProto defaultInstance];
+}
+- (ResetBoosterPackResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ResetBoosterPackResponseProto*) buildPartial {
+  ResetBoosterPackResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ResetBoosterPackResponseProto_Builder*) mergeFrom:(ResetBoosterPackResponseProto*) other {
+  if (other == [ResetBoosterPackResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasUserBoosterPack) {
+    [self mergeUserBoosterPack:other.userBoosterPack];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ResetBoosterPackResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ResetBoosterPackResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        UserBoosterPackProto_Builder* subBuilder = [UserBoosterPackProto builder];
+        if (self.hasUserBoosterPack) {
+          [subBuilder mergeFrom:self.userBoosterPack];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUserBoosterPack:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ResetBoosterPackResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ResetBoosterPackResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ResetBoosterPackResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ResetBoosterPackResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasUserBoosterPack {
+  return result.hasUserBoosterPack;
+}
+- (UserBoosterPackProto*) userBoosterPack {
+  return result.userBoosterPack;
+}
+- (ResetBoosterPackResponseProto_Builder*) setUserBoosterPack:(UserBoosterPackProto*) value {
+  result.hasUserBoosterPack = YES;
+  result.userBoosterPack = value;
+  return self;
+}
+- (ResetBoosterPackResponseProto_Builder*) setUserBoosterPackBuilder:(UserBoosterPackProto_Builder*) builderForValue {
+  return [self setUserBoosterPack:[builderForValue build]];
+}
+- (ResetBoosterPackResponseProto_Builder*) mergeUserBoosterPack:(UserBoosterPackProto*) value {
+  if (result.hasUserBoosterPack &&
+      result.userBoosterPack != [UserBoosterPackProto defaultInstance]) {
+    result.userBoosterPack =
+      [[[UserBoosterPackProto builderWithPrototype:result.userBoosterPack] mergeFrom:value] buildPartial];
+  } else {
+    result.userBoosterPack = value;
+  }
+  result.hasUserBoosterPack = YES;
+  return self;
+}
+- (ResetBoosterPackResponseProto_Builder*) clearUserBoosterPack {
+  result.hasUserBoosterPack = NO;
+  result.userBoosterPack = [UserBoosterPackProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (ResetBoosterPackResponseProto_ResetBoosterPackStatus) status {
+  return result.status;
+}
+- (ResetBoosterPackResponseProto_Builder*) setStatus:(ResetBoosterPackResponseProto_ResetBoosterPackStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (ResetBoosterPackResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = ResetBoosterPackResponseProto_ResetBoosterPackStatusSuccess;
   return self;
 }
 @end

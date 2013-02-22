@@ -157,5 +157,6 @@
 - (void) retrieveClanTowerScores:(int)towerId;
 
 - (void) purchaseBoosterPack:(int)boosterPackId purchaseOption:(PurchaseOption)option;
+- (void) resetBoosterPack:(int)boosterPackId;
 
 @end

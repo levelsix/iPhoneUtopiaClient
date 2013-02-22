@@ -427,14 +427,16 @@
   GameState *gs = [GameState sharedGameState];
   NSString *prefix = [Globals animatedSpritePrefix:gs.type];
   NSArray *files = [NSArray arrayWithObjects:
+                    [NSString stringWithFormat:@"%@AttackNF.plist", prefix],
+                    [NSString stringWithFormat:@"%@AttackNF.pvr.ccz", prefix],
+                    [NSString stringWithFormat:@"%@WalkUD.plist", prefix],
+                    [NSString stringWithFormat:@"%@WalkUD.pvr.ccz", prefix],
+                    [NSString stringWithFormat:@"%@WalkNF.plist", prefix],
+                    [NSString stringWithFormat:@"%@WalkNF.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@GenericNF.plist", prefix],
                     [NSString stringWithFormat:@"%@GenericNF.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@AttackLR.plist", prefix],
                     [NSString stringWithFormat:@"%@AttackLR.pvr.ccz", prefix],
-                    [NSString stringWithFormat:@"%@WalkUD.plist", prefix],
-                    [NSString stringWithFormat:@"%@WalkUD.pvr.ccz", prefix],
-                    [NSString stringWithFormat:@"%@AttackNF.plist", prefix],
-                    [NSString stringWithFormat:@"%@AttackNF.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@AttackUD.plist", prefix],
                     [NSString stringWithFormat:@"%@AttackUD.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@GenericLR.plist", prefix],
@@ -443,11 +445,14 @@
                     [NSString stringWithFormat:@"%@GenericUD.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@WalkLR.plist", prefix],
                     [NSString stringWithFormat:@"%@WalkLR.pvr.ccz", prefix],
+                    @"AllianceArcherWalkNF.plist", @"AllianceArcherWalkNF.pvr.ccz",
+                    @"AllianceMageWalkNF.plist", @"AllianceMageWalkNF.pvr.ccz",
+                    @"LegionArcherWalkNF.plist", @"LegionArcherWalkNF.pvr.ccz",
+                    @"LegionMageWalkNF.plist", @"LegionMageWalkNF.pvr.ccz",
                     nil];
   
   for (NSString *file in files) {
-    NSString *doubleRes = [CCFileUtils getDoubleResolutionImage:file validate:NO];
-    [[Downloader sharedDownloader] asyncDownloadFile:doubleRes completion:nil];
+    [Globals imageNamed:file withImageView:nil maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
   }
 }
 

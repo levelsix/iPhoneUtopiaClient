@@ -334,6 +334,10 @@
 @class RequestJoinClanRequestProto_Builder;
 @class RequestJoinClanResponseProto;
 @class RequestJoinClanResponseProto_Builder;
+@class ResetBoosterPackRequestProto;
+@class ResetBoosterPackRequestProto_Builder;
+@class ResetBoosterPackResponseProto;
+@class ResetBoosterPackResponseProto_Builder;
 @class RetractMarketplacePostRequestProto;
 @class RetractMarketplacePostRequestProto_Builder;
 @class RetractMarketplacePostResponseProto;
@@ -433,6 +437,8 @@
 @class StartupResponseProto_StartupConstants_BattleConstants_Builder;
 @class StartupResponseProto_StartupConstants_BazaarMinLevelConstants;
 @class StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder;
+@class StartupResponseProto_StartupConstants_BoosterPackConstants;
+@class StartupResponseProto_StartupConstants_BoosterPackConstants_Builder;
 @class StartupResponseProto_StartupConstants_Builder;
 @class StartupResponseProto_StartupConstants_CharacterModConstants;
 @class StartupResponseProto_StartupConstants_CharacterModConstants_Builder;
@@ -1332,10 +1338,16 @@ typedef enum {
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusExceedingPurchaseLimit = 3,
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusOtherFail = 4,
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusClientTooApartFromServerTime = 5,
-  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusBoosterPackSoldOut = 6,
 } PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus;
 
 BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus value);
+
+typedef enum {
+  ResetBoosterPackResponseProto_ResetBoosterPackStatusSuccess = 0,
+  ResetBoosterPackResponseProto_ResetBoosterPackStatusOtherFail = 1,
+} ResetBoosterPackResponseProto_ResetBoosterPackStatus;
+
+BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoosterPackResponseProto_ResetBoosterPackStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -2576,32 +2588,30 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasUseOldBattleFormula_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasHealthFormulaExponentBase_:1;
+  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
+  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
+  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
+  BOOL hasBossEventSuperAttack_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
-  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
-  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasBossEventSuperAttack_:1;
-  BOOL hasMaxCityRank_:1;
-  BOOL hasArmoryImgVerticalPixelOffset_:1;
-  BOOL hasVaultImgVerticalPixelOffset_:1;
-  BOOL hasMarketplaceImgVerticalPixelOffset_:1;
-  BOOL hasCarpenterImgVerticalPixelOffset_:1;
-  BOOL hasAviaryImgVerticalPixelOffset_:1;
-  BOOL hasMaxCharLengthForWallPost_:1;
+  BOOL hasMinClanMembersToHoldClanTower_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
-  BOOL hasAverageSizeOfLevelBracket_:1;
+  BOOL hasMaxCharLengthForWallPost_:1;
+  BOOL hasAviaryImgVerticalPixelOffset_:1;
+  BOOL hasCarpenterImgVerticalPixelOffset_:1;
+  BOOL hasMarketplaceImgVerticalPixelOffset_:1;
+  BOOL hasVaultImgVerticalPixelOffset_:1;
+  BOOL hasArmoryImgVerticalPixelOffset_:1;
+  BOOL hasMaxCityRank_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasNumDaysUntilFreeRetract_:1;
-  BOOL hasMinClanMembersToHoldClanTower_:1;
-  BOOL hasInitStamina_:1;
-  BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
-  BOOL hasLevelToShowRateUsPopup_:1;
-  BOOL hasNumHoursBeforeReshowingBossEvent_:1;
-  BOOL hasNumHoursBeforeReshowingLockBox_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
+  BOOL hasNumHoursBeforeReshowingLockBox_:1;
+  BOOL hasNumHoursBeforeReshowingBossEvent_:1;
+  BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
   BOOL hasMaxLengthOfChatString_:1;
   BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
   BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
@@ -2612,7 +2622,8 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
   BOOL hasMaxNameLength_:1;
   BOOL hasMinNameLength_:1;
   BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
-  BOOL hasDefenseBaseCost_:1;
+  BOOL hasInitStamina_:1;
+  BOOL hasAverageSizeOfLevelBracket_:1;
   BOOL hasAttackBaseCost_:1;
   BOOL hasStaminaBaseGain_:1;
   BOOL hasEnergyBaseGain_:1;
@@ -2630,61 +2641,61 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
   BOOL hasArmoryXlength_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
-  BOOL hasDiamondCostForFullStaminaRefill_:1;
-  BOOL hasDiamondCostForFullEnergyRefill_:1;
-  BOOL hasMaxNumberOfMarketplacePosts_:1;
+  BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
+  BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
+  BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
   BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
+  BOOL hasMaxNumberOfMarketplacePosts_:1;
+  BOOL hasDiamondCostForFullEnergyRefill_:1;
+  BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasMinutesToRefillAstamina_:1;
   BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
-  BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
-  BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasMaxLevelForStruct_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
-  BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
   BOOL hasStaminaBaseCost_:1;
   BOOL hasEnergyBaseCost_:1;
-  BOOL hasMinLevelConstants_:1;
-  BOOL hasLeaderboardConstants_:1;
+  BOOL hasDefenseBaseCost_:1;
   BOOL hasEnhanceConstants_:1;
+  BOOL hasLeaderboardConstants_:1;
+  BOOL hasMinLevelConstants_:1;
+  BOOL hasBoosterPackConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasExpansionConstants_:1;
   BOOL hasLockBoxConstants_:1;
   BOOL hasGoldmineConstants_:1;
   BOOL hasThreeCardMonteConstants_:1;
   BOOL hasClanConstants_:1;
-  BOOL hasFormulaConstants_:1;
-  BOOL hasBattleConstants_:1;
-  BOOL hasKiipRewardConditions_:1;
   BOOL hasCharModConstants_:1;
   BOOL hasForgeConstants_:1;
+  BOOL hasKiipRewardConditions_:1;
+  BOOL hasBattleConstants_:1;
+  BOOL hasFormulaConstants_:1;
   BOOL useOldBattleFormula_:1;
-  Float64 levelEquipBoostExponentBase;
   Float64 healthFormulaExponentBase;
+  Float64 percentReturnedToUserForSellingEquipInArmory;
+  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+  Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+  Float64 levelEquipBoostExponentBase;
+  Float64 bossEventSuperAttack;
   Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingNormStructure;
-  Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
-  Float64 percentReturnedToUserForSellingEquipInArmory;
-  Float64 bossEventSuperAttack;
-  int32_t maxCityRank;
-  int32_t armoryImgVerticalPixelOffset;
-  int32_t vaultImgVerticalPixelOffset;
-  int32_t marketplaceImgVerticalPixelOffset;
-  int32_t carpenterImgVerticalPixelOffset;
-  int32_t aviaryImgVerticalPixelOffset;
-  int32_t maxCharLengthForWallPost;
+  int32_t minClanMembersToHoldClanTower;
   int32_t playerWallPostsRetrieveCap;
-  int32_t averageSizeOfLevelBracket;
+  int32_t maxCharLengthForWallPost;
+  int32_t aviaryImgVerticalPixelOffset;
+  int32_t carpenterImgVerticalPixelOffset;
+  int32_t marketplaceImgVerticalPixelOffset;
+  int32_t vaultImgVerticalPixelOffset;
+  int32_t armoryImgVerticalPixelOffset;
+  int32_t maxCityRank;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t numDaysUntilFreeRetract;
-  int32_t minClanMembersToHoldClanTower;
-  int32_t initStamina;
-  int32_t bossEventNumberOfAttacksUntilSuperAttack;
-  int32_t levelToShowRateUsPopup;
-  int32_t numHoursBeforeReshowingBossEvent;
-  int32_t numHoursBeforeReshowingLockBox;
   int32_t numHoursBeforeReshowingGoldSale;
+  int32_t numHoursBeforeReshowingLockBox;
+  int32_t numHoursBeforeReshowingBossEvent;
+  int32_t levelToShowRateUsPopup;
+  int32_t bossEventNumberOfAttacksUntilSuperAttack;
   int32_t maxLengthOfChatString;
   int32_t diamondPriceForGroupChatPurchasePackage;
   int32_t numChatsGivenPerGroupChatPurchasePackage;
@@ -2695,7 +2706,8 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
   int32_t maxNameLength;
   int32_t minNameLength;
   int32_t adColonyVideosRequiredToRedeemDiamonds;
-  int32_t defenseBaseCost;
+  int32_t initStamina;
+  int32_t averageSizeOfLevelBracket;
   int32_t attackBaseCost;
   int32_t staminaBaseGain;
   int32_t energyBaseGain;
@@ -2713,34 +2725,36 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
   int32_t armoryXlength;
   int32_t maxLevelForUser;
   int32_t maxLevelDifferenceForBattle;
-  int32_t diamondCostForFullStaminaRefill;
-  int32_t diamondCostForFullEnergyRefill;
-  int32_t maxNumberOfMarketplacePosts;
+  int32_t diamondCostOfShortMarketplaceLicense;
+  int32_t diamondCostOfLongMarketplaceLicense;
+  int32_t numDaysShortMarketplaceLicenseLastsFor;
   int32_t numDaysLongMarketplaceLicenseLastsFor;
+  int32_t maxNumberOfMarketplacePosts;
+  int32_t diamondCostForFullEnergyRefill;
+  int32_t diamondCostForFullStaminaRefill;
   int32_t minutesToRefillAstamina;
   int32_t minutesToRefillAenergy;
   int32_t maxNumOfSingleStruct;
-  int32_t numDaysShortMarketplaceLicenseLastsFor;
-  int32_t diamondCostOfLongMarketplaceLicense;
   int32_t maxLevelForStruct;
   int32_t skillPointsGainedOnLevelup;
-  int32_t diamondCostOfShortMarketplaceLicense;
   int32_t staminaBaseCost;
   int32_t energyBaseCost;
-  StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
-  StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
+  int32_t defenseBaseCost;
   StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
+  StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
+  StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
+  StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
   StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
   StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
   StartupResponseProto_StartupConstants_ThreeCardMonteConstants* threeCardMonteConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-  StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
-  StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
-  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
   StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
   StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
+  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
+  StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
+  StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
@@ -2829,6 +2843,7 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (BOOL) hasLeaderboardConstants;
 - (BOOL) hasEnhanceConstants;
 - (BOOL) hasUseOldBattleFormula;
+- (BOOL) hasBoosterPackConstants;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2912,6 +2927,7 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 @property (readonly, retain) StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
 @property (readonly, retain) StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
 - (BOOL) useOldBattleFormula;
+@property (readonly, retain) StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2936,6 +2952,72 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_BoosterPackConstants : PBGeneratedMessage {
+@private
+  BOOL hasPurchaseOptionOneNumBoosterItems_:1;
+  BOOL hasPurchaseOptionTwoNumBoosterItems_:1;
+  BOOL hasInfoImageName_:1;
+  int32_t purchaseOptionOneNumBoosterItems;
+  int32_t purchaseOptionTwoNumBoosterItems;
+  NSString* infoImageName;
+}
+- (BOOL) hasPurchaseOptionOneNumBoosterItems;
+- (BOOL) hasPurchaseOptionTwoNumBoosterItems;
+- (BOOL) hasInfoImageName;
+@property (readonly) int32_t purchaseOptionOneNumBoosterItems;
+@property (readonly) int32_t purchaseOptionTwoNumBoosterItems;
+@property (readonly, retain) NSString* infoImageName;
+
++ (StartupResponseProto_StartupConstants_BoosterPackConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_BoosterPackConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_BoosterPackConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_BoosterPackConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_BoosterPackConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_BoosterPackConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_BoosterPackConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_BoosterPackConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_BoosterPackConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_BoosterPackConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_BoosterPackConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_BoosterPackConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_BoosterPackConstants*) build;
+- (StartupResponseProto_StartupConstants_BoosterPackConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_BoosterPackConstants*) other;
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasPurchaseOptionOneNumBoosterItems;
+- (int32_t) purchaseOptionOneNumBoosterItems;
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) setPurchaseOptionOneNumBoosterItems:(int32_t) value;
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) clearPurchaseOptionOneNumBoosterItems;
+
+- (BOOL) hasPurchaseOptionTwoNumBoosterItems;
+- (int32_t) purchaseOptionTwoNumBoosterItems;
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) setPurchaseOptionTwoNumBoosterItems:(int32_t) value;
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) clearPurchaseOptionTwoNumBoosterItems;
+
+- (BOOL) hasInfoImageName;
+- (NSString*) infoImageName;
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) setInfoImageName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) clearInfoImageName;
 @end
 
 @interface StartupResponseProto_StartupConstants_EnhancementConstants : PBGeneratedMessage {
@@ -4932,6 +5014,13 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (BOOL) useOldBattleFormula;
 - (StartupResponseProto_StartupConstants_Builder*) setUseOldBattleFormula:(BOOL) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearUseOldBattleFormula;
+
+- (BOOL) hasBoosterPackConstants;
+- (StartupResponseProto_StartupConstants_BoosterPackConstants*) boosterPackConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setBoosterPackConstants:(StartupResponseProto_StartupConstants_BoosterPackConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setBoosterPackConstantsBuilder:(StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeBoosterPackConstants:(StartupResponseProto_StartupConstants_BoosterPackConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearBoosterPackConstants;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -8033,15 +8122,16 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
   BOOL hasCommonEquips_:1;
   BOOL hasUncommonEquips_:1;
   BOOL hasRareEquips_:1;
+  BOOL hasSuperRareEquips_:1;
   BOOL hasEpicEquips_:1;
   BOOL hasLegendaryEquips_:1;
   BOOL hasMyClassOnly_:1;
-  BOOL hasCurrentNumOfEntries_:1;
-  BOOL hasMinEquipLevel_:1;
-  BOOL hasMaxEquipLevel_:1;
-  BOOL hasMinForgeLevel_:1;
-  BOOL hasMaxForgeLevel_:1;
   BOOL hasSpecificEquipId_:1;
+  BOOL hasMaxForgeLevel_:1;
+  BOOL hasMinForgeLevel_:1;
+  BOOL hasMaxEquipLevel_:1;
+  BOOL hasMinEquipLevel_:1;
+  BOOL hasCurrentNumOfEntries_:1;
   BOOL hasSender_:1;
   BOOL hasFilter_:1;
   BOOL hasSortOrder_:1;
@@ -8049,15 +8139,16 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
   BOOL commonEquips_:1;
   BOOL uncommonEquips_:1;
   BOOL rareEquips_:1;
+  BOOL superRareEquips_:1;
   BOOL epicEquips_:1;
   BOOL legendaryEquips_:1;
   BOOL myClassOnly_:1;
-  int32_t currentNumOfEntries;
-  int32_t minEquipLevel;
-  int32_t maxEquipLevel;
-  int32_t minForgeLevel;
-  int32_t maxForgeLevel;
   int32_t specificEquipId;
+  int32_t maxForgeLevel;
+  int32_t minForgeLevel;
+  int32_t maxEquipLevel;
+  int32_t minEquipLevel;
+  int32_t currentNumOfEntries;
   MinimumUserProto* sender;
   RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter filter;
   RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder sortOrder;
@@ -8069,6 +8160,7 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (BOOL) hasCommonEquips;
 - (BOOL) hasUncommonEquips;
 - (BOOL) hasRareEquips;
+- (BOOL) hasSuperRareEquips;
 - (BOOL) hasEpicEquips;
 - (BOOL) hasLegendaryEquips;
 - (BOOL) hasMyClassOnly;
@@ -8085,6 +8177,7 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (BOOL) commonEquips;
 - (BOOL) uncommonEquips;
 - (BOOL) rareEquips;
+- (BOOL) superRareEquips;
 - (BOOL) epicEquips;
 - (BOOL) legendaryEquips;
 - (BOOL) myClassOnly;
@@ -8165,6 +8258,11 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (BOOL) rareEquips;
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setRareEquips:(BOOL) value;
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearRareEquips;
+
+- (BOOL) hasSuperRareEquips;
+- (BOOL) superRareEquips;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSuperRareEquips:(BOOL) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSuperRareEquips;
 
 - (BOOL) hasEpicEquips;
 - (BOOL) epicEquips;
@@ -17645,5 +17743,134 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (int32_t) numPacksToExceedLimit;
 - (PurchaseBoosterPackResponseProto_Builder*) setNumPacksToExceedLimit:(int32_t) value;
 - (PurchaseBoosterPackResponseProto_Builder*) clearNumPacksToExceedLimit;
+@end
+
+@interface ResetBoosterPackRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasBoosterPackId_:1;
+  BOOL hasSender_:1;
+  int32_t boosterPackId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasBoosterPackId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t boosterPackId;
+
++ (ResetBoosterPackRequestProto*) defaultInstance;
+- (ResetBoosterPackRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ResetBoosterPackRequestProto_Builder*) builder;
++ (ResetBoosterPackRequestProto_Builder*) builder;
++ (ResetBoosterPackRequestProto_Builder*) builderWithPrototype:(ResetBoosterPackRequestProto*) prototype;
+
++ (ResetBoosterPackRequestProto*) parseFromData:(NSData*) data;
++ (ResetBoosterPackRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ResetBoosterPackRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (ResetBoosterPackRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ResetBoosterPackRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ResetBoosterPackRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ResetBoosterPackRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ResetBoosterPackRequestProto* result;
+}
+
+- (ResetBoosterPackRequestProto*) defaultInstance;
+
+- (ResetBoosterPackRequestProto_Builder*) clear;
+- (ResetBoosterPackRequestProto_Builder*) clone;
+
+- (ResetBoosterPackRequestProto*) build;
+- (ResetBoosterPackRequestProto*) buildPartial;
+
+- (ResetBoosterPackRequestProto_Builder*) mergeFrom:(ResetBoosterPackRequestProto*) other;
+- (ResetBoosterPackRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ResetBoosterPackRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ResetBoosterPackRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ResetBoosterPackRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ResetBoosterPackRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ResetBoosterPackRequestProto_Builder*) clearSender;
+
+- (BOOL) hasBoosterPackId;
+- (int32_t) boosterPackId;
+- (ResetBoosterPackRequestProto_Builder*) setBoosterPackId:(int32_t) value;
+- (ResetBoosterPackRequestProto_Builder*) clearBoosterPackId;
+@end
+
+@interface ResetBoosterPackResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasUserBoosterPack_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  UserBoosterPackProto* userBoosterPack;
+  ResetBoosterPackResponseProto_ResetBoosterPackStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasUserBoosterPack;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) UserBoosterPackProto* userBoosterPack;
+@property (readonly) ResetBoosterPackResponseProto_ResetBoosterPackStatus status;
+
++ (ResetBoosterPackResponseProto*) defaultInstance;
+- (ResetBoosterPackResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ResetBoosterPackResponseProto_Builder*) builder;
++ (ResetBoosterPackResponseProto_Builder*) builder;
++ (ResetBoosterPackResponseProto_Builder*) builderWithPrototype:(ResetBoosterPackResponseProto*) prototype;
+
++ (ResetBoosterPackResponseProto*) parseFromData:(NSData*) data;
++ (ResetBoosterPackResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ResetBoosterPackResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ResetBoosterPackResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ResetBoosterPackResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ResetBoosterPackResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ResetBoosterPackResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ResetBoosterPackResponseProto* result;
+}
+
+- (ResetBoosterPackResponseProto*) defaultInstance;
+
+- (ResetBoosterPackResponseProto_Builder*) clear;
+- (ResetBoosterPackResponseProto_Builder*) clone;
+
+- (ResetBoosterPackResponseProto*) build;
+- (ResetBoosterPackResponseProto*) buildPartial;
+
+- (ResetBoosterPackResponseProto_Builder*) mergeFrom:(ResetBoosterPackResponseProto*) other;
+- (ResetBoosterPackResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ResetBoosterPackResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ResetBoosterPackResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ResetBoosterPackResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ResetBoosterPackResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ResetBoosterPackResponseProto_Builder*) clearSender;
+
+- (BOOL) hasUserBoosterPack;
+- (UserBoosterPackProto*) userBoosterPack;
+- (ResetBoosterPackResponseProto_Builder*) setUserBoosterPack:(UserBoosterPackProto*) value;
+- (ResetBoosterPackResponseProto_Builder*) setUserBoosterPackBuilder:(UserBoosterPackProto_Builder*) builderForValue;
+- (ResetBoosterPackResponseProto_Builder*) mergeUserBoosterPack:(UserBoosterPackProto*) value;
+- (ResetBoosterPackResponseProto_Builder*) clearUserBoosterPack;
+
+- (BOOL) hasStatus;
+- (ResetBoosterPackResponseProto_ResetBoosterPackStatus) status;
+- (ResetBoosterPackResponseProto_Builder*) setStatus:(ResetBoosterPackResponseProto_ResetBoosterPackStatus) value;
+- (ResetBoosterPackResponseProto_Builder*) clearStatus;
 @end
 

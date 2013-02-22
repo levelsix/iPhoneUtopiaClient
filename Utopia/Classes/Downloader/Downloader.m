@@ -25,6 +25,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
     _syncQueue = dispatch_queue_create("Sync Downloader", NULL);
     _asyncQueue = dispatch_queue_create("Async Downloader", NULL);
     _cacheDir = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] copy];
+    NSLog(@"%@", _cacheDir);
     
     [[NSBundle mainBundle] loadNibNamed:@"DownloaderSpinner" owner:self options:nil];
   }
@@ -160,6 +161,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   NSArray *fileArray = [fileMgr contentsOfDirectoryAtPath:_cacheDir error:nil];
   for (NSString *filename in fileArray)  {
     [fileMgr removeItemAtPath:[_cacheDir stringByAppendingPathComponent:filename] error:NULL];
+  }
+}
+
+- (void) deleteFile:(NSString *)file {
+  NSFileManager *fileMgr = [NSFileManager defaultManager];
+  BOOL success = [fileMgr removeItemAtPath:[_cacheDir stringByAppendingPathComponent:file] error:NULL];
+  
+  if (success) {
+    ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Deleted %@.", file);
   }
 }
 

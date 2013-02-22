@@ -130,7 +130,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.armoryPriceView.alpha = 0.f;
 }
 
-- (void) searchForEquipId:(int)equipId level:(int)level {
+- (void) searchForEquipId:(int)equipId level:(int)level allowAllAbove:(BOOL)allowAllAbove {
+  Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *p = nil;
   for (FullEquipProto *e in gs.mktSearchEquips) {
@@ -147,7 +148,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     
     if (level > 0) {
       [self.filterView.forgeLevelBar movePin:YES toNotch:level-1];
-      [self.filterView.forgeLevelBar movePin:NO toNotch:level-1];
+      [self.filterView.forgeLevelBar movePin:NO toNotch:allowAllAbove ? gl.forgeMaxEquipLevel-1 : level-1];
     }
     
     [self.filterView.pickerView setSortOrder:RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderPriceLowToHigh];

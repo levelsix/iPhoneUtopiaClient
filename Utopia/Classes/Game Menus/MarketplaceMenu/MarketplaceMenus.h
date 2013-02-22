@@ -85,6 +85,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *armoryPriceLabel;
 @property (nonatomic, retain) IBOutlet UILabel *postedPriceLabel;
 @property (nonatomic, retain) IBOutlet UILabel *savePriceLabel;
+@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, retain) IBOutlet UIButton *playerNameButton;
 @property (nonatomic, retain) IBOutlet EquipButton *equipIcon;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;

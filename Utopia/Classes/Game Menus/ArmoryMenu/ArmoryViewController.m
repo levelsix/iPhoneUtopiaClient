@@ -16,13 +16,139 @@
 #import "EquipDeltaView.h"
 #import "GenericPopupController.h"
 
+#define HAS_VISITED_ARMORY_KEY @"Has visited armory key"
+
+@implementation ArmoryTopBar
+
+@synthesize button1, button2;
+
+- (void) awakeFromNib {
+  [self clickButton:kButton1];
+  [self unclickButton:kButton2];
+}
+
+- (void) clickButton:(LeaderboardBarButton)button {
+  switch (button) {
+    case kButton1:
+      button1.hidden = NO;
+      _clickedButtons |= kButton1;
+      break;
+      
+    case kButton2:
+      button2.hidden = NO;
+      _clickedButtons |= kButton2;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) unclickButton:(LeaderboardBarButton)button {
+  switch (button) {
+    case kButton1:
+      button1.hidden = YES;
+      _clickedButtons &= ~kButton1;
+      break;
+      
+    case kButton2:
+      button2.hidden = YES;
+      _clickedButtons &= ~kButton2;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (!(_clickedButtons & kButton1) && [button1 pointInside:pt withEvent:nil]) {
+    _trackingButton1 = YES;
+    [self clickButton:kButton1];
+  }
+  
+  pt = [touch locationInView:button2];
+  if (!(_clickedButtons & kButton2) && [button2 pointInside:pt withEvent:nil]) {
+    _trackingButton2 = YES;
+    [self clickButton:kButton2];
+  }
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (_trackingButton1) {
+    if (CGRectContainsPoint(CGRectInset(button1.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton1];
+    } else {
+      [self unclickButton:kButton1];
+    }
+  }
+  
+  pt = [touch locationInView:button2];
+  if (_trackingButton2) {
+    if (CGRectContainsPoint(CGRectInset(button2.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton2];
+    } else {
+      [self unclickButton:kButton2];
+    }
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (_trackingButton1) {
+    if (CGRectContainsPoint(CGRectInset(button1.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton1];
+      [self unclickButton:kButton2];
+      
+      [[ArmoryViewController sharedArmoryViewController] displayBuyChests];
+    } else {
+      [self unclickButton:kButton1];
+    }
+  }
+  
+  pt = [touch locationInView:button2];
+  if (_trackingButton2) {
+    if (CGRectContainsPoint(CGRectInset(button2.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton2];
+      [self unclickButton:kButton1];
+      
+      [[ArmoryViewController sharedArmoryViewController] displayInfo];
+    } else {
+      [self unclickButton:kButton2];
+    }
+  }
+  
+  _trackingButton1 = NO;
+  _trackingButton2 = NO;
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self unclickButton:kButton1];
+  [self unclickButton:kButton2];
+  _trackingButton1 = NO;
+  _trackingButton2 = NO;
+}
+
+- (void) dealloc {
+  self.button2 = nil;
+  self.button1 = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation ArmoryRow
 
 - (void) updateForBoosterPack:(BoosterPackProto *)bpp {
   GameState *gs = [GameState sharedGameState];
   
   [self.bgdView setImage:[Globals imageNamed:bpp.backgroundImage] forState:UIControlStateNormal];
-  [Globals imageNamed:bpp.chestImage withImageView:self.chestIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:bpp.chestImage withImageView:self.chestIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   [Globals imageNamed:bpp.middleImage withImageView:self.middleImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.levelsLabel.text = [NSString stringWithFormat:@"%d-%d", bpp.minLevel, bpp.maxLevel];
@@ -87,6 +213,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   self.carouselView.frame = self.armoryTableView.frame;
   [self.armoryTableView.superview addSubview:self.carouselView];
+  
+  [Globals imageNamed:BOOSTERS_INSTRUCTIONS_IMAGE withImageView:self.infoImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  if (self.infoImageView.image) {
+    CGRect r = self.infoImageView.frame;
+    r.size.height = self.infoImageView.image.size.height;
+    self.infoImageView.frame = r;
+  }
+  self.infoScrollView.contentSize = CGSizeMake(self.infoScrollView.frame.size.width, CGRectGetMaxY(self.infoImageView.frame)+self.infoImageView.frame.origin.y);
 }
 
 - (void) didReceiveMemoryWarning {
@@ -102,7 +237,38 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     self.spinner = nil;
     self.loadingView = nil;
     self.cardDisplayView = nil;
+    self.infoImageView = nil;
+    self.infoScrollView = nil;
+    self.topBar = nil;
   }
+}
+
+- (void) displayBuyChests {
+  self.infoScrollView.hidden = YES;
+  self.armoryTableView.hidden = NO;
+  self.carouselView.hidden = YES;
+  self.coinBar.hidden = YES;
+  self.topBar.hidden = NO;
+  self.topBar.alpha = 1.f;
+  
+  [self.topBar unclickButton:kButton2];
+  [self.topBar clickButton:kButton1];
+  
+  [self refresh];
+}
+
+- (void) displayInfo {
+  self.infoScrollView.hidden = NO;
+  self.armoryTableView.hidden = YES;
+  self.carouselView.hidden = YES;
+  self.coinBar.hidden = YES;
+  self.topBar.hidden = NO;
+  self.topBar.alpha = 1.f;
+  
+  [self.topBar unclickButton:kButton1];
+  [self.topBar clickButton:kButton2];
+  
+  self.infoScrollView.contentOffset = ccp(0,0);
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -117,6 +283,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   self.carouselView.hidden = YES;
   self.armoryTableView.hidden = NO;
+  self.backView.alpha = 0.f;
   
   CGRect f = self.view.frame;
   self.view.center = CGPointMake(self.view.center.x, f.size.height*3/2);
@@ -124,7 +291,23 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     self.view.center = CGPointMake(self.view.center.x, f.size.height/2);
   }];
   
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  BOOL hasVisited = [def boolForKey:HAS_VISITED_ARMORY_KEY];
+  if (!hasVisited) {
+    [self displayInfo];
+    
+    [def setBool:YES forKey:HAS_VISITED_ARMORY_KEY];
+  } else {
+    [self displayBuyChests];
+  }
+  
   [[SoundEngine sharedSoundEngine] armoryEnter];
+}
+
+- (void) loadForLevel:(int)level rarity:(FullEquipProto_Rarity)rarity {
+  _level = level;
+  _shouldCostCoins = (rarity < FullEquipProto_RarityRare);
+  [self refresh];
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -165,11 +348,55 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *bp = [NSMutableArray arrayWithArray:gs.boosterPacks];
   [bp sortUsingComparator:^NSComparisonResult(BoosterPackProto *obj1, BoosterPackProto *obj2) {
-    return NSOrderedSame;
+    BOOL inRange1 = gs.level > obj1.minLevel;
+    BOOL inRange2 = gs.level > obj2.minLevel;
+    if (!inRange1 && !inRange2) {
+      if (obj1.minLevel < obj2.minLevel) {
+        return NSOrderedAscending;
+      } else if (obj1.minLevel > obj2.minLevel) {
+        return NSOrderedDescending;
+      } else {
+        if (obj1.costsCoins) {
+          return NSOrderedDescending;
+        } else if (obj2.costsCoins) {
+          return NSOrderedAscending;
+        }
+        return NSOrderedSame;
+      }
+      return NSOrderedSame;
+    } else if (inRange1 && inRange2) {
+      if (obj1.minLevel < obj2.minLevel) {
+        return NSOrderedDescending;
+      } else if (obj1.minLevel > obj2.minLevel) {
+        return NSOrderedAscending;
+      } else {
+        if (obj1.costsCoins) {
+          return NSOrderedDescending;
+        } else if (obj2.costsCoins) {
+          return NSOrderedAscending;
+        }
+        return NSOrderedSame;
+      }
+    } else if (inRange1) {
+      return NSOrderedAscending;
+    } else {
+      return NSOrderedDescending;
+    }
   }];
   self.boosterPacks = bp;
   
   [self.armoryTableView reloadData];
+  [self.armoryTableView setContentOffset:ccp(0,-self.armoryTableView.contentInset.top)];
+  
+  if (_level) {
+    for (int i = 0; i < self.boosterPacks.count; i++) {
+      BoosterPackProto *bp = [self.boosterPacks objectAtIndex:i];
+      if (bp.minLevel <= _level && bp.maxLevel >= _level && (bp.costsCoins == _shouldCostCoins)) {
+        [self armoryRowClicked:[self.armoryTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]]];
+        _level = 0;
+      }
+    }
+  }
 }
 
 - (IBAction)armoryRowClicked:(UIView *)sender {
@@ -188,15 +415,23 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   r.origin.x = self.view.frame.size.width;
   self.carouselView.frame = r;
   self.carouselView.hidden = NO;
+  self.coinBar.alpha = 0.f;
+  self.coinBar.hidden = NO;
   [UIView animateWithDuration:0.3f animations:^{
     CGRect r = self.armoryTableView.frame ;
     r.origin.x = -r.size.width;
     self.armoryTableView.frame = r;
     
+    self.topBar.alpha = 0.f;
+    self.coinBar.alpha = 1.f;
+    
     self.carouselView.frame = curRect;
+    self.backView.alpha = 1.f;
   } completion:^(BOOL finished) {
     self.armoryTableView.frame = curRect;
     self.armoryTableView.hidden = YES;
+    
+    self.topBar.hidden = YES;
   }];
 }
 
@@ -210,15 +445,23 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   r.origin.x = -r.size.width;
   self.armoryTableView.frame = r;
   self.armoryTableView.hidden = NO;
+  self.topBar.alpha = 0.f;
+  self.topBar.hidden = NO;
   [UIView animateWithDuration:0.3f animations:^{
     CGRect r = self.carouselView.frame ;
     r.origin.x = self.view.frame.size.width;
     self.carouselView.frame = r;
     
+    self.topBar.alpha = 1.f;
+    self.coinBar.alpha = 0.f;
+    
+    self.backView.alpha = 0.f;
+    
     self.armoryTableView.frame = curRect;
   } completion:^(BOOL finished) {
     self.carouselView.frame = curRect;
     self.carouselView.hidden = YES;
+    self.coinBar.hidden = YES;
   }];
 }
 
@@ -230,9 +473,56 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     option = PurchaseOptionTwo;
   }
   
-  [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.carouselView.booster.boosterPackId purchaseOption:option];
-  [self.coinBar updateLabels];
-  [self.loadingView display:self.view];
+  GameState *gs = [GameState sharedGameState];
+  BoosterPackProto *bpp = self.carouselView.booster;
+  int price = 0;
+  BOOL canAfford = YES;
+  if (option == PurchaseOptionOne) {
+    price = bpp.salePriceOne > 0 ? bpp.salePriceOne : bpp.retailPriceOne;
+  } else if (option == PurchaseOptionTwo) {
+    price = bpp.salePriceTwo > 0 ? bpp.salePriceTwo : bpp.retailPriceTwo;
+  }
+  
+  if (bpp.costsCoins) {
+    if (price > gs.silver) {
+      [[RefillMenuController sharedRefillMenuController] displayBuySilverView:price];
+      canAfford = NO;
+    }
+  } else {
+    if (price > gs.gold) {
+      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:price];
+      canAfford = NO;
+    }
+  }
+  
+  if (canAfford) {
+    [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.carouselView.booster.boosterPackId purchaseOption:option];
+    [self.coinBar updateLabels];
+    [self.loadingView display:self.view];
+  }
+}
+
+- (IBAction)resetClicked:(id)sender {
+  [GenericPopupController displayConfirmationWithDescription:@"Resetting a chest removes history of equips collected and restarts it. Reset?" title:@"Reset Chest?" okayButton:@"Reset" cancelButton:@"Cancel" target:self selector:@selector(reset)];
+}
+
+- (void) reset {
+  GameState *gs = [GameState sharedGameState];
+  UserBoosterPackProto *bp = [gs myBoosterPackForId:self.carouselView.booster.boosterPackId];
+  
+  BOOL valid = NO;
+  for (UserBoosterItemProto *i in bp.userBoosterItemsList) {
+    if (i.numReceived > 0) {
+      valid = YES;
+    }
+  }
+  
+  if (valid) {
+    [[OutgoingEventController sharedOutgoingEventController] resetBoosterPack:bp.boosterPackId];
+    [self.loadingView display:self.view];
+  } else {
+    [Globals popupMessage:@"This chest is already full! Try purchasing equips before resetting."];
+  }
 }
 
 - (IBAction)closeClicked:(id)sender {
@@ -254,8 +544,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 
 - (void) receivedPurchaseBoosterPackResponse:(PurchaseBoosterPackResponseProto *)proto {
   if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
-    self.cardDisplayView.frame = self.view.bounds;
+    self.cardDisplayView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
     [self.view addSubview:_cardDisplayView];
+    
     [self.cardDisplayView beginAnimatingForEquips:proto.userEquipsList];
     
     if (self.carouselView.booster.boosterPackId == proto.userBoosterPack.boosterPackId) {
@@ -263,6 +554,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     }
     [self.armoryTableView reloadData];
   }
+  
+  [self.coinBar updateLabels];
+  
+  [self.loadingView stop];
+}
+
+- (void) resetBoosterPackResponse:(ResetBoosterPackResponseProto *)proto {
+  if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
+    if (self.carouselView.booster.boosterPackId == proto.userBoosterPack.boosterPackId) {
+      [self.carouselView updateForBoosterPack:self.carouselView.booster userPack:proto.userBoosterPack];
+    }
+    [self.armoryTableView reloadData];
+  }
+  
+  [self.coinBar updateLabels];
   
   [self.loadingView stop];
 }

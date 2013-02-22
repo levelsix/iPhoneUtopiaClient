@@ -523,9 +523,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 }
 
 - (void) loadRightViewForNotEnoughQuantity:(ForgeItem *)fi fromItemView:(ForgeItemView *)fiv {
-  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  //  FullEquipProto *fep = [gs equipWithId:fi.equipId];
   
   int oldAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level enhancePercent:0];
   int oldDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level enhancePercent:0];
@@ -611,22 +609,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     self.backOldEquipIcon.alpha = 1.f;
   }
   
-  FullEquipProto *fep = [gs equipWithId:fi.equipId];
-  if (fi.level == 1 && fep.isBuyableInArmory) {
-    self.buyOneView.hidden = NO;
-    self.goToMarketplaceButton.hidden = YES;
-    
-    if (fep.hasCoinPrice) {
-      self.buyOneCoinIcon.highlighted = NO;
-      self.buyOneLabel.text = [Globals commafyNumber:fep.coinPrice];
-    } else {
-      self.buyOneCoinIcon.highlighted = YES;
-      self.buyOneLabel.text = [Globals commafyNumber:fep.diamondPrice];
-    }
-  } else {
-    self.buyOneView.hidden = YES;
-    self.goToMarketplaceButton.hidden = NO;
-  }
+  self.goToMarketplaceButton.hidden = NO;
 }
 
 - (void) loadRightViewForForgeItem:(ForgeItem *)fi fromItemView:(ForgeItemView *)fiv {
@@ -989,7 +972,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 
 - (IBAction)goToMarketplaceClicked:(id)sender {
   [self closeClicked:nil];
-  [[MarketplaceViewController sharedMarketplaceViewController] searchForEquipId:self.curItem.equipId level:self.curItem.level];
+  [[MarketplaceViewController sharedMarketplaceViewController] searchForEquipId:self.curItem.equipId level:self.curItem.level allowAllAbove:NO];
   
   [Analytics blacksmithGoToMarketplaceWithEquipId:self.curItem.equipId level:self.curItem.level];
 }

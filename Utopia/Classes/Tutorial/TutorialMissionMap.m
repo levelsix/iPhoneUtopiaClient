@@ -145,23 +145,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     _enemy.nameLabel.string = tc.enemyName;
     _enemy.tag = ENEMY_TAG;
     
-    r = CGRectZero;
-    r.origin = [self randomWalkablePosition];
-    r.size = CGSizeMake(1, 1);
-    type = [Globals userTypeIsGood:tc.enemyType] ? 1 : 4;
-    Enemy *randEnemy = [[Enemy alloc] initWithFile:[Globals animatedSpritePrefix:type] location:r map:self];
-    [self addChild:randEnemy z:1];
-    [randEnemy release];
-    randEnemy.nameLabel.string = @"Ashton Butcher";
-    
-    r = CGRectZero;
-    r.origin = [self randomWalkablePosition];
-    r.size = CGSizeMake(1, 1);
-    type = [Globals userTypeIsGood:tc.enemyType] ? 2 : 5;
-    randEnemy = [[Enemy alloc] initWithFile:[Globals animatedSpritePrefix:type] location:r map:self];
-    [self addChild:randEnemy z:1];
-    [randEnemy release];
-    randEnemy.nameLabel.string = @"Tret Berrill";
+//    r = CGRectZero;
+//    r.origin = [self randomWalkablePosition];
+//    r.size = CGSizeMake(1, 1);
+//    type = [Globals userTypeIsGood:tc.enemyType] ? 1 : 4;
+//    Enemy *randEnemy = [[Enemy alloc] initWithFile:[Globals animatedSpritePrefix:type] location:r map:self];
+//    [self addChild:randEnemy z:1];
+//    [randEnemy release];
+//    randEnemy.nameLabel.string = @"Ashton Butcher";
+//    
+//    r = CGRectZero;
+//    r.origin = [self randomWalkablePosition];
+//    r.size = CGSizeMake(1, 1);
+//    type = [Globals userTypeIsGood:tc.enemyType] ? 2 : 5;
+//    randEnemy = [[Enemy alloc] initWithFile:[Globals animatedSpritePrefix:type] location:r map:self];
+//    [self addChild:randEnemy z:1];
+//    [randEnemy release];
+//    randEnemy.nameLabel.string = @"Tret Berrill";
     
     [self doReorder];
     

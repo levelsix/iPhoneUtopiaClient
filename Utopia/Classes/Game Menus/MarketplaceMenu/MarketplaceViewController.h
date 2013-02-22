@@ -90,7 +90,7 @@ typedef enum {
 - (IBAction) longLicenseClicked:(id)sender;
 - (IBAction) backClicked:(id)sender;
 
-- (void) searchForEquipId:(int)equipId level:(int)level;
+- (void) searchForEquipId:(int)equipId level:(int)level allowAllAbove:(BOOL)allowAllAbove;
 
 - (void) receivedPurchaseMktLicenseResponse:(PurchaseMarketplaceLicenseResponseProto *)p;
 

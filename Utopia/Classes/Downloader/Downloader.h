@@ -32,5 +32,6 @@
 - (void) asyncDownloadBundle:(NSString *)bundleName;
 
 - (void) purgeAllDownloadedData;
+- (void) deleteFile:(NSString *)file;
 
 @end

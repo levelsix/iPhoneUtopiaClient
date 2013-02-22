@@ -32,9 +32,6 @@
 
 @interface ArmoryCardDisplayView : UIView {
   int _currentIndex;
-  
-  BOOL _tapToFlip;
-  BOOL _tapToContinue;
 }
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdView;
@@ -43,16 +40,14 @@
 @property (nonatomic, retain) IBOutlet UIImageView *cardBackImageView;
 @property (nonatomic, retain) IBOutlet ArmoryListing *armoryListing;
 
-
 @property (nonatomic, retain) IBOutlet UIImageView *spinnerView;
-@property (nonatomic, retain) IBOutlet UIImageView *tapToFlipView;
-@property (nonatomic, retain) IBOutlet UIImageView *tapToContinueView;
 
 @property (nonatomic, retain) IBOutlet UIView *buttonView;
 
 @property (nonatomic, retain) NSArray *equips;
 
 - (void) beginAnimatingForEquips:(NSArray *)equips;
+- (IBAction)showNextEquip;
 
 @end
 
@@ -76,6 +71,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *normalLabel1;
 @property (nonatomic, retain) IBOutlet UIView *saleView1;
 @property (nonatomic, retain) IBOutlet UIView *noSaleView1;
+@property (nonatomic, retain) IBOutlet UILabel *numEquipsLabel1;
 
 @property (nonatomic, retain) IBOutlet UIImageView *saleCoinIcon2;
 @property (nonatomic, retain) IBOutlet UILabel *saleLabel2;
@@ -85,6 +81,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *normalLabel2;
 @property (nonatomic, retain) IBOutlet UIView *saleView2;
 @property (nonatomic, retain) IBOutlet UIView *noSaleView2;
+@property (nonatomic, retain) IBOutlet UILabel *numEquipsLabel2;
+
+@property (nonatomic, retain) IBOutlet UIImageView *shelfImageView;
 
 @property (nonatomic, retain) NSArray *specialItems;
 @property (nonatomic, retain) BoosterPackProto *booster;

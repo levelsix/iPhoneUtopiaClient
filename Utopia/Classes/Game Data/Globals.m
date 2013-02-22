@@ -343,6 +343,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.enhancePercentConstantB = constants.enhanceConstants.enhancePercentConstantB;
   self.enhanceLevelExponentBase = constants.enhanceConstants.enhanceLevelExponentBase;
   
+  self.purchaseOptionOneNumBoosterItems = constants.boosterPackConstants.purchaseOptionOneNumBoosterItems;
+  self.purchaseOptionTwoNumBoosterItems = constants.boosterPackConstants.purchaseOptionTwoNumBoosterItems;
+  
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
   self.kiipRewardConditions = constants.kiipRewardConditions;
@@ -363,7 +366,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (void) asyncDownloadBundles {
   Globals *gl = [Globals sharedGlobals];
   StartupResponseProto_StartupConstants_DownloadableNibConstants *n = gl.downloadableNibConstants;
-  NSArray *bundleNames = [NSArray arrayWithObjects:n.goldShoppeNibName, n.blacksmithNibName, n.filtersNibName, n.mapNibName, n.threeCardMonteNibName, n.expansionNibName, n.lockBoxNibName, n.goldMineNibName, nil];
+  NSArray *bundleNames = [NSArray arrayWithObjects:n.goldShoppeNibName, n.blacksmithNibName, n.filtersNibName, n.mapNibName, n.threeCardMonteNibName, n.expansionNibName, n.lockBoxNibName, nil];
   Downloader *dl = [Downloader sharedDownloader];
   
   int i = BUNDLE_SCHEDULE_INTERVAL;
@@ -374,6 +377,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       i += BUNDLE_SCHEDULE_INTERVAL;
     }
   }
+  
+  [self imageNamed:BOOSTERS_INSTRUCTIONS_IMAGE withImageView:nil maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 + (NSString *) font {
@@ -509,6 +514,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (NSString *) shortenedStringForRarity:(FullEquipProto_Rarity)rarity {
   NSString *str = [self stringForRarity:rarity];
+  
+  if (rarity == FullEquipProto_RaritySuperrare) {
+    return @"S. RA";
+  }
   
   if (str.length > 4) {
     str = [str stringByReplacingCharactersInRange:NSMakeRange(3, str.length-3) withString:@"."];
@@ -881,18 +890,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
-  if (!imageName || !view) {
-    return;
-  }
-  
+  // If imageName is null, it will clear the view's pre-downloading stuff
+  // If view is null, it will download image without worrying about the view
   Globals *gl = [Globals sharedGlobals];
   NSString *key = [NSString stringWithFormat:@"%p", view];
   [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
   
+  if (!imageName) {
+    return;
+  }
+  
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
   [loadingView stopAnimating];
   [loadingView removeFromSuperview];
-  UIImage *cachedImage = [gl.imageCache objectForKey:imageName];
+  UIImage *cachedImage = imageName ? [gl.imageCache objectForKey:imageName] : nil;
   if (cachedImage) {
     if (color) {
       cachedImage = [self maskImage:cachedImage withColor:color];
@@ -919,12 +930,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
         loadingView.tag = 150;
         [loadingView startAnimating];
         [view addSubview:loadingView];
-        [loadingView release];
         loadingView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
         
         // Set up scale
         float scale = MIN(1.f, MIN(view.frame.size.width/loadingView.frame.size.width/2.f, view.frame.size.width/loadingView.frame.size.width/2.f));
         loadingView.transform = CGAffineTransformMakeScale(scale, scale);
+        [loadingView release];
       }
       
       if (clear) {
@@ -959,7 +970,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
           UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
           [loadingView stopAnimating];
           [loadingView removeFromSuperview];
-          [[gl imageViewsWaitingForDownloading] removeObjectForKey:view];
+          [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
         }
       }];
       return;
@@ -1473,8 +1484,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep {
-  return fep.rarity == FullEquipProto_RarityRare || fep.rarity == FullEquipProto_RarityEpic ||
-  fep.rarity == FullEquipProto_RarityLegendary || !(fep.diamondPrice == 0);
+  return fep.rarity >= FullEquipProto_RarityRare;
 }
 
 // Formulas

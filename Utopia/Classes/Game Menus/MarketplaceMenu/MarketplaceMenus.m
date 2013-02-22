@@ -297,6 +297,7 @@
   defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:m.equipLevel enhancePercent:m.equipEnhancementPercent]];
   levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
   levelIcon.level = m.equipLevel;
+  self.descriptionLabel.text = fep.description;
   self.enhanceIcon.level = [gl calculateEnhancementLevel:m.equipEnhancementPercent];
   [playerNameButton setTitle:[Globals fullNameWithName:m.poster.name clanTag:m.poster.clan.tag] forState:UIControlStateNormal];
   
@@ -471,6 +472,7 @@
   self.bgdView = nil;
   self.levelIcon = nil;
   self.enhanceIcon = nil;
+  self.descriptionLabel = nil;
   [super dealloc];
 }
 

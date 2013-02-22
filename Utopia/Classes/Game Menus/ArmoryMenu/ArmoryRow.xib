@@ -45,7 +45,7 @@
 							<object class="IBUIImageView" id="748257982">
 								<reference key="NSNextResponder" ref="1435153"/>
 								<int key="NSvFlags">266</int>
-								<string key="NSFrame">{{7, 81}, {467, 73}}</string>
+								<string key="NSFrame">{{7, 71}, {467, 73}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="948308588"/>
@@ -61,9 +61,10 @@
 							<object class="IBUIView" id="930756695">
 								<reference key="NSNextResponder" ref="1435153"/>
 								<int key="NSvFlags">267</int>
-								<string key="NSFrame">{{464, -9}, {2, 129}}</string>
+								<string key="NSFrame">{{464, -3}, {2, 113}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:196</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="914412045">
 									<int key="NSColorSpace">1</int>
@@ -76,7 +77,7 @@
 							<object class="IBUIView" id="948308588">
 								<reference key="NSNextResponder" ref="1435153"/>
 								<int key="NSvFlags">270</int>
-								<string key="NSFrame">{{15, -9}, {2, 129}}</string>
+								<string key="NSFrame">{{15, -3}, {2, 113}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="966636280"/>
@@ -88,7 +89,7 @@
 							<object class="IBUIButton" id="966636280">
 								<reference key="NSNextResponder" ref="1435153"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{25, 28}, {431, 100}}</string>
+								<string key="NSFrame">{{25, 20}, {431, 100}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="14730919"/>
@@ -109,10 +110,6 @@
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MC41AA</bytes>
 								</object>
-								<object class="NSCustomResource" key="IBUINormalImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">goldchestbg.png</string>
-								</object>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<int key="type">2</int>
 									<double key="pointSize">15</double>
@@ -126,7 +123,7 @@
 							<object class="IBUIImageView" id="653727842">
 								<reference key="NSNextResponder" ref="1435153"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{399, 55}, {34, 18}}</string>
+								<string key="NSFrame">{{395, 45}, {34, 18}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="94899464"/>
@@ -143,7 +140,7 @@
 							<object class="IBUILabel" id="724408438">
 								<reference key="NSNextResponder" ref="1435153"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{340, 54}, {54, 19}}</string>
+								<string key="NSFrame">{{336, 44}, {54, 19}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="567880343"/>
@@ -168,11 +165,11 @@
 								<int key="IBUINumberOfLines">0</int>
 								<int key="IBUITextAlignment">2</int>
 								<int key="IBUILineBreakMode">0</int>
-								<object class="IBUIFontDescription" key="IBUIFontDescription" id="853426899">
+								<object class="IBUIFontDescription" key="IBUIFontDescription" id="379474340">
 									<int key="type">1</int>
 									<double key="pointSize">12</double>
 								</object>
-								<object class="NSFont" key="IBUIFont" id="928161792">
+								<object class="NSFont" key="IBUIFont" id="54618436">
 									<string key="NSName">Helvetica</string>
 									<double key="NSSize">12</double>
 									<int key="NSfFlags">16</int>
@@ -183,7 +180,7 @@
 							<object class="IBUILabel" id="567880343">
 								<reference key="NSNextResponder" ref="1435153"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{398, 54}, {35, 19}}</string>
+								<string key="NSFrame">{{395, 43}, {35, 19}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="653727842"/>
@@ -208,14 +205,14 @@
 								<int key="IBUINumberOfLines">0</int>
 								<int key="IBUITextAlignment">1</int>
 								<int key="IBUILineBreakMode">0</int>
-								<reference key="IBUIFontDescription" ref="853426899"/>
-								<reference key="IBUIFont" ref="928161792"/>
+								<reference key="IBUIFontDescription" ref="379474340"/>
+								<reference key="IBUIFont" ref="54618436"/>
 								<double key="preferredMaxLayoutWidth">35</double>
 							</object>
 							<object class="IBUILabel" id="377109982">
 								<reference key="NSNextResponder" ref="1435153"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{327, 37}, {129, 18}}</string>
+								<string key="NSFrame">{{327, 29}, {129, 18}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="724408438"/>
@@ -252,7 +249,7 @@
 							<object class="IBUILabel" id="94899464">
 								<reference key="NSNextResponder" ref="1435153"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{327, 77}, {129, 18}}</string>
+								<string key="NSFrame">{{327, 69}, {129, 18}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="379854661"/>
@@ -282,7 +279,7 @@
 							<object class="IBUIImageView" id="379854661">
 								<reference key="NSNextResponder" ref="1435153"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{343, 95}, {96, 23}}</string>
+								<string key="NSFrame">{{343, 87}, {96, 23}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="681040441"/>
@@ -299,7 +296,7 @@
 							<object class="IBUILabel" id="681040441">
 								<reference key="NSNextResponder" ref="1435153"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{348, 97}, {87, 19}}</string>
+								<string key="NSFrame">{{348, 88}, {87, 19}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="930756695"/>
@@ -339,24 +336,20 @@
 							<object class="IBUIImageView" id="14730919">
 								<reference key="NSNextResponder" ref="1435153"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{34, -6}, {109, 131}}</string>
+								<string key="NSFrame">{{34, -11}, {109, 127}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="355381483"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">4</int>
+								<int key="IBUIContentMode">6</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">chest.png</string>
-								</object>
 							</object>
 							<object class="IBUIImageView" id="355381483">
 								<reference key="NSNextResponder" ref="1435153"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{151, 28}, {171, 94}}</string>
+								<string key="NSFrame">{{151, 20}, {171, 94}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="377109982"/>
@@ -365,13 +358,9 @@
 								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">examplemiddle.png</string>
-								</object>
 							</object>
 						</array>
-						<string key="NSFrameSize">{480, 138}</string>
+						<string key="NSFrameSize">{480, 128}</string>
 						<reference key="NSSuperview" ref="459214078"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="748257982"/>
@@ -387,7 +376,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</array>
-				<string key="NSFrameSize">{480, 139}</string>
+				<string key="NSFrameSize">{480, 129}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="1435153"/>
@@ -397,7 +386,7 @@
 				<int key="IBUISelectionStyle">0</int>
 				<reference key="IBUIContentView" ref="1435153"/>
 				<string key="IBUIReuseIdentifier">ArmoryRow</string>
-				<real value="139" key="IBUIRowHeight"/>
+				<real value="129" key="IBUIRowHeight"/>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -487,13 +476,13 @@
 							<reference ref="930756695"/>
 							<reference ref="948308588"/>
 							<reference ref="966636280"/>
-							<reference ref="379854661"/>
-							<reference ref="94899464"/>
-							<reference ref="681040441"/>
-							<reference ref="377109982"/>
 							<reference ref="653727842"/>
 							<reference ref="724408438"/>
 							<reference ref="567880343"/>
+							<reference ref="377109982"/>
+							<reference ref="94899464"/>
+							<reference ref="379854661"/>
+							<reference ref="681040441"/>
 							<reference ref="14730919"/>
 							<reference ref="355381483"/>
 						</array>
@@ -605,12 +594,24 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ArmoryCardDisplayView</string>
 					<string key="superclassName">UIView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">showNextEquip</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">showNextEquip</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">showNextEquip</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="armoryListing">ArmoryListing</string>
-						<string key="bgdView">UIView</string>
+						<string key="bgdView">UIImageView</string>
 						<string key="buttonView">UIView</string>
 						<string key="cardBackImageView">UIImageView</string>
 						<string key="cardView">UIView</string>
+						<string key="spinnerView">UIImageView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="armoryListing">
@@ -619,7 +620,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="bgdView">
 							<string key="name">bgdView</string>
-							<string key="candidateClassName">UIView</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="buttonView">
 							<string key="name">buttonView</string>
@@ -632,6 +633,10 @@
 						<object class="IBToOneOutletInfo" key="cardView">
 							<string key="name">cardView</string>
 							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="spinnerView">
+							<string key="name">spinnerView</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -654,6 +659,8 @@
 						<string key="normalCoinIcon2">UIImageView</string>
 						<string key="normalLabel1">UILabel</string>
 						<string key="normalLabel2">UILabel</string>
+						<string key="numEquipsLabel1">UILabel</string>
+						<string key="numEquipsLabel2">UILabel</string>
 						<string key="retailCoinIcon1">UIImageView</string>
 						<string key="retailCoinIcon2">UIImageView</string>
 						<string key="retailLabel1">UILabel</string>
@@ -664,6 +671,7 @@
 						<string key="saleLabel2">UILabel</string>
 						<string key="saleView1">UIView</string>
 						<string key="saleView2">UIView</string>
+						<string key="shelfImageView">UIImageView</string>
 						<string key="tagView1">UIImageView</string>
 						<string key="tagView2">UIImageView</string>
 						<string key="tagView3">UIImageView</string>
@@ -713,6 +721,14 @@
 							<string key="name">normalLabel2</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="numEquipsLabel1">
+							<string key="name">numEquipsLabel1</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="numEquipsLabel2">
+							<string key="name">numEquipsLabel2</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="retailCoinIcon1">
 							<string key="name">retailCoinIcon1</string>
 							<string key="candidateClassName">UIImageView</string>
@@ -752,6 +768,10 @@
 						<object class="IBToOneOutletInfo" key="saleView2">
 							<string key="name">saleView2</string>
 							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="shelfImageView">
+							<string key="name">shelfImageView</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="tagView1">
 							<string key="name">tagView1</string>
@@ -868,23 +888,29 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ArmoryViewController</string>
 					<string key="superclassName">UIViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">purchaseClicked:</string>
-						<string key="NS.object.0">UIView</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">purchaseClicked:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="purchaseClicked:">UIView</string>
+						<string key="resetClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="purchaseClicked:">
 							<string key="name">purchaseClicked:</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
-					</object>
+						<object class="IBActionInfo" key="resetClicked:">
+							<string key="name">resetClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="armoryRow">ArmoryRow</string>
 						<string key="armoryTableView">UITableView</string>
+						<string key="backView">UIView</string>
 						<string key="cardDisplayView">ArmoryCardDisplayView</string>
 						<string key="carouselView">ArmoryCarouselView</string>
 						<string key="coinBar">CoinBar</string>
+						<string key="infoImageView">UIImageView</string>
+						<string key="infoScrollView">UIScrollView</string>
 						<string key="loadingView">LoadingView</string>
 						<string key="spinner">UIActivityIndicatorView</string>
 					</dictionary>
@@ -897,6 +923,10 @@
 							<string key="name">armoryTableView</string>
 							<string key="candidateClassName">UITableView</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="backView">
+							<string key="name">backView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="cardDisplayView">
 							<string key="name">cardDisplayView</string>
 							<string key="candidateClassName">ArmoryCardDisplayView</string>
@@ -908,6 +938,14 @@
 						<object class="IBToOneOutletInfo" key="coinBar">
 							<string key="name">coinBar</string>
 							<string key="candidateClassName">CoinBar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="infoImageView">
+							<string key="name">infoImageView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="infoScrollView">
+							<string key="name">infoScrollView</string>
+							<string key="candidateClassName">UIScrollView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="loadingView">
 							<string key="name">loadingView</string>
@@ -1039,10 +1077,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="chest.png">{109, 131}</string>
 			<string key="equipsleft.png">{96, 23}</string>
-			<string key="examplemiddle.png">{171, 94}</string>
-			<string key="goldchestbg.png">{431, 100}</string>
 			<string key="lvlbg.png">{34, 18}</string>
 			<string key="woodenshelf.png">{467, 73}</string>
 		</dictionary>

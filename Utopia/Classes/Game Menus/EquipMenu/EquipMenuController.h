@@ -12,6 +12,7 @@
 
 @interface EquipMenuController : UIViewController {
   int equipId;
+  int _level;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
@@ -29,7 +30,6 @@
 @property (nonatomic, retain) IBOutlet UIView *wrongClassView;
 @property (nonatomic, retain) IBOutlet UIView *tooLowLevelView;
 @property (nonatomic, retain) IBOutlet UIButton *buyButton;
-@property (nonatomic, retain) IBOutlet UILabel *buyLabel;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
 @property (nonatomic, retain) IBOutlet EnhancementLevelIcon *enhanceIcon;
 

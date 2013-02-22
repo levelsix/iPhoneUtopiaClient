@@ -57,13 +57,14 @@
 @implementation ArmoryCardDisplayView
 
 - (void) awakeFromNib {
-  [self rotateSpinner];
-  
   UIImageView *secondGlow = [[[UIImageView alloc] initWithImage:self.bgdView.image] autorelease];
   secondGlow.contentMode = self.bgdView.contentMode;
   secondGlow.autoresizingMask = self.bgdView.autoresizingMask;
   secondGlow.frame = self.bgdView.bounds;
   [self.bgdView addSubview:secondGlow];
+  
+  [Globals imageNamed:@"spinner.png" withImageView:self.spinnerView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  [Globals imageNamed:@"bpcardback.png" withImageView:self.cardBackImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 - (ArmoryListing *) armoryListing {
@@ -90,18 +91,18 @@
   }];
   
   self.spinnerView.alpha = 0.f;
-  self.tapToFlipView.alpha = 0.f;
-  self.tapToContinueView.alpha = 0.f;
   
   [self showNextEquip];
 }
 
 - (void) fadeOutOldEquip {
+  [self fadeImageView:self.spinnerView toAlpha:0.f];
   [self insertSubview:self.armoryListing belowSubview:self.cardView];
   self.armoryListing.center = self.cardView.center;
-  [UIView animateWithDuration:0.3f animations:^{
-    self.armoryListing.alpha = 0.f;
-  }];
+  [Globals popOutView:self.armoryListing fadeOutBgdView:nil completion:nil];
+  //  [UIView animateWithDuration:0.3f animations:^{
+  //    self.armoryListing.alpha = 0.f;
+  //  }];
 }
 
 - (IBAction)showNextEquip {
@@ -116,15 +117,14 @@
     FullUserEquipProto *fuep = [self.equips objectAtIndex:_currentIndex];
     
     [self.cardView addSubview:self.cardBackImageView];
-    self.cardView.center = CGPointMake(self.cardView.center.x, self.frame.size.height+self.cardView.frame.size.height/2);
+    self.cardView.center = CGPointMake(self.cardView.center.x, -self.cardView.frame.size.height/2);
     [UIView animateWithDuration:1.f delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
       self.cardView.center = CGPointMake(self.cardView.center.x, self.frame.size.height/2);
     } completion:^(BOOL finished) {
       self.armoryListing.center = self.cardBackImageView.center;
       [self.armoryListing updateForEquip:[gs equipWithId:fuep.equipId] numCollected:0 total:0];
       
-      _tapToFlip = YES;
-      [self fadeImageView:self.tapToFlipView toAlpha:1.f];
+      [self flipCard];
     }];
     
     _currentIndex++;
@@ -137,23 +137,30 @@
   self.armoryListing.alpha = 1.f;
   [UIView transitionFromView:self.cardBackImageView toView:self.armoryListing duration:1.8f options:UIViewAnimationOptionTransitionFlipFromRight completion:^(BOOL finished) {
     self.buttonView.hidden = NO;
+    [Globals bounceView:self.buttonView];
     
-    _tapToContinue = YES;
-    [self fadeImageView:self.tapToContinueView toAlpha:1.f];
-    
-    [self fadeImageView:self.spinnerView toAlpha:0.3f];
+    [self fadeImageView:self.spinnerView toAlpha:1.f];
     [self rotateSpinner];
   }];
 }
+
+#define SPINNER_NORMAL_DURATION 6.f
+#define SPINNER_SLOWDOWN_DURATION 3.f
+#define SPINNER_BEFORE_FADEOUT_DURATION 9.5f
 
 - (void) rotateSpinner {
   CABasicAnimation *fullRotation;
   fullRotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
   fullRotation.fromValue = [NSNumber numberWithFloat:0];
-  fullRotation.toValue = [NSNumber numberWithFloat:M_PI * 360 / 180.0];
-  fullRotation.duration = 10.f;
-  fullRotation.repeatCount = MAXFLOAT;
+  fullRotation.toValue = [NSNumber numberWithFloat:M_PI * 6.f/5.f];
+  fullRotation.duration = SPINNER_NORMAL_DURATION;
   [self.spinnerView.layer addAnimation:fullRotation forKey:@"360"];
+  
+  self.spinnerView.transform = CGAffineTransformMakeRotation([fullRotation.toValue floatValue]);
+  
+  [NSObject cancelPreviousPerformRequestsWithTarget:self];
+  [self performSelector:@selector(slowDownSpinner) withObject:nil afterDelay:SPINNER_NORMAL_DURATION];
+  [self performSelector:@selector(fadeOutSpinner) withObject:nil afterDelay:SPINNER_BEFORE_FADEOUT_DURATION];
 }
 
 - (void) endAnimatingForEquips {
@@ -165,21 +172,30 @@
   }];
 }
 
+- (void) slowDownSpinner {
+  CABasicAnimation *fullRotation;
+  fullRotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+  fullRotation.fromValue = [NSNumber numberWithFloat:M_PI * 6.f/5.f];
+  fullRotation.toValue = [NSNumber numberWithFloat:M_PI * 22.f/15.f];
+  fullRotation.duration = SPINNER_SLOWDOWN_DURATION;
+  fullRotation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+  [self.spinnerView.layer addAnimation:fullRotation forKey:@"360"];
+  
+  self.spinnerView.transform = CGAffineTransformMakeRotation([fullRotation.toValue floatValue]);
+}
+
+- (void) fadeOutSpinner {
+  [self fadeImageView:self.spinnerView toAlpha:0.f];
+}
+
 - (void) fadeImageView:(UIImageView *)iv toAlpha:(float)alpha {
-  [UIView animateWithDuration:0.3f animations:^{
+  [UIView animateWithDuration:1.f animations:^{
     iv.alpha = alpha;
   }];
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  if (_tapToFlip) {
-    _tapToFlip = NO;
-    [self fadeImageView:self.tapToFlipView toAlpha:0.f];
-    [self flipCard];
-  } else if (_tapToContinue) {
-    _tapToContinue = NO;
-    [self fadeImageView:self.tapToContinueView toAlpha:0.f];
-    [self fadeImageView:self.spinnerView toAlpha:0.f];
+  if (!self.buttonView.hidden) {
     [self showNextEquip];
   }
 }
@@ -192,8 +208,6 @@
   self.cardView = nil;
   self.equips = nil;
   self.spinnerView = nil;
-  self.tapToFlipView = nil;
-  self.tapToContinueView = nil;
   [super dealloc];
 }
 
@@ -207,6 +221,12 @@
 - (void) awakeFromNib {
   self.carousel.type = iCarouselTypeCoverFlow;
   [self.carousel scrollToItemAtIndex:3 animated:NO];
+  
+  Globals *gl = [Globals sharedGlobals];
+  self.numEquipsLabel1.text = [NSString stringWithFormat:@"%d EQUIP%@", gl.purchaseOptionOneNumBoosterItems, gl.purchaseOptionOneNumBoosterItems != 1 ? @"S" : @""];
+  self.numEquipsLabel2.text = [NSString stringWithFormat:@"%d EQUIP%@", gl.purchaseOptionTwoNumBoosterItems, gl.purchaseOptionTwoNumBoosterItems != 1 ? @"S" : @""];
+  
+  [Globals imageNamed:@"shelfpackbg.png" withImageView:self.shelfImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 - (void) updateBottomLabels {
@@ -247,9 +267,9 @@
       collectedGroup3 += userItem.numReceived;
     }
   }
-  self.amtLabel1.text = [NSString stringWithFormat:@"%d / %d", totalGroup1-collectedGroup1, totalGroup1];
-  self.amtLabel2.text = [NSString stringWithFormat:@"%d / %d", totalGroup2-collectedGroup2, totalGroup2];
-  self.amtLabel3.text = [NSString stringWithFormat:@"%d / %d", totalGroup3-collectedGroup3, totalGroup3];
+  self.amtLabel1.text = [NSString stringWithFormat:@"%d/%d", totalGroup1-collectedGroup1, totalGroup1];
+  self.amtLabel2.text = [NSString stringWithFormat:@"%d/%d", totalGroup2-collectedGroup2, totalGroup2];
+  self.amtLabel3.text = [NSString stringWithFormat:@"%d/%d", totalGroup3-collectedGroup3, totalGroup3];
   
   // Fill in the tags
   NSString *fileEnd = @"tag.png";
@@ -307,6 +327,7 @@
 }
 
 - (void) updateForBoosterPack:(BoosterPackProto *)bpp userPack:(UserBoosterPackProto *)ubpp {
+  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   self.booster = bpp;
   self.userBooster = ubpp;
@@ -323,19 +344,27 @@
     int defense1 = [gl calculateDefenseForEquip:obj1.equipId level:1 enhancePercent:0];
     int attack2 = [gl calculateAttackForEquip:obj2.equipId level:1 enhancePercent:0];
     int defense2 = [gl calculateDefenseForEquip:obj2.equipId level:1 enhancePercent:0];
-    if (attack1+defense1 < attack2+defense2) {
-      return NSOrderedDescending;
-    } else if (attack1+defense1 > attack2+defense2) {
+    FullEquipProto *fep1 = [gs equipWithId:obj1.equipId];
+    FullEquipProto *fep2 = [gs equipWithId:obj2.equipId];
+    if (fep1.rarity > fep2.rarity) {
       return NSOrderedAscending;
+    } else if (fep1.rarity < fep2.rarity) {
+      return NSOrderedDescending;
+    } else {
+      if (attack1+defense1 < attack2+defense2) {
+        return NSOrderedDescending;
+      } else if (attack1+defense1 > attack2+defense2) {
+        return NSOrderedAscending;
+      }
+      return NSOrderedSame;
     }
-    return NSOrderedSame;
   }];
   
   self.specialItems = specials;
   
   [self updateBottomLabels];
   [self.carousel reloadData];
-  [self.carousel scrollToItemAtIndex:self.specialItems.count/2 animated:NO];
+  [self.carousel scrollToItemAtIndex:self.specialItems.count/2 animated:YES];
 }
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel
@@ -357,7 +386,7 @@
   arrIndex = arrIndex < 0 ? arrIndex*-2-1 : arrIndex*2;
   BoosterItemProto *item = [self.specialItems objectAtIndex:arrIndex];
   FullEquipProto *equip = [gs equipWithId:item.equipId];
-
+  
   UserBoosterItemProto *userItem = nil;
   for (UserBoosterItemProto *ui in self.userBooster.userBoosterItemsList) {
     if (ui.boosterItemId == item.boosterItemId) {
@@ -411,6 +440,9 @@
   self.normalLabel2 = nil;
   self.saleView2 = nil;
   self.noSaleView2 = nil;
+  self.numEquipsLabel1 = nil;
+  self.numEquipsLabel2 = nil;
+  self.shelfImageView = nil;
   [super dealloc];
 }
 

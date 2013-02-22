@@ -42,6 +42,8 @@
 
 #define BATTLE_WON_KIIP_REWARD @"battle_win"
 
+#define DEATH_PS_TAG 992
+
 @implementation BattleSummaryView
 
 @synthesize leftNameLabel, leftLevelLabel, leftPlayerIcon;
@@ -684,6 +686,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   [self removeChild:_left cleanup:YES];
   [self removeChild:_right cleanup:YES];
+  [self removeChildByTag:DEATH_PS_TAG cleanup:YES];
   
   _left = [CCSprite spriteWithFile:[Globals battleImageNameForUser:gs.type]];
   _right = [CCSprite spriteWithFile:[Globals battleImageNameForUser:user.userType]];
@@ -1310,7 +1313,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                      nil]];
   
   CCParticleSystemQuad *ps = [CCParticleSystemQuad particleWithFile:@"death.plist"];
-  [self addChild:ps z:3];
+  [self addChild:ps z:3 tag:DEATH_PS_TAG];
   
   _winLayer.visible = YES;
   _winLayer.scale = 1.5f;

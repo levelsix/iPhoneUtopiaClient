@@ -233,7 +233,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _tournamentButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(tournamentButtonClicked)];
     _tournamentButton.position = _lockBoxButton.position;
     
-    _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, _bossEventButton, _tournamentButton, nil];
+    s = [CCSprite spriteWithFile:@"tourneyicon.png"];
+    _towerButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(towerButtonClicked)];
+    _towerButton.position = ccp(s.contentSize.width/2+BOTTOM_BUTTON_OFFSET, 3*s.contentSize.height/2+2*BOTTOM_BUTTON_OFFSET);
+    
+    _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, _bossEventButton, _tournamentButton, _towerButton, nil];
     _bottomButtons.contentSize = CGSizeZero;
     _bottomButtons.position = CGPointZero;
     [self addChild:_bottomButtons z:10];
@@ -329,10 +333,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   }
 }
 
+- (void) towerButtonClicked {
+  GameState *gs = [GameState sharedGameState];
+  BOOL foundMoreThanOne = NO;
+  int towerId = 0;
+  
+  for (ClanTowerProto *ctp in gs.clanTowers) {
+    if (ctp.hasTowerAttacker && ctp.hasTowerOwner) {
+      if (ctp.towerAttacker.clanId == gs.clan.clanId || ctp.towerOwner.clanId == gs.clan.clanId) {
+        if (towerId > 0) {
+          foundMoreThanOne = YES;
+        } else {
+          towerId = ctp.towerId;
+        }
+      }
+    }
+  }
+  
+  [ClanMenuController displayView];
+  if (!foundMoreThanOne && towerId > 0) {
+    [[ClanMenuController sharedClanMenuController] viewTower:towerId];
+  } else {
+    [[ClanMenuController sharedClanMenuController] setState:kClanTower];
+  }
+}
+
 - (void) tournamentButtonClicked {
   [TournamentMenuController displayView];
 }
-  
+
 - (void) bazaarClicked {
   [[GameLayer sharedGameLayer] loadBazaarMap];
 }
@@ -376,10 +405,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
   [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
   
-//  if (dbmc) {
-//    [Globals displayUIView:dbmc.view];
-//    self.dbmc = nil;
-//  }
+  //  if (dbmc) {
+  //    [Globals displayUIView:dbmc.view];
+  //    self.dbmc = nil;
+  //  }
   
   BOOL showActFeed = NO;
   BOOL showThreeCardMonte = NO;
@@ -444,7 +473,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     showThreeCardMonte = NO;
   }
   
-  [ArmoryViewController displayView];
+//  [ArmoryViewController displayView];
   
   [[GameState sharedGameState] resetLockBoxTimers];
   
@@ -481,19 +510,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [self displayNewQuestArrow];
   }
   
-//#ifndef DEBUG
-//  if (!gs.playerHasBoughtInAppPurchase && !gs.isTutorial) {
-//    // Configure Chartboost
-//    Chartboost *cb = [Chartboost sharedChartboost];
-//    cb.appId = CHART_BOOST_APP_ID;
-//    cb.appSignature = CHART_BOOST_APP_SIGNATURE;
-//    
-//    // Notify the beginnin g of a user session
-//    [cb startSession];
-//    // Show an interstitial
-//    [cb showInterstitial];
-//  }
-//#endif
+  //#ifndef DEBUG
+  //  if (!gs.playerHasBoughtInAppPurchase && !gs.isTutorial) {
+  //    // Configure Chartboost
+  //    Chartboost *cb = [Chartboost sharedChartboost];
+  //    cb.appId = CHART_BOOST_APP_ID;
+  //    cb.appSignature = CHART_BOOST_APP_SIGNATURE;
+  //
+  //    // Notify the beginnin g of a user session
+  //    [cb startSession];
+  //    // Show an interstitial
+  //    [cb showInterstitial];
+  //  }
+  //#endif
   
   _curSilver = 0;
   _curGold = 0;
@@ -502,8 +531,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _curExp = gs.expRequiredForCurrentLevel;
   
   
-//  NSMutableDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:gs.name, @"alias", nil];
-//  [[KPManager sharedManager] updateUserInfo:userInfo];
+  //  NSMutableDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:gs.name, @"alias", nil];
+  //  [[KPManager sharedManager] updateUserInfo:userInfo];
   
   [self schedule:@selector(update)];
 }
@@ -550,7 +579,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   if (!gs.connected) {
     return;
   }
-    
+  
   // Only fire timers if it is less than the current time
   if (gs.currentEnergy < gs.maxEnergy) {
     NSTimeInterval energyComplete = gs.lastEnergyRefill.timeIntervalSinceNow+60*gl.energyRefillWaitMinutes+0.1;
@@ -925,12 +954,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
                               [CCFadeIn actionWithDuration:0.2f],
                               [CCRepeat actionWithAction:
                                [CCSequence actions:
-                                [CCEaseSineInOut actionWithAction:action], 
-                                [CCEaseSineInOut actionWithAction:action.reverse], 
+                                [CCEaseSineInOut actionWithAction:action],
+                                [CCEaseSineInOut actionWithAction:action.reverse],
                                 nil] times:3],
                               [CCSpawn actions:
                                [CCFadeOut actionWithDuration:0.3f],
-                               [CCScaleBy actionWithDuration:0.3f scale:1.4f], 
+                               [CCScaleBy actionWithDuration:0.3f scale:1.4f],
                                nil], nil]];
 }
 
@@ -947,8 +976,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
                                [CCFadeIn actionWithDuration:0.2f],
                                [CCRepeat actionWithAction:
                                 [CCSequence actions:
-                                 [CCEaseSineInOut actionWithAction:action], 
-                                 [CCEaseSineInOut actionWithAction:action.reverse], 
+                                 [CCEaseSineInOut actionWithAction:action],
+                                 [CCEaseSineInOut actionWithAction:action.reverse],
                                  nil] times:6],
                                [CCCallBlock actionWithBlock:
                                 ^{
@@ -956,7 +985,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
                                 }],
                                [CCSpawn actions:
                                 [CCFadeOut actionWithDuration:0.3f],
-                                [CCScaleBy actionWithDuration:0.3f scale:1.4f], 
+                                [CCScaleBy actionWithDuration:0.3f scale:1.4f],
                                 nil], nil]];
   }
 }
@@ -993,7 +1022,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       
       popQuestBadge.scale = 3.f;
       [popQuestBadge runAction:[CCSpawn actions:
-                                [CCFadeIn actionWithDuration:0.3f], 
+                                [CCFadeIn actionWithDuration:0.3f],
                                 [CCScaleTo actionWithDuration:0.3f scale:1.f],
                                 nil]];
       [label runAction:[CCSequence actions:
@@ -1044,12 +1073,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   if (_goldSaleBanner) {
     if (!sale) {
       [_goldSaleBanner runAction:[CCSequence actions:
-                                 [CCMoveTo actionWithDuration:0.3f position:ccp(_goldSaleBanner.position.x, _coinBar.contentSize.height/2-5)],
-                                 [CCCallBlock actionWithBlock:
-                                  ^{
-                                    [_goldSaleBanner removeFromParentAndCleanup:YES];
-                                    _goldSaleBanner = nil;
-                                  }], nil]];
+                                  [CCMoveTo actionWithDuration:0.3f position:ccp(_goldSaleBanner.position.x, _coinBar.contentSize.height/2-5)],
+                                  [CCCallBlock actionWithBlock:
+                                   ^{
+                                     [_goldSaleBanner removeFromParentAndCleanup:YES];
+                                     _goldSaleBanner = nil;
+                                   }], nil]];
     }
   } else {
     if (sale) {
@@ -1080,6 +1109,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _tournamentButton.visible = button;
 }
 
+- (void) shouldDisplayTowerButton:(BOOL)button {
+  _towerButton.visible = button;
+}
+
 - (void) onEnter {
   [super onEnter];
   GameState *gs = [GameState sharedGameState];
@@ -1099,7 +1132,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_staminaBar release];
   [_toolTipTimerDate release];
   self.profilePic = nil;
-//  self.dbmc = nil;
+  //  self.dbmc = nil;
   self.inGameNotification = nil;
   self.chatBottomView = nil;
   [_notificationsToDisplay release];

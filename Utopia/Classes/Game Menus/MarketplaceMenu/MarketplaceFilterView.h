@@ -66,6 +66,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet RarityTab *comTab;
 @property (nonatomic, retain) IBOutlet RarityTab *uncTab;
 @property (nonatomic, retain) IBOutlet RarityTab *rareTab;
+@property (nonatomic, retain) IBOutlet RarityTab *srareTab;
 @property (nonatomic, retain) IBOutlet RarityTab *epicTab;
 @property (nonatomic, retain) IBOutlet RarityTab *legTab;
 
