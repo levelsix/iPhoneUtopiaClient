@@ -989,6 +989,7 @@
   for (NSNumber *num in fqp.taskReqsList) {
     FullTaskProto *task = [gs taskWithId:num.intValue];
     id<TaskElement> te = (id<TaskElement>)[self assetWithId:task.assetNumWithinCity];
+    [te removeArrowAnimated:NO];
     te.partOfQuest = NO;
   }
   

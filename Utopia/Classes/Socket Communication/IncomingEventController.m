@@ -1445,6 +1445,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to accept quest"];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
+    [[OutgoingEventController sharedOutgoingEventController] retrieveQuestLog];
+    
     [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
@@ -1501,15 +1503,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   FullQuestProto *fqp = [gs.inProgressIncompleteQuests objectForKey:questNum];
   
   if (fqp) {
-    [[QuestLogController sharedQuestLogController] loadQuestCompleteScreen:fqp];
     
     [gs.inProgressIncompleteQuests removeObjectForKey:questNum];
     [gs.inProgressCompleteQuests setObject:fqp forKey:questNum];
+    
+    [[QuestLogController sharedQuestLogController] loadQuestRedeemScreen:fqp];
     
     GameMap *map = [Globals mapForQuest:fqp];
     [map reloadQuestGivers];
     
     [Analytics questComplete:proto.questId];
+    
+    [[OutgoingEventController sharedOutgoingEventController] redeemQuest:fqp.questId];
   } else {
     [Globals popupMessage:@"Server sent quest complete for invalid quest"];
   }

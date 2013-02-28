@@ -357,7 +357,7 @@ static float originalLabelX = 0.f;
 @synthesize questCell, recommendedQuestHeader;
 @synthesize availableQuests, inProgressQuests, completedQuests, recommendedQuest;
 
-- (void) reloadArrays {	
+- (void) reloadArrays {
   GameState *gs = [GameState sharedGameState];
   
   self.availableQuests = [[gs.availableQuests.allValues mutableCopy] autorelease];
@@ -537,8 +537,14 @@ static float originalLabelX = 0.f;
     int total = [Globals userTypeIsGood:gs.type] ? fqp.numComponentsForGood : fqp.numComponentsForBad;
     qc.progressLabel.text = [NSString stringWithFormat:@"%d/%d", total, total];
   } else if (section == 2) {
-    qc.availableView.hidden = NO;
-    qc.inProgressView.hidden = YES;
+    qc.availableView.hidden = YES;
+    qc.inProgressView.hidden = NO;
+    
+    qc.spinner.hidden = YES;
+    [qc.spinner stopAnimating];
+    qc.progressLabel.hidden = NO;
+    int total = [Globals userTypeIsGood:gs.type] ? fqp.numComponentsForGood : fqp.numComponentsForBad;
+    qc.progressLabel.text = [NSString stringWithFormat:@"0/%d", total];
   } else if (section == 3) {
     qc.availableView.hidden = YES;
     qc.inProgressView.hidden = NO;
@@ -576,11 +582,12 @@ static float originalLabelX = 0.f;
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.section == 2 || (indexPath.section == 1 && !recQuestIsInProgress)) {
-    QuestCell *qc = (QuestCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [qc visitClicked:nil];
-  } else {
-    [[QuestLogController sharedQuestLogController] questSelected:[self questForIndexPath:indexPath]];
+//    QuestCell *qc = (QuestCell *)[tableView cellForRowAtIndexPath:indexPath];
+//    [qc visitClicked:nil];
+    [[OutgoingEventController sharedOutgoingEventController] acceptQuest:[self questForIndexPath:indexPath].questId];
   }
+  
+  [[QuestLogController sharedQuestLogController] questSelected:[self questForIndexPath:indexPath]];
 }
 
 - (void) dealloc {
@@ -791,7 +798,7 @@ static float originalLabelX = 0.f;
 }
 
 - (IBAction)claimRewardClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] redeemQuest:quest.questId];
+//  [[OutgoingEventController sharedOutgoingEventController] redeemQuest:quest.questId];
   [[QuestLogController sharedQuestLogController] close];
   
   [[SoundEngine sharedSoundEngine] coinDrop];
@@ -1112,6 +1119,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 }
 
 - (IBAction)backClicked:(id)sender {
+  [questListTable reloadData];
   [self showQuestListViewAnimated:YES];
 }
 

@@ -231,11 +231,13 @@
 @synthesize quest, questGiverState, name;
 
 - (id) initWithQuest:(FullQuestProto *)fqp questGiverState:(QuestGiverState)qgs file:(NSString *)file map:(GameMap *)map location:(CGRect)location {
-  if ((self = [super initWithFile:file location:location map:map])) {
-    self.quest = fqp;
-    self.questGiverState = qgs;
-  }
-  return self;
+  // No more quest givers
+  return [super init];
+//  if ((self = [super initWithFile:file location:location map:map])) {
+//    self.quest = fqp;
+//    self.questGiverState = qgs;
+//  }
+//  return self;
 }
 
 - (void) setName:(NSString *)n {
@@ -247,18 +249,18 @@
 }
 
 - (void) setIsSelected:(BOOL)isSelected {
-  if (isSelected) {
-    if (quest) {
-      if (questGiverState == kInProgress) {
-        [[QuestLogController sharedQuestLogController] loadQuest:quest];
-      } else if (questGiverState == kAvailable) {
-        [[ConvoMenuController sharedConvoMenuController] displayQuestConversationForQuest:self.quest];
-      } else if (questGiverState == kCompleted) {
-        [[QuestLogController sharedQuestLogController] loadQuestRedeemScreen:quest];
-      }
-    }
-    [_map setSelected:nil];
-  }
+//  if (isSelected) {
+//    if (quest) {
+//      if (questGiverState == kInProgress) {
+//        [[QuestLogController sharedQuestLogController] loadQuest:quest];
+//      } else if (questGiverState == kAvailable) {
+//        [[ConvoMenuController sharedConvoMenuController] displayQuestConversationForQuest:self.quest];
+//      } else if (questGiverState == kCompleted) {
+//        [[QuestLogController sharedQuestLogController] loadQuestRedeemScreen:quest];
+//      }
+//    }
+//    [_map setSelected:nil];
+//  }
 }
 
 - (void) displayArrow {
@@ -268,6 +270,7 @@
 
 - (void) setQuestGiverState:(QuestGiverState)i {
   questGiverState = i;
+  return;
   
   [self removeChild:_aboveHeadMark cleanup:YES];
   _aboveHeadMark = nil;

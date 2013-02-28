@@ -114,7 +114,6 @@
 										<string key="NSFrame">{{64, 5}, {12, 19}}</string>
 										<reference key="NSSuperview" ref="81473294"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<int key="IBUIContentMode">4</int>
@@ -257,7 +256,6 @@
 						<string key="NSFrame">{{16, 4}, {42, 21}}</string>
 						<reference key="NSSuperview" ref="671068886"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -493,6 +491,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">QuestCell</string>
 					<string key="superclassName">UITableViewCell</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">visitClicked:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">visitClicked:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">visitClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="availableView">UIView</string>
 						<string key="inProgressView">UIView</string>
