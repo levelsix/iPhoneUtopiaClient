@@ -142,7 +142,7 @@
   
   // Alliance Warrior, Legion Mage, Both archers
 //  if (gs.type == UserTypeGoodWarrior || gs.type == UserTypeGoodArcher || gs.type == UserTypeBadArcher) {
-//    type = AnimationTypeGenericAction;
+    type = AnimationTypeGenericAction;
 //  }
   
   NSString *dir = nil;
