@@ -233,7 +233,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _tournamentButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(tournamentButtonClicked)];
     _tournamentButton.position = _lockBoxButton.position;
     
-    s = [CCSprite spriteWithFile:@"tourneyicon.png"];
+    s = [CCSprite spriteWithFile:@"towericon.png"];
     _towerButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(towerButtonClicked)];
     _towerButton.position = ccp(s.contentSize.width/2+BOTTOM_BUTTON_OFFSET, 3*s.contentSize.height/2+2*BOTTOM_BUTTON_OFFSET);
     
@@ -301,6 +301,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _lockBoxButton.visible = NO;
     _bossEventButton.visible = NO;
     _tournamentButton.visible = NO;
+    _towerButton.visible = NO;
   }
   return self;
 }
