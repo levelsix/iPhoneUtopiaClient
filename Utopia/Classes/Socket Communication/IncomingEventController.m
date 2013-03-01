@@ -1469,6 +1469,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.shouldGiveKiipReward) {
       //      [KiipDelegate postAchievementNotificationAchievement:QUEST_REDEEM_KIIP_REWARD];
     }
+    
+    if (proto.hasEquipRewardFromQuest) {
+      [gs addToMyEquips:[NSArray arrayWithObject:proto.equipRewardFromQuest]];
+    }
   } else {
     [Globals popupMessage:@"Server failed to redeem quest"];
     [gs removeAndUndoAllUpdatesForTag:tag];

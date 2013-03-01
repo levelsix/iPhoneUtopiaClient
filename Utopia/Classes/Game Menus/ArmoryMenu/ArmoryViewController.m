@@ -392,23 +392,33 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     for (int i = 0; i < self.boosterPacks.count; i++) {
       BoosterPackProto *bp = [self.boosterPacks objectAtIndex:i];
       if (bp.minLevel <= _level && bp.maxLevel >= _level && (bp.costsCoins == _shouldCostCoins)) {
-        [self armoryRowClicked:[self.armoryTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]]];
+        [self armoryRowClicked:bp];
         _level = 0;
       }
     }
   }
 }
 
-- (IBAction)armoryRowClicked:(UIView *)sender {
-  ArmoryRow *row = nil;
-  while (![sender isKindOfClass:[ArmoryRow class]]) {
-    sender = sender.superview;
+- (IBAction)armoryRowClicked:(id)sender {
+  if (!sender) {
+    return;
   }
-  row = (ArmoryRow *)sender;
+  
+  BoosterPackProto *bp = nil;
+  if ([sender isKindOfClass:[BoosterPackProto class]]) {
+    bp = (BoosterPackProto *)sender;
+  } else {
+    ArmoryRow *row = nil;
+    while (![sender isKindOfClass:[ArmoryRow class]]) {
+      sender = ((UIView *)sender).superview;
+    }
+    row = (ArmoryRow *)sender;
+    bp = row.boosterPack;
+  }
   
   GameState *gs = [GameState sharedGameState];
-  UserBoosterPackProto *userPack = [gs myBoosterPackForId:row.boosterPack.boosterPackId];
-  [self.carouselView updateForBoosterPack:row.boosterPack userPack:userPack];
+  UserBoosterPackProto *userPack = [gs myBoosterPackForId:bp.boosterPackId];
+  [self.carouselView updateForBoosterPack:bp userPack:userPack];
   
   CGRect curRect = self.armoryTableView.frame;
   CGRect r = self.carouselView.frame;
