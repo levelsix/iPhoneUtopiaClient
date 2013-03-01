@@ -93,7 +93,7 @@
   if (s == kProfileState) {
     [self clickButton:kProfileButton];
     [self unclickButton:kEquipButton];
-    [self unclickButton:kSkillsState];
+    [self unclickButton:kSkillsButton];
     [self unclickButton:kSpecialButton];
     
     if (_state == kMyProfile) {
@@ -102,17 +102,17 @@
   } else if (s == kEquipState) {
     [self clickButton:kEquipButton];
     [self unclickButton:kProfileButton];
-    [self unclickButton:kSkillsState];
+    [self unclickButton:kSkillsButton];
     [self unclickButton:kSpecialButton];
   } else if (s == kSkillsState) {
     [self clickButton:kSkillsButton];
     [self unclickButton:kProfileButton];
     [self unclickButton:kEquipButton];
     [self unclickButton:kSpecialButton];
-  } else if (s == kSpecialButton) {
+  } else if (s == kSpecialState) {
     [self clickButton:kSpecialButton];
     [self unclickButton:kProfileButton];
-    [self unclickButton:kSkillsState];
+    [self unclickButton:kSkillsButton];
     [self unclickButton:kEquipButton];
   }
 }
@@ -1274,7 +1274,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   self.curScope = scope;
   
-  [self.equipsTableView setContentOffset:CGPointMake(0, 0) animated:YES];
+  [self.equipsTableView setContentOffset:CGPointMake(0, -self.equipsTableView.contentInset.top) animated:YES];
 }
 
 - (NSArray *) sortEquips:(NSArray *)equips {

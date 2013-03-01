@@ -16,7 +16,7 @@
 #import "EquipDeltaView.h"
 #import "GenericPopupController.h"
 
-#define HAS_VISITED_ARMORY_KEY @"Has visited armory key"
+#define HAS_VISITED_ARMORY_KEY @"Has visited armory key 2"
 
 @implementation ArmoryTopBar
 
@@ -239,6 +239,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     self.cardDisplayView = nil;
     self.infoImageView = nil;
     self.infoScrollView = nil;
+    self.infoLabel = nil;
     self.topBar = nil;
   }
 }
@@ -307,6 +308,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 - (void) loadForLevel:(int)level rarity:(FullEquipProto_Rarity)rarity {
   _level = level;
   _shouldCostCoins = (rarity < FullEquipProto_RarityRare);
+  [self displayBuyChests];
   [self refresh];
 }
 
@@ -384,6 +386,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     }
   }];
   self.boosterPacks = bp;
+  
+  if (self.boosterPacks.count > 0) {
+    for (BoosterPackProto *bpp in self.boosterPacks) {
+      if (bpp.hasDailyLimit) {
+        self.infoLabel.text = [NSString stringWithFormat:@"Note: Each Silver chest can only be purchased %d times a day.", bpp.dailyLimit];
+        break;
+      }
+    }
+  }
   
   [self.armoryTableView reloadData];
   [self.armoryTableView setContentOffset:ccp(0,-self.armoryTableView.contentInset.top)];

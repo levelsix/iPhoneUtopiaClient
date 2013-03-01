@@ -64,6 +64,7 @@
 
 @property (nonatomic, retain) IBOutlet UIScrollView *infoScrollView;
 @property (nonatomic, retain) IBOutlet UIImageView *infoImageView;
+@property (nonatomic, retain) IBOutlet UILabel *infoLabel;
 
 - (void) refresh;
 - (void) close;

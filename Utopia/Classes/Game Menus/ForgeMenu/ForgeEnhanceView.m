@@ -440,12 +440,12 @@
 }
 
 - (void) updateLabels {
-  if (!self.enhancingView.userEquip) {
+  GameState *gs = [GameState sharedGameState];
+  if (!self.enhancingView.userEquip || !gs.equipEnhancement) {
     self.timer = nil;
     return;
   }
   
-  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSArray *arr = [self feederEquips];
   UserEquip *ue = self.enhancingView.userEquip;
