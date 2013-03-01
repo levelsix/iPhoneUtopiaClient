@@ -64,6 +64,7 @@
 								<string key="NSFrame">{{464, -3}, {2, 113}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:196</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="914412045">
 									<int key="NSColorSpace">1</int>
@@ -910,25 +911,10 @@
 					<string key="className">ArmoryViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="armoryRowClicked:">UIView</string>
-						<string key="backClicked:">id</string>
-						<string key="closeClicked:">id</string>
 						<string key="purchaseClicked:">UIView</string>
 						<string key="resetClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="armoryRowClicked:">
-							<string key="name">armoryRowClicked:</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBActionInfo" key="backClicked:">
-							<string key="name">backClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="closeClicked:">
-							<string key="name">closeClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="purchaseClicked:">
 							<string key="name">purchaseClicked:</string>
 							<string key="candidateClassName">UIView</string>
