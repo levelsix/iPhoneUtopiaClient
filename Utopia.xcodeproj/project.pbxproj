@@ -1138,6 +1138,8 @@
 		CF6BDC91156C323E0056B45B /* miss.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4215672BFA00871798 /* miss.png */; };
 		CF6BDC92156C323E0056B45B /* miss@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4315672BFA00871798 /* miss@2x.png */; };
 		CF6BDC9B156DCDC70056B45B /* DescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC9A156DCDC70056B45B /* DescriptionCell.xib */; };
+		CF6F37D616E0337D008CFD52 /* towericon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6F37D416E0337D008CFD52 /* towericon.png */; };
+		CF6F37D716E0337D008CFD52 /* towericon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6F37D516E0337D008CFD52 /* towericon@2x.png */; };
 		CF71C00C15DDB69400AB1802 /* maxyellow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF71C00615DDB69400AB1802 /* maxyellow.png */; };
 		CF71C00D15DDB69400AB1802 /* maxyellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF71C00715DDB69400AB1802 /* maxyellow@2x.png */; };
 		CF71C00E15DDB69400AB1802 /* triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = CF71C00815DDB69400AB1802 /* triangle.png */; };
@@ -3311,6 +3313,8 @@
 		CF6BDC88156C1D860056B45B /* expstars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = expstars.png; sourceTree = "<group>"; };
 		CF6BDC93156C3CD30056B45B /* ClientProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientProperties.h; sourceTree = "<group>"; };
 		CF6BDC9A156DCDC70056B45B /* DescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DescriptionCell.xib; sourceTree = "<group>"; };
+		CF6F37D416E0337D008CFD52 /* towericon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = towericon.png; sourceTree = "<group>"; };
+		CF6F37D516E0337D008CFD52 /* towericon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "towericon@2x.png"; sourceTree = "<group>"; };
 		CF71C00615DDB69400AB1802 /* maxyellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maxyellow.png; sourceTree = "<group>"; };
 		CF71C00715DDB69400AB1802 /* maxyellow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "maxyellow@2x.png"; sourceTree = "<group>"; };
 		CF71C00815DDB69400AB1802 /* triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle.png; sourceTree = "<group>"; };
@@ -6048,6 +6052,8 @@
 		CF1269FD1538ACC600E0C1AD /* Top Bar Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF6F37D416E0337D008CFD52 /* towericon.png */,
+				CF6F37D516E0337D008CFD52 /* towericon@2x.png */,
 				CFF0000116819AB2004C3B27 /* tourneyicon.png */,
 				CFF0000216819AB2004C3B27 /* tourneyicon@2x.png */,
 				CFE954A8166EE6E100DA63CF /* bossicon.png */,
@@ -9148,6 +9154,8 @@
 				CF117CB416D7319C006CFE6B /* findinmarketplace@2x.png in Resources */,
 				CF117CB516D7319C006CFE6B /* viewinarmory.png in Resources */,
 				CF117CB616D7319C006CFE6B /* viewinarmory@2x.png in Resources */,
+				CF6F37D616E0337D008CFD52 /* towericon.png in Resources */,
+				CF6F37D716E0337D008CFD52 /* towericon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
