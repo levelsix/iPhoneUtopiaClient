@@ -559,7 +559,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   self.upgrLevelIcon.level = fi.level+1;
   
   [Globals loadImageForEquip:fi.equipId toView:self.backOldEquipIcon maskedView:nil];
-  [Globals imageNamed:[Globals imageNameForEquip:fi.equipId] withImageView:self.frontOldEquipIcon maskedColor:[UIColor colorWithWhite:0.15f alpha:1.f] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:[Globals imageNameForEquip:fi.equipId] withView:self.frontOldEquipIcon maskedColor:[UIColor colorWithWhite:0.15f alpha:1.f] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.forgeButton.hidden = YES;
   self.okayButton.hidden = YES;

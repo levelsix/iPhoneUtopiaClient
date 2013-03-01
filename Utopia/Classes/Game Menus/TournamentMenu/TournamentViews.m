@@ -17,8 +17,8 @@
 @implementation TournamentPrizeView
 
 - (void) loadForTournamentPrize:(LeaderboardEventRewardProto *)r {
-  [Globals imageNamed:r.prizeImageName withImageView:self.prizeIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-  [Globals imageNamed:r.backgroundImageName withImageView:self.bgdImage maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  [Globals imageNamed:r.prizeImageName withView:self.prizeIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [Globals imageNamed:r.backgroundImageName withView:self.bgdImage maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   
   self.prizeLabel.text = [NSString stringWithFormat:@"%@ Gold", [Globals commafyNumber:r.goldRewarded]];
   

@@ -43,7 +43,7 @@
     self.cityUnlocked.hidden = NO;
     self.itemBackground.highlighted = YES;
     self.itemLabel.text = [fcp.name lowercaseString];
-    [Globals imageNamed:@"FortuneTeller.png" withImageView:self.itemIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+    [Globals imageNamed:@"FortuneTeller.png" withView:self.itemIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
     [_itemViews addObject:self.itemView];
   }
   

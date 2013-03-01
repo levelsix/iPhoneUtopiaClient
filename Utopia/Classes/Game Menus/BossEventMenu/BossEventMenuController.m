@@ -140,7 +140,7 @@
 @implementation BossEventCard
 
 - (void) loadForEquipId:(int)equipId tagImage:(NSString *)tagImage {
-  [Globals imageNamed:tagImage withImageView:self.tagIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:tagImage withView:self.tagIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
@@ -218,7 +218,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(BossEventMenuController);
   [self.middleCard loadForEquipId:lbe.middleEquip.equipId tagImage:lbe.middleTagImage];
   [self.rightCard loadForEquipId:lbe.rightEquip.equipId tagImage:lbe.rightTagImage];
   
-  [Globals imageNamed:lbe.headerImage withImageView:self.headerImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:lbe.headerImage withView:self.headerImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.infoLabel.text = lbe.infoDescription;
   

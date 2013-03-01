@@ -25,9 +25,9 @@
   
   NSString *base = [[[Globals stringForRarity:fep.rarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
   NSString *dotFile = [base stringByAppendingString:@"dot.png"];
-  [Globals imageNamed:dotFile withImageView:self.dotIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:dotFile withView:self.dotIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   NSString *bgdFile = [base stringByAppendingString:@"card.png"];
-  [Globals imageNamed:bgdFile withImageView:self.bgdView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:bgdFile withView:self.bgdView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.amtCollectedLabel.text = [NSString stringWithFormat:@"%d / %d", total-collected, total];
   
@@ -66,8 +66,8 @@
   secondGlow.frame = self.bgdView.bounds;
   [self.bgdView addSubview:secondGlow];
   
-  [Globals imageNamed:@"spinner.png" withImageView:self.spinnerView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
-  [Globals imageNamed:@"bpcardback.png" withImageView:self.cardBackImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:@"spinner.png" withView:self.spinnerView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  [Globals imageNamed:@"bpcardback.png" withView:self.cardBackImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 - (ArmoryListing *) armoryListing {
@@ -229,7 +229,7 @@
   self.numEquipsLabel1.text = [NSString stringWithFormat:@"%d EQUIP%@", gl.purchaseOptionOneNumBoosterItems, gl.purchaseOptionOneNumBoosterItems != 1 ? @"S" : @""];
   self.numEquipsLabel2.text = [NSString stringWithFormat:@"%d EQUIP%@", gl.purchaseOptionTwoNumBoosterItems, gl.purchaseOptionTwoNumBoosterItems != 1 ? @"S" : @""];
   
-  [Globals imageNamed:@"shelfpackbg.png" withImageView:self.shelfImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:@"shelfpackbg.png" withView:self.shelfImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 - (void) updateBottomLabels {
@@ -278,15 +278,15 @@
   NSString *fileEnd = @"tag.png";
   NSString *base = [[[Globals stringForRarity:baseRarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
   NSString *tagFile = [base stringByAppendingString:fileEnd];
-  [Globals imageNamed:tagFile withImageView:self.tagView1 maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:tagFile withView:self.tagView1 maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   base = [[[Globals stringForRarity:baseRarity+1] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
   tagFile = [base stringByAppendingString:fileEnd];
-  [Globals imageNamed:tagFile withImageView:self.tagView2 maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:tagFile withView:self.tagView2 maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   base = [[[Globals stringForRarity:baseRarity+2] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
   tagFile = [base stringByAppendingString:fileEnd];
-  [Globals imageNamed:tagFile withImageView:self.tagView3 maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:tagFile withView:self.tagView3 maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   if (self.booster.salePriceOne > 0) {
     self.saleLabel1.text = [Globals commafyNumber:self.booster.salePriceOne];

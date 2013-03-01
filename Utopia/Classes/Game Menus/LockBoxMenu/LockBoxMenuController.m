@@ -82,7 +82,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   
   UserLockBoxEventProto *ulbe = [gs.myLockBoxEvents objectForKey:[NSNumber numberWithInt:lbe.lockBoxEventId]];
   
-  [Globals imageNamed:lbe.lockBoxImageName withImageView:chestIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:lbe.lockBoxImageName withView:chestIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   [self loadItems:lbe.itemsList userItems:ulbe.itemsList];
   
@@ -221,7 +221,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:[iv convertRect:self.pickView.chestIcon.frame fromView:self.pickView]];
     [iv insertSubview:imgView aboveSubview:iv.maskedItemIcon];
     imgView.contentMode = iv.itemIcon.contentMode;
-    [Globals imageNamed:item.imageName withImageView:imgView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    [Globals imageNamed:item.imageName withView:imgView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
     [UIView animateWithDuration:0.9f animations:^{
       imgView.frame = iv.itemIcon.frame;

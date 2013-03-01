@@ -24,12 +24,12 @@
 }
 
 - (void) loadForImage:(NSString *)img quantity:(int)quantity itemId:(int)itemId {
-  [Globals imageNamed:img withImageView:itemIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:img withView:itemIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   quantityLabel.text = [NSString stringWithFormat:@"x%d", quantity];
   
   if (quantity <= 0) {
     maskedItemIcon.hidden = NO;
-    [Globals imageNamed:img withImageView:maskedItemIcon maskedColor:[UIColor colorWithWhite:0.f alpha:0.7f] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    [Globals imageNamed:img withView:maskedItemIcon maskedColor:[UIColor colorWithWhite:0.f alpha:0.7f] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   } else {
     maskedItemIcon.hidden = YES;
   }
@@ -67,7 +67,7 @@
 - (void) loadForView:(UIView *)view chestImage:(NSString *)chestImage reset:(BOOL)reset {
   Globals *gl = [Globals sharedGlobals];
   
-  [Globals imageNamed:chestImage withImageView:chestIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:chestImage withView:chestIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   freeChanceLabel.text = [NSString stringWithFormat:@"%d%% Chance", (int)(gl.freeChanceToPickLockBox*100)];
   silverChanceLabel.text = [NSString stringWithFormat:@"%d%% Chance", (int)(gl.silverChanceToPickLockBox*100)];
   goldChanceLabel.text = gl.goldChanceToPickLockBox >= 1.f ? @"Guaranteed to Open" : [NSString stringWithFormat:@"%d%% Chance", (int)(gl.goldChanceToPickLockBox*100)];
@@ -161,7 +161,7 @@
     [self.statusView displayLockBoxSuccess];
     chestIcon.alpha = 0.f;
     
-    [Globals imageNamed:proto.imageName withImageView:chestIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    [Globals imageNamed:proto.imageName withView:chestIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
     [UIView animateWithDuration:0.2f animations:^{
       view.alpha = 0.f;
@@ -205,7 +205,7 @@
       UIImageView *imgView = [[UIImageView alloc] initWithFrame:chestIcon.frame];
       [self addSubview:imgView];
       imgView.contentMode = chestIcon.contentMode;
-      [Globals imageNamed:_toFlyDown.imageName withImageView:imgView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+      [Globals imageNamed:_toFlyDown.imageName withView:imgView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
       
       
       [UIView animateWithDuration:0.1f animations:^{
@@ -445,9 +445,9 @@
   
   self.topLabel.text = lbe.eventName;
   self.descriptionLabel.text = lbe.descriptionString;
-  [Globals imageNamed:lbe.descriptionImageName withImageView:descriptionImage maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:lbe.descriptionImageName withView:descriptionImage maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   prizeEquipIcon.equipId = lbe.prizeEquip.equipId;
-  [Globals imageNamed:lbe.tagImageName withImageView:tagIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:lbe.tagImageName withView:tagIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   NSString *imgNames[5];
   for (int i = 0; i < 5; i++) {
@@ -456,11 +456,11 @@
       imgNames[i] = item.imageName;
     }
   }
-  [Globals imageNamed:imgNames[0] withImageView:item1Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  [Globals imageNamed:imgNames[1] withImageView:item2Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  [Globals imageNamed:imgNames[2] withImageView:item3Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  [Globals imageNamed:imgNames[3] withImageView:item4Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  [Globals imageNamed:imgNames[4] withImageView:item5Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:imgNames[0] withView:item1Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:imgNames[1] withView:item2Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:imgNames[2] withView:item3Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:imgNames[3] withView:item4Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:imgNames[4] withView:item5Icon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.attackLabel.text = [Globals commafyNumber:lbe.prizeEquip.attackBoost];
   self.defenseLabel.text = [Globals commafyNumber:lbe.prizeEquip.defenseBoost];

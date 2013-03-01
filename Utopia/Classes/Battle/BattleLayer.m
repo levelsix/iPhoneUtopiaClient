@@ -284,7 +284,7 @@
   nameLabel.text = @"Lock Box";
   nameLabel.textColor = [Globals goldColor];
   equipIcon.equipId = 0;
-  [Globals imageNamed:e.lockBoxImageName withImageView:equipIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:e.lockBoxImageName withView:equipIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   statsView.hidden = YES;
   levelIcon.hidden = YES;

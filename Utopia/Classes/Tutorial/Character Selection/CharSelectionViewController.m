@@ -452,7 +452,7 @@
                     nil];
   
   for (NSString *file in files) {
-    [Globals imageNamed:file withImageView:nil maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+    [Globals imageNamed:file withView:nil maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
   }
 }
 
