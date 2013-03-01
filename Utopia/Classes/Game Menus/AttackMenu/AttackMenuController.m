@@ -258,7 +258,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   [self.attackTableView addSubview:self.refreshHeaderView];
   self.refreshHeaderView.center = ccp(self.attackTableView.frame.size.width/2, -self.refreshHeaderView.frame.size.height/2);
   
-  [Globals imageNamed:@"mapfilter.png" withImageView:self.filterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  [Globals imageNamed:@"mapfilter.png" withView:self.filterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
 }
 
 - (void) didReceiveMemoryWarning

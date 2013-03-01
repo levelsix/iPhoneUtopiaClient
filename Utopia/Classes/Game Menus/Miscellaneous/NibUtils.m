@@ -431,7 +431,7 @@
     
     Globals *gl = [Globals sharedGlobals];
     if (level > 0 && level <= gl.forgeMaxEquipLevel) {
-      [Globals imageNamed:[NSString stringWithFormat:@"lvl%d.png", l] withImageView:self maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+      [Globals imageNamed:[NSString stringWithFormat:@"lvl%d.png", l] withView:self maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     } else {
       self.image = nil;
     }
@@ -450,7 +450,7 @@
     
     Globals *gl = [Globals sharedGlobals];
     if (level > 0 && level <= gl.maxEnhancementLevel) {
-      [Globals imageNamed:[NSString stringWithFormat:@"enhancelvl%d.png", l] withImageView:self maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+      [Globals imageNamed:[NSString stringWithFormat:@"enhancelvl%d.png", l] withView:self maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     } else {
       self.image = nil;
     }

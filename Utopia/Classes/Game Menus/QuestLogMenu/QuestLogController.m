@@ -191,7 +191,7 @@ static float originalLabelX = 0.f;
   
   if (fqp.questGiverImageSuffix) {
     NSString *file = [@"dialogue" stringByAppendingString:fqp.questGiverImageSuffix];
-    [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+    [Globals imageNamed:file withView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   }
   
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[questGiverImageView viewWithTag:150];
@@ -517,7 +517,7 @@ static float originalLabelX = 0.f;
   
   if (fqp.questGiverImageSuffix) {
     NSString *file = [@"dialogue" stringByAppendingString:fqp.questGiverImageSuffix];
-    [Globals imageNamed:file withImageView:qc.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+    [Globals imageNamed:file withView:qc.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   }
   
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[qc.questGiverImageView viewWithTag:150];
@@ -909,7 +909,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   if (fqp.questGiverImageSuffix) {
     NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
     file = [[file stringByReplacingOccurrencesOfString:@".png" withString:@""] stringByAppendingString:@"2.png"];
-    [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+    [Globals imageNamed:file withView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   }
 }
 
@@ -931,7 +931,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   if (fqp.questGiverImageSuffix) {
     NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
     file = [[file stringByReplacingOccurrencesOfString:@".png" withString:@""] stringByAppendingString:@"2.png"];
-    [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+    [Globals imageNamed:file withView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   }
 }
 
@@ -1040,7 +1040,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   if (fqp.questGiverImageSuffix) {
     NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
     file = [[file stringByReplacingOccurrencesOfString:@".png" withString:@""] stringByAppendingString:@"2.png"];
-    [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+    [Globals imageNamed:file withView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   }
   
   [[SoundEngine sharedSoundEngine] questLogOpened];

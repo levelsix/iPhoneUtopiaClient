@@ -147,9 +147,9 @@
 - (void) updateForBoosterPack:(BoosterPackProto *)bpp {
   GameState *gs = [GameState sharedGameState];
   
-  [self.bgdView setImage:[Globals imageNamed:bpp.backgroundImage] forState:UIControlStateNormal];
-  [Globals imageNamed:bpp.chestImage withImageView:self.chestIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-  [Globals imageNamed:bpp.middleImage withImageView:self.middleImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:bpp.backgroundImage withView:self.bgdView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:bpp.chestImage withView:self.chestIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:bpp.middleImage withView:self.middleImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.levelsLabel.text = [NSString stringWithFormat:@"%d-%d", bpp.minLevel, bpp.maxLevel];
   
@@ -214,7 +214,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   self.carouselView.frame = self.armoryTableView.frame;
   [self.armoryTableView.superview addSubview:self.carouselView];
   
-  [Globals imageNamed:BOOSTERS_INSTRUCTIONS_IMAGE withImageView:self.infoImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:BOOSTERS_INSTRUCTIONS_IMAGE withView:self.infoImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   if (self.infoImageView.image) {
     CGRect r = self.infoImageView.frame;

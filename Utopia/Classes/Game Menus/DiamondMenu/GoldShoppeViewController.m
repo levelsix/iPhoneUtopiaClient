@@ -124,7 +124,7 @@
   // Set the icon
   self.coinIcon.highlighted = !product.isGold;
   
-  [Globals imageNamed:product.rewardPicName withImageView:self.pkgIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:product.rewardPicName withView:self.pkgIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 - (void) setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -366,7 +366,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
     self.timer = [NSTimer timerWithTimeInterval:0.01f target:self selector:@selector(updateTimeLabels) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
     
-    [Globals imageNamed:sale.goldShoppeImageName withImageView:saleBackgroundView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+    [Globals imageNamed:sale.goldShoppeImageName withView:saleBackgroundView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
     
     self.saleView.hidden = NO;
     

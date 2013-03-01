@@ -378,7 +378,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
   }
   
-  [self imageNamed:BOOSTERS_INSTRUCTIONS_IMAGE withImageView:nil maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [self imageNamed:BOOSTERS_INSTRUCTIONS_IMAGE withView:nil maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 + (NSString *) font {
@@ -441,12 +441,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator {
   if (!structId || !view) return;
-  [self imageNamed:[self imageNameForStruct:structId] withImageView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil indicator:indicator clearImageDuringDownload:YES];
+  [self imageNamed:[self imageNameForStruct:structId] withView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil indicator:indicator clearImageDuringDownload:YES];
 }
 
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView {
   if (!equipId || !view) return;
-  [self imageNamed:[self imageNameForEquip:equipId] withImageView:view maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [self imageNamed:[self imageNameForEquip:equipId] withView:view maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   //  if (maskedView) {
   //    [self imageNamed:[self imageNameForEquip:equipId] withImageView:maskedView maskedColor:[self colorForUnequippable] indicator:UIActivityIndicatorViewStyleWhite];
@@ -889,7 +889,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return image;
 }
 
-+ (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
++ (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
   // If imageName is null, it will clear the view's pre-downloading stuff
   // If view is null, it will download image without worrying about the view
   Globals *gl = [Globals sharedGlobals];
@@ -908,7 +908,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     if (color) {
       cachedImage = [self maskImage:cachedImage withColor:color];
     }
-    view.image = cachedImage;
+    if ([view isKindOfClass:[UIImageView class]]) {
+      [(UIImageView *)view setImage:cachedImage];
+    } else if ([view isKindOfClass:[UIButton class]]) {
+      [(UIButton *)view setImage:cachedImage forState:UIControlStateNormal];
+    }
+    
     // Do this for equip masked images
     view.hidden = NO;
     
@@ -939,7 +944,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       }
       
       if (clear) {
-        view.image = nil;
+        if ([view isKindOfClass:[UIImageView class]]) {
+          [(UIImageView *)view setImage:nil];
+        } else if ([view isKindOfClass:[UIButton class]]) {
+          [(UIButton *)view setImage:nil forState:UIControlStateNormal];
+        }
       }
       
       [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
@@ -963,7 +972,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
             img = [self maskImage:img withColor:color];
           }
           
-          view.image = img;
+          if ([view isKindOfClass:[UIImageView class]]) {
+            [(UIImageView *)view setImage:img];
+          } else if ([view isKindOfClass:[UIButton class]]) {
+            [(UIButton *)view setImage:img forState:UIControlStateNormal];
+          }
           [view release];
           view.hidden = NO;
           
@@ -990,7 +1003,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       image = [self maskImage:image withColor:color];
     }
     
-    view.image = image;
+    if ([view isKindOfClass:[UIImageView class]]) {
+      [(UIImageView *)view setImage:image];
+    } else if ([view isKindOfClass:[UIButton class]]) {
+      [(UIButton *)view setImage:image forState:UIControlStateNormal];
+    }
     view.hidden = NO;
   }
 }
