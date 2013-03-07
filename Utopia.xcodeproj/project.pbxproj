@@ -9608,6 +9608,7 @@
 					"-ObjC",
 					"-all_load",
 					"-fobjc-arc",
+					"-lsqlite3.0",
 				);
 				PRODUCT_NAME = "Age of Chaos";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -9656,6 +9657,7 @@
 					"-ObjC",
 					"-all_load",
 					"-fobjc-arc",
+					"-lsqlite3.0",
 				);
 				PRODUCT_NAME = "Age of Chaos";
 				PROVISIONING_PROFILE = "";

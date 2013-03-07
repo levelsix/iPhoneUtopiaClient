@@ -36,7 +36,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb303653176390503</string>
+				<string>fb308804055902016</string>
 			</array>
 		</dict>
 	</array>
@@ -84,5 +84,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>FacebookAppID</key>
+	<string>308804055902016</string>
 </dict>
 </plist>
