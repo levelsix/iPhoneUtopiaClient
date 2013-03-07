@@ -144,9 +144,6 @@ static BOOL shake_once = NO;
   } else {
     _topBar = [TopBar sharedTopBar];
     [self addChild:_topBar z:2];
-    
-    CCLayer *black = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 255)];
-    [self addChild:black z:5 tag:9];
   }
 }
 
@@ -212,12 +209,6 @@ static BOOL shake_once = NO;
 }
 
 - (void) loadTutorialMissionMap {
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  
-  // Need this to be able to run on background thread
-  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
-  [EAGLContext setCurrentContext:k_context];
-  
   TutorialMissionMap *map = [TutorialMissionMap sharedTutorialMissionMap];
   currentCity = 1;
   _missionMap = map;
@@ -226,11 +217,8 @@ static BOOL shake_once = NO;
   [_topBar loadNormalConfiguration];
   
   [self addChild:_missionMap z:1];
-  [map allowBlink];
   
   [self closeHomeMap];
-  
-  [pool release];
 }
 
 - (void) checkHomeMapExists {

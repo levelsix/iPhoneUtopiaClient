@@ -15,6 +15,9 @@
 #import "DialogMenuController.h"
 #import "TutorialConstants.h"
 #import "TutorialProfilePicture.h"
+#import "TutorialAttackMenuController.h"
+
+#define BUTTON_OPACITY 70
 
 @implementation TutorialTopBar
 
@@ -31,6 +34,20 @@
   self.isTouchEnabled = NO;
   
   _lockBoxButton.visible = NO;
+  
+  [_arrow release];
+  _arrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
+  
+  _questButton.normalImage.opacity = BUTTON_OPACITY;
+  _questButton.selectedImage.opacity = BUTTON_OPACITY;
+  _mapButton.normalImage.opacity = BUTTON_OPACITY;
+  _mapButton.selectedImage.opacity = BUTTON_OPACITY;
+  _homeButton.normalImage.opacity = BUTTON_OPACITY;
+  _homeButton.selectedImage.opacity = BUTTON_OPACITY;
+  _attackButton.normalImage.opacity = BUTTON_OPACITY;
+  _attackButton.selectedImage.opacity = BUTTON_OPACITY;
+  _bazaarButton.normalImage.opacity = BUTTON_OPACITY;
+  _bazaarButton.selectedImage.opacity = BUTTON_OPACITY;
 }
 
 - (void) update {
@@ -112,10 +129,12 @@
   
   [TutorialHomeMap sharedHomeMap];
   
-  _arrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
   [self addChild:_arrow];
   _arrow.position = ccpAdd(_homeButton.position, ccp(-_homeButton.contentSize.width/2-_arrow.contentSize.width/2, 0));
   [Globals animateCCArrow:_arrow atAngle:0];
+  
+  _homeButton.normalImage.opacity = 255;
+  _homeButton.selectedImage.opacity = 255;
   
   [DialogMenuController displayViewForText:[[TutorialConstants sharedTutorialConstants] beforeHomeText]];
 }
@@ -127,8 +146,30 @@
   _arrow.position = ccpAdd(_questButton.position, ccp(-_questButton.contentSize.width/2-10, 0));
   [Globals animateCCArrow:_arrow atAngle:0];
   
+  _questButton.normalImage.opacity = 255;
+  _questButton.selectedImage.opacity = 255;
+  
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.beforeEndText];
+  
+  if (_finishedFirstQuestPhase) {
+    [DialogMenuController displayViewForText:tc.beforeEndText];
+  } else {
+    [DialogMenuController displayViewForText:tc.questIconText];
+  }
+}
+
+- (void) beginAttackPhase {
+  _attackPhase = YES;
+  
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.beforeAttackText];
+  
+  _attackButton.normalImage.opacity = 255;
+  _attackButton.selectedImage.opacity = 255;
+  
+  [self addChild:_arrow];
+  _arrow.position = ccpAdd(_attackButton.position, ccp(0, _attackButton.contentSize.width/2+10));
+  [Globals animateCCArrow:_arrow atAngle:-M_PI_2];
 }
 
 - (void) globeClicked {
@@ -144,7 +185,20 @@
 }
 
 - (void) attackClicked {
-  return;
+  if (_attackPhase) {
+    _attackPhase = NO;
+    [_arrow removeFromParentAndCleanup:YES];
+    _attackButton.normalImage.opacity = BUTTON_OPACITY;
+    _attackButton.selectedImage.opacity = BUTTON_OPACITY;
+    
+    [TutorialAttackMenuController sharedAttackMenuController];
+    [AttackMenuController displayView];
+    
+    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+    [DialogMenuController displayViewForText:tc.tapToAttackText];
+    DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
+    dmc.view.center = ccpAdd(dmc.view.center, ccp(0, 150));
+  }
 }
 
 - (void) lockBoxButtonClicked {
@@ -164,8 +218,14 @@
     [super questButtonClicked];
     _questsPhase = NO;
     [_arrow removeFromParentAndCleanup:YES];
+    _questButton.normalImage.opacity = BUTTON_OPACITY;
+    _questButton.selectedImage.opacity = BUTTON_OPACITY;
     
-    [[TutorialHomeMap sharedHomeMap] performSelector:@selector(endTutorial) withObject:nil afterDelay:0.5f];
+    if (_finishedFirstQuestPhase) {
+      [[TutorialHomeMap sharedHomeMap] performSelector:@selector(endTutorial) withObject:nil afterDelay:0.5f];
+    } else {
+      _finishedFirstQuestPhase = YES;
+    }
     
     [DialogMenuController closeView];
   }
@@ -180,6 +240,8 @@
     [super homeClicked];
     _myCityPhase = NO;
     [_arrow removeFromParentAndCleanup:YES];
+    _homeButton.normalImage.opacity = BUTTON_OPACITY;
+    _homeButton.selectedImage.opacity = BUTTON_OPACITY;
     
     [[TutorialHomeMap sharedHomeMap] performSelector:@selector(startCarpPhase) withObject:nil afterDelay:0.5f];
     

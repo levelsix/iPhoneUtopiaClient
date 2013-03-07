@@ -11024,6 +11024,7 @@ static MonteCardProto* defaultMonteCardProtoInstance = nil;
 @property (retain) NSString* tag;
 @property BOOL isGood;
 @property int32_t currentTierLevel;
+@property BOOL requestToJoinRequired;
 @end
 
 @implementation FullClanProto
@@ -11089,6 +11090,18 @@ static MonteCardProto* defaultMonteCardProtoInstance = nil;
   hasCurrentTierLevel_ = !!value;
 }
 @synthesize currentTierLevel;
+- (BOOL) hasRequestToJoinRequired {
+  return !!hasRequestToJoinRequired_;
+}
+- (void) setHasRequestToJoinRequired:(BOOL) value {
+  hasRequestToJoinRequired_ = !!value;
+}
+- (BOOL) requestToJoinRequired {
+  return !!requestToJoinRequired_;
+}
+- (void) setRequestToJoinRequired:(BOOL) value {
+  requestToJoinRequired_ = !!value;
+}
 - (void) dealloc {
   self.name = nil;
   self.owner = nil;
@@ -11106,6 +11119,7 @@ static MonteCardProto* defaultMonteCardProtoInstance = nil;
     self.tag = @"";
     self.isGood = NO;
     self.currentTierLevel = 0;
+    self.requestToJoinRequired = NO;
   }
   return self;
 }
@@ -11149,6 +11163,9 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   if (self.hasCurrentTierLevel) {
     [output writeInt32:8 value:self.currentTierLevel];
   }
+  if (self.hasRequestToJoinRequired) {
+    [output writeBool:9 value:self.requestToJoinRequired];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -11181,6 +11198,9 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   }
   if (self.hasCurrentTierLevel) {
     size += computeInt32Size(8, self.currentTierLevel);
+  }
+  if (self.hasRequestToJoinRequired) {
+    size += computeBoolSize(9, self.requestToJoinRequired);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -11281,6 +11301,9 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   if (other.hasCurrentTierLevel) {
     [self setCurrentTierLevel:other.currentTierLevel];
   }
+  if (other.hasRequestToJoinRequired) {
+    [self setRequestToJoinRequired:other.requestToJoinRequired];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -11337,6 +11360,10 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
       }
       case 64: {
         [self setCurrentTierLevel:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setRequestToJoinRequired:[input readBool]];
         break;
       }
     }
@@ -11484,6 +11511,22 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   result.currentTierLevel = 0;
   return self;
 }
+- (BOOL) hasRequestToJoinRequired {
+  return result.hasRequestToJoinRequired;
+}
+- (BOOL) requestToJoinRequired {
+  return result.requestToJoinRequired;
+}
+- (FullClanProto_Builder*) setRequestToJoinRequired:(BOOL) value {
+  result.hasRequestToJoinRequired = YES;
+  result.requestToJoinRequired = value;
+  return self;
+}
+- (FullClanProto_Builder*) clearRequestToJoinRequired {
+  result.hasRequestToJoinRequired = NO;
+  result.requestToJoinRequired = NO;
+  return self;
+}
 @end
 
 @interface MinimumClanProto ()
@@ -11495,6 +11538,7 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
 @property (retain) NSString* tag;
 @property BOOL isGood;
 @property int32_t currentTierLevel;
+@property BOOL requestToJoinRequired;
 @end
 
 @implementation MinimumClanProto
@@ -11560,6 +11604,18 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   hasCurrentTierLevel_ = !!value;
 }
 @synthesize currentTierLevel;
+- (BOOL) hasRequestToJoinRequired {
+  return !!hasRequestToJoinRequired_;
+}
+- (void) setHasRequestToJoinRequired:(BOOL) value {
+  hasRequestToJoinRequired_ = !!value;
+}
+- (BOOL) requestToJoinRequired {
+  return !!requestToJoinRequired_;
+}
+- (void) setRequestToJoinRequired:(BOOL) value {
+  requestToJoinRequired_ = !!value;
+}
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -11576,6 +11632,7 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
     self.tag = @"";
     self.isGood = NO;
     self.currentTierLevel = 0;
+    self.requestToJoinRequired = NO;
   }
   return self;
 }
@@ -11619,6 +11676,9 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   if (self.hasCurrentTierLevel) {
     [output writeInt32:8 value:self.currentTierLevel];
   }
+  if (self.hasRequestToJoinRequired) {
+    [output writeBool:9 value:self.requestToJoinRequired];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -11651,6 +11711,9 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   }
   if (self.hasCurrentTierLevel) {
     size += computeInt32Size(8, self.currentTierLevel);
+  }
+  if (self.hasRequestToJoinRequired) {
+    size += computeBoolSize(9, self.requestToJoinRequired);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -11751,6 +11814,9 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   if (other.hasCurrentTierLevel) {
     [self setCurrentTierLevel:other.currentTierLevel];
   }
+  if (other.hasRequestToJoinRequired) {
+    [self setRequestToJoinRequired:other.requestToJoinRequired];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -11802,6 +11868,10 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
       }
       case 64: {
         [self setCurrentTierLevel:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setRequestToJoinRequired:[input readBool]];
         break;
       }
     }
@@ -11933,6 +12003,22 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
 - (MinimumClanProto_Builder*) clearCurrentTierLevel {
   result.hasCurrentTierLevel = NO;
   result.currentTierLevel = 0;
+  return self;
+}
+- (BOOL) hasRequestToJoinRequired {
+  return result.hasRequestToJoinRequired;
+}
+- (BOOL) requestToJoinRequired {
+  return result.requestToJoinRequired;
+}
+- (MinimumClanProto_Builder*) setRequestToJoinRequired:(BOOL) value {
+  result.hasRequestToJoinRequired = YES;
+  result.requestToJoinRequired = value;
+  return self;
+}
+- (MinimumClanProto_Builder*) clearRequestToJoinRequired {
+  result.hasRequestToJoinRequired = NO;
+  result.requestToJoinRequired = NO;
   return self;
 }
 @end

@@ -440,12 +440,12 @@
 }
 
 - (void) updateLabels {
-  if (!self.enhancingView.userEquip) {
+  GameState *gs = [GameState sharedGameState];
+  if (!self.enhancingView.userEquip || !gs.equipEnhancement) {
     self.timer = nil;
     return;
   }
   
-  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSArray *arr = [self feederEquips];
   UserEquip *ue = self.enhancingView.userEquip;
@@ -594,14 +594,18 @@
   Globals *gl = [Globals sharedGlobals];
   [self reloadUserEquips];
   
-  for (ForgeEnhanceItemView *fiv in self.feederViews) {
-    [UIView animateWithDuration:0.3f animations:^{
+  [UIView animateWithDuration:0.3f animations:^{
+    for (ForgeEnhanceItemView *fiv in self.feederViews) {
       fiv.equipIcon.alpha = 0.f;
-    } completion:^(BOOL finished) {
+    }
+  } completion:^(BOOL finished) {
+    for (ForgeEnhanceItemView *fiv in self.feederViews) {
       [fiv updateForNoEquip];
       fiv.equipIcon.alpha = 1.f;
-    }];
-  }
+    }
+    
+    [self updateBottomView];
+  }];
   
   int index = 0;
   for (int i = 0; i < self.userEquips.count; i++) {
@@ -616,12 +620,10 @@
     if([gl calculateEnhancementLevel:ue.enhancementPercentage] >= gl.maxEnhancementLevel) {
       [self clearAllViewsAnimated:YES];
     } else {
-      [self.enhancingView updateForUserEquip:ue];
       [self.enhanceTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+      [self.enhancingView updateForUserEquip:ue];
     }
   }
-  
-  [self performSelector:@selector(updateBottomView) withObject:nil afterDelay:0.5f];
   
   ForgeMenuController *fmc = [ForgeMenuController sharedForgeMenuController];
   [fmc.loadingView stop];

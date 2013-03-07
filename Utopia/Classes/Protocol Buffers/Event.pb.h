@@ -44,6 +44,10 @@
 @class ChangeClanDescriptionRequestProto_Builder;
 @class ChangeClanDescriptionResponseProto;
 @class ChangeClanDescriptionResponseProto_Builder;
+@class ChangeClanJoinTypeRequestProto;
+@class ChangeClanJoinTypeRequestProto_Builder;
+@class ChangeClanJoinTypeResponseProto;
+@class ChangeClanJoinTypeResponseProto_Builder;
 @class ChangeUserLocationRequestProto;
 @class ChangeUserLocationRequestProto_Builder;
 @class ChangeUserLocationResponseProto;
@@ -1095,11 +1099,12 @@ typedef enum {
 BOOL LeaveClanResponseProto_LeaveClanStatusIsValidValue(LeaveClanResponseProto_LeaveClanStatus value);
 
 typedef enum {
-  RequestJoinClanResponseProto_RequestJoinClanStatusSuccess = 0,
+  RequestJoinClanResponseProto_RequestJoinClanStatusRequestSuccess = 0,
   RequestJoinClanResponseProto_RequestJoinClanStatusOtherFail = 1,
   RequestJoinClanResponseProto_RequestJoinClanStatusAlreadyInClan = 2,
   RequestJoinClanResponseProto_RequestJoinClanStatusRequestAlreadyFiled = 3,
   RequestJoinClanResponseProto_RequestJoinClanStatusWrongSide = 5,
+  RequestJoinClanResponseProto_RequestJoinClanStatusJoinSuccess = 6,
 } RequestJoinClanResponseProto_RequestJoinClanStatus;
 
 BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinClanResponseProto_RequestJoinClanStatus value);
@@ -1348,6 +1353,15 @@ typedef enum {
 } ResetBoosterPackResponseProto_ResetBoosterPackStatus;
 
 BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoosterPackResponseProto_ResetBoosterPackStatus value);
+
+typedef enum {
+  ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusSuccess = 0,
+  ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusOtherFail = 1,
+  ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusNotInClan = 2,
+  ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusNotOwner = 3,
+} ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatus;
+
+BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -2013,12 +2027,14 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 
 @interface StartupRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasIsForceTutorial_:1;
   BOOL hasVersionNum_:1;
   BOOL hasUdid_:1;
   BOOL hasApsalarId_:1;
   BOOL hasIOs5Udid_:1;
   BOOL hasMacAddress_:1;
   BOOL hasAdvertiserId_:1;
+  BOOL isForceTutorial_:1;
   Float32 versionNum;
   NSString* udid;
   NSString* apsalarId;
@@ -2032,12 +2048,14 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 - (BOOL) hasIOs5Udid;
 - (BOOL) hasMacAddress;
 - (BOOL) hasAdvertiserId;
+- (BOOL) hasIsForceTutorial;
 @property (readonly, retain) NSString* udid;
 @property (readonly) Float32 versionNum;
 @property (readonly, retain) NSString* apsalarId;
 @property (readonly, retain) NSString* iOs5Udid;
 @property (readonly, retain) NSString* macAddress;
 @property (readonly, retain) NSString* advertiserId;
+- (BOOL) isForceTutorial;
 
 + (StartupRequestProto*) defaultInstance;
 - (StartupRequestProto*) defaultInstance;
@@ -2102,6 +2120,11 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 - (NSString*) advertiserId;
 - (StartupRequestProto_Builder*) setAdvertiserId:(NSString*) value;
 - (StartupRequestProto_Builder*) clearAdvertiserId;
+
+- (BOOL) hasIsForceTutorial;
+- (BOOL) isForceTutorial;
+- (StartupRequestProto_Builder*) setIsForceTutorial:(BOOL) value;
+- (StartupRequestProto_Builder*) clearIsForceTutorial;
 @end
 
 @interface StartupResponseProto : PBGeneratedMessage {
@@ -5025,64 +5048,72 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
 @private
-  BOOL hasMinNameLength_:1;
-  BOOL hasMaxNameLength_:1;
+  BOOL hasFirstBattleExpGain_:1;
+  BOOL hasFirstBattleCoinGain_:1;
+  BOOL hasExpRequiredForLevelThree_:1;
+  BOOL hasExpRequiredForLevelTwo_:1;
+  BOOL hasInitDiamonds_:1;
+  BOOL hasInitCoins_:1;
   BOOL hasCoinRewardForBeingReferred_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasMinNameLength_:1;
   BOOL hasWarriorInitDefense_:1;
   BOOL hasWarriorInitAttack_:1;
-  BOOL hasInitCoins_:1;
-  BOOL hasInitDiamonds_:1;
+  BOOL hasInitEnergy_:1;
+  BOOL hasInitStamina_:1;
+  BOOL hasInitHealth_:1;
+  BOOL hasStructToBuild_:1;
+  BOOL hasDiamondCostToInstabuildFirstStruct_:1;
+  BOOL hasArcherInitAttack_:1;
+  BOOL hasArcherInitDefense_:1;
   BOOL hasMageInitDefense_:1;
   BOOL hasMageInitAttack_:1;
-  BOOL hasExpRequiredForLevelTwo_:1;
-  BOOL hasExpRequiredForLevelThree_:1;
-  BOOL hasArcherInitDefense_:1;
-  BOOL hasArcherInitAttack_:1;
-  BOOL hasDiamondCostToInstabuildFirstStruct_:1;
-  BOOL hasStructToBuild_:1;
-  BOOL hasInitHealth_:1;
-  BOOL hasInitStamina_:1;
-  BOOL hasInitEnergy_:1;
-  BOOL hasFirstWallPost_:1;
-  BOOL hasWarriorInitArmor_:1;
-  BOOL hasWarriorInitWeapon_:1;
-  BOOL hasMageInitArmor_:1;
   BOOL hasMageInitWeapon_:1;
-  BOOL hasArcherInitArmor_:1;
-  BOOL hasArcherInitWeapon_:1;
+  BOOL hasFirstTaskBad_:1;
+  BOOL hasFirstTaskGood_:1;
+  BOOL hasFirstWallPost_:1;
+  BOOL hasMageInitArmor_:1;
   BOOL hasTutorialQuest_:1;
-  int32_t minNameLength;
-  int32_t maxNameLength;
+  BOOL hasArcherInitArmor_:1;
+  BOOL hasWarriorInitWeapon_:1;
+  BOOL hasWarriorInitArmor_:1;
+  BOOL hasArcherInitWeapon_:1;
+  int32_t firstBattleExpGain;
+  int32_t firstBattleCoinGain;
+  int32_t expRequiredForLevelThree;
+  int32_t expRequiredForLevelTwo;
+  int32_t initDiamonds;
+  int32_t initCoins;
   int32_t coinRewardForBeingReferred;
+  int32_t maxNameLength;
+  int32_t minNameLength;
   int32_t warriorInitDefense;
   int32_t warriorInitAttack;
-  int32_t initCoins;
-  int32_t initDiamonds;
+  int32_t initEnergy;
+  int32_t initStamina;
+  int32_t initHealth;
+  int32_t structToBuild;
+  int32_t diamondCostToInstabuildFirstStruct;
+  int32_t archerInitAttack;
+  int32_t archerInitDefense;
   int32_t mageInitDefense;
   int32_t mageInitAttack;
-  int32_t expRequiredForLevelTwo;
-  int32_t expRequiredForLevelThree;
-  int32_t archerInitDefense;
-  int32_t archerInitAttack;
-  int32_t diamondCostToInstabuildFirstStruct;
-  int32_t structToBuild;
-  int32_t initHealth;
-  int32_t initStamina;
-  int32_t initEnergy;
-  PlayerWallPostProto* firstWallPost;
-  FullEquipProto* warriorInitArmor;
-  FullEquipProto* warriorInitWeapon;
-  FullEquipProto* mageInitArmor;
   FullEquipProto* mageInitWeapon;
-  FullEquipProto* archerInitArmor;
-  FullEquipProto* archerInitWeapon;
+  FullTaskProto* firstTaskBad;
+  FullTaskProto* firstTaskGood;
+  PlayerWallPostProto* firstWallPost;
+  FullEquipProto* mageInitArmor;
   StartupResponseProto_TutorialConstants_FullTutorialQuestProto* tutorialQuest;
-  NSMutableArray* mutableFirstCityElementsForGoodList;
-  NSMutableArray* mutableFirstCityElementsForBadList;
+  FullEquipProto* archerInitArmor;
+  FullEquipProto* warriorInitWeapon;
+  FullEquipProto* warriorInitArmor;
+  FullEquipProto* archerInitWeapon;
   NSMutableArray* mutableCarpenterStructsList;
   NSMutableArray* mutableCitiesNewlyAvailableToUserAfterLevelupList;
   NSMutableArray* mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
   NSMutableArray* mutableNewlyAvailableStructsAfterLevelupList;
+  NSMutableArray* mutableFirstCityElementsForBadList;
+  NSMutableArray* mutableFirstCityElementsForGoodList;
 }
 - (BOOL) hasInitEnergy;
 - (BOOL) hasInitStamina;
@@ -5110,6 +5141,10 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 - (BOOL) hasExpRequiredForLevelTwo;
 - (BOOL) hasExpRequiredForLevelThree;
 - (BOOL) hasFirstWallPost;
+- (BOOL) hasFirstTaskGood;
+- (BOOL) hasFirstTaskBad;
+- (BOOL) hasFirstBattleCoinGain;
+- (BOOL) hasFirstBattleExpGain;
 @property (readonly) int32_t initEnergy;
 @property (readonly) int32_t initStamina;
 @property (readonly) int32_t initHealth;
@@ -5136,6 +5171,10 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 @property (readonly) int32_t expRequiredForLevelTwo;
 @property (readonly) int32_t expRequiredForLevelThree;
 @property (readonly, retain) PlayerWallPostProto* firstWallPost;
+@property (readonly, retain) FullTaskProto* firstTaskGood;
+@property (readonly, retain) FullTaskProto* firstTaskBad;
+@property (readonly) int32_t firstBattleCoinGain;
+@property (readonly) int32_t firstBattleExpGain;
 - (NSArray*) firstCityElementsForGoodList;
 - (NeutralCityElementProto*) firstCityElementsForGoodAtIndex:(int32_t) index;
 - (NSArray*) firstCityElementsForBadList;
@@ -5168,40 +5207,36 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 
 @interface StartupResponseProto_TutorialConstants_FullTutorialQuestProto : PBGeneratedMessage {
 @private
-  BOOL hasFirstDefeatTypeJobBattleExpGain_:1;
-  BOOL hasFirstDefeatTypeJobBattleCoinGain_:1;
-  BOOL hasFirstTaskCompleteCoinGain_:1;
-  BOOL hasExpGained_:1;
-  BOOL hasCoinsGained_:1;
   BOOL hasAssetNumWithinCity_:1;
-  BOOL hasBadDoneResponse_:1;
-  BOOL hasGoodDoneResponse_:1;
-  BOOL hasBadDescription_:1;
-  BOOL hasGoodDescription_:1;
-  BOOL hasBadName_:1;
+  BOOL hasCoinsGained_:1;
+  BOOL hasExpGained_:1;
+  BOOL hasTaskCompleteCoinGain_:1;
   BOOL hasGoodName_:1;
+  BOOL hasBadName_:1;
+  BOOL hasGoodDescription_:1;
+  BOOL hasBadDescription_:1;
+  BOOL hasGoodDoneResponse_:1;
+  BOOL hasBadDoneResponse_:1;
   BOOL hasGoodAcceptDialogue_:1;
   BOOL hasBadAcceptDialogue_:1;
-  BOOL hasFirstTaskGood_:1;
-  BOOL hasFirstTaskBad_:1;
-  BOOL hasFirstDefeatTypeJobBattleLootAmulet_:1;
-  int32_t firstDefeatTypeJobBattleExpGain;
-  int32_t firstDefeatTypeJobBattleCoinGain;
-  int32_t firstTaskCompleteCoinGain;
-  int32_t expGained;
-  int32_t coinsGained;
+  BOOL hasTaskGood_:1;
+  BOOL hasTaskBad_:1;
+  BOOL hasEquipReward_:1;
   int32_t assetNumWithinCity;
-  NSString* badDoneResponse;
-  NSString* goodDoneResponse;
-  NSString* badDescription;
-  NSString* goodDescription;
-  NSString* badName;
+  int32_t coinsGained;
+  int32_t expGained;
+  int32_t taskCompleteCoinGain;
   NSString* goodName;
+  NSString* badName;
+  NSString* goodDescription;
+  NSString* badDescription;
+  NSString* goodDoneResponse;
+  NSString* badDoneResponse;
   DialogueProto* goodAcceptDialogue;
   DialogueProto* badAcceptDialogue;
-  FullTaskProto* firstTaskGood;
-  FullTaskProto* firstTaskBad;
-  FullEquipProto* firstDefeatTypeJobBattleLootAmulet;
+  FullTaskProto* taskGood;
+  FullTaskProto* taskBad;
+  FullEquipProto* equipReward;
 }
 - (BOOL) hasGoodName;
 - (BOOL) hasBadName;
@@ -5214,12 +5249,10 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 - (BOOL) hasAssetNumWithinCity;
 - (BOOL) hasCoinsGained;
 - (BOOL) hasExpGained;
-- (BOOL) hasFirstTaskGood;
-- (BOOL) hasFirstTaskBad;
-- (BOOL) hasFirstTaskCompleteCoinGain;
-- (BOOL) hasFirstDefeatTypeJobBattleCoinGain;
-- (BOOL) hasFirstDefeatTypeJobBattleExpGain;
-- (BOOL) hasFirstDefeatTypeJobBattleLootAmulet;
+- (BOOL) hasTaskGood;
+- (BOOL) hasTaskBad;
+- (BOOL) hasTaskCompleteCoinGain;
+- (BOOL) hasEquipReward;
 @property (readonly, retain) NSString* goodName;
 @property (readonly, retain) NSString* badName;
 @property (readonly, retain) NSString* goodDescription;
@@ -5231,12 +5264,10 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 @property (readonly) int32_t assetNumWithinCity;
 @property (readonly) int32_t coinsGained;
 @property (readonly) int32_t expGained;
-@property (readonly, retain) FullTaskProto* firstTaskGood;
-@property (readonly, retain) FullTaskProto* firstTaskBad;
-@property (readonly) int32_t firstTaskCompleteCoinGain;
-@property (readonly) int32_t firstDefeatTypeJobBattleCoinGain;
-@property (readonly) int32_t firstDefeatTypeJobBattleExpGain;
-@property (readonly, retain) FullEquipProto* firstDefeatTypeJobBattleLootAmulet;
+@property (readonly, retain) FullTaskProto* taskGood;
+@property (readonly, retain) FullTaskProto* taskBad;
+@property (readonly) int32_t taskCompleteCoinGain;
+@property (readonly, retain) FullEquipProto* equipReward;
 
 + (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) defaultInstance;
 - (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) defaultInstance;
@@ -5331,41 +5362,31 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 - (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setExpGained:(int32_t) value;
 - (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearExpGained;
 
-- (BOOL) hasFirstTaskGood;
-- (FullTaskProto*) firstTaskGood;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskGood:(FullTaskProto*) value;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskGoodBuilder:(FullTaskProto_Builder*) builderForValue;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFirstTaskGood:(FullTaskProto*) value;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstTaskGood;
+- (BOOL) hasTaskGood;
+- (FullTaskProto*) taskGood;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setTaskGood:(FullTaskProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setTaskGoodBuilder:(FullTaskProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeTaskGood:(FullTaskProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearTaskGood;
 
-- (BOOL) hasFirstTaskBad;
-- (FullTaskProto*) firstTaskBad;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskBad:(FullTaskProto*) value;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskBadBuilder:(FullTaskProto_Builder*) builderForValue;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFirstTaskBad:(FullTaskProto*) value;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstTaskBad;
+- (BOOL) hasTaskBad;
+- (FullTaskProto*) taskBad;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setTaskBad:(FullTaskProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setTaskBadBuilder:(FullTaskProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeTaskBad:(FullTaskProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearTaskBad;
 
-- (BOOL) hasFirstTaskCompleteCoinGain;
-- (int32_t) firstTaskCompleteCoinGain;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskCompleteCoinGain:(int32_t) value;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstTaskCompleteCoinGain;
+- (BOOL) hasTaskCompleteCoinGain;
+- (int32_t) taskCompleteCoinGain;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setTaskCompleteCoinGain:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearTaskCompleteCoinGain;
 
-- (BOOL) hasFirstDefeatTypeJobBattleCoinGain;
-- (int32_t) firstDefeatTypeJobBattleCoinGain;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleCoinGain:(int32_t) value;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstDefeatTypeJobBattleCoinGain;
-
-- (BOOL) hasFirstDefeatTypeJobBattleExpGain;
-- (int32_t) firstDefeatTypeJobBattleExpGain;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleExpGain:(int32_t) value;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstDefeatTypeJobBattleExpGain;
-
-- (BOOL) hasFirstDefeatTypeJobBattleLootAmulet;
-- (FullEquipProto*) firstDefeatTypeJobBattleLootAmulet;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleLootAmulet:(FullEquipProto*) value;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleLootAmuletBuilder:(FullEquipProto_Builder*) builderForValue;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFirstDefeatTypeJobBattleLootAmulet:(FullEquipProto*) value;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstDefeatTypeJobBattleLootAmulet;
+- (BOOL) hasEquipReward;
+- (FullEquipProto*) equipReward;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setEquipReward:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setEquipRewardBuilder:(FullEquipProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeEquipReward:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearEquipReward;
 @end
 
 @interface StartupResponseProto_TutorialConstants_Builder : PBGeneratedMessage_Builder {
@@ -5572,6 +5593,30 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 - (StartupResponseProto_TutorialConstants_Builder*) setFirstWallPostBuilder:(PlayerWallPostProto_Builder*) builderForValue;
 - (StartupResponseProto_TutorialConstants_Builder*) mergeFirstWallPost:(PlayerWallPostProto*) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearFirstWallPost;
+
+- (BOOL) hasFirstTaskGood;
+- (FullTaskProto*) firstTaskGood;
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstTaskGood:(FullTaskProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstTaskGoodBuilder:(FullTaskProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFirstTaskGood:(FullTaskProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearFirstTaskGood;
+
+- (BOOL) hasFirstTaskBad;
+- (FullTaskProto*) firstTaskBad;
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstTaskBad:(FullTaskProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstTaskBadBuilder:(FullTaskProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFirstTaskBad:(FullTaskProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearFirstTaskBad;
+
+- (BOOL) hasFirstBattleCoinGain;
+- (int32_t) firstBattleCoinGain;
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstBattleCoinGain:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearFirstBattleCoinGain;
+
+- (BOOL) hasFirstBattleExpGain;
+- (int32_t) firstBattleExpGain;
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstBattleExpGain:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearFirstBattleExpGain;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {
@@ -13958,9 +14003,11 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 
 @interface CreateClanRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasRequestToJoinClanRequired_:1;
   BOOL hasName_:1;
   BOOL hasTag_:1;
   BOOL hasSender_:1;
+  BOOL requestToJoinClanRequired_:1;
   NSString* name;
   NSString* tag;
   MinimumUserProto* sender;
@@ -13968,9 +14015,11 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 - (BOOL) hasSender;
 - (BOOL) hasName;
 - (BOOL) hasTag;
+- (BOOL) hasRequestToJoinClanRequired;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* tag;
+- (BOOL) requestToJoinClanRequired;
 
 + (CreateClanRequestProto*) defaultInstance;
 - (CreateClanRequestProto*) defaultInstance;
@@ -14022,6 +14071,11 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 - (NSString*) tag;
 - (CreateClanRequestProto_Builder*) setTag:(NSString*) value;
 - (CreateClanRequestProto_Builder*) clearTag;
+
+- (BOOL) hasRequestToJoinClanRequired;
+- (BOOL) requestToJoinClanRequired;
+- (CreateClanRequestProto_Builder*) setRequestToJoinClanRequired:(BOOL) value;
+- (CreateClanRequestProto_Builder*) clearRequestToJoinClanRequired;
 @end
 
 @interface CreateClanResponseProto : PBGeneratedMessage {
@@ -14267,20 +14321,28 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
   BOOL hasClanId_:1;
   BOOL hasSender_:1;
   BOOL hasRequester_:1;
+  BOOL hasMinClan_:1;
+  BOOL hasFullClan_:1;
   BOOL hasStatus_:1;
   int32_t clanId;
   MinimumUserProto* sender;
   MinimumUserProtoForClans* requester;
+  MinimumClanProto* minClan;
+  FullClanProtoWithClanSize* fullClan;
   RequestJoinClanResponseProto_RequestJoinClanStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasClanId;
 - (BOOL) hasRequester;
+- (BOOL) hasMinClan;
+- (BOOL) hasFullClan;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) RequestJoinClanResponseProto_RequestJoinClanStatus status;
 @property (readonly) int32_t clanId;
 @property (readonly, retain) MinimumUserProtoForClans* requester;
+@property (readonly, retain) MinimumClanProto* minClan;
+@property (readonly, retain) FullClanProtoWithClanSize* fullClan;
 
 + (RequestJoinClanResponseProto*) defaultInstance;
 - (RequestJoinClanResponseProto*) defaultInstance;
@@ -14339,6 +14401,20 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 - (RequestJoinClanResponseProto_Builder*) setRequesterBuilder:(MinimumUserProtoForClans_Builder*) builderForValue;
 - (RequestJoinClanResponseProto_Builder*) mergeRequester:(MinimumUserProtoForClans*) value;
 - (RequestJoinClanResponseProto_Builder*) clearRequester;
+
+- (BOOL) hasMinClan;
+- (MinimumClanProto*) minClan;
+- (RequestJoinClanResponseProto_Builder*) setMinClan:(MinimumClanProto*) value;
+- (RequestJoinClanResponseProto_Builder*) setMinClanBuilder:(MinimumClanProto_Builder*) builderForValue;
+- (RequestJoinClanResponseProto_Builder*) mergeMinClan:(MinimumClanProto*) value;
+- (RequestJoinClanResponseProto_Builder*) clearMinClan;
+
+- (BOOL) hasFullClan;
+- (FullClanProtoWithClanSize*) fullClan;
+- (RequestJoinClanResponseProto_Builder*) setFullClan:(FullClanProtoWithClanSize*) value;
+- (RequestJoinClanResponseProto_Builder*) setFullClanBuilder:(FullClanProtoWithClanSize_Builder*) builderForValue;
+- (RequestJoinClanResponseProto_Builder*) mergeFullClan:(FullClanProtoWithClanSize*) value;
+- (RequestJoinClanResponseProto_Builder*) clearFullClan;
 @end
 
 @interface RetractRequestJoinClanRequestProto : PBGeneratedMessage {
@@ -17872,5 +17948,145 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 - (ResetBoosterPackResponseProto_ResetBoosterPackStatus) status;
 - (ResetBoosterPackResponseProto_Builder*) setStatus:(ResetBoosterPackResponseProto_ResetBoosterPackStatus) value;
 - (ResetBoosterPackResponseProto_Builder*) clearStatus;
+@end
+
+@interface ChangeClanJoinTypeRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasRequestToJoinRequired_:1;
+  BOOL hasSender_:1;
+  BOOL requestToJoinRequired_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasRequestToJoinRequired;
+@property (readonly, retain) MinimumUserProto* sender;
+- (BOOL) requestToJoinRequired;
+
++ (ChangeClanJoinTypeRequestProto*) defaultInstance;
+- (ChangeClanJoinTypeRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ChangeClanJoinTypeRequestProto_Builder*) builder;
++ (ChangeClanJoinTypeRequestProto_Builder*) builder;
++ (ChangeClanJoinTypeRequestProto_Builder*) builderWithPrototype:(ChangeClanJoinTypeRequestProto*) prototype;
+
++ (ChangeClanJoinTypeRequestProto*) parseFromData:(NSData*) data;
++ (ChangeClanJoinTypeRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ChangeClanJoinTypeRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (ChangeClanJoinTypeRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ChangeClanJoinTypeRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ChangeClanJoinTypeRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ChangeClanJoinTypeRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ChangeClanJoinTypeRequestProto* result;
+}
+
+- (ChangeClanJoinTypeRequestProto*) defaultInstance;
+
+- (ChangeClanJoinTypeRequestProto_Builder*) clear;
+- (ChangeClanJoinTypeRequestProto_Builder*) clone;
+
+- (ChangeClanJoinTypeRequestProto*) build;
+- (ChangeClanJoinTypeRequestProto*) buildPartial;
+
+- (ChangeClanJoinTypeRequestProto_Builder*) mergeFrom:(ChangeClanJoinTypeRequestProto*) other;
+- (ChangeClanJoinTypeRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ChangeClanJoinTypeRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ChangeClanJoinTypeRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ChangeClanJoinTypeRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ChangeClanJoinTypeRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ChangeClanJoinTypeRequestProto_Builder*) clearSender;
+
+- (BOOL) hasRequestToJoinRequired;
+- (BOOL) requestToJoinRequired;
+- (ChangeClanJoinTypeRequestProto_Builder*) setRequestToJoinRequired:(BOOL) value;
+- (ChangeClanJoinTypeRequestProto_Builder*) clearRequestToJoinRequired;
+@end
+
+@interface ChangeClanJoinTypeResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasMinClan_:1;
+  BOOL hasFullClan_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  MinimumClanProto* minClan;
+  FullClanProtoWithClanSize* fullClan;
+  ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasMinClan;
+- (BOOL) hasFullClan;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatus status;
+@property (readonly, retain) MinimumClanProto* minClan;
+@property (readonly, retain) FullClanProtoWithClanSize* fullClan;
+
++ (ChangeClanJoinTypeResponseProto*) defaultInstance;
+- (ChangeClanJoinTypeResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ChangeClanJoinTypeResponseProto_Builder*) builder;
++ (ChangeClanJoinTypeResponseProto_Builder*) builder;
++ (ChangeClanJoinTypeResponseProto_Builder*) builderWithPrototype:(ChangeClanJoinTypeResponseProto*) prototype;
+
++ (ChangeClanJoinTypeResponseProto*) parseFromData:(NSData*) data;
++ (ChangeClanJoinTypeResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ChangeClanJoinTypeResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ChangeClanJoinTypeResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ChangeClanJoinTypeResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ChangeClanJoinTypeResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ChangeClanJoinTypeResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ChangeClanJoinTypeResponseProto* result;
+}
+
+- (ChangeClanJoinTypeResponseProto*) defaultInstance;
+
+- (ChangeClanJoinTypeResponseProto_Builder*) clear;
+- (ChangeClanJoinTypeResponseProto_Builder*) clone;
+
+- (ChangeClanJoinTypeResponseProto*) build;
+- (ChangeClanJoinTypeResponseProto*) buildPartial;
+
+- (ChangeClanJoinTypeResponseProto_Builder*) mergeFrom:(ChangeClanJoinTypeResponseProto*) other;
+- (ChangeClanJoinTypeResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ChangeClanJoinTypeResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ChangeClanJoinTypeResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ChangeClanJoinTypeResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ChangeClanJoinTypeResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ChangeClanJoinTypeResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatus) status;
+- (ChangeClanJoinTypeResponseProto_Builder*) setStatus:(ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatus) value;
+- (ChangeClanJoinTypeResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasMinClan;
+- (MinimumClanProto*) minClan;
+- (ChangeClanJoinTypeResponseProto_Builder*) setMinClan:(MinimumClanProto*) value;
+- (ChangeClanJoinTypeResponseProto_Builder*) setMinClanBuilder:(MinimumClanProto_Builder*) builderForValue;
+- (ChangeClanJoinTypeResponseProto_Builder*) mergeMinClan:(MinimumClanProto*) value;
+- (ChangeClanJoinTypeResponseProto_Builder*) clearMinClan;
+
+- (BOOL) hasFullClan;
+- (FullClanProtoWithClanSize*) fullClan;
+- (ChangeClanJoinTypeResponseProto_Builder*) setFullClan:(FullClanProtoWithClanSize*) value;
+- (ChangeClanJoinTypeResponseProto_Builder*) setFullClanBuilder:(FullClanProtoWithClanSize_Builder*) builderForValue;
+- (ChangeClanJoinTypeResponseProto_Builder*) mergeFullClan:(FullClanProtoWithClanSize*) value;
+- (ChangeClanJoinTypeResponseProto_Builder*) clearFullClan;
 @end
 

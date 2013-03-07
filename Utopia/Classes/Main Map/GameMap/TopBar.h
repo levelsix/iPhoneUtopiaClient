@@ -52,13 +52,15 @@ typedef enum {
   
   ProfilePicture *_profilePic;
   
-  CCMenuItem *_questButton;
-  CCMenuItem *_lockBoxButton;
-  CCMenuItem *_bossEventButton;
-  CCMenuItem *_tournamentButton;
-  CCMenuItem *_bazaarButton;
-  CCMenuItem *_homeButton;
-  CCMenuItem *_towerButton;
+  CCMenuItemSprite *_questButton;
+  CCMenuItemSprite *_attackButton;
+  CCMenuItemSprite *_lockBoxButton;
+  CCMenuItemSprite *_bossEventButton;
+  CCMenuItemSprite *_tournamentButton;
+  CCMenuItemSprite *_bazaarButton;
+  CCMenuItemSprite *_homeButton;
+  CCMenuItemSprite *_towerButton;
+  CCMenuItemSprite *_mapButton;
   CCMenu *_bottomButtons;
   
   CCSprite *_questNewArrow;

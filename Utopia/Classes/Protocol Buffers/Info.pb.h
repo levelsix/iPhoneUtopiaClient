@@ -2995,6 +2995,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @interface FullClanProto : PBGeneratedMessage {
 @private
   BOOL hasIsGood_:1;
+  BOOL hasRequestToJoinRequired_:1;
   BOOL hasCreateTime_:1;
   BOOL hasClanId_:1;
   BOOL hasCurrentTierLevel_:1;
@@ -3003,6 +3004,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasTag_:1;
   BOOL hasOwner_:1;
   BOOL isGood_:1;
+  BOOL requestToJoinRequired_:1;
   int64_t createTime;
   int32_t clanId;
   int32_t currentTierLevel;
@@ -3019,6 +3021,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasTag;
 - (BOOL) hasIsGood;
 - (BOOL) hasCurrentTierLevel;
+- (BOOL) hasRequestToJoinRequired;
 @property (readonly) int32_t clanId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) MinimumUserProto* owner;
@@ -3027,6 +3030,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) NSString* tag;
 - (BOOL) isGood;
 @property (readonly) int32_t currentTierLevel;
+- (BOOL) requestToJoinRequired;
 
 + (FullClanProto*) defaultInstance;
 - (FullClanProto*) defaultInstance;
@@ -3103,11 +3107,17 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) currentTierLevel;
 - (FullClanProto_Builder*) setCurrentTierLevel:(int32_t) value;
 - (FullClanProto_Builder*) clearCurrentTierLevel;
+
+- (BOOL) hasRequestToJoinRequired;
+- (BOOL) requestToJoinRequired;
+- (FullClanProto_Builder*) setRequestToJoinRequired:(BOOL) value;
+- (FullClanProto_Builder*) clearRequestToJoinRequired;
 @end
 
 @interface MinimumClanProto : PBGeneratedMessage {
 @private
   BOOL hasIsGood_:1;
+  BOOL hasRequestToJoinRequired_:1;
   BOOL hasCreateTime_:1;
   BOOL hasClanId_:1;
   BOOL hasOwnerId_:1;
@@ -3116,6 +3126,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasDescription_:1;
   BOOL hasTag_:1;
   BOOL isGood_:1;
+  BOOL requestToJoinRequired_:1;
   int64_t createTime;
   int32_t clanId;
   int32_t ownerId;
@@ -3132,6 +3143,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasTag;
 - (BOOL) hasIsGood;
 - (BOOL) hasCurrentTierLevel;
+- (BOOL) hasRequestToJoinRequired;
 @property (readonly) int32_t clanId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t ownerId;
@@ -3140,6 +3152,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) NSString* tag;
 - (BOOL) isGood;
 @property (readonly) int32_t currentTierLevel;
+- (BOOL) requestToJoinRequired;
 
 + (MinimumClanProto*) defaultInstance;
 - (MinimumClanProto*) defaultInstance;
@@ -3214,6 +3227,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) currentTierLevel;
 - (MinimumClanProto_Builder*) setCurrentTierLevel:(int32_t) value;
 - (MinimumClanProto_Builder*) clearCurrentTierLevel;
+
+- (BOOL) hasRequestToJoinRequired;
+- (BOOL) requestToJoinRequired;
+- (MinimumClanProto_Builder*) setRequestToJoinRequired:(BOOL) value;
+- (MinimumClanProto_Builder*) clearRequestToJoinRequired;
 @end
 
 @interface MinimumUserProto : PBGeneratedMessage {

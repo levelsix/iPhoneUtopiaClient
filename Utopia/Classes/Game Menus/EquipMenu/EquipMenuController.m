@@ -113,10 +113,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   FullEquipProto *fep = [gs equipWithId:equipId];
   [ArmoryViewController displayView];
   [[ArmoryViewController sharedArmoryViewController] loadForLevel:fep.minLevel rarity:fep.rarity];
+  [self closeClicked:nil];
 }
 
 - (IBAction)marketplaceClicked:(id)sender {
-  [[MarketplaceViewController sharedMarketplaceViewController] searchForEquipId:equipId level:_level allowAllAbove:YES];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (gs.level < gl.minLevelConstants.marketplaceMinLevel) {
+    [Globals popupMessage:[NSString stringWithFormat:@"You must be level %d to view the marketplace.", gl.minLevelConstants.marketplaceMinLevel]];
+  } else {
+    [[MarketplaceViewController sharedMarketplaceViewController] searchForEquipId:equipId level:_level allowAllAbove:YES];
+    [self closeClicked:nil]; 
+  }
 }
 
 - (void) receivedArmoryResponse:(ArmoryResponseProto *)proto {

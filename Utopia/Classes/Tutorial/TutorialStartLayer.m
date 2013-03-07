@@ -52,21 +52,6 @@
     [self addChild:_label];
     _label.position = ccp(self.contentSize.width/2, 40);
     
-    // Set up the game state
-    GameState *gs = [GameState sharedGameState];
-    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-    
-    gs.level = 1;
-    gs.experience = 0;
-    gs.currentEnergy = tc.initEnergy;
-    gs.maxEnergy = tc.initEnergy;
-    gs.currentStamina = tc.initStamina;
-    gs.maxStamina = tc.initStamina;
-    gs.gold = tc.initGold;
-    gs.silver = tc.initSilver;
-    
-    [[TopBar sharedTopBar] update];
-    
     [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
     
     _backButton = [CCMenuItemImage itemFromNormalImage:@"backbutton.png" selectedImage:nil target:self selector:@selector(skipPan)];

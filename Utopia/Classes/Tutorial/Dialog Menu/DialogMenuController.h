@@ -23,6 +23,7 @@
 + (void) closeView;
 - (void) stopLoading:(BOOL)continueTut;
 - (void) createUser;
+- (void) flipView;
 
 + (DialogMenuController *) sharedDialogMenuController;
 - (void) receivedUserCreateResponse:(UserCreateResponseProto *)ucrp;

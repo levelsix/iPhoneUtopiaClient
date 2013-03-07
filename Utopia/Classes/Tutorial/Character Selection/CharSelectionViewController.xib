@@ -1065,7 +1065,8 @@
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUIText"/>
+						<string key="IBUIText">Fred</string>
+						<string key="IBUIPlaceholder">Insert Name Here</string>
 						<reference key="IBUITextColor" ref="850840607"/>
 						<float key="IBUIMinimumFontSize">10</float>
 						<object class="IBUITextInputTraits" key="IBUITextInputTraits">
@@ -2055,6 +2056,45 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">CharSelectionViewController</string>
 					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="backClicked:">id</string>
+						<string key="cancelClicked:">id</string>
+						<string key="iconClicked:">UIView</string>
+						<string key="leftArrowClicked:">id</string>
+						<string key="rightArrowClicked:">id</string>
+						<string key="selectedClicked:">id</string>
+						<string key="submitClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="backClicked:">
+							<string key="name">backClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="cancelClicked:">
+							<string key="name">cancelClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="iconClicked:">
+							<string key="name">iconClicked:</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBActionInfo" key="leftArrowClicked:">
+							<string key="name">leftArrowClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="rightArrowClicked:">
+							<string key="name">rightArrowClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="selectedClicked:">
+							<string key="name">selectedClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="submitClicked:">
+							<string key="name">submitClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="badArcherView">UIView</string>
 						<string key="badMageView">UIView</string>

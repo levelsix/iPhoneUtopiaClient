@@ -16,10 +16,10 @@
 #import "GameState.h"
 #import "DialogMenuController.h"
 #import "TutorialTopBar.h"
-#import "TutorialStartLayer.h"
 #import "Downloader.h"
 #import "OutgoingEventController.h"
 #import "GameViewController.h"
+#import "TutorialMissionMap.h"
 
 @implementation CharSelectionViewController
 
@@ -111,9 +111,22 @@
   
   _curPage = 0;
   
-  submitButton.hidden = YES;
-  
   nameTextField.label.textColor = [UIColor whiteColor];
+  
+  // Set up the game state
+  GameState *gs = [GameState sharedGameState];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  
+  gs.level = 1;
+  gs.experience = 0;
+  gs.currentEnergy = tc.initEnergy;
+  gs.maxEnergy = tc.initEnergy;
+  gs.currentStamina = tc.initStamina;
+  gs.maxStamina = tc.initStamina;
+  gs.gold = tc.initGold;
+  gs.silver = tc.initSilver;
+  
+  [[TopBar sharedTopBar] update];
   
   self.view.tag = CHAR_SELECTION_VIEW_TAG;
 }
@@ -347,12 +360,15 @@
   
   _submitted = YES;
   
+  [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
+  
   [UIView animateWithDuration:1.f animations:^{
     self.view.alpha = 0.f;
   } completion:^(BOOL finished) {
     [self.view removeFromSuperview];
     
-    [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
+    TutorialMissionMap *map = [TutorialMissionMap sharedTutorialMissionMap];
+    [map beginInitialTask];
   }];
   
   FullEquipProto *weapon = nil;
@@ -417,7 +433,7 @@
   gs.amuletEquipped = 0;
   
   GameLayer *gLay = [GameLayer sharedGameLayer];
-  [gLay performSelectorInBackground:@selector(loadTutorialMissionMap) withObject:nil];
+  [gLay loadTutorialMissionMap];
   [Analytics tutorialCharChosen];
   
   [self downloadNecessaryFiles];

@@ -50,6 +50,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   // Make sure that it is set at the center
   dmc.view.center = ccp(dmc.view.frame.size.width/2, dmc.view.frame.size.height/2);
   
+  dmc.view.transform = CGAffineTransformIdentity;
+  dmc.label.transform = CGAffineTransformIdentity;
+  dmc.girlImageView.transform = CGAffineTransformIdentity;
+  
   [DialogMenuController displayView];
   
   // Alpha will only start at 0 if it is not already there
@@ -80,6 +84,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
       dmc.speechBubble.center = CGPointMake(dmc.speechBubble.center.x+30, dmc.speechBubble.center.y);
     }];
   }
+}
+
+- (void) flipView {
+  self.view.transform = CGAffineTransformMakeScale(-1, 1);
+  self.label.transform = CGAffineTransformMakeScale(-1, 1);
+  self.girlImageView.transform = CGAffineTransformMakeScale(-1, 1);
 }
 
 - (void) textFieldDidBeginEditing:(UITextField *)textField {

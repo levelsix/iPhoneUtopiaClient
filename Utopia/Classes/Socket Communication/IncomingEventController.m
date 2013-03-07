@@ -624,7 +624,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     StartupResponseProto_TutorialConstants *tc = proto.tutorialConstants;
     [[TutorialConstants sharedTutorialConstants] loadTutorialConstants:tc];
     [gs addToStaticStructs:tc.carpenterStructsList];
-    NSArray *arr = [NSArray arrayWithObjects:tc.warriorInitWeapon, tc.warriorInitArmor, tc.archerInitWeapon, tc.archerInitArmor, tc.mageInitWeapon, tc.mageInitArmor, tc.tutorialQuest.firstDefeatTypeJobBattleLootAmulet, nil];
+    NSArray *arr = [NSArray arrayWithObjects:tc.warriorInitWeapon, tc.warriorInitArmor, tc.archerInitWeapon, tc.archerInitArmor, tc.mageInitWeapon, tc.mageInitArmor, tc.tutorialQuest.equipReward, nil];
     [gs addToStaticEquips:arr];
     
     [[GameViewController sharedGameViewController] loadGame:YES];
@@ -1471,6 +1471,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.shouldGiveKiipReward) {
       //      [KiipDelegate postAchievementNotificationAchievement:QUEST_REDEEM_KIIP_REWARD];
     }
+    
+    if (proto.hasEquipRewardFromQuest) {
+      [gs addToMyEquips:[NSArray arrayWithObject:proto.equipRewardFromQuest]];
+    }
   } else {
     [Globals popupMessage:@"Server failed to redeem quest"];
     [gs removeAndUndoAllUpdatesForTag:tag];
@@ -1975,7 +1979,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[ClanMenuController sharedClanMenuController] stopLoading:tag];
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccess) {
+  if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusJoinSuccess) {
     if (proto.sender.userId == gs.userId) {
       [gs.requestedClans addObject:[NSNumber numberWithInt:proto.clanId]];
     }

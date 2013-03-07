@@ -888,7 +888,7 @@
   }
 }
 
-- (void) moveToSprite:(CCSprite *)spr animated:(BOOL)animated {
+- (void) moveToSprite:(CCSprite *)spr animated:(BOOL)animated withOffset:(CGPoint)offset {
   if (spr) {
     CGPoint pt = spr.position;
     CGSize size = [[CCDirector sharedDirector] winSize];
@@ -896,7 +896,7 @@
     // Since all sprites have anchor point ccp(0.5,0) adjust accordingly
     float x = -pt.x*scaleX_+size.width/2;
     float y = (-pt.y-spr.contentSize.height*3/4)*scaleY_+size.height/2;
-    CGPoint newPos = ccp(x,y);
+    CGPoint newPos = ccpAdd(offset,ccp(x,y));
     if (animated) {
       float dur = ccpDistance(newPos, self.position)/1000.f;
       [self runAction:[CCEaseSineInOut actionWithAction:[CCMoveTo actionWithDuration:dur position:newPos]]];
@@ -904,6 +904,10 @@
       self.position = newPos;
     }
   }
+}
+
+- (void) moveToSprite:(CCSprite *)spr animated:(BOOL)animated {
+  [self moveToSprite:spr animated:animated withOffset:ccp(0,0)];
 }
 
 - (CGPoint) convertTilePointToCCPoint:(CGPoint)pt {

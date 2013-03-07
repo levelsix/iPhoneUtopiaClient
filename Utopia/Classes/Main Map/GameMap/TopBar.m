@@ -202,24 +202,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _littleToolTip.visible = NO;
     
     s = [CCSprite spriteWithFile:@"map.png"];
-    CCMenuItemSprite *mapButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(mapClicked)];
-    mapButton.position = ccp(self.contentSize.width-s.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    _mapButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(mapClicked)];
+    _mapButton.position = ccp(self.contentSize.width-s.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
     
     s = [CCSprite spriteWithFile:@"bazaarbutton.png"];
     _bazaarButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bazaarClicked)];
-    _bazaarButton.position = ccp(mapButton.position.x, mapButton.position.y+mapButton.contentSize.height/2+_bazaarButton.contentSize.height/2);
+    _bazaarButton.position = ccp(_mapButton.position.x, _mapButton.position.y+_mapButton.contentSize.height/2+_bazaarButton.contentSize.height/2);
     
     s = [CCSprite spriteWithFile:@"mycity.png"];
     _homeButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(homeClicked)];
     _homeButton.position = ccp(_bazaarButton.position.x, _bazaarButton.position.y+_bazaarButton.contentSize.height/2+_homeButton.contentSize.height/2);
     
     s = [CCSprite spriteWithFile:@"attack.png"];
-    CCMenuItemSprite *attackButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(attackClicked)];
-    attackButton.position = ccp(mapButton.position.x-mapButton.contentSize.width/2-attackButton.contentSize.width/2, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    _attackButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(attackClicked)];
+    _attackButton.position = ccp(_mapButton.position.x-_mapButton.contentSize.width/2-_attackButton.contentSize.width/2, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
     
     s = [CCSprite spriteWithFile:@"quests.png"];
     _questButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(questButtonClicked)];
-    _questButton.position = ccp(mapButton.position.x, self.contentSize.height-_coinBar.contentSize.height-_questButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
+    _questButton.position = ccp(_mapButton.position.x, self.contentSize.height-_coinBar.contentSize.height-_questButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
     
     s = [CCSprite spriteWithFile:@"tblockbox.png"];
     _lockBoxButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(lockBoxButtonClicked)];
@@ -237,7 +237,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _towerButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(towerButtonClicked)];
     _towerButton.position = ccp(s.contentSize.width/2+BOTTOM_BUTTON_OFFSET, 3*s.contentSize.height/2+2*BOTTOM_BUTTON_OFFSET);
     
-    _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, _bossEventButton, _tournamentButton, _towerButton, nil];
+    _bottomButtons = [CCMenu menuWithItems: _mapButton, _attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, _bossEventButton, _tournamentButton, _towerButton, nil];
     _bottomButtons.contentSize = CGSizeZero;
     _bottomButtons.position = CGPointZero;
     [self addChild:_bottomButtons z:10];
@@ -293,7 +293,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     CGRect r = chatBottomView.frame;
     r.origin.x = BOTTOM_BUTTON_OFFSET;
     r.origin.y = chatBottomView.superview.frame.size.height-r.size.height-BOTTOM_BUTTON_OFFSET;
-    r.size.width = attackButton.position.x-attackButton.contentSize.width/2-2*BOTTOM_BUTTON_OFFSET;
+    r.size.width = _attackButton.position.x-_attackButton.contentSize.width/2-2*BOTTOM_BUTTON_OFFSET;
     chatBottomView.frame = r;
     
     chatBottomView.hidden = YES;

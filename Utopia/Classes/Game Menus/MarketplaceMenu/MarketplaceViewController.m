@@ -155,6 +155,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   }
   
   [self.filterView saveFilterSettings];
+  [self refresh];
+  [self.purchView removeFromSuperview];
   [MarketplaceViewController displayView];
 }
 

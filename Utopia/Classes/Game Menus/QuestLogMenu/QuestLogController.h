@@ -91,6 +91,8 @@
 @property (nonatomic, retain) NSArray *jobs;
 @property (nonatomic, assign) BOOL questRedeem;
 
+- (void) updateTasksForUserData:(NSArray *)logData;
+
 @end
 
 @interface QuestLogController : UIViewController

@@ -29,7 +29,7 @@
   [DialogMenuController displayViewForText:tc.beforeFaceDialText];
   
   DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
-  dmc.view.center = ccpAdd(dmc.view.center, ccp(0, 40));
+  [dmc flipView];
 }
 
 - (void) beginWallPhase {
@@ -39,7 +39,7 @@
   [DialogMenuController displayViewForText:tc.beforeWallText];
   
   DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
-  dmc.view.center = ccpAdd(dmc.view.center, ccp(0, 40));
+  [dmc flipView];
   
   [_arrow removeFromParentAndCleanup:YES];
   

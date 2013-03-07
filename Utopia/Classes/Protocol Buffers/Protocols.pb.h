@@ -44,6 +44,10 @@
 @class ChangeClanDescriptionRequestProto_Builder;
 @class ChangeClanDescriptionResponseProto;
 @class ChangeClanDescriptionResponseProto_Builder;
+@class ChangeClanJoinTypeRequestProto;
+@class ChangeClanJoinTypeRequestProto_Builder;
+@class ChangeClanJoinTypeResponseProto;
+@class ChangeClanJoinTypeResponseProto_Builder;
 @class ChangeUserLocationRequestProto;
 @class ChangeUserLocationRequestProto_Builder;
 @class ChangeUserLocationResponseProto;
@@ -603,6 +607,7 @@ typedef enum {
   EventProtocolRequestCRetrieveBoosterPackEvent = 81,
   EventProtocolRequestCPurchaseBoosterPackEvent = 82,
   EventProtocolRequestCResetBoosterPackEvent = 83,
+  EventProtocolRequestCChangeClanJoinTypeEvent = 84,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -691,6 +696,7 @@ typedef enum {
   EventProtocolResponseSRetrieveBoosterPackEvent = 81,
   EventProtocolResponseSPurchaseBoosterPackEvent = 82,
   EventProtocolResponseSResetBoosterPackEvent = 83,
+  EventProtocolResponseSChangeClanJoinTypeEvent = 84,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

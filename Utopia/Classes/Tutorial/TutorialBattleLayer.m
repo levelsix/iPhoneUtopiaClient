@@ -16,7 +16,7 @@
 
 #define ENEMY_HEALTH 30
 #define ENEMY_ATTACK 20
-#define ENEMY_DEFENSE 10
+#define ENEMY_DEFENSE 50
 
 @implementation TutorialBattleLayer
 
@@ -220,7 +220,7 @@
     [_overLayer addChild:tapPerfect];
     
     CCSprite *okay = [CCSprite spriteWithFile:@"tutokay.png"];
-    CCMenuItemSprite *item = [CCMenuItemSprite itemFromNormalSprite:okay selectedSprite:nil target:self selector:@selector(okayClickedMyTurn)];
+    CCMenuItemSprite *item = [CCMenuItemSprite itemFromNormalSprite:okay selectedSprite:nil target:self selector:@selector(okayClickedMyTurn:)];
     CCMenu *menu = [CCMenu menuWithItems:item, nil];
     // Need to left align it
     item.position = ccp(-menu.contentSize.width/2+375, 0);
@@ -261,7 +261,11 @@
   }
 }
 
-- (void) okayClickedMyTurn {
+- (void) okayClickedMyTurn:(CCSprite *)sender {
+  if (sender.opacity < 255) {
+    return;
+  }
+  
   CCSprite *maxLayer = [CCSprite spriteWithFile:@"combowheelmaxedbg.png"];
   maxLayer.position = ccp(maxLayer.contentSize.width/2, self.contentSize.height/2);
   CCSprite *maxArrow = [CCSprite spriteWithFile:@"arrow3.png"];
@@ -375,10 +379,7 @@
 }
 
 - (void) displayStolenEquip {
-  [self loadStolenEquip];
-  self.gainedEquipView.equipIcon.userInteractionEnabled = NO;
-  [Globals displayUIView:self.gainedEquipView];
-  [Globals bounceView:self.gainedEquipView.mainView fadeInBgdView:self.gainedEquipView.bgdView];
+  [self displaySummary];
 }
 
 - (void) displayStolenLockBox {
@@ -393,29 +394,12 @@
   [self performSelector:@selector(arrowOnClose) withObject:nil afterDelay:1.f];
 }
 
-- (int) calculateEnemyDamageForPercentage:(float)percent {
-  return MIN([super calculateEnemyDamageForPercentage:percent], _leftCurrentHealth/2);
+- (int) calculateMyDamageForPercentage:(float)percent {
+  return MIN([super calculateMyDamageForPercentage:percent], _rightMaxHealth/2);
 }
 
-- (void) loadStolenEquip {
-  GameState *gs = [GameState sharedGameState];
-  StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
-  
-  UserEquip *ue = [[UserEquip alloc] init];
-  ue.equipId = tutQuest.firstDefeatTypeJobBattleLootAmulet.equipId;
-  ue.userId = gs.userId;
-  ue.level = 1;
-  ue.userEquipId = 3;
-  [gs.myEquips addObject:ue];
-  [ue release];
-  
-  [self.gainedEquipView loadForEquip:(FullUserEquipProto *)ue];
-  
-  // Move arrow to close button (tag 20)
-  [self.gainedEquipView.mainView addSubview:_uiArrow];
-  UIView *okayButton = [self.gainedEquipView viewWithTag:20];
-  _uiArrow.center = CGPointMake(CGRectGetMinX(okayButton.frame)-_uiArrow.frame.size.width/2-2, okayButton.center.y);
-  [Globals animateUIArrow:_uiArrow atAngle:0];
+- (int) calculateEnemyDamageForPercentage:(float)percent {
+  return MIN([super calculateEnemyDamageForPercentage:percent], _leftCurrentHealth/2);
 }
 
 - (void) loadBattleSummary {
@@ -442,8 +426,11 @@
   self.summaryView.leftEquipIcon2.image = [Globals imageForEquip:fep.equipId];
   self.summaryView.leftEquipLevelIcon2.level = 1;
   
-  self.summaryView.leftRarityLabel3.text = @"";
-  self.summaryView.leftEquipIcon3.image = nil;
+  fep = [gs equipWithId:gs.amuletEquippedId];
+  self.summaryView.leftRarityLabel3.textColor = [Globals colorForRarity:fep.rarity];
+  self.summaryView.leftRarityLabel3.text = [Globals shortenedStringForRarity:fep.rarity];
+  self.summaryView.leftEquipIcon3.image = [Globals imageForEquip:fep.equipId];
+  self.summaryView.leftEquipLevelIcon3.level = 1;
   
   fep = tc.warriorInitWeapon;
   self.summaryView.rightRarityLabel1.textColor = [Globals colorForRarity:fep.rarity];
@@ -462,8 +449,8 @@
   
   self.summaryView.winLabelsView.hidden = NO;
   self.summaryView.defeatLabelsView.hidden = YES;
-  self.summaryView.coinsGainedLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:tc.tutorialQuest.firstDefeatTypeJobBattleCoinGain]];
-  self.summaryView.expGainedLabel.text = [NSString stringWithFormat:@"%@ Exp.", [Globals commafyNumber:tc.tutorialQuest.firstDefeatTypeJobBattleExpGain]];
+  self.summaryView.coinsGainedLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:tc.firstBattleCoinGain]];
+  self.summaryView.expGainedLabel.text = [NSString stringWithFormat:@"%@ Exp.", [Globals commafyNumber:tc.firstBattleExpGain]];
 }
 
 - (void) arrowOnClose {
@@ -503,10 +490,10 @@
   [Globals animateCCArrow:_ccArrow atAngle:0];
   
   GameState *gs = [GameState sharedGameState];
-  StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
-  gs.experience += tutQuest.firstDefeatTypeJobBattleExpGain;
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  gs.experience += tc.firstBattleExpGain;
   gs.currentStamina -= 1;
-  gs.silver += tutQuest.firstDefeatTypeJobBattleCoinGain;
+  gs.silver += tc.firstBattleCoinGain;
   gs.battlesWon = 1;
   gs.battlesLost = 0;
   gs.flees = 0;

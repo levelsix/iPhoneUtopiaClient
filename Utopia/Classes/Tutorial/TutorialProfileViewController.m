@@ -41,11 +41,6 @@
   if (_justLoaded) {
     _justLoaded = NO;
     
-    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-    [DialogMenuController displayViewForText:tc.beforeSkillsText];
-    DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
-    dmc.view.center = ccpAdd(dmc.view.center, ccp(0, -95));
-    
     [self.view addSubview:_arrow];
     CGPoint base = [self.view convertPoint:self.attackStatButton.center fromView:self.skillTabView];
     _arrow.center = ccpAdd(base, ccp(self.attackStatButton.frame.size.width/2+_arrow.frame.size.width/2,self.attackStatButton.frame.size.height/2+_arrow.frame.size.height/2-4));
@@ -111,9 +106,7 @@
   _arrow.center = CGPointMake(CGRectGetMaxX(self.profileBar.equipButton.frame), self.profileBar.equipButton.center.y);
   [Globals animateUIArrow:_arrow atAngle:M_PI];
   
-  [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].afterSkillPointsText];
-  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
-  dmc.view.center = ccpAdd(dmc.view.center, ccp(0, -95));
+  [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].beforeEquipText];
   [Analytics tutorialSkillPointsAdded];
 }
 

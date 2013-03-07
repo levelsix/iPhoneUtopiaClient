@@ -19,6 +19,7 @@
 #import "GameViewController.h"
 #import "ProfileViewController.h"
 #import "SoundEngine.h"
+#import "TutorialAttackMenuController.h"
 
 @implementation TutorialHomeMap
 
@@ -77,7 +78,8 @@
       // Reset ccArrow
       [_ccArrow removeFromParentAndCleanup:YES];
     } else if (_waitingForBuildPhase && [_selected isKindOfClass:[MoneyBuilding class]]) {
-      [DialogMenuController closeView];
+      TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+      [DialogMenuController displayViewForText:tc.beforeSpeedupText];
       
       [_ccArrow removeFromParentAndCleanup:YES];
       
@@ -302,6 +304,7 @@
   [[TopBar sharedTopBar] start];
   [[HomeMap sharedHomeMap] refresh];
   [[CCDirector sharedDirector] purgeCachedData];
+  [AttackMenuController purgeSingleton];
   
   [Analytics tutorialComplete];
 }

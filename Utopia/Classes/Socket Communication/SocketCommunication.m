@@ -213,7 +213,11 @@ static NSString *udid = nil;
   NSData *data = [msg data];
   
   if (_sender.userId == 0) {
-    ContextLogError(LN_CONTEXT_COMMUNICATION, @"User id is 0!!!");
+    if (type != EventProtocolRequestCStartupEvent&& type != EventProtocolRequestCUserCreateEvent) {
+      ContextLogError(LN_CONTEXT_COMMUNICATION, @"User id is 0!!!");
+      ContextLogError(LN_CONTEXT_COMMUNICATION, @"Did not send event.");
+      return 0;
+    }
   }
   
   // Need to reverse bytes for size and type(to account for endianness??)
@@ -335,7 +339,6 @@ static NSString *udid = nil;
   StartupRequestProto *req = [bldr build];
   
   LNLog(@"Sent over udid: %@", udid);
-  //  [self sendAMQPData:req withMessageType:EventProtocolRequestCStartupEvent];
   return [self sendData:req withMessageType:EventProtocolRequestCStartupEvent];
 }
 

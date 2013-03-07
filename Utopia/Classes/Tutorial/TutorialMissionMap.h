@@ -11,13 +11,12 @@
 
 @class QuestGiver;
 
-@interface TutorialMissionMap : MissionMap <CCTargetedTouchDelegate> {
+@interface TutorialMissionMap : MissionMap {
   BOOL _beforeBlinkPhase;
-  BOOL _acceptQuestPhase;
-  BOOL _redeemQuestPhase;
   BOOL _doBattlePhase;
   BOOL _inBattlePhase;
   BOOL _doTaskPhase;
+  BOOL _doQuestPhase;
   BOOL _canUnclick;
   
   BOOL _pickupSilver;
@@ -36,9 +35,7 @@
   LevelUpViewController *luvc;
 }
 
-- (void) allowBlink;
-- (void) doBlink;
-- (void) questGiverInProgress;
+- (void) beginInitialTask;
 - (void) battleDone;
 - (void) redeemComplete;
 - (void) levelUpComplete;

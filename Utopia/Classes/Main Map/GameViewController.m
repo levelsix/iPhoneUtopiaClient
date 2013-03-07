@@ -19,7 +19,6 @@
 #import "BattleLayer.h" 
 #import "LNSynthesizeSingleton.h"
 #import "QuestLogController.h"
-#import "TutorialStartLayer.h"
 #import "TutorialHomeMap.h"
 #import "TopBar.h"
 #import "TutorialTopBar.h"
@@ -282,8 +281,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   GameState *gs = [GameState sharedGameState];
   
   if (gs.isTutorial) {
-    TutorialStartLayer *tsl = (TutorialStartLayer *)[[[CCDirector sharedDirector] runningScene] getChildByTag:5];
-    [tsl start];
+    CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
+    [Globals displayUIView:csvc.view];
     [Analytics tutorialOpenedDoor];
   } else {
     [[TopBar sharedTopBar] start];
@@ -322,18 +321,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 //  [EAGLContext setCurrentContext:k_context];
   
   GameState *gs = [GameState sharedGameState];
-  CCLayer *layer = gs.isTutorial ? [TutorialStartLayer node] : [GameLayer sharedGameLayer];
   
-  if (layer.parent) {
-    // We are in the tutorial
-    return;
-  }
-  
-  layer.tag = 5;
-  
-  [[[CCDirector sharedDirector] runningScene] addChild:layer];
-  
-  if (gs.isTutorial) {
+  if (!gs.isTutorial) {
+    CCLayer *layer = [GameLayer sharedGameLayer];
+    
+    layer.tag = 5;
+    
+    [[[CCDirector sharedDirector] runningScene] addChild:layer];
+  } else {
     [self startGame];
     [Analytics tutorialStart];
   }

@@ -16,7 +16,7 @@
 #import "EquipDeltaView.h"
 #import "GenericPopupController.h"
 
-#define HAS_VISITED_ARMORY_KEY @"Has visited armory key"
+#define HAS_VISITED_ARMORY_KEY @"Has visited armory key 2"
 
 @implementation ArmoryTopBar
 
@@ -239,6 +239,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     self.cardDisplayView = nil;
     self.infoImageView = nil;
     self.infoScrollView = nil;
+    self.infoLabel = nil;
     self.topBar = nil;
   }
 }
@@ -307,6 +308,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 - (void) loadForLevel:(int)level rarity:(FullEquipProto_Rarity)rarity {
   _level = level;
   _shouldCostCoins = (rarity < FullEquipProto_RarityRare);
+  [self displayBuyChests];
   [self refresh];
 }
 
@@ -385,6 +387,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   }];
   self.boosterPacks = bp;
   
+  if (self.boosterPacks.count > 0) {
+    for (BoosterPackProto *bpp in self.boosterPacks) {
+      if (bpp.hasDailyLimit) {
+        self.infoLabel.text = [NSString stringWithFormat:@"Note: Each Silver chest can only be purchased %d times a day.", bpp.dailyLimit];
+        break;
+      }
+    }
+  }
+  
   [self.armoryTableView reloadData];
   [self.armoryTableView setContentOffset:ccp(0,-self.armoryTableView.contentInset.top)];
   
@@ -392,23 +403,33 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     for (int i = 0; i < self.boosterPacks.count; i++) {
       BoosterPackProto *bp = [self.boosterPacks objectAtIndex:i];
       if (bp.minLevel <= _level && bp.maxLevel >= _level && (bp.costsCoins == _shouldCostCoins)) {
-        [self armoryRowClicked:[self.armoryTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]]];
+        [self armoryRowClicked:bp];
         _level = 0;
       }
     }
   }
 }
 
-- (IBAction)armoryRowClicked:(UIView *)sender {
-  ArmoryRow *row = nil;
-  while (![sender isKindOfClass:[ArmoryRow class]]) {
-    sender = sender.superview;
+- (IBAction)armoryRowClicked:(id)sender {
+  if (!sender) {
+    return;
   }
-  row = (ArmoryRow *)sender;
+  
+  BoosterPackProto *bp = nil;
+  if ([sender isKindOfClass:[BoosterPackProto class]]) {
+    bp = (BoosterPackProto *)sender;
+  } else {
+    ArmoryRow *row = nil;
+    while (![sender isKindOfClass:[ArmoryRow class]]) {
+      sender = ((UIView *)sender).superview;
+    }
+    row = (ArmoryRow *)sender;
+    bp = row.boosterPack;
+  }
   
   GameState *gs = [GameState sharedGameState];
-  UserBoosterPackProto *userPack = [gs myBoosterPackForId:row.boosterPack.boosterPackId];
-  [self.carouselView updateForBoosterPack:row.boosterPack userPack:userPack];
+  UserBoosterPackProto *userPack = [gs myBoosterPackForId:bp.boosterPackId];
+  [self.carouselView updateForBoosterPack:bp userPack:userPack];
   
   CGRect curRect = self.armoryTableView.frame;
   CGRect r = self.carouselView.frame;

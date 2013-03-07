@@ -120,6 +120,7 @@ message StartupRequestProto {				//client will also send ChangeUserLocationReque
      optional string iOS5Udid = 4;
      optional string macAddress = 5;
      optional string advertiserId = 6;
+     optional bool isForceTutorial = 7;
 }
 
 message StartupResponseProto {
@@ -540,6 +541,11 @@ message StartupResponseProto {
 	    repeated FullStructureProto newlyAvailableStructsAfterLevelup = 32;					//only new ones
      	
      	optional PlayerWallPostProto firstWallPost = 33;
+
+		optional FullTaskProto firstTaskGood = 34;
+		optional FullTaskProto firstTaskBad = 35;
+		optional int32 firstBattleCoinGain = 36;
+		optional int32 firstBattleExpGain = 37;
      	
 		message FullTutorialQuestProto {
 				//do one task once, kill one enemy
@@ -555,13 +561,11 @@ message StartupResponseProto {
 			optional int32 coinsGained = 10;
 			optional int32 expGained = 11;
 			
-			optional FullTaskProto firstTaskGood = 12;
-			optional FullTaskProto firstTaskBad = 13;
-			optional int32 firstTaskCompleteCoinGain = 14;	//tasks coin gain should sum to this
-
-			optional int32 firstDefeatTypeJobBattleCoinGain = 17;
-			optional int32 firstDefeatTypeJobBattleExpGain = 18;
-			optional FullEquipProto firstDefeatTypeJobBattleLootAmulet = 19;
+			optional FullTaskProto taskGood = 12;
+			optional FullTaskProto taskBad = 13;
+			optional int32 taskCompleteCoinGain = 14;	//tasks coin gain should sum to this
+			
+			optional FullEquipProto equipReward = 15;
 		}
 	}
 		     
@@ -1919,6 +1923,7 @@ message CreateClanRequestProto {
 	optional MinimumUserProto sender = 1;
 	optional string name = 2;
 	optional string tag = 3;
+	optional bool requestToJoinClanRequired = 4;
 }
 
 message CreateClanResponseProto {
@@ -1963,18 +1968,23 @@ message RequestJoinClanRequestProto {
 	optional int32 clanId = 2;
 }
 
+//since clanless user can directly join open clan,
+//two successes: request_success, join_success
 message RequestJoinClanResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional RequestJoinClanStatus status = 2;
 	optional int32 clanId = 3;
 	optional MinimumUserProtoForClans requester = 4;
+	optional MinimumClanProto minClan = 5;
+	optional FullClanProtoWithClanSize fullClan = 6;
 	
 	enum RequestJoinClanStatus {
-		SUCCESS = 0;
+		REQUEST_SUCCESS = 0;
 		OTHER_FAIL = 1;
 		ALREADY_IN_CLAN = 2;
 		REQUEST_ALREADY_FILED = 3;
 		WRONG_SIDE = 5;
+		JOIN_SUCCESS = 6;
 	}	
 }
 
@@ -2519,5 +2529,25 @@ message ResetBoosterPackResponseProto {
 	enum ResetBoosterPackStatus {
 		SUCCESS = 0;
 		OTHER_FAIL = 1;
+	}
+}
+
+message ChangeClanJoinTypeRequestProto {
+	//from an open (no request to join necessary) to request to join necessary
+	optional MinimumUserProto sender = 1;
+	optional bool requestToJoinRequired = 2;
+}
+
+message ChangeClanJoinTypeResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional ChangeClanJoinTypeStatus status = 2;
+	optional MinimumClanProto minClan = 3;
+	optional FullClanProtoWithClanSize fullClan = 4;
+	
+	enum ChangeClanJoinTypeStatus {
+		SUCCESS = 0;
+		OTHER_FAIL = 1;
+		NOT_IN_CLAN = 2;
+		NOT_OWNER = 3;
 	}
 }

@@ -11,6 +11,8 @@
 @interface TutorialTopBar : TopBar {
   BOOL _myCityPhase;
   BOOL _questsPhase;
+  BOOL _attackPhase;
+  BOOL _finishedFirstQuestPhase;
   
   CCSprite *_arrow;
 }
@@ -18,5 +20,6 @@
 - (void) updateIcon;
 - (void) beginMyCityPhase;
 - (void) beginQuestsPhase;
+- (void) beginAttackPhase;
 
 @end

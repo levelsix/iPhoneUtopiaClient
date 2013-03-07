@@ -281,6 +281,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
     self.refreshSpinner = nil;
     self.refreshArrow = nil;
     self.filterImageView = nil;
+    self.topBar = nil;
   }
 }
 
@@ -435,12 +436,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
 
 - (void) mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
   [[OutgoingEventController sharedOutgoingEventController] changeUserLocationWithCoordinate:userLocation.location.coordinate];
-  
-  // We must send the user's location to FlurryAnalytics
-  //  [FlurryAnalytics setLatitude:userLocation.location.coordinate.latitude 
-  //                     longitude:userLocation.location.coordinate.longitude 
-  //            horizontalAccuracy:userLocation.location.horizontalAccuracy
-  //              verticalAccuracy:userLocation.location.verticalAccuracy];
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {

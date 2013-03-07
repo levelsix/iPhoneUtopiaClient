@@ -33,23 +33,17 @@
     bldr.coinsGained = tq.coinsGained;
     bldr.expGained = tq.expGained;
     bldr.questGiverName = tc.questGiverName;
-    [bldr addTaskReqs: isGood ? tq.firstTaskGood.taskId : tq.firstTaskBad.taskId];
-    [bldr addDefeatTypeReqs:1];
-    bldr.numComponentsForBad = 2;
-    bldr.numComponentsForGood = 2;
-    bldr.questGiverImageSuffix = @"mitch.png";
+    bldr.equipIdGained = tq.equipReward.equipId;
+    [bldr addTaskReqs: isGood ? tq.taskGood.taskId : tq.taskBad.taskId];
+    bldr.numComponentsForBad = 1;
+    bldr.numComponentsForGood = 1;
+    bldr.questGiverImageSuffix = [Globals userTypeIsGood:gs.type] ? @"ruby.png" : @"adriana.png";
     
     _fqp = [[bldr build] retain];
     
-    // Add the defeat type job to gamestate
-    DefeatTypeJobProto_Builder *db = [DefeatTypeJobProto builder];
-    db.defeatTypeJobId = 1;
-    db.cityId = 1;
-    db.numEnemiesToDefeat = 1;
-    db.typeOfEnemy = [Globals userTypeIsGood:gs.type] ? UserTypeBadWarrior : UserTypeGoodWarrior;
-    [gs.staticDefeatTypeJobs setObject:db.build forKey:[NSNumber numberWithInt:1]];
+    [gs.availableQuests setObject:_fqp forKey:[NSNumber numberWithInt:_fqp.questId]];
     
-    FullTaskProto *ftp = isGood ? tq.firstTaskGood : tq.firstTaskBad;
+    FullTaskProto *ftp = isGood ? tq.taskGood : tq.taskBad;
     [gs.staticTasks setObject:ftp forKey:[NSNumber numberWithInt:ftp.taskId]];
     
     FullCityProto_Builder *fb = [FullCityProto builder];
@@ -61,6 +55,24 @@
     _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
   }
   return self;
+}
+
+- (void) loadQuestLog {
+  [self showQuestListViewAnimated:NO];
+  [self.questListTable reloadData];
+  [QuestLogController displayView];
+  
+  [[SoundEngine sharedSoundEngine] questLogOpened];
+  
+  GameState *gs = [GameState sharedGameState];
+  self.questGiverImageView.image = [Globals userTypeIsGood:gs.type] ? [Globals imageNamed:@"bigruby2.png"] : [Globals imageNamed:@"bigadriana2.png"];
+  
+  QuestCell *jc = (QuestCell *)[self.questListTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
+  UIView *prog = jc.inProgressView;
+  
+  _arrow.center = ccpAdd(prog.center, ccp(-12, prog.frame.size.height/2+prog.frame.origin.y+_arrow.frame.size.height/2+10));
+  [self.questListTable addSubview:_arrow];
+  [Globals animateUIArrow:_arrow atAngle:M_PI_2];
 }
 
 - (void) loadQuestAcceptScreen {
@@ -139,6 +151,14 @@
   
   gs.experience += tc.tutorialQuest.expGained;
   gs.silver += tc.tutorialQuest.coinsGained;
+  
+  UserEquip *ue = [[UserEquip alloc] init];
+  ue.equipId = tc.tutorialQuest.equipReward.equipId;
+  ue.userId = gs.userId;
+  ue.level = 1;
+  ue.userEquipId = 3;
+  [gs.myEquips addObject:ue];
+  [ue release];
   	
   [[TutorialMissionMap sharedTutorialMissionMap] questRedeemed:_fqp];
   [[TutorialMissionMap sharedTutorialMissionMap] redeemComplete];
@@ -147,6 +167,28 @@
   [TutorialQuestLogController purgeSingleton];
   
   [Analytics tutorialQuestRedeem];
+}
+
+- (void) questSelected:(FullQuestProto *)fqp {
+  FullUserQuestDataLargeProto *questData = [self loadFakeQuest:fqp];
+  
+  self.taskListDelegate.quest = fqp;
+  [self.taskListDelegate updateTasksForUserData:[NSArray arrayWithObject:questData]];
+  [self.taskListTable reloadData];
+  
+  self.taskListTitleLabel.text = fqp.name;
+  [self showTaskListViewAnimated:YES];
+  
+  JobCell *jc = (JobCell *)[self.taskListTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1 ]];
+  UIView *claim = jc.inProgressView;
+  
+  _arrow.center = ccpAdd(jc.frame.origin, ccp(CGRectGetMidX(claim.frame), CGRectGetMinY(claim.frame)-15.f));
+  [self.taskListTable addSubview:_arrow];
+  [Globals animateUIArrow:_arrow atAngle:-M_PI_2];
+}
+
+- (IBAction)backClicked:(id)sender {
+  return;
 }
 
 - (IBAction)closeClicked:(id)sender {

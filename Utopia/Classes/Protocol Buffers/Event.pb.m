@@ -2858,6 +2858,7 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
 @property (retain) NSString* iOs5Udid;
 @property (retain) NSString* macAddress;
 @property (retain) NSString* advertiserId;
+@property BOOL isForceTutorial;
 @end
 
 @implementation StartupRequestProto
@@ -2904,6 +2905,18 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
   hasAdvertiserId_ = !!value;
 }
 @synthesize advertiserId;
+- (BOOL) hasIsForceTutorial {
+  return !!hasIsForceTutorial_;
+}
+- (void) setHasIsForceTutorial:(BOOL) value {
+  hasIsForceTutorial_ = !!value;
+}
+- (BOOL) isForceTutorial {
+  return !!isForceTutorial_;
+}
+- (void) setIsForceTutorial:(BOOL) value {
+  isForceTutorial_ = !!value;
+}
 - (void) dealloc {
   self.udid = nil;
   self.apsalarId = nil;
@@ -2920,6 +2933,7 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
     self.iOs5Udid = @"";
     self.macAddress = @"";
     self.advertiserId = @"";
+    self.isForceTutorial = NO;
   }
   return self;
 }
@@ -2957,6 +2971,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (self.hasAdvertiserId) {
     [output writeString:6 value:self.advertiserId];
   }
+  if (self.hasIsForceTutorial) {
+    [output writeBool:7 value:self.isForceTutorial];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2983,6 +3000,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   }
   if (self.hasAdvertiserId) {
     size += computeStringSize(6, self.advertiserId);
+  }
+  if (self.hasIsForceTutorial) {
+    size += computeBoolSize(7, self.isForceTutorial);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3077,6 +3097,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (other.hasAdvertiserId) {
     [self setAdvertiserId:other.advertiserId];
   }
+  if (other.hasIsForceTutorial) {
+    [self setIsForceTutorial:other.isForceTutorial];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3120,6 +3143,10 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
       }
       case 50: {
         [self setAdvertiserId:[input readString]];
+        break;
+      }
+      case 56: {
+        [self setIsForceTutorial:[input readBool]];
         break;
       }
     }
@@ -3219,6 +3246,22 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 - (StartupRequestProto_Builder*) clearAdvertiserId {
   result.hasAdvertiserId = NO;
   result.advertiserId = @"";
+  return self;
+}
+- (BOOL) hasIsForceTutorial {
+  return result.hasIsForceTutorial;
+}
+- (BOOL) isForceTutorial {
+  return result.isForceTutorial;
+}
+- (StartupRequestProto_Builder*) setIsForceTutorial:(BOOL) value {
+  result.hasIsForceTutorial = YES;
+  result.isForceTutorial = value;
+  return self;
+}
+- (StartupRequestProto_Builder*) clearIsForceTutorial {
+  result.hasIsForceTutorial = NO;
+  result.isForceTutorial = NO;
   return self;
 }
 @end
@@ -15507,6 +15550,10 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 @property (retain) NSMutableArray* mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
 @property (retain) NSMutableArray* mutableNewlyAvailableStructsAfterLevelupList;
 @property (retain) PlayerWallPostProto* firstWallPost;
+@property (retain) FullTaskProto* firstTaskGood;
+@property (retain) FullTaskProto* firstTaskBad;
+@property int32_t firstBattleCoinGain;
+@property int32_t firstBattleExpGain;
 @end
 
 @implementation StartupResponseProto_TutorialConstants
@@ -15699,6 +15746,34 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   hasFirstWallPost_ = !!value;
 }
 @synthesize firstWallPost;
+- (BOOL) hasFirstTaskGood {
+  return !!hasFirstTaskGood_;
+}
+- (void) setHasFirstTaskGood:(BOOL) value {
+  hasFirstTaskGood_ = !!value;
+}
+@synthesize firstTaskGood;
+- (BOOL) hasFirstTaskBad {
+  return !!hasFirstTaskBad_;
+}
+- (void) setHasFirstTaskBad:(BOOL) value {
+  hasFirstTaskBad_ = !!value;
+}
+@synthesize firstTaskBad;
+- (BOOL) hasFirstBattleCoinGain {
+  return !!hasFirstBattleCoinGain_;
+}
+- (void) setHasFirstBattleCoinGain:(BOOL) value {
+  hasFirstBattleCoinGain_ = !!value;
+}
+@synthesize firstBattleCoinGain;
+- (BOOL) hasFirstBattleExpGain {
+  return !!hasFirstBattleExpGain_;
+}
+- (void) setHasFirstBattleExpGain:(BOOL) value {
+  hasFirstBattleExpGain_ = !!value;
+}
+@synthesize firstBattleExpGain;
 - (void) dealloc {
   self.tutorialQuest = nil;
   self.archerInitWeapon = nil;
@@ -15714,6 +15789,8 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   self.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList = nil;
   self.mutableNewlyAvailableStructsAfterLevelupList = nil;
   self.firstWallPost = nil;
+  self.firstTaskGood = nil;
+  self.firstTaskBad = nil;
   [super dealloc];
 }
 - (id) init {
@@ -15744,6 +15821,10 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
     self.expRequiredForLevelTwo = 0;
     self.expRequiredForLevelThree = 0;
     self.firstWallPost = [PlayerWallPostProto defaultInstance];
+    self.firstTaskGood = [FullTaskProto defaultInstance];
+    self.firstTaskBad = [FullTaskProto defaultInstance];
+    self.firstBattleCoinGain = 0;
+    self.firstBattleExpGain = 0;
   }
   return self;
 }
@@ -15901,6 +15982,18 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (self.hasFirstWallPost) {
     [output writeMessage:33 value:self.firstWallPost];
   }
+  if (self.hasFirstTaskGood) {
+    [output writeMessage:34 value:self.firstTaskGood];
+  }
+  if (self.hasFirstTaskBad) {
+    [output writeMessage:35 value:self.firstTaskBad];
+  }
+  if (self.hasFirstBattleCoinGain) {
+    [output writeInt32:36 value:self.firstBattleCoinGain];
+  }
+  if (self.hasFirstBattleExpGain) {
+    [output writeInt32:37 value:self.firstBattleExpGain];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -16006,6 +16099,18 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (self.hasFirstWallPost) {
     size += computeMessageSize(33, self.firstWallPost);
   }
+  if (self.hasFirstTaskGood) {
+    size += computeMessageSize(34, self.firstTaskGood);
+  }
+  if (self.hasFirstTaskBad) {
+    size += computeMessageSize(35, self.firstTaskBad);
+  }
+  if (self.hasFirstBattleCoinGain) {
+    size += computeInt32Size(36, self.firstBattleCoinGain);
+  }
+  if (self.hasFirstBattleExpGain) {
+    size += computeInt32Size(37, self.firstBattleExpGain);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -16051,12 +16156,10 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 @property int32_t assetNumWithinCity;
 @property int32_t coinsGained;
 @property int32_t expGained;
-@property (retain) FullTaskProto* firstTaskGood;
-@property (retain) FullTaskProto* firstTaskBad;
-@property int32_t firstTaskCompleteCoinGain;
-@property int32_t firstDefeatTypeJobBattleCoinGain;
-@property int32_t firstDefeatTypeJobBattleExpGain;
-@property (retain) FullEquipProto* firstDefeatTypeJobBattleLootAmulet;
+@property (retain) FullTaskProto* taskGood;
+@property (retain) FullTaskProto* taskBad;
+@property int32_t taskCompleteCoinGain;
+@property (retain) FullEquipProto* equipReward;
 @end
 
 @implementation StartupResponseProto_TutorialConstants_FullTutorialQuestProto
@@ -16138,48 +16241,34 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   hasExpGained_ = !!value;
 }
 @synthesize expGained;
-- (BOOL) hasFirstTaskGood {
-  return !!hasFirstTaskGood_;
+- (BOOL) hasTaskGood {
+  return !!hasTaskGood_;
 }
-- (void) setHasFirstTaskGood:(BOOL) value {
-  hasFirstTaskGood_ = !!value;
+- (void) setHasTaskGood:(BOOL) value {
+  hasTaskGood_ = !!value;
 }
-@synthesize firstTaskGood;
-- (BOOL) hasFirstTaskBad {
-  return !!hasFirstTaskBad_;
+@synthesize taskGood;
+- (BOOL) hasTaskBad {
+  return !!hasTaskBad_;
 }
-- (void) setHasFirstTaskBad:(BOOL) value {
-  hasFirstTaskBad_ = !!value;
+- (void) setHasTaskBad:(BOOL) value {
+  hasTaskBad_ = !!value;
 }
-@synthesize firstTaskBad;
-- (BOOL) hasFirstTaskCompleteCoinGain {
-  return !!hasFirstTaskCompleteCoinGain_;
+@synthesize taskBad;
+- (BOOL) hasTaskCompleteCoinGain {
+  return !!hasTaskCompleteCoinGain_;
 }
-- (void) setHasFirstTaskCompleteCoinGain:(BOOL) value {
-  hasFirstTaskCompleteCoinGain_ = !!value;
+- (void) setHasTaskCompleteCoinGain:(BOOL) value {
+  hasTaskCompleteCoinGain_ = !!value;
 }
-@synthesize firstTaskCompleteCoinGain;
-- (BOOL) hasFirstDefeatTypeJobBattleCoinGain {
-  return !!hasFirstDefeatTypeJobBattleCoinGain_;
+@synthesize taskCompleteCoinGain;
+- (BOOL) hasEquipReward {
+  return !!hasEquipReward_;
 }
-- (void) setHasFirstDefeatTypeJobBattleCoinGain:(BOOL) value {
-  hasFirstDefeatTypeJobBattleCoinGain_ = !!value;
+- (void) setHasEquipReward:(BOOL) value {
+  hasEquipReward_ = !!value;
 }
-@synthesize firstDefeatTypeJobBattleCoinGain;
-- (BOOL) hasFirstDefeatTypeJobBattleExpGain {
-  return !!hasFirstDefeatTypeJobBattleExpGain_;
-}
-- (void) setHasFirstDefeatTypeJobBattleExpGain:(BOOL) value {
-  hasFirstDefeatTypeJobBattleExpGain_ = !!value;
-}
-@synthesize firstDefeatTypeJobBattleExpGain;
-- (BOOL) hasFirstDefeatTypeJobBattleLootAmulet {
-  return !!hasFirstDefeatTypeJobBattleLootAmulet_;
-}
-- (void) setHasFirstDefeatTypeJobBattleLootAmulet:(BOOL) value {
-  hasFirstDefeatTypeJobBattleLootAmulet_ = !!value;
-}
-@synthesize firstDefeatTypeJobBattleLootAmulet;
+@synthesize equipReward;
 - (void) dealloc {
   self.goodName = nil;
   self.badName = nil;
@@ -16189,9 +16278,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   self.badDoneResponse = nil;
   self.goodAcceptDialogue = nil;
   self.badAcceptDialogue = nil;
-  self.firstTaskGood = nil;
-  self.firstTaskBad = nil;
-  self.firstDefeatTypeJobBattleLootAmulet = nil;
+  self.taskGood = nil;
+  self.taskBad = nil;
+  self.equipReward = nil;
   [super dealloc];
 }
 - (id) init {
@@ -16207,12 +16296,10 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     self.assetNumWithinCity = 0;
     self.coinsGained = 0;
     self.expGained = 0;
-    self.firstTaskGood = [FullTaskProto defaultInstance];
-    self.firstTaskBad = [FullTaskProto defaultInstance];
-    self.firstTaskCompleteCoinGain = 0;
-    self.firstDefeatTypeJobBattleCoinGain = 0;
-    self.firstDefeatTypeJobBattleExpGain = 0;
-    self.firstDefeatTypeJobBattleLootAmulet = [FullEquipProto defaultInstance];
+    self.taskGood = [FullTaskProto defaultInstance];
+    self.taskBad = [FullTaskProto defaultInstance];
+    self.taskCompleteCoinGain = 0;
+    self.equipReward = [FullEquipProto defaultInstance];
   }
   return self;
 }
@@ -16265,23 +16352,17 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (self.hasExpGained) {
     [output writeInt32:11 value:self.expGained];
   }
-  if (self.hasFirstTaskGood) {
-    [output writeMessage:12 value:self.firstTaskGood];
+  if (self.hasTaskGood) {
+    [output writeMessage:12 value:self.taskGood];
   }
-  if (self.hasFirstTaskBad) {
-    [output writeMessage:13 value:self.firstTaskBad];
+  if (self.hasTaskBad) {
+    [output writeMessage:13 value:self.taskBad];
   }
-  if (self.hasFirstTaskCompleteCoinGain) {
-    [output writeInt32:14 value:self.firstTaskCompleteCoinGain];
+  if (self.hasTaskCompleteCoinGain) {
+    [output writeInt32:14 value:self.taskCompleteCoinGain];
   }
-  if (self.hasFirstDefeatTypeJobBattleCoinGain) {
-    [output writeInt32:17 value:self.firstDefeatTypeJobBattleCoinGain];
-  }
-  if (self.hasFirstDefeatTypeJobBattleExpGain) {
-    [output writeInt32:18 value:self.firstDefeatTypeJobBattleExpGain];
-  }
-  if (self.hasFirstDefeatTypeJobBattleLootAmulet) {
-    [output writeMessage:19 value:self.firstDefeatTypeJobBattleLootAmulet];
+  if (self.hasEquipReward) {
+    [output writeMessage:15 value:self.equipReward];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -16325,23 +16406,17 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (self.hasExpGained) {
     size += computeInt32Size(11, self.expGained);
   }
-  if (self.hasFirstTaskGood) {
-    size += computeMessageSize(12, self.firstTaskGood);
+  if (self.hasTaskGood) {
+    size += computeMessageSize(12, self.taskGood);
   }
-  if (self.hasFirstTaskBad) {
-    size += computeMessageSize(13, self.firstTaskBad);
+  if (self.hasTaskBad) {
+    size += computeMessageSize(13, self.taskBad);
   }
-  if (self.hasFirstTaskCompleteCoinGain) {
-    size += computeInt32Size(14, self.firstTaskCompleteCoinGain);
+  if (self.hasTaskCompleteCoinGain) {
+    size += computeInt32Size(14, self.taskCompleteCoinGain);
   }
-  if (self.hasFirstDefeatTypeJobBattleCoinGain) {
-    size += computeInt32Size(17, self.firstDefeatTypeJobBattleCoinGain);
-  }
-  if (self.hasFirstDefeatTypeJobBattleExpGain) {
-    size += computeInt32Size(18, self.firstDefeatTypeJobBattleExpGain);
-  }
-  if (self.hasFirstDefeatTypeJobBattleLootAmulet) {
-    size += computeMessageSize(19, self.firstDefeatTypeJobBattleLootAmulet);
+  if (self.hasEquipReward) {
+    size += computeMessageSize(15, self.equipReward);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -16451,23 +16526,17 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasExpGained) {
     [self setExpGained:other.expGained];
   }
-  if (other.hasFirstTaskGood) {
-    [self mergeFirstTaskGood:other.firstTaskGood];
+  if (other.hasTaskGood) {
+    [self mergeTaskGood:other.taskGood];
   }
-  if (other.hasFirstTaskBad) {
-    [self mergeFirstTaskBad:other.firstTaskBad];
+  if (other.hasTaskBad) {
+    [self mergeTaskBad:other.taskBad];
   }
-  if (other.hasFirstTaskCompleteCoinGain) {
-    [self setFirstTaskCompleteCoinGain:other.firstTaskCompleteCoinGain];
+  if (other.hasTaskCompleteCoinGain) {
+    [self setTaskCompleteCoinGain:other.taskCompleteCoinGain];
   }
-  if (other.hasFirstDefeatTypeJobBattleCoinGain) {
-    [self setFirstDefeatTypeJobBattleCoinGain:other.firstDefeatTypeJobBattleCoinGain];
-  }
-  if (other.hasFirstDefeatTypeJobBattleExpGain) {
-    [self setFirstDefeatTypeJobBattleExpGain:other.firstDefeatTypeJobBattleExpGain];
-  }
-  if (other.hasFirstDefeatTypeJobBattleLootAmulet) {
-    [self mergeFirstDefeatTypeJobBattleLootAmulet:other.firstDefeatTypeJobBattleLootAmulet];
+  if (other.hasEquipReward) {
+    [self mergeEquipReward:other.equipReward];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -16546,41 +16615,33 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
       }
       case 98: {
         FullTaskProto_Builder* subBuilder = [FullTaskProto builder];
-        if (self.hasFirstTaskGood) {
-          [subBuilder mergeFrom:self.firstTaskGood];
+        if (self.hasTaskGood) {
+          [subBuilder mergeFrom:self.taskGood];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setFirstTaskGood:[subBuilder buildPartial]];
+        [self setTaskGood:[subBuilder buildPartial]];
         break;
       }
       case 106: {
         FullTaskProto_Builder* subBuilder = [FullTaskProto builder];
-        if (self.hasFirstTaskBad) {
-          [subBuilder mergeFrom:self.firstTaskBad];
+        if (self.hasTaskBad) {
+          [subBuilder mergeFrom:self.taskBad];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setFirstTaskBad:[subBuilder buildPartial]];
+        [self setTaskBad:[subBuilder buildPartial]];
         break;
       }
       case 112: {
-        [self setFirstTaskCompleteCoinGain:[input readInt32]];
+        [self setTaskCompleteCoinGain:[input readInt32]];
         break;
       }
-      case 136: {
-        [self setFirstDefeatTypeJobBattleCoinGain:[input readInt32]];
-        break;
-      }
-      case 144: {
-        [self setFirstDefeatTypeJobBattleExpGain:[input readInt32]];
-        break;
-      }
-      case 154: {
+      case 122: {
         FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
-        if (self.hasFirstDefeatTypeJobBattleLootAmulet) {
-          [subBuilder mergeFrom:self.firstDefeatTypeJobBattleLootAmulet];
+        if (self.hasEquipReward) {
+          [subBuilder mergeFrom:self.equipReward];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setFirstDefeatTypeJobBattleLootAmulet:[subBuilder buildPartial]];
+        [self setEquipReward:[subBuilder buildPartial]];
         break;
       }
     }
@@ -16790,142 +16851,110 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   result.expGained = 0;
   return self;
 }
-- (BOOL) hasFirstTaskGood {
-  return result.hasFirstTaskGood;
+- (BOOL) hasTaskGood {
+  return result.hasTaskGood;
 }
-- (FullTaskProto*) firstTaskGood {
-  return result.firstTaskGood;
+- (FullTaskProto*) taskGood {
+  return result.taskGood;
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskGood:(FullTaskProto*) value {
-  result.hasFirstTaskGood = YES;
-  result.firstTaskGood = value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setTaskGood:(FullTaskProto*) value {
+  result.hasTaskGood = YES;
+  result.taskGood = value;
   return self;
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskGoodBuilder:(FullTaskProto_Builder*) builderForValue {
-  return [self setFirstTaskGood:[builderForValue build]];
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setTaskGoodBuilder:(FullTaskProto_Builder*) builderForValue {
+  return [self setTaskGood:[builderForValue build]];
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFirstTaskGood:(FullTaskProto*) value {
-  if (result.hasFirstTaskGood &&
-      result.firstTaskGood != [FullTaskProto defaultInstance]) {
-    result.firstTaskGood =
-      [[[FullTaskProto builderWithPrototype:result.firstTaskGood] mergeFrom:value] buildPartial];
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeTaskGood:(FullTaskProto*) value {
+  if (result.hasTaskGood &&
+      result.taskGood != [FullTaskProto defaultInstance]) {
+    result.taskGood =
+      [[[FullTaskProto builderWithPrototype:result.taskGood] mergeFrom:value] buildPartial];
   } else {
-    result.firstTaskGood = value;
+    result.taskGood = value;
   }
-  result.hasFirstTaskGood = YES;
+  result.hasTaskGood = YES;
   return self;
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstTaskGood {
-  result.hasFirstTaskGood = NO;
-  result.firstTaskGood = [FullTaskProto defaultInstance];
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearTaskGood {
+  result.hasTaskGood = NO;
+  result.taskGood = [FullTaskProto defaultInstance];
   return self;
 }
-- (BOOL) hasFirstTaskBad {
-  return result.hasFirstTaskBad;
+- (BOOL) hasTaskBad {
+  return result.hasTaskBad;
 }
-- (FullTaskProto*) firstTaskBad {
-  return result.firstTaskBad;
+- (FullTaskProto*) taskBad {
+  return result.taskBad;
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskBad:(FullTaskProto*) value {
-  result.hasFirstTaskBad = YES;
-  result.firstTaskBad = value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setTaskBad:(FullTaskProto*) value {
+  result.hasTaskBad = YES;
+  result.taskBad = value;
   return self;
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskBadBuilder:(FullTaskProto_Builder*) builderForValue {
-  return [self setFirstTaskBad:[builderForValue build]];
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setTaskBadBuilder:(FullTaskProto_Builder*) builderForValue {
+  return [self setTaskBad:[builderForValue build]];
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFirstTaskBad:(FullTaskProto*) value {
-  if (result.hasFirstTaskBad &&
-      result.firstTaskBad != [FullTaskProto defaultInstance]) {
-    result.firstTaskBad =
-      [[[FullTaskProto builderWithPrototype:result.firstTaskBad] mergeFrom:value] buildPartial];
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeTaskBad:(FullTaskProto*) value {
+  if (result.hasTaskBad &&
+      result.taskBad != [FullTaskProto defaultInstance]) {
+    result.taskBad =
+      [[[FullTaskProto builderWithPrototype:result.taskBad] mergeFrom:value] buildPartial];
   } else {
-    result.firstTaskBad = value;
+    result.taskBad = value;
   }
-  result.hasFirstTaskBad = YES;
+  result.hasTaskBad = YES;
   return self;
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstTaskBad {
-  result.hasFirstTaskBad = NO;
-  result.firstTaskBad = [FullTaskProto defaultInstance];
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearTaskBad {
+  result.hasTaskBad = NO;
+  result.taskBad = [FullTaskProto defaultInstance];
   return self;
 }
-- (BOOL) hasFirstTaskCompleteCoinGain {
-  return result.hasFirstTaskCompleteCoinGain;
+- (BOOL) hasTaskCompleteCoinGain {
+  return result.hasTaskCompleteCoinGain;
 }
-- (int32_t) firstTaskCompleteCoinGain {
-  return result.firstTaskCompleteCoinGain;
+- (int32_t) taskCompleteCoinGain {
+  return result.taskCompleteCoinGain;
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskCompleteCoinGain:(int32_t) value {
-  result.hasFirstTaskCompleteCoinGain = YES;
-  result.firstTaskCompleteCoinGain = value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setTaskCompleteCoinGain:(int32_t) value {
+  result.hasTaskCompleteCoinGain = YES;
+  result.taskCompleteCoinGain = value;
   return self;
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstTaskCompleteCoinGain {
-  result.hasFirstTaskCompleteCoinGain = NO;
-  result.firstTaskCompleteCoinGain = 0;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearTaskCompleteCoinGain {
+  result.hasTaskCompleteCoinGain = NO;
+  result.taskCompleteCoinGain = 0;
   return self;
 }
-- (BOOL) hasFirstDefeatTypeJobBattleCoinGain {
-  return result.hasFirstDefeatTypeJobBattleCoinGain;
+- (BOOL) hasEquipReward {
+  return result.hasEquipReward;
 }
-- (int32_t) firstDefeatTypeJobBattleCoinGain {
-  return result.firstDefeatTypeJobBattleCoinGain;
+- (FullEquipProto*) equipReward {
+  return result.equipReward;
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleCoinGain:(int32_t) value {
-  result.hasFirstDefeatTypeJobBattleCoinGain = YES;
-  result.firstDefeatTypeJobBattleCoinGain = value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setEquipReward:(FullEquipProto*) value {
+  result.hasEquipReward = YES;
+  result.equipReward = value;
   return self;
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstDefeatTypeJobBattleCoinGain {
-  result.hasFirstDefeatTypeJobBattleCoinGain = NO;
-  result.firstDefeatTypeJobBattleCoinGain = 0;
-  return self;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setEquipRewardBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setEquipReward:[builderForValue build]];
 }
-- (BOOL) hasFirstDefeatTypeJobBattleExpGain {
-  return result.hasFirstDefeatTypeJobBattleExpGain;
-}
-- (int32_t) firstDefeatTypeJobBattleExpGain {
-  return result.firstDefeatTypeJobBattleExpGain;
-}
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleExpGain:(int32_t) value {
-  result.hasFirstDefeatTypeJobBattleExpGain = YES;
-  result.firstDefeatTypeJobBattleExpGain = value;
-  return self;
-}
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstDefeatTypeJobBattleExpGain {
-  result.hasFirstDefeatTypeJobBattleExpGain = NO;
-  result.firstDefeatTypeJobBattleExpGain = 0;
-  return self;
-}
-- (BOOL) hasFirstDefeatTypeJobBattleLootAmulet {
-  return result.hasFirstDefeatTypeJobBattleLootAmulet;
-}
-- (FullEquipProto*) firstDefeatTypeJobBattleLootAmulet {
-  return result.firstDefeatTypeJobBattleLootAmulet;
-}
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleLootAmulet:(FullEquipProto*) value {
-  result.hasFirstDefeatTypeJobBattleLootAmulet = YES;
-  result.firstDefeatTypeJobBattleLootAmulet = value;
-  return self;
-}
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleLootAmuletBuilder:(FullEquipProto_Builder*) builderForValue {
-  return [self setFirstDefeatTypeJobBattleLootAmulet:[builderForValue build]];
-}
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFirstDefeatTypeJobBattleLootAmulet:(FullEquipProto*) value {
-  if (result.hasFirstDefeatTypeJobBattleLootAmulet &&
-      result.firstDefeatTypeJobBattleLootAmulet != [FullEquipProto defaultInstance]) {
-    result.firstDefeatTypeJobBattleLootAmulet =
-      [[[FullEquipProto builderWithPrototype:result.firstDefeatTypeJobBattleLootAmulet] mergeFrom:value] buildPartial];
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeEquipReward:(FullEquipProto*) value {
+  if (result.hasEquipReward &&
+      result.equipReward != [FullEquipProto defaultInstance]) {
+    result.equipReward =
+      [[[FullEquipProto builderWithPrototype:result.equipReward] mergeFrom:value] buildPartial];
   } else {
-    result.firstDefeatTypeJobBattleLootAmulet = value;
+    result.equipReward = value;
   }
-  result.hasFirstDefeatTypeJobBattleLootAmulet = YES;
+  result.hasEquipReward = YES;
   return self;
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstDefeatTypeJobBattleLootAmulet {
-  result.hasFirstDefeatTypeJobBattleLootAmulet = NO;
-  result.firstDefeatTypeJobBattleLootAmulet = [FullEquipProto defaultInstance];
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearEquipReward {
+  result.hasEquipReward = NO;
+  result.equipReward = [FullEquipProto defaultInstance];
   return self;
 }
 @end
@@ -17085,6 +17114,18 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   }
   if (other.hasFirstWallPost) {
     [self mergeFirstWallPost:other.firstWallPost];
+  }
+  if (other.hasFirstTaskGood) {
+    [self mergeFirstTaskGood:other.firstTaskGood];
+  }
+  if (other.hasFirstTaskBad) {
+    [self mergeFirstTaskBad:other.firstTaskBad];
+  }
+  if (other.hasFirstBattleCoinGain) {
+    [self setFirstBattleCoinGain:other.firstBattleCoinGain];
+  }
+  if (other.hasFirstBattleExpGain) {
+    [self setFirstBattleExpGain:other.firstBattleExpGain];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -17285,6 +17326,32 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setFirstWallPost:[subBuilder buildPartial]];
+        break;
+      }
+      case 274: {
+        FullTaskProto_Builder* subBuilder = [FullTaskProto builder];
+        if (self.hasFirstTaskGood) {
+          [subBuilder mergeFrom:self.firstTaskGood];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setFirstTaskGood:[subBuilder buildPartial]];
+        break;
+      }
+      case 282: {
+        FullTaskProto_Builder* subBuilder = [FullTaskProto builder];
+        if (self.hasFirstTaskBad) {
+          [subBuilder mergeFrom:self.firstTaskBad];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setFirstTaskBad:[subBuilder buildPartial]];
+        break;
+      }
+      case 288: {
+        [self setFirstBattleCoinGain:[input readInt32]];
+        break;
+      }
+      case 296: {
+        [self setFirstBattleExpGain:[input readInt32]];
         break;
       }
     }
@@ -17990,6 +18057,98 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
 - (StartupResponseProto_TutorialConstants_Builder*) clearFirstWallPost {
   result.hasFirstWallPost = NO;
   result.firstWallPost = [PlayerWallPostProto defaultInstance];
+  return self;
+}
+- (BOOL) hasFirstTaskGood {
+  return result.hasFirstTaskGood;
+}
+- (FullTaskProto*) firstTaskGood {
+  return result.firstTaskGood;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstTaskGood:(FullTaskProto*) value {
+  result.hasFirstTaskGood = YES;
+  result.firstTaskGood = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstTaskGoodBuilder:(FullTaskProto_Builder*) builderForValue {
+  return [self setFirstTaskGood:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFirstTaskGood:(FullTaskProto*) value {
+  if (result.hasFirstTaskGood &&
+      result.firstTaskGood != [FullTaskProto defaultInstance]) {
+    result.firstTaskGood =
+      [[[FullTaskProto builderWithPrototype:result.firstTaskGood] mergeFrom:value] buildPartial];
+  } else {
+    result.firstTaskGood = value;
+  }
+  result.hasFirstTaskGood = YES;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearFirstTaskGood {
+  result.hasFirstTaskGood = NO;
+  result.firstTaskGood = [FullTaskProto defaultInstance];
+  return self;
+}
+- (BOOL) hasFirstTaskBad {
+  return result.hasFirstTaskBad;
+}
+- (FullTaskProto*) firstTaskBad {
+  return result.firstTaskBad;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstTaskBad:(FullTaskProto*) value {
+  result.hasFirstTaskBad = YES;
+  result.firstTaskBad = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstTaskBadBuilder:(FullTaskProto_Builder*) builderForValue {
+  return [self setFirstTaskBad:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFirstTaskBad:(FullTaskProto*) value {
+  if (result.hasFirstTaskBad &&
+      result.firstTaskBad != [FullTaskProto defaultInstance]) {
+    result.firstTaskBad =
+      [[[FullTaskProto builderWithPrototype:result.firstTaskBad] mergeFrom:value] buildPartial];
+  } else {
+    result.firstTaskBad = value;
+  }
+  result.hasFirstTaskBad = YES;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearFirstTaskBad {
+  result.hasFirstTaskBad = NO;
+  result.firstTaskBad = [FullTaskProto defaultInstance];
+  return self;
+}
+- (BOOL) hasFirstBattleCoinGain {
+  return result.hasFirstBattleCoinGain;
+}
+- (int32_t) firstBattleCoinGain {
+  return result.firstBattleCoinGain;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstBattleCoinGain:(int32_t) value {
+  result.hasFirstBattleCoinGain = YES;
+  result.firstBattleCoinGain = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearFirstBattleCoinGain {
+  result.hasFirstBattleCoinGain = NO;
+  result.firstBattleCoinGain = 0;
+  return self;
+}
+- (BOOL) hasFirstBattleExpGain {
+  return result.hasFirstBattleExpGain;
+}
+- (int32_t) firstBattleExpGain {
+  return result.firstBattleExpGain;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstBattleExpGain:(int32_t) value {
+  result.hasFirstBattleExpGain = YES;
+  result.firstBattleExpGain = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearFirstBattleExpGain {
+  result.hasFirstBattleExpGain = NO;
+  result.firstBattleExpGain = 0;
   return self;
 }
 @end
@@ -54437,6 +54596,7 @@ BOOL PurchaseGroupChatResponseProto_PurchaseGroupChatStatusIsValidValue(Purchase
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSString* name;
 @property (retain) NSString* tag;
+@property BOOL requestToJoinClanRequired;
 @end
 
 @implementation CreateClanRequestProto
@@ -54462,6 +54622,18 @@ BOOL PurchaseGroupChatResponseProto_PurchaseGroupChatStatusIsValidValue(Purchase
   hasTag_ = !!value;
 }
 @synthesize tag;
+- (BOOL) hasRequestToJoinClanRequired {
+  return !!hasRequestToJoinClanRequired_;
+}
+- (void) setHasRequestToJoinClanRequired:(BOOL) value {
+  hasRequestToJoinClanRequired_ = !!value;
+}
+- (BOOL) requestToJoinClanRequired {
+  return !!requestToJoinClanRequired_;
+}
+- (void) setRequestToJoinClanRequired:(BOOL) value {
+  requestToJoinClanRequired_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.name = nil;
@@ -54473,6 +54645,7 @@ BOOL PurchaseGroupChatResponseProto_PurchaseGroupChatStatusIsValidValue(Purchase
     self.sender = [MinimumUserProto defaultInstance];
     self.name = @"";
     self.tag = @"";
+    self.requestToJoinClanRequired = NO;
   }
   return self;
 }
@@ -54501,6 +54674,9 @@ static CreateClanRequestProto* defaultCreateClanRequestProtoInstance = nil;
   if (self.hasTag) {
     [output writeString:3 value:self.tag];
   }
+  if (self.hasRequestToJoinClanRequired) {
+    [output writeBool:4 value:self.requestToJoinClanRequired];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -54518,6 +54694,9 @@ static CreateClanRequestProto* defaultCreateClanRequestProtoInstance = nil;
   }
   if (self.hasTag) {
     size += computeStringSize(3, self.tag);
+  }
+  if (self.hasRequestToJoinClanRequired) {
+    size += computeBoolSize(4, self.requestToJoinClanRequired);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -54603,6 +54782,9 @@ static CreateClanRequestProto* defaultCreateClanRequestProtoInstance = nil;
   if (other.hasTag) {
     [self setTag:other.tag];
   }
+  if (other.hasRequestToJoinClanRequired) {
+    [self setRequestToJoinClanRequired:other.requestToJoinClanRequired];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -54639,6 +54821,10 @@ static CreateClanRequestProto* defaultCreateClanRequestProtoInstance = nil;
       }
       case 26: {
         [self setTag:[input readString]];
+        break;
+      }
+      case 32: {
+        [self setRequestToJoinClanRequired:[input readBool]];
         break;
       }
     }
@@ -54704,6 +54890,22 @@ static CreateClanRequestProto* defaultCreateClanRequestProtoInstance = nil;
 - (CreateClanRequestProto_Builder*) clearTag {
   result.hasTag = NO;
   result.tag = @"";
+  return self;
+}
+- (BOOL) hasRequestToJoinClanRequired {
+  return result.hasRequestToJoinClanRequired;
+}
+- (BOOL) requestToJoinClanRequired {
+  return result.requestToJoinClanRequired;
+}
+- (CreateClanRequestProto_Builder*) setRequestToJoinClanRequired:(BOOL) value {
+  result.hasRequestToJoinClanRequired = YES;
+  result.requestToJoinClanRequired = value;
+  return self;
+}
+- (CreateClanRequestProto_Builder*) clearRequestToJoinClanRequired {
+  result.hasRequestToJoinClanRequired = NO;
+  result.requestToJoinClanRequired = NO;
   return self;
 }
 @end
@@ -55708,6 +55910,8 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
 @property RequestJoinClanResponseProto_RequestJoinClanStatus status;
 @property int32_t clanId;
 @property (retain) MinimumUserProtoForClans* requester;
+@property (retain) MinimumClanProto* minClan;
+@property (retain) FullClanProtoWithClanSize* fullClan;
 @end
 
 @implementation RequestJoinClanResponseProto
@@ -55740,17 +55944,35 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
   hasRequester_ = !!value;
 }
 @synthesize requester;
+- (BOOL) hasMinClan {
+  return !!hasMinClan_;
+}
+- (void) setHasMinClan:(BOOL) value {
+  hasMinClan_ = !!value;
+}
+@synthesize minClan;
+- (BOOL) hasFullClan {
+  return !!hasFullClan_;
+}
+- (void) setHasFullClan:(BOOL) value {
+  hasFullClan_ = !!value;
+}
+@synthesize fullClan;
 - (void) dealloc {
   self.sender = nil;
   self.requester = nil;
+  self.minClan = nil;
+  self.fullClan = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = RequestJoinClanResponseProto_RequestJoinClanStatusSuccess;
+    self.status = RequestJoinClanResponseProto_RequestJoinClanStatusRequestSuccess;
     self.clanId = 0;
     self.requester = [MinimumUserProtoForClans defaultInstance];
+    self.minClan = [MinimumClanProto defaultInstance];
+    self.fullClan = [FullClanProtoWithClanSize defaultInstance];
   }
   return self;
 }
@@ -55782,6 +56004,12 @@ static RequestJoinClanResponseProto* defaultRequestJoinClanResponseProtoInstance
   if (self.hasRequester) {
     [output writeMessage:4 value:self.requester];
   }
+  if (self.hasMinClan) {
+    [output writeMessage:5 value:self.minClan];
+  }
+  if (self.hasFullClan) {
+    [output writeMessage:6 value:self.fullClan];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -55802,6 +56030,12 @@ static RequestJoinClanResponseProto* defaultRequestJoinClanResponseProtoInstance
   }
   if (self.hasRequester) {
     size += computeMessageSize(4, self.requester);
+  }
+  if (self.hasMinClan) {
+    size += computeMessageSize(5, self.minClan);
+  }
+  if (self.hasFullClan) {
+    size += computeMessageSize(6, self.fullClan);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -55838,11 +56072,12 @@ static RequestJoinClanResponseProto* defaultRequestJoinClanResponseProtoInstance
 
 BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinClanResponseProto_RequestJoinClanStatus value) {
   switch (value) {
-    case RequestJoinClanResponseProto_RequestJoinClanStatusSuccess:
+    case RequestJoinClanResponseProto_RequestJoinClanStatusRequestSuccess:
     case RequestJoinClanResponseProto_RequestJoinClanStatusOtherFail:
     case RequestJoinClanResponseProto_RequestJoinClanStatusAlreadyInClan:
     case RequestJoinClanResponseProto_RequestJoinClanStatusRequestAlreadyFiled:
     case RequestJoinClanResponseProto_RequestJoinClanStatusWrongSide:
+    case RequestJoinClanResponseProto_RequestJoinClanStatusJoinSuccess:
       return YES;
     default:
       return NO;
@@ -55902,6 +56137,12 @@ BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinC
   if (other.hasRequester) {
     [self mergeRequester:other.requester];
   }
+  if (other.hasMinClan) {
+    [self mergeMinClan:other.minClan];
+  }
+  if (other.hasFullClan) {
+    [self mergeFullClan:other.fullClan];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -55954,6 +56195,24 @@ BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinC
         [self setRequester:[subBuilder buildPartial]];
         break;
       }
+      case 42: {
+        MinimumClanProto_Builder* subBuilder = [MinimumClanProto builder];
+        if (self.hasMinClan) {
+          [subBuilder mergeFrom:self.minClan];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMinClan:[subBuilder buildPartial]];
+        break;
+      }
+      case 50: {
+        FullClanProtoWithClanSize_Builder* subBuilder = [FullClanProtoWithClanSize builder];
+        if (self.hasFullClan) {
+          [subBuilder mergeFrom:self.fullClan];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setFullClan:[subBuilder buildPartial]];
+        break;
+      }
     }
   }
 }
@@ -56000,7 +56259,7 @@ BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinC
 }
 - (RequestJoinClanResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
-  result.status = RequestJoinClanResponseProto_RequestJoinClanStatusSuccess;
+  result.status = RequestJoinClanResponseProto_RequestJoinClanStatusRequestSuccess;
   return self;
 }
 - (BOOL) hasClanId {
@@ -56047,6 +56306,66 @@ BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinC
 - (RequestJoinClanResponseProto_Builder*) clearRequester {
   result.hasRequester = NO;
   result.requester = [MinimumUserProtoForClans defaultInstance];
+  return self;
+}
+- (BOOL) hasMinClan {
+  return result.hasMinClan;
+}
+- (MinimumClanProto*) minClan {
+  return result.minClan;
+}
+- (RequestJoinClanResponseProto_Builder*) setMinClan:(MinimumClanProto*) value {
+  result.hasMinClan = YES;
+  result.minClan = value;
+  return self;
+}
+- (RequestJoinClanResponseProto_Builder*) setMinClanBuilder:(MinimumClanProto_Builder*) builderForValue {
+  return [self setMinClan:[builderForValue build]];
+}
+- (RequestJoinClanResponseProto_Builder*) mergeMinClan:(MinimumClanProto*) value {
+  if (result.hasMinClan &&
+      result.minClan != [MinimumClanProto defaultInstance]) {
+    result.minClan =
+      [[[MinimumClanProto builderWithPrototype:result.minClan] mergeFrom:value] buildPartial];
+  } else {
+    result.minClan = value;
+  }
+  result.hasMinClan = YES;
+  return self;
+}
+- (RequestJoinClanResponseProto_Builder*) clearMinClan {
+  result.hasMinClan = NO;
+  result.minClan = [MinimumClanProto defaultInstance];
+  return self;
+}
+- (BOOL) hasFullClan {
+  return result.hasFullClan;
+}
+- (FullClanProtoWithClanSize*) fullClan {
+  return result.fullClan;
+}
+- (RequestJoinClanResponseProto_Builder*) setFullClan:(FullClanProtoWithClanSize*) value {
+  result.hasFullClan = YES;
+  result.fullClan = value;
+  return self;
+}
+- (RequestJoinClanResponseProto_Builder*) setFullClanBuilder:(FullClanProtoWithClanSize_Builder*) builderForValue {
+  return [self setFullClan:[builderForValue build]];
+}
+- (RequestJoinClanResponseProto_Builder*) mergeFullClan:(FullClanProtoWithClanSize*) value {
+  if (result.hasFullClan &&
+      result.fullClan != [FullClanProtoWithClanSize defaultInstance]) {
+    result.fullClan =
+      [[[FullClanProtoWithClanSize builderWithPrototype:result.fullClan] mergeFrom:value] buildPartial];
+  } else {
+    result.fullClan = value;
+  }
+  result.hasFullClan = YES;
+  return self;
+}
+- (RequestJoinClanResponseProto_Builder*) clearFullClan {
+  result.hasFullClan = NO;
+  result.fullClan = [FullClanProtoWithClanSize defaultInstance];
   return self;
 }
 @end
@@ -71218,6 +71537,613 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 - (ResetBoosterPackResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = ResetBoosterPackResponseProto_ResetBoosterPackStatusSuccess;
+  return self;
+}
+@end
+
+@interface ChangeClanJoinTypeRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property BOOL requestToJoinRequired;
+@end
+
+@implementation ChangeClanJoinTypeRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasRequestToJoinRequired {
+  return !!hasRequestToJoinRequired_;
+}
+- (void) setHasRequestToJoinRequired:(BOOL) value {
+  hasRequestToJoinRequired_ = !!value;
+}
+- (BOOL) requestToJoinRequired {
+  return !!requestToJoinRequired_;
+}
+- (void) setRequestToJoinRequired:(BOOL) value {
+  requestToJoinRequired_ = !!value;
+}
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.requestToJoinRequired = NO;
+  }
+  return self;
+}
+static ChangeClanJoinTypeRequestProto* defaultChangeClanJoinTypeRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [ChangeClanJoinTypeRequestProto class]) {
+    defaultChangeClanJoinTypeRequestProtoInstance = [[ChangeClanJoinTypeRequestProto alloc] init];
+  }
+}
++ (ChangeClanJoinTypeRequestProto*) defaultInstance {
+  return defaultChangeClanJoinTypeRequestProtoInstance;
+}
+- (ChangeClanJoinTypeRequestProto*) defaultInstance {
+  return defaultChangeClanJoinTypeRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasRequestToJoinRequired) {
+    [output writeBool:2 value:self.requestToJoinRequired];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasRequestToJoinRequired) {
+    size += computeBoolSize(2, self.requestToJoinRequired);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ChangeClanJoinTypeRequestProto*) parseFromData:(NSData*) data {
+  return (ChangeClanJoinTypeRequestProto*)[[[ChangeClanJoinTypeRequestProto builder] mergeFromData:data] build];
+}
++ (ChangeClanJoinTypeRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ChangeClanJoinTypeRequestProto*)[[[ChangeClanJoinTypeRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ChangeClanJoinTypeRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ChangeClanJoinTypeRequestProto*)[[[ChangeClanJoinTypeRequestProto builder] mergeFromInputStream:input] build];
+}
++ (ChangeClanJoinTypeRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ChangeClanJoinTypeRequestProto*)[[[ChangeClanJoinTypeRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ChangeClanJoinTypeRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ChangeClanJoinTypeRequestProto*)[[[ChangeClanJoinTypeRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ChangeClanJoinTypeRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ChangeClanJoinTypeRequestProto*)[[[ChangeClanJoinTypeRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ChangeClanJoinTypeRequestProto_Builder*) builder {
+  return [[[ChangeClanJoinTypeRequestProto_Builder alloc] init] autorelease];
+}
++ (ChangeClanJoinTypeRequestProto_Builder*) builderWithPrototype:(ChangeClanJoinTypeRequestProto*) prototype {
+  return [[ChangeClanJoinTypeRequestProto builder] mergeFrom:prototype];
+}
+- (ChangeClanJoinTypeRequestProto_Builder*) builder {
+  return [ChangeClanJoinTypeRequestProto builder];
+}
+@end
+
+@interface ChangeClanJoinTypeRequestProto_Builder()
+@property (retain) ChangeClanJoinTypeRequestProto* result;
+@end
+
+@implementation ChangeClanJoinTypeRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ChangeClanJoinTypeRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ChangeClanJoinTypeRequestProto_Builder*) clear {
+  self.result = [[[ChangeClanJoinTypeRequestProto alloc] init] autorelease];
+  return self;
+}
+- (ChangeClanJoinTypeRequestProto_Builder*) clone {
+  return [ChangeClanJoinTypeRequestProto builderWithPrototype:result];
+}
+- (ChangeClanJoinTypeRequestProto*) defaultInstance {
+  return [ChangeClanJoinTypeRequestProto defaultInstance];
+}
+- (ChangeClanJoinTypeRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ChangeClanJoinTypeRequestProto*) buildPartial {
+  ChangeClanJoinTypeRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ChangeClanJoinTypeRequestProto_Builder*) mergeFrom:(ChangeClanJoinTypeRequestProto*) other {
+  if (other == [ChangeClanJoinTypeRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasRequestToJoinRequired) {
+    [self setRequestToJoinRequired:other.requestToJoinRequired];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ChangeClanJoinTypeRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ChangeClanJoinTypeRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setRequestToJoinRequired:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ChangeClanJoinTypeRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ChangeClanJoinTypeRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ChangeClanJoinTypeRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ChangeClanJoinTypeRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasRequestToJoinRequired {
+  return result.hasRequestToJoinRequired;
+}
+- (BOOL) requestToJoinRequired {
+  return result.requestToJoinRequired;
+}
+- (ChangeClanJoinTypeRequestProto_Builder*) setRequestToJoinRequired:(BOOL) value {
+  result.hasRequestToJoinRequired = YES;
+  result.requestToJoinRequired = value;
+  return self;
+}
+- (ChangeClanJoinTypeRequestProto_Builder*) clearRequestToJoinRequired {
+  result.hasRequestToJoinRequired = NO;
+  result.requestToJoinRequired = NO;
+  return self;
+}
+@end
+
+@interface ChangeClanJoinTypeResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatus status;
+@property (retain) MinimumClanProto* minClan;
+@property (retain) FullClanProtoWithClanSize* fullClan;
+@end
+
+@implementation ChangeClanJoinTypeResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (BOOL) hasMinClan {
+  return !!hasMinClan_;
+}
+- (void) setHasMinClan:(BOOL) value {
+  hasMinClan_ = !!value;
+}
+@synthesize minClan;
+- (BOOL) hasFullClan {
+  return !!hasFullClan_;
+}
+- (void) setHasFullClan:(BOOL) value {
+  hasFullClan_ = !!value;
+}
+@synthesize fullClan;
+- (void) dealloc {
+  self.sender = nil;
+  self.minClan = nil;
+  self.fullClan = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusSuccess;
+    self.minClan = [MinimumClanProto defaultInstance];
+    self.fullClan = [FullClanProtoWithClanSize defaultInstance];
+  }
+  return self;
+}
+static ChangeClanJoinTypeResponseProto* defaultChangeClanJoinTypeResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ChangeClanJoinTypeResponseProto class]) {
+    defaultChangeClanJoinTypeResponseProtoInstance = [[ChangeClanJoinTypeResponseProto alloc] init];
+  }
+}
++ (ChangeClanJoinTypeResponseProto*) defaultInstance {
+  return defaultChangeClanJoinTypeResponseProtoInstance;
+}
+- (ChangeClanJoinTypeResponseProto*) defaultInstance {
+  return defaultChangeClanJoinTypeResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  if (self.hasMinClan) {
+    [output writeMessage:3 value:self.minClan];
+  }
+  if (self.hasFullClan) {
+    [output writeMessage:4 value:self.fullClan];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  if (self.hasMinClan) {
+    size += computeMessageSize(3, self.minClan);
+  }
+  if (self.hasFullClan) {
+    size += computeMessageSize(4, self.fullClan);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ChangeClanJoinTypeResponseProto*) parseFromData:(NSData*) data {
+  return (ChangeClanJoinTypeResponseProto*)[[[ChangeClanJoinTypeResponseProto builder] mergeFromData:data] build];
+}
++ (ChangeClanJoinTypeResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ChangeClanJoinTypeResponseProto*)[[[ChangeClanJoinTypeResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ChangeClanJoinTypeResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ChangeClanJoinTypeResponseProto*)[[[ChangeClanJoinTypeResponseProto builder] mergeFromInputStream:input] build];
+}
++ (ChangeClanJoinTypeResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ChangeClanJoinTypeResponseProto*)[[[ChangeClanJoinTypeResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ChangeClanJoinTypeResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ChangeClanJoinTypeResponseProto*)[[[ChangeClanJoinTypeResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ChangeClanJoinTypeResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ChangeClanJoinTypeResponseProto*)[[[ChangeClanJoinTypeResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ChangeClanJoinTypeResponseProto_Builder*) builder {
+  return [[[ChangeClanJoinTypeResponseProto_Builder alloc] init] autorelease];
+}
++ (ChangeClanJoinTypeResponseProto_Builder*) builderWithPrototype:(ChangeClanJoinTypeResponseProto*) prototype {
+  return [[ChangeClanJoinTypeResponseProto builder] mergeFrom:prototype];
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) builder {
+  return [ChangeClanJoinTypeResponseProto builder];
+}
+@end
+
+BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatus value) {
+  switch (value) {
+    case ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusSuccess:
+    case ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusOtherFail:
+    case ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusNotInClan:
+    case ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusNotOwner:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface ChangeClanJoinTypeResponseProto_Builder()
+@property (retain) ChangeClanJoinTypeResponseProto* result;
+@end
+
+@implementation ChangeClanJoinTypeResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ChangeClanJoinTypeResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) clear {
+  self.result = [[[ChangeClanJoinTypeResponseProto alloc] init] autorelease];
+  return self;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) clone {
+  return [ChangeClanJoinTypeResponseProto builderWithPrototype:result];
+}
+- (ChangeClanJoinTypeResponseProto*) defaultInstance {
+  return [ChangeClanJoinTypeResponseProto defaultInstance];
+}
+- (ChangeClanJoinTypeResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ChangeClanJoinTypeResponseProto*) buildPartial {
+  ChangeClanJoinTypeResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) mergeFrom:(ChangeClanJoinTypeResponseProto*) other {
+  if (other == [ChangeClanJoinTypeResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.hasMinClan) {
+    [self mergeMinClan:other.minClan];
+  }
+  if (other.hasFullClan) {
+    [self mergeFullClan:other.fullClan];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        MinimumClanProto_Builder* subBuilder = [MinimumClanProto builder];
+        if (self.hasMinClan) {
+          [subBuilder mergeFrom:self.minClan];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMinClan:[subBuilder buildPartial]];
+        break;
+      }
+      case 34: {
+        FullClanProtoWithClanSize_Builder* subBuilder = [FullClanProtoWithClanSize builder];
+        if (self.hasFullClan) {
+          [subBuilder mergeFrom:self.fullClan];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setFullClan:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatus) status {
+  return result.status;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) setStatus:(ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusSuccess;
+  return self;
+}
+- (BOOL) hasMinClan {
+  return result.hasMinClan;
+}
+- (MinimumClanProto*) minClan {
+  return result.minClan;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) setMinClan:(MinimumClanProto*) value {
+  result.hasMinClan = YES;
+  result.minClan = value;
+  return self;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) setMinClanBuilder:(MinimumClanProto_Builder*) builderForValue {
+  return [self setMinClan:[builderForValue build]];
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) mergeMinClan:(MinimumClanProto*) value {
+  if (result.hasMinClan &&
+      result.minClan != [MinimumClanProto defaultInstance]) {
+    result.minClan =
+      [[[MinimumClanProto builderWithPrototype:result.minClan] mergeFrom:value] buildPartial];
+  } else {
+    result.minClan = value;
+  }
+  result.hasMinClan = YES;
+  return self;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) clearMinClan {
+  result.hasMinClan = NO;
+  result.minClan = [MinimumClanProto defaultInstance];
+  return self;
+}
+- (BOOL) hasFullClan {
+  return result.hasFullClan;
+}
+- (FullClanProtoWithClanSize*) fullClan {
+  return result.fullClan;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) setFullClan:(FullClanProtoWithClanSize*) value {
+  result.hasFullClan = YES;
+  result.fullClan = value;
+  return self;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) setFullClanBuilder:(FullClanProtoWithClanSize_Builder*) builderForValue {
+  return [self setFullClan:[builderForValue build]];
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) mergeFullClan:(FullClanProtoWithClanSize*) value {
+  if (result.hasFullClan &&
+      result.fullClan != [FullClanProtoWithClanSize defaultInstance]) {
+    result.fullClan =
+      [[[FullClanProtoWithClanSize builderWithPrototype:result.fullClan] mergeFrom:value] buildPartial];
+  } else {
+    result.fullClan = value;
+  }
+  result.hasFullClan = YES;
+  return self;
+}
+- (ChangeClanJoinTypeResponseProto_Builder*) clearFullClan {
+  result.hasFullClan = NO;
+  result.fullClan = [FullClanProtoWithClanSize defaultInstance];
   return self;
 }
 @end

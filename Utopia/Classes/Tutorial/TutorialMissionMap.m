@@ -84,6 +84,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
         [self changeTiles:s.location canWalk:NO];
       } else if (ncep.type == NeutralCityElementProto_NeutralCityElemTypePersonQuestGiver) {
         [peopleElems addObject:ncep];
+      } else if (ncep.type == NeutralCityElementProto_NeutralCityElemTypePersonNeutralEnemy) {
+        CGRect r = CGRectZero;
+        r.origin = [self randomWalkablePosition];
+        r.size = CGSizeMake(1, 1);
+        NeutralEnemy *ne = [[NeutralEnemy alloc] initWithFile:ncep.imgId location:r map:self];
+        if (!ne) {
+          LNLog(@"Unable to find %@", ncep.imgId);
+          continue;
+        }
+        [self addChild:ne z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+        ne.name = ncep.name;
+        [ne release];
       }
     }
     
@@ -109,8 +121,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     [self doReorder];
     
-    FullTaskProto *ftp = [Globals userTypeIsGood:gs.type] ? tutQuest.firstTaskGood : tutQuest.firstTaskBad;
+    FullTaskProto *ftp = [Globals userTypeIsGood:gs.type] ? tutQuest.taskGood : tutQuest.taskBad;
     MissionBuilding *asset = (MissionBuilding *)[self getChildByTag:ftp.assetNumWithinCity+ASSET_TAG_BASE];
+    asset.ftp = ftp;
+    asset.numTimesActedForTask = 0;
+    
+    ftp = [Globals userTypeIsGood:gs.type] ? tc.firstTaskGood : tc.firstTaskBad;
+    asset = (MissionBuilding *)[self getChildByTag:ftp.assetNumWithinCity+ASSET_TAG_BASE];
     asset.ftp = ftp;
     asset.numTimesActedForTask = 0;
     
@@ -125,43 +142,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     self.selected = nil;
     
-    _acceptQuestPhase = NO;
     _doBattlePhase = NO;
     _doTaskPhase = NO;
     _canUnclick = YES;
     
     _ccArrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
-//    [_questGiver addChild:_ccArrow];
-//    _ccArrow.position = ccp(_questGiver.contentSize.width/2, _questGiver.contentSize.height+_ccArrow.contentSize.height+20);
-//    [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
-    
-    r = CGRectZero;
-    r.origin = ccp(29,25);
-    r.size = CGSizeMake(1, 1);
-    UserType type = tc.enemyType;
-    _enemy = [[Enemy alloc] initWithFile:[Globals spriteImageNameForUser:type] location:r map:self];
-    [self addChild:_enemy z:1];
-    [_enemy release];
-    _enemy.nameLabel.string = tc.enemyName;
-    _enemy.tag = ENEMY_TAG;
-    
-//    r = CGRectZero;
-//    r.origin = [self randomWalkablePosition];
-//    r.size = CGSizeMake(1, 1);
-//    type = [Globals userTypeIsGood:tc.enemyType] ? 1 : 4;
-//    Enemy *randEnemy = [[Enemy alloc] initWithFile:[Globals animatedSpritePrefix:type] location:r map:self];
-//    [self addChild:randEnemy z:1];
-//    [randEnemy release];
-//    randEnemy.nameLabel.string = @"Ashton Butcher";
-//    
-//    r = CGRectZero;
-//    r.origin = [self randomWalkablePosition];
-//    r.size = CGSizeMake(1, 1);
-//    type = [Globals userTypeIsGood:tc.enemyType] ? 2 : 5;
-//    randEnemy = [[Enemy alloc] initWithFile:[Globals animatedSpritePrefix:type] location:r map:self];
-//    [self addChild:randEnemy z:1];
-//    [randEnemy release];
-//    randEnemy.nameLabel.string = @"Tret Berrill";
     
     [self doReorder];
     
@@ -170,8 +155,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     _taskProgBar.visible = NO;
     
     _coinsGiven = 0;
-    
-    [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
   }
   return self;
 }
@@ -189,135 +172,65 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   [node removeFromParentAndCleanup:YES];
 }
 
-- (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-  if (_beforeBlinkPhase) {
-    _beforeBlinkPhase = NO;
-    [self doBlink];
-    [[CCTouchDispatcher sharedDispatcher] removeDelegate:self];
-  }
-  return YES;
-}
-
-- (void) allowBlink {
-  _beforeBlinkPhase = YES;
-  
-  GameState *gs = [GameState sharedGameState];
-  NSString *str = [NSString stringWithFormat:[[TutorialConstants sharedTutorialConstants] beforeBlinkText], gs.name];
-  _label = [CCLabelTTF labelWithString:str fontName:@"Trajan Pro" fontSize:15.f];
-  [self.parent addChild:_label z:6];
-  _label.position = ccp(self.parent.contentSize.width/2, 40);
-  [_label runAction:[CCFadeIn actionWithDuration:0.3f]];
-  
-  [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.f], [CCCallFunc actionWithTarget:self selector:@selector(showTapToContinue)], nil]];
-  
-  // Remove the black overlay
-  [self.parent removeChildByTag:9 cleanup:YES];
-  
-  // Must do blink separately b/c layer is added to parent
-  CCLayer *bot = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 255)];
-  bot.contentSize = CGSizeMake(bot.contentSize.width, bot.contentSize.height/2);
-  [self.parent addChild:bot z:5 tag:10];
-  
-  CCLayer *top = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 255)];
-  top.contentSize = CGSizeMake(top.contentSize.width, top.contentSize.height/2);
-  top.position = ccp(0, bot.contentSize.height);
-  [self.parent addChild:top z:5 tag:11];
-}
-
-- (void) showTapToContinue {
-  if (_label.opacity == 255) {
-    CCLabelTTF *tap = [CCLabelTTF labelWithString:@"Tap to continue..." fontName:@"Trajan Pro" fontSize:15.f];
-    tap.color = ccc3(255, 200, 0);
-    [self.parent addChild:tap z:6 tag:30];
-    tap.position = _label.position;
-    
-    tap.opacity = 0;
-    [tap runAction:[CCRepeatForever actionWithAction:[CCSequence actions:[CCFadeTo actionWithDuration:0.6f opacity:255], [CCFadeTo actionWithDuration:0.6f opacity:120], nil]]];
-    [_label runAction:[CCMoveBy actionWithDuration:0.2f position:ccp(0, 30)]];
-  }
-}
-
-- (void) doBlink {
-  CCLayer *bot = (CCLayer *)[self.parent getChildByTag:10];
-  CCLayer *top = (CCLayer *)[self.parent getChildByTag:11];
-  
-  ccTime dur = 2.5f;
-  [bot runAction:[CCEaseBounceIn actionWithAction:
-                  [CCSequence actions:
-                   [CCMoveBy actionWithDuration:dur position:ccp(0, -bot.contentSize.height)],
-                   [CCCallFuncN actionWithTarget:self selector:@selector(removeWithCleanup:)],
-                   [CCCallFunc actionWithTarget:self selector:@selector(beginAfterBlinkConvo)],
-                   nil]]];
-  [top runAction:[CCEaseBounceIn actionWithAction:
-                  [CCSequence actions:
-                   [CCMoveBy actionWithDuration:dur position:ccp(0, top.contentSize.height)],
-                   [CCCallFuncN actionWithTarget:self selector:@selector(removeWithCleanup:)],
-                   nil]]];
-  
-  _label.opacity = 254;
-  [_label runAction:[CCFadeTo actionWithDuration:0.3f opacity:0]];
-  
-  CCNode *node = [self.parent getChildByTag:30];
-  [node stopAllActions];
-  [node runAction:[CCFadeOut actionWithDuration:0.3f]];
-}
-
-- (void) beginAfterBlinkConvo {
+- (void) beginInitialTask {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  NSString *text = [[GameState sharedGameState] type] < 3 ? tc.afterBlinkTextGood : tc. afterBlinkTextBad;
-  [DialogMenuController displayViewForText:text];
   
-  [self centerOnQuestGiver];
-  _acceptQuestPhase = YES;
+  _doTaskPhase = YES;
+  
+  // Move arrow to task
+  [_ccArrow removeFromParentAndCleanup:YES];
+  CCSprite *spr = [self assetWithId:tc.firstTaskGood.assetNumWithinCity];
+  [spr addChild:_ccArrow];
+  _ccArrow.position = ccp(spr.contentSize.width/2, spr.contentSize.height+_ccArrow.contentSize.height/2);
+  [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
+  
+  NSString *str = tc.firstTaskText;
+  [DialogMenuController displayViewForText:str];
+  
+  [self centerOnTask];
   
   [[TopBar sharedTopBar] start];
 }
 
-- (void) centerOnQuestGiver {
-  [self moveToSprite:_questGiver animated:NO];
-  self.position = ccpAdd(self.position, ccp(120, 0));
-}
-
 - (void) moveToAssetId:(int)a animated:(BOOL)animated {
-  if (a == _questGiver.tag-ASSET_TAG_BASE) {
-    [self centerOnQuestGiver];
-    
-    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-    [DialogMenuController displayViewForText:tc.beforeRedeemText];
-  }
+  [super moveToAssetId:a animated:animated];
+  
+  [_ccArrow removeFromParentAndCleanup:YES];
+  CCSprite *spr = [self assetWithId:a];
+  [spr addChild:_ccArrow];
+  _ccArrow.position = ccp(spr.contentSize.width/2, spr.contentSize.height+_ccArrow.contentSize.height/2);
+  [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
+  
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.questTaskText];
+  
+  _doQuestPhase = YES;
+  _doTaskPhase = YES;
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   GameState *gs = [GameState sharedGameState];
-  FullTaskProto *ftp = [Globals userTypeIsGood:gs.type] ? tc.tutorialQuest.firstTaskGood : tc.tutorialQuest.firstTaskBad;
-  if ((_acceptQuestPhase || _redeemQuestPhase) && selected == _questGiver) {
-    [super setSelected:selected];
-    [_ccArrow removeFromParentAndCleanup:YES];
-    
-    [DialogMenuController closeView];
-    
-    TutorialQuestLogController *tglc = (TutorialQuestLogController *)[TutorialQuestLogController sharedQuestLogController];
-    if (_acceptQuestPhase) {
-      [tglc loadQuestAcceptScreen];
-      [self questGiverInProgress]; 
-    } else {
-      [tglc loadQuestRedeemScreen];
-    }
-  } else if (_doBattlePhase && selected == _enemy && selected.tag == ENEMY_TAG) {
+  FullTaskProto *ftp = [Globals userTypeIsGood:gs.type] ? tc.firstTaskGood : tc.firstTaskBad;
+  FullTaskProto *questFtp = [Globals userTypeIsGood:gs.type] ? tc.tutorialQuest.taskGood : tc.tutorialQuest.taskBad;
+  if (_doBattlePhase && selected == _enemy && selected.tag == ENEMY_TAG) {
     [super setSelected:selected];
     [_ccArrow removeFromParentAndCleanup:YES];
     _canUnclick = NO;
     
     _doBattlePhase = NO;
     
-    [DialogMenuController displayViewForText:tc.beforeAttackClickedText];
-    
     [[self.enemyMenu nameLabel] setText:tc.enemyName];
     [[self.enemyMenu levelLabel] setText:@"Lvl 1"];
     [[self.enemyMenu imageIcon] setImage:[Globals squareImageForUser:tc.enemyType]];
-  } else if (_doTaskPhase && !_pickupSilver && [selected isKindOfClass:[MissionBuilding class]] && 
+  } else if (_doTaskPhase && !_pickupSilver && [selected isKindOfClass:[MissionBuilding class]] &&
              [[(MissionBuilding *)selected ftp] assetNumWithinCity] == ftp.assetNumWithinCity) {
+    [super setSelected:selected];
+    _canUnclick = NO;
+    
+    [DialogMenuController closeView];
+  } else if (_doTaskPhase && !_pickupSilver && [selected isKindOfClass:[NeutralEnemy class]] &&
+             [[(NeutralEnemy *)selected ftp] assetNumWithinCity] == questFtp.assetNumWithinCity) {
     [super setSelected:selected];
     _canUnclick = NO;
     
@@ -330,15 +243,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 - (SelectableSprite *) selectableForPt:(CGPoint)pt {
   // Find sprite that has center closest to pt
   SelectableSprite *node = nil;
-  if (_acceptQuestPhase || _redeemQuestPhase) {
-    node = _questGiver;
-  } else if (_doBattlePhase) {
+  if (_doBattlePhase) {
     node = _enemy;
   } else if (_doTaskPhase) {
-    GameState *gs = [GameState sharedGameState];
-    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-    FullTaskProto *ftp = [Globals userTypeIsGood:gs.type] ? tc.tutorialQuest.firstTaskGood : tc.tutorialQuest.firstTaskBad;
-    node = [self assetWithId:ftp.assetNumWithinCity];
+    if (_doQuestPhase) {
+      GameState *gs = [GameState sharedGameState];
+      TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+      FullTaskProto *ftp = [Globals userTypeIsGood:gs.type] ? tc.tutorialQuest.taskGood : tc.tutorialQuest.taskBad;
+      node = [self assetWithId:ftp.assetNumWithinCity];
+    } else {
+      GameState *gs = [GameState sharedGameState];
+      TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+      FullTaskProto *ftp = [Globals userTypeIsGood:gs.type] ? tc.firstTaskGood : tc.firstTaskBad;
+      node = [self assetWithId:ftp.assetNumWithinCity];
+    }
   }
   CGRect r = CGRectZero;
   r.origin = CGPointMake(-20, -5);
@@ -348,13 +266,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     return node;
   }
   return nil;
-}
-
-- (void) questGiverInProgress {
-  // For Tut Quest Log
-  _acceptQuestPhase = NO;
-  _doBattlePhase = YES;
-  _questGiver.questGiverState = kInProgress;
 }
 
 - (void) moveToEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type animated:(BOOL)animated {
@@ -369,8 +280,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   self.enemyMenu.nameLabel.text = tc.enemyName;
   self.enemyMenu.levelLabel.text = @"Lvl 1";
   
-  [DialogMenuController displayViewForText:tc.beforeEnemyClickedText];
-  
   // Create and add uiArrow to attack screen
   _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
   [self.enemyMenu addSubview:_uiArrow];
@@ -382,41 +291,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 
 - (void) battleDone {
   _inBattlePhase = NO;
-  _doTaskPhase = YES;
   
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [self moveToSprite:[self assetWithId:tc.tutorialQuest.assetNumWithinCity] animated:NO];
-  [_enemy removeFromParentAndCleanup:YES];
-  
-  // Move arrow to task
-  [_ccArrow removeFromParentAndCleanup:YES];
-  CCSprite *spr = [self assetWithId:tc.tutorialQuest.firstTaskGood.assetNumWithinCity];
-  [spr addChild:_ccArrow];
-  _ccArrow.position = ccp(spr.contentSize.width/2, spr.contentSize.height+_ccArrow.contentSize.height/2);
-  [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
-  
-  GameState *gs = [GameState sharedGameState];
-  NSString *str = [Globals userTypeIsGood:gs.type] ? tc.beforeTaskTextGood : tc.beforeTaskTextBad;
-  [DialogMenuController displayViewForText:str];
-  
-  [self centerOnTask];
+  [(TutorialTopBar *)[TopBar sharedTopBar] beginMyCityPhase];
 }
 
 - (void) centerOnTask {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  CCSprite *spr = [self assetWithId:tc.tutorialQuest.firstTaskGood.assetNumWithinCity];
-  [self moveToSprite:spr animated:NO];
-  self.position = ccpAdd(self.position, ccp(120, 0));
+  CCSprite *spr = [self assetWithId:tc.firstTaskGood.assetNumWithinCity];
+  [self moveToSprite:spr animated:YES withOffset:ccp(120,0)];
 }
 
 - (void) performCurrentTask {
-  if ([_selected isKindOfClass:[MissionBuilding class]]) {
+  if ([_selected conformsToProtocol:@protocol(TaskElement)]) {
     [TutorialBattleLayer purgeSingleton];
     
     [_ccArrow removeFromParentAndCleanup:YES];
     
-    MissionBuilding *mb = (MissionBuilding *)_selected;
-    FullTaskProto *ftp = mb.ftp;
+    id<TaskElement> te = (id<TaskElement>)_selected;
+    FullTaskProto *ftp = te.ftp;
     
     [self closeMenus];
     
@@ -425,7 +317,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     // Angle should be relevant to entire building, not origin
     if (ccPt.x < 0) {
       ccPt.x = -1;
-    } else if (ccPt.x >= mb.location.size.width) {
+    } else if (ccPt.x >= te.location.size.width) {
       ccPt.x = 1;
     } else {
       ccPt.x = 0;
@@ -433,7 +325,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     if (ccPt.y < 0) {
       ccPt.y = -1;
-    } else if (ccPt.y >= mb.location.size.height) {
+    } else if (ccPt.y >= te.location.size.height) {
       ccPt.y = 1;
     } else {
       ccPt.y = 0;
@@ -442,15 +334,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     ccPt = ccpSub([self convertTilePointToCCPoint:ccp(0, 0)], [self convertTilePointToCCPoint:ccPt]);
     float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccPt));
     [_myPlayer stopWalking];
-    [_myPlayer performAnimation:ftp.animationType atLocation:ccpAdd(mb.location.origin, pt) inDirection:angle];
+    [_myPlayer performAnimation:ftp.animationType atLocation:ccpAdd(te.location.origin, pt) inDirection:angle];
     
-    _taskProgBar.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height);
+    _taskProgBar.position = ccp(te.position.x, te.position.y+te.contentSize.height);
     [_taskProgBar animateBarWithText:ftp.processingText];
     _taskProgBar.visible = YES;
     _receivedTaskActionResponse = YES;
     
     // Use total-1 because we add the num at the end
-    if (mb.numTimesActedForQuest == ftp.numRequiredForCompletion-1) {
+    if (te.numTimesActedForQuest == ftp.numRequiredForCompletion-1) {
       _doTaskPhase = NO;
       
       [self performSelectorInBackground:@selector(preloadLevelUp) withObject:nil];
@@ -458,13 +350,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     _performingTask = YES;
     
     [self runAction:
-     [CCSequence actions:[CCDelayTime actionWithDuration:1.5f], 
+     [CCSequence actions:[CCDelayTime actionWithDuration:1.5f],
       [CCCallBlock actionWithBlock:
        ^{
          GameState *gs = [GameState sharedGameState];
          TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
          StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = tc.tutorialQuest;
-         FullTaskProto *ftp = [Globals userTypeIsGood:gs.type] ? tutQuest.firstTaskGood : tutQuest.firstTaskBad;
+         FullTaskProto *ftp = nil;
+         
+         if (_doQuestPhase) {
+           ftp = [Globals userTypeIsGood:gs.type] ? tutQuest.taskGood : tutQuest.taskBad;
+         } else {
+           ftp = [Globals userTypeIsGood:gs.type] ? tc.firstTaskGood : tc.firstTaskBad;
+         }
          
          int coins = 0;
          if (_doTaskPhase) {
@@ -472,7 +370,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
            int changeFromMin = arc4random() % diff;
            coins = ftp.minCoinsGained+changeFromMin;
          } else {
-           coins = tutQuest.firstTaskCompleteCoinGain-_coinsGiven;
+           coins = tutQuest.taskCompleteCoinGain-_coinsGiven;
          }
          
          // Fake a task action response
@@ -488,11 +386,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
          gs.silver += coins;
          _coinsGiven += coins;
          // Exp will be same for either task
-         gs.experience += tutQuest.firstTaskGood.expGained;
+         gs.experience += ftp.expGained;
        }], nil]];
     
     _pickupSilver = YES;
   }
+}
+
+- (void) addSilverDrop:(int)amount fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt secondsToPickup:(int)secondsToPickup {
+  [super addSilverDrop:amount fromSprite:sprite toPosition:pt secondsToPickup:-1];
+}
+
+- (void) questAccepted:(FullQuestProto *)fqp {
+  return;
 }
 
 - (void) addChild:(CCNode *)node z:(NSInteger)z tag:(NSInteger)tag {
@@ -502,41 +408,48 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     [node addChild:_ccArrow];
     _ccArrow.position = ccp(-_ccArrow.contentSize.width/2, node.contentSize.height/2);
     [Globals animateCCArrow:_ccArrow atAngle:0];
+    
+    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+    [DialogMenuController displayViewForText:tc.lootText];
   }
 }
 
 - (void) removeChild:(CCNode *)node cleanup:(BOOL)cleanup {
   if ([node isKindOfClass:[SilverStack class]]) {
+    [DialogMenuController closeView];
+    
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-    if (_doTaskPhase) {
-      // Move arrow to task
-      [_ccArrow removeFromParentAndCleanup:YES];
-      _ccArrow.rotation = 0;
-      CCSprite *spr = [self assetWithId:tc.tutorialQuest.firstTaskGood.assetNumWithinCity];
-      [spr addChild:_ccArrow];
-      _ccArrow.position = ccp(spr.contentSize.width/2, spr.contentSize.height+_ccArrow.contentSize.height/2);
-      [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
+    if (_doQuestPhase) {
+      if (_doTaskPhase) {
+        // Move arrow to task
+        [_ccArrow removeFromParentAndCleanup:YES];
+        CCSprite *spr = [self assetWithId:tc.tutorialQuest.taskGood.assetNumWithinCity];
+        [spr addChild:_ccArrow];
+        _ccArrow.position = ccp(spr.contentSize.width/2, spr.contentSize.height+_ccArrow.contentSize.height/2);
+        [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
+      } else {
+        [(TutorialQuestLogController *)[TutorialQuestLogController sharedQuestLogController] loadQuestRedeemScreen];
+      }
     } else {
-      _redeemQuestPhase = YES;
-      
-      [(TutorialQuestLogController *)[QuestLogController sharedQuestLogController] loadQuestCompleteScreen];
-      
-      // Move arrow back to task quest giver
-      [_ccArrow removeFromParentAndCleanup:YES];
-      _questGiver.questGiverState = kCompleted;
-//      [_questGiver addChild:_ccArrow];
-//      _ccArrow.position = ccp(_questGiver.contentSize.width/2, _questGiver.contentSize.height+_ccArrow.contentSize.height+20);
-//      [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
-      
-      [Analytics tutorialTaskComplete];
+      if (_doTaskPhase) {
+        // Move arrow to task
+        [_ccArrow removeFromParentAndCleanup:YES];
+        _ccArrow.rotation = 0;
+        CCSprite *spr = [self assetWithId:tc.firstTaskGood.assetNumWithinCity];
+        [spr addChild:_ccArrow];
+        _ccArrow.position = ccp(spr.contentSize.width/2, spr.contentSize.height+_ccArrow.contentSize.height/2);
+        [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
+      } else {
+        [TutorialQuestLogController sharedQuestLogController];
+        [(TutorialTopBar *)[TutorialTopBar sharedTopBar] beginQuestsPhase];
+      }
     }
-    _pickupSilver = NO;
   }
+  _pickupSilver = NO;
   [super removeChild:node cleanup:cleanup];
 }
 
 - (void) redeemComplete {
-  _redeemQuestPhase = NO;
   self.selected = nil;
   [self levelUp];
 }
@@ -586,7 +499,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 }
 
 - (void) levelUpComplete {
-  [(TutorialTopBar *)[TopBar sharedTopBar] beginMyCityPhase];
+  _inBattlePhase = YES;
+  [(TutorialTopBar *)[TopBar sharedTopBar] beginAttackPhase];
 }
 
 - (IBAction)attackClicked:(id)sender {
@@ -610,12 +524,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   [super onEnter];
   if (_inBattlePhase) {
     [_enemy runAction:[CCSequence actions:
-                      [CCFadeOut actionWithDuration:1.5f],
-                      [CCDelayTime actionWithDuration:1.5f],
-                      [CCCallBlock actionWithBlock:
-                       ^{
-                         [_enemy removeFromParentAndCleanup:YES];
-                       }], nil]];
+                       [CCFadeOut actionWithDuration:1.5f],
+                       [CCDelayTime actionWithDuration:1.5f],
+                       [CCCallBlock actionWithBlock:
+                        ^{
+                          [_enemy removeFromParentAndCleanup:YES];
+                        }], nil]];
     [_enemy displayCheck];
   }
 }

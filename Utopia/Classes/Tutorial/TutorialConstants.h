@@ -39,29 +39,22 @@
 @property (nonatomic, retain) NSArray *levelTwoStructs;
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutorialQuest;
 
-@property (nonatomic, retain) NSArray *duringPanTexts;
+@property (nonatomic, retain) NSString *firstTaskText;
+@property (nonatomic, retain) NSString *lootText;
 
-@property (nonatomic, retain) NSString *beforeCharSelectionText;
-@property (nonatomic, retain) NSString *beforeBlinkText;
-@property (nonatomic, retain) NSString *afterBlinkTextGood;
-@property (nonatomic, retain) NSString *afterBlinkTextBad;
+@property (nonatomic, retain) NSString *questIconText;
+@property (nonatomic, retain) NSString *questTaskText;
+@property (nonatomic, retain) NSString *beforeEquipText;
 
-@property (nonatomic, retain) NSString *beforeEnemyClickedText;
-@property (nonatomic, retain) NSString *beforeAttackClickedText;
-
-@property (nonatomic, retain) NSString *beforeTaskTextGood;
-@property (nonatomic, retain) NSString *beforeTaskTextBad;
-@property (nonatomic, retain) NSString *beforeRedeemText;
-
-@property (nonatomic, retain) NSString *beforeSkillsText;
-@property (nonatomic, retain) NSString *afterSkillPointsText;
+@property (nonatomic, retain) NSString *beforeAttackText;
+@property (nonatomic, retain) NSString *tapToAttackText;
 
 @property (nonatomic, retain) NSString *beforeHomeText;
 
-@property (nonatomic, retain) NSString *insideHomeText;
 @property (nonatomic, retain) NSString *beforeCarpenterText;
 @property (nonatomic, retain) NSString *beforePlacingText;
 @property (nonatomic, retain) NSString *afterPurchaseText;
+@property (nonatomic, retain) NSString *beforeSpeedupText;
 
 @property (nonatomic, retain) NSString *beforeFaceDialText;
 @property (nonatomic, retain) NSString *beforeWallText;
@@ -77,6 +70,11 @@
 @property (nonatomic, retain) NSString *questGiverName;
 
 @property (nonatomic, retain) PlayerWallPostProto *firstWallPost;
+
+@property (nonatomic, retain) FullTaskProto *firstTaskGood;
+@property (nonatomic, retain) FullTaskProto *firstTaskBad;
+@property (nonatomic, assign) int firstBattleCoinGain;
+@property (nonatomic, assign) int firstBattleExpGain;
 
 // Values needed for user create
 @property (nonatomic, retain) NSString *referralCode;
