@@ -15,6 +15,8 @@
 #define ENST_BAR_TAG 165
 #define COIN_BAR_TAG 166
 
+#define BUTTON_OPACITY 70
+
 typedef enum {
   kNotShowing = 1,
   kEnergy,
@@ -90,6 +92,9 @@ typedef enum {
   int _curExp;
   
   NSMutableArray *_notificationsToDisplay;
+  
+  CCSprite *_arrow;
+  BOOL _isForBattleLossTutorial;
 }
 
 @property (nonatomic, retain) IBOutlet InGameNotification *inGameNotification;
@@ -112,6 +117,11 @@ typedef enum {
 - (void) setEnergyBarPercentage:(float)perc;
 - (void) setStaminaBarPercentage:(float)perc;
 - (void) start;
+
+- (void) lowerAllOpacities;
+- (void) resetAllOpacities;
+- (void) goToBazaarForFirstLossTutorial;
+- (void) endBazaarFirstLossTutorial;
 
 - (void) addNotificationToDisplayQueue:(UserNotification *)un;
 

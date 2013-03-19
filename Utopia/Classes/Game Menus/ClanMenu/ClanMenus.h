@@ -100,7 +100,8 @@ typedef enum {
 
 @property (nonatomic, retain) FullClanProtoWithClanSize *clan;
 @property (nonatomic, retain) IBOutlet UILabel *topLabel;
-@property (nonatomic, retain) IBOutlet UILabel *botLabel;
+@property (nonatomic, retain) IBOutlet UILabel *membersLabel;
+@property (nonatomic, retain) IBOutlet UILabel *typeLabel;
 @property (nonatomic, retain) CAGradientLayer *gradientLayer;
 
 @end
@@ -129,7 +130,7 @@ typedef enum {
 
 @end
 
-@interface ClanInfoView : UIView <UITextViewDelegate>
+@interface ClanInfoView : UIView <UITextViewDelegate, SwitchButtonDelegate>
 
 @property (nonatomic, assign) BOOL canEdit;
 
@@ -142,7 +143,12 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *foundedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *bottomButtonLabel;
 @property (nonatomic, retain) IBOutlet UIView *bottomButtonView;
+@property (nonatomic, retain) IBOutlet UIView *switchButtonView;
+@property (nonatomic, retain) IBOutlet UIView *clanTypeView;
 @property (nonatomic, retain) IBOutlet UIButton *upgradeTierButton;
+
+@property (nonatomic, retain) IBOutlet UILabel *typeLabel;
+@property (nonatomic, retain) IBOutlet SwitchButton *switchButton;
 
 @property (nonatomic, retain) FullClanProtoWithClanSize *clan;
 

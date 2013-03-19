@@ -14,8 +14,12 @@
 
 @implementation FacebookSponsoredOffer
 @synthesize primaryTitle;
+@synthesize secondaryTitle;
+@synthesize isGold;
 @synthesize price;
-@synthesize rewardPic;
+@synthesize salePrice;
+@synthesize rewardPicName;
+@synthesize discount;
 
 #pragma mark InAppPurchaseData
 -(NSString *) secondaryTitle
@@ -26,9 +30,9 @@
   return secondaryTitle;  
 }
 
--(UIImage *) rewardPic
+-(NSString *) rewardPicName
 {
-  return [Globals imageNamed:@"stack.png"];
+  return @"stack.png";
 }
 
 #pragma InAppPurchaseData
@@ -40,7 +44,6 @@
 -(void) makePurchaseWithViewController:(UIViewController *)controller
 {
     [fbDelegate attemptSignOn];
-    [fbDelegate requestFriendToJoin];
 }
 
 #pragma Create/Destroy

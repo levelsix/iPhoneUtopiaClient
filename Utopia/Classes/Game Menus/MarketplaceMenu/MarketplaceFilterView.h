@@ -72,17 +72,6 @@ typedef enum {
 
 @end
 
-@interface SwitchButton : UIView {
-  CGPoint _initialTouch;
-}
-
-@property (nonatomic, assign) BOOL isOn;
-
-@property (nonatomic, retain) IBOutlet UIImageView *handle;
-@property (nonatomic, retain) UIImageView *darkHandle;
-
-@end
-
 @interface SliderBar : UIView
 
 @property (nonatomic, assign) int numNotches;

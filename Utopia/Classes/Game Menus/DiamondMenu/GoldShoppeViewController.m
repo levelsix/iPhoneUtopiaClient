@@ -409,11 +409,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
         [self.topBar clickButton:kGoldCoinsButton];
         break;
       case kEarnFreeState:
-        //        [self.topBar unclickButton:kGoldCoinsButton];
-        //        [self.topBar clickButton:kEarnFreeButton];
-        
-        [Globals popupMessage:@"Sorry, there are no free offers at this time."];
-        self.state = kPackagesState;
+        if (_sponsoredOffers.count > 0) {
+          [self.topBar unclickButton:kGoldCoinsButton];
+          [self.topBar clickButton:kEarnFreeButton];
+        } else {
+          [Globals popupMessage:@"Sorry, there are no free offers at this time."];
+          self.state = kPackagesState;
+        }
         
         [Analytics clickedFreeOffers];
         break;

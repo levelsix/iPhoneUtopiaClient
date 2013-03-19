@@ -10,6 +10,9 @@
 #import "Protocols.pb.h"
 #import "NibUtils.h"
 
+#define SPEECH_BUBBLE_SCALE 0.7f
+#define SPEECH_BUBBLE_ANIMATION_DURATION 0.2f
+
 @interface DialogMenuController : UIViewController <UITextFieldDelegate>
 
 @property (nonatomic, retain) IBOutlet LoadingView *loadingView;

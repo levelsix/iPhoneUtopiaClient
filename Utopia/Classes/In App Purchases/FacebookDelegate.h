@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FBConnect.h"
+#import "Facebook.h"
 
 #define PREV_FACEBOOK_FRIEND_REQ @"PREV_FACEBOOK_FRIEND_REQ"
 

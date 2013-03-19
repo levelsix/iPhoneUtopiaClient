@@ -10,6 +10,8 @@
 #import "iCarousel.h"
 #import "Globals.h"
 
+#define STARTER_PACK_QUANTITY_KEY @"Starter pack quantity3"
+
 @interface ArmoryListing : UIView
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdView;
@@ -85,9 +87,20 @@
 
 @property (nonatomic, retain) IBOutlet UIImageView *shelfImageView;
 
+@property (nonatomic, retain) UIView *starterPackMainView;
+@property (nonatomic, retain) IBOutlet UIView *starterPackBottomView;
+
 @property (nonatomic, retain) NSArray *specialItems;
 @property (nonatomic, retain) BoosterPackProto *booster;
 @property (nonatomic, retain) UserBoosterPackProto *userBooster;
+
+@property (nonatomic, retain) IBOutlet UILabel *starterRetailLabel;
+@property (nonatomic, retain) IBOutlet UILabel *starterSaleLabel;
+@property (nonatomic, retain) IBOutlet UILabel *starterSaveLabel;
+@property (nonatomic, retain) IBOutlet UILabel *starterGoldLabel;
+@property (nonatomic, retain) IBOutlet UILabel *quantityLabel;
+@property (nonatomic, retain) IBOutlet UILabel *timeLeftLabel;
+@property (nonatomic, retain) NSTimer *timer;
 
 - (void) updateForBoosterPack:(BoosterPackProto *)bpp userPack:(UserBoosterPackProto *)ubpp;
 

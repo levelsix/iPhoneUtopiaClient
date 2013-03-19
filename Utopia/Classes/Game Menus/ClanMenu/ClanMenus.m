@@ -563,7 +563,7 @@
 
 @implementation BrowseClanCell
 
-@synthesize clan, topLabel, botLabel;
+@synthesize clan, topLabel, membersLabel, typeLabel;
 
 - (void) layoutSubviews {
   [super layoutSubviews];
@@ -590,13 +590,22 @@
 - (void) loadForClan:(FullClanProtoWithClanSize *)c {
   self.clan = c;
   self.topLabel.text = [NSString stringWithFormat:@"[%@] %@", c.clan.tag, c.clan.name];
-  self.botLabel.text = [NSString stringWithFormat:@"Members: %d", c.clanSize];
+  self.membersLabel.text = [NSString stringWithFormat:@"Members: %d", c.clanSize];
+  
+  if (c.clan.requestToJoinRequired) {
+    self.typeLabel.text = @"By Request Only";
+    self.typeLabel.textColor = [Globals redColor];
+  } else {
+    self.typeLabel.text = @"Anyone Can Join";
+    self.typeLabel.textColor = [Globals greenColor];
+  }
 }
 
 - (void) dealloc {
   self.clan = nil;
   self.topLabel = nil;
-  self.botLabel = nil;
+  self.membersLabel = nil;
+  self.typeLabel = nil;
   [super dealloc];
 }
 
@@ -856,8 +865,24 @@
     
     if (gs.clan.clanId == c.clan.clanId && c.clan.owner.userId == gs.userId) {
       self.upgradeTierButton.hidden = NO;
+      
+      self.clanTypeView.hidden = YES;
+      self.switchButtonView.hidden = NO;
     } else {
       self.upgradeTierButton.hidden = YES;
+      
+      self.clanTypeView.hidden = NO;
+      self.switchButtonView.hidden = YES;
+    }
+    
+    if (c.clan.requestToJoinRequired) {
+      self.typeLabel.text = @"By Request Only";
+      self.typeLabel.textColor = [Globals redColor];
+      self.switchButton.isOn = NO;
+    } else {
+      self.typeLabel.text = @"Anyone Can Join";
+      self.typeLabel.textColor = [Globals greenColor];
+      self.switchButton.isOn = YES;
     }
     
     if (gs.clan) {
@@ -876,10 +901,14 @@
       int isGood = [Globals userTypeIsGood:gs.type];
       if ((isGood && c.clan.isGood) || (!isGood && !c.clan.isGood)) {
         bottomButtonView.hidden = NO;
-        if ([gs.requestedClans containsObject:[NSNumber numberWithInt:c.clan.clanId]]) {
-          bottomButtonLabel.text = @"CANCEL REQUEST";
+        if (c.clan.requestToJoinRequired) {
+          if ([gs.requestedClans containsObject:[NSNumber numberWithInt:c.clan.clanId]]) {
+            bottomButtonLabel.text = @"CANCEL REQUEST";
+          } else {
+            bottomButtonLabel.text = @"REQUEST INVITE";
+          }
         } else {
-          bottomButtonLabel.text = @"REQUEST INVITE";
+          bottomButtonLabel.text = @"JOIN CLAN";
         }
       } else {
         bottomButtonView.hidden = YES;
@@ -897,7 +926,23 @@
     
     [self.spinner startAnimating];
     self.spinner.hidden = NO;
+    
+    self.clanTypeView.hidden = YES;
+    self.switchButtonView.hidden = YES;
   }
+}
+
+- (void) switchButtonWasTurnedOff:(SwitchButton *)b {
+  
+  ClanMenuController *cmc = [ClanMenuController sharedClanMenuController];
+  int tag = [[OutgoingEventController sharedOutgoingEventController] changeClanJoinType:YES];
+  [cmc beginLoading:tag];
+}
+
+- (void) switchButtonWasTurnedOn:(SwitchButton *)b {
+  ClanMenuController *cmc = [ClanMenuController sharedClanMenuController];
+  int tag = [[OutgoingEventController sharedOutgoingEventController] changeClanJoinType:NO];
+  [cmc beginLoading:tag];
 }
 
 - (BOOL) textView:(UITextView *)t shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
@@ -961,6 +1006,10 @@
   self.spinner = nil;
   self.bottomButtonView = nil;
   self.upgradeTierButton = nil;
+  self.clanTypeView = nil;
+  self.switchButtonView = nil;
+  self.typeLabel = nil;
+  self.switchButton = nil;
   [super dealloc];
 }
 

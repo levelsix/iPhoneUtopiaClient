@@ -234,6 +234,7 @@
 
 - (void) updateBottomLabels {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   FullEquipProto_Rarity baseRarity = 0;
   BOOL costsGold = !self.booster.costsCoins;
   if (costsGold) {
@@ -327,6 +328,21 @@
     
     [Globals adjustViewForCentering:self.noSaleView2 withLabel:self.normalLabel2];
   }
+  
+  if (self.booster.isStarterPack) {
+    self.starterSaleLabel.text = [Globals commafyNumber:self.booster.salePriceOne];
+    self.starterRetailLabel.text = [Globals commafyNumber:self.booster.retailPriceOne];
+    
+    int sub = self.booster.retailPriceOne - self.booster.salePriceOne;
+    int perc = sub/(float)self.booster.retailPriceOne*100.f;
+    self.starterSaveLabel.text = [NSString stringWithFormat:@"%@ (%d%%)", [Globals commafyNumber:sub], perc];
+    
+    self.starterGoldLabel.text = [Globals commafyNumber:self.booster.salePriceOne];
+    
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSInteger quantBought = [def integerForKey:STARTER_PACK_QUANTITY_KEY];
+    self.quantityLabel.text = [NSString stringWithFormat:@"%d", gl.numTimesToBuyStarterPack - quantBought];
+  }
 }
 
 - (void) updateForBoosterPack:(BoosterPackProto *)bpp userPack:(UserBoosterPackProto *)ubpp {
@@ -335,39 +351,116 @@
   self.booster = bpp;
   self.userBooster = ubpp;
   
+  [self.starterPackMainView removeFromSuperview];
+  self.starterPackBottomView.hidden = YES;
   NSMutableArray *specials = [NSMutableArray array];
-  for (BoosterItemProto *bip in bpp.boosterItemsList) {
-    if (bip.isSpecial) {
-      [specials addObject:bip];
-    }
-  }
-  
-  [specials sortUsingComparator:^NSComparisonResult(BoosterItemProto *obj1, BoosterItemProto *obj2) {
-    int attack1 = [gl calculateAttackForEquip:obj1.equipId level:1 enhancePercent:0];
-    int defense1 = [gl calculateDefenseForEquip:obj1.equipId level:1 enhancePercent:0];
-    int attack2 = [gl calculateAttackForEquip:obj2.equipId level:1 enhancePercent:0];
-    int defense2 = [gl calculateDefenseForEquip:obj2.equipId level:1 enhancePercent:0];
-    FullEquipProto *fep1 = [gs equipWithId:obj1.equipId];
-    FullEquipProto *fep2 = [gs equipWithId:obj2.equipId];
-    if (fep1.rarity > fep2.rarity) {
-      return NSOrderedAscending;
-    } else if (fep1.rarity < fep2.rarity) {
-      return NSOrderedDescending;
-    } else {
-      if (attack1+defense1 < attack2+defense2) {
-        return NSOrderedDescending;
-      } else if (attack1+defense1 > attack2+defense2) {
-        return NSOrderedAscending;
+  if (!bpp.isStarterPack) {
+    for (BoosterItemProto *bip in bpp.boosterItemsList) {
+      if (bip.isSpecial) {
+        [specials addObject:bip];
       }
-      return NSOrderedSame;
     }
-  }];
+    
+    [specials sortUsingComparator:^NSComparisonResult(BoosterItemProto *obj1, BoosterItemProto *obj2) {
+      int attack1 = [gl calculateAttackForEquip:obj1.equipId level:1 enhancePercent:0];
+      int defense1 = [gl calculateDefenseForEquip:obj1.equipId level:1 enhancePercent:0];
+      int attack2 = [gl calculateAttackForEquip:obj2.equipId level:1 enhancePercent:0];
+      int defense2 = [gl calculateDefenseForEquip:obj2.equipId level:1 enhancePercent:0];
+      FullEquipProto *fep1 = [gs equipWithId:obj1.equipId];
+      FullEquipProto *fep2 = [gs equipWithId:obj2.equipId];
+      if (fep1.rarity > fep2.rarity) {
+        return NSOrderedAscending;
+      } else if (fep1.rarity < fep2.rarity) {
+        return NSOrderedDescending;
+      } else {
+        if (attack1+defense1 < attack2+defense2) {
+          return NSOrderedDescending;
+        } else if (attack1+defense1 > attack2+defense2) {
+          return NSOrderedAscending;
+        }
+        return NSOrderedSame;
+      }
+    }];
+  } else {
+    FullEquipProto *weapon = nil, *armor = nil, *amulet = nil;
+    for (BoosterItemProto *bip in bpp.boosterItemsList) {
+      FullEquipProto *fep = [gs equipWithId:bip.equipId];
+      if (fep.equipType == FullEquipProto_EquipTypeWeapon) {
+        weapon = fep;
+      } else if (fep.equipType == FullEquipProto_EquipTypeArmor) {
+        armor = fep;
+      } else if (fep.equipType == FullEquipProto_EquipTypeAmulet) {
+        amulet = fep;
+      }
+    }
+    
+    self.starterPackMainView = [[UIView alloc] initWithFrame:self.carousel.frame];
+    self.starterPackBottomView.hidden = NO;
+    
+    ArmoryListing *view = nil;
+    [[NSBundle mainBundle] loadNibNamed:@"ArmoryListing" owner:self options:nil];
+    view = self.armoryListing;
+    [self.starterPackMainView addSubview:view];
+    view.center = ccp(self.starterPackMainView.frame.size.width/2-view.frame.size.width-10, self.starterPackMainView.frame.size.height/2);
+    [view updateForEquip:weapon numCollected:0 total:1];
+//    view.amtCollectedLabel.text = @"Weapon";
+    
+    [[NSBundle mainBundle] loadNibNamed:@"ArmoryListing" owner:self options:nil];
+    view = self.armoryListing;
+    [self.starterPackMainView addSubview:view];
+    view.center = ccp(self.starterPackMainView.frame.size.width/2, self.starterPackMainView.frame.size.height/2);
+    [view updateForEquip:armor numCollected:0 total:1];
+//    view.amtCollectedLabel.text = @"Armor";
+    
+    [[NSBundle mainBundle] loadNibNamed:@"ArmoryListing" owner:self options:nil];
+    view = self.armoryListing;
+    [self.starterPackMainView addSubview:view];
+    view.center = ccp(self.starterPackMainView.frame.size.width/2+view.frame.size.width+10, self.starterPackMainView.frame.size.height/2);
+    [view updateForEquip:amulet numCollected:0 total:1];
+//    view.amtCollectedLabel.text = @"Amulet";
+    
+    [self.carousel.superview addSubview:self.starterPackMainView];
+    
+    [self updateLabels];
+    self.timer = [NSTimer timerWithTimeInterval:0.01f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+  }
   
   self.specialItems = specials;
   
   [self updateBottomLabels];
   [self.carousel reloadData];
   [self.carousel scrollToItemAtIndex:self.specialItems.count/2 animated:YES];
+}
+
+- (void) setTimer:(NSTimer *)t {
+  if (_timer != t) {
+    [_timer invalidate];
+    [_timer release];
+    _timer = [t retain];
+  }
+}
+
+- (void) updateLabels {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int numDays = gl.numDaysToBuyStarterPack;
+  NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:gs.createTime.timeIntervalSince1970+numDays*24*60*60];
+  NSTimeInterval timeInterval = [endDate timeIntervalSinceNow];
+  NSString *time = @"Time up!";
+  
+  if (timeInterval >= 0) {
+    int days = (int)(timeInterval/86400);
+    int hrs = (int)((timeInterval-86400*days)/3600);
+    int mins = (int)((timeInterval-86400*days-3600*hrs)/60);
+    float secs = timeInterval-86400*days-3600*hrs-60*mins;
+    NSString *daysString = days ? [NSString stringWithFormat:@"%dd ", days] : @"";
+    NSString *hrsString = days || hrs ? [NSString stringWithFormat:@"%dh ", hrs] : @"";
+    NSString *minsString = days || hrs || mins ? [NSString stringWithFormat:@"%dm ", mins] : @"";
+    NSString *secsString = [NSString stringWithFormat:@"%ds", (int)secs];
+    time = [NSString stringWithFormat:@"%@%@%@%@", daysString, hrsString, minsString, secsString];
+  }
+  self.timeLeftLabel.text = time;
 }
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel
@@ -446,6 +539,14 @@
   self.numEquipsLabel1 = nil;
   self.numEquipsLabel2 = nil;
   self.shelfImageView = nil;
+  self.starterPackMainView = nil;
+  self.starterPackBottomView = nil;
+  self.starterRetailLabel = nil;
+  self.starterSaleLabel = nil;
+  self.starterSaveLabel = nil;
+  self.quantityLabel = nil;
+  self.timer = nil;
+  self.timeLeftLabel = nil;
   [super dealloc];
 }
 

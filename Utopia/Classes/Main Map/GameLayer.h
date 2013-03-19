@@ -54,6 +54,8 @@
   BOOL _shouldCenterOnEnemy;
   
   BOOL _loading;
+  
+  BOOL _isForBattleLossTutorial;
 }
 
 @property (nonatomic, assign) int assetId;
@@ -79,6 +81,8 @@
 - (void) displayBazaarMap;
 - (void) closeBazaarMap;
 - (void) toggleBazaarMap;
+
+- (void) performBattleLossTutorial;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 + (CCScene *) scene;

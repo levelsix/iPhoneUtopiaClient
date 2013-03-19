@@ -24,7 +24,7 @@
 #import "Downloader.h"
 #import "GGEventLog.h"
 #import <MobileAppTracker/MobileAppTracker.h>
-#import <FacebookSDK/FacebookSDK.h>
+#import "FBConnect.h"
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
 #define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
@@ -47,15 +47,15 @@
 
 @synthesize window;
 @synthesize isActive;
-//@synthesize facebookDelegate;
+@synthesize facebookDelegate;
 
-//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-//  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-//  return [facebookDelegate application:application 
-//                               openURL:url
-//                     sourceApplication:sourceApplication
-//                            annotation:annotation];
-//}
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  return [facebookDelegate application:application
+                               openURL:url
+                     sourceApplication:sourceApplication
+                            annotation:annotation];
+}
 
 - (void) removeStartupFlicker
 {
@@ -76,33 +76,33 @@
 	[[director openGLView] swapBuffers];
 	CC_ENABLE_DEFAULT_GL_STATES();
 	
-#endif // GAME_AUTOROTATION == kGameAutorotationUIViewController	
+#endif // GAME_AUTOROTATION == kGameAutorotationUIViewController
 }
 
 -(void) setUpAlauMeRefferalTracking
 {
-//  AMConnect *alaume = [AMConnect sharedInstance];
-//  
-//  // Set to YES for debugging purposes. Trace info will be written to console.
-//  alaume.isLoggingEnabled = NO;
-//  
-//  // Set to YES for Lite SKU.
-//  alaume.isFreeSKU = NO;
-//
-//  [alaume initializeWithAppId:ALAUME_APP_ID apiKey:ALAUME_API_KEY];
+  //  AMConnect *alaume = [AMConnect sharedInstance];
+  //
+  //  // Set to YES for debugging purposes. Trace info will be written to console.
+  //  alaume.isLoggingEnabled = NO;
+  //
+  //  // Set to YES for Lite SKU.
+  //  alaume.isFreeSKU = NO;
+  //
+  //  [alaume initializeWithAppId:ALAUME_APP_ID apiKey:ALAUME_API_KEY];
 }
 
--(void) setUpFlurryAnalytics 
+-(void) setUpFlurryAnalytics
 {
-//  [FlurryAnalytics startSession:FLURRY_API_KEY];
-//  [FlurryAnalytics setUserID:[NSString stringWithFormat:@"%d", 
-//                              [GameState sharedGameState].userId]];
+  //  [FlurryAnalytics startSession:FLURRY_API_KEY];
+  //  [FlurryAnalytics setUserID:[NSString stringWithFormat:@"%d",
+  //                              [GameState sharedGameState].userId]];
 }
 
 -(void) setUpCrittercism
 {
   [Crittercism initWithAppID:@"5029a2f0eeaf4125dd000001"
-    andMainViewController:nil];
+       andMainViewController:nil];
 }
 
 - (void) setUpMobileAppTracker {
@@ -201,7 +201,7 @@
   //  }
 #ifndef DEBUG
   [GGEventLog initializeApiKey:GIRAFFE_GRAPH_KEY trackCampaignSource:YES];
-//  [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
+  //  [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
 #endif
   [Analytics beganApp];
   [Analytics openedApp];
@@ -211,10 +211,10 @@
   
   // Cocoa Lumberjack (logging framework)
   [DDLog addLogger:[DDASLLogger sharedInstance]];
-  [DDLog addLogger:[DDTTYLogger sharedInstance]];	
-	[[DDTTYLogger sharedInstance] setLogFormatter:[LoggingContextFilter 
+  [DDLog addLogger:[DDTTYLogger sharedInstance]];
+	[[DDTTYLogger sharedInstance] setLogFormatter:[LoggingContextFilter
                                                  createTagFilter]];
-
+  
   // Alau.Me
   [self setUpAlauMeRefferalTracking];
   
@@ -228,32 +228,32 @@
   [FBSettings publishInstall:FACEBOOK_APP_ID];
   
   // AdColony
-//  adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];
-
+  //  adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];
+  
   // TapJoy
-//  tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
+  //  tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
   /*
    * Disabled Sponsored offers:(Short Term)
-   *  
+   
+   // FlurryClips
+   flurryClipsDelegate = [[FlurryClipsDelegate createFlurryClipsDelegate] retain];
+   
+   // FlurryAnalytics
+   [self setUpFlurryAnalytics];
+   *
+   */
+  
   // Facebook
   facebookDelegate = [[FacebookDelegate createFacebookDelegate] retain];
-
-  // FlurryClips
-  flurryClipsDelegate = [[FlurryClipsDelegate createFlurryClipsDelegate] retain];
-  
-  // FlurryAnalytics
-  [self setUpFlurryAnalytics];
- *
- */
   
   // TestFlight SDK
-//  [TestFlight takeOff:TEST_FLIGHT_API_KEY];  
+  //  [TestFlight takeOff:TEST_FLIGHT_API_KEY];
   
   // Kiip.me
-//  kiipDelegate = [[KiipDelegate create] retain];
+  //  kiipDelegate = [[KiipDelegate create] retain];
   
   [self removeLocalNotifications];
-
+  
   return YES;
 }
 
@@ -302,7 +302,7 @@
   }
   [Analytics suspendedApp];
 #ifndef DEBUG
-//  [Apsalar endSession];
+  //  [Apsalar endSession];
 #endif
 }
 
@@ -311,7 +311,7 @@
   self.isActive = YES;
   
 #ifndef DEBUG
-//  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];
+  //  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];
 #endif
   [Analytics beganApp];
   [Analytics resumedApp];
@@ -343,7 +343,7 @@
   
   [Analytics terminatedApp];
 #ifndef DEBUG
-//  [Apsalar endSession];
+  //  [Apsalar endSession];
 #endif
 }
 
@@ -462,17 +462,17 @@
   NSDate *date = [NSDate dateWithTimeIntervalSinceNow:12*60*60];
   [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
   
-//  curBadgeCount++;
+  //  curBadgeCount++;
   text = [NSString stringWithFormat:@"%@, the %@ needs you! Come back and prevent the %@ from taking over", gs.name, [Globals factionForUserType:gs.type] , [Globals factionForUserType:(gs.type+3)%6]];
   date = [NSDate dateWithTimeIntervalSinceNow:2*24*60*60];
   [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
   
-//  curBadgeCount++;
+  //  curBadgeCount++;
   text = [NSString stringWithFormat:@"%@, come back and reclaim the world for the all powerful %@!", gs.name, [Globals factionForUserType:gs.type]];
   date = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
   [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
   
-//  curBadgeCount++;
+  //  curBadgeCount++;
   text = [NSString stringWithFormat:@"%@, the %@ needs you! Come back and prevent the %@ from taking over", gs.name, [Globals factionForUserType:gs.type] , [Globals factionForUserType:(gs.type+3)%6]];
   date = [NSDate dateWithTimeIntervalSinceNow:6*24*60*60];
   [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
@@ -485,11 +485,11 @@
 
 - (void)dealloc {
 	[[CCDirector sharedDirector] end];
-//  [adColonyDelegate release];
-//  [tapJoyDelegate      release];
-//  [flurryClipsDelegate release];
-//  [facebookDelegate    release];
-//  [kiipDelegate        release];
+  //  [adColonyDelegate release];
+  //  [tapJoyDelegate      release];
+  //  [flurryClipsDelegate release];
+  [facebookDelegate    release];
+  //  [kiipDelegate        release];
 	[window release];
 	[super dealloc];
 }

@@ -20,6 +20,8 @@
 #define MIN_LATITUDE 0.5f
 #define MIN_LONGITUDE MIN_LATITUDE*2
 
+#define PERFORMED_FIRST_LOSS_TUT_KEY @"Performed First Loss5"
+
 @implementation AttackMenuBar
 
 @synthesize background;
@@ -431,7 +433,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
 
 - (void) battle:(FullUserProto *)fup {
   // BattleLayer will fade out view
-  [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup inCity:0];
+  BattleLayer *bl = [BattleLayer sharedBattleLayer];
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  BOOL hasPerformedTut = [def boolForKey:PERFORMED_FIRST_LOSS_TUT_KEY];
+  if (hasPerformedTut) {
+    [bl beginBattleAgainst:fup inCity:0];
+  } else {
+    [bl performFirstLossTutorialWithUser:fup inCity:0];
+    [def setBool:YES forKey:PERFORMED_FIRST_LOSS_TUT_KEY];
+  }
 }
 
 - (void) mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {

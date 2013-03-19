@@ -149,6 +149,7 @@
 @property (nonatomic, assign) int numAdColonyVideosWatched;
 @property (nonatomic, assign) int numGroupChatsRemaining;
 @property (nonatomic, assign) BOOL isAdmin;
+@property (nonatomic, retain) NSDate *createTime;
 
 @property (nonatomic, retain) NSString *deviceToken;
 

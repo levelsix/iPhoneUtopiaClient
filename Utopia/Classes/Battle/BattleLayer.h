@@ -10,6 +10,7 @@
 #import "Protocols.pb.h"
 #import "NibUtils.h"
 #import "BattleCalculator.h"
+#import "BattleMenus.h"
 
 #define HEALTH_BAR_VELOCITY 100.f
 
@@ -26,70 +27,6 @@
 
 #define START_TRIANGLE_ROTATION -45.f
 #define END_TRIANGLE_ROTATION 225.f
-
-@interface BattleSummaryView : UIView
-
-@property (nonatomic, retain) IBOutlet UILabel *leftNameLabel;
-@property (nonatomic, retain) IBOutlet UILabel *leftLevelLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *leftPlayerIcon;
-@property (nonatomic, retain) IBOutlet UILabel *rightNameLabel;
-@property (nonatomic, retain) IBOutlet UILabel *rightLevelLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *rightPlayerIcon;
-
-@property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel1;
-@property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon1;
-@property (nonatomic, retain) IBOutlet EquipLevelIcon *leftEquipLevelIcon1;
-@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *leftEnhanceLevelIcon1;
-@property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel2;
-@property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon2;
-@property (nonatomic, retain) IBOutlet EquipLevelIcon *leftEquipLevelIcon2;
-@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *leftEnhanceLevelIcon2;
-@property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel3;
-@property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon3;
-@property (nonatomic, retain) IBOutlet EquipLevelIcon *leftEquipLevelIcon3;
-@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *leftEnhanceLevelIcon3;
-@property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel1;
-@property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon1;
-@property (nonatomic, retain) IBOutlet EquipLevelIcon *rightEquipLevelIcon1;
-@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *rightEnhanceLevelIcon1;
-@property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel2;
-@property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon2;
-@property (nonatomic, retain) IBOutlet EquipLevelIcon *rightEquipLevelIcon2;
-@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *rightEnhanceLevelIcon2;
-@property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel3;
-@property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon3;
-@property (nonatomic, retain) IBOutlet EquipLevelIcon *rightEquipLevelIcon3;
-@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *rightEnhanceLevelIcon3;
-
-@property (nonatomic, retain) IBOutlet UILabel *coinsGainedLabel;
-@property (nonatomic, retain) IBOutlet UILabel *coinsLostLabel;
-@property (nonatomic, retain) IBOutlet UILabel *expGainedLabel;
-@property (nonatomic, retain) IBOutlet UIView *winLabelsView;
-@property (nonatomic, retain) IBOutlet UIView *defeatLabelsView;
-
-@property (nonatomic, retain) IBOutlet UIView *mainView;
-@property (nonatomic, retain) IBOutlet UIView *bgdView;
-
-@end
-
-@interface StolenEquipView : UIView
-
-@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
-@property (nonatomic, retain) IBOutlet EquipButton *equipIcon;
-@property (nonatomic, retain) IBOutlet UILabel *attackLabel;
-@property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
-@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-@property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
-@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *enhanceIcon;
-
-@property (nonatomic, retain) IBOutlet UIView *statsView;
-@property (nonatomic, retain) IBOutlet UIView *mainView;
-@property (nonatomic, retain) IBOutlet UIView *bgdView;
-
-- (void) loadForEquip:(FullUserEquipProto *)fuep;
-- (void) loadForLockBox:(int)eventId;
-
-@end
 
 @interface BattleLayer : CCLayer {
   BOOL _isRunning;
@@ -154,6 +91,8 @@
   
   BOOL _clickedDone;
   id<BattleCalculator> _battleCalculator;
+  
+  BOOL _isForTutorial;
 }
 
 // Since we can only one IBOutlet, the gainedEquipView displays for stolen equips
@@ -162,6 +101,8 @@
 @property (nonatomic, retain) StolenEquipView *gainedEquipView;
 @property (nonatomic, retain) StolenEquipView *gainedLockBoxView;
 @property (nonatomic, retain) IBOutlet BattleSummaryView *summaryView;
+@property (nonatomic, retain) IBOutlet BattleAnalysisView *analysisView;
+@property (nonatomic, retain) IBOutlet BattleTutorialView *tutorialView;
 
 @property (nonatomic, retain) BattleResponseProto *brp;
 @property (retain) NSArray *enemyEquips;
@@ -173,11 +114,13 @@
 - (BOOL) beginBattleAgainst:(FullUserProto *)user;
 - (BOOL) beginBattleAgainst:(FullUserProto *)user inCity:(int) cityId;
 - (void) doAttackAnimation;
+- (void) performFirstLossTutorialWithUser:(FullUserProto *)fup inCity:(int)cityId;
 
 - (IBAction)stolenEquipOkayClicked:(id)sender;
 - (IBAction)closeClicked:(id)sender;
 - (IBAction)attackAgainClicked:(id)sender;
 - (IBAction)profileButtonClicked:(id)sender;
+- (IBAction)viewChestInArmoryClicked:(id)sender;
 
 - (void) startBattle;
 - (void) startMyTurn;
@@ -207,5 +150,7 @@
 - (void) closeSceneFromQuestLog;
 
 - (void)receivedUserEquips:(RetrieveUserEquipForUserResponseProto *)proto;
+
+- (IBAction)analysisClicked:(id)sender;
 
 @end

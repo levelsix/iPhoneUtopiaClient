@@ -128,6 +128,7 @@
 - (int) approveOrRejectRequestToJoinClan:(int)requesterId accept:(BOOL)accept;
 - (int) transferClanOwnership:(int)newClanOwnerId;
 - (int) changeClanDescription:(NSString *)description;
+- (int) changeClanJoinType:(BOOL)requestRequired;
 - (void) retrieveClanInfo:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId;
 - (int) bootPlayerFromClan:(int)playerId;
 - (ClanBulletinPostProto *) postOnClanBulletin:(NSString *)content;

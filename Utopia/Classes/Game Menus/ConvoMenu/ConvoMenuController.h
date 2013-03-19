@@ -18,9 +18,12 @@
 
 // Holds button and "Previous" label
 @property (nonatomic, retain) IBOutlet UIView *prevButton;
+@property (nonatomic, retain) IBOutlet UIView *nextButton;
 @property (nonatomic, retain) IBOutlet UILabel *speakerNameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *speechLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *speakerImageView;
+
+@property (nonatomic, retain) IBOutlet UIButton *closeButton;
 
 @property (nonatomic, retain) FullQuestProto *quest;
 

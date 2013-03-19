@@ -20,7 +20,11 @@ typedef enum {
   kBrowseClans,
   kAboutClans,
   kCreateClan,
-  kClanTower
+  kClanTower,
+  kBrowseWhileNotInClan,
+  kSearchClans,
+  kBosses,
+  kVault
 } ClanState;
 
 @interface UIView (WakeupAndCleanup)
@@ -52,6 +56,7 @@ typedef enum {
 
 - (void) loadMyClanConfiguration;
 - (void) loadBrowseClanConfiguration;
+- (void) loadBrowseWhileInClanConfiguration;
 - (void) loadViewClanConfiguration;
 
 @end
@@ -64,6 +69,8 @@ typedef enum {
   BOOL _trackingButton5;
   
   int _clickedButtons;
+  
+  BOOL _inClanConfig;
 }
 
 @property (nonatomic, retain) IBOutlet UIImageView *button1Icon;
@@ -83,6 +90,9 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *button3;
 @property (nonatomic, retain) IBOutlet UIImageView *button4;
 @property (nonatomic, retain) IBOutlet UIImageView *button5;
+
+- (void) loadInClanConfiguration;
+- (void) loadNotInClanConfiguration;
 
 @end
 
@@ -129,6 +139,7 @@ typedef enum {
 - (void) receivedRejectOrAcceptResponse:(ApproveOrRejectRequestToJoinClanResponseProto *)proto;
 - (void) receivedTransferOwnershipResponse:(TransferClanOwnershipResponseProto *)proto;
 - (void) receivedChangeDescriptionResponse:(ChangeClanDescriptionResponseProto *)proto;
+- (void) receivedChangeTypeResponse:(ChangeClanJoinTypeResponseProto *)proto;
 - (void) receivedLeaveResponse:(LeaveClanResponseProto *)proto;
 - (void) receivedBootPlayerResponse:(BootPlayerFromClanResponseProto *)proto;
 - (void) receivedWallPosts:(RetrieveClanBulletinPostsResponseProto *)proto;

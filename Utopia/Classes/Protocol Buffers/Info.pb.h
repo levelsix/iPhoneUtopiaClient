@@ -477,6 +477,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @interface BoosterPackProto : PBGeneratedMessage {
 @private
   BOOL hasCostsCoins_:1;
+  BOOL hasIsStarterPack_:1;
   BOOL hasBoosterPackId_:1;
   BOOL hasMinLevel_:1;
   BOOL hasMaxLevel_:1;
@@ -490,6 +491,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasMiddleImage_:1;
   BOOL hasBackgroundImage_:1;
   BOOL costsCoins_:1;
+  BOOL isStarterPack_:1;
   int32_t boosterPackId;
   int32_t minLevel;
   int32_t maxLevel;
@@ -517,6 +519,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasRetailPriceOne;
 - (BOOL) hasSalePriceTwo;
 - (BOOL) hasRetailPriceTwo;
+- (BOOL) hasIsStarterPack;
 @property (readonly) int32_t boosterPackId;
 - (BOOL) costsCoins;
 @property (readonly, retain) NSString* name;
@@ -530,6 +533,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t retailPriceOne;
 @property (readonly) int32_t salePriceTwo;
 @property (readonly) int32_t retailPriceTwo;
+- (BOOL) isStarterPack;
 - (NSArray*) boosterItemsList;
 - (BoosterItemProto*) boosterItemsAtIndex:(int32_t) index;
 
@@ -638,6 +642,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) retailPriceTwo;
 - (BoosterPackProto_Builder*) setRetailPriceTwo:(int32_t) value;
 - (BoosterPackProto_Builder*) clearRetailPriceTwo;
+
+- (BOOL) hasIsStarterPack;
+- (BOOL) isStarterPack;
+- (BoosterPackProto_Builder*) setIsStarterPack:(BOOL) value;
+- (BoosterPackProto_Builder*) clearIsStarterPack;
 @end
 
 @interface BoosterItemProto : PBGeneratedMessage {

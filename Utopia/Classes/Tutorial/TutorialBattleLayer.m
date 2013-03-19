@@ -406,13 +406,13 @@
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   GameState *gs = [GameState sharedGameState];
   
-  self.summaryView.leftNameLabel.text = gs.name;
+  [self.summaryView.leftNameLabel setTitle:gs.name forState:UIControlStateNormal];
   self.summaryView.leftLevelLabel.text = @"Lvl 1";
-  self.summaryView.leftPlayerIcon.image = [Globals squareImageForUser:gs.type];
+  [self.summaryView.leftPlayerIcon setImage:[Globals circleImageForUser:gs.type] forState:UIControlStateNormal];
   
-  self.summaryView.rightNameLabel.text = tc.enemyName;
+  [self.summaryView.rightNameLabel setTitle:tc.enemyName forState:UIControlStateNormal];
   self.summaryView.rightLevelLabel.text = @"Lvl 1";
-  self.summaryView.rightPlayerIcon.image = [Globals squareImageForUser:tc.enemyType];
+  [self.summaryView.rightPlayerIcon setImage:[Globals circleImageForUser:tc.enemyType] forState:UIControlStateNormal];
   
   FullEquipProto *fep = [gs equipWithId:gs.weaponEquippedId];
   self.summaryView.leftRarityLabel1.textColor = [Globals colorForRarity:fep.rarity];

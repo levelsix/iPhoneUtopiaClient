@@ -11,11 +11,15 @@
 
 @interface BazaarMap : GameMap {
   QuestGiver *_questGiver;
+  
+  BOOL _isForFirstLossTutorial;
 }
 
 + (BazaarMap *) sharedBazaarMap;
 + (void) purgeSingleton;
 + (BOOL) isInitialized;
+
+- (void) performFirstLossTutorial;
 
 - (void) moveToCritStruct:(BazaarStructType)type animated:(BOOL)animated;
 - (void) moveToQuestGiverAnimated:(BOOL)animated;

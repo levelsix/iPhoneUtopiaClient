@@ -323,6 +323,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSResetBoosterPackEvent:
       responseClass = [ResetBoosterPackResponseProto class];
       break;
+    case EventProtocolResponseSChangeClanJoinTypeEvent:
+      responseClass = [ChangeClanJoinTypeResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -594,6 +597,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     } else {
       [[GameViewController sharedGameViewController] loadGame:NO];
     }
+    
+    [[OutgoingEventController sharedOutgoingEventController] retrieveBoosterPacks];
     
     // Display generic popups for strings that haven't been seen before
     NSUserDefaults *standardDefault = [NSUserDefaults standardUserDefaults];
@@ -1243,6 +1248,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       [gs removeNonFullUserUpdatesForTag:tag];
       
+//      [[GameLayer sharedGameLayer] performBattleLossTutorial];
+      
       // Check for unresponded in app purchases
       NSString *key = IAP_DEFAULTS_KEY;
       NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -1394,8 +1401,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusSuccess) {
     [gs addStaticBoosterPacks:proto.packsList userBoosterPacks:proto.userPacksList];
     
-    ArmoryViewController *avc = [ArmoryViewController sharedArmoryViewController];
-    [avc refresh];
+    if ([ArmoryViewController isInitialized]) {
+      ArmoryViewController *avc = [ArmoryViewController sharedArmoryViewController];
+      [avc refresh];
+    }
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1979,7 +1988,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[ClanMenuController sharedClanMenuController] stopLoading:tag];
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusJoinSuccess) {
+  if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusRequestSuccess) {
     if (proto.sender.userId == gs.userId) {
       [gs.requestedClans addObject:[NSNumber numberWithInt:proto.clanId]];
     }
@@ -1987,6 +1996,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [[ClanMenuController sharedClanMenuController] receivedRequestJoinClanResponse:proto];
     
     [gs removeNonFullUserUpdatesForTag:tag];
+  } else if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusJoinSuccess) {
+    if (proto.sender.userId == gs.userId) {
+      gs.clan = proto.minClan;
+      [[SocketCommunication sharedSocketCommunication] rebuildSender];
+    }
+    
+    if ([ClanMenuController isInitialized])
+      [[ClanMenuController sharedClanMenuController] receivedRequestJoinClanResponse:proto];
   } else {
     [Globals popupMessage:@"Server failed to request to join clan request."];
     
@@ -2063,6 +2080,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to change clan description."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleChangeClanJoinTypeResponseProto:(FullEvent *)fe {
+  ChangeClanJoinTypeResponseProto *proto = (ChangeClanJoinTypeResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Change clan join type response received with status %d.", proto.status);
+  
+  if ([ClanMenuController isInitialized])
+    [[ClanMenuController sharedClanMenuController] stopLoading:tag];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusSuccess) {
+    if (proto.hasMinClan) {
+      gs.clan = proto.minClan;
+      [[SocketCommunication sharedSocketCommunication] rebuildSender];
+    }
+    if ([ClanMenuController isInitialized])
+      [[ClanMenuController sharedClanMenuController] receivedChangeTypeResponse:proto];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to change clan join type."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

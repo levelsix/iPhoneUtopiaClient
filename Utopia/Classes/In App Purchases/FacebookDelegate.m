@@ -8,8 +8,9 @@
 
 #import "FacebookDelegate.h"
 #import "InAppPurchaseData.h"
+#import "OperationWaitCounter.h"
 
-#define FACEBOOK_APP_ID  @"303653176390503" 
+#define FACEBOOK_APP_ID  @"308804055902016" 
 #define FACEBOOK_REQ_MSG @"Hey, check out this cool new iPhone game."
 
 @implementation FacebookDelegate
@@ -44,7 +45,7 @@
   return ([defaults objectForKey:@"FBAccessTokenKey"] 
           && [defaults objectForKey:@"FBExpirationDateKey"]);
 }
-#import "OperationWaitCounter.h"
+
 -(void) setupAuthentication
 {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -60,7 +61,8 @@
   [self setupAuthentication];
   
   if (![facebook isSessionValid]) {
-    [facebook authorize:nil];
+    NSArray *permissions = [NSArray arrayWithObjects:@"email", nil];
+    [facebook authorize:permissions];
   }
 }
 

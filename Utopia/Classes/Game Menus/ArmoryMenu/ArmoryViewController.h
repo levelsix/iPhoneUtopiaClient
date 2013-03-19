@@ -13,6 +13,7 @@
 #import "CoinBar.h"
 #import "ArmoryCarouselView.h"
 #import "LeaderboardController.h"
+#import "ArmoryTutorialView.h"
 
 @interface ArmoryTopBar : UIView {
   BOOL _trackingButton1;
@@ -34,13 +35,22 @@
 @property (nonatomic, retain) IBOutlet UILabel *levelsLabel;
 @property (nonatomic, retain) IBOutlet UILabel *equipsLeftLabel;
 
+@property (nonatomic, retain) IBOutlet UIView *labelsView;
+@property (nonatomic, retain) IBOutlet UILabel *timeLeftLabel;
+
 @property (nonatomic, retain) BoosterPackProto *boosterPack;
+
+@property (nonatomic, retain) NSTimer *timer;
 
 @end
 
 @interface ArmoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
   int _level;
   BOOL _shouldCostCoins;
+  
+  BOOL _isForBattleLossTutorial;
+  
+  UIImageView *_arrow;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *armoryTableView;
@@ -66,16 +76,22 @@
 @property (nonatomic, retain) IBOutlet UIImageView *infoImageView;
 @property (nonatomic, retain) IBOutlet UILabel *infoLabel;
 
+@property (nonatomic, retain) IBOutlet ArmoryTutorialView *tutorialView;
+
 - (void) refresh;
 - (void) close;
 
 - (void) displayBuyChests;
 - (void) displayInfo;
 
+- (void) performBattleLossTutorial;
+
 - (void) loadForLevel:(int)level rarity:(FullEquipProto_Rarity)rarity;
 
 - (IBAction)purchaseClicked:(UIView *)sender;
 - (IBAction)resetClicked:(id)sender;
+- (IBAction)infoClicked:(id)sender;
+- (IBAction)showMeSaleClicked:(id)sender;
 
 - (void) receivedPurchaseBoosterPackResponse:(PurchaseBoosterPackResponseProto *)proto;
 - (void) resetBoosterPackResponse:(ResetBoosterPackResponseProto *)proto;

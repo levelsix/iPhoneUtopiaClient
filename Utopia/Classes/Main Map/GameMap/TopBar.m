@@ -307,22 +307,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) mapClicked {
+  if (_isForBattleLossTutorial) {
+    return;
+  }
   [MapViewController displayMissionMap];
 }
 
 - (void) attackClicked {
+  if (_isForBattleLossTutorial) {
+    return;
+  }
   [AttackMenuController displayView];
 }
 
 - (void) questButtonClicked {
+  if (_isForBattleLossTutorial) {
+    return;
+  }
   [[QuestLogController sharedQuestLogController] loadQuestLog];
 }
 
 - (void) lockBoxButtonClicked {
+  if (_isForBattleLossTutorial) {
+    return;
+  }
   [LockBoxMenuController displayView];
 }
 
 - (void) bossEventButtonClicked {
+  if (_isForBattleLossTutorial) {
+    return;
+  }
   GameState *gs = [GameState sharedGameState];
   BossEventProto *lbe = [gs getCurrentBossEvent];
   
@@ -335,6 +350,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) towerButtonClicked {
+  if (_isForBattleLossTutorial) {
+    return;
+  }
   GameState *gs = [GameState sharedGameState];
   BOOL foundMoreThanOne = NO;
   int towerId = 0;
@@ -360,6 +378,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) tournamentButtonClicked {
+  if (_isForBattleLossTutorial) {
+    return;
+  }
   [TournamentMenuController displayView];
 }
 
@@ -368,7 +389,80 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) homeClicked {
+  if (_isForBattleLossTutorial) {
+    return;
+  }
   [[GameLayer sharedGameLayer] loadHomeMap];
+}
+
+- (void) lowerAllOpacities {
+  _questButton.normalImage.opacity = BUTTON_OPACITY;
+  _questButton.selectedImage.opacity = BUTTON_OPACITY;
+  _mapButton.normalImage.opacity = BUTTON_OPACITY;
+  _mapButton.selectedImage.opacity = BUTTON_OPACITY;
+  _homeButton.normalImage.opacity = BUTTON_OPACITY;
+  _homeButton.selectedImage.opacity = BUTTON_OPACITY;
+  _attackButton.normalImage.opacity = BUTTON_OPACITY;
+  _attackButton.selectedImage.opacity = BUTTON_OPACITY;
+  _bazaarButton.normalImage.opacity = BUTTON_OPACITY;
+  _bazaarButton.selectedImage.opacity = BUTTON_OPACITY;
+  _lockBoxButton.normalImage.opacity = BUTTON_OPACITY;
+  _lockBoxButton.selectedImage.opacity = BUTTON_OPACITY;
+  _bossEventButton.normalImage.opacity = BUTTON_OPACITY;
+  _bossEventButton.selectedImage.opacity = BUTTON_OPACITY;
+  _tournamentButton.normalImage.opacity = BUTTON_OPACITY;
+  _tournamentButton.selectedImage.opacity = BUTTON_OPACITY;
+  _towerButton.normalImage.opacity = BUTTON_OPACITY;
+  _towerButton.selectedImage.opacity = BUTTON_OPACITY;
+}
+
+- (void) resetAllOpacities {
+  _questButton.normalImage.opacity = 255;
+  _questButton.selectedImage.opacity = 255;
+  _mapButton.normalImage.opacity = 255;
+  _mapButton.selectedImage.opacity = 255;
+  _homeButton.normalImage.opacity = 255;
+  _homeButton.selectedImage.opacity = 255;
+  _attackButton.normalImage.opacity = 255;
+  _attackButton.selectedImage.opacity = 255;
+  _bazaarButton.normalImage.opacity = 255;
+  _bazaarButton.selectedImage.opacity = 255;
+  _lockBoxButton.normalImage.opacity = 255;
+  _lockBoxButton.selectedImage.opacity = 255;
+  _bossEventButton.normalImage.opacity = 255;
+  _bossEventButton.selectedImage.opacity = 255;
+  _tournamentButton.normalImage.opacity = 255;
+  _tournamentButton.selectedImage.opacity = 255;
+  _towerButton.normalImage.opacity = 255;
+  _towerButton.selectedImage.opacity = 255;
+}
+
+- (void) goToBazaarForFirstLossTutorial {
+  [self lowerAllOpacities];
+  
+  _bazaarButton.normalImage.opacity = 255;
+  _bazaarButton.selectedImage.opacity = 255;
+  
+  _arrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
+  [self addChild:_arrow];
+  _arrow.position = ccpAdd(_bazaarButton.position, ccp(-_bazaarButton.contentSize.width/2-_arrow.contentSize.width/2, 0));
+  [Globals animateCCArrow:_arrow atAngle:0];
+  
+  self.isTouchEnabled = NO;
+  self.profilePic.isTouchEnabled = NO;
+  self.chatBottomView.hidden = YES;
+  
+  _isForBattleLossTutorial = YES;
+}
+
+- (void) endBazaarFirstLossTutorial {
+  [self resetAllOpacities];
+  
+  self.isTouchEnabled = YES;
+  self.profilePic.isTouchEnabled = YES;
+  self.chatBottomView.hidden = NO;
+  
+  _isForBattleLossTutorial = NO;
 }
 
 - (void) loadHomeConfiguration {
@@ -380,6 +474,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _bazaarButton.visible = NO;
   _homeButton.visible = YES;
   _homeButton.position = _bazaarButton.position;
+  
+  if (_isForBattleLossTutorial) {
+    [_arrow removeFromParentAndCleanup:YES];
+    [_arrow release];
+    _arrow = nil;
+    [self lowerAllOpacities];
+  }
 }
 
 - (void) loadNormalConfiguration {
@@ -1114,7 +1215,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 - (void) onEnter {
   [super onEnter];
   GameState *gs = [GameState sharedGameState];
-  if (!gs.isTutorial) {
+  if (!gs.isTutorial && !_isForBattleLossTutorial) {
     self.chatBottomView.hidden = NO;
     self.chatBottomView.alpha = 0.f;
     [UIView animateWithDuration:1.f delay:0.5f options:UIViewAnimationOptionTransitionNone animations:^{

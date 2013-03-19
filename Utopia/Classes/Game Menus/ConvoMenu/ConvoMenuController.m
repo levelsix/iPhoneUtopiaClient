@@ -9,6 +9,7 @@
 #import "ConvoMenuController.h"
 #import "LNSynthesizeSingleton.h"
 #import "cocos2d.h"
+#import "GameState.h"
 #import "Globals.h"
 #import "QuestLogController.h"
 #import "OutgoingEventController.h"
@@ -40,6 +41,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ConvoMenuController);
   
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[speakerImageView viewWithTag:150];
   loadingView.center = CGPointMake(speakerImageView.frame.size.width/2, speakerImageView.frame.size.height/2+20);
+  
+  self.speakerNameLabel.text = [Globals nameForDialogueSpeaker:speaker].lowercaseString;
 }
 
 - (void) showCurrentSpeechSegment {
@@ -58,7 +61,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ConvoMenuController);
   
   DialogueProto_SpeechSegmentProto *speechSeg = [speechSegs objectAtIndex:curSpeechSegment];
   self.speechLabel.text = speechSeg.speakerText;
-  self.speakerNameLabel.text = [Globals nameForDialogueSpeaker:speechSeg.speaker].lowercaseString;
   [self loadDialogueSpeakerImage:speechSeg.speaker];
 }
 

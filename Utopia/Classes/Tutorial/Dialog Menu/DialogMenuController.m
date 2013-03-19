@@ -24,8 +24,6 @@
 #define ANIMATION_DURATION 0.5f
 #define ANIMATION_VERTICAL_MOVEMENT 124
 #define WIN_HEIGHT [[UIScreen mainScreen] applicationFrame].size.width
-#define SPEECH_BUBBLE_SCALE 0.7f
-#define SPEECH_BUBBLE_ANIMATION_DURATION 0.2f
 
 @synthesize nameLabel;
 @synthesize girlImageView;

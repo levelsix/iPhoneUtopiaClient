@@ -984,6 +984,15 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCChangeClanDescriptionEvent];
 }
 
+- (int) sendChangeClanJoinType:(BOOL)requestToJoinRequired {
+  ChangeClanJoinTypeRequestProto *req = [[[[ChangeClanJoinTypeRequestProto builder]
+                                              setSender:_sender]
+                                             setRequestToJoinRequired:requestToJoinRequired]
+                                            build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCChangeClanJoinTypeEvent];
+}
+
 - (int) sendRetrieveClanInfoMessage:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId {
   RetrieveClanInfoRequestProto_Builder *bldr = [[[[RetrieveClanInfoRequestProto builder]
                                                   setSender:_sender]

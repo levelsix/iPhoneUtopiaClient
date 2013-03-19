@@ -9,6 +9,8 @@
 #import "BazaarMap.h"
 #import "LNSynthesizeSingleton.h"
 #import "GameState.h"
+#import "ArmoryViewController.h"
+#import "TopBar.h"
 
 #define NUM_ALLIES 8
 
@@ -113,10 +115,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
   if (selected != _selected) {
     if ([selected isKindOfClass: [CritStructBuilding class]]) {
       [super setSelected:nil];
+      
       CritStructBuilding *csb = (CritStructBuilding *)selected;
-      [[csb critStruct] openMenu];
       [csb removeArrowAnimated:YES];
+      
+      if (_isForFirstLossTutorial) {
+        if (csb.critStruct.type == BazaarStructTypeArmory) {
+          _isForFirstLossTutorial = NO;
+          [[ArmoryViewController sharedArmoryViewController] performBattleLossTutorial];
+          [[TopBar sharedTopBar] endBazaarFirstLossTutorial];
+        } else {
+          return;
+        }
+      }
+      
+      [[csb critStruct] openMenu];
     } else {
+      if (_isForFirstLossTutorial) {
+        return;
+      }
       [super setSelected:selected];
     }
   }
@@ -156,6 +173,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     [self moveToSprite:csb animated:animated];
     [csb displayArrow];
   }
+}
+
+- (void) performFirstLossTutorial {
+  [self moveToCritStruct:BazaarStructTypeArmory animated:YES];
+  _isForFirstLossTutorial = YES;
 }
 
 - (void) reloadAllies {

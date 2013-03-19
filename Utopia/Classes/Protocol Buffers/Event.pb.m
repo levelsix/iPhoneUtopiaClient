@@ -5439,6 +5439,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
 @property BOOL useOldBattleFormula;
 @property (retain) StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
+@property int32_t questIdForFirstLossTutorial;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -6040,6 +6041,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasBoosterPackConstants_ = !!value;
 }
 @synthesize boosterPackConstants;
+- (BOOL) hasQuestIdForFirstLossTutorial {
+  return !!hasQuestIdForFirstLossTutorial_;
+}
+- (void) setHasQuestIdForFirstLossTutorial:(BOOL) value {
+  hasQuestIdForFirstLossTutorial_ = !!value;
+}
+@synthesize questIdForFirstLossTutorial;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -6148,6 +6156,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.enhanceConstants = [StartupResponseProto_StartupConstants_EnhancementConstants defaultInstance];
     self.useOldBattleFormula = NO;
     self.boosterPackConstants = [StartupResponseProto_StartupConstants_BoosterPackConstants defaultInstance];
+    self.questIdForFirstLossTutorial = 0;
   }
   return self;
 }
@@ -6459,6 +6468,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasBoosterPackConstants) {
     [output writeMessage:98 value:self.boosterPackConstants];
   }
+  if (self.hasQuestIdForFirstLossTutorial) {
+    [output writeInt32:99 value:self.questIdForFirstLossTutorial];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6742,6 +6754,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasBoosterPackConstants) {
     size += computeMessageSize(98, self.boosterPackConstants);
   }
+  if (self.hasQuestIdForFirstLossTutorial) {
+    size += computeInt32Size(99, self.questIdForFirstLossTutorial);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -6779,6 +6794,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 @property int32_t purchaseOptionOneNumBoosterItems;
 @property int32_t purchaseOptionTwoNumBoosterItems;
 @property (retain) NSString* infoImageName;
+@property int32_t numTimesToBuyStarterPack;
+@property int32_t numDaysToBuyStarterPack;
 @end
 
 @implementation StartupResponseProto_StartupConstants_BoosterPackConstants
@@ -6804,6 +6821,20 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   hasInfoImageName_ = !!value;
 }
 @synthesize infoImageName;
+- (BOOL) hasNumTimesToBuyStarterPack {
+  return !!hasNumTimesToBuyStarterPack_;
+}
+- (void) setHasNumTimesToBuyStarterPack:(BOOL) value {
+  hasNumTimesToBuyStarterPack_ = !!value;
+}
+@synthesize numTimesToBuyStarterPack;
+- (BOOL) hasNumDaysToBuyStarterPack {
+  return !!hasNumDaysToBuyStarterPack_;
+}
+- (void) setHasNumDaysToBuyStarterPack:(BOOL) value {
+  hasNumDaysToBuyStarterPack_ = !!value;
+}
+@synthesize numDaysToBuyStarterPack;
 - (void) dealloc {
   self.infoImageName = nil;
   [super dealloc];
@@ -6813,6 +6844,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     self.purchaseOptionOneNumBoosterItems = 0;
     self.purchaseOptionTwoNumBoosterItems = 0;
     self.infoImageName = @"";
+    self.numTimesToBuyStarterPack = 0;
+    self.numDaysToBuyStarterPack = 0;
   }
   return self;
 }
@@ -6841,6 +6874,12 @@ static StartupResponseProto_StartupConstants_BoosterPackConstants* defaultStartu
   if (self.hasInfoImageName) {
     [output writeString:3 value:self.infoImageName];
   }
+  if (self.hasNumTimesToBuyStarterPack) {
+    [output writeInt32:4 value:self.numTimesToBuyStarterPack];
+  }
+  if (self.hasNumDaysToBuyStarterPack) {
+    [output writeInt32:5 value:self.numDaysToBuyStarterPack];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6858,6 +6897,12 @@ static StartupResponseProto_StartupConstants_BoosterPackConstants* defaultStartu
   }
   if (self.hasInfoImageName) {
     size += computeStringSize(3, self.infoImageName);
+  }
+  if (self.hasNumTimesToBuyStarterPack) {
+    size += computeInt32Size(4, self.numTimesToBuyStarterPack);
+  }
+  if (self.hasNumDaysToBuyStarterPack) {
+    size += computeInt32Size(5, self.numDaysToBuyStarterPack);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6943,6 +6988,12 @@ static StartupResponseProto_StartupConstants_BoosterPackConstants* defaultStartu
   if (other.hasInfoImageName) {
     [self setInfoImageName:other.infoImageName];
   }
+  if (other.hasNumTimesToBuyStarterPack) {
+    [self setNumTimesToBuyStarterPack:other.numTimesToBuyStarterPack];
+  }
+  if (other.hasNumDaysToBuyStarterPack) {
+    [self setNumDaysToBuyStarterPack:other.numDaysToBuyStarterPack];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6974,6 +7025,14 @@ static StartupResponseProto_StartupConstants_BoosterPackConstants* defaultStartu
       }
       case 26: {
         [self setInfoImageName:[input readString]];
+        break;
+      }
+      case 32: {
+        [self setNumTimesToBuyStarterPack:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setNumDaysToBuyStarterPack:[input readInt32]];
         break;
       }
     }
@@ -7025,6 +7084,38 @@ static StartupResponseProto_StartupConstants_BoosterPackConstants* defaultStartu
 - (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) clearInfoImageName {
   result.hasInfoImageName = NO;
   result.infoImageName = @"";
+  return self;
+}
+- (BOOL) hasNumTimesToBuyStarterPack {
+  return result.hasNumTimesToBuyStarterPack;
+}
+- (int32_t) numTimesToBuyStarterPack {
+  return result.numTimesToBuyStarterPack;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) setNumTimesToBuyStarterPack:(int32_t) value {
+  result.hasNumTimesToBuyStarterPack = YES;
+  result.numTimesToBuyStarterPack = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) clearNumTimesToBuyStarterPack {
+  result.hasNumTimesToBuyStarterPack = NO;
+  result.numTimesToBuyStarterPack = 0;
+  return self;
+}
+- (BOOL) hasNumDaysToBuyStarterPack {
+  return result.hasNumDaysToBuyStarterPack;
+}
+- (int32_t) numDaysToBuyStarterPack {
+  return result.numDaysToBuyStarterPack;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) setNumDaysToBuyStarterPack:(int32_t) value {
+  result.hasNumDaysToBuyStarterPack = YES;
+  result.numDaysToBuyStarterPack = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BoosterPackConstants_Builder*) clearNumDaysToBuyStarterPack {
+  result.hasNumDaysToBuyStarterPack = NO;
+  result.numDaysToBuyStarterPack = 0;
   return self;
 }
 @end
@@ -13386,6 +13477,9 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasBoosterPackConstants) {
     [self mergeBoosterPackConstants:other.boosterPackConstants];
   }
+  if (other.hasQuestIdForFirstLossTutorial) {
+    [self setQuestIdForFirstLossTutorial:other.questIdForFirstLossTutorial];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -13836,6 +13930,10 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setBoosterPackConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 792: {
+        [self setQuestIdForFirstLossTutorial:[input readInt32]];
         break;
       }
     }
@@ -15513,6 +15611,22 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearBoosterPackConstants {
   result.hasBoosterPackConstants = NO;
   result.boosterPackConstants = [StartupResponseProto_StartupConstants_BoosterPackConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasQuestIdForFirstLossTutorial {
+  return result.hasQuestIdForFirstLossTutorial;
+}
+- (int32_t) questIdForFirstLossTutorial {
+  return result.questIdForFirstLossTutorial;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setQuestIdForFirstLossTutorial:(int32_t) value {
+  result.hasQuestIdForFirstLossTutorial = YES;
+  result.questIdForFirstLossTutorial = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearQuestIdForFirstLossTutorial {
+  result.hasQuestIdForFirstLossTutorial = NO;
+  result.questIdForFirstLossTutorial = 0;
   return self;
 }
 @end

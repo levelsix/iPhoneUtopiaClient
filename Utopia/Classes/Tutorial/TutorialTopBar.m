@@ -17,8 +17,6 @@
 #import "TutorialProfilePicture.h"
 #import "TutorialAttackMenuController.h"
 
-#define BUTTON_OPACITY 70
-
 @implementation TutorialTopBar
 
 - (void) updateIcon {
@@ -38,16 +36,7 @@
   [_arrow release];
   _arrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
   
-  _questButton.normalImage.opacity = BUTTON_OPACITY;
-  _questButton.selectedImage.opacity = BUTTON_OPACITY;
-  _mapButton.normalImage.opacity = BUTTON_OPACITY;
-  _mapButton.selectedImage.opacity = BUTTON_OPACITY;
-  _homeButton.normalImage.opacity = BUTTON_OPACITY;
-  _homeButton.selectedImage.opacity = BUTTON_OPACITY;
-  _attackButton.normalImage.opacity = BUTTON_OPACITY;
-  _attackButton.selectedImage.opacity = BUTTON_OPACITY;
-  _bazaarButton.normalImage.opacity = BUTTON_OPACITY;
-  _bazaarButton.selectedImage.opacity = BUTTON_OPACITY;
+  [self lowerAllOpacities];
 }
 
 - (void) update {

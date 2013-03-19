@@ -242,6 +242,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.lastStaminaRefill = [NSDate dateWithTimeIntervalSince1970:user.lastStaminaRefillTime/1000.0];
   self.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastShortLicensePurchaseTime/1000.0];
   self.lastLongLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastLongLicensePurchaseTime/1000.0];
+  self.createTime = [NSDate dateWithTimeIntervalSince1970:user.createTime/1000.0];
   self.numAdColonyVideosWatched = user.numAdColonyVideosWatched;
   self.numGroupChatsRemaining = user.numGroupChatsRemaining;
   

@@ -12,6 +12,7 @@
 #import "IAPHelper.h"
 #import "FlurryClipsSponsoredOffer.h"
 #import "TwitterSponsoredOffer.h"
+#import "FacebookSponsoredOffer.h"
 //#import "AdColonySponsoredOffer.h"
 
 @implementation InAppPurchaseData
@@ -139,10 +140,10 @@
    *
    [offers addObject:[FlurryClipsSponsoredOffer create]];
    [offers addObject:[TapJoySponsoredOffer      create]];
-   [offers addObject:[FacebookSponsoredOffer    create]];
    [offers addObject:[TwitterSponsoredOffer     create]];
    *
    */
+  [offers addObject:[FacebookSponsoredOffer    create]];
   return offers;
 }
 @end

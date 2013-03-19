@@ -734,6 +734,7 @@ static UserBoosterItemProto* defaultUserBoosterItemProtoInstance = nil;
 @property int32_t retailPriceOne;
 @property int32_t salePriceTwo;
 @property int32_t retailPriceTwo;
+@property BOOL isStarterPack;
 @end
 
 @implementation BoosterPackProto
@@ -835,6 +836,18 @@ static UserBoosterItemProto* defaultUserBoosterItemProtoInstance = nil;
   hasRetailPriceTwo_ = !!value;
 }
 @synthesize retailPriceTwo;
+- (BOOL) hasIsStarterPack {
+  return !!hasIsStarterPack_;
+}
+- (void) setHasIsStarterPack:(BOOL) value {
+  hasIsStarterPack_ = !!value;
+}
+- (BOOL) isStarterPack {
+  return !!isStarterPack_;
+}
+- (void) setIsStarterPack:(BOOL) value {
+  isStarterPack_ = !!value;
+}
 - (void) dealloc {
   self.name = nil;
   self.chestImage = nil;
@@ -858,6 +871,7 @@ static UserBoosterItemProto* defaultUserBoosterItemProtoInstance = nil;
     self.retailPriceOne = 0;
     self.salePriceTwo = 0;
     self.retailPriceTwo = 0;
+    self.isStarterPack = NO;
   }
   return self;
 }
@@ -926,6 +940,9 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   if (self.hasRetailPriceTwo) {
     [output writeInt32:14 value:self.retailPriceTwo];
   }
+  if (self.hasIsStarterPack) {
+    [output writeBool:15 value:self.isStarterPack];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -976,6 +993,9 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   }
   if (self.hasRetailPriceTwo) {
     size += computeInt32Size(14, self.retailPriceTwo);
+  }
+  if (self.hasIsStarterPack) {
+    size += computeBoolSize(15, self.isStarterPack);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1097,6 +1117,9 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
   if (other.hasRetailPriceTwo) {
     [self setRetailPriceTwo:other.retailPriceTwo];
   }
+  if (other.hasIsStarterPack) {
+    [self setIsStarterPack:other.isStarterPack];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1174,6 +1197,10 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
       }
       case 112: {
         [self setRetailPriceTwo:[input readInt32]];
+        break;
+      }
+      case 120: {
+        [self setIsStarterPack:[input readBool]];
         break;
       }
     }
@@ -1414,6 +1441,22 @@ static BoosterPackProto* defaultBoosterPackProtoInstance = nil;
 - (BoosterPackProto_Builder*) clearRetailPriceTwo {
   result.hasRetailPriceTwo = NO;
   result.retailPriceTwo = 0;
+  return self;
+}
+- (BOOL) hasIsStarterPack {
+  return result.hasIsStarterPack;
+}
+- (BOOL) isStarterPack {
+  return result.isStarterPack;
+}
+- (BoosterPackProto_Builder*) setIsStarterPack:(BOOL) value {
+  result.hasIsStarterPack = YES;
+  result.isStarterPack = value;
+  return self;
+}
+- (BoosterPackProto_Builder*) clearIsStarterPack {
+  result.hasIsStarterPack = NO;
+  result.isStarterPack = NO;
   return self;
 }
 @end

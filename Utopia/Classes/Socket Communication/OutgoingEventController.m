@@ -1910,6 +1910,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return 0;
 }
 
+- (int) changeClanJoinType:(BOOL)requestRequired {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (!gs.clan || gs.clan.ownerId != gs.userId) {
+    [Globals popupMessage:@"Attempting to change clan join type while not clan leader."];
+  } else {
+    return [[SocketCommunication sharedSocketCommunication] sendChangeClanJoinType:requestRequired];
+  }
+  return 0;
+}
+
 - (int) bootPlayerFromClan:(int)playerId {
   GameState *gs = [GameState sharedGameState];
   

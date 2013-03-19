@@ -345,6 +345,11 @@ static BOOL shake_once = NO;
   }
   
   [welcomeView displayForName:@"Bazaar" rank:0];
+  
+  if (_isForBattleLossTutorial) {
+    [_bazaarMap performFirstLossTutorial];
+    _isForBattleLossTutorial = NO;
+  }
 }
 
 - (void) closeBazaarMap {
@@ -405,6 +410,16 @@ static BOOL shake_once = NO;
   }
   else {
     shake_once = false;
+  }
+}
+
+- (void) performBattleLossTutorial {
+  if (!_bazaarMap.parent) {
+    _isForBattleLossTutorial = YES;
+    [_topBar goToBazaarForFirstLossTutorial];
+    self.currentMap.isTouchEnabled = NO;
+  } else {
+    [_bazaarMap performFirstLossTutorial];
   }
 }
 

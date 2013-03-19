@@ -15,6 +15,7 @@
 #import "SoundEngine.h"
 #import "EquipDeltaView.h"
 #import "GenericPopupController.h"
+#import "GoldShoppeViewController.h"
 
 #define HAS_VISITED_ARMORY_KEY @"Has visited armory key 2"
 
@@ -169,7 +170,49 @@
   }
   self.equipsLeftLabel.text = [NSString stringWithFormat:@"%d / %d", total-collected, total];
   
+  if (bpp.isStarterPack) {
+    self.timeLeftLabel.hidden = NO;
+    self.labelsView.hidden = YES;
+    
+    [self updateLabels];
+    self.timer = [NSTimer timerWithTimeInterval:0.01f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+  } else {
+    self.timeLeftLabel.hidden = YES;
+    self.labelsView.hidden = NO;
+  }
+  
   self.boosterPack = bpp;
+}
+
+- (void) setTimer:(NSTimer *)t {
+  if (_timer != t) {
+    [_timer invalidate];
+    [_timer release];
+    _timer = [t retain];
+  }
+}
+
+- (void) updateLabels {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int numDays = gl.numDaysToBuyStarterPack;
+  NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:gs.createTime.timeIntervalSince1970+numDays*24*60*60];
+  NSTimeInterval timeInterval = [endDate timeIntervalSinceNow];
+  NSString *time = @"Time up!";
+  
+  if (timeInterval >= 0) {
+    int days = (int)(timeInterval/86400);
+    int hrs = (int)((timeInterval-86400*days)/3600);
+    int mins = (int)((timeInterval-86400*days-3600*hrs)/60);
+    float secs = timeInterval-86400*days-3600*hrs-60*mins;
+    NSString *daysString = days ? [NSString stringWithFormat:@"%dd ", days] : @"";
+    NSString *hrsString = days || hrs ? [NSString stringWithFormat:@"%dh ", hrs] : @"";
+    NSString *minsString = days || hrs || mins ? [NSString stringWithFormat:@"%dm ", mins] : @"";
+    NSString *secsString = [NSString stringWithFormat:@"%.02fs", secs];
+    time = [NSString stringWithFormat:@"%@%@%@%@", daysString, hrsString, minsString, secsString];
+  }
+  self.timeLeftLabel.text = time;
 }
 
 - (void) dealloc {
@@ -179,6 +222,8 @@
   self.levelsLabel = nil;
   self.equipsLeftLabel = nil;
   self.boosterPack = nil;
+  self.timeLeftLabel = nil;
+  self.labelsView = nil;
   [super dealloc];
 }
 
@@ -214,7 +259,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   self.carouselView.frame = self.armoryTableView.frame;
   [self.armoryTableView.superview addSubview:self.carouselView];
   
-  [Globals imageNamed:BOOSTERS_INSTRUCTIONS_IMAGE withView:self.infoImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  Globals *gl = [Globals sharedGlobals];
+  [Globals imageNamed:gl.infoImageName withView:self.infoImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   if (self.infoImageView.image) {
     CGRect r = self.infoImageView.frame;
@@ -222,6 +268,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     self.infoImageView.frame = r;
   }
   self.infoScrollView.contentSize = CGSizeMake(self.infoScrollView.frame.size.width, CGRectGetMaxY(self.infoImageView.frame)+self.infoImageView.frame.origin.y);
+}
+
+- (ArmoryTutorialView *) tutorialView {
+  if (!_tutorialView) {
+    [[NSBundle mainBundle] loadNibNamed:@"ArmoryTutorialView" owner:self options:nil];
+  }
+  return _tutorialView;
 }
 
 - (void) didReceiveMemoryWarning {
@@ -241,6 +294,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     self.infoScrollView = nil;
     self.infoLabel = nil;
     self.topBar = nil;
+    self.tutorialView = nil;
   }
 }
 
@@ -259,6 +313,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 }
 
 - (void) displayInfo {
+  if (_isForBattleLossTutorial) {
+    [self.topBar unclickButton:kButton2];
+    [self.topBar clickButton:kButton1];
+    return;
+  }
+  
   self.infoScrollView.hidden = NO;
   self.armoryTableView.hidden = YES;
   self.carouselView.hidden = YES;
@@ -348,8 +408,32 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 - (void) refresh {
   // Order boosters
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   NSMutableArray *bp = [NSMutableArray arrayWithArray:gs.boosterPacks];
+  
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  int quant = [def integerForKey:STARTER_PACK_QUANTITY_KEY];
+  int numDays = gl.numDaysToBuyStarterPack;
+  NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:gs.createTime.timeIntervalSince1970+numDays*24*60*60];
+  NSTimeInterval timeInterval = [endDate timeIntervalSinceNow];
+  if (!_isForBattleLossTutorial && (quant >= gl.numTimesToBuyStarterPack || timeInterval < 0)) {
+    // Get rid of starter packs
+    for (int i = 0; i < bp.count; i++) {
+      BoosterPackProto *bpp = [bp objectAtIndex:i];
+      if (bpp.isStarterPack) {
+        [bp removeObjectAtIndex:i];
+        break;
+      }
+    }
+  }
+  
   [bp sortUsingComparator:^NSComparisonResult(BoosterPackProto *obj1, BoosterPackProto *obj2) {
+    if (obj1.isStarterPack && !obj2.isStarterPack) {
+      return NSOrderedAscending;
+    } else if (!obj1.isStarterPack && obj2.isStarterPack) {
+      return NSOrderedDescending;
+    }
+    
     BOOL inRange1 = gs.level > obj1.minLevel;
     BOOL inRange2 = gs.level > obj2.minLevel;
     if (!inRange1 && !inRange2) {
@@ -408,6 +492,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
       }
     }
   }
+  
+  if (_isForBattleLossTutorial) {
+    [_arrow removeFromSuperview];
+    _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
+    [self.view addSubview:_arrow];
+    _arrow.center = ccp(self.view.frame.size.width/2, self.armoryTableView.frame.origin.y);
+    [Globals animateUIArrow:_arrow atAngle:-M_PI_2];
+    
+    self.armoryTableView.scrollEnabled = NO;
+  } else {
+    [_arrow removeFromSuperview];
+    self.armoryTableView.scrollEnabled = YES;
+  }
 }
 
 - (IBAction)armoryRowClicked:(id)sender {
@@ -416,15 +513,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   }
   
   BoosterPackProto *bp = nil;
+  ArmoryRow *row = nil;
   if ([sender isKindOfClass:[BoosterPackProto class]]) {
     bp = (BoosterPackProto *)sender;
   } else {
-    ArmoryRow *row = nil;
     while (![sender isKindOfClass:[ArmoryRow class]]) {
       sender = ((UIView *)sender).superview;
     }
     row = (ArmoryRow *)sender;
     bp = row.boosterPack;
+  }
+  
+  if (_isForBattleLossTutorial) {
+    NSIndexPath *ip = [self.armoryTableView indexPathForCell:row];
+    if (ip.row != 0) {
+      return;
+    }
+    
+    [_arrow removeFromSuperview];
+    [_arrow release];
+    _arrow = nil;
   }
   
   GameState *gs = [GameState sharedGameState];
@@ -453,13 +561,25 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     self.armoryTableView.hidden = YES;
     
     self.topBar.hidden = YES;
+    
+    if (_isForBattleLossTutorial) {
+      [Globals displayUIView:self.tutorialView];
+      [self.tutorialView displayDescriptionForFirstLossTutorial];
+    }
   }];
 }
 
 - (IBAction)backClicked:(id)sender {
-  if (!self.armoryTableView.hidden) {
+  if (_isForBattleLossTutorial) {
+    [self buttonClickedDuringTutorialWithBuyClicked:NO];
     return;
   }
+  
+  if (!self.armoryTableView.hidden || _isForBattleLossTutorial) {
+    return;
+  }
+  
+  [self refresh];
   
   CGRect curRect = self.armoryTableView.frame;
   CGRect r = self.armoryTableView.frame;
@@ -487,7 +607,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 }
 
 - (IBAction)purchaseClicked:(UIView *)sender {
-  PurchaseOption option = 0;
+  if (_isForBattleLossTutorial) {
+    [self buttonClickedDuringTutorialWithBuyClicked:YES];
+    return;
+  }
+  
+  PurchaseOption option = -1;
   if (sender.tag == 1) {
     option = PurchaseOptionOne;
   } else if (sender.tag == 2) {
@@ -495,6 +620,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   }
   
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   BoosterPackProto *bpp = self.carouselView.booster;
   int price = 0;
   BOOL canAfford = YES;
@@ -502,6 +628,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     price = bpp.salePriceOne > 0 ? bpp.salePriceOne : bpp.retailPriceOne;
   } else if (option == PurchaseOptionTwo) {
     price = bpp.salePriceTwo > 0 ? bpp.salePriceTwo : bpp.retailPriceTwo;
+  }
+  
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  int quant = 0;
+  if (bpp.isStarterPack) {
+    quant = [def integerForKey:STARTER_PACK_QUANTITY_KEY];
+    int numDays = gl.numDaysToBuyStarterPack;
+    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:gs.createTime.timeIntervalSince1970+numDays*24*60*60];
+    NSTimeInterval timeInterval = [endDate timeIntervalSinceNow];
+    if (quant >= gl.numTimesToBuyStarterPack || timeInterval < 0) {
+      [Globals popupMessage:@"Sorry, you cannot buy this chest anymore."];
+      return;
+    }
   }
   
   if (bpp.costsCoins) {
@@ -520,7 +659,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.carouselView.booster.boosterPackId purchaseOption:option];
     [self.coinBar updateLabels];
     [self.loadingView display:self.view];
+    
+    // Check if it is the starter pack
+    if (bpp.isStarterPack) {
+      [def setInteger:quant+1 forKey:STARTER_PACK_QUANTITY_KEY];
+    }
   }
+}
+
+- (IBAction)infoClicked:(id)sender {
+  [Globals displayUIView:self.tutorialView];
+  [self.tutorialView displayInfoForStarterPack];
 }
 
 - (IBAction)resetClicked:(id)sender {
@@ -547,7 +696,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 }
 
 - (IBAction)closeClicked:(id)sender {
-  [self close];
+  if (_isForBattleLossTutorial) {
+    if (self.armoryTableView.hidden) {
+      [self buttonClickedDuringTutorialWithBuyClicked:NO];
+    }
+    return;
+  }
+  
+  if (!_isForBattleLossTutorial) {
+    [self close];
+  }
 }
 
 - (void) close {
@@ -560,6 +718,25 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     }];
     
     [[SoundEngine sharedSoundEngine] armoryLeave];
+  }
+}
+
+- (IBAction)showMeSaleClicked:(id)sender {
+  [GoldShoppeViewController displayView];
+  [self.tutorialView closeClicked:nil];
+  _isForBattleLossTutorial = NO;
+}
+
+- (void) buttonClickedDuringTutorialWithBuyClicked:(BOOL)buyClicked {
+  if (!_isForBattleLossTutorial) {
+    return;
+  }
+  
+  [Globals displayUIView:self.tutorialView];
+  if (buyClicked) {
+    [self.tutorialView displayNotEnoughGold];
+  } else {
+    [self.tutorialView displayCloseClicked];
   }
 }
 
@@ -592,6 +769,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [self.coinBar updateLabels];
   
   [self.loadingView stop];
+}
+
+- (void) performBattleLossTutorial {
+  _isForBattleLossTutorial = YES;
+  
+  [self refresh];
 }
 
 @end

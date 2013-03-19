@@ -147,3 +147,28 @@
 - (void) stop;
 
 @end
+
+@class SwitchButton;
+
+@protocol SwitchButtonDelegate <NSObject>
+
+- (void) switchButtonWasTurnedOn:(SwitchButton *)b;
+- (void) switchButtonWasTurnedOff:(SwitchButton *)b;
+
+@end
+
+@interface SwitchButton : UIView {
+  CGPoint _initialTouch;
+}
+
+@property (nonatomic, assign) BOOL isOn;
+
+@property (nonatomic, retain) IBOutlet UIImageView *handle;
+@property (nonatomic, retain) UIImageView *darkHandle;
+
+@property (nonatomic, assign) IBOutlet id<SwitchButtonDelegate> delegate;
+
+- (void) turnOn;
+- (void) turnOff;
+
+@end

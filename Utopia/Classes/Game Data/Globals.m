@@ -345,6 +345,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   self.purchaseOptionOneNumBoosterItems = constants.boosterPackConstants.purchaseOptionOneNumBoosterItems;
   self.purchaseOptionTwoNumBoosterItems = constants.boosterPackConstants.purchaseOptionTwoNumBoosterItems;
+  self.infoImageName = constants.boosterPackConstants.infoImageName;
+  self.numDaysToBuyStarterPack = constants.boosterPackConstants.numDaysToBuyStarterPack;
+  self.numTimesToBuyStarterPack = constants.boosterPackConstants.numTimesToBuyStarterPack;
   
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
@@ -378,7 +381,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
   }
   
-  [self imageNamed:BOOSTERS_INSTRUCTIONS_IMAGE withView:nil maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [self imageNamed:gl.infoImageName withView:nil maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 + (NSString *) font {
@@ -445,7 +448,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView {
-  if (!equipId || !view) return;
+  if (!equipId || !view) {
+    view.image = nil;
+    return;
+  }
   [self imageNamed:[self imageNameForEquip:equipId] withView:view maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   //  if (maskedView) {
@@ -896,7 +902,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSString *key = [NSString stringWithFormat:@"%p", view];
   [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
   
-  if (!imageName) {
+  if (!imageName || imageName.length == 0) {
     return;
   }
   
@@ -912,6 +918,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       [(UIImageView *)view setImage:cachedImage];
     } else if ([view isKindOfClass:[UIButton class]]) {
       [(UIButton *)view setImage:cachedImage forState:UIControlStateNormal];
+      
+      // For Armory View Controller
+      CGRect r = view.frame;
+      r.origin.y = CGRectGetMaxY(r)-cachedImage.size.height;
+      r.size = cachedImage.size;
+      view.frame = r;
     }
     
     // Do this for equip masked images
@@ -976,6 +988,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
             [(UIImageView *)view setImage:img];
           } else if ([view isKindOfClass:[UIButton class]]) {
             [(UIButton *)view setImage:img forState:UIControlStateNormal];
+            
+            // For Armory View Controller
+            CGRect r = view.frame;
+            r.origin.y = CGRectGetMaxY(r)-img.size.height;
+            r.size = img.size;
+            view.frame = r;
           }
           [view release];
           view.hidden = NO;
@@ -1007,6 +1025,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       [(UIImageView *)view setImage:image];
     } else if ([view isKindOfClass:[UIButton class]]) {
       [(UIButton *)view setImage:image forState:UIControlStateNormal];
+      
+      // For Armory View Controller
+      CGRect r = view.frame;
+      r.origin.y = CGRectGetMaxY(r)-image.size.height;
+      r.size = image.size;
+      view.frame = r;
     }
     view.hidden = NO;
   }
@@ -1581,6 +1605,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateAttackForEquip:(int)equipId level:(int)level enhancePercent:(int)enhancePercent {
+  if (equipId == 0) return 0;
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
   int enhanceLevel = [self calculateEnhancementLevel:enhancePercent];
@@ -1588,6 +1613,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateDefenseForEquip:(int)equipId level:(int)level enhancePercent:(int)enhancePercent {
+  if (equipId == 0) return 0;
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
   int enhanceLevel = [self calculateEnhancementLevel:enhancePercent];

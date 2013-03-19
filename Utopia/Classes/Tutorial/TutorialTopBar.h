@@ -13,8 +13,6 @@
   BOOL _questsPhase;
   BOOL _attackPhase;
   BOOL _finishedFirstQuestPhase;
-  
-  CCSprite *_arrow;
 }
 
 - (void) updateIcon;

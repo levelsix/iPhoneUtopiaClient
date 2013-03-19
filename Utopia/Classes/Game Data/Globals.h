@@ -25,8 +25,6 @@
 
 #define IAP_SUCCESS_NOTIFICATION @"IapSuccessNotification"
 
-#define BOOSTERS_INSTRUCTIONS_IMAGE @"howchestswork.png"
-
 @interface Globals : NSObject <BattleConstants, EnemyBattleStats> {
   int _equipIdToWear;
 }
@@ -200,6 +198,9 @@
 // Booster pack constants
 @property (nonatomic, assign) int purchaseOptionOneNumBoosterItems;
 @property (nonatomic, assign) int purchaseOptionTwoNumBoosterItems;
+@property (nonatomic, retain) NSString *infoImageName;
+@property (nonatomic, assign) int numTimesToBuyStarterPack;
+@property (nonatomic, assign) int numDaysToBuyStarterPack;
 
 @property (nonatomic, retain) NSDictionary *productIdsToPackages;
 @property (nonatomic, retain) NSArray *iapPackages;

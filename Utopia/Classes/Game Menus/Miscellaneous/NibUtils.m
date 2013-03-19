@@ -521,3 +521,112 @@
 }
 
 @end
+
+@implementation SwitchButton
+
+@synthesize handle, darkHandle, isOn;
+
+- (void) awakeFromNib {
+  isOn = YES;
+  
+  darkHandle = [[UIImageView alloc] initWithFrame:handle.bounds];
+  [handle addSubview:darkHandle];
+  darkHandle.image = [Globals maskImage:handle.image withColor:[UIColor colorWithWhite:0.f alpha:0.2f]];
+  darkHandle.hidden = YES;
+  
+  UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(turnOn)];
+  swipe.direction = UISwipeGestureRecognizerDirectionRight;
+  [self addGestureRecognizer:swipe];
+  [swipe release];
+  
+  swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(turnOff)];
+  swipe.direction = UISwipeGestureRecognizerDirectionLeft;
+  [self addGestureRecognizer:swipe];
+  [swipe release];
+}
+
+- (void) turnOn {
+  self.isOn = YES;
+}
+
+- (void) turnOff {
+  self.isOn = NO;
+}
+
+- (void) setIsOn:(BOOL)i {
+  isOn = i;
+  
+  CGRect r = handle.frame;
+  float oldX = r.origin.x;
+  r.origin.x = isOn ? self.frame.size.width-r.size.width : 0;
+  float dur = ABS(oldX-r.origin.x)/self.frame.size.width*0.3f;
+  
+  [handle.layer removeAllAnimations];
+  [UIView animateWithDuration:dur delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
+    handle.frame = r;
+  } completion:nil];
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:self];
+  
+  self.darkHandle.hidden = NO;
+  _initialTouch = pt;
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:self];
+  
+  CGRect r = handle.frame;
+  float maxX = self.frame.size.width-r.size.width;
+  float originalX = isOn ? maxX : 0;
+  float diff = pt.x-_initialTouch.x;
+  float newX = clampf(originalX+diff, 0.f, maxX);
+  r.origin.x = newX;
+  handle.frame = r;
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:self];
+  float dist = ccpDistance(pt, _initialTouch);
+  
+  self.darkHandle.hidden = YES;
+  
+  if (dist > 10.f) {
+    if (handle.center.x < self.frame.size.width/2) {
+      if (self.isOn) {
+        self.isOn = NO;
+        [self.delegate switchButtonWasTurnedOff:self];
+      }
+    } else {
+      if (!self.isOn) {
+        self.isOn = YES;
+        [self.delegate switchButtonWasTurnedOn:self];
+      }
+    }
+  } else {
+    if (self.isOn) {
+      self.isOn = NO;
+      [self.delegate switchButtonWasTurnedOff:self];
+    } else {
+      self.isOn = YES;
+      [self.delegate switchButtonWasTurnedOn:self];
+    }
+  }
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  self.darkHandle.hidden = YES;
+  self.isOn = isOn;
+}
+
+- (void) dealloc {
+  self.handle = nil;
+  self.darkHandle = nil;
+  [super dealloc];
+}
+
+@end
