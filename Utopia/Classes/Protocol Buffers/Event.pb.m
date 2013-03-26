@@ -4035,9 +4035,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 }
 @interface StartupResponseProto_DailyBonusInfo ()
 @property int32_t numConsecutiveDaysPlayed;
-@property BOOL firstTimeToday;
-@property int32_t coinBonus;
-@property (retain) FullUserEquipProto* userEquipBonus;
+@property int32_t dayOneCoins;
+@property int32_t dayTwoCoins;
+@property int32_t dayThreeDiamonds;
+@property int32_t dayFourCoins;
+@property int32_t equipId;
+@property (retain) BoosterPackProto* boosterPack;
+@property int64_t timeAwarded;
 @end
 
 @implementation StartupResponseProto_DailyBonusInfo
@@ -4049,42 +4053,69 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   hasNumConsecutiveDaysPlayed_ = !!value;
 }
 @synthesize numConsecutiveDaysPlayed;
-- (BOOL) hasFirstTimeToday {
-  return !!hasFirstTimeToday_;
+- (BOOL) hasDayOneCoins {
+  return !!hasDayOneCoins_;
 }
-- (void) setHasFirstTimeToday:(BOOL) value {
-  hasFirstTimeToday_ = !!value;
+- (void) setHasDayOneCoins:(BOOL) value {
+  hasDayOneCoins_ = !!value;
 }
-- (BOOL) firstTimeToday {
-  return !!firstTimeToday_;
+@synthesize dayOneCoins;
+- (BOOL) hasDayTwoCoins {
+  return !!hasDayTwoCoins_;
 }
-- (void) setFirstTimeToday:(BOOL) value {
-  firstTimeToday_ = !!value;
+- (void) setHasDayTwoCoins:(BOOL) value {
+  hasDayTwoCoins_ = !!value;
 }
-- (BOOL) hasCoinBonus {
-  return !!hasCoinBonus_;
+@synthesize dayTwoCoins;
+- (BOOL) hasDayThreeDiamonds {
+  return !!hasDayThreeDiamonds_;
 }
-- (void) setHasCoinBonus:(BOOL) value {
-  hasCoinBonus_ = !!value;
+- (void) setHasDayThreeDiamonds:(BOOL) value {
+  hasDayThreeDiamonds_ = !!value;
 }
-@synthesize coinBonus;
-- (BOOL) hasUserEquipBonus {
-  return !!hasUserEquipBonus_;
+@synthesize dayThreeDiamonds;
+- (BOOL) hasDayFourCoins {
+  return !!hasDayFourCoins_;
 }
-- (void) setHasUserEquipBonus:(BOOL) value {
-  hasUserEquipBonus_ = !!value;
+- (void) setHasDayFourCoins:(BOOL) value {
+  hasDayFourCoins_ = !!value;
 }
-@synthesize userEquipBonus;
+@synthesize dayFourCoins;
+- (BOOL) hasEquipId {
+  return !!hasEquipId_;
+}
+- (void) setHasEquipId:(BOOL) value {
+  hasEquipId_ = !!value;
+}
+@synthesize equipId;
+- (BOOL) hasBoosterPack {
+  return !!hasBoosterPack_;
+}
+- (void) setHasBoosterPack:(BOOL) value {
+  hasBoosterPack_ = !!value;
+}
+@synthesize boosterPack;
+- (BOOL) hasTimeAwarded {
+  return !!hasTimeAwarded_;
+}
+- (void) setHasTimeAwarded:(BOOL) value {
+  hasTimeAwarded_ = !!value;
+}
+@synthesize timeAwarded;
 - (void) dealloc {
-  self.userEquipBonus = nil;
+  self.boosterPack = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.numConsecutiveDaysPlayed = 0;
-    self.firstTimeToday = NO;
-    self.coinBonus = 0;
-    self.userEquipBonus = [FullUserEquipProto defaultInstance];
+    self.dayOneCoins = 0;
+    self.dayTwoCoins = 0;
+    self.dayThreeDiamonds = 0;
+    self.dayFourCoins = 0;
+    self.equipId = 0;
+    self.boosterPack = [BoosterPackProto defaultInstance];
+    self.timeAwarded = 0L;
   }
   return self;
 }
@@ -4107,14 +4138,26 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
   if (self.hasNumConsecutiveDaysPlayed) {
     [output writeInt32:1 value:self.numConsecutiveDaysPlayed];
   }
-  if (self.hasFirstTimeToday) {
-    [output writeBool:2 value:self.firstTimeToday];
+  if (self.hasDayOneCoins) {
+    [output writeInt32:2 value:self.dayOneCoins];
   }
-  if (self.hasCoinBonus) {
-    [output writeInt32:3 value:self.coinBonus];
+  if (self.hasDayTwoCoins) {
+    [output writeInt32:3 value:self.dayTwoCoins];
   }
-  if (self.hasUserEquipBonus) {
-    [output writeMessage:4 value:self.userEquipBonus];
+  if (self.hasDayThreeDiamonds) {
+    [output writeInt32:4 value:self.dayThreeDiamonds];
+  }
+  if (self.hasDayFourCoins) {
+    [output writeInt32:5 value:self.dayFourCoins];
+  }
+  if (self.hasEquipId) {
+    [output writeInt32:6 value:self.equipId];
+  }
+  if (self.hasBoosterPack) {
+    [output writeMessage:7 value:self.boosterPack];
+  }
+  if (self.hasTimeAwarded) {
+    [output writeInt64:8 value:self.timeAwarded];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -4128,14 +4171,26 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
   if (self.hasNumConsecutiveDaysPlayed) {
     size += computeInt32Size(1, self.numConsecutiveDaysPlayed);
   }
-  if (self.hasFirstTimeToday) {
-    size += computeBoolSize(2, self.firstTimeToday);
+  if (self.hasDayOneCoins) {
+    size += computeInt32Size(2, self.dayOneCoins);
   }
-  if (self.hasCoinBonus) {
-    size += computeInt32Size(3, self.coinBonus);
+  if (self.hasDayTwoCoins) {
+    size += computeInt32Size(3, self.dayTwoCoins);
   }
-  if (self.hasUserEquipBonus) {
-    size += computeMessageSize(4, self.userEquipBonus);
+  if (self.hasDayThreeDiamonds) {
+    size += computeInt32Size(4, self.dayThreeDiamonds);
+  }
+  if (self.hasDayFourCoins) {
+    size += computeInt32Size(5, self.dayFourCoins);
+  }
+  if (self.hasEquipId) {
+    size += computeInt32Size(6, self.equipId);
+  }
+  if (self.hasBoosterPack) {
+    size += computeMessageSize(7, self.boosterPack);
+  }
+  if (self.hasTimeAwarded) {
+    size += computeInt64Size(8, self.timeAwarded);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4215,14 +4270,26 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
   if (other.hasNumConsecutiveDaysPlayed) {
     [self setNumConsecutiveDaysPlayed:other.numConsecutiveDaysPlayed];
   }
-  if (other.hasFirstTimeToday) {
-    [self setFirstTimeToday:other.firstTimeToday];
+  if (other.hasDayOneCoins) {
+    [self setDayOneCoins:other.dayOneCoins];
   }
-  if (other.hasCoinBonus) {
-    [self setCoinBonus:other.coinBonus];
+  if (other.hasDayTwoCoins) {
+    [self setDayTwoCoins:other.dayTwoCoins];
   }
-  if (other.hasUserEquipBonus) {
-    [self mergeUserEquipBonus:other.userEquipBonus];
+  if (other.hasDayThreeDiamonds) {
+    [self setDayThreeDiamonds:other.dayThreeDiamonds];
+  }
+  if (other.hasDayFourCoins) {
+    [self setDayFourCoins:other.dayFourCoins];
+  }
+  if (other.hasEquipId) {
+    [self setEquipId:other.equipId];
+  }
+  if (other.hasBoosterPack) {
+    [self mergeBoosterPack:other.boosterPack];
+  }
+  if (other.hasTimeAwarded) {
+    [self setTimeAwarded:other.timeAwarded];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -4250,20 +4317,36 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
         break;
       }
       case 16: {
-        [self setFirstTimeToday:[input readBool]];
+        [self setDayOneCoins:[input readInt32]];
         break;
       }
       case 24: {
-        [self setCoinBonus:[input readInt32]];
+        [self setDayTwoCoins:[input readInt32]];
         break;
       }
-      case 34: {
-        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
-        if (self.hasUserEquipBonus) {
-          [subBuilder mergeFrom:self.userEquipBonus];
+      case 32: {
+        [self setDayThreeDiamonds:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setDayFourCoins:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setEquipId:[input readInt32]];
+        break;
+      }
+      case 58: {
+        BoosterPackProto_Builder* subBuilder = [BoosterPackProto builder];
+        if (self.hasBoosterPack) {
+          [subBuilder mergeFrom:self.boosterPack];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setUserEquipBonus:[subBuilder buildPartial]];
+        [self setBoosterPack:[subBuilder buildPartial]];
+        break;
+      }
+      case 64: {
+        [self setTimeAwarded:[input readInt64]];
         break;
       }
     }
@@ -4285,66 +4368,130 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
   result.numConsecutiveDaysPlayed = 0;
   return self;
 }
-- (BOOL) hasFirstTimeToday {
-  return result.hasFirstTimeToday;
+- (BOOL) hasDayOneCoins {
+  return result.hasDayOneCoins;
 }
-- (BOOL) firstTimeToday {
-  return result.firstTimeToday;
+- (int32_t) dayOneCoins {
+  return result.dayOneCoins;
 }
-- (StartupResponseProto_DailyBonusInfo_Builder*) setFirstTimeToday:(BOOL) value {
-  result.hasFirstTimeToday = YES;
-  result.firstTimeToday = value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setDayOneCoins:(int32_t) value {
+  result.hasDayOneCoins = YES;
+  result.dayOneCoins = value;
   return self;
 }
-- (StartupResponseProto_DailyBonusInfo_Builder*) clearFirstTimeToday {
-  result.hasFirstTimeToday = NO;
-  result.firstTimeToday = NO;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearDayOneCoins {
+  result.hasDayOneCoins = NO;
+  result.dayOneCoins = 0;
   return self;
 }
-- (BOOL) hasCoinBonus {
-  return result.hasCoinBonus;
+- (BOOL) hasDayTwoCoins {
+  return result.hasDayTwoCoins;
 }
-- (int32_t) coinBonus {
-  return result.coinBonus;
+- (int32_t) dayTwoCoins {
+  return result.dayTwoCoins;
 }
-- (StartupResponseProto_DailyBonusInfo_Builder*) setCoinBonus:(int32_t) value {
-  result.hasCoinBonus = YES;
-  result.coinBonus = value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setDayTwoCoins:(int32_t) value {
+  result.hasDayTwoCoins = YES;
+  result.dayTwoCoins = value;
   return self;
 }
-- (StartupResponseProto_DailyBonusInfo_Builder*) clearCoinBonus {
-  result.hasCoinBonus = NO;
-  result.coinBonus = 0;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearDayTwoCoins {
+  result.hasDayTwoCoins = NO;
+  result.dayTwoCoins = 0;
   return self;
 }
-- (BOOL) hasUserEquipBonus {
-  return result.hasUserEquipBonus;
+- (BOOL) hasDayThreeDiamonds {
+  return result.hasDayThreeDiamonds;
 }
-- (FullUserEquipProto*) userEquipBonus {
-  return result.userEquipBonus;
+- (int32_t) dayThreeDiamonds {
+  return result.dayThreeDiamonds;
 }
-- (StartupResponseProto_DailyBonusInfo_Builder*) setUserEquipBonus:(FullUserEquipProto*) value {
-  result.hasUserEquipBonus = YES;
-  result.userEquipBonus = value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setDayThreeDiamonds:(int32_t) value {
+  result.hasDayThreeDiamonds = YES;
+  result.dayThreeDiamonds = value;
   return self;
 }
-- (StartupResponseProto_DailyBonusInfo_Builder*) setUserEquipBonusBuilder:(FullUserEquipProto_Builder*) builderForValue {
-  return [self setUserEquipBonus:[builderForValue build]];
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearDayThreeDiamonds {
+  result.hasDayThreeDiamonds = NO;
+  result.dayThreeDiamonds = 0;
+  return self;
 }
-- (StartupResponseProto_DailyBonusInfo_Builder*) mergeUserEquipBonus:(FullUserEquipProto*) value {
-  if (result.hasUserEquipBonus &&
-      result.userEquipBonus != [FullUserEquipProto defaultInstance]) {
-    result.userEquipBonus =
-      [[[FullUserEquipProto builderWithPrototype:result.userEquipBonus] mergeFrom:value] buildPartial];
+- (BOOL) hasDayFourCoins {
+  return result.hasDayFourCoins;
+}
+- (int32_t) dayFourCoins {
+  return result.dayFourCoins;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) setDayFourCoins:(int32_t) value {
+  result.hasDayFourCoins = YES;
+  result.dayFourCoins = value;
+  return self;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearDayFourCoins {
+  result.hasDayFourCoins = NO;
+  result.dayFourCoins = 0;
+  return self;
+}
+- (BOOL) hasEquipId {
+  return result.hasEquipId;
+}
+- (int32_t) equipId {
+  return result.equipId;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) setEquipId:(int32_t) value {
+  result.hasEquipId = YES;
+  result.equipId = value;
+  return self;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearEquipId {
+  result.hasEquipId = NO;
+  result.equipId = 0;
+  return self;
+}
+- (BOOL) hasBoosterPack {
+  return result.hasBoosterPack;
+}
+- (BoosterPackProto*) boosterPack {
+  return result.boosterPack;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) setBoosterPack:(BoosterPackProto*) value {
+  result.hasBoosterPack = YES;
+  result.boosterPack = value;
+  return self;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) setBoosterPackBuilder:(BoosterPackProto_Builder*) builderForValue {
+  return [self setBoosterPack:[builderForValue build]];
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) mergeBoosterPack:(BoosterPackProto*) value {
+  if (result.hasBoosterPack &&
+      result.boosterPack != [BoosterPackProto defaultInstance]) {
+    result.boosterPack =
+      [[[BoosterPackProto builderWithPrototype:result.boosterPack] mergeFrom:value] buildPartial];
   } else {
-    result.userEquipBonus = value;
+    result.boosterPack = value;
   }
-  result.hasUserEquipBonus = YES;
+  result.hasBoosterPack = YES;
   return self;
 }
-- (StartupResponseProto_DailyBonusInfo_Builder*) clearUserEquipBonus {
-  result.hasUserEquipBonus = NO;
-  result.userEquipBonus = [FullUserEquipProto defaultInstance];
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearBoosterPack {
+  result.hasBoosterPack = NO;
+  result.boosterPack = [BoosterPackProto defaultInstance];
+  return self;
+}
+- (BOOL) hasTimeAwarded {
+  return result.hasTimeAwarded;
+}
+- (int64_t) timeAwarded {
+  return result.timeAwarded;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) setTimeAwarded:(int64_t) value {
+  result.hasTimeAwarded = YES;
+  result.timeAwarded = value;
+  return self;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearTimeAwarded {
+  result.hasTimeAwarded = NO;
+  result.timeAwarded = 0L;
   return self;
 }
 @end
@@ -5440,6 +5587,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property BOOL useOldBattleFormula;
 @property (retain) StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
 @property int32_t questIdForFirstLossTutorial;
+@property (retain) NSMutableArray* mutableQuestIdsGuaranteedWinList;
+@property int32_t fbConnectRewardDiamonds;
+@property int32_t maxNumTowersClanCanHold;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -6048,6 +6198,21 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasQuestIdForFirstLossTutorial_ = !!value;
 }
 @synthesize questIdForFirstLossTutorial;
+@synthesize mutableQuestIdsGuaranteedWinList;
+- (BOOL) hasFbConnectRewardDiamonds {
+  return !!hasFbConnectRewardDiamonds_;
+}
+- (void) setHasFbConnectRewardDiamonds:(BOOL) value {
+  hasFbConnectRewardDiamonds_ = !!value;
+}
+@synthesize fbConnectRewardDiamonds;
+- (BOOL) hasMaxNumTowersClanCanHold {
+  return !!hasMaxNumTowersClanCanHold_;
+}
+- (void) setHasMaxNumTowersClanCanHold:(BOOL) value {
+  hasMaxNumTowersClanCanHold_ = !!value;
+}
+@synthesize maxNumTowersClanCanHold;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -6068,6 +6233,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.mutableInAppPurchasePackagesList = nil;
   self.enhanceConstants = nil;
   self.boosterPackConstants = nil;
+  self.mutableQuestIdsGuaranteedWinList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -6157,6 +6323,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.useOldBattleFormula = NO;
     self.boosterPackConstants = [StartupResponseProto_StartupConstants_BoosterPackConstants defaultInstance];
     self.questIdForFirstLossTutorial = 0;
+    self.fbConnectRewardDiamonds = 0;
+    self.maxNumTowersClanCanHold = 0;
   }
   return self;
 }
@@ -6199,6 +6367,13 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 - (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index {
   id value = [mutableInAppPurchasePackagesList objectAtIndex:index];
   return value;
+}
+- (NSArray*) questIdsGuaranteedWinList {
+  return mutableQuestIdsGuaranteedWinList;
+}
+- (int32_t) questIdsGuaranteedWinAtIndex:(int32_t) index {
+  id value = [mutableQuestIdsGuaranteedWinList objectAtIndex:index];
+  return [value intValue];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -6470,6 +6645,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasQuestIdForFirstLossTutorial) {
     [output writeInt32:99 value:self.questIdForFirstLossTutorial];
+  }
+  if (self.hasFbConnectRewardDiamonds) {
+    [output writeInt32:100 value:self.fbConnectRewardDiamonds];
+  }
+  for (NSNumber* value in self.mutableQuestIdsGuaranteedWinList) {
+    [output writeInt32:101 value:[value intValue]];
+  }
+  if (self.hasMaxNumTowersClanCanHold) {
+    [output writeInt32:102 value:self.maxNumTowersClanCanHold];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -6756,6 +6940,20 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasQuestIdForFirstLossTutorial) {
     size += computeInt32Size(99, self.questIdForFirstLossTutorial);
+  }
+  if (self.hasFbConnectRewardDiamonds) {
+    size += computeInt32Size(100, self.fbConnectRewardDiamonds);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableQuestIdsGuaranteedWinList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 2 * self.mutableQuestIdsGuaranteedWinList.count;
+  }
+  if (self.hasMaxNumTowersClanCanHold) {
+    size += computeInt32Size(102, self.maxNumTowersClanCanHold);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -13480,6 +13678,18 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasQuestIdForFirstLossTutorial) {
     [self setQuestIdForFirstLossTutorial:other.questIdForFirstLossTutorial];
   }
+  if (other.mutableQuestIdsGuaranteedWinList.count > 0) {
+    if (result.mutableQuestIdsGuaranteedWinList == nil) {
+      result.mutableQuestIdsGuaranteedWinList = [NSMutableArray array];
+    }
+    [result.mutableQuestIdsGuaranteedWinList addObjectsFromArray:other.mutableQuestIdsGuaranteedWinList];
+  }
+  if (other.hasFbConnectRewardDiamonds) {
+    [self setFbConnectRewardDiamonds:other.fbConnectRewardDiamonds];
+  }
+  if (other.hasMaxNumTowersClanCanHold) {
+    [self setMaxNumTowersClanCanHold:other.maxNumTowersClanCanHold];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -13934,6 +14144,18 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 792: {
         [self setQuestIdForFirstLossTutorial:[input readInt32]];
+        break;
+      }
+      case 800: {
+        [self setFbConnectRewardDiamonds:[input readInt32]];
+        break;
+      }
+      case 808: {
+        [self addQuestIdsGuaranteedWin:[input readInt32]];
+        break;
+      }
+      case 816: {
+        [self setMaxNumTowersClanCanHold:[input readInt32]];
         break;
       }
     }
@@ -15627,6 +15849,69 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearQuestIdForFirstLossTutorial {
   result.hasQuestIdForFirstLossTutorial = NO;
   result.questIdForFirstLossTutorial = 0;
+  return self;
+}
+- (NSArray*) questIdsGuaranteedWinList {
+  if (result.mutableQuestIdsGuaranteedWinList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableQuestIdsGuaranteedWinList;
+}
+- (int32_t) questIdsGuaranteedWinAtIndex:(int32_t) index {
+  return [result questIdsGuaranteedWinAtIndex:index];
+}
+- (StartupResponseProto_StartupConstants_Builder*) replaceQuestIdsGuaranteedWinAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableQuestIdsGuaranteedWinList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) addQuestIdsGuaranteedWin:(int32_t) value {
+  if (result.mutableQuestIdsGuaranteedWinList == nil) {
+    result.mutableQuestIdsGuaranteedWinList = [NSMutableArray array];
+  }
+  [result.mutableQuestIdsGuaranteedWinList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) addAllQuestIdsGuaranteedWin:(NSArray*) values {
+  if (result.mutableQuestIdsGuaranteedWinList == nil) {
+    result.mutableQuestIdsGuaranteedWinList = [NSMutableArray array];
+  }
+  [result.mutableQuestIdsGuaranteedWinList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearQuestIdsGuaranteedWinList {
+  result.mutableQuestIdsGuaranteedWinList = nil;
+  return self;
+}
+- (BOOL) hasFbConnectRewardDiamonds {
+  return result.hasFbConnectRewardDiamonds;
+}
+- (int32_t) fbConnectRewardDiamonds {
+  return result.fbConnectRewardDiamonds;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setFbConnectRewardDiamonds:(int32_t) value {
+  result.hasFbConnectRewardDiamonds = YES;
+  result.fbConnectRewardDiamonds = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearFbConnectRewardDiamonds {
+  result.hasFbConnectRewardDiamonds = NO;
+  result.fbConnectRewardDiamonds = 0;
+  return self;
+}
+- (BOOL) hasMaxNumTowersClanCanHold {
+  return result.hasMaxNumTowersClanCanHold;
+}
+- (int32_t) maxNumTowersClanCanHold {
+  return result.maxNumTowersClanCanHold;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxNumTowersClanCanHold:(int32_t) value {
+  result.hasMaxNumTowersClanCanHold = YES;
+  result.maxNumTowersClanCanHold = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxNumTowersClanCanHold {
+  result.hasMaxNumTowersClanCanHold = NO;
+  result.maxNumTowersClanCanHold = 0;
   return self;
 }
 @end
@@ -66467,6 +66752,7 @@ BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginCla
     case BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyClaimed:
     case BeginClanTowerWarResponseProto_BeginClanTowerWarStatusSameSide:
     case BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotEnoughTimeSinceLastBattle:
+    case BeginClanTowerWarResponseProto_BeginClanTowerWarStatusAlreadyOwnsMaxNumberOfTowers:
       return YES;
     default:
       return NO;

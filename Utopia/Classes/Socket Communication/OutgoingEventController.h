@@ -103,6 +103,7 @@
 
 - (void) kiipReward:(int)gold receipt:(NSString *)string;
 - (void) adColonyRewardWithAmount:(int)amount type:(EarnFreeDiamondsRequestProto_AdColonyRewardType)type;
+- (void) fbConnectReward;
 
 - (BOOL) submitEquipsToBlacksmithWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo guaranteed:(BOOL)guaranteed;
 - (void) forgeAttemptWaitComplete;

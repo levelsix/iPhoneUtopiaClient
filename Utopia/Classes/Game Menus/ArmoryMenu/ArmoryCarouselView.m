@@ -78,7 +78,7 @@
   return _armoryListing;
 }
 
-- (void) beginAnimatingForEquips:(NSArray *)equips {
+- (void) beginAnimatingForEquips:(NSArray *)equips withTarget:(id)target andSelector:(SEL)selector {
   if (equips.count <= 0) {
     self.equips = nil;
     [self removeFromSuperview];
@@ -96,16 +96,16 @@
   self.spinnerView.alpha = 0.f;
   
   [self showNextEquip];
+  
+  _target = target;
+  _selector = selector;
 }
 
 - (void) fadeOutOldEquip {
-  [self fadeImageView:self.spinnerView toAlpha:0.f];
+  [self fadeImageView:self.spinnerView toAlpha:0.f withDuration:0.3f];
   [self insertSubview:self.armoryListing belowSubview:self.cardView];
   self.armoryListing.center = self.cardView.center;
   [Globals popOutView:self.armoryListing fadeOutBgdView:nil completion:nil];
-  //  [UIView animateWithDuration:0.3f animations:^{
-  //    self.armoryListing.alpha = 0.f;
-  //  }];
 }
 
 - (IBAction)showNextEquip {
@@ -142,7 +142,7 @@
     self.buttonView.hidden = NO;
     [Globals bounceView:self.buttonView];
     
-    [self fadeImageView:self.spinnerView toAlpha:1.f];
+    [self fadeImageView:self.spinnerView toAlpha:1.f withDuration:1.f];
     [self rotateSpinner];
   }];
 }
@@ -167,6 +167,10 @@
 }
 
 - (void) endAnimatingForEquips {
+  [_target performSelector:_selector];
+  _target = nil;
+  _selector = nil;
+  
   [UIView animateWithDuration:0.3f animations:^{
     self.bgdView.alpha = 0.f;
   } completion:^(BOOL finished) {
@@ -188,11 +192,11 @@
 }
 
 - (void) fadeOutSpinner {
-  [self fadeImageView:self.spinnerView toAlpha:0.f];
+  [self fadeImageView:self.spinnerView toAlpha:0.f withDuration:0.3f];
 }
 
-- (void) fadeImageView:(UIImageView *)iv toAlpha:(float)alpha {
-  [UIView animateWithDuration:1.f animations:^{
+- (void) fadeImageView:(UIImageView *)iv toAlpha:(float)alpha withDuration:(float)dur {
+  [UIView animateWithDuration:dur animations:^{
     iv.alpha = alpha;
   }];
 }
@@ -403,21 +407,21 @@
     [self.starterPackMainView addSubview:view];
     view.center = ccp(self.starterPackMainView.frame.size.width/2-view.frame.size.width-10, self.starterPackMainView.frame.size.height/2);
     [view updateForEquip:weapon numCollected:0 total:1];
-//    view.amtCollectedLabel.text = @"Weapon";
+    view.amtCollectedLabel.text = @"Weapon";
     
     [[NSBundle mainBundle] loadNibNamed:@"ArmoryListing" owner:self options:nil];
     view = self.armoryListing;
     [self.starterPackMainView addSubview:view];
     view.center = ccp(self.starterPackMainView.frame.size.width/2, self.starterPackMainView.frame.size.height/2);
     [view updateForEquip:armor numCollected:0 total:1];
-//    view.amtCollectedLabel.text = @"Armor";
+    view.amtCollectedLabel.text = @"Armor";
     
     [[NSBundle mainBundle] loadNibNamed:@"ArmoryListing" owner:self options:nil];
     view = self.armoryListing;
     [self.starterPackMainView addSubview:view];
     view.center = ccp(self.starterPackMainView.frame.size.width/2+view.frame.size.width+10, self.starterPackMainView.frame.size.height/2);
     [view updateForEquip:amulet numCollected:0 total:1];
-//    view.amtCollectedLabel.text = @"Amulet";
+    view.amtCollectedLabel.text = @"Amulet";
     
     [self.carousel.superview addSubview:self.starterPackMainView];
     

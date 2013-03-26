@@ -27,6 +27,9 @@
 //#import "KiipDelegate.h"
 #import "TournamentMenuController.h"
 #import "ArmoryViewController.h"
+#import "AppDelegate.h"
+#import <Twitter/Twitter.h>
+#import "GameViewController.h"
 
 #define FAKE_PLAYER_RAND 6
 #define NAME_LABEL_FONT_SIZE 11.f
@@ -558,6 +561,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _winLayer.visible = NO;
   _loseLayer.visible = NO;
   _isBattling = YES;
+  _guaranteeWin = NO;
   
   // Pop out the end views
   if (gainedEquipView.superview) {
@@ -1010,7 +1014,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (int) calculateEnemyDamageForPercentage:(float)percent {
-  return [_battleCalculator rightAttackStrengthForPercent:percent];
+  if (!_guaranteeWin) {
+    return [_battleCalculator rightAttackStrengthForPercent:percent];
+  } else {
+    return MIN([_battleCalculator rightAttackStrengthForPercent:percent], _leftMaxHealth/2);
+  }
 }
 
 - (int) calculateMyDamageForPercentage:(float)percent {
@@ -1415,6 +1423,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   }
 }
 
+- (void) performGuaranteedWinWithUser:(FullUserProto *)fup inCity:(int)cityId {
+  [self beginBattleAgainst:fup inCity:cityId];
+  _guaranteeWin = YES;
+}
+
 - (void) performFirstLossTutorialWithUser:(FullUserProto *)fup inCity:(int)cityId {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -1447,7 +1460,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
         int nDef = [gl calculateAttackForEquip:newFep.equipId level:ue.level enhancePercent:0];
         if (!newFep || nAtt+nDef > att+def) {
           newFep = fep;
-          NSLog(@"%@, %@, %d, %d", newFep.name, fep.name, nAtt, att);
         }
       }
     }
@@ -1462,6 +1474,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [self beginBattleAgainst:bldr.build inCity:cityId];
   
   _isForTutorial = YES;
+}
+
+- (IBAction)fbClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+  id<FacebookGlobalDelegate> sessionDelegate = appDelegate.facebookDelegate;
+  NSString *str = [NSString stringWithFormat:@"%@ %@ %@ in Age of Chaos.", gs.name, brp.hasExpGained ? @"defeated" : @"was defeated by", _fup.name];
+  [sessionDelegate postToFacebookWithString:str];
+}
+
+- (IBAction)twitterclicked:(id)sender {
+  if ([TWTweetComposeViewController canSendTweet])
+  {
+    TWTweetComposeViewController *tweetSheet = [[[TWTweetComposeViewController alloc] init] autorelease];
+    GameState *gs = [GameState sharedGameState];
+    NSString *str = [NSString stringWithFormat:@"%@ %@ %@ in Age of Chaos.", gs.name, brp.hasExpGained ? @"defeated" : @"was defeated by", _fup.name];
+    [tweetSheet setInitialText:str];
+    [[GameViewController sharedGameViewController] presentModalViewController:tweetSheet animated:YES];
+  } else {
+    [Globals popupMessage:@"Sorry, something went wrong. Make sure you have a Twitter account setup."];
+  }
 }
 
 - (void) dealloc {

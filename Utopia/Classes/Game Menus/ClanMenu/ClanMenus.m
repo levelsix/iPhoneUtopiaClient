@@ -588,6 +588,8 @@
 }
 
 - (void) loadForClan:(FullClanProtoWithClanSize *)c {
+  GameState *gs = [GameState sharedGameState];
+  
   self.clan = c;
   self.topLabel.text = [NSString stringWithFormat:@"[%@] %@", c.clan.tag, c.clan.name];
   self.membersLabel.text = [NSString stringWithFormat:@"Members: %d", c.clanSize];
@@ -599,6 +601,37 @@
     self.typeLabel.text = @"Anyone Can Join";
     self.typeLabel.textColor = [Globals greenColor];
   }
+  
+  BOOL isGood = [Globals userTypeIsGood:gs.type];
+  if (!gs.clan && ((isGood && c.clan.isGood) || (!isGood && !c.clan.isGood))) {
+    self.buttonView.hidden = NO;
+    if ([gs.requestedClans containsObject:[NSNumber numberWithInt:c.clan.clanId]]) {
+     self.buttonLabel.text = @"CANCEL";
+    } else {
+      if (c.clan.requestToJoinRequired) {
+        self.buttonLabel.text = @"REQUEST";
+      } else {
+        self.buttonLabel.text = @"JOIN";
+      }
+    }
+    self.buttonView.hidden = NO;
+    self.arrowView.hidden = YES;
+  } else {
+    self.buttonView.hidden = YES;
+    self.arrowView.hidden = NO;
+  }
+}
+
+- (IBAction)redButtonClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  int clanId = self.clan.clan.clanId;
+  if ([gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
+    int tag = [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:clanId];
+    [[ClanMenuController sharedClanMenuController] beginLoading:tag];
+  } else {
+    int tag = [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:clanId];
+    [[ClanMenuController sharedClanMenuController] beginLoading:tag];
+  }
 }
 
 - (void) dealloc {
@@ -606,6 +639,8 @@
   self.topLabel = nil;
   self.membersLabel = nil;
   self.typeLabel = nil;
+  self.buttonLabel = nil;
+  self.buttonView = nil;
   [super dealloc];
 }
 
@@ -901,14 +936,14 @@
       int isGood = [Globals userTypeIsGood:gs.type];
       if ((isGood && c.clan.isGood) || (!isGood && !c.clan.isGood)) {
         bottomButtonView.hidden = NO;
-        if (c.clan.requestToJoinRequired) {
-          if ([gs.requestedClans containsObject:[NSNumber numberWithInt:c.clan.clanId]]) {
-            bottomButtonLabel.text = @"CANCEL REQUEST";
-          } else {
-            bottomButtonLabel.text = @"REQUEST INVITE";
-          }
+        if ([gs.requestedClans containsObject:[NSNumber numberWithInt:c.clan.clanId]]) {
+          bottomButtonLabel.text = @"CANCEL REQUEST";
         } else {
-          bottomButtonLabel.text = @"JOIN CLAN";
+          if (c.clan.requestToJoinRequired) {
+            bottomButtonLabel.text = @"REQUEST INVITE";
+          } else {
+            bottomButtonLabel.text = @"JOIN CLAN";
+          }
         }
       } else {
         bottomButtonView.hidden = YES;
@@ -970,7 +1005,6 @@
       }
     }
   } else {
-    bottomButtonView.hidden = NO;
     if ([gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
       int tag = [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:clanId];
       [[ClanMenuController sharedClanMenuController] beginLoading:tag];
@@ -1263,6 +1297,28 @@ static float clanPostLabelWidth = 10.f;
 
 - (void) dealloc {
   self.textField = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation ClanComingSoonView
+
+- (void) awakeFromNib {
+  [Globals imageNamed:@"spinner.png" withView:self.spinnerView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+}
+
+- (void) loadForClanVault {
+  self.topLabel.text = @"Clan Vault";
+}
+
+- (void) loadForClanBosses {
+  self.topLabel.text = @"Clan Bosses";
+}
+
+- (void) dealloc {
+  self.spinnerView = nil;
+  self.topLabel = nil;
   [super dealloc];
 }
 

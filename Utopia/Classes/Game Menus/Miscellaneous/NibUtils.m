@@ -547,10 +547,12 @@
 
 - (void) turnOn {
   self.isOn = YES;
+  [self.delegate switchButtonWasTurnedOn:self];
 }
 
 - (void) turnOff {
   self.isOn = NO;
+  [self.delegate switchButtonWasTurnedOff:self];
 }
 
 - (void) setIsOn:(BOOL)i {
@@ -597,23 +599,23 @@
   
   if (dist > 10.f) {
     if (handle.center.x < self.frame.size.width/2) {
-      if (self.isOn) {
-        self.isOn = NO;
-        [self.delegate switchButtonWasTurnedOff:self];
+      if (!self.isOn) {
+        [self turnOn];
+      } else {
+        [self turnOff];
       }
     } else {
-      if (!self.isOn) {
-        self.isOn = YES;
-        [self.delegate switchButtonWasTurnedOn:self];
+      if (self.isOn) {
+        [self turnOff];
+      } else {
+        [self turnOn];
       }
     }
   } else {
     if (self.isOn) {
-      self.isOn = NO;
-      [self.delegate switchButtonWasTurnedOff:self];
+      [self turnOff];
     } else {
-      self.isOn = YES;
-      [self.delegate switchButtonWasTurnedOn:self];
+      [self turnOn];
     }
   }
 }

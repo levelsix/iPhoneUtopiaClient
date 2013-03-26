@@ -2858,14 +2858,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">buyOneView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="378067463"/>
-					</object>
-					<int key="connectionID">204</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">coinBar</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="923695513"/>
@@ -5251,46 +5243,16 @@
 					<string key="className">ForgeMenuController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="buyOneClicked:">id</string>
-						<string key="checkResultsClicked:">id</string>
 						<string key="closeClicked:">id</string>
-						<string key="finishNowClicked:">id</string>
 						<string key="forgeButtonClicked:">id</string>
-						<string key="goToMarketplaceClicked:">id</string>
-						<string key="infoClicked:">id</string>
-						<string key="okayClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="buyOneClicked:">
-							<string key="name">buyOneClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="checkResultsClicked:">
-							<string key="name">checkResultsClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="closeClicked:">
 							<string key="name">closeClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="finishNowClicked:">
-							<string key="name">finishNowClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="forgeButtonClicked:">
 							<string key="name">forgeButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="goToMarketplaceClicked:">
-							<string key="name">goToMarketplaceClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="infoClicked:">
-							<string key="name">infoClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="okayClicked:">
-							<string key="name">okayClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

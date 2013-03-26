@@ -34,6 +34,8 @@
 
 @interface ArmoryCardDisplayView : UIView {
   int _currentIndex;
+  id<NSObject> _target;
+  SEL _selector;
 }
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdView;
@@ -48,7 +50,7 @@
 
 @property (nonatomic, retain) NSArray *equips;
 
-- (void) beginAnimatingForEquips:(NSArray *)equips;
+- (void) beginAnimatingForEquips:(NSArray *)equips withTarget:(id)target andSelector:(SEL)selector;
 - (IBAction)showNextEquip;
 
 @end

@@ -48,6 +48,7 @@
 #import "ThreeCardMonteViewController.h"
 #import "CharSelectionViewController.h"
 #import "TournamentMenuController.h"
+#import "DailyBonusMenuController.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -584,12 +585,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [(AppDelegate *)[[UIApplication sharedApplication] delegate] removeLocalNotifications];
     
     //Display daily bonus screen if its  applicable
-    //    StartupResponseProto_DailyBonusInfo *dbi = proto.dailyBonusInfo;
-    //    if (dbi.firstTimeToday) {
-    //      DailyBonusMenuController *dbmc = [[DailyBonusMenuController alloc] initWithNibName:nil bundle:nil];
-    //      [dbmc loadForDay:dbi.numConsecutiveDaysPlayed silver:dbi.coinBonus equip:dbi.userEquipBonus];
-    //      [[TopBar sharedTopBar] setDbmc:dbmc];
-    //    }
+    StartupResponseProto_DailyBonusInfo *dbi = proto.dailyBonusInfo;
+    DailyBonusMenuController *dbmc = [[DailyBonusMenuController alloc] initWithNibName:nil bundle:nil];
+    [dbmc loadForDailyBonusInfo:dbi];
+    [[TopBar sharedTopBar] setDbmc:dbmc];
     
     // This means we just finished tutorial
     if (gs.isTutorial) {
@@ -1248,7 +1247,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       [gs removeNonFullUserUpdatesForTag:tag];
       
-//      [[GameLayer sharedGameLayer] performBattleLossTutorial];
+      //      [[GameLayer sharedGameLayer] performBattleLossTutorial];
       
       // Check for unresponded in app purchases
       NSString *key = IAP_DEFAULTS_KEY;
@@ -1654,6 +1653,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess) {
+    if (proto.freeDiamondsType == EarnFreeDiamondsTypeFbConnect) {
+      Globals *gl = [Globals sharedGlobals];
+      [Globals popupMessage:[NSString stringWithFormat:@"Congratulations! You have been awarded %d gold for connecting to Facebook.", gl.fbConnectRewardDiamonds]];
+    }
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1964,6 +1967,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
     if (proto.sender.userId == gs.userId) {
+      [gs.requestedClans removeAllObjects];
       gs.clan = nil;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
     }
@@ -1998,6 +2002,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusJoinSuccess) {
     if (proto.sender.userId == gs.userId) {
+      [gs.requestedClans removeAllObjects];
       gs.clan = proto.minClan;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
     }

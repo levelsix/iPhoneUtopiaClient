@@ -14,6 +14,8 @@
 
 #define ASSET_TAG_BASE 2555
 
+#define DRAGON_TAG 5456
+
 @interface TaskProgressBar : CCSprite {
   CCProgressTimer *_progressBar;
   CCLabelFX *_label;

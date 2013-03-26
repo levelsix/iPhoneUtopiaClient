@@ -1273,6 +1273,7 @@ typedef enum {
   BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyClaimed = 6,
   BeginClanTowerWarResponseProto_BeginClanTowerWarStatusSameSide = 7,
   BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotEnoughTimeSinceLastBattle = 8,
+  BeginClanTowerWarResponseProto_BeginClanTowerWarStatusAlreadyOwnsMaxNumberOfTowers = 9,
 } BeginClanTowerWarResponseProto_BeginClanTowerWarStatus;
 
 BOOL BeginClanTowerWarResponseProto_BeginClanTowerWarStatusIsValidValue(BeginClanTowerWarResponseProto_BeginClanTowerWarStatus value);
@@ -2291,23 +2292,39 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 
 @interface StartupResponseProto_DailyBonusInfo : PBGeneratedMessage {
 @private
-  BOOL hasFirstTimeToday_:1;
+  BOOL hasTimeAwarded_:1;
   BOOL hasNumConsecutiveDaysPlayed_:1;
-  BOOL hasCoinBonus_:1;
-  BOOL hasUserEquipBonus_:1;
-  BOOL firstTimeToday_:1;
+  BOOL hasDayOneCoins_:1;
+  BOOL hasDayTwoCoins_:1;
+  BOOL hasDayThreeDiamonds_:1;
+  BOOL hasDayFourCoins_:1;
+  BOOL hasEquipId_:1;
+  BOOL hasBoosterPack_:1;
+  int64_t timeAwarded;
   int32_t numConsecutiveDaysPlayed;
-  int32_t coinBonus;
-  FullUserEquipProto* userEquipBonus;
+  int32_t dayOneCoins;
+  int32_t dayTwoCoins;
+  int32_t dayThreeDiamonds;
+  int32_t dayFourCoins;
+  int32_t equipId;
+  BoosterPackProto* boosterPack;
 }
 - (BOOL) hasNumConsecutiveDaysPlayed;
-- (BOOL) hasFirstTimeToday;
-- (BOOL) hasCoinBonus;
-- (BOOL) hasUserEquipBonus;
+- (BOOL) hasDayOneCoins;
+- (BOOL) hasDayTwoCoins;
+- (BOOL) hasDayThreeDiamonds;
+- (BOOL) hasDayFourCoins;
+- (BOOL) hasEquipId;
+- (BOOL) hasBoosterPack;
+- (BOOL) hasTimeAwarded;
 @property (readonly) int32_t numConsecutiveDaysPlayed;
-- (BOOL) firstTimeToday;
-@property (readonly) int32_t coinBonus;
-@property (readonly, retain) FullUserEquipProto* userEquipBonus;
+@property (readonly) int32_t dayOneCoins;
+@property (readonly) int32_t dayTwoCoins;
+@property (readonly) int32_t dayThreeDiamonds;
+@property (readonly) int32_t dayFourCoins;
+@property (readonly) int32_t equipId;
+@property (readonly, retain) BoosterPackProto* boosterPack;
+@property (readonly) int64_t timeAwarded;
 
 + (StartupResponseProto_DailyBonusInfo*) defaultInstance;
 - (StartupResponseProto_DailyBonusInfo*) defaultInstance;
@@ -2348,22 +2365,42 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (StartupResponseProto_DailyBonusInfo_Builder*) setNumConsecutiveDaysPlayed:(int32_t) value;
 - (StartupResponseProto_DailyBonusInfo_Builder*) clearNumConsecutiveDaysPlayed;
 
-- (BOOL) hasFirstTimeToday;
-- (BOOL) firstTimeToday;
-- (StartupResponseProto_DailyBonusInfo_Builder*) setFirstTimeToday:(BOOL) value;
-- (StartupResponseProto_DailyBonusInfo_Builder*) clearFirstTimeToday;
+- (BOOL) hasDayOneCoins;
+- (int32_t) dayOneCoins;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setDayOneCoins:(int32_t) value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearDayOneCoins;
 
-- (BOOL) hasCoinBonus;
-- (int32_t) coinBonus;
-- (StartupResponseProto_DailyBonusInfo_Builder*) setCoinBonus:(int32_t) value;
-- (StartupResponseProto_DailyBonusInfo_Builder*) clearCoinBonus;
+- (BOOL) hasDayTwoCoins;
+- (int32_t) dayTwoCoins;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setDayTwoCoins:(int32_t) value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearDayTwoCoins;
 
-- (BOOL) hasUserEquipBonus;
-- (FullUserEquipProto*) userEquipBonus;
-- (StartupResponseProto_DailyBonusInfo_Builder*) setUserEquipBonus:(FullUserEquipProto*) value;
-- (StartupResponseProto_DailyBonusInfo_Builder*) setUserEquipBonusBuilder:(FullUserEquipProto_Builder*) builderForValue;
-- (StartupResponseProto_DailyBonusInfo_Builder*) mergeUserEquipBonus:(FullUserEquipProto*) value;
-- (StartupResponseProto_DailyBonusInfo_Builder*) clearUserEquipBonus;
+- (BOOL) hasDayThreeDiamonds;
+- (int32_t) dayThreeDiamonds;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setDayThreeDiamonds:(int32_t) value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearDayThreeDiamonds;
+
+- (BOOL) hasDayFourCoins;
+- (int32_t) dayFourCoins;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setDayFourCoins:(int32_t) value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearDayFourCoins;
+
+- (BOOL) hasEquipId;
+- (int32_t) equipId;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setEquipId:(int32_t) value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearEquipId;
+
+- (BOOL) hasBoosterPack;
+- (BoosterPackProto*) boosterPack;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setBoosterPack:(BoosterPackProto*) value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setBoosterPackBuilder:(BoosterPackProto_Builder*) builderForValue;
+- (StartupResponseProto_DailyBonusInfo_Builder*) mergeBoosterPack:(BoosterPackProto*) value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearBoosterPack;
+
+- (BOOL) hasTimeAwarded;
+- (int64_t) timeAwarded;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setTimeAwarded:(int64_t) value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearTimeAwarded;
 @end
 
 @interface StartupResponseProto_MarketplacePostPurchasedNotificationProto : PBGeneratedMessage {
@@ -2611,14 +2648,15 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasUseOldBattleFormula_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
-  BOOL hasHealthFormulaExponentBase_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
+  BOOL hasCutOfVaultDepositTaken_:1;
+  BOOL hasHealthFormulaExponentBase_:1;
   BOOL hasBossEventSuperAttack_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
-  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
   BOOL hasAverageSizeOfLevelBracket_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
@@ -2629,7 +2667,8 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   BOOL hasArmoryImgVerticalPixelOffset_:1;
   BOOL hasMaxCityRank_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
-  BOOL hasNumDaysUntilFreeRetract_:1;
+  BOOL hasMaxNumTowersClanCanHold_:1;
+  BOOL hasFbConnectRewardDiamonds_:1;
   BOOL hasQuestIdForFirstLossTutorial_:1;
   BOOL hasMinClanMembersToHoldClanTower_:1;
   BOOL hasInitStamina_:1;
@@ -2647,7 +2686,7 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   BOOL hasSizeOfAttackList_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasMinNameLength_:1;
-  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
+  BOOL hasEnergyBaseCost_:1;
   BOOL hasDefenseBaseCost_:1;
   BOOL hasAttackBaseCost_:1;
   BOOL hasStaminaBaseGain_:1;
@@ -2666,44 +2705,45 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   BOOL hasArmoryXlength_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
-  BOOL hasMinutesToRefillAstamina_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasMaxNumberOfMarketplacePosts_:1;
   BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
   BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
-  BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
+  BOOL hasMinutesToRefillAstamina_:1;
+  BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMaxLevelForStruct_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasStaminaBaseCost_:1;
-  BOOL hasEnergyBaseCost_:1;
-  BOOL hasMinLevelConstants_:1;
-  BOOL hasLeaderboardConstants_:1;
+  BOOL hasNumDaysUntilFreeRetract_:1;
   BOOL hasEnhanceConstants_:1;
+  BOOL hasLeaderboardConstants_:1;
+  BOOL hasMinLevelConstants_:1;
   BOOL hasBoosterPackConstants_:1;
+  BOOL hasFormulaConstants_:1;
+  BOOL hasBattleConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasExpansionConstants_:1;
   BOOL hasLockBoxConstants_:1;
   BOOL hasGoldmineConstants_:1;
   BOOL hasThreeCardMonteConstants_:1;
   BOOL hasClanConstants_:1;
-  BOOL hasFormulaConstants_:1;
-  BOOL hasBattleConstants_:1;
   BOOL hasKiipRewardConditions_:1;
   BOOL hasForgeConstants_:1;
   BOOL hasCharModConstants_:1;
   BOOL useOldBattleFormula_:1;
-  Float64 levelEquipBoostExponentBase;
-  Float64 healthFormulaExponentBase;
   Float64 percentReturnedToUserForSellingEquipInArmory;
+  Float64 levelEquipBoostExponentBase;
+  Float64 cutOfVaultDepositTaken;
+  Float64 healthFormulaExponentBase;
   Float64 bossEventSuperAttack;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingNormStructure;
+  int32_t adColonyVideosRequiredToRedeemDiamonds;
   int32_t averageSizeOfLevelBracket;
   int32_t playerWallPostsRetrieveCap;
   int32_t maxCharLengthForWallPost;
@@ -2714,7 +2754,8 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   int32_t armoryImgVerticalPixelOffset;
   int32_t maxCityRank;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
-  int32_t numDaysUntilFreeRetract;
+  int32_t maxNumTowersClanCanHold;
+  int32_t fbConnectRewardDiamonds;
   int32_t questIdForFirstLossTutorial;
   int32_t minClanMembersToHoldClanTower;
   int32_t initStamina;
@@ -2732,7 +2773,7 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   int32_t sizeOfAttackList;
   int32_t maxNameLength;
   int32_t minNameLength;
-  int32_t adColonyVideosRequiredToRedeemDiamonds;
+  int32_t energyBaseCost;
   int32_t defenseBaseCost;
   int32_t attackBaseCost;
   int32_t staminaBaseGain;
@@ -2751,39 +2792,40 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   int32_t armoryXlength;
   int32_t maxLevelForUser;
   int32_t maxLevelDifferenceForBattle;
-  int32_t minutesToRefillAstamina;
   int32_t diamondCostForFullStaminaRefill;
   int32_t diamondCostForFullEnergyRefill;
   int32_t maxNumberOfMarketplacePosts;
   int32_t numDaysLongMarketplaceLicenseLastsFor;
   int32_t numDaysShortMarketplaceLicenseLastsFor;
-  int32_t minutesToRefillAenergy;
   int32_t diamondCostOfLongMarketplaceLicense;
+  int32_t minutesToRefillAstamina;
+  int32_t minutesToRefillAenergy;
   int32_t diamondCostOfShortMarketplaceLicense;
   int32_t maxNumOfSingleStruct;
   int32_t maxLevelForStruct;
   int32_t skillPointsGainedOnLevelup;
   int32_t staminaBaseCost;
-  int32_t energyBaseCost;
-  StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
-  StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
+  int32_t numDaysUntilFreeRetract;
   StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
+  StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
+  StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
   StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
+  StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
+  StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
   StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
   StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
   StartupResponseProto_StartupConstants_ThreeCardMonteConstants* threeCardMonteConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-  StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
-  StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
   StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
   StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
+  NSMutableArray* mutableQuestIdsGuaranteedWinList;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
-  NSMutableArray* mutableAnimatedSpriteOffsetsList;
   NSMutableArray* mutableInAppPurchasePackagesList;
+  NSMutableArray* mutableAnimatedSpriteOffsetsList;
 }
 - (BOOL) hasMaxLevelDifferenceForBattle;
 - (BOOL) hasMaxLevelForUser;
@@ -2870,6 +2912,8 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (BOOL) hasUseOldBattleFormula;
 - (BOOL) hasBoosterPackConstants;
 - (BOOL) hasQuestIdForFirstLossTutorial;
+- (BOOL) hasFbConnectRewardDiamonds;
+- (BOOL) hasMaxNumTowersClanCanHold;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2955,6 +2999,8 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (BOOL) useOldBattleFormula;
 @property (readonly, retain) StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
 @property (readonly) int32_t questIdForFirstLossTutorial;
+@property (readonly) int32_t fbConnectRewardDiamonds;
+@property (readonly) int32_t maxNumTowersClanCanHold;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2963,6 +3009,8 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) animatedSpriteOffsetsAtIndex:(int32_t) index;
 - (NSArray*) inAppPurchasePackagesList;
 - (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
+- (NSArray*) questIdsGuaranteedWinList;
+- (int32_t) questIdsGuaranteedWinAtIndex:(int32_t) index;
 
 + (StartupResponseProto_StartupConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants*) defaultInstance;
@@ -5071,6 +5119,23 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (int32_t) questIdForFirstLossTutorial;
 - (StartupResponseProto_StartupConstants_Builder*) setQuestIdForFirstLossTutorial:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearQuestIdForFirstLossTutorial;
+
+- (NSArray*) questIdsGuaranteedWinList;
+- (int32_t) questIdsGuaranteedWinAtIndex:(int32_t) index;
+- (StartupResponseProto_StartupConstants_Builder*) replaceQuestIdsGuaranteedWinAtIndex:(int32_t) index with:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) addQuestIdsGuaranteedWin:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) addAllQuestIdsGuaranteedWin:(NSArray*) values;
+- (StartupResponseProto_StartupConstants_Builder*) clearQuestIdsGuaranteedWinList;
+
+- (BOOL) hasFbConnectRewardDiamonds;
+- (int32_t) fbConnectRewardDiamonds;
+- (StartupResponseProto_StartupConstants_Builder*) setFbConnectRewardDiamonds:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearFbConnectRewardDiamonds;
+
+- (BOOL) hasMaxNumTowersClanCanHold;
+- (int32_t) maxNumTowersClanCanHold;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxNumTowersClanCanHold:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxNumTowersClanCanHold;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {

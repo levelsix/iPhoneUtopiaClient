@@ -184,6 +184,7 @@ BOOL CharacterModTypeIsValidValue(CharacterModType value);
 typedef enum {
   AnimationTypeGenericAction = 1,
   AnimationTypeAttack = 2,
+  AnimationTypeDragon = 3,
 } AnimationType;
 
 BOOL AnimationTypeIsValidValue(AnimationType value);
@@ -191,7 +192,7 @@ BOOL AnimationTypeIsValidValue(AnimationType value);
 typedef enum {
   EarnFreeDiamondsTypeKiip = 1,
   EarnFreeDiamondsTypeAdcolony = 2,
-  EarnFreeDiamondsTypeFbInvite = 3,
+  EarnFreeDiamondsTypeFbConnect = 3,
   EarnFreeDiamondsTypeTapjoy = 4,
   EarnFreeDiamondsTypeFlurryVideo = 5,
   EarnFreeDiamondsTypeTwitter = 6,
@@ -3467,6 +3468,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface FullUserProto : PBGeneratedMessage {
 @private
+  BOOL hasHasReceivedfbReward_:1;
   BOOL hasIsAdmin_:1;
   BOOL hasIsFake_:1;
   BOOL hasCreateTime_:1;
@@ -3474,8 +3476,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasLastTimeAttacked_:1;
   BOOL hasLastBattleNotificationTime_:1;
   BOOL hasLastStaminaRefillTime_:1;
-  BOOL hasLastGoldmineRetrieval_:1;
   BOOL hasLastEnergyRefillTime_:1;
+  BOOL hasLastGoldmineRetrieval_:1;
   BOOL hasLastLogoutTime_:1;
   BOOL hasLastShortLicensePurchaseTime_:1;
   BOOL hasLastLongLicensePurchaseTime_:1;
@@ -3501,23 +3503,24 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasDiamonds_:1;
   BOOL hasCoins_:1;
   BOOL hasMarketplaceDiamondsEarnings_:1;
+  BOOL hasMarketplaceCoinsEarnings_:1;
+  BOOL hasVaultBalance_:1;
+  BOOL hasExperience_:1;
+  BOOL hasTasksCompleted_:1;
   BOOL hasFlees_:1;
   BOOL hasBattlesLost_:1;
   BOOL hasBattlesWon_:1;
-  BOOL hasTasksCompleted_:1;
-  BOOL hasExperience_:1;
-  BOOL hasVaultBalance_:1;
-  BOOL hasMarketplaceCoinsEarnings_:1;
-  BOOL hasUdid_:1;
-  BOOL hasDeviceToken_:1;
   BOOL hasReferralCode_:1;
   BOOL hasName_:1;
-  BOOL hasArmorEquippedUserEquip_:1;
+  BOOL hasDeviceToken_:1;
+  BOOL hasUdid_:1;
   BOOL hasWeaponEquippedUserEquip_:1;
+  BOOL hasUserLocation_:1;
+  BOOL hasArmorEquippedUserEquip_:1;
   BOOL hasClan_:1;
   BOOL hasAmuletEquippedUserEquip_:1;
-  BOOL hasUserLocation_:1;
   BOOL hasUserType_:1;
+  BOOL hasReceivedfbReward_:1;
   BOOL isAdmin_:1;
   BOOL isFake_:1;
   int64_t createTime;
@@ -3525,8 +3528,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int64_t lastTimeAttacked;
   int64_t lastBattleNotificationTime;
   int64_t lastStaminaRefillTime;
-  int64_t lastGoldmineRetrieval;
   int64_t lastEnergyRefillTime;
+  int64_t lastGoldmineRetrieval;
   int64_t lastLogoutTime;
   int64_t lastShortLicensePurchaseTime;
   int64_t lastLongLicensePurchaseTime;
@@ -3552,22 +3555,22 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t diamonds;
   int32_t coins;
   int32_t marketplaceDiamondsEarnings;
+  int32_t marketplaceCoinsEarnings;
+  int32_t vaultBalance;
+  int32_t experience;
+  int32_t tasksCompleted;
   int32_t flees;
   int32_t battlesLost;
   int32_t battlesWon;
-  int32_t tasksCompleted;
-  int32_t experience;
-  int32_t vaultBalance;
-  int32_t marketplaceCoinsEarnings;
-  NSString* udid;
-  NSString* deviceToken;
   NSString* referralCode;
   NSString* name;
-  FullUserEquipProto* armorEquippedUserEquip;
+  NSString* deviceToken;
+  NSString* udid;
   FullUserEquipProto* weaponEquippedUserEquip;
+  LocationProto* userLocation;
+  FullUserEquipProto* armorEquippedUserEquip;
   MinimumClanProto* clan;
   FullUserEquipProto* amuletEquippedUserEquip;
-  LocationProto* userLocation;
   UserType userType;
 }
 - (BOOL) hasUserId;
@@ -3612,6 +3615,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasNumGroupChatsRemaining;
 - (BOOL) hasClan;
 - (BOOL) hasLastGoldmineRetrieval;
+- (BOOL) hasHasReceivedfbReward;
 - (BOOL) hasUdid;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasLastBattleNotificationTime;
@@ -3663,6 +3667,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t numGroupChatsRemaining;
 @property (readonly, retain) MinimumClanProto* clan;
 @property (readonly) int64_t lastGoldmineRetrieval;
+- (BOOL) hasReceivedfbReward;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* deviceToken;
 @property (readonly) int64_t lastBattleNotificationTime;
@@ -3926,6 +3931,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int64_t) lastGoldmineRetrieval;
 - (FullUserProto_Builder*) setLastGoldmineRetrieval:(int64_t) value;
 - (FullUserProto_Builder*) clearLastGoldmineRetrieval;
+
+- (BOOL) hasHasReceivedfbReward;
+- (BOOL) hasReceivedfbReward;
+- (FullUserProto_Builder*) setHasReceivedfbReward:(BOOL) value;
+- (FullUserProto_Builder*) clearHasReceivedfbReward;
 
 - (BOOL) hasUdid;
 - (NSString*) udid;

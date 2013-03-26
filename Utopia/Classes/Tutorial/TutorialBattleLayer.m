@@ -16,7 +16,7 @@
 
 #define ENEMY_HEALTH 30
 #define ENEMY_ATTACK 20
-#define ENEMY_DEFENSE 50
+#define ENEMY_DEFENSE 22
 
 @implementation TutorialBattleLayer
 
@@ -57,11 +57,14 @@
   _rightNameBg.position = ccp(_rightNameBg.parent.contentSize.width-_rightNameLabel.contentSize.width-_rightNameLabel.position.x-15, _rightNameBg.position.y);
   
   [_battleCalculator release];
-  FullUserProto_Builder *builder = [[[[FullUserProto builder] setAttack:ENEMY_ATTACK]
-                                    setDefense:ENEMY_ATTACK] setLevel:1];
+  FullUserProto_Builder *builder = [[[[[[[[FullUserProto builder] setAttack:ENEMY_ATTACK]
+                                       setDefense:ENEMY_DEFENSE] setLevel:1] setName:tc.enemyName] setUserType:tc.enemyType]
+                                     setWeaponEquippedUserEquip:[[[[FullUserEquipProto builder] setEquipId:tc.warriorInitWeapon.equipId] setLevel:1] build]]
+                                    setArmorEquippedUserEquip:[[[[FullUserEquipProto builder] setEquipId:tc.warriorInitArmor.equipId] setLevel:1] build]];
+  _fup = builder.build;
   _battleCalculator = [BattleCalculator
                        createWithRightStats:[UserBattleStats
-                                             createWithFullUserProto:[builder build]]
+                                             createWithFullUserProto:_fup]
                        andLeftStats:[UserBattleStats createFromGameState]];
   [_battleCalculator retain];
   
@@ -404,53 +407,17 @@
 
 - (void) loadBattleSummary {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  GameState *gs = [GameState sharedGameState];
   
-  [self.summaryView.leftNameLabel setTitle:gs.name forState:UIControlStateNormal];
-  self.summaryView.leftLevelLabel.text = @"Lvl 1";
-  [self.summaryView.leftPlayerIcon setImage:[Globals circleImageForUser:gs.type] forState:UIControlStateNormal];
+  BattleResponseProto *brp = [[[[BattleResponseProto builder] setExpGained:tc.firstBattleExpGain] setCoinsGained:tc.firstBattleExpGain] build];
   
-  [self.summaryView.rightNameLabel setTitle:tc.enemyName forState:UIControlStateNormal];
-  self.summaryView.rightLevelLabel.text = @"Lvl 1";
-  [self.summaryView.rightPlayerIcon setImage:[Globals circleImageForUser:tc.enemyType] forState:UIControlStateNormal];
+  [self.summaryView loadBattleSummaryForBattleResponse:brp enemy:_fup];
   
-  FullEquipProto *fep = [gs equipWithId:gs.weaponEquippedId];
-  self.summaryView.leftRarityLabel1.textColor = [Globals colorForRarity:fep.rarity];
-  self.summaryView.leftRarityLabel1.text = [Globals shortenedStringForRarity:fep.rarity];
-  self.summaryView.leftEquipIcon1.image = [Globals imageForEquip:fep.equipId];
-  self.summaryView.leftEquipLevelIcon1.level = 1;
-  
-  fep = [gs equipWithId:gs.armorEquippedId];
-  self.summaryView.leftRarityLabel2.textColor = [Globals colorForRarity:fep.rarity];
-  self.summaryView.leftRarityLabel2.text = [Globals shortenedStringForRarity:fep.rarity];
-  self.summaryView.leftEquipIcon2.image = [Globals imageForEquip:fep.equipId];
-  self.summaryView.leftEquipLevelIcon2.level = 1;
-  
-  fep = [gs equipWithId:gs.amuletEquippedId];
-  self.summaryView.leftRarityLabel3.textColor = [Globals colorForRarity:fep.rarity];
-  self.summaryView.leftRarityLabel3.text = [Globals shortenedStringForRarity:fep.rarity];
-  self.summaryView.leftEquipIcon3.image = [Globals imageForEquip:fep.equipId];
-  self.summaryView.leftEquipLevelIcon3.level = 1;
-  
-  fep = tc.warriorInitWeapon;
-  self.summaryView.rightRarityLabel1.textColor = [Globals colorForRarity:fep.rarity];
-  self.summaryView.rightRarityLabel1.text = [Globals shortenedStringForRarity:fep.rarity];
-  self.summaryView.rightEquipIcon1.image = [Globals imageForEquip:fep.equipId];
-  self.summaryView.rightEquipLevelIcon1.level = 1;
-  
-  fep = tc.warriorInitArmor;
-  self.summaryView.rightRarityLabel2.textColor = [Globals colorForRarity:fep.rarity];
-  self.summaryView.rightRarityLabel2.text = [Globals shortenedStringForRarity:fep.rarity];
-  self.summaryView.rightEquipIcon2.image = [Globals imageForEquip:fep.equipId];
-  self.summaryView.rightEquipLevelIcon2.level = 1;
-  
-  self.summaryView.rightRarityLabel3.text = @"";
-  self.summaryView.rightEquipIcon3.image = nil;
-  
-  self.summaryView.winLabelsView.hidden = NO;
-  self.summaryView.defeatLabelsView.hidden = YES;
-  self.summaryView.coinsGainedLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:tc.firstBattleCoinGain]];
-  self.summaryView.expGainedLabel.text = [NSString stringWithFormat:@"%@ Exp.", [Globals commafyNumber:tc.firstBattleExpGain]];
+  self.summaryView.leftEquipIcon1.userInteractionEnabled = NO;
+  self.summaryView.leftEquipIcon2.userInteractionEnabled = NO;
+  self.summaryView.leftEquipIcon3.userInteractionEnabled = NO;
+  self.summaryView.rightEquipIcon1.userInteractionEnabled = NO;
+  self.summaryView.rightEquipIcon2.userInteractionEnabled = NO;
+  self.summaryView.rightEquipIcon3.userInteractionEnabled = NO;
 }
 
 - (void) arrowOnClose {
@@ -506,6 +473,18 @@
 }
 
 - (IBAction)attackAgainClicked:(id)sender {
+  return;
+}
+
+- (void) fbClicked:(id)sender {
+  return;
+}
+
+- (void) analysisClicked:(id)sender {
+  return;
+}
+
+- (void) twitterclicked:(id)sender {
   return;
 }
 

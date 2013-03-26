@@ -32,6 +32,8 @@
 
 #define SHAKE_SCREEN_ACTION_TAG 50
 
+#define DRAGON_TAG 5456
+
 @implementation TaskProgressBar
 
 @synthesize isAnimating;
@@ -488,8 +490,48 @@
           _receivedTaskActionResponse = NO;
           _performingTask = YES;
           
-          [_myPlayer stopWalking];
-          [_myPlayer performAnimation:ftp.animationType atLocation:ccpAdd(te.location.origin, pt) inDirection:angle];
+          if (ftp.animationType == AnimationTypeDragon) {
+            CGRect loc = te.location;
+            loc.origin.x += 6;
+            loc.origin.y += 2;
+            MapSprite *ms = [[MapSprite alloc] initWithFile:@"dragon.png" location:loc map:self];
+            ms.isFlying = YES;
+            [self addChild:ms z:1 tag:DRAGON_TAG];
+            [ms release];
+            
+            loc = te.location;
+            loc.origin.x += 6;
+            loc.origin.y += 3;
+            
+            CGRect newLoc = te.location;
+            newLoc.origin.x -= 2;
+            newLoc.origin.y += 3;
+            self.isTouchEnabled = NO;
+            [ms runAction:[CCSequence actions:
+                           [CCSpawn actions:
+                            [CCFadeIn actionWithDuration:0.3f],
+//                            [MoveToLocation actionWithDuration:1.f location:loc],
+                            nil],
+                           [CCCallBlock actionWithBlock:
+                            ^{
+                              CCParticleSystemQuad *ps = [[CCParticleSystemQuad alloc] initWithFile:@"fire.plist"];
+                              [ms addChild:ps z:2];
+                              ps.position = ccp(3, 7);
+                              [ps release];
+                            }],
+//                           [MoveToLocation actionWithDuration:2.f location:newLoc],
+                           [CCDelayTime actionWithDuration:2.f],
+                           [CCFadeOut actionWithDuration:0.3f],
+                           [CCCallBlock actionWithBlock:
+                            ^{
+                              [ms removeFromParentAndCleanup:YES];
+                              self.isTouchEnabled = YES;
+                            }],
+                           nil]];
+          } else {
+            [_myPlayer stopWalking];
+            [_myPlayer performAnimation:ftp.animationType atLocation:ccpAdd(te.location.origin, pt) inDirection:angle];
+          }
           
           [Analytics taskExecuted:ftp.taskId];
         }
@@ -832,7 +874,7 @@
   BossSprite *bs = [self assetWithId:fbp.assetNumWithinCity];
   
   if (![bs.ub isAlive]) {
-    NSDate *date = [bs.ub nextRespawnTime];	
+    NSDate *date = [bs.ub nextRespawnTime];
     _bossTimeLabel.string = [NSString stringWithFormat:@"Respawn Time: %@", [Globals convertTimeToString:date.timeIntervalSinceNow withDays:YES]];
   } else if (![bs.ub hasBeenAttacked]) {
     _bossTimeLabel.string = [NSString stringWithFormat:@"Tap %@ to begin!", bs.name];
@@ -849,7 +891,7 @@
   Globals *gl = [Globals sharedGlobals];
   if (_curPowerAttack > gl.bossNumAttacksTillSuperAttack) {
     _curPowerAttack = 0;
-  }	
+  }
   
   [_powerAttackBar runAction:[CCProgressTo actionWithDuration:0.5f percent:(float)_curPowerAttack/gl.bossNumAttacksTillSuperAttack*100]];
   
@@ -882,7 +924,7 @@
       [[TopBar sharedTopBar] fadeInLittleToolTip:NO];
     }
   } else {
-    [self closeMenus];	
+    [self closeMenus];
   }
 }
 

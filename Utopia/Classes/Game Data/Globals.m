@@ -253,6 +253,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.initStamina = constants.initStamina;
   self.minClanMembersToHoldClanTower = constants.minClanMembersToHoldClanTower;
   self.useOldBattleFormula = constants.useOldBattleFormula;
+  self.questIdForFirstLossTutorial = constants.questIdForFirstLossTutorial;
+  self.questIdsGuaranteedWin = constants.questIdsGuaranteedWinList;
+  self.fbConnectRewardDiamonds = constants.fbConnectRewardDiamonds;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;
@@ -801,6 +804,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   view.center = CGPointMake(sv.frame.size.width/2, sv.frame.size.height/2);
   
+  [sv addSubview:view];
+}
+
++ (void) displayUIViewWithoutAdjustment:(UIView *)view {
+  UIView *sv = [[GameViewController sharedGameViewController] view];
+  view.center = CGPointMake(sv.frame.size.width/2, sv.frame.size.height/2);
   [sv addSubview:view];
 }
 

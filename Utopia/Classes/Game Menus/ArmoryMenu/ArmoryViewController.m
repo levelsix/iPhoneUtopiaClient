@@ -354,7 +354,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   BOOL hasVisited = [def boolForKey:HAS_VISITED_ARMORY_KEY];
-  if (!hasVisited && !_level) {
+  if (!hasVisited && !_level && !_isForBattleLossTutorial) {
     [self displayInfo];
     
     [def setBool:YES forKey:HAS_VISITED_ARMORY_KEY];
@@ -539,34 +539,36 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   UserBoosterPackProto *userPack = [gs myBoosterPackForId:bp.boosterPackId];
   [self.carouselView updateForBoosterPack:bp userPack:userPack];
   
-  CGRect curRect = self.armoryTableView.frame;
-  CGRect r = self.carouselView.frame;
-  r.origin.x = self.view.frame.size.width;
-  self.carouselView.frame = r;
-  self.carouselView.hidden = NO;
-  self.coinBar.alpha = 0.f;
-  self.coinBar.hidden = NO;
-  [UIView animateWithDuration:0.3f animations:^{
-    CGRect r = self.armoryTableView.frame ;
-    r.origin.x = -r.size.width;
-    self.armoryTableView.frame = r;
-    
-    self.topBar.alpha = 0.f;
-    self.coinBar.alpha = 1.f;
-    
-    self.carouselView.frame = curRect;
-    self.backView.alpha = 1.f;
-  } completion:^(BOOL finished) {
-    self.armoryTableView.frame = curRect;
-    self.armoryTableView.hidden = YES;
-    
-    self.topBar.hidden = YES;
-    
-    if (_isForBattleLossTutorial) {
-      [Globals displayUIView:self.tutorialView];
-      [self.tutorialView displayDescriptionForFirstLossTutorial];
-    }
-  }];
+  if (self.carouselView.hidden) {
+    CGRect curRect = self.armoryTableView.frame;
+    CGRect r = self.carouselView.frame;
+    r.origin.x = self.view.frame.size.width;
+    self.carouselView.frame = r;
+    self.carouselView.hidden = NO;
+    self.coinBar.alpha = 0.f;
+    self.coinBar.hidden = NO;
+    [UIView animateWithDuration:0.3f animations:^{
+      CGRect r = self.armoryTableView.frame ;
+      r.origin.x = -r.size.width;
+      self.armoryTableView.frame = r;
+      
+      self.topBar.alpha = 0.f;
+      self.coinBar.alpha = 1.f;
+      
+      self.carouselView.frame = curRect;
+      self.backView.alpha = 1.f;
+    } completion:^(BOOL finished) {
+      self.armoryTableView.frame = curRect;
+      self.armoryTableView.hidden = YES;
+      
+      self.topBar.hidden = YES;
+      
+      if (_isForBattleLossTutorial) {
+        [Globals displayUIView:self.tutorialView];
+        [self.tutorialView displayDescriptionForFirstLossTutorial];
+      }
+    }];
+  }
 }
 
 - (IBAction)backClicked:(id)sender {
@@ -745,17 +747,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     self.cardDisplayView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
     [self.view addSubview:_cardDisplayView];
     
-    [self.cardDisplayView beginAnimatingForEquips:proto.userEquipsList];
-    
-    if (self.carouselView.booster.boosterPackId == proto.userBoosterPack.boosterPackId) {
-      [self.carouselView updateForBoosterPack:self.carouselView.booster userPack:proto.userBoosterPack];
-    }
+    [self.cardDisplayView beginAnimatingForEquips:proto.userEquipsList withTarget:self andSelector:@selector(cardDisplayCompleted)];
+
     [self.armoryTableView reloadData];
   }
   
   [self.coinBar updateLabels];
   
   [self.loadingView stop];
+}
+
+- (void) cardDisplayCompleted {
+  // Update labels with new values
+  [self armoryRowClicked:self.carouselView.booster];
 }
 
 - (void) resetBoosterPackResponse:(ResetBoosterPackResponseProto *)proto {

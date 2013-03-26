@@ -9,6 +9,7 @@
 #import "FacebookSponsoredOffer.h"
 #import "Globals.h"
 #import "AppDelegate.h"
+#import "GameState.h"
 
 #define MAXED_INVITES_SEC  @"0 (Reached Weekly Max)"
 
@@ -21,24 +22,19 @@
 @synthesize rewardPicName;
 @synthesize discount;
 
-#pragma mark InAppPurchaseData
--(NSString *) secondaryTitle
-{
-  if (![self purchaseAvailable]) {
-    return MAXED_INVITES_SEC;
-  }
-  return secondaryTitle;  
-}
-
 -(NSString *) rewardPicName
 {
-  return @"stack.png";
+  return @"facebookshare.png";
+}
+
+- (BOOL)isGold {
+  return YES;
 }
 
 #pragma InAppPurchaseData
 - (BOOL) purchaseAvailable
 {
-  return [_waitCounter canPerfomOperation];
+  return YES;
 }
 
 -(void) makePurchaseWithViewController:(UIViewController *)controller
@@ -51,7 +47,6 @@
          andSecondaryTitle:(NSString *)secondary
                   andPrice:(NSString *)curPrice 
                andDelegate:(id<FacebookGlobalDelegate>)delegate 
-            andWaitCounter:(id<OperationWaitCounter>)waitCounter
 {
   self = [super init];
   if (self) {
@@ -59,12 +54,10 @@
     secondaryTitle = secondary;
     price          = curPrice;
     fbDelegate     = delegate;
-    _waitCounter   = waitCounter;
     
     [primaryTitle   retain];
     [secondaryTitle retain];
     [price          retain];
-    [_waitCounter   retain];
   }
   return self;
 }
@@ -74,25 +67,21 @@
   [primaryTitle   release];
   [secondaryTitle release];
   [price          release];
-  [_waitCounter   release];
 
   [super dealloc];
 }
 
 +(id<InAppPurchaseData>) create
 {
-  id<OperationWaitCounter> waitCounter = [OperationWaitCounter 
-                                          createForKey:PREV_FACEBOOK_FRIEND_REQ 
-                                          andTimeInterval:SECONDS_PER_WEEK];
-  [waitCounter deserialize];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   id<FacebookGlobalDelegate> sessionDelegate = appDelegate.facebookDelegate;
   FacebookSponsoredOffer *offer = [[FacebookSponsoredOffer alloc] 
-                                      initWithPrimaryTitle:@"Invite friends on Facebook"
-                                   andSecondaryTitle:@"50"
+                                      initWithPrimaryTitle:@"Connect to Facebook"
+                                   andSecondaryTitle:gs.hasReceivedfbReward ? @"0 (Already Claimed)" : [Globals commafyNumber:gl.fbConnectRewardDiamonds]
                                       andPrice:@"" 
-                                   andDelegate:sessionDelegate 
-                                   andWaitCounter:waitCounter];
+                                   andDelegate:sessionDelegate];
   [offer autorelease];
   
   return offer;

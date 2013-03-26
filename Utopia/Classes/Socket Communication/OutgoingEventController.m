@@ -196,6 +196,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
   
+  [Globals popupMessage:@"Equips can no longer be purchased this way!"];
+  return;
+  
   if (!fep.isBuyableInArmory) {
     [Globals popupMessage:@"Attempting to buy equip that is not in the armory.."];
   } else if (gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
@@ -1564,6 +1567,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[GoldShoppeViewController sharedGoldShoppeViewController] update];
   
   [Analytics watchedAdColony];
+}
+
+- (void) fbConnectReward {
+  GameState *gs = [GameState sharedGameState];
+  if (!gs.hasReceivedfbReward) {
+    [[SocketCommunication sharedSocketCommunication] sendEarnFreeDiamondsFBConnectMessageClientTime:[self getCurrentMilliseconds]];
+  } else {
+    [Globals popupMessage:@"Attempting to send FB Connect message after already receiving reward."];
+  }
 }
 
 - (BOOL) submitEquipsToBlacksmithWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo guaranteed:(BOOL)guaranteed {

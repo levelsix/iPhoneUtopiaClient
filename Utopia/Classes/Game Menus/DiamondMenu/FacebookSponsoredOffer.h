@@ -15,8 +15,6 @@
   NSString *primaryTitle;
   NSString *secondaryTitle;
   NSString *price;
-  id<OperationWaitCounter> _waitCounter;
-  
   id<FacebookGlobalDelegate> fbDelegate;
 }
 

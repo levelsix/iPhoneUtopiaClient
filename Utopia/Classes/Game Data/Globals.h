@@ -123,6 +123,11 @@
 @property (nonatomic, assign) int initStamina;
 @property (nonatomic, assign) BOOL useOldBattleFormula;
 
+@property (nonatomic, assign) int questIdForFirstLossTutorial;
+@property (nonatomic, retain) NSArray *questIdsGuaranteedWin;
+
+@property (nonatomic, assign) int fbConnectRewardDiamonds;
+
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
 @property (nonatomic, assign) int forgeMinDiamondCostForGuarantee;
@@ -293,6 +298,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color;
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset;
 + (void) displayUIView:(UIView *)view;
++ (void) displayUIViewWithoutAdjustment:(UIView *)view;
 
 + (UIColor *)creamColor;
 + (UIColor *)goldColor;

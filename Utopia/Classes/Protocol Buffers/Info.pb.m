@@ -86,6 +86,7 @@ BOOL AnimationTypeIsValidValue(AnimationType value) {
   switch (value) {
     case AnimationTypeGenericAction:
     case AnimationTypeAttack:
+    case AnimationTypeDragon:
       return YES;
     default:
       return NO;
@@ -95,7 +96,7 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value) {
   switch (value) {
     case EarnFreeDiamondsTypeKiip:
     case EarnFreeDiamondsTypeAdcolony:
-    case EarnFreeDiamondsTypeFbInvite:
+    case EarnFreeDiamondsTypeFbConnect:
     case EarnFreeDiamondsTypeTapjoy:
     case EarnFreeDiamondsTypeFlurryVideo:
     case EarnFreeDiamondsTypeTwitter:
@@ -13015,6 +13016,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 @property int32_t numGroupChatsRemaining;
 @property (retain) MinimumClanProto* clan;
 @property int64_t lastGoldmineRetrieval;
+@property BOOL hasReceivedfbReward;
 @property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -13332,6 +13334,18 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   hasLastGoldmineRetrieval_ = !!value;
 }
 @synthesize lastGoldmineRetrieval;
+- (BOOL) hasHasReceivedfbReward {
+  return !!hasHasReceivedfbReward_;
+}
+- (void) setHasHasReceivedfbReward:(BOOL) value {
+  hasHasReceivedfbReward_ = !!value;
+}
+- (BOOL) hasReceivedfbReward {
+  return !!hasReceivedfbReward_;
+}
+- (void) setHasReceivedfbReward:(BOOL) value {
+  hasReceivedfbReward_ = !!value;
+}
 - (BOOL) hasUdid {
   return !!hasUdid_;
 }
@@ -13451,6 +13465,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
     self.numGroupChatsRemaining = 0;
     self.clan = [MinimumClanProto defaultInstance];
     self.lastGoldmineRetrieval = 0L;
+    self.hasReceivedfbReward = NO;
     self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -13632,6 +13647,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLastGoldmineRetrieval) {
     [output writeInt64:56 value:self.lastGoldmineRetrieval];
   }
+  if (self.hasHasReceivedfbReward) {
+    [output writeBool:57 value:self.hasReceivedfbReward];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -13793,6 +13811,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasLastGoldmineRetrieval) {
     size += computeInt64Size(56, self.lastGoldmineRetrieval);
+  }
+  if (self.hasHasReceivedfbReward) {
+    size += computeBoolSize(57, self.hasReceivedfbReward);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -13994,6 +14015,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasLastGoldmineRetrieval) {
     [self setLastGoldmineRetrieval:other.lastGoldmineRetrieval];
+  }
+  if (other.hasHasReceivedfbReward) {
+    [self setHasReceivedfbReward:other.hasReceivedfbReward];
   }
   if (other.hasUdid) {
     [self setUdid:other.udid];
@@ -14275,6 +14299,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 448: {
         [self setLastGoldmineRetrieval:[input readInt64]];
+        break;
+      }
+      case 456: {
+        [self setHasReceivedfbReward:[input readBool]];
         break;
       }
     }
@@ -15020,6 +15048,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearLastGoldmineRetrieval {
   result.hasLastGoldmineRetrieval = NO;
   result.lastGoldmineRetrieval = 0L;
+  return self;
+}
+- (BOOL) hasHasReceivedfbReward {
+  return result.hasHasReceivedfbReward;
+}
+- (BOOL) hasReceivedfbReward {
+  return result.hasReceivedfbReward;
+}
+- (FullUserProto_Builder*) setHasReceivedfbReward:(BOOL) value {
+  result.hasHasReceivedfbReward = YES;
+  result.hasReceivedfbReward = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearHasReceivedfbReward {
+  result.hasHasReceivedfbReward = NO;
+  result.hasReceivedfbReward = NO;
   return self;
 }
 - (BOOL) hasUdid {

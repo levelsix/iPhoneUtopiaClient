@@ -505,6 +505,15 @@
     return YES;
   }
   
+  // Prioritize flying
+  if (front.isFlying && back.isFlying) {
+    // Do nothing
+  } else if (front.isFlying) {
+    return YES;
+  } else if (back.isFlying) {
+    return NO;
+  }
+  
   CGRect frontLoc = front.location;
   CGRect backLoc = back.location;
   

@@ -433,14 +433,31 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
 
 - (void) battle:(FullUserProto *)fup {
   // BattleLayer will fade out view
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   BattleLayer *bl = [BattleLayer sharedBattleLayer];
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   BOOL hasPerformedTut = [def boolForKey:PERFORMED_FIRST_LOSS_TUT_KEY];
+  FullQuestProto *fqp = [gs questForQuestId:gl.questIdForFirstLossTutorial];
+  
   if (hasPerformedTut) {
     [bl beginBattleAgainst:fup inCity:0];
   } else {
-    [bl performFirstLossTutorialWithUser:fup inCity:0];
-    [def setBool:YES forKey:PERFORMED_FIRST_LOSS_TUT_KEY];
+    BOOL guaranteedWin = NO;
+    for (NSNumber *qId in gl.questIdsGuaranteedWin) {
+      if ([gs questForQuestId:qId.intValue]) {
+        guaranteedWin = YES;
+      }
+    }
+    
+    if (guaranteedWin) {
+      [bl performGuaranteedWinWithUser:fup inCity:0];
+    } else if (fqp) {
+      [bl performFirstLossTutorialWithUser:fup inCity:0];
+      [def setBool:YES forKey:PERFORMED_FIRST_LOSS_TUT_KEY];
+    } else {
+      [bl beginBattleAgainst:fup inCity:0];
+    }
   }
 }
 

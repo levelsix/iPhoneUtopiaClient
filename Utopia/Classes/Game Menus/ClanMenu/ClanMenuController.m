@@ -360,10 +360,10 @@
   self.button1Icon.highlightedImage = [Globals imageNamed:@"clanmyclanactive.png"];
   self.button2Icon.image = [Globals imageNamed:@"clanwarsicon.png"];
   self.button2Icon.highlightedImage = [Globals imageNamed:@"clanwarsiconactive.png"];
-  self.button3Icon.image = [Globals imageNamed:@"clanmyclan.png"];
-  self.button3Icon.highlightedImage = [Globals imageNamed:@"clanmyclanactive.png"];
-  self.button4Icon.image = [Globals imageNamed:@"clanmyclan.png"];
-  self.button4Icon.highlightedImage = [Globals imageNamed:@"clanmyclanactive.png"];
+  self.button3Icon.image = [Globals imageNamed:@"clanbossesicon.png"];
+  self.button3Icon.highlightedImage = [Globals imageNamed:@"clanbossesiconactive.png"];
+  self.button4Icon.image = [Globals imageNamed:@"clanvaulticon.png"];
+  self.button4Icon.highlightedImage = [Globals imageNamed:@"clanvaulticonactive.png"];
   self.button5Icon.image = [Globals imageNamed:@"clanbrowseicon.png"];
   self.button5Icon.highlightedImage = [Globals imageNamed:@"clanbrowseiconactive.png"];
   
@@ -372,15 +372,15 @@
 
 - (void) loadNotInClanConfiguration {
   self.button1Label.text = @"Browse Clans";
-  self.button2Label.text = @"Search Clan";
+  self.button2Label.text = @"Search Clans";
   self.button3Label.text = @"Clan Towers";
   self.button4Label.text = @"About Clans";
   self.button5Label.text = @"Create Clan";
   
   self.button1Icon.image = [Globals imageNamed:@"clanbrowseicon.png"];
   self.button1Icon.highlightedImage = [Globals imageNamed:@"clanbrowseiconactive.png"];
-  self.button2Icon.image = [Globals imageNamed:@"clanwarsicon.png"];
-  self.button2Icon.highlightedImage = [Globals imageNamed:@"clanwarsiconactive.png"];
+  self.button2Icon.image = [Globals imageNamed:@"clansearchicon.png"];
+  self.button2Icon.highlightedImage = [Globals imageNamed:@"clansearchiconactive.png"];
   self.button3Icon.image = [Globals imageNamed:@"clanwarsicon.png"];
   self.button3Icon.highlightedImage = [Globals imageNamed:@"clanwarsiconactive.png"];
   self.button4Icon.image = [Globals imageNamed:@"claninfoicon.png"];
@@ -774,6 +774,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   self.clanAboutView.frame = self.clanCreateView.frame;
   [self.containerView addSubview:self.clanAboutView];
   
+  self.clanComingSoonView.frame = self.clanCreateView.frame;
+  [self.containerView addSubview:self.clanComingSoonView];
+  
   self.secondTopBar.frame = self.topBar.frame;
   [self.topBar.superview addSubview:self.secondTopBar];
   self.secondTopBar.alpha = 0.f;
@@ -850,6 +853,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   } else {
     [self.clanBar loadNotInClanConfiguration];
   }
+  
+  [self.clanBar loadButtonsForClanState:self.state];
 }
 
 - (void) setState:(ClanState)s {
@@ -882,6 +887,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   self.titleLabel.hidden = YES;
   self.clanTowerTab.hidden = YES;
   self.clanTowerScoresTab.hidden = YES;
+  self.clanComingSoonView.hidden = YES;
   
   GameState *gs = [GameState sharedGameState];
   switch (state) {
@@ -956,6 +962,23 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
       
       self.titleLabel.text = @"CLAN TOWERS";
       [self.clanTowerTab loadClanTowerList:NO];
+      break;
+      
+    case kVault:
+      self.titleLabel.hidden = NO;
+      self.clanComingSoonView.hidden = NO;
+      
+      self.titleLabel.text = @"CLAN VAULT";
+      [self.clanComingSoonView loadForClanVault];
+      break;
+      
+    case kBosses:
+      self.titleLabel.hidden = NO;
+      self.clanComingSoonView.hidden = NO;
+      
+      self.titleLabel.text = @"CLAN BOSSES";
+      [self.clanComingSoonView loadForClanBosses];
+      break;
       
     default:
       break;
@@ -1452,6 +1475,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
     } else {
       // Reload last clan
       [self.clanInfoView loadForClan:self.clanInfoView.clan];
+      [self.clanBrowseView.browseClansTable reloadData];
     }
     
     [self updateBottomBar];
@@ -1463,6 +1487,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusRequestSuccess) {
     if (proto.sender.userId == gs.userId) {
       [clanInfoView loadForClan:clanInfoView.clan];
+      [self.clanBrowseView.browseClansTable reloadData];
     } else {
       if (gs.clan.clanId == proto.clanId) {
         [self.myClanMembers addObject:proto.requester];
@@ -1479,6 +1504,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
     [self.clanInfoView loadForClan:self.clanInfoView.clan];
     
     [self updateBottomBar];
+    self.state = kMyClan;
   }
 }
 
@@ -1486,6 +1512,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
   GameState *gs = [GameState sharedGameState];
   if (proto.sender.userId == gs.userId) {
     [clanInfoView loadForClan:clanInfoView.clan];
+    [self.clanBrowseView.browseClansTable reloadData];
   } else {
     MinimumUserProtoForClans *m = nil;
     for (MinimumUserProtoForClans *mup in self.myClanMembers) {

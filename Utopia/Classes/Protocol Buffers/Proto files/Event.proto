@@ -186,9 +186,13 @@ message StartupResponseProto {
 	
 	message DailyBonusInfo {
 		optional int32 numConsecutiveDaysPlayed = 1;
-		optional bool firstTimeToday = 2;
-		optional int32 coinBonus = 3;
-		optional FullUserEquipProto userEquipBonus = 4;
+		optional int32 dayOneCoins = 2;
+		optional int32 dayTwoCoins = 3;
+		optional int32 dayThreeDiamonds = 4;
+		optional int32 dayFourCoins = 5;
+		optional int32 equipId = 6;		//value set only if user has been on for 5 consecutive days
+		optional BoosterPackProto boosterPack = 7;
+		optional int64 timeAwarded = 8;
 	}
 
 	message MarketplacePostPurchasedNotificationProto {
@@ -345,6 +349,11 @@ message StartupResponseProto {
 		optional BoosterPackConstants boosterPackConstants = 98;
 		
 		optional int32 questIdForFirstLossTutorial = 99;
+		repeated int32 questIdsGuaranteedWin = 101;
+		
+		optional int32 fbConnectRewardDiamonds = 100;
+		
+		optional int32 maxNumTowersClanCanHold = 102;
 		
 		message BoosterPackConstants {
 			optional int32 purchaseOptionOneNumBoosterItems = 1;
@@ -2364,6 +2373,7 @@ message BeginClanTowerWarResponseProto {
 		TOWER_ALREADY_CLAIMED = 6;
 		SAME_SIDE = 7;
 		NOT_ENOUGH_TIME_SINCE_LAST_BATTLE = 8;
+		ALREADY_OWNS_MAX_NUMBER_OF_TOWERS = 9;
 	}
 }
 

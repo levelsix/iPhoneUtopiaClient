@@ -78,6 +78,9 @@
 - (void) loadQuestAcceptScreen {
   [super loadQuestAcceptScreen:_fqp];
   
+  RewardCell *jc = (RewardCell *)[self.taskListTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+  jc.equipIcon.userInteractionEnabled = NO;
+  
   [Analytics tutorialQuestAccept];
   
   [self visitBattlePhase];
@@ -127,6 +130,7 @@
   [_arrow removeFromSuperview];
   
   RewardCell *jc = (RewardCell *)[self.taskListTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+  jc.equipIcon.userInteractionEnabled = NO;
   UIView *claim = jc.claimView;
   
   _arrow.center = ccpAdd(jc.frame.origin, ccp(CGRectGetMinX(claim.frame)-15.f, CGRectGetMidY(claim.frame)));

@@ -1,32 +1,31 @@
 //
-//  GGLocationManagerDelegate.m
+//  AmplitudeLocationManagerDelegate.m
 //  Fawkes
 //
 //  Created by Spenser Skates on 8/19/12.
-//  Copyright (c) 2012 GiraffeGraph. All rights reserved.
+//  Copyright (c) 2012 Sonalight, Inc. All rights reserved.
 //
 
-#import "GGLocationManagerDelegate.h"
-#import "GGEventLog.h"
+#import "AmplitudeLocationManagerDelegate.h"
+#import "Amplitude.h"
 
-@implementation GGLocationManagerDelegate
+@implementation AmplitudeLocationManagerDelegate
 
 
 - (void)locationManager:(CLLocationManager*) manager didFailWithError:(NSError*) error
 {
-    if ([error code] == kCLErrorDenied) {
-        [GGEventLog stopListeningForLocation];
-    }
 }
 
 - (void)locationManager:(CLLocationManager*) manager didUpdateToLocation:(CLLocation*) newLocation fromLocation:(CLLocation*) oldLocation
 {
-    [GGEventLog setLocation:newLocation];
 }
 
 - (void)locationManager:(CLLocationManager*) manager didChangeAuthorizationStatus:(CLAuthorizationStatus) status
 {
-
+    if (status == kCLAuthorizationStatusAuthorized) {
+        SEL updateLocation = NSSelectorFromString(@"updateLocation");
+        [Amplitude performSelector:updateLocation];
+    }
 }
 
 @end

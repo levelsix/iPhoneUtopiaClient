@@ -28,7 +28,7 @@
 #import "ClanMenuController.h"
 #import "LockBoxMenuController.h"
 #import "ThreeCardMonteViewController.h"
-#import "GGEventLog.h"
+#import "Amplitude.h"
 #import "BossEventMenuController.h"
 #import "TournamentMenuController.h"
 #import "ArmoryViewController.h"
@@ -81,7 +81,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 @synthesize energyTimer = _energyTimer;
 @synthesize staminaTimer = _staminaTimer;
 @synthesize isStarted;
-//@synthesize dbmc;
+@synthesize dbmc;
 @synthesize inGameNotification, chatBottomView;
 
 - (id) init {
@@ -507,10 +507,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
   [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
   
-  //  if (dbmc) {
-  //    [Globals displayUIView:dbmc.view];
-  //    self.dbmc = nil;
-  //  }
+  if (dbmc) {
+    [Globals displayUIView:dbmc.view];
+    self.dbmc = nil;
+  }
   
   BOOL showActFeed = NO;
   BOOL showThreeCardMonte = NO;
@@ -602,7 +602,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 #ifndef DEBUG
   [Crittercism setUsername:gs.name];
   [Crittercism setValue:gs.referralCode forKey:@"Referral Code"];
-  [GGEventLog setUserId:[NSString stringWithFormat:@"%d", gs.userId]];
+  [Amplitude setUserId:[NSString stringWithFormat:@"%d", gs.userId]];
 #endif
   
   if (gs.availableQuests.count > 0) {
@@ -1231,7 +1231,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_staminaBar release];
   [_toolTipTimerDate release];
   self.profilePic = nil;
-  //  self.dbmc = nil;
+  self.dbmc = nil;
   self.inGameNotification = nil;
   self.chatBottomView = nil;
   [_notificationsToDisplay release];

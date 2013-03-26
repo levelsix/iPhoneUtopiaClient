@@ -18,6 +18,7 @@
              openURL:(NSURL *)url
    sourceApplication:(NSString *)sourceApplication
           annotation:(id)annotation;
+- (void) postToFacebookWithString:(NSString *)str;
 @end
 
 @interface FacebookDelegate : NSObject <FacebookGlobalDelegate, FBDialogDelegate> {

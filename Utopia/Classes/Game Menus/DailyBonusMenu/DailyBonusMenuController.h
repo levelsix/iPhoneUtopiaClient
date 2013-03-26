@@ -10,11 +10,7 @@
 #import "Protocols.pb.h"
 #import "BattleLayer.h"
 
-@interface DailyBonusMenuController : UIViewController {
-  int _day;
-  int _silver;
-  FullUserEquipProto *_fuep;
-}
+@interface DailyBonusMenuController : UIViewController
 
 @property (nonatomic, retain) IBOutlet UIView *day1Done;
 @property (nonatomic, retain) IBOutlet UIView *day2Done;
@@ -34,6 +30,12 @@
 @property (nonatomic, retain) IBOutlet UIView *day4Active;
 @property (nonatomic, retain) IBOutlet UIView *day5Active;
 
+@property (nonatomic, retain) IBOutlet UILabel *day1Label;
+@property (nonatomic, retain) IBOutlet UILabel *day2Label;
+@property (nonatomic, retain) IBOutlet UILabel *day3Label;
+@property (nonatomic, retain) IBOutlet UILabel *day4Label;
+@property (nonatomic, retain) IBOutlet UILabel *day5Label;
+
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
@@ -42,8 +44,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *rewardLabel;
 @property (nonatomic, retain) IBOutlet UILabel *okayLabel;
 
-@property (nonatomic, retain) IBOutlet StolenEquipView *stolenEquipView;
+@property (nonatomic, retain) StartupResponseProto_DailyBonusInfo *dbi;
 
-- (void)loadForDay:(int)day silver:(int)silver equip:(FullUserEquipProto *)fuep;
+- (void)loadForDailyBonusInfo:(StartupResponseProto_DailyBonusInfo *)dbi;
 
 @end

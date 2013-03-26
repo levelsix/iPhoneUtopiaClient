@@ -837,6 +837,16 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEarnFreeDiamondsEvent];
 }
 
+- (int) sendEarnFreeDiamondsFBConnectMessageClientTime:(uint64_t)time {
+  EarnFreeDiamondsRequestProto *req = [[[[[EarnFreeDiamondsRequestProto builder]
+                                           setSender:_sender]
+                                          setFreeDiamondsType:EarnFreeDiamondsTypeFbConnect]
+                                         setClientTime:time]
+                                       build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCEarnFreeDiamondsEvent];
+}
+
 - (int) sendSubmitEquipsToBlacksmithMessageWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo guaranteed:(BOOL)guaranteed clientTime:(uint64_t)time {
   SubmitEquipsToBlacksmithRequestProto *req = [[[[[[[SubmitEquipsToBlacksmithRequestProto builder]
                                                     setSender:_sender]

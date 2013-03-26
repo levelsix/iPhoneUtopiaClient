@@ -22,7 +22,7 @@
 #import "SoundEngine.h"
 #import "Crittercism.h"
 #import "Downloader.h"
-#import "GGEventLog.h"
+#import "Amplitude.h"
 #import <MobileAppTracker/MobileAppTracker.h>
 #import "FBConnect.h"
 
@@ -200,7 +200,7 @@
   //    // Inform of location services off
   //  }
 #ifndef DEBUG
-  [GGEventLog initializeApiKey:GIRAFFE_GRAPH_KEY trackCampaignSource:YES];
+  [Amplitude initializeApiKey:GIRAFFE_GRAPH_KEY trackCampaignSource:YES];
   //  [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
 #endif
   [Analytics beganApp];

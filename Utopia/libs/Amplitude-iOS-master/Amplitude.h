@@ -1,14 +1,14 @@
 //
-//  GGEventLog.h
+//  Amplitude.h
 //  Fawkes
 //
 //  Created by Spenser Skates on 7/26/12.
-//  Copyright (c) 2012 GiraffeGraph. All rights reserved.
+//  Copyright (c) 2012 Sonalight, Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface GGEventLog : NSObject
+@interface Amplitude : NSObject
 
 + (void)initializeApiKey:(NSString*) apiKey;
 
@@ -26,16 +26,18 @@
 
 + (void)logEvent:(NSString*) eventType withCustomProperties:(NSDictionary*) customProperties;
 
++ (void)logRevenue:(NSNumber*) amount;
+
 + (void)uploadEvents;
 
 + (void)setGlobalUserProperties:(NSDictionary*) globalProperties;
 
 + (void)setUserId:(NSString*) userId;
 
-+ (void)setLocation:(id) location;
++ (void)enableLocationListening;
 
-+ (void)startListeningForLocation;
++ (void)disableLocationListening;
 
-+ (void)stopListeningForLocation;
++ (void)printEventsCount;
 
 @end

@@ -93,6 +93,7 @@
   id<BattleCalculator> _battleCalculator;
   
   BOOL _isForTutorial;
+  BOOL _guaranteeWin;
 }
 
 // Since we can only one IBOutlet, the gainedEquipView displays for stolen equips
@@ -114,6 +115,7 @@
 - (BOOL) beginBattleAgainst:(FullUserProto *)user;
 - (BOOL) beginBattleAgainst:(FullUserProto *)user inCity:(int) cityId;
 - (void) doAttackAnimation;
+- (void) performGuaranteedWinWithUser:(FullUserProto *)fup inCity:(int)cityId;
 - (void) performFirstLossTutorialWithUser:(FullUserProto *)fup inCity:(int)cityId;
 
 - (IBAction)stolenEquipOkayClicked:(id)sender;
@@ -121,6 +123,8 @@
 - (IBAction)attackAgainClicked:(id)sender;
 - (IBAction)profileButtonClicked:(id)sender;
 - (IBAction)viewChestInArmoryClicked:(id)sender;
+- (IBAction)fbClicked:(id)sender;
+- (IBAction)twitterclicked:(id)sender;
 
 - (void) startBattle;
 - (void) startMyTurn;

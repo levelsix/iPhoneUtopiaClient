@@ -236,6 +236,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.amuletEquipped = user.amuletEquippedUserEquip.userEquipId;
   self.isAdmin = user.isAdmin;
   self.location = CLLocationCoordinate2DMake(user.userLocation.latitude, user.userLocation.longitude);
+  self.hasReceivedfbReward = user.hasReceivedfbReward;
   
   NSTimeInterval t = user.lastEnergyRefillTime/1000.0;
   self.lastEnergyRefill = [NSDate dateWithTimeIntervalSince1970:t];

@@ -102,6 +102,9 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *topLabel;
 @property (nonatomic, retain) IBOutlet UILabel *membersLabel;
 @property (nonatomic, retain) IBOutlet UILabel *typeLabel;
+@property (nonatomic, retain) IBOutlet UIView *arrowView;
+@property (nonatomic, retain) IBOutlet UIView *buttonView;
+@property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
 @property (nonatomic, retain) CAGradientLayer *gradientLayer;
 
 @end
@@ -187,5 +190,15 @@ typedef enum {
 @interface BrowseSearchCell : UITableViewCell
 
 @property (nonatomic, retain) IBOutlet UITextField *textField;
+
+@end
+
+@interface ClanComingSoonView : UIView
+
+@property (nonatomic, retain) IBOutlet UIImageView *spinnerView;
+@property (nonatomic, retain) IBOutlet UILabel *topLabel;
+
+- (void) loadForClanVault;
+- (void) loadForClanBosses;
 
 @end

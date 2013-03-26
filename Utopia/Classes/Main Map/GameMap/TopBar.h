@@ -11,6 +11,7 @@
 #import "ProfilePicture.h"
 #import "InGameNotification.h"
 #import "ChatBottomView.h"
+#import "DailyBonusMenuController.h"
 
 #define ENST_BAR_TAG 165
 #define COIN_BAR_TAG 166
@@ -109,7 +110,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL isStarted;
 
 // If it is first day bonus
-//@property (nonatomic, retain) DailyBonusMenuController *dbmc;
+@property (nonatomic, retain) DailyBonusMenuController *dbmc;
 
 - (void) setUpEnergyTimer;
 - (void) setUpStaminaTimer;

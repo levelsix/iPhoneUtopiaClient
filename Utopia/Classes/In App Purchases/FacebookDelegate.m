@@ -9,6 +9,9 @@
 #import "FacebookDelegate.h"
 #import "InAppPurchaseData.h"
 #import "OperationWaitCounter.h"
+#import "FBSBJSON.h"
+#import "GameState.h"
+#import "OutgoingEventController.h"
 
 #define FACEBOOK_APP_ID  @"308804055902016" 
 #define FACEBOOK_REQ_MSG @"Hey, check out this cool new iPhone game."
@@ -39,6 +42,27 @@
        andDelegate:self];
 }
 
+- (void) postToFacebookWithString:(NSString *)str {
+  FBSBJSON *jsonWriter = [[FBSBJSON new] autorelease];
+  
+  // The action links to be shown with the post in the feed
+  NSArray* actionLinks = [NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    @"Get Started",@"name",@"http://apps.facebook.com/age_of_chaos/",@"link", nil], nil];
+  NSString *actionLinksStr = [jsonWriter stringWithObject:actionLinks];
+  // Dialog parameters
+  NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                 str, @"name",
+                                 @"Age of Chaos for iOS.", @"caption",
+                                 @"Check out Age of Chaos for iOS to play an awesome Role Playing Game.", @"description",
+                                 @"http://apps.facebook.com/age_of_chaos/", @"link",
+                                 @"https://s3.amazonaws.com/lvl6utopia/Resources/aocicon.png", @"picture",
+                                 actionLinksStr, @"actions",
+                                 nil];
+  [facebook dialog:@"feed"
+         andParams:params
+       andDelegate:self];
+}
+
 -(BOOL) hasCredentials
 {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -61,8 +85,10 @@
   [self setupAuthentication];
   
   if (![facebook isSessionValid]) {
-    NSArray *permissions = [NSArray arrayWithObjects:@"email", nil];
+    NSArray *permissions = [NSArray arrayWithObjects:@"email", @"status_update", nil];
     [facebook authorize:permissions];
+  } else {
+    [self notifyServer];
   }
 }
 
@@ -81,7 +107,7 @@
     }
     [InAppPurchaseData postAdTakeoverResignedNotificationForSender:self];
   } else {
-
+    [self notifyServer];
   }
 }
 
@@ -95,6 +121,8 @@
   [defaults setObject:[facebook accessToken] forKey:@"FBAccessTokenKey"];
   [defaults setObject:[facebook expirationDate] forKey:@"FBExpirationDateKey"];
   [defaults synchronize];
+  
+  [self notifyServer];
 }
 
 /**
@@ -140,6 +168,13 @@
 - (void)fbSessionInvalidated
 {
   
+}
+
+- (void) notifyServer {
+  GameState *gs = [GameState sharedGameState];
+  if (!gs.hasReceivedfbReward) {
+    [[OutgoingEventController sharedOutgoingEventController] fbConnectReward];
+  }
 }
 
 #pragma mark Create/Destroy
