@@ -114,7 +114,7 @@
 @synthesize titleLabel;
 @synthesize currentIncomeLabel, upgradedIncomeLabel;
 @synthesize upgradeTimeLabel, upgradePriceLabel;
-@synthesize structIcon, coinIcon;
+@synthesize structIcon, coinIcon, coinLabel;
 @synthesize mainView, bgdView;
 @synthesize upgradingBottomView, upgradingMiddleView;
 @synthesize progressBar, hazardSign, timeLeftLabel;
@@ -172,6 +172,7 @@
     notUpgradingMiddleView.hidden = NO;
   } else if (us.state == kUpgrading || us.state == kBuilding) {
     [self updateMenu];
+    coinLabel.text = [Globals commafyNumber:us.state == kBuilding ? [gl calculateDiamondCostForInstaBuild:us] : [gl calculateDiamondCostForInstaUpgrade:us]];
     
     self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateMenu) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
@@ -273,6 +274,7 @@
   self.timer = nil;
   self.userStruct = nil;
   self.coinIcon = nil;
+  self.coinLabel = nil;
   [super dealloc];
 }
 

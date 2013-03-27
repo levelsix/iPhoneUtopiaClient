@@ -18,6 +18,12 @@
 
 #define BUTTON_OPACITY 70
 
+#define LAST_GOLD_SALE_POPUP_TIME_KEY @"Last Gold Sale Popup Time"
+#define LAST_LOCK_BOX_POPUP_TIME_KEY @"Lock Box Popup Time"
+#define LAST_BOSS_EVENT_POPUP_TIME_KEY @"Boss Event Popup Time"
+#define LAST_TOURNAMENT_POPUP_TIME_KEY @"Tournament Popup Time"
+#define LAST_DAILY_BONUS_TIME_KEY @"Last Daily Bonus Time"
+
 typedef enum {
   kNotShowing = 1,
   kEnergy,

@@ -303,6 +303,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   _inBattlePhase = NO;
   
   [(TutorialTopBar *)[TopBar sharedTopBar] beginMyCityPhase];
+  [TutorialBattleLayer purgeSingleton];
 }
 
 - (void) centerOnTask {
@@ -313,8 +314,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 
 - (void) performCurrentTask {
   if ([_selected conformsToProtocol:@protocol(TaskElement)]) {
-    [TutorialBattleLayer purgeSingleton];
-    
     [_ccArrow removeFromParentAndCleanup:YES];
     
     id<TaskElement> te = (id<TaskElement>)_selected;

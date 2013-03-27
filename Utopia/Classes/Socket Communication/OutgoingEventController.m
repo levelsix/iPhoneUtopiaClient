@@ -1572,6 +1572,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) fbConnectReward {
   GameState *gs = [GameState sharedGameState];
   if (!gs.hasReceivedfbReward) {
+    while (gs.userId == 0) {
+      [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.f]];
+      
+      if (gs.isTutorial) {
+        return;
+      }
+    }
+    
     [[SocketCommunication sharedSocketCommunication] sendEarnFreeDiamondsFBConnectMessageClientTime:[self getCurrentMilliseconds]];
   } else {
     [Globals popupMessage:@"Attempting to send FB Connect message after already receiving reward."];

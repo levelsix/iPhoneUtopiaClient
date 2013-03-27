@@ -1655,8 +1655,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess) {
     if (proto.freeDiamondsType == EarnFreeDiamondsTypeFbConnect) {
       Globals *gl = [Globals sharedGlobals];
-      [Globals popupMessage:[NSString stringWithFormat:@"Congratulations! You have been awarded %d gold for connecting to Facebook.", gl.fbConnectRewardDiamonds]];
+      [Globals popupMessage:[NSString stringWithFormat:@"Congrats! You have received %d gold for connecting to Facebook.", gl.fbConnectRewardDiamonds]];
+      gs.hasReceivedfbReward = YES;
     }
+    
+    [[GoldShoppeViewController sharedGoldShoppeViewController] refreshTableView];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -2456,6 +2459,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [Globals popupMessage:@"You must be a clan leader to claim a tower or wage war."];
     } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotEnoughClanMembers) {
       [Globals popupMessage:[NSString stringWithFormat:@"You need at least %d members to claim a tower or wage war.", gl.minClanMembersToHoldClanTower]];
+    } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusAlreadyOwnsMaxNumberOfTowers) {
+      [Globals popupMessage:@"Sorry, you can only be engaged in one clan tower at a time."];
     } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotEnoughTimeSinceLastBattle) {
       int numMins = proto.numMinutesTillNextAttack;
       int hrs = numMins / 60;

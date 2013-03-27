@@ -164,7 +164,12 @@
   if (rightAttack) {
     attacker = rightUser;
     defender = leftUser;
-    healthPercent = _battleConstants.battleHitDefenderPercentOfHealth;
+    GameState *gs = [GameState sharedGameState];
+    if (gs.level > 5) {
+      healthPercent = _battleConstants.battleHitDefenderPercentOfHealth;
+    } else {
+      healthPercent = _battleConstants.battleHitAttackerPercentOfHealth;
+    }
   }
   else {
     attacker = leftUser;

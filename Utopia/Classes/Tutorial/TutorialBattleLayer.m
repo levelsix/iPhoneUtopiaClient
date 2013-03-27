@@ -16,7 +16,7 @@
 
 #define ENEMY_HEALTH 30
 #define ENEMY_ATTACK 20
-#define ENEMY_DEFENSE 22
+#define ENEMY_DEFENSE 5
 
 @implementation TutorialBattleLayer
 
@@ -61,7 +61,7 @@
                                        setDefense:ENEMY_DEFENSE] setLevel:1] setName:tc.enemyName] setUserType:tc.enemyType]
                                      setWeaponEquippedUserEquip:[[[[FullUserEquipProto builder] setEquipId:tc.warriorInitWeapon.equipId] setLevel:1] build]]
                                     setArmorEquippedUserEquip:[[[[FullUserEquipProto builder] setEquipId:tc.warriorInitArmor.equipId] setLevel:1] build]];
-  _fup = builder.build;
+  _fup = [builder.build retain];
   _battleCalculator = [BattleCalculator
                        createWithRightStats:[UserBattleStats
                                              createWithFullUserProto:_fup]
@@ -250,7 +250,7 @@
                         [reachesthis runAction:[CCSequence actions:[CCDelayTime actionWithDuration:baseSecs], [RecursiveFadeTo actionWithDuration:0.2f opacity:255],
                                                 [CCDelayTime actionWithDuration:baseSecs-0.3f], [RecursiveFadeTo actionWithDuration:0.1f opacity:100], nil]];
                         [tapPerfect runAction:[CCSequence actions:[CCDelayTime actionWithDuration:baseSecs*2], [CCFadeIn actionWithDuration:0.2f], nil]];
-                        [item runAction:[CCSequence actions:[CCDelayTime actionWithDuration:baseSecs*2.2f], [CCFadeIn actionWithDuration:0.2f], nil]];
+                        [item runAction:[CCSequence actions:[CCDelayTime actionWithDuration:baseSecs*2.5f], [CCFadeIn actionWithDuration:0.2f], nil]];
                       }],
                      nil]];
   } else {
@@ -334,8 +334,10 @@
 
 - (void) comboBarClicked {
   if (_firstAttack && !_allowAttackingForFirstAttack) {
-    [_waitForMax stopAllActions];
-    [_waitForMax runAction:[CCSequence actions:[CCFadeIn actionWithDuration:0.1f], [CCDelayTime actionWithDuration:0.5f], [CCFadeOut actionWithDuration:0.1f], nil]];
+    if (!_overLayer.parent) {
+      [_waitForMax stopAllActions];
+      [_waitForMax runAction:[CCSequence actions:[CCFadeIn actionWithDuration:0.1f], [CCDelayTime actionWithDuration:0.5f], [CCFadeOut actionWithDuration:0.1f], nil]];
+    }
     return;
   }
   
@@ -408,7 +410,7 @@
 - (void) loadBattleSummary {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   
-  BattleResponseProto *brp = [[[[BattleResponseProto builder] setExpGained:tc.firstBattleExpGain] setCoinsGained:tc.firstBattleExpGain] build];
+  BattleResponseProto *brp = [[[[BattleResponseProto builder] setExpGained:tc.firstBattleExpGain] setCoinsGained:tc.firstBattleCoinGain] build];
   
   [self.summaryView loadBattleSummaryForBattleResponse:brp enemy:_fup];
   
@@ -492,6 +494,7 @@
   [_uiArrow release];
   [_ccArrow release];
   [_tryAgain release];
+  [_fup release];
   [super dealloc];
 }
 

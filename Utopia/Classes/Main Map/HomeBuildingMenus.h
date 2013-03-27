@@ -44,6 +44,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *upgradePriceLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *structIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *coinIcon;
+@property (nonatomic, retain) IBOutlet UILabel *coinLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *timeLeftLabel;
 @property (nonatomic, retain) IBOutlet ProgressBar *progressBar;

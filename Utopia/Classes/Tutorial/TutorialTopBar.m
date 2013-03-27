@@ -90,6 +90,8 @@
   }
   
   if (gs.experience != _curExp) {
+    GameState *gs = [GameState sharedGameState];
+    NSLog(@"Exp: %d/%d", gs.experience, gs.expRequiredForNextLevel);
     int levelDiff = gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel;
     int diff = gs.experience - _curExp;
     int change = MAX(MIN((int)(0.01*levelDiff), diff), 1);
@@ -119,7 +121,7 @@
   [TutorialHomeMap sharedHomeMap];
   
   [self addChild:_arrow];
-  _arrow.position = ccpAdd(_homeButton.position, ccp(-_homeButton.contentSize.width/2-_arrow.contentSize.width/2, 0));
+  _arrow.position = ccpAdd(_homeButton.position, ccp(-_homeButton.contentSize.width/2-_arrow.contentSize.width/2-15, 0));
   [Globals animateCCArrow:_arrow atAngle:0];
   
   _homeButton.normalImage.opacity = 255;
@@ -132,7 +134,7 @@
   _questsPhase = YES;
   
   [self addChild:_arrow];
-  _arrow.position = ccpAdd(_questButton.position, ccp(-_questButton.contentSize.width/2-10, 0));
+  _arrow.position = ccpAdd(_questButton.position, ccp(-_questButton.contentSize.width/2-15, 0));
   [Globals animateCCArrow:_arrow atAngle:0];
   
   _questButton.normalImage.opacity = 255;
@@ -157,7 +159,7 @@
   _attackButton.selectedImage.opacity = 255;
   
   [self addChild:_arrow];
-  _arrow.position = ccpAdd(_attackButton.position, ccp(0, _attackButton.contentSize.width/2+10));
+  _arrow.position = ccpAdd(_attackButton.position, ccp(0, _attackButton.contentSize.width/2+15));
   [Globals animateCCArrow:_arrow atAngle:-M_PI_2];
 }
 

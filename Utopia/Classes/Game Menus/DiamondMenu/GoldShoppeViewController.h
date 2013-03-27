@@ -105,5 +105,6 @@ typedef enum {
 - (void) update;
 - (IBAction)closeButtonClicked:(id)sender;
 - (void) stopLoading;
+-(void) refreshTableView;
 
 @end

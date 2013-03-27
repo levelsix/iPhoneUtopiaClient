@@ -20,7 +20,7 @@
 #define MIN_LATITUDE 0.5f
 #define MIN_LONGITUDE MIN_LATITUDE*2
 
-#define PERFORMED_FIRST_LOSS_TUT_KEY @"Performed First Loss5"
+#define PERFORMED_FIRST_LOSS_TUT_KEY @"Performed First Loss %d"
 
 @implementation AttackMenuBar
 
@@ -437,7 +437,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   Globals *gl = [Globals sharedGlobals];
   BattleLayer *bl = [BattleLayer sharedBattleLayer];
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-  BOOL hasPerformedTut = [def boolForKey:PERFORMED_FIRST_LOSS_TUT_KEY];
+  NSString *key = [NSString stringWithFormat:PERFORMED_FIRST_LOSS_TUT_KEY, gs.userId];
+  BOOL hasPerformedTut = [def boolForKey:key];
   FullQuestProto *fqp = [gs questForQuestId:gl.questIdForFirstLossTutorial];
   
   if (hasPerformedTut) {
@@ -454,7 +455,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
       [bl performGuaranteedWinWithUser:fup inCity:0];
     } else if (fqp) {
       [bl performFirstLossTutorialWithUser:fup inCity:0];
-      [def setBool:YES forKey:PERFORMED_FIRST_LOSS_TUT_KEY];
+      [def setBool:YES forKey:key];
     } else {
       [bl beginBattleAgainst:fup inCity:0];
     }

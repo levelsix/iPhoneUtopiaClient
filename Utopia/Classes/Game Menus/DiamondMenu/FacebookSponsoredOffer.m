@@ -37,6 +37,12 @@
   return YES;
 }
 
+- (NSString *) secondaryTitle {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  return gs.hasReceivedfbReward ? @"0 (Already Claimed)" : [Globals commafyNumber:gl.fbConnectRewardDiamonds];
+}
+
 -(void) makePurchaseWithViewController:(UIViewController *)controller
 {
     [fbDelegate attemptSignOn];
@@ -73,13 +79,11 @@
 
 +(id<InAppPurchaseData>) create
 {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
   AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   id<FacebookGlobalDelegate> sessionDelegate = appDelegate.facebookDelegate;
   FacebookSponsoredOffer *offer = [[FacebookSponsoredOffer alloc] 
                                       initWithPrimaryTitle:@"Connect to Facebook"
-                                   andSecondaryTitle:gs.hasReceivedfbReward ? @"0 (Already Claimed)" : [Globals commafyNumber:gl.fbConnectRewardDiamonds]
+                                   andSecondaryTitle:@""
                                       andPrice:@"" 
                                    andDelegate:sessionDelegate];
   [offer autorelease];

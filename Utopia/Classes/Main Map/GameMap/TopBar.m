@@ -36,11 +36,6 @@
 #define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
 #define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
 
-#define LAST_GOLD_SALE_POPUP_TIME_KEY @"Last Gold Sale Popup Time"
-#define LAST_LOCK_BOX_POPUP_TIME_KEY @"Lock Box Popup Time"
-#define LAST_BOSS_EVENT_POPUP_TIME_KEY @"Boss Event Popup Time"
-#define LAST_TOURNAMENT_POPUP_TIME_KEY @"Tournament Popup Time"
-
 #define FADE_ANIMATION_DURATION 0.2f
 
 #define ENERGY_BAR_POSITION ccp(53,15)
@@ -507,8 +502,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
   [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
   
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  NSDate *curDate = [NSDate date];
+  
   if (dbmc) {
-    [Globals displayUIView:dbmc.view];
+    NSNumber *lastTime = [defaults objectForKey:LAST_DAILY_BONUS_TIME_KEY];
+    if (![lastTime isEqualToNumber:[NSNumber numberWithLong:dbmc.dbi.timeAwarded]]) {
+      [Globals displayUIView:dbmc.view];
+    }
     self.dbmc = nil;
   }
   
@@ -527,8 +528,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     }
   }
   
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSDate *curDate = [NSDate date];
   [self displayGoldSaleBadge];
   if ([gs getCurrentGoldSale] && gs.level >= MIN_LEVEL_FOR_POPUPS) {
     NSDate *date = [defaults objectForKey:LAST_GOLD_SALE_POPUP_TIME_KEY];

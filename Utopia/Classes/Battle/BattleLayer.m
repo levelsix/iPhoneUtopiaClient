@@ -1017,7 +1017,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   if (!_guaranteeWin) {
     return [_battleCalculator rightAttackStrengthForPercent:percent];
   } else {
-    return MIN([_battleCalculator rightAttackStrengthForPercent:percent], _leftMaxHealth/2);
+    return MIN([_battleCalculator rightAttackStrengthForPercent:percent], _leftCurrentHealth/3);
   }
 }
 
@@ -1025,7 +1025,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   if (!_isForTutorial) {
     return [_battleCalculator leftAttackStrengthForPercent:percent];
   } else {
-    return MIN([_battleCalculator leftAttackStrengthForPercent:percent], _rightMaxHealth/2);
+    return MIN([_battleCalculator leftAttackStrengthForPercent:percent], _rightCurrentHealth/2);
   }
 }
 

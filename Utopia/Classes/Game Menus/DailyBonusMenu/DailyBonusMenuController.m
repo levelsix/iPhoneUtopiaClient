@@ -12,6 +12,7 @@
 #import "GameState.h"
 #import "ArmoryViewController.h"
 #import "SoundEngine.h"
+#import "TopBar.h"
 
 @implementation DailyBonusMenuController
 
@@ -86,6 +87,9 @@
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [self.view removeFromSuperview];
   }];
+  
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  [defaults setObject:[NSNumber numberWithLong:_dbi.timeAwarded] forKey:LAST_DAILY_BONUS_TIME_KEY];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {

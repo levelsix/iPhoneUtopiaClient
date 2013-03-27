@@ -591,8 +591,6 @@
 		CF1270E11538ACCC00E0C1AD /* HandGuard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A3A1538ACC600E0C1AD /* HandGuard@2x.png */; };
 		CF1270E21538ACCC00E0C1AD /* Inn.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A3B1538ACC600E0C1AD /* Inn.png */; };
 		CF1270E31538ACCC00E0C1AD /* Inn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A3C1538ACC600E0C1AD /* Inn@2x.png */; };
-		CF1270E41538ACCC00E0C1AD /* inputrefcode.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A3D1538ACC600E0C1AD /* inputrefcode.png */; };
-		CF1270E51538ACCC00E0C1AD /* inputrefcode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A3E1538ACC600E0C1AD /* inputrefcode@2x.png */; };
 		CF1270E61538ACCC00E0C1AD /* maskedgirl.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A3F1538ACC600E0C1AD /* maskedgirl.png */; };
 		CF1270E71538ACCC00E0C1AD /* maskedgirl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A401538ACC600E0C1AD /* maskedgirl@2x.png */; };
 		CF1270E81538ACCC00E0C1AD /* Refinery.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A411538ACC600E0C1AD /* Refinery.png */; };
@@ -613,14 +611,6 @@
 		CF1270F71538ACCC00E0C1AD /* TreeBranch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A501538ACC600E0C1AD /* TreeBranch@2x.png */; };
 		CF1270F81538ACCC00E0C1AD /* tryagain.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A511538ACC600E0C1AD /* tryagain.png */; };
 		CF1270F91538ACCC00E0C1AD /* tryagain@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A521538ACC600E0C1AD /* tryagain@2x.png */; };
-		CF1270FA1538ACCC00E0C1AD /* tutorialbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A531538ACC600E0C1AD /* tutorialbg.png */; };
-		CF1270FB1538ACCC00E0C1AD /* tutorialbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A541538ACC600E0C1AD /* tutorialbg@2x.png */; };
-		CF1270FC1538ACCC00E0C1AD /* tutorialprogressbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A551538ACC600E0C1AD /* tutorialprogressbg.png */; };
-		CF1270FD1538ACCC00E0C1AD /* tutorialprogressbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A561538ACC600E0C1AD /* tutorialprogressbg@2x.png */; };
-		CF1270FE1538ACCC00E0C1AD /* tutorialprogressyellow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A571538ACC600E0C1AD /* tutorialprogressyellow.png */; };
-		CF1270FF1538ACCC00E0C1AD /* tutorialprogressyellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A581538ACC600E0C1AD /* tutorialprogressyellow@2x.png */; };
-		CF1271001538ACCC00E0C1AD /* warbg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF126A591538ACC600E0C1AD /* warbg.jpg */; };
-		CF1271011538ACCC00E0C1AD /* warbg@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF126A5A1538ACC600E0C1AD /* warbg@2x.jpg */; };
 		CF1271021538ACCC00E0C1AD /* alarcher.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A5C1538ACC600E0C1AD /* alarcher.png */; };
 		CF1271031538ACCC00E0C1AD /* alarcher@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A5D1538ACC600E0C1AD /* alarcher@2x.png */; };
 		CF1271041538ACCC00E0C1AD /* baarcher.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A5E1538ACC600E0C1AD /* baarcher.png */; };
@@ -2805,12 +2795,6 @@
 		CF126A501538ACC600E0C1AD /* TreeBranch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TreeBranch@2x.png"; sourceTree = "<group>"; };
 		CF126A511538ACC600E0C1AD /* tryagain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tryagain.png; sourceTree = "<group>"; };
 		CF126A521538ACC600E0C1AD /* tryagain@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tryagain@2x.png"; sourceTree = "<group>"; };
-		CF126A531538ACC600E0C1AD /* tutorialbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorialbg.png; sourceTree = "<group>"; };
-		CF126A541538ACC600E0C1AD /* tutorialbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialbg@2x.png"; sourceTree = "<group>"; };
-		CF126A551538ACC600E0C1AD /* tutorialprogressbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorialprogressbg.png; sourceTree = "<group>"; };
-		CF126A561538ACC600E0C1AD /* tutorialprogressbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialprogressbg@2x.png"; sourceTree = "<group>"; };
-		CF126A571538ACC600E0C1AD /* tutorialprogressyellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorialprogressyellow.png; sourceTree = "<group>"; };
-		CF126A581538ACC600E0C1AD /* tutorialprogressyellow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialprogressyellow@2x.png"; sourceTree = "<group>"; };
 		CF126A591538ACC600E0C1AD /* warbg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = warbg.jpg; sourceTree = "<group>"; };
 		CF126A5A1538ACC600E0C1AD /* warbg@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "warbg@2x.jpg"; sourceTree = "<group>"; };
 		CF126A5C1538ACC600E0C1AD /* alarcher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alarcher.png; sourceTree = "<group>"; };
@@ -6444,12 +6428,6 @@
 				CF126A501538ACC600E0C1AD /* TreeBranch@2x.png */,
 				CF126A511538ACC600E0C1AD /* tryagain.png */,
 				CF126A521538ACC600E0C1AD /* tryagain@2x.png */,
-				CF126A531538ACC600E0C1AD /* tutorialbg.png */,
-				CF126A541538ACC600E0C1AD /* tutorialbg@2x.png */,
-				CF126A551538ACC600E0C1AD /* tutorialprogressbg.png */,
-				CF126A561538ACC600E0C1AD /* tutorialprogressbg@2x.png */,
-				CF126A571538ACC600E0C1AD /* tutorialprogressyellow.png */,
-				CF126A581538ACC600E0C1AD /* tutorialprogressyellow@2x.png */,
 				CF126A591538ACC600E0C1AD /* warbg.jpg */,
 				CF126A5A1538ACC600E0C1AD /* warbg@2x.jpg */,
 			);
@@ -8549,8 +8527,6 @@
 				CF1270E11538ACCC00E0C1AD /* HandGuard@2x.png in Resources */,
 				CF1270E21538ACCC00E0C1AD /* Inn.png in Resources */,
 				CF1270E31538ACCC00E0C1AD /* Inn@2x.png in Resources */,
-				CF1270E41538ACCC00E0C1AD /* inputrefcode.png in Resources */,
-				CF1270E51538ACCC00E0C1AD /* inputrefcode@2x.png in Resources */,
 				CF1270E61538ACCC00E0C1AD /* maskedgirl.png in Resources */,
 				CF1270E71538ACCC00E0C1AD /* maskedgirl@2x.png in Resources */,
 				CF1270E81538ACCC00E0C1AD /* Refinery.png in Resources */,
@@ -8571,14 +8547,6 @@
 				CF1270F71538ACCC00E0C1AD /* TreeBranch@2x.png in Resources */,
 				CF1270F81538ACCC00E0C1AD /* tryagain.png in Resources */,
 				CF1270F91538ACCC00E0C1AD /* tryagain@2x.png in Resources */,
-				CF1270FA1538ACCC00E0C1AD /* tutorialbg.png in Resources */,
-				CF1270FB1538ACCC00E0C1AD /* tutorialbg@2x.png in Resources */,
-				CF1270FC1538ACCC00E0C1AD /* tutorialprogressbg.png in Resources */,
-				CF1270FD1538ACCC00E0C1AD /* tutorialprogressbg@2x.png in Resources */,
-				CF1270FE1538ACCC00E0C1AD /* tutorialprogressyellow.png in Resources */,
-				CF1270FF1538ACCC00E0C1AD /* tutorialprogressyellow@2x.png in Resources */,
-				CF1271001538ACCC00E0C1AD /* warbg.jpg in Resources */,
-				CF1271011538ACCC00E0C1AD /* warbg@2x.jpg in Resources */,
 				CF1271021538ACCC00E0C1AD /* alarcher.png in Resources */,
 				CF1271031538ACCC00E0C1AD /* alarcher@2x.png in Resources */,
 				CF1271041538ACCC00E0C1AD /* baarcher.png in Resources */,
