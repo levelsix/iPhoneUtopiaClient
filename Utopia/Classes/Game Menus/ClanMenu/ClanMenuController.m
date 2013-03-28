@@ -130,7 +130,7 @@
   GameState *gs = [GameState sharedGameState];
   if ([Globals userTypeIsBad:gs.type]) {
     [self unclickButton:kButton1];
-    [self clickButton:kButton2];
+    [self clickButton:kButton3];
   }
 }
 
@@ -142,7 +142,7 @@
   GameState *gs = [GameState sharedGameState];
   if ([Globals userTypeIsBad:gs.type]) {
     [self unclickButton:kButton1];
-    [self clickButton:kButton2];
+    [self clickButton:kButton3];
   }
 }
 

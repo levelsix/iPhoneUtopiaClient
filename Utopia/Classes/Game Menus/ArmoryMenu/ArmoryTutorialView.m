@@ -30,7 +30,7 @@ static CGPoint origCenter;
 - (void) displayInfoForStarterPack {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  self.speechLabel.text = [NSString stringWithFormat:@"You can only buy %d of these starter packs. That's enough to forge these equips to level %d in the Blacksmith's forge.", gl.numTimesToBuyStarterPack, (int)log2(gl.numTimesToBuyStarterPack)+1];
+  self.speechLabel.text = [NSString stringWithFormat:@"You can only buy %d of these starter packs. That's enough to forge these equips to level %d in the Blacksmith's forge. You need to be level %d to access it though.", gl.numTimesToBuyStarterPack, (int)log2(gl.numTimesToBuyStarterPack)+1, gl.minLevelConstants.blacksmithMinLevel];
   self.buttonView.hidden = YES;
   self.closeButton.hidden = NO;
   self.girlImageView.image = [Globals imageNamed:[Globals userTypeIsGood:gs.type] ? @"rubyspeech.png" : @"adrianaspeech.png"];

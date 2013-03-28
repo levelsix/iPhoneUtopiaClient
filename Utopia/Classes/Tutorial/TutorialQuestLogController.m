@@ -70,6 +70,9 @@
   QuestCell *jc = (QuestCell *)[self.questListTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
   UIView *prog = jc.inProgressView;
   
+  RewardCell *rc = (RewardCell *)[self.taskListTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+  rc.equipIcon.userInteractionEnabled = NO;
+  
   _arrow.center = ccpAdd(prog.center, ccp(-12, prog.frame.size.height/2+prog.frame.origin.y+_arrow.frame.size.height/2+10));
   [self.questListTable addSubview:_arrow];
   [Globals animateUIArrow:_arrow atAngle:M_PI_2];

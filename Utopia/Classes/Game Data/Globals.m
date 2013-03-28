@@ -911,13 +911,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSString *key = [NSString stringWithFormat:@"%p", view];
   [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
   
-  if (!imageName || imageName.length == 0) {
-    return;
-  }
-  
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
   [loadingView stopAnimating];
   [loadingView removeFromSuperview];
+  
+  if (!imageName || imageName.length == 0) {
+    if ([view isKindOfClass:[UIImageView class]]) {
+      [(UIImageView *)view setImage:nil];
+    } else if ([view isKindOfClass:[UIButton class]]) {
+      [(UIButton *)view setImage:nil forState:UIControlStateNormal];
+    }
+    return;
+  }
+  
   UIImage *cachedImage = imageName ? [gl.imageCache objectForKey:imageName] : nil;
   if (cachedImage) {
     if (color) {

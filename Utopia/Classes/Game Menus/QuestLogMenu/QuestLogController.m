@@ -329,6 +329,12 @@ static float originalLabelX = 0.f;
       case SpecialQuestActionRequestJoinClan:
         [glay loadBazaarMap];
         [bm moveToCritStruct:BazaarStructTypeClanHouse animated:YES];
+        break;
+        
+      case SpecialQuestActionSuccessfullyForgeAnItem:
+        [glay loadBazaarMap];
+        [bm moveToCritStruct:BazaarStructTypeBlacksmith animated:YES];
+        break;
         
       default:
         break;

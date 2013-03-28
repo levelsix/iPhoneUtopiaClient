@@ -565,6 +565,11 @@
         
       case SpecialQuestActionRequestJoinClan:
         desc = @"Request to Join 1 Clan";
+        break;
+        
+      case SpecialQuestActionSuccessfullyForgeAnItem:
+        desc = @"Forge an Item Successfully";
+        break;
         
       default:
         break;

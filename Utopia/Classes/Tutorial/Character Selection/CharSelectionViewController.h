@@ -12,6 +12,10 @@
 #define CHAR_SELECTION_VIEW_TAG 923
 #define CHAR_SELECTION_CLOSE_NOTIFICATION @"CharSelectionClose"
 
+@interface ActionlessTextField : NiceFontTextField
+
+@end
+
 @interface CharSelectionViewController : UIViewController <UIScrollViewDelegate, UITextFieldDelegate> {
   float _pageWidth;
   float _barWidth;

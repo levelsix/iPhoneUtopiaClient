@@ -93,6 +93,11 @@
       _uiArrow.center = CGPointMake(CGRectGetMinX(finishNowButton.frame)-_uiArrow.frame.size.width/2, finishNowButton.center.y);
       _uiArrow.tag = 111;
       [Globals animateUIArrow:_uiArrow atAngle:0];
+      
+      self.upgradeMenu.coinLabel.text = [Globals commafyNumber:tc.diamondCostToInstabuildFirstStruct];
+      
+      UIView * closeButton = [self.upgradeMenu viewWithTag:4];
+      closeButton.userInteractionEnabled = NO;
     } else {
       self.selected = nil;
     }
@@ -275,13 +280,6 @@
   
   _ccArrow.visible = NO;
   [_uiArrow removeFromSuperview];
-}
-
-- (void) drag:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
-  [super drag:recognizer node:node];
-  if (_canMove) {
-    [DialogMenuController closeView];
-  }
 }
 
 - (void) startGoToAviaryPhase {

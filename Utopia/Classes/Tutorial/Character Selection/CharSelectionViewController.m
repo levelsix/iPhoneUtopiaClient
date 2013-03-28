@@ -21,6 +21,18 @@
 #import "GameViewController.h"
 #import "TutorialMissionMap.h"
 
+@implementation ActionlessTextField
+
+-(BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+  if (action == @selector(copy:) || action == @selector(cut:)) {
+    [UIMenuController sharedMenuController].menuVisible = NO;
+    return NO;
+  }
+  return [super canPerformAction:action withSender:sender];
+}
+
+@end
+
 @implementation CharSelectionViewController
 
 @synthesize goodMageView, goodArcherView, goodWarriorView;
@@ -127,6 +139,9 @@
   gs.silver = tc.initSilver;
   
   [[TopBar sharedTopBar] update];
+  
+  NSString *name = [NSString stringWithFormat:@"User%d", arc4random_uniform(100000)+100000];
+  nameTextField.text = name;
   
   self.view.tag = CHAR_SELECTION_VIEW_TAG;
 }
@@ -489,6 +504,11 @@
     return NO;
   }
   return NO;
+}
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField {
+  [textField selectAll:self];
+  [UIMenuController sharedMenuController].menuVisible = NO;
 }
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
