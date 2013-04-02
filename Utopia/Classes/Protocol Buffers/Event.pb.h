@@ -3448,6 +3448,7 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   BOOL hasBlacksmithNibName_:1;
   BOOL hasGoldShoppeNibName_:1;
   BOOL hasBossEventNibName_:1;
+  BOOL hasDailyBonusNibName_:1;
   NSString* threeCardMonteNibName;
   NSString* lockBoxNibName;
   NSString* mapNibName;
@@ -3457,6 +3458,7 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   NSString* blacksmithNibName;
   NSString* goldShoppeNibName;
   NSString* bossEventNibName;
+  NSString* dailyBonusNibName;
 }
 - (BOOL) hasThreeCardMonteNibName;
 - (BOOL) hasLockBoxNibName;
@@ -3467,6 +3469,7 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (BOOL) hasBlacksmithNibName;
 - (BOOL) hasGoldShoppeNibName;
 - (BOOL) hasBossEventNibName;
+- (BOOL) hasDailyBonusNibName;
 @property (readonly, retain) NSString* threeCardMonteNibName;
 @property (readonly, retain) NSString* lockBoxNibName;
 @property (readonly, retain) NSString* mapNibName;
@@ -3476,6 +3479,7 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 @property (readonly, retain) NSString* blacksmithNibName;
 @property (readonly, retain) NSString* goldShoppeNibName;
 @property (readonly, retain) NSString* bossEventNibName;
+@property (readonly, retain) NSString* dailyBonusNibName;
 
 + (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
@@ -3555,6 +3559,11 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (NSString*) bossEventNibName;
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setBossEventNibName:(NSString*) value;
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearBossEventNibName;
+
+- (BOOL) hasDailyBonusNibName;
+- (NSString*) dailyBonusNibName;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setDailyBonusNibName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearDailyBonusNibName;
 @end
 
 @interface StartupResponseProto_StartupConstants_ThreeCardMonteConstants : PBGeneratedMessage {

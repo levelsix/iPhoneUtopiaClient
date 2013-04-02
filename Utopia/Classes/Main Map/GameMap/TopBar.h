@@ -116,7 +116,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL isStarted;
 
 // If it is first day bonus
-@property (nonatomic, retain) DailyBonusMenuController *dbmc;
+@property (nonatomic, retain) StartupResponseProto_DailyBonusInfo *dbi;
 
 - (void) setUpEnergyTimer;
 - (void) setUpStaminaTimer;

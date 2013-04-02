@@ -91,7 +91,6 @@
   
   if (gs.experience != _curExp) {
     GameState *gs = [GameState sharedGameState];
-    NSLog(@"Exp: %d/%d", gs.experience, gs.expRequiredForNextLevel);
     int levelDiff = gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel;
     int diff = gs.experience - _curExp;
     int change = MAX(MIN((int)(0.01*levelDiff), diff), 1);

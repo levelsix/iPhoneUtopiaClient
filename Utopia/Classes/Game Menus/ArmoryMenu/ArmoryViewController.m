@@ -486,7 +486,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   if (_level) {
     for (int i = 0; i < self.boosterPacks.count; i++) {
       BoosterPackProto *bp = [self.boosterPacks objectAtIndex:i];
-      if (bp.minLevel <= _level && bp.maxLevel >= _level && (bp.costsCoins == _shouldCostCoins)) {
+      if (bp.minLevel <= _level && bp.maxLevel >= _level && (bp.costsCoins == _shouldCostCoins) && !bp.isStarterPack) {
         [self armoryRowClicked:bp];
         _level = 0;
       }

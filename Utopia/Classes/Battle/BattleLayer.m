@@ -1390,6 +1390,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [self closeScene];
 }
 
+- (void) questLogPoppedUp {
+  _cameFromClans = NO;
+  _cameFromAviary = NO;
+  _isBattling = NO;
+}
+
 - (void) closeScene {
   if (_isRunning) {
     self.enemyEquips = nil;
@@ -1439,7 +1445,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   const int arrSize = 3;
   UserEquip *ues[arrSize] = {weap, arm, amu};
-  FullUserEquipProto *fueps[arrSize];
+  FullUserEquipProto *fueps[arrSize] = {nil, nil, nil};
   
   for (int i = 0; i < arrSize; i++) {
     UserEquip *ue = ues[i];
@@ -1447,15 +1453,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     FullEquipProto *newFep = nil;
     int oAtt = [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:0];
     int oDef = [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:0];
-    int percBetter = arc4random_uniform(35)+10;
+//    int percBetter = arc4random_uniform(15)+10;
     for (FullEquipProto *fep in gs.staticEquips.allValues) {
-      if (fep.equipType != oldFep.equipType) {
+      if (fep.equipType != oldFep.equipType || (fep.equipType == FullEquipProto_EquipTypeArmor && fep.rarity < FullEquipProto_RarityRare) || fep.minLevel > fup.level) {
         continue;
       }
       
       int att = [gl calculateAttackForEquip:fep.equipId level:ue.level enhancePercent:0];
       int def = [gl calculateAttackForEquip:fep.equipId level:ue.level enhancePercent:0];
-      if ((oAtt+oDef)*(1+percBetter/100.f) < att+def) {
+      if (oAtt+oDef < att+def) {
         int nAtt = [gl calculateAttackForEquip:newFep.equipId level:ue.level enhancePercent:0];
         int nDef = [gl calculateAttackForEquip:newFep.equipId level:ue.level enhancePercent:0];
         if (!newFep || nAtt+nDef > att+def) {
@@ -1480,7 +1486,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   GameState *gs = [GameState sharedGameState];
   AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   id<FacebookGlobalDelegate> sessionDelegate = appDelegate.facebookDelegate;
-  NSString *str = [NSString stringWithFormat:@"%@ %@ %@ in Age of Chaos.", gs.name, brp.hasExpGained ? @"defeated" : @"was defeated by", _fup.name];
+  NSString *str = [NSString stringWithFormat:@"%@ %@ %@ in Age of Chaos.", gs.name, brp.hasExpGained ? @"massacred" : @"was defeated by", _fup.name];
   [sessionDelegate postToFacebookWithString:str];
 }
 
@@ -1489,7 +1495,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   {
     TWTweetComposeViewController *tweetSheet = [[[TWTweetComposeViewController alloc] init] autorelease];
     GameState *gs = [GameState sharedGameState];
-    NSString *str = [NSString stringWithFormat:@"%@ %@ %@ in Age of Chaos.", gs.name, brp.hasExpGained ? @"defeated" : @"was defeated by", _fup.name];
+    NSString *str = [NSString stringWithFormat:@"%@ %@ %@ in Age of Chaos. Click here to play now! http://bit.ly/14BpdVg #AgeOfChaos", gs.name, brp.hasExpGained ? @"massacred" : @"was defeated by", _fup.name];
     [tweetSheet setInitialText:str];
     [[GameViewController sharedGameViewController] presentModalViewController:tweetSheet animated:YES];
   } else {

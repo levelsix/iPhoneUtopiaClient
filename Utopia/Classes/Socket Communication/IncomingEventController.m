@@ -584,17 +584,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [(AppDelegate *)[[UIApplication sharedApplication] delegate] registerForPushNotifications];
     [(AppDelegate *)[[UIApplication sharedApplication] delegate] removeLocalNotifications];
     
-    //Display daily bonus screen if its  applicable
-    StartupResponseProto_DailyBonusInfo *dbi = proto.dailyBonusInfo;
-    DailyBonusMenuController *dbmc = [[DailyBonusMenuController alloc] initWithNibName:nil bundle:nil];
-    [dbmc loadForDailyBonusInfo:dbi];
-    [[TopBar sharedTopBar] setDbmc:dbmc];
-    
     // This means we just finished tutorial
     if (gs.isTutorial) {
       [[DialogMenuController sharedDialogMenuController] stopLoading:YES];
     } else {
       [[GameViewController sharedGameViewController] loadGame:NO];
+    }
+    
+    //Display daily bonus screen if its applicable
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *lastTime = [defaults objectForKey:LAST_DAILY_BONUS_TIME_KEY];
+    if (proto.hasDailyBonusInfo && !gs.isTutorial && ![lastTime isEqualToNumber:[NSNumber numberWithLong:proto.dailyBonusInfo.timeAwarded]]) {
+      StartupResponseProto_DailyBonusInfo *dbi = proto.dailyBonusInfo;
+      [[TopBar sharedTopBar] setDbi:dbi];
     }
     
     [[OutgoingEventController sharedOutgoingEventController] retrieveBoosterPacks];

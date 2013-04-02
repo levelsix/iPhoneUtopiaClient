@@ -60,20 +60,17 @@ typedef enum {
 - (void) updateForCard:(MonteCardProto *)card type:(MonteCardType)type {
   Globals *gl = [Globals sharedGlobals];
   NSString *bottomLabelText = nil;
-  UIColor *textColor = nil;
+//  UIColor *textColor = nil;
   NSString *base = gl.downloadableNibConstants.threeCardMonteNibName;
   if (type == BAD) {
     bottomLabelText = @"Good";
-    cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfrontsilver.png"]];
-    textColor = [UIColor colorWithWhite:0.15f alpha:1.f];
+    cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfrontgood.png"]];
   } else if (type == MEDIUM) {
     bottomLabelText = @"Better";
-    cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfrontblack.png"]];
-    textColor = [Globals goldColor];
+    cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfrontbetter.png"]];
   } else if (type == GOOD) {
     bottomLabelText = @"Best";
-    cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfront.png"]];
-    textColor = [UIColor colorWithRed:146/255.f green:49/255.f blue:13/255.f alpha:1.f];
+    cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfrontbest.png"]];
   }
   
   UIView *contentView = nil;
@@ -84,7 +81,7 @@ typedef enum {
   int silver = card.coinsGained;
   int gold = card.diamondsGained;
   FullEquipProto *fep = card.equip;
-  int level = card.equipLevel;
+  int level = card.equipLevel > 1 ? card.equipLevel : 0;
   
   if (numValidValues == 3) {
     contentView = threeItemView;
@@ -96,9 +93,9 @@ typedef enum {
     threeItemEquipLabel.text = fep.name;
     threeItemLevelIcon.level = level;
     
-    threeItemSilverLabel.textColor = textColor;
-    threeItemGoldLabel.textColor = textColor;
-    threeItemEquipLabel.textColor = textColor;
+//    threeItemSilverLabel.textColor = textColor;
+//    threeItemGoldLabel.textColor = textColor;
+//    threeItemEquipLabel.textColor = textColor;
   } else if (numValidValues == 2) {
     contentView = twoItemView;
     twoItemBottomLabel.text = bottomLabelText;
@@ -109,8 +106,8 @@ typedef enum {
     if (isEquip) twoItemEquipButton.equipId = fep.equipId;
     twoItemLevelIcon.level = isEquip ? level : 0;
     
-    twoItemFirstLabel.textColor = textColor;
-    twoItemSecondLabel.textColor = textColor;
+//    twoItemFirstLabel.textColor = textColor;
+//    twoItemSecondLabel.textColor = textColor;
   } else {
     if (isEquip) {
       contentView = oneItemEquipView;
@@ -119,14 +116,14 @@ typedef enum {
       equipItemNameLabel.text = fep.name;
       equipItemEquipButton.equipId = fep.equipId;
       equipItemLevelIcon.level = level;
-      equipItemAttackIcon.highlighted = (type != MEDIUM);
-      equipItemDefenseIcon.highlighted = (type != MEDIUM);
+//      equipItemAttackIcon.highlighted = (type != MEDIUM);
+//      equipItemDefenseIcon.highlighted = (type != MEDIUM);
       equipItemAttackLabel.text = [Globals commafyNumber:[gl calculateAttackForEquip:fep.equipId level:level enhancePercent:0]];
       equipItemDefenseLabel.text = [Globals commafyNumber:[gl calculateDefenseForEquip:fep.equipId level:level enhancePercent:0]];
       
-      equipItemNameLabel.textColor = textColor;
-      equipItemAttackLabel.textColor = textColor;
-      equipItemDefenseLabel.textColor = textColor;
+//      equipItemNameLabel.textColor = textColor;
+//      equipItemAttackLabel.textColor = textColor;
+//      equipItemDefenseLabel.textColor = textColor;
     } else {
       contentView = oneItemCoinView;
       coinItemBottomLabel.text = bottomLabelText;
@@ -134,7 +131,7 @@ typedef enum {
       coinItemImageView.highlighted = isSilver;
       coinItemLabel.text = [Globals commafyNumber:isSilver ? silver : gold];
       
-      coinItemLabel.textColor = textColor;
+//      coinItemLabel.textColor = textColor;
     }
   }
   

@@ -76,7 +76,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 @synthesize energyTimer = _energyTimer;
 @synthesize staminaTimer = _staminaTimer;
 @synthesize isStarted;
-@synthesize dbmc;
+@synthesize dbi;
 @synthesize inGameNotification, chatBottomView;
 
 - (id) init {
@@ -456,6 +456,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   self.isTouchEnabled = YES;
   self.profilePic.isTouchEnabled = YES;
   self.chatBottomView.hidden = NO;
+  self.chatBottomView.alpha = 1.f;
   
   _isForBattleLossTutorial = NO;
 }
@@ -502,24 +503,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
   [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
   
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSDate *curDate = [NSDate date];
-  
-  if (dbmc) {
-    NSNumber *lastTime = [defaults objectForKey:LAST_DAILY_BONUS_TIME_KEY];
-    if (![lastTime isEqualToNumber:[NSNumber numberWithLong:dbmc.dbi.timeAwarded]]) {
-      [Globals displayUIView:dbmc.view];
-    }
-    self.dbmc = nil;
-  }
-  
   BOOL showActFeed = NO;
   BOOL showThreeCardMonte = NO;
   BOOL showGoldSale = NO;
   BOOL showLockBox = NO;
   BOOL showBossEvent = NO;
   BOOL showTournament = NO;
+  BOOL showDailyBonus = NO;
   
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  NSDate *curDate = [NSDate date];
   NSArray *notifications = [[GameState sharedGameState] notifications];
   for (UserNotification *un in notifications) {
     if (!un.hasBeenViewed) {
@@ -568,6 +561,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     }
   }
   
+  DailyBonusMenuController *dbmc = nil;
+  if (dbi) {
+    showDailyBonus = YES;
+    
+    dbmc = [[DailyBonusMenuController alloc] init];
+    [dbmc loadForDailyBonusInfo:dbi];
+  }
+  
   if (gs.level >= gl.minLevelToDisplayThreeCardMonte && gl.minLevelToDisplayThreeCardMonte > 0) {
     [ThreeCardMonteViewController sharedThreeCardMonteViewController];
     showThreeCardMonte = YES;
@@ -594,6 +595,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [TournamentMenuController displayView];
   } if (showThreeCardMonte) {
     [ThreeCardMonteViewController displayView];
+  } if (showDailyBonus) {
+    [Globals displayUIView:dbmc.view];
+    self.dbi = nil;
   }
   
   self.isStarted = YES;
@@ -1069,6 +1073,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _questNewArrow.position = ccpAdd(_questButton.position, ccp(-_questButton.contentSize.width/2-2, 0));
     _questNewArrow.opacity = 0;
     
+    GameState *gs = [GameState sharedGameState];
+    int times = gs.level < 10 ? 14 : 6;
+    
     CCMoveBy *action = [CCMoveBy actionWithDuration:0.4f position:ccp(-10, 0)];
     [_questNewArrow runAction:[CCSequence actions:
                                [CCFadeIn actionWithDuration:0.2f],
@@ -1076,7 +1083,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
                                 [CCSequence actions:
                                  [CCEaseSineInOut actionWithAction:action],
                                  [CCEaseSineInOut actionWithAction:action.reverse],
-                                 nil] times:6],
+                                 nil] times:times],
                                [CCCallBlock actionWithBlock:
                                 ^{
                                   [self setQuestBadgeAnimated:YES];
@@ -1230,7 +1237,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_staminaBar release];
   [_toolTipTimerDate release];
   self.profilePic = nil;
-  self.dbmc = nil;
+  self.dbi = nil;
   self.inGameNotification = nil;
   self.chatBottomView = nil;
   [_notificationsToDisplay release];

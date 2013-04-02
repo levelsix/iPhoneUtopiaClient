@@ -1049,6 +1049,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
     [Globals imageNamed:file withView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   }
   
+  if ([BattleLayer isInitialized]) {
+    BattleLayer *bl = [BattleLayer sharedBattleLayer];
+    if (bl.isRunning) {
+      [bl questLogPoppedUp];
+    }
+  }
+  
   [[SoundEngine sharedSoundEngine] questLogOpened];
 }
 

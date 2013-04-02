@@ -127,21 +127,23 @@
   
   // Set up the game state
   GameState *gs = [GameState sharedGameState];
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  
-  gs.level = 1;
-  gs.experience = 0;
-  gs.currentEnergy = tc.initEnergy;
-  gs.maxEnergy = tc.initEnergy;
-  gs.currentStamina = tc.initStamina;
-  gs.maxStamina = tc.initStamina;
-  gs.gold = tc.initGold;
-  gs.silver = tc.initSilver;
-  
-  [[TopBar sharedTopBar] update];
-  
-  NSString *name = [NSString stringWithFormat:@"User%d", arc4random_uniform(100000)+100000];
-  nameTextField.text = name;
+  if (gs.isTutorial) {
+    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+    
+    gs.level = 1;
+    gs.experience = 0;
+    gs.currentEnergy = tc.initEnergy;
+    gs.maxEnergy = tc.initEnergy;
+    gs.currentStamina = tc.initStamina;
+    gs.maxStamina = tc.initStamina;
+    gs.gold = tc.initGold;
+    gs.silver = tc.initSilver;
+    
+    [[TopBar sharedTopBar] update];
+    
+    NSString *name = [NSString stringWithFormat:@"User%d", arc4random_uniform(100000)+100000];
+    nameTextField.text = name;
+  }
   
   self.view.tag = CHAR_SELECTION_VIEW_TAG;
 }
@@ -458,6 +460,8 @@
   GameState *gs = [GameState sharedGameState];
   NSString *prefix = [Globals animatedSpritePrefix:gs.type];
   NSArray *files = [NSArray arrayWithObjects:
+                    [NSString stringWithFormat:@"%@GenericLR.plist", prefix],
+                    [NSString stringWithFormat:@"%@GenericLR.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@AttackNF.plist", prefix],
                     [NSString stringWithFormat:@"%@AttackNF.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@WalkUD.plist", prefix],
@@ -470,8 +474,6 @@
                     [NSString stringWithFormat:@"%@AttackLR.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@AttackUD.plist", prefix],
                     [NSString stringWithFormat:@"%@AttackUD.pvr.ccz", prefix],
-                    [NSString stringWithFormat:@"%@GenericLR.plist", prefix],
-                    [NSString stringWithFormat:@"%@GenericLR.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@GenericUD.plist", prefix],
                     [NSString stringWithFormat:@"%@GenericUD.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@WalkLR.plist", prefix],

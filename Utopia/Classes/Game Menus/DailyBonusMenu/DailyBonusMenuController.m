@@ -23,6 +23,11 @@
 @synthesize tutorialGirlIcon, rewardIcon, rewardLabel, okayLabel;
 @synthesize mainView, bgdView;
 
+- (id) init {
+  Globals *gl = [Globals sharedGlobals];
+  return [self initWithNibName:@"DailyBonusMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.dailyBonusNibName]];
+}
+
 - (void) viewWillAppear:(BOOL)animated {
   GameState *gs = [GameState sharedGameState];
   

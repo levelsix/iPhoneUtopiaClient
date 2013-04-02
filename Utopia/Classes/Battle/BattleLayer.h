@@ -150,6 +150,7 @@
 - (int) calculateEnemyDamageForPercentage:(float)percent;
 - (float) calculateEnemyPercentage;
 - (float) rand;
+- (void) questLogPoppedUp;
 
 - (void) closeSceneFromQuestLog;
 

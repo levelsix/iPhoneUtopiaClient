@@ -753,12 +753,6 @@
 		CF26A87A16FABCD00020D508 /* dragon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF26A87816FABCD00020D508 /* dragon.png */; };
 		CF26A87B16FABCD00020D508 /* dragon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF26A87916FABCD00020D508 /* dragon@2x.png */; };
 		CF26A87D16FAC8310020D508 /* fire.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF26A87C16FAC8310020D508 /* fire.plist */; };
-		CF26A88416FC8A150020D508 /* claimbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF26A87E16FC8A120020D508 /* claimbutton.png */; };
-		CF26A88516FC8A150020D508 /* claimbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF26A87F16FC8A120020D508 /* claimbutton@2x.png */; };
-		CF26A88616FC8A150020D508 /* activeborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CF26A88016FC8A130020D508 /* activeborder.png */; };
-		CF26A88716FC8A150020D508 /* activeborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF26A88116FC8A140020D508 /* activeborder@2x.png */; };
-		CF26A88816FC8A150020D508 /* todayyouearnedquotebubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF26A88216FC8A140020D508 /* todayyouearnedquotebubble.png */; };
-		CF26A88916FC8A150020D508 /* todayyouearnedquotebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF26A88316FC8A140020D508 /* todayyouearnedquotebubble@2x.png */; };
 		CF26A89B16FD58E50020D508 /* Amplitude.m in Sources */ = {isa = PBXBuildFile; fileRef = CF26A88C16FD58E50020D508 /* Amplitude.m */; };
 		CF26A89C16FD58E50020D508 /* AmplitudeCDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = CF26A88F16FD58E50020D508 /* AmplitudeCDataScanner.m */; };
 		CF26A89D16FD58E50020D508 /* AmplitudeCDataScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF26A89116FD58E50020D508 /* AmplitudeCDataScanner_Extensions.m */; };
@@ -1302,6 +1296,7 @@
 		CF94D83515E45DEA00A763EB /* Bazaar.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF94D83415E45DEA00A763EB /* Bazaar.tmx */; };
 		CF94D83815E465BE00A763EB /* upgrading.png in Resources */ = {isa = PBXBuildFile; fileRef = CF94D83615E465BD00A763EB /* upgrading.png */; };
 		CF94D83915E465BE00A763EB /* upgrading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF94D83715E465BD00A763EB /* upgrading@2x.png */; };
+		CF95B164170AA43B005131C2 /* FacebookSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CF95B163170AA43B005131C2 /* FacebookSDKResources.bundle */; };
 		CF984AF9169E853D00A58F61 /* Icon-Small-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF984AF8169E853D00A58F61 /* Icon-Small-50@2x.png */; };
 		CF9908E815BF6C900094F672 /* AllianceWarriorWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF9908C015BF6C900094F672 /* AllianceWarriorWalkNF.plist */; };
 		CF9908E915BF6C900094F672 /* AllianceWarriorWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF9908C115BF6C900094F672 /* AllianceWarriorWalkNF.pvr.ccz */; };
@@ -1766,12 +1761,6 @@
 		CFF6FACA16F045EF0088EEDA /* ArmoryTutorialView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF6FAC916F045EE0088EEDA /* ArmoryTutorialView.m */; };
 		CFF6FACF16F17FEC0088EEDA /* DailyBonusMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF6FACD16F17FEC0088EEDA /* DailyBonusMenuController.m */; };
 		CFF6FAD016F17FEC0088EEDA /* DailyBonusMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF6FACE16F17FEC0088EEDA /* DailyBonusMenuController.xib */; };
-		CFF6FADC16F1800E0088EEDA /* checkdb.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF6FAD416F1800E0088EEDA /* checkdb.png */; };
-		CFF6FADD16F1800E0088EEDA /* checkdb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF6FAD516F1800E0088EEDA /* checkdb@2x.png */; };
-		CFF6FADE16F1800E0088EEDA /* dailybonusbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF6FAD616F1800E0088EEDA /* dailybonusbg.png */; };
-		CFF6FADF16F1800E0088EEDA /* dailybonusbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF6FAD716F1800E0088EEDA /* dailybonusbg@2x.png */; };
-		CFF6FAE016F1800E0088EEDA /* mysterybox.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF6FAD816F1800E0088EEDA /* mysterybox.png */; };
-		CFF6FAE116F1800E0088EEDA /* mysterybox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF6FAD916F1800E0088EEDA /* mysterybox@2x.png */; };
 		CFF891681667276200D91A71 /* watertiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF891661667276200D91A71 /* watertiles.png */; };
 		CFF891691667276200D91A71 /* watertiles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF891671667276200D91A71 /* watertiles@2x.png */; };
 /* End PBXBuildFile section */
@@ -3608,6 +3597,13 @@
 		CF94D83415E45DEA00A763EB /* Bazaar.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Bazaar.tmx; sourceTree = "<group>"; };
 		CF94D83615E465BD00A763EB /* upgrading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = upgrading.png; sourceTree = "<group>"; };
 		CF94D83715E465BD00A763EB /* upgrading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "upgrading@2x.png"; sourceTree = "<group>"; };
+		CF95B118170A91F5005131C2 /* cardfrontbest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cardfrontbest.png; sourceTree = "<group>"; };
+		CF95B119170A91F5005131C2 /* cardfrontbest@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cardfrontbest@2x.png"; sourceTree = "<group>"; };
+		CF95B11A170A91F5005131C2 /* cardfrontbetter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cardfrontbetter.png; sourceTree = "<group>"; };
+		CF95B11B170A91F5005131C2 /* cardfrontbetter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cardfrontbetter@2x.png"; sourceTree = "<group>"; };
+		CF95B11C170A91F5005131C2 /* cardfrontgood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cardfrontgood.png; sourceTree = "<group>"; };
+		CF95B11D170A91F5005131C2 /* cardfrontgood@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cardfrontgood@2x.png"; sourceTree = "<group>"; };
+		CF95B163170AA43B005131C2 /* FacebookSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FacebookSDKResources.bundle; sourceTree = "<group>"; };
 		CF96178116B27BE900DD1AA0 /* forgenavactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forgenavactive.png; sourceTree = "<group>"; };
 		CF96178216B27BE900DD1AA0 /* forgenavactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forgenavactive@2x.png"; sourceTree = "<group>"; };
 		CF96178316B27BE900DD1AA0 /* forgenavbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forgenavbg.png; sourceTree = "<group>"; };
@@ -4172,12 +4168,6 @@
 		CFF2DA9D16B76A34008B5491 /* combowheelmaxedbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "combowheelmaxedbg@2x.png"; sourceTree = "<group>"; };
 		CFF4A03416290FF600A452A7 /* cardback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cardback.png; sourceTree = "<group>"; };
 		CFF4A03516290FF600A452A7 /* cardback@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cardback@2x.png"; sourceTree = "<group>"; };
-		CFF4A03816290FF600A452A7 /* cardfrontblack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cardfrontblack.png; sourceTree = "<group>"; };
-		CFF4A03916290FF600A452A7 /* cardfrontblack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cardfrontblack@2x.png"; sourceTree = "<group>"; };
-		CFF4A03A16290FF600A452A7 /* cardfrontsilver.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cardfrontsilver.png; sourceTree = "<group>"; };
-		CFF4A03B16290FF600A452A7 /* cardfrontsilver@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cardfrontsilver@2x.png"; sourceTree = "<group>"; };
-		CFF4A03C16290FF600A452A7 /* cardfront.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cardfront.png; sourceTree = "<group>"; };
-		CFF4A03D16290FF600A452A7 /* cardfront@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cardfront@2x.png"; sourceTree = "<group>"; };
 		CFF4A03E16290FF600A452A7 /* montebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = montebg.png; sourceTree = "<group>"; };
 		CFF4A03F16290FF600A452A7 /* montebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "montebg@2x.png"; sourceTree = "<group>"; };
 		CFF4A04016290FF600A452A7 /* monteblackattackswords.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = monteblackattackswords.png; sourceTree = "<group>"; };
@@ -4981,10 +4971,10 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CF95B15C170AA31A005131C2 /* Facebook */,
 				CF26A88A16FD58E50020D508 /* Amplitude-iOS-master */,
 				CF19F36516C20D6C00B77E7E /* iCarousel */,
 				CFC4CFC416E87270009A25DA /* DeprecatedHeaders */,
-				CFEAB54116BBD04600AEB7BD /* FacebookSDK.framework */,
 				CF7F27D5165DE2DB00D967DC /* MobileAppTracker.framework */,
 				CFC1414D1657484A0060188D /* librabbitmq */,
 				CF15BA6B16572A8300A51F85 /* rabbitmq */,
@@ -7354,6 +7344,15 @@
 			path = "Decoration Images";
 			sourceTree = "<group>";
 		};
+		CF95B15C170AA31A005131C2 /* Facebook */ = {
+			isa = PBXGroup;
+			children = (
+				CF95B163170AA43B005131C2 /* FacebookSDKResources.bundle */,
+				CFEAB54116BBD04600AEB7BD /* FacebookSDK.framework */,
+			);
+			name = Facebook;
+			sourceTree = "<group>";
+		};
 		CFA3710B15D3017A0066D72E /* AttackMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -7944,14 +7943,14 @@
 		CFF4A03316290FF600A452A7 /* Three Card Monte Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF95B118170A91F5005131C2 /* cardfrontbest.png */,
+				CF95B119170A91F5005131C2 /* cardfrontbest@2x.png */,
+				CF95B11A170A91F5005131C2 /* cardfrontbetter.png */,
+				CF95B11B170A91F5005131C2 /* cardfrontbetter@2x.png */,
+				CF95B11C170A91F5005131C2 /* cardfrontgood.png */,
+				CF95B11D170A91F5005131C2 /* cardfrontgood@2x.png */,
 				CFF4A03416290FF600A452A7 /* cardback.png */,
 				CFF4A03516290FF600A452A7 /* cardback@2x.png */,
-				CFF4A03816290FF600A452A7 /* cardfrontblack.png */,
-				CFF4A03916290FF600A452A7 /* cardfrontblack@2x.png */,
-				CFF4A03A16290FF600A452A7 /* cardfrontsilver.png */,
-				CFF4A03B16290FF600A452A7 /* cardfrontsilver@2x.png */,
-				CFF4A03C16290FF600A452A7 /* cardfront.png */,
-				CFF4A03D16290FF600A452A7 /* cardfront@2x.png */,
 				CFF4A03E16290FF600A452A7 /* montebg.png */,
 				CFF4A03F16290FF600A452A7 /* montebg@2x.png */,
 				CFF4A04016290FF600A452A7 /* monteblackattackswords.png */,
@@ -9595,12 +9594,6 @@
 				CF3CAFF216F00C5E00F5D3B8 /* buystarterchest@2x.png in Resources */,
 				CFF6FAC716F044A80088EEDA /* ArmoryTutorialView.xib in Resources */,
 				CFF6FAD016F17FEC0088EEDA /* DailyBonusMenuController.xib in Resources */,
-				CFF6FADC16F1800E0088EEDA /* checkdb.png in Resources */,
-				CFF6FADD16F1800E0088EEDA /* checkdb@2x.png in Resources */,
-				CFF6FADE16F1800E0088EEDA /* dailybonusbg.png in Resources */,
-				CFF6FADF16F1800E0088EEDA /* dailybonusbg@2x.png in Resources */,
-				CFF6FAE016F1800E0088EEDA /* mysterybox.png in Resources */,
-				CFF6FAE116F1800E0088EEDA /* mysterybox@2x.png in Resources */,
 				CFEB878216F2768400A46730 /* clanswitchbg.png in Resources */,
 				CFEB878316F2768400A46730 /* clanswitchbg@2x.png in Resources */,
 				CFEB878416F2768400A46730 /* clanswitchhandle.png in Resources */,
@@ -9624,13 +9617,8 @@
 				CF26A87A16FABCD00020D508 /* dragon.png in Resources */,
 				CF26A87B16FABCD00020D508 /* dragon@2x.png in Resources */,
 				CF26A87D16FAC8310020D508 /* fire.plist in Resources */,
-				CF26A88416FC8A150020D508 /* claimbutton.png in Resources */,
-				CF26A88516FC8A150020D508 /* claimbutton@2x.png in Resources */,
-				CF26A88616FC8A150020D508 /* activeborder.png in Resources */,
-				CF26A88716FC8A150020D508 /* activeborder@2x.png in Resources */,
-				CF26A88816FC8A150020D508 /* todayyouearnedquotebubble.png in Resources */,
-				CF26A88916FC8A150020D508 /* todayyouearnedquotebubble@2x.png in Resources */,
 				CF26A8A216FD58E50020D508 /* README.md in Resources */,
+				CF95B164170AA43B005131C2 /* FacebookSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

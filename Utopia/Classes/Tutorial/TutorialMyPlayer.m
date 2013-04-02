@@ -46,6 +46,13 @@
 //  self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF restoreOriginalFrame:NO]]                                                                                                                                                                                                                                                                                                                                                                                                                                                       ;
 }
 
+- (void) repeatCurrentAttackAnimation {
+  if(_shouldContinueAnimation) {
+    [super repeatCurrentAttackAnimation];
+  } else {
+  }
+}
+
 - (void) moveToLocation:(CGRect)loc {
   return;
 }

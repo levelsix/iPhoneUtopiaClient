@@ -585,6 +585,8 @@
   
   if (!_taskProgBar.isAnimating) {
     [self taskComplete];
+  } else if (tarp.cityRankedUp) {
+    [self taskComplete];
   }
 }
 

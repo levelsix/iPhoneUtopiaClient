@@ -164,17 +164,17 @@
   if (rightAttack) {
     attacker = rightUser;
     defender = leftUser;
-    GameState *gs = [GameState sharedGameState];
-    if (gs.level > 5) {
-      healthPercent = _battleConstants.battleHitDefenderPercentOfHealth;
-    } else {
-      healthPercent = _battleConstants.battleHitAttackerPercentOfHealth;
-    }
+    healthPercent = _battleConstants.battleHitDefenderPercentOfHealth;
   }
   else {
     attacker = leftUser;
     defender = rightUser;
-    healthPercent = _battleConstants.battleHitAttackerPercentOfHealth;
+    GameState *gs = [GameState sharedGameState];
+    if (gs.level > 5) {
+      healthPercent = _battleConstants.battleHitAttackerPercentOfHealth;
+    } else {
+      healthPercent = _battleConstants.battleHitDefenderPercentOfHealth;
+    }
   }
   
   BOOL useOldFormula = YES;//gl.useOldBattleFormula;

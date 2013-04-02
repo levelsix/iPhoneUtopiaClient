@@ -8619,6 +8619,7 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
 @property (retain) NSString* blacksmithNibName;
 @property (retain) NSString* goldShoppeNibName;
 @property (retain) NSString* bossEventNibName;
+@property (retain) NSString* dailyBonusNibName;
 @end
 
 @implementation StartupResponseProto_StartupConstants_DownloadableNibConstants
@@ -8686,6 +8687,13 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
   hasBossEventNibName_ = !!value;
 }
 @synthesize bossEventNibName;
+- (BOOL) hasDailyBonusNibName {
+  return !!hasDailyBonusNibName_;
+}
+- (void) setHasDailyBonusNibName:(BOOL) value {
+  hasDailyBonusNibName_ = !!value;
+}
+@synthesize dailyBonusNibName;
 - (void) dealloc {
   self.threeCardMonteNibName = nil;
   self.lockBoxNibName = nil;
@@ -8696,6 +8704,7 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
   self.blacksmithNibName = nil;
   self.goldShoppeNibName = nil;
   self.bossEventNibName = nil;
+  self.dailyBonusNibName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -8709,6 +8718,7 @@ static StartupResponseProto_StartupConstants_BazaarMinLevelConstants* defaultSta
     self.blacksmithNibName = @"";
     self.goldShoppeNibName = @"";
     self.bossEventNibName = @"";
+    self.dailyBonusNibName = @"";
   }
   return self;
 }
@@ -8755,6 +8765,9 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
   if (self.hasBossEventNibName) {
     [output writeString:9 value:self.bossEventNibName];
   }
+  if (self.hasDailyBonusNibName) {
+    [output writeString:10 value:self.dailyBonusNibName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -8790,6 +8803,9 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
   }
   if (self.hasBossEventNibName) {
     size += computeStringSize(9, self.bossEventNibName);
+  }
+  if (self.hasDailyBonusNibName) {
+    size += computeStringSize(10, self.dailyBonusNibName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -8893,6 +8909,9 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
   if (other.hasBossEventNibName) {
     [self setBossEventNibName:other.bossEventNibName];
   }
+  if (other.hasDailyBonusNibName) {
+    [self setDailyBonusNibName:other.dailyBonusNibName];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8948,6 +8967,10 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
       }
       case 74: {
         [self setBossEventNibName:[input readString]];
+        break;
+      }
+      case 82: {
+        [self setDailyBonusNibName:[input readString]];
         break;
       }
     }
@@ -9095,6 +9118,22 @@ static StartupResponseProto_StartupConstants_DownloadableNibConstants* defaultSt
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearBossEventNibName {
   result.hasBossEventNibName = NO;
   result.bossEventNibName = @"";
+  return self;
+}
+- (BOOL) hasDailyBonusNibName {
+  return result.hasDailyBonusNibName;
+}
+- (NSString*) dailyBonusNibName {
+  return result.dailyBonusNibName;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setDailyBonusNibName:(NSString*) value {
+  result.hasDailyBonusNibName = YES;
+  result.dailyBonusNibName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearDailyBonusNibName {
+  result.hasDailyBonusNibName = NO;
+  result.dailyBonusNibName = @"";
   return self;
 }
 @end

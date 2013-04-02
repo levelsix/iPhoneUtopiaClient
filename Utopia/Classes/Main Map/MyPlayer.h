@@ -44,5 +44,6 @@
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
 - (void) performAnimation:(AnimationType)type atLocation:(CGPoint)point inDirection:(float)angle;
 - (void) moveToLocation:(CGRect)loc;
+- (void) repeatCurrentAttackAnimation;
 
 @end
