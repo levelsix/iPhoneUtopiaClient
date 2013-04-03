@@ -880,6 +880,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [Analytics receivedNotification];
     } else {
       [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.fullUserEquipOfBoughtItem]];
+      gs.gold -= proto.marketplacePost.diamondCost;
+      gs.silver -= proto.marketplacePost.coinCost;
+      [mvc.coinBar updateLabels];
       
       NSMutableArray *mktPosts = mvc.arrayForCurrentState;
       [[Globals sharedGlobals] confirmWearEquip:proto.fullUserEquipOfBoughtItem.userEquipId];

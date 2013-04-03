@@ -32,7 +32,7 @@
     bldr.assetNumWithinCity = tq.assetNumWithinCity;
     bldr.coinsGained = tq.coinsGained;
     bldr.expGained = tq.expGained;
-    bldr.questGiverName = tc.questGiverName;
+    bldr.questGiverName = [Globals userTypeIsGood:gs.type] ? @"Ruby" : @"Adriana";
     bldr.equipIdGained = tq.equipReward.equipId;
     [bldr addTaskReqs: isGood ? tq.taskGood.taskId : tq.taskBad.taskId];
     bldr.numComponentsForBad = 1;

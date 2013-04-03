@@ -1495,16 +1495,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
       }
     }
   } else {
-    if (gs.clan) {
-      [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:gs.clan.clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO beforeClanId:0];
-      [[OutgoingEventController sharedOutgoingEventController] retrieveClanBulletinPosts:0];
+    if (proto.sender.userId == gs.userId) {
+      if (gs.clan) {
+        [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:gs.clan.clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO beforeClanId:0];
+        [[OutgoingEventController sharedOutgoingEventController] retrieveClanBulletinPosts:0];
+      }
+      
+      // Reload last clan
+      [self.clanInfoView loadForClan:self.clanInfoView.clan];
+      
+      [self updateBottomBar];
+      self.state = kMyClan;
+    } else {
+      [self.myClanMembers addObject:proto.requester];
+      
+      self.myClan = proto.fullClan;
+      if (state == kMyClan) {
+        [self.clanInfoView loadForClan:myClan];
+        [self.membersView loadForMembers:myClanMembers isMyClan:YES];
+      }
     }
-    
-    // Reload last clan
-    [self.clanInfoView loadForClan:self.clanInfoView.clan];
-    
-    [self updateBottomBar];
-    self.state = kMyClan;
   }
 }
 

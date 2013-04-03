@@ -459,8 +459,7 @@
         [Analytics notEnoughEquipsForTasks:ftp.taskId equipReqs:arr];
         self.selected = nil;
       } else {
-        int numTimesActed = te.partOfQuest ? te.numTimesActedForQuest : te.numTimesActedForTask;
-        BOOL success = [[OutgoingEventController sharedOutgoingEventController] taskAction:ftp.taskId curTimesActed:numTimesActed];
+        BOOL success = [[OutgoingEventController sharedOutgoingEventController] taskAction:ftp.taskId curTimesActed:te.numTimesActedForTask];
         
         if (success) {
           CGPoint pt = ccp(ftp.spriteLandingCoords.x, ftp.spriteLandingCoords.y);
