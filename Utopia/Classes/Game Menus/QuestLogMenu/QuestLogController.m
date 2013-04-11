@@ -592,7 +592,6 @@ static float originalLabelX = 0.f;
     [[OutgoingEventController sharedOutgoingEventController] acceptQuest:fqp.questId];
   } else if (indexPath.section == 0) {
     [[QuestLogController sharedQuestLogController] loadQuestRedeemScreen:fqp animated:YES];
-    [[OutgoingEventController sharedOutgoingEventController] redeemQuest:fqp.questId];
     return;
   }
   
@@ -807,7 +806,7 @@ static float originalLabelX = 0.f;
 }
 
 - (IBAction)claimRewardClicked:(id)sender {
-//  [[OutgoingEventController sharedOutgoingEventController] redeemQuest:quest.questId];
+  [[OutgoingEventController sharedOutgoingEventController] redeemQuest:quest.questId];
   [[QuestLogController sharedQuestLogController] close];
   
   [[SoundEngine sharedSoundEngine] coinDrop];

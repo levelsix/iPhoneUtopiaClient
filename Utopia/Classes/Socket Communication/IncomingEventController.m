@@ -1537,8 +1537,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [map reloadQuestGivers];
     
     [Analytics questComplete:proto.questId];
-    
-    [[OutgoingEventController sharedOutgoingEventController] redeemQuest:fqp.questId];
   } else {
     [Globals popupMessage:@"Server sent quest complete for invalid quest"];
   }
