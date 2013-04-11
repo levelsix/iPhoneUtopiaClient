@@ -1628,6 +1628,7 @@
 		CFD5E901171652B200FBDEA3 /* feedcircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E8FF171652B200FBDEA3 /* feedcircle@2x.png */; };
 		CFD5E904171652DB00FBDEA3 /* armoryfeedbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E902171652DB00FBDEA3 /* armoryfeedbg.png */; };
 		CFD5E905171652DB00FBDEA3 /* armoryfeedbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E903171652DB00FBDEA3 /* armoryfeedbg@2x.png */; };
+		CFD5E9201716697200FBDEA3 /* ProfileMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD5E91F1716697200FBDEA3 /* ProfileMenus.m */; };
 		CFD69F6015B7630900F90310 /* ForgeMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD69F5F15B7630900F90310 /* ForgeMenus.m */; };
 		CFD69F6715B7644100F90310 /* Blacksmith.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD69F6515B7644100F90310 /* Blacksmith.png */; };
 		CFD69F6815B7644100F90310 /* Blacksmith@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD69F6615B7644100F90310 /* Blacksmith@2x.png */; };
@@ -4043,6 +4044,8 @@
 		CFD5E8FF171652B200FBDEA3 /* feedcircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "feedcircle@2x.png"; sourceTree = "<group>"; };
 		CFD5E902171652DB00FBDEA3 /* armoryfeedbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = armoryfeedbg.png; sourceTree = "<group>"; };
 		CFD5E903171652DB00FBDEA3 /* armoryfeedbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "armoryfeedbg@2x.png"; sourceTree = "<group>"; };
+		CFD5E91E1716697200FBDEA3 /* ProfileMenus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileMenus.h; sourceTree = "<group>"; };
+		CFD5E91F1716697200FBDEA3 /* ProfileMenus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileMenus.m; sourceTree = "<group>"; };
 		CFD69F5E15B7630900F90310 /* ForgeMenus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgeMenus.h; sourceTree = "<group>"; };
 		CFD69F5F15B7630900F90310 /* ForgeMenus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgeMenus.m; sourceTree = "<group>"; };
 		CFD69F6115B763AC00F90310 /* plussign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plussign.png; sourceTree = "<group>"; };
@@ -4802,6 +4805,8 @@
 				CF12658E1538ACC400E0C1AD /* ProfileViewController.h */,
 				CF12658F1538ACC400E0C1AD /* ProfileViewController.m */,
 				CF1265901538ACC400E0C1AD /* ProfileViewController.xib */,
+				CFD5E91E1716697200FBDEA3 /* ProfileMenus.h */,
+				CFD5E91F1716697200FBDEA3 /* ProfileMenus.m */,
 				CFCB4D2D154A7FCF00470054 /* WallPostCell.xib */,
 			);
 			path = ProfileMenu;
@@ -9929,6 +9934,7 @@
 				CF26A8A016FD58E50020D508 /* AmplitudeCJSONSerializer.m in Sources */,
 				CF26A8A116FD58E50020D508 /* AmplitudeLocationManagerDelegate.m in Sources */,
 				CFD5E8CC171647C800FBDEA3 /* ArmoryFeedView.m in Sources */,
+				CFD5E9201716697200FBDEA3 /* ProfileMenus.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
