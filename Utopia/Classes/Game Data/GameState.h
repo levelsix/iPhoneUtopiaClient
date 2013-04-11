@@ -200,6 +200,7 @@
 @property (nonatomic, retain) NSMutableArray *wallPosts;
 @property (nonatomic, retain) NSMutableArray *globalChatMessages;
 @property (nonatomic, retain) NSMutableArray *clanChatMessages;
+@property (nonatomic, retain) NSMutableArray *boosterPurchases;
 
 @property (nonatomic, retain) NSMutableArray *unrespondedUpdates;
 
@@ -263,6 +264,7 @@
 - (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin;
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope;
 - (void) clanChatViewed;
+- (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp;
 
 - (UserEquip *) myEquipWithId:(int)equipId level:(int)level;
 - (NSArray *) myEquipsWithId:(int)equipId level:(int)level;

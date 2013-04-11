@@ -21,6 +21,7 @@
 #import "GoldShoppeViewController.h"
 #import "ClanMenuController.h"
 #import "Downloader.h"
+#import "ArmoryViewController.h"
 
 #define TagLog(...) //LNLog(__VA_ARGS__)
 
@@ -158,6 +159,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _wallPosts = [[NSMutableArray alloc] init];
     _globalChatMessages = [[NSMutableArray alloc] init];
     _clanChatMessages = [[NSMutableArray alloc] init];
+    _boosterPurchases = [[NSMutableArray alloc] init];
     _staticLockBoxEvents = [[NSMutableArray alloc] init];
     _myLockBoxEvents = [[NSMutableDictionary alloc] init];
     
@@ -611,6 +613,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
         cmc.topBar.button2Label.text = [NSString stringWithFormat:@"CLAN (%d)", self.clanChatBadgeNum];
       }
     }
+  }
+}
+
+- (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp {
+  [self.boosterPurchases insertObject:bp atIndex:0];
+  
+  if ([ArmoryViewController isInitialized]) {
+    ArmoryViewController *avc = [ArmoryViewController sharedArmoryViewController];
+    [avc.feedView addedBoosterPurchase];
   }
 }
 
@@ -1519,6 +1530,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.myLockBoxEvents = [[[NSMutableDictionary alloc] init] autorelease];
   self.staticBossEvents = [[[NSMutableArray alloc] init] autorelease];
   self.staticTournaments = [[[NSMutableArray alloc] init] autorelease];
+  self.boosterPurchases = [[[NSMutableArray alloc] init] autorelease];
   
   self.availableQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressCompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
