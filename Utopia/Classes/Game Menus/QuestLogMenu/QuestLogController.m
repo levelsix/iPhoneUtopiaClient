@@ -587,13 +587,16 @@ static float originalLabelX = 0.f;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  FullQuestProto *fqp = [self questForIndexPath:indexPath];
   if (indexPath.section == 2 || (indexPath.section == 1 && !recQuestIsInProgress)) {
-//    QuestCell *qc = (QuestCell *)[tableView cellForRowAtIndexPath:indexPath];
-//    [qc visitClicked:nil];
-    [[OutgoingEventController sharedOutgoingEventController] acceptQuest:[self questForIndexPath:indexPath].questId];
+    [[OutgoingEventController sharedOutgoingEventController] acceptQuest:fqp.questId];
+  } else if (indexPath.section == 0) {
+    [[QuestLogController sharedQuestLogController] loadQuestRedeemScreen:fqp animated:YES];
+    [[OutgoingEventController sharedOutgoingEventController] redeemQuest:fqp.questId];
+    return;
   }
   
-  [[QuestLogController sharedQuestLogController] questSelected:[self questForIndexPath:indexPath]];
+  [[QuestLogController sharedQuestLogController] questSelected:fqp];
 }
 
 - (void) dealloc {
@@ -1033,17 +1036,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [[SoundEngine sharedSoundEngine] questComplete];
 }
 
-- (void) loadQuestRedeemScreen:(FullQuestProto *)fqp {
+- (void) loadQuestRedeemScreen:(FullQuestProto *)fqp animated:(BOOL)animated {
   self.taskListTitleLabel.text = @"Collect Your Reward!";
-  self.backButton.hidden = YES;
+  self.backButton.hidden = !animated;
   
   taskListDelegate.quest = fqp;
   taskListDelegate.questRedeem = YES;
   [taskListTable reloadData];
   [QuestLogController displayView];
-  [self showTaskListViewAnimated:NO];
+  [self showTaskListViewAnimated:animated];
   
-  if (fqp.questGiverImageSuffix) {
+  if (fqp.questGiverImageSuffix && !animated) {
     NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
     file = [[file stringByReplacingOccurrencesOfString:@".png" withString:@""] stringByAppendingString:@"2.png"];
     [Globals imageNamed:file withView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
@@ -1061,6 +1064,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 
 - (void) questSelected:(FullQuestProto *)fqp {
   taskListDelegate.quest = fqp;
+  taskListDelegate.questRedeem = NO;
   [taskListTable reloadData];
   taskListTitleLabel.text = fqp.name;
   [self showTaskListViewAnimated:YES];

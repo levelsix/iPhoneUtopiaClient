@@ -101,7 +101,7 @@
 }
 
 - (void) loadQuestRedeemScreen {
-  [super loadQuestRedeemScreen:_fqp];
+  [super loadQuestRedeemScreen:_fqp animated:NO];
   
   [self claimRewardPhase];
 }

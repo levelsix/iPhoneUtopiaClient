@@ -1524,7 +1524,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.inProgressIncompleteQuests removeObjectForKey:questNum];
     [gs.inProgressCompleteQuests setObject:fqp forKey:questNum];
     
-    [[QuestLogController sharedQuestLogController] loadQuestRedeemScreen:fqp];
+    [[QuestLogController sharedQuestLogController] loadQuestRedeemScreen:fqp animated:NO];
     
     GameMap *map = [Globals mapForQuest:fqp];
     [map reloadQuestGivers];

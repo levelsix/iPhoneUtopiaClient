@@ -127,7 +127,7 @@
 - (void) loadQuest:(FullQuestProto *)fqp;
 - (void) loadQuestAcceptScreen:(FullQuestProto *)fqp;
 - (void) loadQuestCompleteScreen:(FullQuestProto *)fqp;
-- (void) loadQuestRedeemScreen:(FullQuestProto *)fqp;
+- (void) loadQuestRedeemScreen:(FullQuestProto *)fqp animated:(BOOL)animated;
 - (void) loadQuestData:(NSArray *)quests;
 - (FullUserQuestDataLargeProto *) loadFakeQuest:(FullQuestProto *)fqp;
 

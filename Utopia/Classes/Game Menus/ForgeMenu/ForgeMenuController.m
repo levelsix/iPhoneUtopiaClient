@@ -202,6 +202,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   
   buyOneView.frame = forgeButton.frame;
   [self.forgingView addSubview:buyOneView];
+  buyOneView.hidden = YES;
   
   self.enhancingView.frame = self.forgingView.frame;
   [self.mainView addSubview:self.enhancingView];
