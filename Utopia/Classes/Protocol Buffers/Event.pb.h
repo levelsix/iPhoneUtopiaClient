@@ -314,8 +314,12 @@
 @class QuestRedeemRequestProto_Builder;
 @class QuestRedeemResponseProto;
 @class QuestRedeemResponseProto_Builder;
+@class RareBoosterPurchaseProto;
+@class RareBoosterPurchaseProto_Builder;
 @class ReceivedGroupChatResponseProto;
 @class ReceivedGroupChatResponseProto_Builder;
+@class ReceivedRareBoosterPurchaseResponseProto;
+@class ReceivedRareBoosterPurchaseResponseProto_Builder;
 @class ReconnectRequestProto;
 @class ReconnectRequestProto_Builder;
 @class ReconnectResponseProto;
@@ -941,6 +945,7 @@ typedef enum {
   EquipEquipmentResponseProto_EquipEquipmentStatusNotAnEquip = 3,
   EquipEquipmentResponseProto_EquipEquipmentStatusIncorrectClassType = 4,
   EquipEquipmentResponseProto_EquipEquipmentStatusOtherFail = 5,
+  EquipEquipmentResponseProto_EquipEquipmentStatusAlreadyAtMaxEquippedEquips = 6,
 } EquipEquipmentResponseProto_EquipEquipmentStatus;
 
 BOOL EquipEquipmentResponseProto_EquipEquipmentStatusIsValidValue(EquipEquipmentResponseProto_EquipEquipmentStatus value);
@@ -1105,6 +1110,7 @@ typedef enum {
   RequestJoinClanResponseProto_RequestJoinClanStatusRequestAlreadyFiled = 3,
   RequestJoinClanResponseProto_RequestJoinClanStatusWrongSide = 5,
   RequestJoinClanResponseProto_RequestJoinClanStatusJoinSuccess = 6,
+  RequestJoinClanResponseProto_RequestJoinClanStatusClanIsFull = 7,
 } RequestJoinClanResponseProto_RequestJoinClanStatus;
 
 BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinClanResponseProto_RequestJoinClanStatus value);
@@ -2136,13 +2142,13 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasEquipEnhancement_:1;
-  BOOL hasForgeAttemptEquip_:1;
-  BOOL hasUnhandledForgeAttempt_:1;
   BOOL hasDailyBonusInfo_:1;
+  BOOL hasUnhandledForgeAttempt_:1;
+  BOOL hasForgeAttemptEquip_:1;
   BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasTutorialConstants_:1;
+  BOOL hasEquipEnhancement_:1;
   BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
@@ -2151,33 +2157,28 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   NSString* reviewPageConfirmationMessage;
   NSString* reviewPageUrl;
   NSString* appStoreUrl;
-  EquipEnhancementProto* equipEnhancement;
-  FullEquipProto* forgeAttemptEquip;
-  UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
   StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
+  UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
+  FullEquipProto* forgeAttemptEquip;
   FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_TutorialConstants* tutorialConstants;
+  EquipEnhancementProto* equipEnhancement;
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableUserEquipsList;
+  NSMutableArray* mutableRareBoosterPurchasesList;
+  NSMutableArray* mutableMktSearchEquipsList;
+  NSMutableArray* mutableGlobalChatsList;
+  NSMutableArray* mutableClanChatsList;
+  NSMutableArray* mutableGoldSalesList;
+  NSMutableArray* mutableClanTierLevelsList;
   NSMutableArray* mutableLeaderboardEventsList;
   NSMutableArray* mutableBossEventsList;
-  NSMutableArray* mutableStaticEquipsList;
-  NSMutableArray* mutableStaticStructsList;
   NSMutableArray* mutableClanTowersList;
-  NSMutableArray* mutableClanTierLevelsList;
-  NSMutableArray* mutableGoldSalesList;
-  NSMutableArray* mutableClanChatsList;
-  NSMutableArray* mutableGlobalChatsList;
-  NSMutableArray* mutableMktSearchEquipsList;
-  NSMutableArray* mutableEquipsList;
-  NSMutableArray* mutableAvailableQuestsList;
+  NSMutableArray* mutableStaticStructsList;
+  NSMutableArray* mutableStaticEquipsList;
   NSMutableArray* mutableAlliesList;
-  NSMutableArray* mutableAllCitiesList;
-  NSMutableArray* mutableUserCityInfosList;
-  NSMutableArray* mutableInProgressIncompleteQuestsList;
   NSMutableArray* mutableUserLockBoxEventsList;
   NSMutableArray* mutableLockBoxEventsList;
   NSMutableArray* mutableClanBulletinPostNotificationsList;
@@ -2186,7 +2187,13 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   NSMutableArray* mutableAttackNotificationsList;
   NSMutableArray* mutableMarketplacePurchaseNotificationsList;
   NSMutableArray* mutableUserClanInfoList;
+  NSMutableArray* mutableEquipsList;
+  NSMutableArray* mutableUserEquipsList;
+  NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableInProgressCompleteQuestsList;
+  NSMutableArray* mutableInProgressIncompleteQuestsList;
+  NSMutableArray* mutableUserCityInfosList;
+  NSMutableArray* mutableAllCitiesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -2272,6 +2279,8 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (BossEventProto*) bossEventsAtIndex:(int32_t) index;
 - (NSArray*) leaderboardEventsList;
 - (LeaderboardEventProto*) leaderboardEventsAtIndex:(int32_t) index;
+- (NSArray*) rareBoosterPurchasesList;
+- (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -6014,6 +6023,13 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (StartupResponseProto_Builder*) setEquipEnhancementBuilder:(EquipEnhancementProto_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeEquipEnhancement:(EquipEnhancementProto*) value;
 - (StartupResponseProto_Builder*) clearEquipEnhancement;
+
+- (NSArray*) rareBoosterPurchasesList;
+- (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceRareBoosterPurchasesAtIndex:(int32_t) index with:(RareBoosterPurchaseProto*) value;
+- (StartupResponseProto_Builder*) addRareBoosterPurchases:(RareBoosterPurchaseProto*) value;
+- (StartupResponseProto_Builder*) addAllRareBoosterPurchases:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearRareBoosterPurchasesList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
@@ -11291,15 +11307,19 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 
 @interface EquipEquipmentRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasForPrestigeEquipSlot_:1;
   BOOL hasUserEquipId_:1;
   BOOL hasSender_:1;
+  BOOL forPrestigeEquipSlot_:1;
   int32_t userEquipId;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserEquipId;
+- (BOOL) hasForPrestigeEquipSlot;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t userEquipId;
+- (BOOL) forPrestigeEquipSlot;
 
 + (EquipEquipmentRequestProto*) defaultInstance;
 - (EquipEquipmentRequestProto*) defaultInstance;
@@ -11346,6 +11366,11 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (int32_t) userEquipId;
 - (EquipEquipmentRequestProto_Builder*) setUserEquipId:(int32_t) value;
 - (EquipEquipmentRequestProto_Builder*) clearUserEquipId;
+
+- (BOOL) hasForPrestigeEquipSlot;
+- (BOOL) forPrestigeEquipSlot;
+- (EquipEquipmentRequestProto_Builder*) setForPrestigeEquipSlot:(BOOL) value;
+- (EquipEquipmentRequestProto_Builder*) clearForPrestigeEquipSlot;
 @end
 
 @interface EquipEquipmentResponseProto : PBGeneratedMessage {
@@ -18049,6 +18074,56 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (ResetBoosterPackResponseProto_ResetBoosterPackStatus) status;
 - (ResetBoosterPackResponseProto_Builder*) setStatus:(ResetBoosterPackResponseProto_ResetBoosterPackStatus) value;
 - (ResetBoosterPackResponseProto_Builder*) clearStatus;
+@end
+
+@interface ReceivedRareBoosterPurchaseResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasRareBoosterPurchase_:1;
+  RareBoosterPurchaseProto* rareBoosterPurchase;
+}
+- (BOOL) hasRareBoosterPurchase;
+@property (readonly, retain) RareBoosterPurchaseProto* rareBoosterPurchase;
+
++ (ReceivedRareBoosterPurchaseResponseProto*) defaultInstance;
+- (ReceivedRareBoosterPurchaseResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) builder;
++ (ReceivedRareBoosterPurchaseResponseProto_Builder*) builder;
++ (ReceivedRareBoosterPurchaseResponseProto_Builder*) builderWithPrototype:(ReceivedRareBoosterPurchaseResponseProto*) prototype;
+
++ (ReceivedRareBoosterPurchaseResponseProto*) parseFromData:(NSData*) data;
++ (ReceivedRareBoosterPurchaseResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReceivedRareBoosterPurchaseResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ReceivedRareBoosterPurchaseResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReceivedRareBoosterPurchaseResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ReceivedRareBoosterPurchaseResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ReceivedRareBoosterPurchaseResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ReceivedRareBoosterPurchaseResponseProto* result;
+}
+
+- (ReceivedRareBoosterPurchaseResponseProto*) defaultInstance;
+
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) clear;
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) clone;
+
+- (ReceivedRareBoosterPurchaseResponseProto*) build;
+- (ReceivedRareBoosterPurchaseResponseProto*) buildPartial;
+
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) mergeFrom:(ReceivedRareBoosterPurchaseResponseProto*) other;
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasRareBoosterPurchase;
+- (RareBoosterPurchaseProto*) rareBoosterPurchase;
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) setRareBoosterPurchase:(RareBoosterPurchaseProto*) value;
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) setRareBoosterPurchaseBuilder:(RareBoosterPurchaseProto_Builder*) builderForValue;
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) mergeRareBoosterPurchase:(RareBoosterPurchaseProto*) value;
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) clearRareBoosterPurchase;
 @end
 
 @interface ChangeClanJoinTypeRequestProto : PBGeneratedMessage {

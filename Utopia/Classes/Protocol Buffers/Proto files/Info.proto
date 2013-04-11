@@ -2,6 +2,13 @@ package com.lvl6.proto;
 
 option java_outer_classname = "InfoProto";
 
+message RareBoosterPurchaseProto {
+	optional MinimumUserProto user = 1;
+	optional BoosterPackProto booster = 2;
+	optional FullEquipProto equip = 3;
+	optional uint64 timeOfPurchase = 4;
+}
+
 enum PurchaseOption {
 	//these specify quantity, e.g. 1 for ONE, and 10 for TWO
 	ONE = 0;	//Check ControllerConstants.BOOSTER_PACK__PURCHASE_OPTION_ONE;
@@ -465,6 +472,10 @@ message FullUserProto {
 	optional MinimumClanProto clan = 55;
 	optional int64 lastGoldmineRetrieval = 56;
 	optional bool hasReceivedfbReward = 57;
+	optional FullUserEquipProto weaponTwoEquippedUserEquip = 58;
+	optional FullUserEquipProto armorTwoEquippedUserEquip = 59;
+	optional FullUserEquipProto amuletTwoEquippedUserEquip = 60;
+	optional int32 prestigeLevel = 61;
 
 	//CreateInfoProtoUtils.java doesn't set these (I can't think of a time the client would need this
 	//consider making other fields like this

@@ -3309,6 +3309,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableBossEventsList;
 @property (retain) NSMutableArray* mutableLeaderboardEventsList;
 @property (retain) EquipEnhancementProto* equipEnhancement;
+@property (retain) NSMutableArray* mutableRareBoosterPurchasesList;
 @end
 
 @implementation StartupResponseProto
@@ -3450,6 +3451,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasEquipEnhancement_ = !!value;
 }
 @synthesize equipEnhancement;
+@synthesize mutableRareBoosterPurchasesList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3488,6 +3490,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableBossEventsList = nil;
   self.mutableLeaderboardEventsList = nil;
   self.equipEnhancement = nil;
+  self.mutableRareBoosterPurchasesList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3711,6 +3714,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableLeaderboardEventsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) rareBoosterPurchasesList {
+  return mutableRareBoosterPurchasesList;
+}
+- (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index {
+  id value = [mutableRareBoosterPurchasesList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -3840,6 +3850,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasEquipEnhancement) {
     [output writeMessage:42 value:self.equipEnhancement];
+  }
+  for (RareBoosterPurchaseProto* element in self.rareBoosterPurchasesList) {
+    [output writeMessage:43 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3980,6 +3993,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasEquipEnhancement) {
     size += computeMessageSize(42, self.equipEnhancement);
+  }
+  for (RareBoosterPurchaseProto* element in self.rareBoosterPurchasesList) {
+    size += computeMessageSize(43, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -18840,6 +18856,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasEquipEnhancement) {
     [self mergeEquipEnhancement:other.equipEnhancement];
   }
+  if (other.mutableRareBoosterPurchasesList.count > 0) {
+    if (result.mutableRareBoosterPurchasesList == nil) {
+      result.mutableRareBoosterPurchasesList = [NSMutableArray array];
+    }
+    [result.mutableRareBoosterPurchasesList addObjectsFromArray:other.mutableRareBoosterPurchasesList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -19124,6 +19146,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setEquipEnhancement:[subBuilder buildPartial]];
+        break;
+      }
+      case 346: {
+        RareBoosterPurchaseProto_Builder* subBuilder = [RareBoosterPurchaseProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRareBoosterPurchases:[subBuilder buildPartial]];
         break;
       }
     }
@@ -20250,6 +20278,35 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
 - (StartupResponseProto_Builder*) clearEquipEnhancement {
   result.hasEquipEnhancement = NO;
   result.equipEnhancement = [EquipEnhancementProto defaultInstance];
+  return self;
+}
+- (NSArray*) rareBoosterPurchasesList {
+  if (result.mutableRareBoosterPurchasesList == nil) { return [NSArray array]; }
+  return result.mutableRareBoosterPurchasesList;
+}
+- (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index {
+  return [result rareBoosterPurchasesAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceRareBoosterPurchasesAtIndex:(int32_t) index with:(RareBoosterPurchaseProto*) value {
+  [result.mutableRareBoosterPurchasesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllRareBoosterPurchases:(NSArray*) values {
+  if (result.mutableRareBoosterPurchasesList == nil) {
+    result.mutableRareBoosterPurchasesList = [NSMutableArray array];
+  }
+  [result.mutableRareBoosterPurchasesList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearRareBoosterPurchasesList {
+  result.mutableRareBoosterPurchasesList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addRareBoosterPurchases:(RareBoosterPurchaseProto*) value {
+  if (result.mutableRareBoosterPurchasesList == nil) {
+    result.mutableRareBoosterPurchasesList = [NSMutableArray array];
+  }
+  [result.mutableRareBoosterPurchasesList addObject:value];
   return self;
 }
 @end
@@ -43122,6 +43179,7 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
 @interface EquipEquipmentRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int32_t userEquipId;
+@property BOOL forPrestigeEquipSlot;
 @end
 
 @implementation EquipEquipmentRequestProto
@@ -43140,6 +43198,18 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
   hasUserEquipId_ = !!value;
 }
 @synthesize userEquipId;
+- (BOOL) hasForPrestigeEquipSlot {
+  return !!hasForPrestigeEquipSlot_;
+}
+- (void) setHasForPrestigeEquipSlot:(BOOL) value {
+  hasForPrestigeEquipSlot_ = !!value;
+}
+- (BOOL) forPrestigeEquipSlot {
+  return !!forPrestigeEquipSlot_;
+}
+- (void) setForPrestigeEquipSlot:(BOOL) value {
+  forPrestigeEquipSlot_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -43148,6 +43218,7 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.userEquipId = 0;
+    self.forPrestigeEquipSlot = NO;
   }
   return self;
 }
@@ -43173,6 +43244,9 @@ static EquipEquipmentRequestProto* defaultEquipEquipmentRequestProtoInstance = n
   if (self.hasUserEquipId) {
     [output writeInt32:2 value:self.userEquipId];
   }
+  if (self.hasForPrestigeEquipSlot) {
+    [output writeBool:3 value:self.forPrestigeEquipSlot];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -43187,6 +43261,9 @@ static EquipEquipmentRequestProto* defaultEquipEquipmentRequestProtoInstance = n
   }
   if (self.hasUserEquipId) {
     size += computeInt32Size(2, self.userEquipId);
+  }
+  if (self.hasForPrestigeEquipSlot) {
+    size += computeBoolSize(3, self.forPrestigeEquipSlot);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -43269,6 +43346,9 @@ static EquipEquipmentRequestProto* defaultEquipEquipmentRequestProtoInstance = n
   if (other.hasUserEquipId) {
     [self setUserEquipId:other.userEquipId];
   }
+  if (other.hasForPrestigeEquipSlot) {
+    [self setForPrestigeEquipSlot:other.forPrestigeEquipSlot];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -43301,6 +43381,10 @@ static EquipEquipmentRequestProto* defaultEquipEquipmentRequestProtoInstance = n
       }
       case 16: {
         [self setUserEquipId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setForPrestigeEquipSlot:[input readBool]];
         break;
       }
     }
@@ -43350,6 +43434,22 @@ static EquipEquipmentRequestProto* defaultEquipEquipmentRequestProtoInstance = n
 - (EquipEquipmentRequestProto_Builder*) clearUserEquipId {
   result.hasUserEquipId = NO;
   result.userEquipId = 0;
+  return self;
+}
+- (BOOL) hasForPrestigeEquipSlot {
+  return result.hasForPrestigeEquipSlot;
+}
+- (BOOL) forPrestigeEquipSlot {
+  return result.forPrestigeEquipSlot;
+}
+- (EquipEquipmentRequestProto_Builder*) setForPrestigeEquipSlot:(BOOL) value {
+  result.hasForPrestigeEquipSlot = YES;
+  result.forPrestigeEquipSlot = value;
+  return self;
+}
+- (EquipEquipmentRequestProto_Builder*) clearForPrestigeEquipSlot {
+  result.hasForPrestigeEquipSlot = NO;
+  result.forPrestigeEquipSlot = NO;
   return self;
 }
 @end
@@ -43464,6 +43564,7 @@ BOOL EquipEquipmentResponseProto_EquipEquipmentStatusIsValidValue(EquipEquipment
     case EquipEquipmentResponseProto_EquipEquipmentStatusNotAnEquip:
     case EquipEquipmentResponseProto_EquipEquipmentStatusIncorrectClassType:
     case EquipEquipmentResponseProto_EquipEquipmentStatusOtherFail:
+    case EquipEquipmentResponseProto_EquipEquipmentStatusAlreadyAtMaxEquippedEquips:
       return YES;
     default:
       return NO;
@@ -56516,6 +56617,7 @@ BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinC
     case RequestJoinClanResponseProto_RequestJoinClanStatusRequestAlreadyFiled:
     case RequestJoinClanResponseProto_RequestJoinClanStatusWrongSide:
     case RequestJoinClanResponseProto_RequestJoinClanStatusJoinSuccess:
+    case RequestJoinClanResponseProto_RequestJoinClanStatusClanIsFull:
       return YES;
     default:
       return NO;
@@ -71976,6 +72078,203 @@ BOOL ResetBoosterPackResponseProto_ResetBoosterPackStatusIsValidValue(ResetBoost
 - (ResetBoosterPackResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = ResetBoosterPackResponseProto_ResetBoosterPackStatusSuccess;
+  return self;
+}
+@end
+
+@interface ReceivedRareBoosterPurchaseResponseProto ()
+@property (retain) RareBoosterPurchaseProto* rareBoosterPurchase;
+@end
+
+@implementation ReceivedRareBoosterPurchaseResponseProto
+
+- (BOOL) hasRareBoosterPurchase {
+  return !!hasRareBoosterPurchase_;
+}
+- (void) setHasRareBoosterPurchase:(BOOL) value {
+  hasRareBoosterPurchase_ = !!value;
+}
+@synthesize rareBoosterPurchase;
+- (void) dealloc {
+  self.rareBoosterPurchase = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.rareBoosterPurchase = [RareBoosterPurchaseProto defaultInstance];
+  }
+  return self;
+}
+static ReceivedRareBoosterPurchaseResponseProto* defaultReceivedRareBoosterPurchaseResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ReceivedRareBoosterPurchaseResponseProto class]) {
+    defaultReceivedRareBoosterPurchaseResponseProtoInstance = [[ReceivedRareBoosterPurchaseResponseProto alloc] init];
+  }
+}
++ (ReceivedRareBoosterPurchaseResponseProto*) defaultInstance {
+  return defaultReceivedRareBoosterPurchaseResponseProtoInstance;
+}
+- (ReceivedRareBoosterPurchaseResponseProto*) defaultInstance {
+  return defaultReceivedRareBoosterPurchaseResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasRareBoosterPurchase) {
+    [output writeMessage:1 value:self.rareBoosterPurchase];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasRareBoosterPurchase) {
+    size += computeMessageSize(1, self.rareBoosterPurchase);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ReceivedRareBoosterPurchaseResponseProto*) parseFromData:(NSData*) data {
+  return (ReceivedRareBoosterPurchaseResponseProto*)[[[ReceivedRareBoosterPurchaseResponseProto builder] mergeFromData:data] build];
+}
++ (ReceivedRareBoosterPurchaseResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReceivedRareBoosterPurchaseResponseProto*)[[[ReceivedRareBoosterPurchaseResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ReceivedRareBoosterPurchaseResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ReceivedRareBoosterPurchaseResponseProto*)[[[ReceivedRareBoosterPurchaseResponseProto builder] mergeFromInputStream:input] build];
+}
++ (ReceivedRareBoosterPurchaseResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReceivedRareBoosterPurchaseResponseProto*)[[[ReceivedRareBoosterPurchaseResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReceivedRareBoosterPurchaseResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ReceivedRareBoosterPurchaseResponseProto*)[[[ReceivedRareBoosterPurchaseResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ReceivedRareBoosterPurchaseResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReceivedRareBoosterPurchaseResponseProto*)[[[ReceivedRareBoosterPurchaseResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReceivedRareBoosterPurchaseResponseProto_Builder*) builder {
+  return [[[ReceivedRareBoosterPurchaseResponseProto_Builder alloc] init] autorelease];
+}
++ (ReceivedRareBoosterPurchaseResponseProto_Builder*) builderWithPrototype:(ReceivedRareBoosterPurchaseResponseProto*) prototype {
+  return [[ReceivedRareBoosterPurchaseResponseProto builder] mergeFrom:prototype];
+}
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) builder {
+  return [ReceivedRareBoosterPurchaseResponseProto builder];
+}
+@end
+
+@interface ReceivedRareBoosterPurchaseResponseProto_Builder()
+@property (retain) ReceivedRareBoosterPurchaseResponseProto* result;
+@end
+
+@implementation ReceivedRareBoosterPurchaseResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ReceivedRareBoosterPurchaseResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) clear {
+  self.result = [[[ReceivedRareBoosterPurchaseResponseProto alloc] init] autorelease];
+  return self;
+}
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) clone {
+  return [ReceivedRareBoosterPurchaseResponseProto builderWithPrototype:result];
+}
+- (ReceivedRareBoosterPurchaseResponseProto*) defaultInstance {
+  return [ReceivedRareBoosterPurchaseResponseProto defaultInstance];
+}
+- (ReceivedRareBoosterPurchaseResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ReceivedRareBoosterPurchaseResponseProto*) buildPartial {
+  ReceivedRareBoosterPurchaseResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) mergeFrom:(ReceivedRareBoosterPurchaseResponseProto*) other {
+  if (other == [ReceivedRareBoosterPurchaseResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasRareBoosterPurchase) {
+    [self mergeRareBoosterPurchase:other.rareBoosterPurchase];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        RareBoosterPurchaseProto_Builder* subBuilder = [RareBoosterPurchaseProto builder];
+        if (self.hasRareBoosterPurchase) {
+          [subBuilder mergeFrom:self.rareBoosterPurchase];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setRareBoosterPurchase:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasRareBoosterPurchase {
+  return result.hasRareBoosterPurchase;
+}
+- (RareBoosterPurchaseProto*) rareBoosterPurchase {
+  return result.rareBoosterPurchase;
+}
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) setRareBoosterPurchase:(RareBoosterPurchaseProto*) value {
+  result.hasRareBoosterPurchase = YES;
+  result.rareBoosterPurchase = value;
+  return self;
+}
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) setRareBoosterPurchaseBuilder:(RareBoosterPurchaseProto_Builder*) builderForValue {
+  return [self setRareBoosterPurchase:[builderForValue build]];
+}
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) mergeRareBoosterPurchase:(RareBoosterPurchaseProto*) value {
+  if (result.hasRareBoosterPurchase &&
+      result.rareBoosterPurchase != [RareBoosterPurchaseProto defaultInstance]) {
+    result.rareBoosterPurchase =
+      [[[RareBoosterPurchaseProto builderWithPrototype:result.rareBoosterPurchase] mergeFrom:value] buildPartial];
+  } else {
+    result.rareBoosterPurchase = value;
+  }
+  result.hasRareBoosterPurchase = YES;
+  return self;
+}
+- (ReceivedRareBoosterPurchaseResponseProto_Builder*) clearRareBoosterPurchase {
+  result.hasRareBoosterPurchase = NO;
+  result.rareBoosterPurchase = [RareBoosterPurchaseProto defaultInstance];
   return self;
 }
 @end

@@ -118,6 +118,8 @@
 @class PlayerWallPostProto_Builder;
 @class PossessEquipJobProto;
 @class PossessEquipJobProto_Builder;
+@class RareBoosterPurchaseProto;
+@class RareBoosterPurchaseProto_Builder;
 @class UnhandledBlacksmithAttemptProto;
 @class UnhandledBlacksmithAttemptProto_Builder;
 @class UpgradeStructJobProto;
@@ -340,6 +342,87 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
+@end
+
+@interface RareBoosterPurchaseProto : PBGeneratedMessage {
+@private
+  BOOL hasTimeOfPurchase_:1;
+  BOOL hasUser_:1;
+  BOOL hasBooster_:1;
+  BOOL hasEquip_:1;
+  int64_t timeOfPurchase;
+  MinimumUserProto* user;
+  BoosterPackProto* booster;
+  FullEquipProto* equip;
+}
+- (BOOL) hasUser;
+- (BOOL) hasBooster;
+- (BOOL) hasEquip;
+- (BOOL) hasTimeOfPurchase;
+@property (readonly, retain) MinimumUserProto* user;
+@property (readonly, retain) BoosterPackProto* booster;
+@property (readonly, retain) FullEquipProto* equip;
+@property (readonly) int64_t timeOfPurchase;
+
++ (RareBoosterPurchaseProto*) defaultInstance;
+- (RareBoosterPurchaseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RareBoosterPurchaseProto_Builder*) builder;
++ (RareBoosterPurchaseProto_Builder*) builder;
++ (RareBoosterPurchaseProto_Builder*) builderWithPrototype:(RareBoosterPurchaseProto*) prototype;
+
++ (RareBoosterPurchaseProto*) parseFromData:(NSData*) data;
++ (RareBoosterPurchaseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RareBoosterPurchaseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RareBoosterPurchaseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RareBoosterPurchaseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RareBoosterPurchaseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RareBoosterPurchaseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RareBoosterPurchaseProto* result;
+}
+
+- (RareBoosterPurchaseProto*) defaultInstance;
+
+- (RareBoosterPurchaseProto_Builder*) clear;
+- (RareBoosterPurchaseProto_Builder*) clone;
+
+- (RareBoosterPurchaseProto*) build;
+- (RareBoosterPurchaseProto*) buildPartial;
+
+- (RareBoosterPurchaseProto_Builder*) mergeFrom:(RareBoosterPurchaseProto*) other;
+- (RareBoosterPurchaseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RareBoosterPurchaseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUser;
+- (MinimumUserProto*) user;
+- (RareBoosterPurchaseProto_Builder*) setUser:(MinimumUserProto*) value;
+- (RareBoosterPurchaseProto_Builder*) setUserBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RareBoosterPurchaseProto_Builder*) mergeUser:(MinimumUserProto*) value;
+- (RareBoosterPurchaseProto_Builder*) clearUser;
+
+- (BOOL) hasBooster;
+- (BoosterPackProto*) booster;
+- (RareBoosterPurchaseProto_Builder*) setBooster:(BoosterPackProto*) value;
+- (RareBoosterPurchaseProto_Builder*) setBoosterBuilder:(BoosterPackProto_Builder*) builderForValue;
+- (RareBoosterPurchaseProto_Builder*) mergeBooster:(BoosterPackProto*) value;
+- (RareBoosterPurchaseProto_Builder*) clearBooster;
+
+- (BOOL) hasEquip;
+- (FullEquipProto*) equip;
+- (RareBoosterPurchaseProto_Builder*) setEquip:(FullEquipProto*) value;
+- (RareBoosterPurchaseProto_Builder*) setEquipBuilder:(FullEquipProto_Builder*) builderForValue;
+- (RareBoosterPurchaseProto_Builder*) mergeEquip:(FullEquipProto*) value;
+- (RareBoosterPurchaseProto_Builder*) clearEquip;
+
+- (BOOL) hasTimeOfPurchase;
+- (int64_t) timeOfPurchase;
+- (RareBoosterPurchaseProto_Builder*) setTimeOfPurchase:(int64_t) value;
+- (RareBoosterPurchaseProto_Builder*) clearTimeOfPurchase;
 @end
 
 @interface UserBoosterPackProto : PBGeneratedMessage {
@@ -3469,16 +3552,16 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @interface FullUserProto : PBGeneratedMessage {
 @private
   BOOL hasHasReceivedfbReward_:1;
-  BOOL hasIsAdmin_:1;
   BOOL hasIsFake_:1;
+  BOOL hasIsAdmin_:1;
   BOOL hasCreateTime_:1;
   BOOL hasLastLoginTime_:1;
   BOOL hasLastTimeAttacked_:1;
   BOOL hasLastBattleNotificationTime_:1;
   BOOL hasLastStaminaRefillTime_:1;
+  BOOL hasLastLogoutTime_:1;
   BOOL hasLastEnergyRefillTime_:1;
   BOOL hasLastGoldmineRetrieval_:1;
-  BOOL hasLastLogoutTime_:1;
   BOOL hasLastShortLicensePurchaseTime_:1;
   BOOL hasLastLongLicensePurchaseTime_:1;
   BOOL hasNumReferrals_:1;
@@ -3487,18 +3570,15 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasNumCoinsRetrievedFromStructs_:1;
   BOOL hasNumAdColonyVideosWatched_:1;
   BOOL hasNumGroupChatsRemaining_:1;
+  BOOL hasPrestigeLevel_:1;
   BOOL hasNumBadges_:1;
   BOOL hasApsalarId_:1;
   BOOL hasNumTimesKiipRewarded_:1;
   BOOL hasNumConsecutiveDaysPlayed_:1;
-  BOOL hasUserId_:1;
-  BOOL hasLevel_:1;
-  BOOL hasAttack_:1;
-  BOOL hasDefense_:1;
-  BOOL hasStamina_:1;
   BOOL hasEnergy_:1;
   BOOL hasSkillPoints_:1;
   BOOL hasEnergyMax_:1;
+  BOOL hasStamina_:1;
   BOOL hasStaminaMax_:1;
   BOOL hasDiamonds_:1;
   BOOL hasCoins_:1;
@@ -3507,30 +3587,37 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasVaultBalance_:1;
   BOOL hasExperience_:1;
   BOOL hasTasksCompleted_:1;
-  BOOL hasFlees_:1;
-  BOOL hasBattlesLost_:1;
   BOOL hasBattlesWon_:1;
-  BOOL hasReferralCode_:1;
+  BOOL hasDefense_:1;
+  BOOL hasAttack_:1;
+  BOOL hasLevel_:1;
+  BOOL hasBattlesLost_:1;
+  BOOL hasFlees_:1;
+  BOOL hasUserId_:1;
   BOOL hasName_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasUdid_:1;
-  BOOL hasWeaponEquippedUserEquip_:1;
-  BOOL hasUserLocation_:1;
-  BOOL hasArmorEquippedUserEquip_:1;
+  BOOL hasReferralCode_:1;
+  BOOL hasAmuletTwoEquippedUserEquip_:1;
+  BOOL hasArmorTwoEquippedUserEquip_:1;
+  BOOL hasWeaponTwoEquippedUserEquip_:1;
   BOOL hasClan_:1;
   BOOL hasAmuletEquippedUserEquip_:1;
+  BOOL hasArmorEquippedUserEquip_:1;
+  BOOL hasWeaponEquippedUserEquip_:1;
+  BOOL hasUserLocation_:1;
   BOOL hasUserType_:1;
   BOOL hasReceivedfbReward_:1;
-  BOOL isAdmin_:1;
   BOOL isFake_:1;
+  BOOL isAdmin_:1;
   int64_t createTime;
   int64_t lastLoginTime;
   int64_t lastTimeAttacked;
   int64_t lastBattleNotificationTime;
   int64_t lastStaminaRefillTime;
+  int64_t lastLogoutTime;
   int64_t lastEnergyRefillTime;
   int64_t lastGoldmineRetrieval;
-  int64_t lastLogoutTime;
   int64_t lastShortLicensePurchaseTime;
   int64_t lastLongLicensePurchaseTime;
   int32_t numReferrals;
@@ -3539,18 +3626,15 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t numCoinsRetrievedFromStructs;
   int32_t numAdColonyVideosWatched;
   int32_t numGroupChatsRemaining;
+  int32_t prestigeLevel;
   int32_t numBadges;
   int32_t apsalarId;
   int32_t numTimesKiipRewarded;
   int32_t numConsecutiveDaysPlayed;
-  int32_t userId;
-  int32_t level;
-  int32_t attack;
-  int32_t defense;
-  int32_t stamina;
   int32_t energy;
   int32_t skillPoints;
   int32_t energyMax;
+  int32_t stamina;
   int32_t staminaMax;
   int32_t diamonds;
   int32_t coins;
@@ -3559,18 +3643,25 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t vaultBalance;
   int32_t experience;
   int32_t tasksCompleted;
-  int32_t flees;
-  int32_t battlesLost;
   int32_t battlesWon;
-  NSString* referralCode;
+  int32_t defense;
+  int32_t attack;
+  int32_t level;
+  int32_t battlesLost;
+  int32_t flees;
+  int32_t userId;
   NSString* name;
   NSString* deviceToken;
   NSString* udid;
-  FullUserEquipProto* weaponEquippedUserEquip;
-  LocationProto* userLocation;
-  FullUserEquipProto* armorEquippedUserEquip;
+  NSString* referralCode;
+  FullUserEquipProto* amuletTwoEquippedUserEquip;
+  FullUserEquipProto* armorTwoEquippedUserEquip;
+  FullUserEquipProto* weaponTwoEquippedUserEquip;
   MinimumClanProto* clan;
   FullUserEquipProto* amuletEquippedUserEquip;
+  FullUserEquipProto* armorEquippedUserEquip;
+  FullUserEquipProto* weaponEquippedUserEquip;
+  LocationProto* userLocation;
   UserType userType;
 }
 - (BOOL) hasUserId;
@@ -3616,6 +3707,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasClan;
 - (BOOL) hasLastGoldmineRetrieval;
 - (BOOL) hasHasReceivedfbReward;
+- (BOOL) hasWeaponTwoEquippedUserEquip;
+- (BOOL) hasArmorTwoEquippedUserEquip;
+- (BOOL) hasAmuletTwoEquippedUserEquip;
+- (BOOL) hasPrestigeLevel;
 - (BOOL) hasUdid;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasLastBattleNotificationTime;
@@ -3668,6 +3763,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) MinimumClanProto* clan;
 @property (readonly) int64_t lastGoldmineRetrieval;
 - (BOOL) hasReceivedfbReward;
+@property (readonly, retain) FullUserEquipProto* weaponTwoEquippedUserEquip;
+@property (readonly, retain) FullUserEquipProto* armorTwoEquippedUserEquip;
+@property (readonly, retain) FullUserEquipProto* amuletTwoEquippedUserEquip;
+@property (readonly) int32_t prestigeLevel;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* deviceToken;
 @property (readonly) int64_t lastBattleNotificationTime;
@@ -3936,6 +4035,32 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasReceivedfbReward;
 - (FullUserProto_Builder*) setHasReceivedfbReward:(BOOL) value;
 - (FullUserProto_Builder*) clearHasReceivedfbReward;
+
+- (BOOL) hasWeaponTwoEquippedUserEquip;
+- (FullUserEquipProto*) weaponTwoEquippedUserEquip;
+- (FullUserProto_Builder*) setWeaponTwoEquippedUserEquip:(FullUserEquipProto*) value;
+- (FullUserProto_Builder*) setWeaponTwoEquippedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (FullUserProto_Builder*) mergeWeaponTwoEquippedUserEquip:(FullUserEquipProto*) value;
+- (FullUserProto_Builder*) clearWeaponTwoEquippedUserEquip;
+
+- (BOOL) hasArmorTwoEquippedUserEquip;
+- (FullUserEquipProto*) armorTwoEquippedUserEquip;
+- (FullUserProto_Builder*) setArmorTwoEquippedUserEquip:(FullUserEquipProto*) value;
+- (FullUserProto_Builder*) setArmorTwoEquippedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (FullUserProto_Builder*) mergeArmorTwoEquippedUserEquip:(FullUserEquipProto*) value;
+- (FullUserProto_Builder*) clearArmorTwoEquippedUserEquip;
+
+- (BOOL) hasAmuletTwoEquippedUserEquip;
+- (FullUserEquipProto*) amuletTwoEquippedUserEquip;
+- (FullUserProto_Builder*) setAmuletTwoEquippedUserEquip:(FullUserEquipProto*) value;
+- (FullUserProto_Builder*) setAmuletTwoEquippedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (FullUserProto_Builder*) mergeAmuletTwoEquippedUserEquip:(FullUserEquipProto*) value;
+- (FullUserProto_Builder*) clearAmuletTwoEquippedUserEquip;
+
+- (BOOL) hasPrestigeLevel;
+- (int32_t) prestigeLevel;
+- (FullUserProto_Builder*) setPrestigeLevel:(int32_t) value;
+- (FullUserProto_Builder*) clearPrestigeLevel;
 
 - (BOOL) hasUdid;
 - (NSString*) udid;

@@ -314,8 +314,12 @@
 @class QuestRedeemRequestProto_Builder;
 @class QuestRedeemResponseProto;
 @class QuestRedeemResponseProto_Builder;
+@class RareBoosterPurchaseProto;
+@class RareBoosterPurchaseProto_Builder;
 @class ReceivedGroupChatResponseProto;
 @class ReceivedGroupChatResponseProto_Builder;
+@class ReceivedRareBoosterPurchaseResponseProto;
+@class ReceivedRareBoosterPurchaseResponseProto_Builder;
 @class ReconnectRequestProto;
 @class ReconnectRequestProto_Builder;
 @class ReconnectResponseProto;
@@ -704,6 +708,7 @@ typedef enum {
   EventProtocolResponseSReceivedGroupChatEvent = 105,
   EventProtocolResponseSSendAdminMessageEvent = 106,
   EventProtocolResponseSGeneralNotificationEvent = 107,
+  EventProtocolResponseSReceivedRareBoosterPurchaseEvent = 108,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

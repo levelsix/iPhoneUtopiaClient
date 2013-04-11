@@ -2018,7 +2018,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if ([ClanMenuController isInitialized])
       [[ClanMenuController sharedClanMenuController] receivedRequestJoinClanResponse:proto];
   } else {
-    [Globals popupMessage:@"Server failed to request to join clan request."];
+    if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusClanIsFull) {
+      [Globals popupMessage:@"Sorry, this clan is full. Please try another."];
+    } else {
+      [Globals popupMessage:@"Server failed to request to join clan request."];
+    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

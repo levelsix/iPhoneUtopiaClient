@@ -201,6 +201,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSReceivedGroupChatEvent:
     case EventProtocolResponseSSendAdminMessageEvent:
     case EventProtocolResponseSGeneralNotificationEvent:
+    case EventProtocolResponseSReceivedRareBoosterPurchaseEvent:
       return YES;
     default:
       return NO;

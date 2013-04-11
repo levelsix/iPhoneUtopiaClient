@@ -184,6 +184,8 @@ message StartupResponseProto {
 	
 	optional EquipEnhancementProto equipEnhancement = 42;
 	
+	repeated RareBoosterPurchaseProto rareBoosterPurchases = 43;
+	
 	message DailyBonusInfo {
 		optional int32 numConsecutiveDaysPlayed = 1;
 		optional int32 dayOneCoins = 2;
@@ -1512,6 +1514,7 @@ message ReferralCodeUsedResponseProto {
 message EquipEquipmentRequestProto {
 	optional MinimumUserProto sender = 1;
 	optional int32 userEquipId = 2;
+	optional bool forPrestigeEquipSlot = 3; 
 }
 
 																						//DONE
@@ -1526,6 +1529,7 @@ message EquipEquipmentResponseProto {
 		NOT_AN_EQUIP = 3;
 		INCORRECT_CLASS_TYPE = 4;
 		OTHER_FAIL = 5;
+		ALREADY_AT_MAX_EQUIPPED_EQUIPS = 6;
 	}
 }
 
@@ -1999,6 +2003,7 @@ message RequestJoinClanResponseProto {
 		REQUEST_ALREADY_FILED = 3;
 		WRONG_SIDE = 5;
 		JOIN_SUCCESS = 6;
+		CLAN_IS_FULL = 7;
 	}	
 }
 
@@ -2533,7 +2538,6 @@ message PurchaseBoosterPackResponseProto {
 message ResetBoosterPackRequestProto {
 	optional MinimumUserProto sender = 1;
 	optional int32 boosterPackId = 2;
-	
 }
 
 message ResetBoosterPackResponseProto {
@@ -2546,6 +2550,12 @@ message ResetBoosterPackResponseProto {
 		OTHER_FAIL = 1;
 	}
 }
+
+message ReceivedRareBoosterPurchaseResponseProto {
+	optional RareBoosterPurchaseProto rareBoosterPurchase = 1;
+}
+
+//------------------------------------------------------------------------------------
 
 message ChangeClanJoinTypeRequestProto {
 	//from an open (no request to join necessary) to request to join necessary

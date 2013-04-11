@@ -195,6 +195,357 @@ BOOL ExpansionDirectionIsValidValue(ExpansionDirection value) {
       return NO;
   }
 }
+@interface RareBoosterPurchaseProto ()
+@property (retain) MinimumUserProto* user;
+@property (retain) BoosterPackProto* booster;
+@property (retain) FullEquipProto* equip;
+@property int64_t timeOfPurchase;
+@end
+
+@implementation RareBoosterPurchaseProto
+
+- (BOOL) hasUser {
+  return !!hasUser_;
+}
+- (void) setHasUser:(BOOL) value {
+  hasUser_ = !!value;
+}
+@synthesize user;
+- (BOOL) hasBooster {
+  return !!hasBooster_;
+}
+- (void) setHasBooster:(BOOL) value {
+  hasBooster_ = !!value;
+}
+@synthesize booster;
+- (BOOL) hasEquip {
+  return !!hasEquip_;
+}
+- (void) setHasEquip:(BOOL) value {
+  hasEquip_ = !!value;
+}
+@synthesize equip;
+- (BOOL) hasTimeOfPurchase {
+  return !!hasTimeOfPurchase_;
+}
+- (void) setHasTimeOfPurchase:(BOOL) value {
+  hasTimeOfPurchase_ = !!value;
+}
+@synthesize timeOfPurchase;
+- (void) dealloc {
+  self.user = nil;
+  self.booster = nil;
+  self.equip = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.user = [MinimumUserProto defaultInstance];
+    self.booster = [BoosterPackProto defaultInstance];
+    self.equip = [FullEquipProto defaultInstance];
+    self.timeOfPurchase = 0L;
+  }
+  return self;
+}
+static RareBoosterPurchaseProto* defaultRareBoosterPurchaseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RareBoosterPurchaseProto class]) {
+    defaultRareBoosterPurchaseProtoInstance = [[RareBoosterPurchaseProto alloc] init];
+  }
+}
++ (RareBoosterPurchaseProto*) defaultInstance {
+  return defaultRareBoosterPurchaseProtoInstance;
+}
+- (RareBoosterPurchaseProto*) defaultInstance {
+  return defaultRareBoosterPurchaseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUser) {
+    [output writeMessage:1 value:self.user];
+  }
+  if (self.hasBooster) {
+    [output writeMessage:2 value:self.booster];
+  }
+  if (self.hasEquip) {
+    [output writeMessage:3 value:self.equip];
+  }
+  if (self.hasTimeOfPurchase) {
+    [output writeUInt64:4 value:self.timeOfPurchase];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUser) {
+    size += computeMessageSize(1, self.user);
+  }
+  if (self.hasBooster) {
+    size += computeMessageSize(2, self.booster);
+  }
+  if (self.hasEquip) {
+    size += computeMessageSize(3, self.equip);
+  }
+  if (self.hasTimeOfPurchase) {
+    size += computeUInt64Size(4, self.timeOfPurchase);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RareBoosterPurchaseProto*) parseFromData:(NSData*) data {
+  return (RareBoosterPurchaseProto*)[[[RareBoosterPurchaseProto builder] mergeFromData:data] build];
+}
++ (RareBoosterPurchaseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RareBoosterPurchaseProto*)[[[RareBoosterPurchaseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RareBoosterPurchaseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RareBoosterPurchaseProto*)[[[RareBoosterPurchaseProto builder] mergeFromInputStream:input] build];
+}
++ (RareBoosterPurchaseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RareBoosterPurchaseProto*)[[[RareBoosterPurchaseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RareBoosterPurchaseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RareBoosterPurchaseProto*)[[[RareBoosterPurchaseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RareBoosterPurchaseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RareBoosterPurchaseProto*)[[[RareBoosterPurchaseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RareBoosterPurchaseProto_Builder*) builder {
+  return [[[RareBoosterPurchaseProto_Builder alloc] init] autorelease];
+}
++ (RareBoosterPurchaseProto_Builder*) builderWithPrototype:(RareBoosterPurchaseProto*) prototype {
+  return [[RareBoosterPurchaseProto builder] mergeFrom:prototype];
+}
+- (RareBoosterPurchaseProto_Builder*) builder {
+  return [RareBoosterPurchaseProto builder];
+}
+@end
+
+@interface RareBoosterPurchaseProto_Builder()
+@property (retain) RareBoosterPurchaseProto* result;
+@end
+
+@implementation RareBoosterPurchaseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RareBoosterPurchaseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RareBoosterPurchaseProto_Builder*) clear {
+  self.result = [[[RareBoosterPurchaseProto alloc] init] autorelease];
+  return self;
+}
+- (RareBoosterPurchaseProto_Builder*) clone {
+  return [RareBoosterPurchaseProto builderWithPrototype:result];
+}
+- (RareBoosterPurchaseProto*) defaultInstance {
+  return [RareBoosterPurchaseProto defaultInstance];
+}
+- (RareBoosterPurchaseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RareBoosterPurchaseProto*) buildPartial {
+  RareBoosterPurchaseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RareBoosterPurchaseProto_Builder*) mergeFrom:(RareBoosterPurchaseProto*) other {
+  if (other == [RareBoosterPurchaseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUser) {
+    [self mergeUser:other.user];
+  }
+  if (other.hasBooster) {
+    [self mergeBooster:other.booster];
+  }
+  if (other.hasEquip) {
+    [self mergeEquip:other.equip];
+  }
+  if (other.hasTimeOfPurchase) {
+    [self setTimeOfPurchase:other.timeOfPurchase];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RareBoosterPurchaseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RareBoosterPurchaseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasUser) {
+          [subBuilder mergeFrom:self.user];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUser:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        BoosterPackProto_Builder* subBuilder = [BoosterPackProto builder];
+        if (self.hasBooster) {
+          [subBuilder mergeFrom:self.booster];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setBooster:[subBuilder buildPartial]];
+        break;
+      }
+      case 26: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasEquip) {
+          [subBuilder mergeFrom:self.equip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setEquip:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setTimeOfPurchase:[input readUInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUser {
+  return result.hasUser;
+}
+- (MinimumUserProto*) user {
+  return result.user;
+}
+- (RareBoosterPurchaseProto_Builder*) setUser:(MinimumUserProto*) value {
+  result.hasUser = YES;
+  result.user = value;
+  return self;
+}
+- (RareBoosterPurchaseProto_Builder*) setUserBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setUser:[builderForValue build]];
+}
+- (RareBoosterPurchaseProto_Builder*) mergeUser:(MinimumUserProto*) value {
+  if (result.hasUser &&
+      result.user != [MinimumUserProto defaultInstance]) {
+    result.user =
+      [[[MinimumUserProto builderWithPrototype:result.user] mergeFrom:value] buildPartial];
+  } else {
+    result.user = value;
+  }
+  result.hasUser = YES;
+  return self;
+}
+- (RareBoosterPurchaseProto_Builder*) clearUser {
+  result.hasUser = NO;
+  result.user = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasBooster {
+  return result.hasBooster;
+}
+- (BoosterPackProto*) booster {
+  return result.booster;
+}
+- (RareBoosterPurchaseProto_Builder*) setBooster:(BoosterPackProto*) value {
+  result.hasBooster = YES;
+  result.booster = value;
+  return self;
+}
+- (RareBoosterPurchaseProto_Builder*) setBoosterBuilder:(BoosterPackProto_Builder*) builderForValue {
+  return [self setBooster:[builderForValue build]];
+}
+- (RareBoosterPurchaseProto_Builder*) mergeBooster:(BoosterPackProto*) value {
+  if (result.hasBooster &&
+      result.booster != [BoosterPackProto defaultInstance]) {
+    result.booster =
+      [[[BoosterPackProto builderWithPrototype:result.booster] mergeFrom:value] buildPartial];
+  } else {
+    result.booster = value;
+  }
+  result.hasBooster = YES;
+  return self;
+}
+- (RareBoosterPurchaseProto_Builder*) clearBooster {
+  result.hasBooster = NO;
+  result.booster = [BoosterPackProto defaultInstance];
+  return self;
+}
+- (BOOL) hasEquip {
+  return result.hasEquip;
+}
+- (FullEquipProto*) equip {
+  return result.equip;
+}
+- (RareBoosterPurchaseProto_Builder*) setEquip:(FullEquipProto*) value {
+  result.hasEquip = YES;
+  result.equip = value;
+  return self;
+}
+- (RareBoosterPurchaseProto_Builder*) setEquipBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setEquip:[builderForValue build]];
+}
+- (RareBoosterPurchaseProto_Builder*) mergeEquip:(FullEquipProto*) value {
+  if (result.hasEquip &&
+      result.equip != [FullEquipProto defaultInstance]) {
+    result.equip =
+      [[[FullEquipProto builderWithPrototype:result.equip] mergeFrom:value] buildPartial];
+  } else {
+    result.equip = value;
+  }
+  result.hasEquip = YES;
+  return self;
+}
+- (RareBoosterPurchaseProto_Builder*) clearEquip {
+  result.hasEquip = NO;
+  result.equip = [FullEquipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasTimeOfPurchase {
+  return result.hasTimeOfPurchase;
+}
+- (int64_t) timeOfPurchase {
+  return result.timeOfPurchase;
+}
+- (RareBoosterPurchaseProto_Builder*) setTimeOfPurchase:(int64_t) value {
+  result.hasTimeOfPurchase = YES;
+  result.timeOfPurchase = value;
+  return self;
+}
+- (RareBoosterPurchaseProto_Builder*) clearTimeOfPurchase {
+  result.hasTimeOfPurchase = NO;
+  result.timeOfPurchase = 0L;
+  return self;
+}
+@end
+
 @interface UserBoosterPackProto ()
 @property int32_t boosterPackId;
 @property int32_t userId;
@@ -13017,6 +13368,10 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 @property (retain) MinimumClanProto* clan;
 @property int64_t lastGoldmineRetrieval;
 @property BOOL hasReceivedfbReward;
+@property (retain) FullUserEquipProto* weaponTwoEquippedUserEquip;
+@property (retain) FullUserEquipProto* armorTwoEquippedUserEquip;
+@property (retain) FullUserEquipProto* amuletTwoEquippedUserEquip;
+@property int32_t prestigeLevel;
 @property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -13346,6 +13701,34 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 - (void) setHasReceivedfbReward:(BOOL) value {
   hasReceivedfbReward_ = !!value;
 }
+- (BOOL) hasWeaponTwoEquippedUserEquip {
+  return !!hasWeaponTwoEquippedUserEquip_;
+}
+- (void) setHasWeaponTwoEquippedUserEquip:(BOOL) value {
+  hasWeaponTwoEquippedUserEquip_ = !!value;
+}
+@synthesize weaponTwoEquippedUserEquip;
+- (BOOL) hasArmorTwoEquippedUserEquip {
+  return !!hasArmorTwoEquippedUserEquip_;
+}
+- (void) setHasArmorTwoEquippedUserEquip:(BOOL) value {
+  hasArmorTwoEquippedUserEquip_ = !!value;
+}
+@synthesize armorTwoEquippedUserEquip;
+- (BOOL) hasAmuletTwoEquippedUserEquip {
+  return !!hasAmuletTwoEquippedUserEquip_;
+}
+- (void) setHasAmuletTwoEquippedUserEquip:(BOOL) value {
+  hasAmuletTwoEquippedUserEquip_ = !!value;
+}
+@synthesize amuletTwoEquippedUserEquip;
+- (BOOL) hasPrestigeLevel {
+  return !!hasPrestigeLevel_;
+}
+- (void) setHasPrestigeLevel:(BOOL) value {
+  hasPrestigeLevel_ = !!value;
+}
+@synthesize prestigeLevel;
 - (BOOL) hasUdid {
   return !!hasUdid_;
 }
@@ -13417,6 +13800,9 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   self.armorEquippedUserEquip = nil;
   self.amuletEquippedUserEquip = nil;
   self.clan = nil;
+  self.weaponTwoEquippedUserEquip = nil;
+  self.armorTwoEquippedUserEquip = nil;
+  self.amuletTwoEquippedUserEquip = nil;
   self.udid = nil;
   self.deviceToken = nil;
   [super dealloc];
@@ -13466,6 +13852,10 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
     self.clan = [MinimumClanProto defaultInstance];
     self.lastGoldmineRetrieval = 0L;
     self.hasReceivedfbReward = NO;
+    self.weaponTwoEquippedUserEquip = [FullUserEquipProto defaultInstance];
+    self.armorTwoEquippedUserEquip = [FullUserEquipProto defaultInstance];
+    self.amuletTwoEquippedUserEquip = [FullUserEquipProto defaultInstance];
+    self.prestigeLevel = 0;
     self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -13650,6 +14040,18 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasHasReceivedfbReward) {
     [output writeBool:57 value:self.hasReceivedfbReward];
   }
+  if (self.hasWeaponTwoEquippedUserEquip) {
+    [output writeMessage:58 value:self.weaponTwoEquippedUserEquip];
+  }
+  if (self.hasArmorTwoEquippedUserEquip) {
+    [output writeMessage:59 value:self.armorTwoEquippedUserEquip];
+  }
+  if (self.hasAmuletTwoEquippedUserEquip) {
+    [output writeMessage:60 value:self.amuletTwoEquippedUserEquip];
+  }
+  if (self.hasPrestigeLevel) {
+    [output writeInt32:61 value:self.prestigeLevel];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -13814,6 +14216,18 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasHasReceivedfbReward) {
     size += computeBoolSize(57, self.hasReceivedfbReward);
+  }
+  if (self.hasWeaponTwoEquippedUserEquip) {
+    size += computeMessageSize(58, self.weaponTwoEquippedUserEquip);
+  }
+  if (self.hasArmorTwoEquippedUserEquip) {
+    size += computeMessageSize(59, self.armorTwoEquippedUserEquip);
+  }
+  if (self.hasAmuletTwoEquippedUserEquip) {
+    size += computeMessageSize(60, self.amuletTwoEquippedUserEquip);
+  }
+  if (self.hasPrestigeLevel) {
+    size += computeInt32Size(61, self.prestigeLevel);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -14018,6 +14432,18 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasHasReceivedfbReward) {
     [self setHasReceivedfbReward:other.hasReceivedfbReward];
+  }
+  if (other.hasWeaponTwoEquippedUserEquip) {
+    [self mergeWeaponTwoEquippedUserEquip:other.weaponTwoEquippedUserEquip];
+  }
+  if (other.hasArmorTwoEquippedUserEquip) {
+    [self mergeArmorTwoEquippedUserEquip:other.armorTwoEquippedUserEquip];
+  }
+  if (other.hasAmuletTwoEquippedUserEquip) {
+    [self mergeAmuletTwoEquippedUserEquip:other.amuletTwoEquippedUserEquip];
+  }
+  if (other.hasPrestigeLevel) {
+    [self setPrestigeLevel:other.prestigeLevel];
   }
   if (other.hasUdid) {
     [self setUdid:other.udid];
@@ -14303,6 +14729,37 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 456: {
         [self setHasReceivedfbReward:[input readBool]];
+        break;
+      }
+      case 466: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasWeaponTwoEquippedUserEquip) {
+          [subBuilder mergeFrom:self.weaponTwoEquippedUserEquip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setWeaponTwoEquippedUserEquip:[subBuilder buildPartial]];
+        break;
+      }
+      case 474: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasArmorTwoEquippedUserEquip) {
+          [subBuilder mergeFrom:self.armorTwoEquippedUserEquip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setArmorTwoEquippedUserEquip:[subBuilder buildPartial]];
+        break;
+      }
+      case 482: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasAmuletTwoEquippedUserEquip) {
+          [subBuilder mergeFrom:self.amuletTwoEquippedUserEquip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setAmuletTwoEquippedUserEquip:[subBuilder buildPartial]];
+        break;
+      }
+      case 488: {
+        [self setPrestigeLevel:[input readInt32]];
         break;
       }
     }
@@ -15064,6 +15521,112 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearHasReceivedfbReward {
   result.hasHasReceivedfbReward = NO;
   result.hasReceivedfbReward = NO;
+  return self;
+}
+- (BOOL) hasWeaponTwoEquippedUserEquip {
+  return result.hasWeaponTwoEquippedUserEquip;
+}
+- (FullUserEquipProto*) weaponTwoEquippedUserEquip {
+  return result.weaponTwoEquippedUserEquip;
+}
+- (FullUserProto_Builder*) setWeaponTwoEquippedUserEquip:(FullUserEquipProto*) value {
+  result.hasWeaponTwoEquippedUserEquip = YES;
+  result.weaponTwoEquippedUserEquip = value;
+  return self;
+}
+- (FullUserProto_Builder*) setWeaponTwoEquippedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setWeaponTwoEquippedUserEquip:[builderForValue build]];
+}
+- (FullUserProto_Builder*) mergeWeaponTwoEquippedUserEquip:(FullUserEquipProto*) value {
+  if (result.hasWeaponTwoEquippedUserEquip &&
+      result.weaponTwoEquippedUserEquip != [FullUserEquipProto defaultInstance]) {
+    result.weaponTwoEquippedUserEquip =
+      [[[FullUserEquipProto builderWithPrototype:result.weaponTwoEquippedUserEquip] mergeFrom:value] buildPartial];
+  } else {
+    result.weaponTwoEquippedUserEquip = value;
+  }
+  result.hasWeaponTwoEquippedUserEquip = YES;
+  return self;
+}
+- (FullUserProto_Builder*) clearWeaponTwoEquippedUserEquip {
+  result.hasWeaponTwoEquippedUserEquip = NO;
+  result.weaponTwoEquippedUserEquip = [FullUserEquipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasArmorTwoEquippedUserEquip {
+  return result.hasArmorTwoEquippedUserEquip;
+}
+- (FullUserEquipProto*) armorTwoEquippedUserEquip {
+  return result.armorTwoEquippedUserEquip;
+}
+- (FullUserProto_Builder*) setArmorTwoEquippedUserEquip:(FullUserEquipProto*) value {
+  result.hasArmorTwoEquippedUserEquip = YES;
+  result.armorTwoEquippedUserEquip = value;
+  return self;
+}
+- (FullUserProto_Builder*) setArmorTwoEquippedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setArmorTwoEquippedUserEquip:[builderForValue build]];
+}
+- (FullUserProto_Builder*) mergeArmorTwoEquippedUserEquip:(FullUserEquipProto*) value {
+  if (result.hasArmorTwoEquippedUserEquip &&
+      result.armorTwoEquippedUserEquip != [FullUserEquipProto defaultInstance]) {
+    result.armorTwoEquippedUserEquip =
+      [[[FullUserEquipProto builderWithPrototype:result.armorTwoEquippedUserEquip] mergeFrom:value] buildPartial];
+  } else {
+    result.armorTwoEquippedUserEquip = value;
+  }
+  result.hasArmorTwoEquippedUserEquip = YES;
+  return self;
+}
+- (FullUserProto_Builder*) clearArmorTwoEquippedUserEquip {
+  result.hasArmorTwoEquippedUserEquip = NO;
+  result.armorTwoEquippedUserEquip = [FullUserEquipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasAmuletTwoEquippedUserEquip {
+  return result.hasAmuletTwoEquippedUserEquip;
+}
+- (FullUserEquipProto*) amuletTwoEquippedUserEquip {
+  return result.amuletTwoEquippedUserEquip;
+}
+- (FullUserProto_Builder*) setAmuletTwoEquippedUserEquip:(FullUserEquipProto*) value {
+  result.hasAmuletTwoEquippedUserEquip = YES;
+  result.amuletTwoEquippedUserEquip = value;
+  return self;
+}
+- (FullUserProto_Builder*) setAmuletTwoEquippedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setAmuletTwoEquippedUserEquip:[builderForValue build]];
+}
+- (FullUserProto_Builder*) mergeAmuletTwoEquippedUserEquip:(FullUserEquipProto*) value {
+  if (result.hasAmuletTwoEquippedUserEquip &&
+      result.amuletTwoEquippedUserEquip != [FullUserEquipProto defaultInstance]) {
+    result.amuletTwoEquippedUserEquip =
+      [[[FullUserEquipProto builderWithPrototype:result.amuletTwoEquippedUserEquip] mergeFrom:value] buildPartial];
+  } else {
+    result.amuletTwoEquippedUserEquip = value;
+  }
+  result.hasAmuletTwoEquippedUserEquip = YES;
+  return self;
+}
+- (FullUserProto_Builder*) clearAmuletTwoEquippedUserEquip {
+  result.hasAmuletTwoEquippedUserEquip = NO;
+  result.amuletTwoEquippedUserEquip = [FullUserEquipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasPrestigeLevel {
+  return result.hasPrestigeLevel;
+}
+- (int32_t) prestigeLevel {
+  return result.prestigeLevel;
+}
+- (FullUserProto_Builder*) setPrestigeLevel:(int32_t) value {
+  result.hasPrestigeLevel = YES;
+  result.prestigeLevel = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearPrestigeLevel {
+  result.hasPrestigeLevel = NO;
+  result.prestigeLevel = 0;
   return self;
 }
 - (BOOL) hasUdid {
