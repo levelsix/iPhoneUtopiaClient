@@ -447,6 +447,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   self.profilePic.isTouchEnabled = NO;
   self.chatBottomView.hidden = YES;
   
+  _questNewArrow.visible = NO;
+  
   _isForBattleLossTutorial = YES;
 }
 
@@ -457,6 +459,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   self.profilePic.isTouchEnabled = YES;
   self.chatBottomView.hidden = NO;
   self.chatBottomView.alpha = 1.f;
+  
+  _questNewArrow.visible = YES;
   
   _isForBattleLossTutorial = NO;
 }

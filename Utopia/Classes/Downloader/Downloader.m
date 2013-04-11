@@ -39,14 +39,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   NSString *filePath = [[NSString alloc] initWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
   BOOL success = YES;
   
-  NSData *data = [[NSData alloc] initWithContentsOfURL:url];
-  if (data) {
-    success = [data writeToFile:filePath atomically:YES];
+  if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+    NSData *data = [[NSData alloc] initWithContentsOfURL:url];
+    if (data) {
+      success = [data writeToFile:filePath atomically:YES];
+    }
+    [data release];
+    
+    [url release];
+    [filePath autorelease];
   }
-  [data release];
   
-  [url release];
-  [filePath autorelease];
   return success ? filePath : nil;
 }
 

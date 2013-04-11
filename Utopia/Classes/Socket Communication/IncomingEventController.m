@@ -327,6 +327,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSChangeClanJoinTypeEvent:
       responseClass = [ChangeClanJoinTypeResponseProto class];
       break;
+    case EventProtocolResponseSReceivedRareBoosterPurchaseEvent:
+      responseClass = [ReceivedRareBoosterPurchaseResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -579,6 +582,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
       [gs addChatMessage:cm scope:GroupChatScopeClan];
       [cm release];
+    }
+    for (RareBoosterPurchaseProto *rbp in proto.rareBoosterPurchasesList) {
+      NSLog(@"%@ got %@ from %@.", rbp.user.name, rbp.equip.name, rbp.booster.name);
+      [gs addBoosterPurchase:rbp];
     }
     
     [(AppDelegate *)[[UIApplication sharedApplication] delegate] registerForPushNotifications];
@@ -2575,7 +2582,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
+    if (proto.status == SubmitEquipEnhancementResponseProto_EnhanceEquipStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
     [Globals popupMessage:@"Server failed to submit equip enhancement."];
+    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -2595,7 +2606,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToMyEquips:[NSArray arrayWithObject:proto.resultingEquip]];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
+    if (proto.status == CollectEquipEnhancementResponseProto_CollectEquipStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
     [Globals popupMessage:@"Server failed to collect equip enhancement."];
+    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -2644,7 +2659,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       NSString *first = proto.numPacksToExceedLimit > 0 ? [NSString stringWithFormat:@"You may only buy %d more of this chest today.", proto.numPacksToExceedLimit] : @"You may not buy anymore of this chest today.";
       [Globals popupMessage:[NSString stringWithFormat:@"%@ Buy more in %@%@.", first, h, m]];
     } else {
-      [Globals popupMessage:@"Server failed to purchase booster pack."];
+      if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusClientTooApartFromServerTime) {
+        [self handleTimeOutOfSync];
+      } else {
+        [Globals popupMessage:@"Server failed to purchase booster pack."];
+      }
     }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
@@ -2668,6 +2687,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   [[ArmoryViewController sharedArmoryViewController] resetBoosterPackResponse:proto];
+}
+
+- (void) handleReceivedRareBoosterPurchaseResponseProto:(FullEvent *)fe {
+  ReceivedRareBoosterPurchaseResponseProto *proto = (ReceivedRareBoosterPurchaseResponseProto *)fe.event;
+  RareBoosterPurchaseProto *rbp = proto.rareBoosterPurchase;
+  NSLog(@"%@ got %@ from %@.", rbp.user.name, rbp.equip.name, rbp.booster.name);
+  GameState *gs = [GameState sharedGameState];
+  [gs addBoosterPurchase:proto.rareBoosterPurchase];
 }
 
 @end
