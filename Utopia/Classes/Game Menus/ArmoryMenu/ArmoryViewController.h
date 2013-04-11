@@ -14,6 +14,7 @@
 #import "ArmoryCarouselView.h"
 #import "LeaderboardController.h"
 #import "ArmoryTutorialView.h"
+#import "ArmoryFeedView.h"
 
 @interface ArmoryTopBar : UIView {
   BOOL _trackingButton1;
@@ -77,6 +78,10 @@
 @property (nonatomic, retain) IBOutlet UILabel *infoLabel;
 
 @property (nonatomic, retain) IBOutlet ArmoryTutorialView *tutorialView;
+
+// Feed view will be added to container view
+@property (nonatomic, retain) IBOutlet UIView *tableContainerView;
+@property (nonatomic, retain) IBOutlet ArmoryFeedView *feedView;
 
 - (void) refresh;
 - (void) close;

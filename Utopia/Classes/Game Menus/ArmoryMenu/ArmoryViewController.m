@@ -256,8 +256,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [leftRope release];
   [rightRope release];
   
-  self.carouselView.frame = self.armoryTableView.frame;
-  [self.armoryTableView.superview addSubview:self.carouselView];
+  self.carouselView.frame = self.infoScrollView.frame;
+  [self.view addSubview:self.carouselView];
   
   Globals *gl = [Globals sharedGlobals];
   [Globals imageNamed:gl.infoImageName withView:self.infoImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -268,6 +268,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     self.infoImageView.frame = r;
   }
   self.infoScrollView.contentSize = CGSizeMake(self.infoScrollView.frame.size.width, CGRectGetMaxY(self.infoImageView.frame)+self.infoImageView.frame.origin.y);
+  
+  [self.tableContainerView addSubview:self.feedView];
 }
 
 - (ArmoryTutorialView *) tutorialView {
@@ -295,16 +297,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     self.infoLabel = nil;
     self.topBar = nil;
     self.tutorialView = nil;
+    self.feedView = nil;
+    self.tableContainerView = nil;
   }
 }
 
 - (void) displayBuyChests {
   self.infoScrollView.hidden = YES;
-  self.armoryTableView.hidden = NO;
+  self.tableContainerView.hidden = NO;
   self.carouselView.hidden = YES;
   self.coinBar.hidden = YES;
   self.topBar.hidden = NO;
   self.topBar.alpha = 1.f;
+  self.backView.alpha = 0.f;
+  
+  [self.feedView closeFeedAnimated:NO];
   
   [self.topBar unclickButton:kButton2];
   [self.topBar clickButton:kButton1];
@@ -320,7 +327,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   }
   
   self.infoScrollView.hidden = NO;
-  self.armoryTableView.hidden = YES;
+  self.tableContainerView.hidden = YES;
   self.carouselView.hidden = YES;
   self.coinBar.hidden = YES;
   self.topBar.hidden = NO;
@@ -342,10 +349,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [self.loadingView stop];
   [coinBar updateLabels];
   
-  self.carouselView.hidden = YES;
-  self.armoryTableView.hidden = NO;
-  self.backView.alpha = 0.f;
-  
   CGRect f = self.view.frame;
   self.view.center = CGPointMake(self.view.center.x, f.size.height*3/2);
   [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
@@ -363,6 +366,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   }
   
   [[SoundEngine sharedSoundEngine] armoryEnter];
+  
+  // Adjust size of feed view
+  CGRect r = self.feedView.frame;
+  r.size.width = self.tableContainerView.frame.size.width;
+  self.feedView.frame = r;
 }
 
 - (void) loadForLevel:(int)level rarity:(FullEquipProto_Rarity)rarity {
@@ -496,14 +504,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   if (_isForBattleLossTutorial) {
     [_arrow removeFromSuperview];
     _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
-    [self.view addSubview:_arrow];
+    [self.tableContainerView addSubview:_arrow];
     _arrow.center = ccp(self.view.frame.size.width/2, self.armoryTableView.frame.origin.y);
     [Globals animateUIArrow:_arrow atAngle:-M_PI_2];
     
     self.armoryTableView.scrollEnabled = NO;
+    self.feedView.hidden = YES;
   } else {
     [_arrow removeFromSuperview];
     self.armoryTableView.scrollEnabled = YES;
+    self.feedView.hidden = NO;
   }
 }
 
@@ -540,7 +550,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [self.carouselView updateForBoosterPack:bp userPack:userPack];
   
   if (self.carouselView.hidden) {
-    CGRect curRect = self.armoryTableView.frame;
+    CGRect curTCRect = self.tableContainerView.frame;
+    CGRect curCVRect = self.carouselView.frame;
     CGRect r = self.carouselView.frame;
     r.origin.x = self.view.frame.size.width;
     self.carouselView.frame = r;
@@ -548,18 +559,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     self.coinBar.alpha = 0.f;
     self.coinBar.hidden = NO;
     [UIView animateWithDuration:0.3f animations:^{
-      CGRect r = self.armoryTableView.frame ;
+      CGRect r = self.tableContainerView.frame ;
       r.origin.x = -r.size.width;
-      self.armoryTableView.frame = r;
+      self.tableContainerView.frame = r;
       
       self.topBar.alpha = 0.f;
       self.coinBar.alpha = 1.f;
       
-      self.carouselView.frame = curRect;
+      self.carouselView.frame = curCVRect;
       self.backView.alpha = 1.f;
     } completion:^(BOOL finished) {
-      self.armoryTableView.frame = curRect;
-      self.armoryTableView.hidden = YES;
+      self.tableContainerView.frame = curTCRect;
+      self.tableContainerView.hidden = YES;
       
       self.topBar.hidden = YES;
       
@@ -577,17 +588,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     return;
   }
   
-  if (!self.armoryTableView.hidden || _isForBattleLossTutorial) {
+  if (!self.tableContainerView.hidden || _isForBattleLossTutorial) {
     return;
   }
   
   [self refresh];
   
-  CGRect curRect = self.armoryTableView.frame;
-  CGRect r = self.armoryTableView.frame;
+  CGRect curRect = self.tableContainerView.frame;
+  CGRect r = self.tableContainerView.frame;
   r.origin.x = -r.size.width;
-  self.armoryTableView.frame = r;
-  self.armoryTableView.hidden = NO;
+  self.tableContainerView.frame = r;
+  self.tableContainerView.hidden = NO;
   self.topBar.alpha = 0.f;
   self.topBar.hidden = NO;
   [UIView animateWithDuration:0.3f animations:^{
@@ -600,7 +611,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     
     self.backView.alpha = 0.f;
     
-    self.armoryTableView.frame = curRect;
+    self.tableContainerView.frame = curRect;
   } completion:^(BOOL finished) {
     self.carouselView.frame = curRect;
     self.carouselView.hidden = YES;
@@ -699,7 +710,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 
 - (IBAction)closeClicked:(id)sender {
   if (_isForBattleLossTutorial) {
-    if (self.armoryTableView.hidden) {
+    if (self.tableContainerView.hidden) {
       [self buttonClickedDuringTutorialWithBuyClicked:NO];
     }
     return;
