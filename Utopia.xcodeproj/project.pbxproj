@@ -1621,11 +1621,13 @@
 		CFD09C061602E7DF005D94D1 /* ClanMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD09C051602E7DE005D94D1 /* ClanMemberCell.xib */; };
 		CFD29FC0164C9F22003CFE11 /* ClanTowerTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD29FBF164C9F22003CFE11 /* ClanTowerTabView.xib */; };
 		CFD29FC2164CA2FA003CFE11 /* ClanTowerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD29FC1164CA2FA003CFE11 /* ClanTowerView.xib */; };
-		CFD5E8C51716478F00FBDEA3 /* armoryfeedbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E8C31716478F00FBDEA3 /* armoryfeedbg.png */; };
-		CFD5E8C61716478F00FBDEA3 /* armoryfeedbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E8C41716478F00FBDEA3 /* armoryfeedbg@2x.png */; };
 		CFD5E8CB171647C800FBDEA3 /* ArmoryFeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E8C7171647C800FBDEA3 /* ArmoryFeedCell.xib */; };
 		CFD5E8CC171647C800FBDEA3 /* ArmoryFeedView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD5E8C9171647C800FBDEA3 /* ArmoryFeedView.m */; };
 		CFD5E8CD171647C800FBDEA3 /* ArmoryItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E8CA171647C800FBDEA3 /* ArmoryItemView.xib */; };
+		CFD5E900171652B200FBDEA3 /* feedcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E8FE171652B200FBDEA3 /* feedcircle.png */; };
+		CFD5E901171652B200FBDEA3 /* feedcircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E8FF171652B200FBDEA3 /* feedcircle@2x.png */; };
+		CFD5E904171652DB00FBDEA3 /* armoryfeedbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E902171652DB00FBDEA3 /* armoryfeedbg.png */; };
+		CFD5E905171652DB00FBDEA3 /* armoryfeedbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E903171652DB00FBDEA3 /* armoryfeedbg@2x.png */; };
 		CFD69F6015B7630900F90310 /* ForgeMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD69F5F15B7630900F90310 /* ForgeMenus.m */; };
 		CFD69F6715B7644100F90310 /* Blacksmith.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD69F6515B7644100F90310 /* Blacksmith.png */; };
 		CFD69F6815B7644100F90310 /* Blacksmith@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD69F6615B7644100F90310 /* Blacksmith@2x.png */; };
@@ -4033,12 +4035,14 @@
 		CFD09C051602E7DE005D94D1 /* ClanMemberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanMemberCell.xib; sourceTree = "<group>"; };
 		CFD29FBF164C9F22003CFE11 /* ClanTowerTabView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanTowerTabView.xib; sourceTree = "<group>"; };
 		CFD29FC1164CA2FA003CFE11 /* ClanTowerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanTowerView.xib; sourceTree = "<group>"; };
-		CFD5E8C31716478F00FBDEA3 /* armoryfeedbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = armoryfeedbg.png; sourceTree = "<group>"; };
-		CFD5E8C41716478F00FBDEA3 /* armoryfeedbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "armoryfeedbg@2x.png"; sourceTree = "<group>"; };
 		CFD5E8C7171647C800FBDEA3 /* ArmoryFeedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArmoryFeedCell.xib; sourceTree = "<group>"; };
 		CFD5E8C8171647C800FBDEA3 /* ArmoryFeedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmoryFeedView.h; sourceTree = "<group>"; };
 		CFD5E8C9171647C800FBDEA3 /* ArmoryFeedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmoryFeedView.m; sourceTree = "<group>"; };
 		CFD5E8CA171647C800FBDEA3 /* ArmoryItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArmoryItemView.xib; sourceTree = "<group>"; };
+		CFD5E8FE171652B200FBDEA3 /* feedcircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feedcircle.png; sourceTree = "<group>"; };
+		CFD5E8FF171652B200FBDEA3 /* feedcircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "feedcircle@2x.png"; sourceTree = "<group>"; };
+		CFD5E902171652DB00FBDEA3 /* armoryfeedbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = armoryfeedbg.png; sourceTree = "<group>"; };
+		CFD5E903171652DB00FBDEA3 /* armoryfeedbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "armoryfeedbg@2x.png"; sourceTree = "<group>"; };
 		CFD69F5E15B7630900F90310 /* ForgeMenus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgeMenus.h; sourceTree = "<group>"; };
 		CFD69F5F15B7630900F90310 /* ForgeMenus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgeMenus.m; sourceTree = "<group>"; };
 		CFD69F6115B763AC00F90310 /* plussign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plussign.png; sourceTree = "<group>"; };
@@ -7995,8 +7999,10 @@
 		CFF5825D16C387AA00712C4F /* Chest images */ = {
 			isa = PBXGroup;
 			children = (
-				CFD5E8C31716478F00FBDEA3 /* armoryfeedbg.png */,
-				CFD5E8C41716478F00FBDEA3 /* armoryfeedbg@2x.png */,
+				CFD5E902171652DB00FBDEA3 /* armoryfeedbg.png */,
+				CFD5E903171652DB00FBDEA3 /* armoryfeedbg@2x.png */,
+				CFD5E8FE171652B200FBDEA3 /* feedcircle.png */,
+				CFD5E8FF171652B200FBDEA3 /* feedcircle@2x.png */,
 				CFEE90C116D5D5600054E063 /* newarmoryactive.png */,
 				CFEE90C216D5D5600054E063 /* newarmoryactive@2x.png */,
 				CFEE90C316D5D5600054E063 /* newarmorynav.png */,
@@ -9636,10 +9642,12 @@
 				CF26A87D16FAC8310020D508 /* fire.plist in Resources */,
 				CF26A8A216FD58E50020D508 /* README.md in Resources */,
 				CF95B164170AA43B005131C2 /* FacebookSDKResources.bundle in Resources */,
-				CFD5E8C51716478F00FBDEA3 /* armoryfeedbg.png in Resources */,
-				CFD5E8C61716478F00FBDEA3 /* armoryfeedbg@2x.png in Resources */,
 				CFD5E8CB171647C800FBDEA3 /* ArmoryFeedCell.xib in Resources */,
 				CFD5E8CD171647C800FBDEA3 /* ArmoryItemView.xib in Resources */,
+				CFD5E900171652B200FBDEA3 /* feedcircle.png in Resources */,
+				CFD5E901171652B200FBDEA3 /* feedcircle@2x.png in Resources */,
+				CFD5E904171652DB00FBDEA3 /* armoryfeedbg.png in Resources */,
+				CFD5E905171652DB00FBDEA3 /* armoryfeedbg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
