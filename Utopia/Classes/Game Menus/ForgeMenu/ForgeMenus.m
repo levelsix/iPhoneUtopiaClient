@@ -7,6 +7,197 @@
 //
 
 #import "ForgeMenus.h"
+#import "ForgeMenuController.h"
+
+@implementation ForgeSlotTopBar
+
+@synthesize button1, button2, button3;
+
+- (void) awakeFromNib {
+  [self clickButton:kButton1];
+  [self unclickButton:kButton2];
+  [self unclickButton:kButton3];
+}
+
+- (void) clickButton:(LeaderboardBarButton)button {
+  switch (button) {
+    case kButton1:
+      button1.hidden = NO;
+      _clickedButtons |= kButton1;
+      break;
+      
+    case kButton2:
+      button2.hidden = NO;
+      _clickedButtons |= kButton2;
+      break;
+      
+    case kButton3:
+      button3.hidden = NO;
+      _clickedButtons |= kButton3;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) unclickButton:(LeaderboardBarButton)button {
+  switch (button) {
+    case kButton1:
+      button1.hidden = YES;
+      _clickedButtons &= ~kButton1;
+      break;
+      
+    case kButton2:
+      button2.hidden = YES;
+      _clickedButtons &= ~kButton2;
+      break;
+      
+    case kButton3:
+      button3.hidden = YES;
+      _clickedButtons &= ~kButton3;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) updateForSlotNum:(int)slotNum {
+  [self unclickButton:kButton1];
+  [self unclickButton:kButton2];
+  [self unclickButton:kButton3];
+  
+  switch (slotNum) {
+    case 1:
+      [self clickButton:kButton1];
+      break;
+    case 2:
+      [self clickButton:kButton2];
+      break;
+    case 3:
+      [self clickButton:kButton3];
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (!(_clickedButtons & kButton1) && [button1 pointInside:pt withEvent:nil]) {
+    _trackingButton1 = YES;
+    [self clickButton:kButton1];
+  }
+  
+  pt = [touch locationInView:button3];
+  if (!(_clickedButtons & kButton3) && [button3 pointInside:pt withEvent:nil]) {
+    _trackingButton3 = YES;
+    [self clickButton:kButton3];
+  }
+  
+  pt = [touch locationInView:button2];
+  if (!(_clickedButtons & kButton2) && [button2 pointInside:pt withEvent:nil]) {
+    _trackingButton2 = YES;
+    [self clickButton:kButton2];
+  }
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (_trackingButton1) {
+    if (CGRectContainsPoint(CGRectInset(button1.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton1];
+    } else {
+      [self unclickButton:kButton1];
+    }
+  }
+  
+  pt = [touch locationInView:button2];
+  if (_trackingButton2) {
+    if (CGRectContainsPoint(CGRectInset(button2.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton2];
+    } else {
+      [self unclickButton:kButton2];
+    }
+  }
+  
+  pt = [touch locationInView:button3];
+  if (_trackingButton3) {
+    if (CGRectContainsPoint(CGRectInset(button3.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton3];
+    } else {
+      [self unclickButton:kButton3];
+    }
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (_trackingButton1) {
+    if (CGRectContainsPoint(CGRectInset(button1.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton1];
+      [self unclickButton:kButton3];
+      [self unclickButton:kButton2];
+      
+      [[ForgeMenuController sharedForgeMenuController] setSlotNumber:1];
+    } else {
+      [self unclickButton:kButton1];
+    }
+  }
+  
+  pt = [touch locationInView:button2];
+  if (_trackingButton2) {
+    if (CGRectContainsPoint(CGRectInset(button2.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton2];
+      [self unclickButton:kButton3];
+      [self unclickButton:kButton1];
+      
+      [[ForgeMenuController sharedForgeMenuController] setSlotNumber:2];
+    } else {
+      [self unclickButton:kButton2];
+    }
+  }
+  
+  pt = [touch locationInView:button3];
+  if (_trackingButton3) {
+    if (CGRectContainsPoint(CGRectInset(button3.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton3];
+      [self unclickButton:kButton1];
+      [self unclickButton:kButton2];
+      
+      [[ForgeMenuController sharedForgeMenuController] setSlotNumber:3];
+    } else {
+      [self unclickButton:kButton3];
+    }
+  }
+  
+  _trackingButton1 = NO;
+  _trackingButton3 = NO;
+  _trackingButton2 = NO;
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self unclickButton:kButton1];
+  [self unclickButton:kButton3];
+  [self unclickButton:kButton2];
+  _trackingButton1 = NO;
+  _trackingButton3 = NO;
+  _trackingButton2 = NO;
+}
+
+- (void) dealloc {
+  self.button3 = nil;
+  self.button2 = nil;
+  self.button1 = nil;
+  [super dealloc];
+}
+
+@end
 
 @implementation ForgeItem
 
@@ -78,7 +269,7 @@
   
   self.levelIcon.level = fi.level;
   
-  if (gs.forgeAttempt.equipId == fi.equipId && gs.forgeAttempt.level == fi.level) {
+  if (fi.isForging) {
     self.forgingTag.hidden = NO;
   } else {
     self.forgingTag.hidden = YES;
@@ -131,10 +322,10 @@
 
 @synthesize timeLeftLabel, progressBar, timer;
 
-- (void) beginAnimating {
+- (void) beginAnimatingForSlot:(int)slot {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  ForgeAttempt *fa = gs.forgeAttempt;
+  ForgeAttempt *fa = [gs forgeAttemptForSlot:slot];
   
   int minutes = [gl calculateMinutesForForge:fa.equipId level:fa.level];
   NSDate *endDate = [fa.startTime dateByAddingTimeInterval:minutes*60.f];

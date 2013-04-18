@@ -9,12 +9,30 @@
 #import "cocos2d.h"
 #import "GameState.h"
 #import "Globals.h"
+#import "LeaderboardController.h"
+
+@interface ForgeSlotTopBar : UIView {
+  BOOL _trackingButton1;
+  BOOL _trackingButton2;
+  BOOL _trackingButton3;
+  
+  int _clickedButtons;
+}
+
+@property (nonatomic, retain) IBOutlet UIImageView *button1;
+@property (nonatomic, retain) IBOutlet UIImageView *button2;
+@property (nonatomic, retain) IBOutlet UIImageView *button3;
+
+- (void) updateForSlotNum:(int)slotNum;
+
+@end
 
 @interface ForgeItem : NSObject
 
 @property (nonatomic, assign) int equipId;
 @property (nonatomic, assign) int level;
 @property (nonatomic, assign) int quantity;
+@property (nonatomic, assign) int isForging;
 
 @end
 
@@ -51,7 +69,7 @@
 
 @property (nonatomic, retain) NSTimer *timer;
 
-- (void) beginAnimating;
+- (void) beginAnimatingForSlot:(int)slot;
 - (void) stopAnimating;
 
 @end

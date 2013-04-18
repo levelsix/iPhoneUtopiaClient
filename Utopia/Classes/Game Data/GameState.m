@@ -57,9 +57,6 @@
 @synthesize marketplaceGoldEarnings = _marketplaceGoldEarnings;
 @synthesize numPostsInMarketplace = _numPostsInMarketplace;
 @synthesize numMarketplaceSalesUnredeemed = _numMarketplaceSalesUnredeemed;
-@synthesize weaponEquipped = _weaponEquipped;
-@synthesize armorEquipped = _armorEquipped;
-@synthesize amuletEquipped = _amuletEquipped;
 @synthesize playerHasBoughtInAppPurchase = _playerHasBoughtInAppPurchase;
 @synthesize lastEnergyRefill = _lastEnergyRefill;
 @synthesize lastStaminaRefill = _lastStaminaRefill;
@@ -117,8 +114,6 @@
 
 @synthesize unrespondedUpdates = _unrespondedUpdates;
 
-@synthesize forgeAttempt = _forgeAttempt;
-
 @synthesize lastGoldmineRetrieval = _lastGoldmineRetrieval;
 
 @synthesize clan = _clan;
@@ -162,6 +157,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _boosterPurchases = [[NSMutableArray alloc] init];
     _staticLockBoxEvents = [[NSMutableArray alloc] init];
     _myLockBoxEvents = [[NSMutableDictionary alloc] init];
+    _forgeAttempts = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -236,9 +232,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.weaponEquipped = user.weaponEquippedUserEquip.userEquipId;
   self.armorEquipped = user.armorEquippedUserEquip.userEquipId;
   self.amuletEquipped = user.amuletEquippedUserEquip.userEquipId;
+  self.weaponEquipped2 = user.weaponTwoEquippedUserEquip.userEquipId;
+  self.armorEquipped2 = user.armorTwoEquippedUserEquip.userEquipId;
+  self.amuletEquipped2 = user.amuletTwoEquippedUserEquip.userEquipId;
   self.isAdmin = user.isAdmin;
   self.location = CLLocationCoordinate2DMake(user.userLocation.latitude, user.userLocation.longitude);
   self.hasReceivedfbReward = user.hasReceivedfbReward;
+  self.prestigeLevel = user.prestigeLevel;
+  self.numAdditionalForgeSlots = user.numAdditionalForgeSlots;
   
   NSTimeInterval t = user.lastEnergyRefillTime/1000.0;
   self.lastEnergyRefill = [NSDate dateWithTimeIntervalSince1970:t];
@@ -353,6 +354,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (int) amuletEquippedId {
   return [self myEquipWithUserEquipId:_amuletEquipped].equipId;
+}
+
+- (int) weaponEquippedId2 {
+  return [self myEquipWithUserEquipId:_weaponEquipped2].equipId;
+}
+
+- (int) armorEquippedId2 {
+  return [self myEquipWithUserEquipId:_armorEquipped2].equipId;
+}
+
+- (int) amuletEquippedId2 {
+  return [self myEquipWithUserEquipId:_amuletEquipped2].equipId;
 }
 
 - (FullEquipProto *) equipWithId:(int)equipId {
@@ -931,38 +944,73 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (void) beginForgeTimer {
-  [self stopForgeTimer];
-  Globals *gl = [Globals sharedGlobals];
-  ForgeAttempt *fa = self.forgeAttempt;
-  
-  if (!fa.isComplete) {
-    float seconds = [gl calculateMinutesForForge:fa.equipId level:fa.level]*60.f;
-    NSDate *endTime = [fa.startTime dateByAddingTimeInterval:seconds];
-    
-    if ([endTime compare:[NSDate date]] == NSOrderedDescending) {
-      _forgeTimer = [[NSTimer timerWithTimeInterval:endTime.timeIntervalSinceNow target:self selector:@selector(forgeWaitTimeComplete) userInfo:nil repeats:NO] retain];
-      [[NSRunLoop mainRunLoop] addTimer:_forgeTimer forMode:NSRunLoopCommonModes];
-    } else {
-      [self forgeWaitTimeComplete];
+- (ForgeAttempt *) forgeAttemptForSlot:(int)slotNum {
+  for (ForgeAttempt *a in self.forgeAttempts) {
+    if (a.slotNumber == slotNum) {
+      return a;
     }
-  } else {
-    UserNotification *un = [[UserNotification alloc] initWithForgeAttempt:self.forgeAttempt];
-    [self addNotification:un];
-    [un release];
   }
+  return nil;
 }
 
-- (void) forgeWaitTimeComplete {
-  [[OutgoingEventController sharedOutgoingEventController] forgeAttemptWaitComplete];
+- (ForgeAttempt *) forgeAttemptForBlacksmithId:(int)blacksmithId {
+  for (ForgeAttempt *a in self.forgeAttempts) {
+    if (a.blacksmithId == blacksmithId) {
+      return a;
+    }
+  }
+  return nil;
 }
 
-- (void) stopForgeTimer {
-  if (_forgeTimer) {
-    [_forgeTimer invalidate];
-    [_forgeTimer release];
-    _forgeTimer = nil;
+- (void) addForgeAttempt:(ForgeAttempt *)u {
+  ForgeAttempt *toRemove = [self forgeAttemptForSlot:u.slotNumber];
+  [self.forgeAttempts removeObject:toRemove];
+  [self.forgeAttempts addObject:u];
+}
+
+- (void) removeForgeAttempt:(int)blacksmithId {
+  ForgeAttempt *toRemove = [self forgeAttemptForBlacksmithId:blacksmithId];
+  [self.forgeAttempts removeObject:toRemove];
+}
+
+- (void) beginForgeTimers {
+  [self stopForgeTimers];
+  NSMutableArray *timers = [NSMutableArray array];
+  Globals *gl = [Globals sharedGlobals];
+  for (ForgeAttempt *fa in self.forgeAttempts) {
+    if (!fa.isComplete) {
+      float seconds = [gl calculateMinutesForForge:fa.equipId level:fa.level]*60.f;
+      NSDate *endTime = [fa.startTime dateByAddingTimeInterval:seconds];
+      
+      if ([endTime compare:[NSDate date]] == NSOrderedDescending) {
+        NSTimer *t = [[NSTimer timerWithTimeInterval:endTime.timeIntervalSinceNow target:self selector:@selector(forgeWaitTimeComplete) userInfo:fa repeats:NO] retain];
+        [[NSRunLoop mainRunLoop] addTimer:t forMode:NSRunLoopCommonModes];
+        [timers addObject:t];
+      } else {
+        [self forgeWaitTimeComplete:fa];
+      }
+    } else {
+      UserNotification *un = [[UserNotification alloc] initWithForgeAttempt:fa];
+      [self addNotification:un];
+      [un release];
+    }
   }
+  self.forgeTimers = timers;
+}
+
+- (void) forgeWaitTimeComplete:(id)t {
+  ForgeAttempt *fa = t;
+  if ([t isKindOfClass:[NSTimer class]]) {
+    fa = [(NSTimer *)t userInfo];
+  }
+  [[OutgoingEventController sharedOutgoingEventController] forgeAttemptWaitComplete:fa.blacksmithId];
+}
+
+- (void) stopForgeTimers {
+  for (NSTimer *t in self.forgeTimers) {
+    [t invalidate];
+  }
+  self.forgeTimers = nil;
 }
 
 - (void) beginEnhancementTimer {
@@ -1470,6 +1518,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
+- (NSArray *) getUserEquipArray {
+  NSMutableArray *arr = [NSMutableArray array];
+  const int size = 6;
+  int ids[size] = {_weaponEquipped, _armorEquipped, _amuletEquipped, _weaponEquipped2, _armorEquipped2, _amuletEquipped2};
+  for (int i = 0; i < size; i++) {
+    UserEquip *eq = [self myEquipWithUserEquipId:ids[i]];
+    [arr addObject:eq == nil ? [NSNull null] : eq];
+  }
+  return arr;
+}
+
 - (void) purgeStaticData {
   [_staticQuests removeAllObjects];
   [_staticBuildStructJobs removeAllObjects];
@@ -1531,6 +1590,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticBossEvents = [[[NSMutableArray alloc] init] autorelease];
   self.staticTournaments = [[[NSMutableArray alloc] init] autorelease];
   self.boosterPurchases = [[[NSMutableArray alloc] init] autorelease];
+  self.forgeAttempts = [[[NSMutableArray alloc] init] autorelease];
   
   self.availableQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressCompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
@@ -1561,8 +1621,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.clan = nil;
   self.userId = 0;
   
-  [self stopForgeTimer];
-  self.forgeAttempt = nil;
+  [self stopForgeTimers];
+  self.forgeAttempts = nil;
   
   [self stopAllLockBoxTimers];
   [self stopAllGoldSaleTimers];
@@ -1611,7 +1671,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.unrespondedUpdates = nil;
   self.deviceToken = nil;
   self.allies = nil;
-  self.forgeAttempt = nil;
   self.clan = nil;
   self.requestedClans = nil;
   self.lockBoxEventTimers = nil;
@@ -1625,7 +1684,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.clanTowerUserBattles = nil;
   [self stopAllLockBoxTimers];
   [self stopAllBossEventTimers];
-  [self stopForgeTimer];
+  [self stopForgeTimers];
   [self stopEnhancementTimer];
   [self stopExpansionTimer];
   [self stopAllGoldSaleTimers];

@@ -171,10 +171,10 @@
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 
-- (id) init {
-  Globals *gl = [Globals sharedGlobals];
-  return [self initWithNibName:@"ForgeMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName]];
-}
+//- (id) init {
+//  Globals *gl = [Globals sharedGlobals];
+//  return [self initWithNibName:@"ForgeMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName]];
+//}
 
 - (void)viewDidLoad
 {
@@ -188,20 +188,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   self.backMovingView.hidden = YES;
   self.frontMovingView.hidden = YES;
   
-  [self.forgingView insertSubview:self.frontMovingView aboveSubview:self.frontOldItemView];
-  [self.forgingView insertSubview:self.backMovingView aboveSubview:self.backOldItemView];
+  [self.forgingRightView insertSubview:self.frontMovingView aboveSubview:self.frontOldItemView];
+  [self.forgingRightView insertSubview:self.backMovingView aboveSubview:self.backOldItemView];
   
   progressView.frame = notForgingMiddleView.frame;
-  [self.forgingView addSubview:progressView];
+  [self.forgingRightView addSubview:progressView];
   
   statusView.frame = notForgingMiddleView.frame;
-  [self.forgingView addSubview:statusView];
+  [self.forgingRightView addSubview:statusView];
   
   notEnoughQuantityView.frame = notForgingMiddleView.frame;
-  [self.forgingView addSubview:notEnoughQuantityView];
+  [self.forgingRightView addSubview:notEnoughQuantityView];
   
   buyOneView.frame = forgeButton.frame;
-  [self.forgingView addSubview:buyOneView];
+  [self.forgingRightView addSubview:buyOneView];
   buyOneView.hidden = YES;
   
   self.enhancingView.frame = self.forgingView.frame;
@@ -210,6 +210,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   backOldFrame = self.backOldItemView.frame;
   frontOldFrame = self.frontOldItemView.frame;
   upgrFrame = self.upgrItemView.frame;
+  
+  self.buySlotView.frame = self.forgingRightView.frame;
+  [self.forgingView addSubview:self.buySlotView];
   
   [self displayForgeMenu];
 }
@@ -269,6 +272,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     self.forgingView = nil;
     self.enhancingView = nil;
     self.navBar = nil;
+    self.forgingRightView = nil;
+    self.buySlotView = nil;
   }
 }
 
@@ -294,6 +299,28 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   [self.enhancingView reload];
   
   [[SoundEngine sharedSoundEngine] forgeEnter];
+  
+  [self setSlotNumber:1];
+}
+
+- (void) setSlotNumber:(int)slotNumber {
+  _slotNumber = slotNumber;
+  [self loadForgeItems];
+  [self.slotBar updateForSlotNum:slotNumber];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (gs.numAdditionalForgeSlots+1 < slotNumber) {
+    [self displayBuySlotView:slotNumber];
+  }
+}
+
+- (void) displayBuySlotView:(int)slot {
+  self.forgingRightView.hidden = YES;
+  self.buySlotView.hidden = NO;
+  
+  NSString *num = slot == 2 ? @"two" : @"three";
+  NSString *str = [NSString stringWithFormat:@"Unlock slot %d to forge %@ items at a time.", slot, num];
+  self.buySlotDescLabel.text = str;
 }
 
 - (void) displayForgeMenu {
@@ -345,26 +372,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   }
   
   // Fake 2 items from the forge
-  ForgeAttempt *fa = gs.forgeAttempt;
+  ForgeAttempt *fa = [gs forgeAttemptForSlot:self.slotNumber];
   ForgeItem *forgingItem = nil;
   if (fa) {
-    for (ForgeItem *fi in items) {
-      if (fi.equipId == fa.equipId && fi.level == fa.level) {
-        forgingItem = fi;
-        break;
-      }
-    }
-    
-    if (forgingItem) {
-      forgingItem.quantity += 2;
-    } else {
-      forgingItem = [[ForgeItem alloc] init];
-      forgingItem.equipId = fa.equipId;
-      forgingItem.level = fa.level;
-      forgingItem.quantity = 2;
-      [items addObject:forgingItem];
-      [forgingItem release];
-    }
+    forgingItem = [[ForgeItem alloc] init];
+    forgingItem.equipId = fa.equipId;
+    forgingItem.level = fa.level;
+    forgingItem.quantity = 2;
+    forgingItem.isForging = YES;
+    [items addObject:forgingItem];
+    [forgingItem release];
   }
   
   // Sort the forge items
@@ -374,7 +391,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   for (int i = 0; i < total; i++) {
     ForgeItem *best = nil;
     for (ForgeItem *item in items) {
-      if (!best) {
+      if (item.isForging == YES || !best) {
         best = item;
       }
       
@@ -450,6 +467,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
+  self.forgingRightView.hidden = NO;
+  self.buySlotView.hidden = YES;
+  
   self.forgeButton.hidden = YES;
   self.okayButton.hidden = YES;
   self.goToMarketplaceButton.hidden = YES;
@@ -498,7 +518,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   self.backOldEquipIcon.alpha = 1.f;
   self.frontOldEquipIcon.alpha = 1.f;
   
-  if (gs.forgeAttempt.guaranteed) {
+  ForgeAttempt *fa = [gs forgeAttemptForSlot:self.slotNumber];
+  if (fa.guaranteed) {
     self.bottomLabel.text = @"This forge is guaranteed to succeed.";
   } else {
     float chance = [gl calculateChanceOfSuccess:fi.equipId level:fi.level];
@@ -506,7 +527,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   }
   self.bottomLabel.textColor = [Globals creamColor];
   
-  if (gs.forgeAttempt.isComplete) {
+  if (fa.isComplete) {
     self.progressView.hidden = YES;
     self.statusView.hidden = NO;
     self.notEnoughQuantityView.hidden = YES;
@@ -519,12 +540,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     self.notEnoughQuantityView.hidden = YES;
     self.finishNowButton.hidden = NO;
     self.collectButton.hidden = YES;
-    [self.progressView beginAnimating];
+    [self.progressView beginAnimatingForSlot:self.slotNumber];
   }
 }
 
 - (void) loadRightViewForNotEnoughQuantity:(ForgeItem *)fi fromItemView:(ForgeItemView *)fiv {
   Globals *gl = [Globals sharedGlobals];
+  
+  self.forgingRightView.hidden = NO;
+  self.buySlotView.hidden = YES;
   
   int oldAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level enhancePercent:0];
   int oldDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level enhancePercent:0];
@@ -578,7 +602,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   }
   
   if (fiv) {
-    self.backMovingView.frame = [self.forgingView convertRect:fiv.equipIcon.frame fromView:fiv.equipIcon.superview];
+    self.backMovingView.frame = [self.backMovingView.superview convertRect:fiv.equipIcon.frame fromView:fiv.equipIcon.superview];
     
     [Globals loadImageForEquip:fi.equipId toView:self.backOldEquipIcon maskedView:nil];
     self.backOldEquipIcon.alpha = 0.5f;
@@ -591,8 +615,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     self.upgrAttackLabel.alpha = 0.f;
     self.upgrDefenseLabel.alpha = 0.f;
     
+    self.backMovingView.hidden = NO;
     [UIView animateWithDuration:0.5f delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
-      self.backMovingView.frame = [self.forgingView convertRect:self.backOldEquipIcon.frame fromView:self.backOldEquipIcon.superview];
+      self.backMovingView.frame = [self.backMovingView.superview convertRect:self.backOldEquipIcon.frame fromView:self.backOldEquipIcon.superview];
       self.upgrEquipIcon.alpha = 1.f;
       self.backOldAttackLabel.alpha = 1.f;
       self.backOldDefenseLabel.alpha = 1.f;
@@ -614,14 +639,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 }
 
 - (void) loadRightViewForForgeItem:(ForgeItem *)fi fromItemView:(ForgeItemView *)fiv {
-  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   //  FullEquipProto *fep = [gs equipWithId:fi.equipId];
   if (self.curItem != fi) {
+    self.forgingRightView.hidden = NO;
+    self.buySlotView.hidden = YES;
+    
     self.curItem = fi;
     
     // If this is the one being currently forged, use loadRightViewForCurrentForgingItem
-    if (fi.equipId == gs.forgeAttempt.equipId && fi.level == gs.forgeAttempt.level) {
+    if (fi.isForging) {
       [self loadRightViewForCurrentForgingItem:fi];
       return;
     } else {
@@ -693,8 +720,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     
     // If fiv is not nil, then animate it
     if (fiv) {
-      self.backMovingView.frame = [self.forgingView convertRect:fiv.equipIcon.frame fromView:fiv.equipIcon.superview];
-      self.frontMovingView.frame = [self.forgingView convertRect:fiv.equipIcon.frame fromView:fiv.equipIcon.superview];
+      self.backMovingView.frame = [self.backMovingView.superview convertRect:fiv.equipIcon.frame fromView:fiv.equipIcon.superview];
+      self.frontMovingView.frame = [self.frontMovingView.superview convertRect:fiv.equipIcon.frame fromView:fiv.equipIcon.superview];
       
       [Globals loadImageForEquip:fi.equipId toView:self.backOldEquipIcon maskedView:nil];
       [Globals loadImageForEquip:fi.equipId toView:self.frontOldEquipIcon maskedView:nil];
@@ -712,9 +739,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
       self.upgrAttackLabel.alpha = 0.f;
       self.upgrDefenseLabel.alpha = 0.f;
       
+      self.backMovingView.hidden = NO;
+      self.frontMovingView.hidden = NO;
       [UIView animateWithDuration:0.5f delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
-        self.backMovingView.frame = [self.forgingView convertRect:self.backOldEquipIcon.frame fromView:self.backOldEquipIcon.superview];
-        self.frontMovingView.frame = [self.forgingView convertRect:self.frontOldEquipIcon.frame fromView:self.frontOldEquipIcon.superview];
+        self.backMovingView.frame = [self.backMovingView.superview convertRect:self.backOldEquipIcon.frame fromView:self.backOldEquipIcon.superview];
+        self.frontMovingView.frame = [self.frontMovingView.superview convertRect:self.frontOldEquipIcon.frame fromView:self.frontOldEquipIcon.superview];
         self.upgrEquipIcon.alpha = 1.f;
         self.backOldAttackLabel.alpha = 1.f;
         self.backOldDefenseLabel.alpha = 1.f;
@@ -746,15 +775,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     [self loadRightViewForCurrentForgingItem:self.curItem];
   }];
   // Do this outside again because it gets overwritten by the outside animation loop
-  [self.progressView beginAnimating];
+  [self.progressView beginAnimatingForSlot:self.slotNumber];
 }
 
 - (IBAction)forgeButtonClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  if (gs.forgeAttempt) {
-    if (gs.forgeAttempt.isComplete) {
+  ForgeAttempt *fa = [gs forgeAttemptForSlot:self.slotNumber];
+  if (fa) {
+    if (fa.isComplete) {
       NSString *desc = @"You have a completed forge waiting to be collected. Go there now?";
       [GenericPopupController displayConfirmationWithDescription:desc
                                                            title:nil
@@ -763,7 +793,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
                                                           target:self
                                                         selector:@selector(loadForgeAttempt)];
     } else {
-      int gold = [gl calculateGoldCostToSpeedUpForging:gs.forgeAttempt.equipId level:gs.forgeAttempt.level];
+      int gold = [gl calculateGoldCostToSpeedUpForging:fa.equipId level:fa.level];
       NSString *desc = [NSString stringWithFormat:@"You are already forging an item. Speed it up for %d gold?", gold];
       [GenericPopupController displayConfirmationWithDescription:desc
                                                            title:nil
@@ -843,7 +873,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
       [Analytics blacksmithNotGuaranteedForgeWithEquipId:curItem.equipId level:curItem.level];
     }
     
-    BOOL succeeded = [[OutgoingEventController sharedOutgoingEventController] submitEquipsToBlacksmithWithUserEquipId:ue1.userEquipId userEquipId:ue2.userEquipId guaranteed:guaranteed];
+    BOOL succeeded = [[OutgoingEventController sharedOutgoingEventController] submitEquipsToBlacksmithWithUserEquipId:ue1.userEquipId userEquipId:ue2.userEquipId guaranteed:guaranteed slotNumber:self.slotNumber];
     
     [self.coinBar updateLabels];
     
@@ -867,11 +897,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  if (gs.forgeAttempt.isComplete) {
+  ForgeAttempt *fa = [gs forgeAttemptForSlot:self.slotNumber];
+  if (fa.isComplete) {
     return;
   }
   
-  int gold = [gl calculateGoldCostToSpeedUpForging:gs.forgeAttempt.equipId level:gs.forgeAttempt.level];
+  int gold = [gl calculateGoldCostToSpeedUpForging:fa.equipId level:fa.level];
   NSString *desc = [NSString stringWithFormat:@"Would you like to speed up forging for %d gold?", gold];
   [GenericPopupController displayConfirmationWithDescription:desc
                                                        title:nil
@@ -888,8 +919,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (void) finishNow {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  int gold = [gl calculateGoldCostToSpeedUpForging:gs.forgeAttempt.equipId level:gs.forgeAttempt.level];
-  ForgeAttempt *fa = gs.forgeAttempt;
+  ForgeAttempt *fa = [gs forgeAttemptForSlot:self.slotNumber];
+  int gold = [gl calculateGoldCostToSpeedUpForging:fa.equipId level:fa.level];
   
   if (fa.isComplete) {
     return;
@@ -900,7 +931,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     
     [Analytics blacksmithFailedToSpeedUpWithEquipId:fa.equipId level:fa.level cost:gold];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] finishForgeAttemptWaittimeWithDiamonds];
+    [[OutgoingEventController sharedOutgoingEventController] finishForgeAttemptWaittimeWithDiamonds:fa.blacksmithId];
     
     [self.coinBar updateLabels];
     
@@ -909,7 +940,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     
     for (; index < self.forgeItems.count; index++) {
       ForgeItem *f = [self.forgeItems objectAtIndex:index];
-      if (f.equipId == gs.forgeAttempt.equipId && f.level == gs.forgeAttempt.level) {
+      if (fi.isForging) {
         fi = f;
         break;
       }
@@ -935,13 +966,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 }
 
 - (void) loadForgeAttempt {
-  GameState *gs = [GameState sharedGameState];
   int index = 0;
   ForgeItem *fi = nil;
   
   for (; index < self.forgeItems.count; index++) {
     ForgeItem *f = [self.forgeItems objectAtIndex:index];
-    if (f.equipId == gs.forgeAttempt.equipId && f.level == gs.forgeAttempt.level) {
+    if (fi.isForging) {
       fi = f;
       break;
     }
@@ -957,10 +987,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (IBAction) checkResultsClicked:(id)sender {
   if (!_collectingEquips) {
     GameState *gs = [GameState sharedGameState];
-    ForgeAttempt *fa = gs.forgeAttempt;
+    ForgeAttempt *fa = [gs forgeAttemptForSlot:self.slotNumber];
     
     if (fa.isComplete) {
-      [[OutgoingEventController sharedOutgoingEventController] collectForgeEquips];
+      [[OutgoingEventController sharedOutgoingEventController] collectForgeEquips:fa.blacksmithId];
       
       [self doLoadingForChecking];
       
@@ -998,6 +1028,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   [self.loadingView display:self.view];
   
   [Analytics blacksmithBuyOneWithEquipId:self.curItem.equipId level:self.curItem.level];
+}
+
+- (IBAction)buyForgeSlotClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.numAdditionalForgeSlots+2 < self.slotNumber) {
+    [Globals popupMessage:[NSString stringWithFormat:@"Please purchase slot %d before purchasing slot %d.", gs.numAdditionalForgeSlots+2, self.slotNumber]];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] purchaseForgeSlot];
+    [self.loadingView display:self.view];
+  }
 }
 
 - (void) doLoadingForChecking {
@@ -1162,7 +1202,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   ForgeItemView *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil) {
     Globals *gl = [Globals sharedGlobals];
-    [[Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName] loadNibNamed:@"ForgeItemView" owner:self options:nil];
+#warning change back
+    NSBundle *bundle = [NSBundle mainBundle];// [Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName];
+    [bundle loadNibNamed:@"ForgeItemView" owner:self options:nil];
     cell = self.itemView;
   }
   
@@ -1256,6 +1298,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
       [self reloadCurrentItem];
     }
   }
+}
+
+- (void) receivedPurchaseForgeSlot {
+  [self.loadingView stop];
+  [self setSlotNumber:self.slotNumber];
 }
 
 @end

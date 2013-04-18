@@ -40,6 +40,7 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet ForgeTopBar *navBar;
+@property (nonatomic, retain) IBOutlet ForgeSlotTopBar *slotBar;
 
 @property (nonatomic, retain) IBOutlet UITableView *forgeTableView;
 @property (nonatomic, retain) IBOutlet LoadingView *loadingView;
@@ -93,8 +94,15 @@
 @property (nonatomic, retain) IBOutlet UIView *forgingView;
 @property (nonatomic, retain) IBOutlet ForgeEnhanceView *enhancingView;
 
+@property (nonatomic, retain) IBOutlet UIView *forgingRightView;
+@property (nonatomic, retain) IBOutlet UIView *buySlotView;
+@property (nonatomic, retain) IBOutlet UILabel *buySlotDescLabel;
+@property (nonatomic, retain) IBOutlet UILabel *buySlotCostLabel;
+
 @property (nonatomic, retain) NSMutableArray *forgeItems;
 @property (nonatomic, retain) ForgeItem *curItem;
+
+@property (nonatomic, assign) int slotNumber;
 
 + (ForgeMenuController *) sharedForgeMenuController;
 + (void) displayView;
@@ -111,5 +119,6 @@
 - (void) receivedSubmitEquipResponse:(SubmitEquipsToBlacksmithResponseProto *)proto;
 - (void) receivedCollectForgeEquipsResponse:(CollectForgeEquipsResponseProto *)proto;
 - (void) receivedArmoryResponse:(BOOL)success;
+- (void) receivedPurchaseForgeSlot;
 
 @end

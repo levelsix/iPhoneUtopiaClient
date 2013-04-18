@@ -14,7 +14,7 @@
 
 @class MarketplacePostView;
 
-@interface ProfileViewController : UIViewController <UITextFieldDelegate, UIGestureRecognizerDelegate> {
+@interface ProfileViewController : UIViewController <UITextFieldDelegate, UIGestureRecognizerDelegate, EquipViewDelegate> {
   ProfileState _state;
   EquipScope _curScope;
   FullUserProto *_fup;
@@ -56,15 +56,10 @@
 @property (nonatomic, retain) IBOutlet UIView *profileTabView;
 @property (nonatomic, retain) IBOutlet UIView *skillTabView;
 @property (nonatomic, retain) IBOutlet UIView *specialTabView;
-@property (nonatomic, retain) IBOutlet UIView *equipTabView;
 @property (nonatomic, retain) IBOutlet WallTabView *wallTabView;
+@property (nonatomic, retain) IBOutlet EquipTabView *equipTabView;
 
 @property (nonatomic, assign) ProfileState state;
-@property (nonatomic, assign) EquipScope curScope;
-
-@property (nonatomic, retain) IBOutlet UITableView *equipsTableView;
-@property (nonatomic, retain) EquipTableViewDelegate *equipsTableDelegate;
-@property (nonatomic, retain) IBOutlet UILabel *equipHeaderLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *enemyAttackLabel;
 @property (nonatomic, retain) IBOutlet UIView *enemyMiddleView;
@@ -89,6 +84,7 @@
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 @property (nonatomic, retain) IBOutlet ProfileEquipPopup *equipPopup;
+@property (nonatomic, retain) IBOutlet ProfileEquipBrowseView *equipBrowseView;
 
 @property (nonatomic, retain) UIImageView *equippingView;
 
@@ -110,10 +106,8 @@
 - (void) updateEquips:(NSArray *)equips;
 - (void) openSkillsMenu;
 - (void) equipViewSelected:(EquipView *)ev;
-- (void) currentEquipViewSelected:(EquipView *)cev;
 - (void) loadSkills;
 - (void) doEquip:(UserEquip *)equip;
-- (void) doEquippingAnimation:(EquipView *)ev forType:(FullEquipProto_EquipType)type;
 - (void) displayMyCurrentStats;
 
 - (void) receivedEquips:(RetrieveUserEquipForUserResponseProto *)proto;

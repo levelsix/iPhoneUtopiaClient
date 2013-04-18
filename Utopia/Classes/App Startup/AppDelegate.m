@@ -405,11 +405,13 @@
     [self scheduleNotificationWithText:text badge:badge date:staminaRefilled];
   }
   
-  if (gs.forgeAttempt && !gs.forgeAttempt.isComplete) {
-    FullEquipProto *fep = [gs equipWithId:gs.forgeAttempt.equipId];
-    NSString *text = [NSString stringWithFormat:@"The Blacksmith has completed forging your %@. Come back to check if it succeeded!", fep.name];
-    int minutes = [gl calculateMinutesForForge:gs.forgeAttempt.equipId level:gs.forgeAttempt.level];
-    [self scheduleNotificationWithText:text badge:1 date:[gs.forgeAttempt.startTime dateByAddingTimeInterval:minutes*60.f]];
+  for (ForgeAttempt *forgeAttempt in gs.forgeAttempts) {
+    if (forgeAttempt && !forgeAttempt.isComplete) {
+      FullEquipProto *fep = [gs equipWithId:forgeAttempt.equipId];
+      NSString *text = [NSString stringWithFormat:@"The Blacksmith has completed forging your %@. Come back to check if it succeeded!", fep.name];
+      int minutes = [gl calculateMinutesForForge:forgeAttempt.equipId level:forgeAttempt.level];
+      [self scheduleNotificationWithText:text badge:1 date:[forgeAttempt.startTime dateByAddingTimeInterval:minutes*60.f]];
+    }
   }
   
   if (gs.equipEnhancement) {

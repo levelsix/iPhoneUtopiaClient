@@ -278,6 +278,10 @@
 @class PostToMarketplaceRequestProto_Builder;
 @class PostToMarketplaceResponseProto;
 @class PostToMarketplaceResponseProto_Builder;
+@class PrestigeRequestProto;
+@class PrestigeRequestProto_Builder;
+@class PrestigeResponseProto;
+@class PrestigeResponseProto_Builder;
 @class PurchaseBoosterPackRequestProto;
 @class PurchaseBoosterPackRequestProto_Builder;
 @class PurchaseBoosterPackResponseProto;
@@ -286,6 +290,10 @@
 @class PurchaseCityExpansionRequestProto_Builder;
 @class PurchaseCityExpansionResponseProto;
 @class PurchaseCityExpansionResponseProto_Builder;
+@class PurchaseForgeSlotRequestProto;
+@class PurchaseForgeSlotRequestProto_Builder;
+@class PurchaseForgeSlotResponseProto;
+@class PurchaseForgeSlotResponseProto_Builder;
 @class PurchaseFromMarketplaceRequestProto;
 @class PurchaseFromMarketplaceRequestProto_Builder;
 @class PurchaseFromMarketplaceResponseProto;
@@ -1004,7 +1012,7 @@ typedef enum {
   SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusNotEnoughDiamondsForGuarantee = 2,
   SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusSubmittedEquipsNotSameLevel = 4,
   SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusTryingToSurpassMaxLevel = 5,
-  SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusAlreadyForging = 6,
+  SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusAlreadyForgingMaxNumOfEquips = 6,
   SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusClientTooApartFromServerTime = 7,
   SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusOtherFail = 8,
 } SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatus;
@@ -1035,6 +1043,7 @@ typedef enum {
   CollectForgeEquipsResponseProto_CollectForgeEquipsStatusSuccess = 0,
   CollectForgeEquipsResponseProto_CollectForgeEquipsStatusOtherFail = 1,
   CollectForgeEquipsResponseProto_CollectForgeEquipsStatusNotDoneYet = 2,
+  CollectForgeEquipsResponseProto_CollectForgeEquipsStatusTooManyEquipsBeingForged = 3,
 } CollectForgeEquipsResponseProto_CollectForgeEquipsStatus;
 
 BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(CollectForgeEquipsResponseProto_CollectForgeEquipsStatus value);
@@ -1369,6 +1378,25 @@ typedef enum {
 } ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatus;
 
 BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatus value);
+
+typedef enum {
+  PrestigeResponseProto_PrestigeStatusSuccess = 0,
+  PrestigeResponseProto_PrestigeStatusBelowMinLevelForPrestige = 1,
+  PrestigeResponseProto_PrestigeStatusAlreadyAtMaxPrestigeLevel = 2,
+  PrestigeResponseProto_PrestigeStatusFailOther = 3,
+} PrestigeResponseProto_PrestigeStatus;
+
+BOOL PrestigeResponseProto_PrestigeStatusIsValidValue(PrestigeResponseProto_PrestigeStatus value);
+
+typedef enum {
+  PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusSuccess = 0,
+  PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusFailAlreadyAtMaxForgeSlots = 1,
+  PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusFailNotEnoughGold = 2,
+  PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusFailOther = 3,
+  PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusFailUserHasMoreThanMaxForgeSlots = 4,
+} PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatus;
+
+BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -2143,8 +2171,6 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
   BOOL hasDailyBonusInfo_:1;
-  BOOL hasUnhandledForgeAttempt_:1;
-  BOOL hasForgeAttemptEquip_:1;
   BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasTutorialConstants_:1;
@@ -2158,8 +2184,6 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   NSString* reviewPageUrl;
   NSString* appStoreUrl;
   StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
-  UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
-  FullEquipProto* forgeAttemptEquip;
   FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_TutorialConstants* tutorialConstants;
@@ -2167,17 +2191,19 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableRareBoosterPurchasesList;
+  NSMutableArray* mutableUnhandledForgeAttemptList;
+  NSMutableArray* mutableForgeAttemptEquipList;
   NSMutableArray* mutableMktSearchEquipsList;
   NSMutableArray* mutableGlobalChatsList;
   NSMutableArray* mutableClanChatsList;
   NSMutableArray* mutableGoldSalesList;
   NSMutableArray* mutableClanTierLevelsList;
-  NSMutableArray* mutableLeaderboardEventsList;
-  NSMutableArray* mutableBossEventsList;
+  NSMutableArray* mutableRareBoosterPurchasesList;
   NSMutableArray* mutableClanTowersList;
   NSMutableArray* mutableStaticStructsList;
   NSMutableArray* mutableStaticEquipsList;
+  NSMutableArray* mutableBossEventsList;
+  NSMutableArray* mutableLeaderboardEventsList;
   NSMutableArray* mutableAlliesList;
   NSMutableArray* mutableUserLockBoxEventsList;
   NSMutableArray* mutableLockBoxEventsList;
@@ -2207,8 +2233,6 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (BOOL) hasReviewPageConfirmationMessage;
 - (BOOL) hasDailyBonusInfo;
 - (BOOL) hasPlayerHasBoughtInAppPurchase;
-- (BOOL) hasUnhandledForgeAttempt;
-- (BOOL) hasForgeAttemptEquip;
 - (BOOL) hasEquipEnhancement;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
@@ -2222,8 +2246,6 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 @property (readonly, retain) NSString* reviewPageConfirmationMessage;
 @property (readonly, retain) StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
 - (BOOL) playerHasBoughtInAppPurchase;
-@property (readonly, retain) UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
-@property (readonly, retain) FullEquipProto* forgeAttemptEquip;
 @property (readonly, retain) EquipEnhancementProto* equipEnhancement;
 - (NSArray*) allCitiesList;
 - (FullCityProto*) allCitiesAtIndex:(int32_t) index;
@@ -2257,6 +2279,10 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (UserLockBoxEventProto*) userLockBoxEventsAtIndex:(int32_t) index;
 - (NSArray*) alliesList;
 - (MinimumUserProtoWithLevel*) alliesAtIndex:(int32_t) index;
+- (NSArray*) unhandledForgeAttemptList;
+- (UnhandledBlacksmithAttemptProto*) unhandledForgeAttemptAtIndex:(int32_t) index;
+- (NSArray*) forgeAttemptEquipList;
+- (FullEquipProto*) forgeAttemptEquipAtIndex:(int32_t) index;
 - (NSArray*) noticesToPlayersList;
 - (NSString*) noticesToPlayersAtIndex:(int32_t) index;
 - (NSArray*) mktSearchEquipsList;
@@ -2658,13 +2684,14 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 @private
   BOOL hasUseOldBattleFormula_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
-  BOOL hasHealthFormulaExponentBase_:1;
-  BOOL hasBossEventSuperAttack_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
+  BOOL hasBossEventSuperAttack_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
+  BOOL hasHealthFormulaExponentBase_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasMinNameLength_:1;
   BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
   BOOL hasAverageSizeOfLevelBracket_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
@@ -2675,7 +2702,7 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   BOOL hasVaultImgVerticalPixelOffset_:1;
   BOOL hasArmoryImgVerticalPixelOffset_:1;
   BOOL hasMaxCityRank_:1;
-  BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
+  BOOL hasMinLevelForPrestige_:1;
   BOOL hasMaxNumTowersClanCanHold_:1;
   BOOL hasFbConnectRewardDiamonds_:1;
   BOOL hasQuestIdForFirstLossTutorial_:1;
@@ -2694,7 +2721,7 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
   BOOL hasSizeOfAttackList_:1;
   BOOL hasMaxNameLength_:1;
-  BOOL hasMinNameLength_:1;
+  BOOL hasStaminaBaseCost_:1;
   BOOL hasEnergyBaseCost_:1;
   BOOL hasDefenseBaseCost_:1;
   BOOL hasAttackBaseCost_:1;
@@ -2714,24 +2741,24 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   BOOL hasArmoryXlength_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
-  BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasMaxNumberOfMarketplacePosts_:1;
+  BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
   BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasMinutesToRefillAstamina_:1;
-  BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
+  BOOL hasMinutesToRefillAenergy_:1;
+  BOOL hasNumDaysUntilFreeRetract_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMaxLevelForStruct_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
-  BOOL hasStaminaBaseCost_:1;
-  BOOL hasNumDaysUntilFreeRetract_:1;
+  BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
+  BOOL hasBoosterPackConstants_:1;
   BOOL hasEnhanceConstants_:1;
   BOOL hasLeaderboardConstants_:1;
   BOOL hasMinLevelConstants_:1;
-  BOOL hasBoosterPackConstants_:1;
   BOOL hasFormulaConstants_:1;
   BOOL hasBattleConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
@@ -2745,13 +2772,14 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   BOOL hasCharModConstants_:1;
   BOOL useOldBattleFormula_:1;
   Float64 percentReturnedToUserForSellingEquipInArmory;
-  Float64 levelEquipBoostExponentBase;
   Float64 cutOfVaultDepositTaken;
-  Float64 healthFormulaExponentBase;
-  Float64 bossEventSuperAttack;
+  Float64 levelEquipBoostExponentBase;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+  Float64 bossEventSuperAttack;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+  Float64 healthFormulaExponentBase;
   Float64 percentReturnedToUserForSellingNormStructure;
+  int32_t minNameLength;
   int32_t adColonyVideosRequiredToRedeemDiamonds;
   int32_t averageSizeOfLevelBracket;
   int32_t playerWallPostsRetrieveCap;
@@ -2762,7 +2790,7 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   int32_t vaultImgVerticalPixelOffset;
   int32_t armoryImgVerticalPixelOffset;
   int32_t maxCityRank;
-  int32_t maxNumbersOfEnemiesToGenerateAtOnce;
+  int32_t minLevelForPrestige;
   int32_t maxNumTowersClanCanHold;
   int32_t fbConnectRewardDiamonds;
   int32_t questIdForFirstLossTutorial;
@@ -2781,7 +2809,7 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   int32_t maxNumTimesAttackedByOneInProtectionPeriod;
   int32_t sizeOfAttackList;
   int32_t maxNameLength;
-  int32_t minNameLength;
+  int32_t staminaBaseCost;
   int32_t energyBaseCost;
   int32_t defenseBaseCost;
   int32_t attackBaseCost;
@@ -2801,24 +2829,24 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   int32_t armoryXlength;
   int32_t maxLevelForUser;
   int32_t maxLevelDifferenceForBattle;
-  int32_t diamondCostForFullStaminaRefill;
   int32_t diamondCostForFullEnergyRefill;
   int32_t maxNumberOfMarketplacePosts;
+  int32_t diamondCostForFullStaminaRefill;
   int32_t numDaysLongMarketplaceLicenseLastsFor;
   int32_t numDaysShortMarketplaceLicenseLastsFor;
   int32_t diamondCostOfLongMarketplaceLicense;
   int32_t minutesToRefillAstamina;
-  int32_t minutesToRefillAenergy;
   int32_t diamondCostOfShortMarketplaceLicense;
+  int32_t minutesToRefillAenergy;
+  int32_t numDaysUntilFreeRetract;
   int32_t maxNumOfSingleStruct;
   int32_t maxLevelForStruct;
   int32_t skillPointsGainedOnLevelup;
-  int32_t staminaBaseCost;
-  int32_t numDaysUntilFreeRetract;
+  int32_t maxNumbersOfEnemiesToGenerateAtOnce;
+  StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
   StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
   StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
   StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
-  StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
   StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
   StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
@@ -2923,6 +2951,7 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (BOOL) hasQuestIdForFirstLossTutorial;
 - (BOOL) hasFbConnectRewardDiamonds;
 - (BOOL) hasMaxNumTowersClanCanHold;
+- (BOOL) hasMinLevelForPrestige;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -3010,6 +3039,7 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 @property (readonly) int32_t questIdForFirstLossTutorial;
 @property (readonly) int32_t fbConnectRewardDiamonds;
 @property (readonly) int32_t maxNumTowersClanCanHold;
+@property (readonly) int32_t minLevelForPrestige;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -4561,22 +4591,26 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   BOOL hasForgeMinDiamondCostForGuarantee_:1;
   BOOL hasForgeBaseMinutesToOneGold_:1;
   BOOL hasForgeMaxEquipLevel_:1;
+  BOOL hasForgeMaxForgeSlots_:1;
   Float64 forgeTimeBaseForExponentialMultiplier;
   Float64 forgeDiamondCostForGuaranteeExponentialMultiplier;
   int32_t forgeMinDiamondCostForGuarantee;
   int32_t forgeBaseMinutesToOneGold;
   int32_t forgeMaxEquipLevel;
+  int32_t forgeMaxForgeSlots;
 }
 - (BOOL) hasForgeTimeBaseForExponentialMultiplier;
 - (BOOL) hasForgeMinDiamondCostForGuarantee;
 - (BOOL) hasForgeDiamondCostForGuaranteeExponentialMultiplier;
 - (BOOL) hasForgeBaseMinutesToOneGold;
 - (BOOL) hasForgeMaxEquipLevel;
+- (BOOL) hasForgeMaxForgeSlots;
 @property (readonly) Float64 forgeTimeBaseForExponentialMultiplier;
 @property (readonly) int32_t forgeMinDiamondCostForGuarantee;
 @property (readonly) Float64 forgeDiamondCostForGuaranteeExponentialMultiplier;
 @property (readonly) int32_t forgeBaseMinutesToOneGold;
 @property (readonly) int32_t forgeMaxEquipLevel;
+@property (readonly) int32_t forgeMaxForgeSlots;
 
 + (StartupResponseProto_StartupConstants_ForgeConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_ForgeConstants*) defaultInstance;
@@ -4636,6 +4670,11 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (int32_t) forgeMaxEquipLevel;
 - (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeMaxEquipLevel:(int32_t) value;
 - (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeMaxEquipLevel;
+
+- (BOOL) hasForgeMaxForgeSlots;
+- (int32_t) forgeMaxForgeSlots;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeMaxForgeSlots:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeMaxForgeSlots;
 @end
 
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {
@@ -5154,6 +5193,11 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (int32_t) maxNumTowersClanCanHold;
 - (StartupResponseProto_StartupConstants_Builder*) setMaxNumTowersClanCanHold:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxNumTowersClanCanHold;
+
+- (BOOL) hasMinLevelForPrestige;
+- (int32_t) minLevelForPrestige;
+- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForPrestige:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForPrestige;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -5926,19 +5970,19 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (StartupResponseProto_Builder*) setPlayerHasBoughtInAppPurchase:(BOOL) value;
 - (StartupResponseProto_Builder*) clearPlayerHasBoughtInAppPurchase;
 
-- (BOOL) hasUnhandledForgeAttempt;
-- (UnhandledBlacksmithAttemptProto*) unhandledForgeAttempt;
-- (StartupResponseProto_Builder*) setUnhandledForgeAttempt:(UnhandledBlacksmithAttemptProto*) value;
-- (StartupResponseProto_Builder*) setUnhandledForgeAttemptBuilder:(UnhandledBlacksmithAttemptProto_Builder*) builderForValue;
-- (StartupResponseProto_Builder*) mergeUnhandledForgeAttempt:(UnhandledBlacksmithAttemptProto*) value;
-- (StartupResponseProto_Builder*) clearUnhandledForgeAttempt;
+- (NSArray*) unhandledForgeAttemptList;
+- (UnhandledBlacksmithAttemptProto*) unhandledForgeAttemptAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceUnhandledForgeAttemptAtIndex:(int32_t) index with:(UnhandledBlacksmithAttemptProto*) value;
+- (StartupResponseProto_Builder*) addUnhandledForgeAttempt:(UnhandledBlacksmithAttemptProto*) value;
+- (StartupResponseProto_Builder*) addAllUnhandledForgeAttempt:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearUnhandledForgeAttemptList;
 
-- (BOOL) hasForgeAttemptEquip;
-- (FullEquipProto*) forgeAttemptEquip;
-- (StartupResponseProto_Builder*) setForgeAttemptEquip:(FullEquipProto*) value;
-- (StartupResponseProto_Builder*) setForgeAttemptEquipBuilder:(FullEquipProto_Builder*) builderForValue;
-- (StartupResponseProto_Builder*) mergeForgeAttemptEquip:(FullEquipProto*) value;
-- (StartupResponseProto_Builder*) clearForgeAttemptEquip;
+- (NSArray*) forgeAttemptEquipList;
+- (FullEquipProto*) forgeAttemptEquipAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceForgeAttemptEquipAtIndex:(int32_t) index with:(FullEquipProto*) value;
+- (StartupResponseProto_Builder*) addForgeAttemptEquip:(FullEquipProto*) value;
+- (StartupResponseProto_Builder*) addAllForgeAttemptEquip:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearForgeAttemptEquipList;
 
 - (NSArray*) noticesToPlayersList;
 - (NSString*) noticesToPlayersAtIndex:(int32_t) index;
@@ -12741,11 +12785,13 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   BOOL hasStartTime_:1;
   BOOL hasUserEquipOne_:1;
   BOOL hasUserEquipTwo_:1;
+  BOOL hasForgeSlotNumber_:1;
   BOOL hasSender_:1;
   BOOL paidToGuarantee_:1;
   int64_t startTime;
   int32_t userEquipOne;
   int32_t userEquipTwo;
+  int32_t forgeSlotNumber;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
@@ -12753,11 +12799,13 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (BOOL) hasUserEquipTwo;
 - (BOOL) hasPaidToGuarantee;
 - (BOOL) hasStartTime;
+- (BOOL) hasForgeSlotNumber;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t userEquipOne;
 @property (readonly) int32_t userEquipTwo;
 - (BOOL) paidToGuarantee;
 @property (readonly) int64_t startTime;
+@property (readonly) int32_t forgeSlotNumber;
 
 + (SubmitEquipsToBlacksmithRequestProto*) defaultInstance;
 - (SubmitEquipsToBlacksmithRequestProto*) defaultInstance;
@@ -12819,6 +12867,11 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (int64_t) startTime;
 - (SubmitEquipsToBlacksmithRequestProto_Builder*) setStartTime:(int64_t) value;
 - (SubmitEquipsToBlacksmithRequestProto_Builder*) clearStartTime;
+
+- (BOOL) hasForgeSlotNumber;
+- (int32_t) forgeSlotNumber;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setForgeSlotNumber:(int32_t) value;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clearForgeSlotNumber;
 @end
 
 @interface SubmitEquipsToBlacksmithResponseProto : PBGeneratedMessage {
@@ -13206,15 +13259,19 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 
 @interface CollectForgeEquipsResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasBlacksmithId_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
+  int32_t blacksmithId;
   MinimumUserProto* sender;
   CollectForgeEquipsResponseProto_CollectForgeEquipsStatus status;
   NSMutableArray* mutableUserEquipsList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasBlacksmithId;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t blacksmithId;
 @property (readonly) CollectForgeEquipsResponseProto_CollectForgeEquipsStatus status;
 - (NSArray*) userEquipsList;
 - (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index;
@@ -13266,6 +13323,11 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (CollectForgeEquipsResponseProto_Builder*) addUserEquips:(FullUserEquipProto*) value;
 - (CollectForgeEquipsResponseProto_Builder*) addAllUserEquips:(NSArray*) values;
 - (CollectForgeEquipsResponseProto_Builder*) clearUserEquipsList;
+
+- (BOOL) hasBlacksmithId;
+- (int32_t) blacksmithId;
+- (CollectForgeEquipsResponseProto_Builder*) setBlacksmithId:(int32_t) value;
+- (CollectForgeEquipsResponseProto_Builder*) clearBlacksmithId;
 
 - (BOOL) hasStatus;
 - (CollectForgeEquipsResponseProto_CollectForgeEquipsStatus) status;
@@ -18264,5 +18326,223 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (ChangeClanJoinTypeResponseProto_Builder*) setFullClanBuilder:(FullClanProtoWithClanSize_Builder*) builderForValue;
 - (ChangeClanJoinTypeResponseProto_Builder*) mergeFullClan:(FullClanProtoWithClanSize*) value;
 - (ChangeClanJoinTypeResponseProto_Builder*) clearFullClan;
+@end
+
+@interface PrestigeRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+
++ (PrestigeRequestProto*) defaultInstance;
+- (PrestigeRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PrestigeRequestProto_Builder*) builder;
++ (PrestigeRequestProto_Builder*) builder;
++ (PrestigeRequestProto_Builder*) builderWithPrototype:(PrestigeRequestProto*) prototype;
+
++ (PrestigeRequestProto*) parseFromData:(NSData*) data;
++ (PrestigeRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PrestigeRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (PrestigeRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PrestigeRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PrestigeRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PrestigeRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PrestigeRequestProto* result;
+}
+
+- (PrestigeRequestProto*) defaultInstance;
+
+- (PrestigeRequestProto_Builder*) clear;
+- (PrestigeRequestProto_Builder*) clone;
+
+- (PrestigeRequestProto*) build;
+- (PrestigeRequestProto*) buildPartial;
+
+- (PrestigeRequestProto_Builder*) mergeFrom:(PrestigeRequestProto*) other;
+- (PrestigeRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PrestigeRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PrestigeRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PrestigeRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PrestigeRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PrestigeRequestProto_Builder*) clearSender;
+@end
+
+@interface PrestigeResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  PrestigeResponseProto_PrestigeStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) PrestigeResponseProto_PrestigeStatus status;
+
++ (PrestigeResponseProto*) defaultInstance;
+- (PrestigeResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PrestigeResponseProto_Builder*) builder;
++ (PrestigeResponseProto_Builder*) builder;
++ (PrestigeResponseProto_Builder*) builderWithPrototype:(PrestigeResponseProto*) prototype;
+
++ (PrestigeResponseProto*) parseFromData:(NSData*) data;
++ (PrestigeResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PrestigeResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (PrestigeResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PrestigeResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PrestigeResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PrestigeResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PrestigeResponseProto* result;
+}
+
+- (PrestigeResponseProto*) defaultInstance;
+
+- (PrestigeResponseProto_Builder*) clear;
+- (PrestigeResponseProto_Builder*) clone;
+
+- (PrestigeResponseProto*) build;
+- (PrestigeResponseProto*) buildPartial;
+
+- (PrestigeResponseProto_Builder*) mergeFrom:(PrestigeResponseProto*) other;
+- (PrestigeResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PrestigeResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PrestigeResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PrestigeResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PrestigeResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PrestigeResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (PrestigeResponseProto_PrestigeStatus) status;
+- (PrestigeResponseProto_Builder*) setStatus:(PrestigeResponseProto_PrestigeStatus) value;
+- (PrestigeResponseProto_Builder*) clearStatus;
+@end
+
+@interface PurchaseForgeSlotRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+
++ (PurchaseForgeSlotRequestProto*) defaultInstance;
+- (PurchaseForgeSlotRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PurchaseForgeSlotRequestProto_Builder*) builder;
++ (PurchaseForgeSlotRequestProto_Builder*) builder;
++ (PurchaseForgeSlotRequestProto_Builder*) builderWithPrototype:(PurchaseForgeSlotRequestProto*) prototype;
+
++ (PurchaseForgeSlotRequestProto*) parseFromData:(NSData*) data;
++ (PurchaseForgeSlotRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseForgeSlotRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (PurchaseForgeSlotRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseForgeSlotRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PurchaseForgeSlotRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PurchaseForgeSlotRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PurchaseForgeSlotRequestProto* result;
+}
+
+- (PurchaseForgeSlotRequestProto*) defaultInstance;
+
+- (PurchaseForgeSlotRequestProto_Builder*) clear;
+- (PurchaseForgeSlotRequestProto_Builder*) clone;
+
+- (PurchaseForgeSlotRequestProto*) build;
+- (PurchaseForgeSlotRequestProto*) buildPartial;
+
+- (PurchaseForgeSlotRequestProto_Builder*) mergeFrom:(PurchaseForgeSlotRequestProto*) other;
+- (PurchaseForgeSlotRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PurchaseForgeSlotRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PurchaseForgeSlotRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PurchaseForgeSlotRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseForgeSlotRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PurchaseForgeSlotRequestProto_Builder*) clearSender;
+@end
+
+@interface PurchaseForgeSlotResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatus status;
+
++ (PurchaseForgeSlotResponseProto*) defaultInstance;
+- (PurchaseForgeSlotResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PurchaseForgeSlotResponseProto_Builder*) builder;
++ (PurchaseForgeSlotResponseProto_Builder*) builder;
++ (PurchaseForgeSlotResponseProto_Builder*) builderWithPrototype:(PurchaseForgeSlotResponseProto*) prototype;
+
++ (PurchaseForgeSlotResponseProto*) parseFromData:(NSData*) data;
++ (PurchaseForgeSlotResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseForgeSlotResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (PurchaseForgeSlotResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseForgeSlotResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PurchaseForgeSlotResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PurchaseForgeSlotResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PurchaseForgeSlotResponseProto* result;
+}
+
+- (PurchaseForgeSlotResponseProto*) defaultInstance;
+
+- (PurchaseForgeSlotResponseProto_Builder*) clear;
+- (PurchaseForgeSlotResponseProto_Builder*) clone;
+
+- (PurchaseForgeSlotResponseProto*) build;
+- (PurchaseForgeSlotResponseProto*) buildPartial;
+
+- (PurchaseForgeSlotResponseProto_Builder*) mergeFrom:(PurchaseForgeSlotResponseProto*) other;
+- (PurchaseForgeSlotResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PurchaseForgeSlotResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PurchaseForgeSlotResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PurchaseForgeSlotResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseForgeSlotResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PurchaseForgeSlotResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatus) status;
+- (PurchaseForgeSlotResponseProto_Builder*) setStatus:(PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatus) value;
+- (PurchaseForgeSlotResponseProto_Builder*) clearStatus;
 @end
 

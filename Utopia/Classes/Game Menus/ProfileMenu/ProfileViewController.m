@@ -25,12 +25,11 @@
 
 @implementation ProfileViewController
 
-@synthesize state = _state, curScope = _curScope;
+@synthesize state = _state;
 @synthesize clanButton;
 @synthesize userNameLabel, typeLabel, levelLabel, attackLabel, defenseLabel, codeLabel;
 @synthesize winsLabel, lossesLabel, fleesLabel;
 @synthesize profilePicture, profileBar;
-@synthesize equipsTableView;
 @synthesize equippingView, skillTabView, wallTabView;
 @synthesize attackStatLabel, defenseStatLabel, staminaStatLabel, energyStatLabel;
 @synthesize attackStatButton, defenseStatButton, staminaStatButton, energyStatButton;
@@ -44,8 +43,7 @@
 @synthesize userId;
 @synthesize equipPopup;
 @synthesize specialTabView, profileTabView;
-@synthesize nameChangeView, nameChangeTextField, equipHeaderLabel;
-@synthesize equipsTableDelegate;
+@synthesize nameChangeView, nameChangeTextField;
 @synthesize noEquipLabel, noEquipMiddleView, noEquipButtonView;
 @synthesize clanView, equipTabView;
 
@@ -56,10 +54,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   
-  equippingView = [[UIImageView alloc] init];
-  equippingView.contentMode = UIViewContentModeScaleAspectFit;
-  [equipTabView addSubview:equippingView];
-  equippingView.hidden = YES;
+  //  equippingView = [[UIImageView alloc] init];
+  //  equippingView.contentMode = UIViewContentModeScaleAspectFit;
+  //  [equipTabView addSubview:equippingView];
+  //  equippingView.hidden = YES;
   
   skillTabView.frame = profileTabView.frame;
   [self.mainView insertSubview:skillTabView aboveSubview:profileTabView];
@@ -69,15 +67,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   wallTabView.frame = profileTabView.frame;
   [self.mainView insertSubview:wallTabView aboveSubview:profileTabView];
-  
-  equipTabView.frame = profileTabView.frame;
-  [self.mainView insertSubview:equipTabView aboveSubview:profileTabView];
-  
-  enemyMiddleView.frame = equipsTableView.frame;
-  [equipTabView addSubview:enemyMiddleView];
-  
-  noEquipMiddleView.frame = equipsTableView.frame;
-  [equipTabView addSubview:noEquipMiddleView];
   
   enemyLeftView.frame = selfLeftView.frame;
   [selfLeftView.superview addSubview:enemyLeftView];
@@ -90,11 +79,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.state = kProfileState;
   _curScope = kEquipScopeWeapons;
   
-  EquipTableViewDelegate *del = [[EquipTableViewDelegate alloc] init];
-  self.equipsTableView.delegate = del;
-  self.equipsTableView.dataSource = del;
-  self.equipsTableDelegate = del;
-  [del release];
+  [self.equipTabView setUpCurEquipViewsWithDelegate:self];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -153,108 +138,42 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [wallTabView endEditing];
 }
 
-- (void) setCurScope:(EquipScope)curScope {
-  _curScope = curScope;
-  [self updateScrollViewForCurrentScope];
-  
-  if (_curScope == kEquipScopeWeapons) {
-    self.equipHeaderLabel.text = @"ALL WEAPONS";
-  } else if (_curScope == kEquipScopeArmor) {
-    self.equipHeaderLabel.text = @"ALL ARMOR";
-  } else if (_curScope == kEquipScopeAmulets) {
-    self.equipHeaderLabel.text = @"ALL AMULETS";
-  }
-}
-
 - (void) doEquip:(UserEquip *)equip {
-  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:equip.equipId];
-  EquipView *e = nil;
-  for (EquipView *ev in equipsTableView.visibleCells) {
-    if (ev.equip == equip) {
-      e = ev;
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:equip.equipId];
+  BOOL isForPrestigeSlot = self.equipBrowseView.isFlipped;
+  if (!isForPrestigeSlot || (isForPrestigeSlot && gs.prestigeLevel >= fep.equipType+1)) {
+    BOOL success =[[OutgoingEventController sharedOutgoingEventController] wearEquip:equip.userEquipId forPrestigeSlot:isForPrestigeSlot];
+    if (success) {
+      [self.equipBrowseView doEquippingAnimation:equip withNewCurEquipArray:[gs getUserEquipArray]];
     }
+  } else {
+    [Globals popupMessage:@"Sorry. You must prestige in order to use this equip slot."];
   }
-  
-  [[OutgoingEventController sharedOutgoingEventController] wearEquip:equip.userEquipId];
-  if (e) {
-    [self doEquippingAnimation:e forType:fep.equipType];
-    
-    GameState *gs = [GameState sharedGameState];
-    [self.equipsTableDelegate setCurWeapon:gs.weaponEquipped curArmor:gs.armorEquipped curAmulet:gs.amuletEquipped];
-    
-    [self.equipsTableView reloadData];
-    
-    [self displayMyCurrentStats];
-  }
-}
-
-- (void) doEquippingAnimation:(EquipView *)ev forType:(FullEquipProto_EquipType)type {
-  Globals *gl = [Globals sharedGlobals];
-  
-  equippingView.frame = [equipTabView convertRect:ev.equipIcon.frame fromView:ev.equipIcon.superview];
-  equippingView.image = ev.equipIcon.image;
-  equippingView.hidden = NO;
-  [equippingView.layer removeAllAnimations];
-  
-  [UIView beginAnimations:nil context:nil];
-  [UIView setAnimationDuration:EQUIPPING_DURATION];
-  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-  [UIView setAnimationDelegate:self];
-  [UIView setAnimationDidStopSelector:@selector(finishedEquippingAnimation)];
-  
-//  equippingView.frame = [equipTabView convertRect:cev.equipIcon.frame fromView:cev.equipIcon.superview];
-//  
-  [UIView commitAnimations];
-//  cev.levelIcon.level = ev.equip.level;
-//  cev.enhanceIcon.level = [gl calculateEnhancementLevel:ev.equip.enhancementPercentage];
-}
-
-- (void) finishedEquippingAnimation {
-//  equippingView.hidden = YES;
-//  curWeaponView.equipIcon.alpha = 1.f;
-//  curArmorView.equipIcon.alpha = 1.f;
-//  curAmuletView.equipIcon.alpha = 1.f;
 }
 
 - (void) equipViewSelected:(EquipView *)ev {
   GameState *gs = [GameState sharedGameState];
-  UserEquip *fuep = ev.equip;
-  if (profileBar.state == kMyProfile && fuep.userId == gs.userId) {
-    // The fuep is actually a UserEquip.. see @selector(loadMyProfile)
-    [equipPopup updateForUserEquip:(UserEquip *)fuep];
-    [self.view addSubview:equipPopup];
-    [Globals bounceView:equipPopup.mainView fadeInBgdView:equipPopup.bgdView];
-    equipPopup.frame = self.view.bounds;
+  int tag = ev.tag;
+  
+  if (tag == EQUIP_BROWSE_VIEW_TAG) {
+    UserEquip *ue = ev.equip;
+    if (profileBar.state == kMyProfile && ue.userId == gs.userId) {
+      // The fuep is actually a UserEquip.. see @selector(loadMyProfile)
+      [equipPopup updateForUserEquip:ue];
+      [self.view addSubview:equipPopup];
+      [Globals bounceView:equipPopup.mainView fadeInBgdView:equipPopup.bgdView];
+      equipPopup.frame = self.view.bounds;
+    } else {
+      [EquipMenuController displayViewForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage];
+    }
   } else {
-    [EquipMenuController displayViewForEquip:fuep.equipId level:fuep.level enhancePercent:fuep.enhancementPercentage];
+    [self.view addSubview:self.equipBrowseView];
+    [Globals bounceView:self.equipBrowseView.mainView fadeInBgdView:self.equipBrowseView.bgdView];
+    self.equipBrowseView.frame = self.view.bounds;
+    
+    [self.equipBrowseView updateForScope:tag%3+1 isSlot2:tag>2];
   }
-}
-
-- (void) currentEquipViewSelected:(EquipView *)cev {
-  EquipScope scope = 0;
-  
-  if (cev == curWeaponView) {
-    scope = kEquipScopeWeapons;
-    curWeaponView.selected = YES;
-    curArmorView.selected = NO;
-    curAmuletView.selected = NO;
-  } else if (cev == curArmorView) {
-    scope = kEquipScopeArmor;
-    curWeaponView.selected = NO;
-    curArmorView.selected = YES;
-    curAmuletView.selected = NO;
-  } else if (cev == curAmuletView) {
-    scope = kEquipScopeAmulets;
-    curWeaponView.selected = NO;
-    curArmorView.selected = NO;
-    curAmuletView.selected = YES;
-  } else {
-    [Globals popupMessage:@"Error attaining scope value"];
-  }
-  
-  self.curScope = scope;
-  
-  [self.equipsTableView setContentOffset:CGPointMake(0, -self.equipsTableView.contentInset.top) animated:YES];
 }
 
 - (NSArray *) sortEquips:(NSArray *)equips {
@@ -279,134 +198,39 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   return arr;
 }
 
-- (void) updateScrollViewForCurrentScope {
-  [self.equipsTableDelegate loadEquipsForScope:self.curScope];
-  [self.equipsTableView reloadData];
-  
-  int numRows = [self.equipsTableView numberOfRowsInSection:0];
-  if (numRows == 0) {
-    GameState *gs = [GameState sharedGameState];
-    
-    NSString *equipType = nil;
-    if (self.curScope == kEquipScopeWeapons) {
-      equipType = @"Weapons";
-    } else if (self.curScope == kEquipScopeArmor) {
-      equipType = @"Armor";
-    } else if (self.curScope == kEquipScopeAmulets) {
-      equipType = @"Amulets";
-    }
-    
-    if (self.userId == gs.userId) {
-      self.noEquipMiddleView.hidden = NO;
-      self.noEquipButtonView.hidden = NO;
-      
-      self.noEquipLabel.text = [NSString stringWithFormat:@"You do not have any %@ to equip.", equipType];
-    } else if (_fup && !_waitingForEquips) {
-      BOOL isEnemy = ![Globals userType:gs.type isAlliesWith:_fup.userType];
-      if (!isEnemy) {
-        self.noEquipMiddleView.hidden = NO;
-        self.noEquipButtonView.hidden = YES;
-        self.noEquipLabel.text = [NSString stringWithFormat:@"%@ does not have any %@.", _fup.name, equipType];
-      } else {
-        self.noEquipMiddleView.hidden = YES;
-      }
-    } else {
-      self.noEquipMiddleView.hidden = YES;
-    }
-  } else {
-    self.noEquipMiddleView.hidden = YES;
-  }
-}
-
 - (IBAction)goToArmoryClicked:(id)sender {
   [ArmoryViewController displayView];
 }
 
-- (void) loadEquips:(NSArray *)equips curWeapon:(int)weapon curArmor:(int)armor curAmulet:(int)amulet {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  
-  BOOL weaponFound = NO, armorFound = NO, amuletFound = NO;
-  
-  [curWeaponView knownEquip];
-  [curArmorView knownEquip];
-  [curAmuletView knownEquip];
+- (void) loadEquips:(NSArray *)equips curEquips:(NSArray *)curEquips prestigeLevel:(int)prestigeLevel {
+  //  GameState *gs = [GameState sharedGameState];
   
   // Sort equips by equippable and then non-equippable.
-  NSMutableArray *equippables = [NSMutableArray array];
-  NSMutableArray *unequippables = [NSMutableArray array];
+  //  NSMutableArray *equippables = [NSMutableArray array];
+  //  NSMutableArray *unequippables = [NSMutableArray array];
+  //
+  //  for (UserEquip *ue in equips) {
+  //    FullEquipProto *fep = [gs equipWithId:ue.equipId];
+  //    // this will prevent a crash..
+  //    if (!fep) return;
+  //    if ([Globals canEquip:fep]) {
+  //      [equippables addObject:ue];
+  //    } else {
+  //      [unequippables addObject:ue];
+  //    }
+  //  }
   
-  for (UserEquip *ue in equips) {
-    FullEquipProto *fep = [gs equipWithId:ue.equipId];
-    // this will prevent a crash..
-    if (!fep) return;
-    if ([Globals canEquip:fep]) {
-      [equippables addObject:ue];
-    } else {
-      [unequippables addObject:ue];
-    }
+  NSMutableArray *sortedEquips = [[self sortEquips:equips].mutableCopy autorelease];
+  //  [sortedEquips addObjectsFromArray:[self sortEquips:unequippables]];
+  
+  if (curEquips == nil) {
+    // This will make it an array of nulls
+    curEquips = [Globals getUserEquipArrayFromFullUserProto:nil];
   }
   
-  NSMutableArray *sortedEquips = [[self sortEquips:equippables].mutableCopy autorelease];
-  [sortedEquips addObjectsFromArray:[self sortEquips:unequippables]];
-  
-  int i;
-  
-  for (i = 0; i < sortedEquips.count; i++) {
-    UserEquip *ue = [sortedEquips objectAtIndex:i];
-    FullEquipProto *fep = [gs equipWithId:ue.equipId];
-    
-    // check if this item is equipped
-    if (ue.userEquipId == weapon && fep.equipType == FullEquipProto_EquipTypeWeapon) {
-      curWeaponView.levelIcon.level = ue.level;
-      curWeaponView.enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
-      [Globals loadImageForEquip:fep.equipId toView:curWeaponView.equipIcon maskedView:nil];
-      curWeaponView.equipIcon.hidden = NO;
-      weaponFound = YES;
-      [sortedEquips removeObjectAtIndex:i];
-      [sortedEquips insertObject:ue atIndex:0];
-    } else if (ue.userEquipId == armor && fep.equipType == FullEquipProto_EquipTypeArmor) {
-      curArmorView.levelIcon.level = ue.level;
-      curArmorView.enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
-      [Globals loadImageForEquip:fep.equipId toView:curArmorView.equipIcon maskedView:nil];
-      curArmorView.equipIcon.hidden = NO;
-      armorFound = YES;
-      [sortedEquips removeObjectAtIndex:i];
-      [sortedEquips insertObject:ue atIndex:0];
-    } else if (ue.userEquipId == amulet && fep.equipType == FullEquipProto_EquipTypeAmulet) {
-      curAmuletView.levelIcon.level = ue.level;
-      curAmuletView.enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
-      [Globals loadImageForEquip:fep.equipId toView:curAmuletView.equipIcon maskedView:nil];
-      curAmuletView.equipIcon.hidden = NO;
-      amuletFound = YES;
-      [sortedEquips removeObjectAtIndex:i];
-      [sortedEquips insertObject:ue atIndex:0];
-    }
-  }
-  
-  [self.equipsTableDelegate loadEquips:sortedEquips curWeapon:weapon curArmor:armor curAmulet:amulet];
-  
-  // Reload the cur scope
-  self.curScope = self.curScope;
-  
-  if (!weaponFound) {
-    if (weapon > 0) {
-      [Globals popupMessage:@"Unable to find equipped weapon for this player"];
-    }
-    [curWeaponView unknownEquip];
-  }
-  if (!armorFound) {
-    if (armor > 0) {
-      [Globals popupMessage:@"Unable to find equipped armor for this player"];
-    }
-    [curArmorView unknownEquip];
-  }
-  if (!amuletFound) {
-    if (amulet > 0) {
-      [Globals popupMessage:@"Unable to find equipped amulet for this player"];
-    }
-    [curAmuletView unknownEquip];
-  }
+  BOOL isMe = profileBar.state == kMyProfile;
+  [self.equipTabView updateForEquips:curEquips isMine:isMe prestigeLevel:prestigeLevel];
+  [self.equipBrowseView loadForEquips:sortedEquips curEquips:curEquips prestigeLevel:prestigeLevel isMe:isMe];
 }
 
 - (void) loadProfileForPlayer:(FullUserProto *)fup buttonsEnabled:(BOOL)enabled {
@@ -446,14 +270,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   _curScope = kEquipScopeWeapons;
   
-  equipsTableView.hidden = isEnemy;
   enemyMiddleView.hidden = !isEnemy;
   
   enemyLeftView.hidden = !isEnemy;
   friendLeftView.hidden = isEnemy;
   selfLeftView.hidden = YES;
   
-  [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0];
+  [self loadEquips:nil curEquips:nil prestigeLevel:0];
   
   enemyAttackLabel.text = [NSString stringWithFormat:@"Attack %@ to see Equipment", fup.name];
   
@@ -463,11 +286,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   visitButton.enabled = enabled;
   smallAttackButton.enabled = enabled;
   bigAttackButton.enabled = enabled;
-  
-  curWeaponView.selected = YES;
-  curArmorView.selected = NO;
-  curAmuletView.selected = NO;
-  self.curScope = kEquipScopeWeapons;
   
   if (self.state == kSkillsState || self.state == kSpecialState) {
     self.state = kProfileState;
@@ -520,7 +338,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   [self loadProfileForPlayer:fup buttonsEnabled:YES];
   
-  equipsTableView.hidden = NO;
   enemyMiddleView.hidden = YES;
   Globals *globals = [Globals sharedGlobals];
   attack  = [globals calculateAttackForAttackStat:_fup.attack
@@ -542,7 +359,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
   
   if (equips) {
-    [self loadEquips:equips curWeapon:fup.weaponEquippedUserEquip.userEquipId curArmor:fup.armorEquippedUserEquip.userEquipId curAmulet:fup.amuletEquippedUserEquip.userEquipId];
+    [self loadEquips:equips curEquips:[Globals getUserEquipArrayFromFullUserProto:fup] prestigeLevel:fup.prestigeLevel];
   } else {
     self.spinner.hidden = NO;
     [self.spinner startAnimating];
@@ -585,7 +402,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
           self.spinner.hidden = NO;
           [self.spinner startAnimating];
           
-          [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0];
+          [self loadEquips:nil curEquips:nil prestigeLevel:0];
         }
       }
     }
@@ -615,7 +432,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   if (_waitingForEquips) {
     // Make sure to create UserEquip array
     _waitingForEquips = NO;
-    [self loadEquips:[self userEquipArrayFromFullUserEquipProtos:equips] curWeapon:_fup.weaponEquippedUserEquip.userEquipId curArmor:_fup.armorEquippedUserEquip.userEquipId curAmulet:_fup.amuletEquippedUserEquip.userEquipId];
+    [self loadEquips:[self userEquipArrayFromFullUserEquipProtos:equips] curEquips:[Globals getUserEquipArrayFromFullUserProto:_fup] prestigeLevel:_fup.prestigeLevel];
     
     self.spinner.hidden = YES;
     [self.spinner stopAnimating];
@@ -677,7 +494,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   wallTabView.wallPosts = nil;
   
-  [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0];
+  [self loadEquips:nil curEquips:nil prestigeLevel:0];
   
   // Make equip spinner spin
   self.enemyMiddleView.hidden = YES;
@@ -728,20 +545,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   [self displayMyCurrentStats];
   
-  [self loadEquips:gs.myEquips curWeapon:gs.weaponEquipped curArmor:gs.armorEquipped curAmulet:gs.amuletEquipped];
+  [self loadEquips:gs.myEquips curEquips:[gs getUserEquipArray] prestigeLevel:gs.prestigeLevel];
   
   if (self.profileBar.state != kMyProfile) {
     self.profileBar.state = kMyProfile;
     self.state = kProfileState;
     
-    curWeaponView.selected = YES;
-    curArmorView.selected = NO;
-    curAmuletView.selected = NO;
-    self.curScope = kEquipScopeWeapons;
   }
   [self loadSkills];
   
-  equipsTableView.hidden = NO;
   enemyMiddleView.hidden = YES;
   
   self.spinner.hidden = YES;
@@ -1017,9 +829,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     NSSet *levelupDict = [NSSet setWithArray:levelUpRewards];
     
     if ([levelupDict containsObject:[NSNumber numberWithInt:gs.level]]) {
-//      NSString *curAchievement = [NSString stringWithFormat:@"level_up_%d",
-//                                  gs.level];
-//      [KiipDelegate postAchievementNotificationAchievement:curAchievement];
+      //      NSString *curAchievement = [NSString stringWithFormat:@"level_up_%d",
+      //                                  gs.level];
+      //      [KiipDelegate postAchievementNotificationAchievement:curAchievement];
     }
     
     // Show the level up popup here
@@ -1061,12 +873,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     self.winsLabel = nil;
     self.lossesLabel = nil;
     self.fleesLabel = nil;
-    self.curArmorView = nil;
-    self.curAmuletView = nil;
-    self.curWeaponView = nil;
     self.profilePicture = nil;
     self.profileBar = nil;
-    self.equipsTableView = nil;
     self.equippingView = nil;
     self.skillTabView = nil;
     self.wallTabView = nil;
@@ -1088,7 +896,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     self.visitButton = nil;
     self.smallAttackButton = nil;
     self.bigAttackButton = nil;
-    self.equipsTableDelegate = nil;
     self.spinner = nil;
     self.mainView = nil;
     self.bgdView = nil;
@@ -1097,12 +904,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     self.profileTabView = nil;
     self.nameChangeView = nil;
     self.nameChangeTextField = nil;
-    self.equipHeaderLabel = nil;
     self.noEquipButtonView = nil;
     self.noEquipLabel = nil;
     self.noEquipMiddleView = nil;
     self.clanButton = nil;
     self.clanView = nil;
+    self.equipBrowseView = nil;
     [_queuedEquips release];
     _queuedEquips = nil;
   }

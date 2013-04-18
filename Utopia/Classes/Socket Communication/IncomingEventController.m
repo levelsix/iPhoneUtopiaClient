@@ -330,6 +330,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSReceivedRareBoosterPurchaseEvent:
       responseClass = [ReceivedRareBoosterPurchaseResponseProto class];
       break;
+    case EventProtocolResponseSPurchaseForgeSlotEvent:
+      responseClass = [PurchaseForgeSlotResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -534,9 +537,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs setAllies:proto.alliesList];
     
-    if (proto.hasUnhandledForgeAttempt) {
-      [gs setForgeAttempt:[ForgeAttempt forgeAttemptWithUnhandledBlacksmithAttemptProto:proto.unhandledForgeAttempt]];
-      [gs beginForgeTimer];
+    if (proto.unhandledForgeAttemptList.count > 0) {
+      for (UnhandledBlacksmithAttemptProto *u in proto.unhandledForgeAttemptList) {
+        [gs addForgeAttempt:[ForgeAttempt forgeAttemptWithUnhandledBlacksmithAttemptProto:u]];
+      }
+      [gs beginForgeTimers];
     }
     
     if (proto.hasEquipEnhancement) {
@@ -1694,8 +1699,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusSuccess) {
-    gs.forgeAttempt = [ForgeAttempt forgeAttemptWithUnhandledBlacksmithAttemptProto:proto.unhandledBlacksmithAttempt];
-    [gs beginForgeTimer];
+    [gs addForgeAttempt:[ForgeAttempt forgeAttemptWithUnhandledBlacksmithAttemptProto:proto.unhandledBlacksmithAttempt]];
+    [gs beginForgeTimers];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1719,7 +1724,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusSuccess) {
     // Begin the forge timer so that the notification will pop.
-    [gs beginForgeTimer];
+    [gs beginForgeTimers];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1761,7 +1766,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == CollectForgeEquipsResponseProto_CollectForgeEquipsStatusSuccess) {
     [gs addToMyEquips:proto.userEquipsList];
-    gs.forgeAttempt = nil;
+    [gs removeForgeAttempt:proto.blacksmithId];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1770,6 +1775,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   [[ForgeMenuController sharedForgeMenuController] receivedCollectForgeEquipsResponse:proto];
+}
+
+- (void) handlePurchaseForgeSlotResponseProto:(FullEvent *)fe {
+  PurchaseForgeSlotResponseProto *proto = (PurchaseForgeSlotResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purchase forge slot response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusSuccess) {
+    gs.numAdditionalForgeSlots++;
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to purchase forge slot."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+  
+  [[ForgeMenuController sharedForgeMenuController] receivedPurchaseForgeSlot];
 }
 
 - (void) handlePurgeClientStaticDataResponseProto:(FullEvent *)fe {

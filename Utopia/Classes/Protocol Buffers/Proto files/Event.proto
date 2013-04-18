@@ -160,8 +160,8 @@ message StartupResponseProto {
 	
 	optional bool playerHasBoughtInAppPurchase = 22;
 
-	optional UnhandledBlacksmithAttemptProto unhandledForgeAttempt = 23;
-	optional FullEquipProto forgeAttemptEquip = 25;
+	repeated UnhandledBlacksmithAttemptProto unhandledForgeAttempt = 23;
+	repeated FullEquipProto forgeAttemptEquip = 25;
 	
 	repeated string noticesToPlayers = 24;
 		
@@ -357,6 +357,8 @@ message StartupResponseProto {
 		
 		optional int32 maxNumTowersClanCanHold = 102;
 		
+		optional int32 minLevelForPrestige = 103;
+		
 		message BoosterPackConstants {
 			optional int32 purchaseOptionOneNumBoosterItems = 1;
 			optional int32 purchaseOptionTwoNumBoosterItems = 2;
@@ -512,6 +514,7 @@ message StartupResponseProto {
 			optional double forgeDiamondCostForGuaranteeExponentialMultiplier = 3;
 			optional int32 forgeBaseMinutesToOneGold = 4;
 			optional int32 forgeMaxEquipLevel = 5;
+			optional int32 forgeMaxForgeSlots = 6;
 		}
 	}
 	
@@ -1733,6 +1736,7 @@ message SubmitEquipsToBlacksmithRequestProto {
 	optional int32 userEquipTwo = 3;
 	optional bool paidToGuarantee = 4;
 	optional int64 startTime = 5;
+	optional int32 forgeSlotNumber = 6;
 }
 
 message SubmitEquipsToBlacksmithResponseProto {
@@ -1745,7 +1749,7 @@ message SubmitEquipsToBlacksmithResponseProto {
 		NOT_ENOUGH_DIAMONDS_FOR_GUARANTEE = 2;
 		SUBMITTED_EQUIPS_NOT_SAME_LEVEL = 4;
 		TRYING_TO_SURPASS_MAX_LEVEL = 5;
-		ALREADY_FORGING = 6;
+		ALREADY_FORGING_MAX_NUM_OF_EQUIPS = 6;
 		CLIENT_TOO_APART_FROM_SERVER_TIME = 7;
 		OTHER_FAIL = 8;
 	}
@@ -1803,6 +1807,7 @@ message CollectForgeEquipsRequestProto {
 message CollectForgeEquipsResponseProto {
 	optional MinimumUserProto sender = 1;
 	repeated FullUserEquipProto userEquips = 2;
+	optional int32 blacksmithId = 4;
 	
 	optional CollectForgeEquipsStatus status = 3;
 	
@@ -1810,6 +1815,8 @@ message CollectForgeEquipsResponseProto {
 		SUCCESS = 0;
 		OTHER_FAIL = 1;
 		NOT_DONE_YET = 2;
+		//the user is over the limit on number of equips being forged
+		TOO_MANY_EQUIPS_BEING_FORGED = 3;
 	}
 }
 
@@ -2574,5 +2581,41 @@ message ChangeClanJoinTypeResponseProto {
 		OTHER_FAIL = 1;
 		NOT_IN_CLAN = 2;
 		NOT_OWNER = 3;
+	}
+}
+
+//------------------------------------------------------------------------------------
+
+message PrestigeRequestProto {
+	optional MinimumUserProto sender = 1;
+}
+
+message PrestigeResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional PrestigeStatus status = 2;
+	
+	enum PrestigeStatus {
+		SUCCESS = 0;
+		BELOW_MIN_LEVEL_FOR_PRESTIGE = 1;
+		ALREADY_AT_MAX_PRESTIGE_LEVEL = 2;
+		FAIL_OTHER = 3;
+	} 
+}
+
+//------------------------------------------------------------------------------------
+
+message PurchaseForgeSlotRequestProto {
+	optional MinimumUserProto sender = 1;
+}
+
+message PurchaseForgeSlotResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional PurchaseForgeSlotStatus status = 2;
+	enum PurchaseForgeSlotStatus {
+		SUCCESS = 0;
+		FAIL_ALREADY_AT_MAX_FORGE_SLOTS = 1;
+		FAIL_NOT_ENOUGH_GOLD = 2;
+		FAIL_OTHER = 3;	
+		FAIL_USER_HAS_MORE_THAN_MAX_FORGE_SLOTS = 4;	
 	}
 }

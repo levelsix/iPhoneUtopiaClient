@@ -256,6 +256,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.questIdForFirstLossTutorial = constants.questIdForFirstLossTutorial;
   self.questIdsGuaranteedWin = constants.questIdsGuaranteedWinList;
   self.fbConnectRewardDiamonds = constants.fbConnectRewardDiamonds;
+  self.minLevelForPrestige = constants.minLevelForPrestige;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;
@@ -292,6 +293,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.levelEquipBoostExponentBase = constants.levelEquipBoostExponentBase;
   self.averageSizeOfLevelBracket = constants.averageSizeOfLevelBracket;
   self.healthFormulaExponentBase = constants.healthFormulaExponentBase;
+  self.forgeMaxForgeSlots = constants.forgeConstants.forgeMaxForgeSlots;
   
   self.diamondCostToResetCharacter = constants.charModConstants.diamondCostToResetCharacter;
   self.diamondCostToChangeName = constants.charModConstants.diamondCostToChangeName;
@@ -749,10 +751,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color {
   
   CGImageRef alphaImage = CGImageRetain(image.CGImage);
-  float width = CGImageGetWidth(alphaImage);
-  float height = CGImageGetHeight(alphaImage);
+  float width = image.size.width;
+  float height = image.size.height;
   
-  UIGraphicsBeginImageContext(CGSizeMake(width, height));
+  UIGraphicsBeginImageContextWithOptions(CGSizeMake(width, height), NO, 0.f);
   CGContextRef context = UIGraphicsGetCurrentContext();
   
   if (!context) {
@@ -941,9 +943,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       view.frame = r;
     }
     
-    // Do this for equip masked images
-    view.hidden = NO;
-    
     return;
   }
   
@@ -1011,7 +1010,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
             view.frame = r;
           }
           [view release];
-          view.hidden = NO;
           
           UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
           [loadingView stopAnimating];
@@ -2055,12 +2053,31 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   FullEquipProto *fep = [gs equipWithId:equip.equipId];
   if ([Globals canEquip:fep]) {
     UserEquip *ue = nil;
+    UserEquip *ue1 = nil;
+    UserEquip *ue2 = nil;
     if (fep.equipType == FullEquipProto_EquipTypeWeapon) {
-      ue = [gs myEquipWithUserEquipId:gs.weaponEquipped];
+      ue1 = [gs myEquipWithUserEquipId:gs.weaponEquipped];
+      ue2 = [gs myEquipWithUserEquipId:gs.weaponEquipped2];
     } else if (fep.equipType == FullEquipProto_EquipTypeArmor) {
-      ue = [gs myEquipWithUserEquipId:gs.armorEquipped];
+      ue1 = [gs myEquipWithUserEquipId:gs.armorEquipped];
+      ue2 = [gs myEquipWithUserEquipId:gs.armorEquipped2];
     } else if (fep.equipType == FullEquipProto_EquipTypeAmulet) {
-      ue = [gs myEquipWithUserEquipId:gs.amuletEquipped];
+      ue1 = [gs myEquipWithUserEquipId:gs.amuletEquipped];
+      ue2 = [gs myEquipWithUserEquipId:gs.amuletEquipped2];
+    }
+    
+    // Find the weaker item
+    int attack1 = [gl calculateAttackForEquip:ue1.equipId level:ue1.level enhancePercent:ue1.enhancementPercentage];
+    int defense1 = [gl calculateDefenseForEquip:ue1.equipId level:ue1.level enhancePercent:ue1.enhancementPercentage];
+    int attack2 = [gl calculateAttackForEquip:ue2.equipId level:ue2.level enhancePercent:ue2.enhancementPercentage];
+    int defense2 = [gl calculateDefenseForEquip:ue2.equipId level:ue2.level enhancePercent:ue2.enhancementPercentage];
+    
+    if (attack1 + defense1 <= attack2 + defense2) {
+      ue = ue1;
+      _isForSlot2 = NO;
+    } else {
+      ue = ue2;
+      _isForSlot2 = YES;
     }
     
     int curAttack = 0;
@@ -2072,7 +2089,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
     int newAttack = [gl calculateAttackForEquip:equip.equipId level:equip.level enhancePercent:equip.enhancementPercentage];
     int newDefense = [gl calculateDefenseForEquip:equip.equipId level:equip.level enhancePercent:equip.enhancementPercentage];
     
-    if (newAttack > curAttack || newDefense > curDefense) {
+    if (newAttack + newDefense > curAttack + curDefense) {
       [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Would you like to equip this %@?",
                                                                   fep.name]
                                                            title:@"Equip Item?"
@@ -2085,7 +2102,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 }
 
 - (void) wearEquipConfirmed {
-  [[OutgoingEventController sharedOutgoingEventController] wearEquip:_equipIdToWear];
+  [[OutgoingEventController sharedOutgoingEventController] wearEquip:_equipIdToWear forPrestigeSlot:_isForSlot2];
 }
 
 - (BOOL) validateUserName:(NSString *)name {
@@ -2179,6 +2196,17 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 
 - (InAppPurchasePackageProto *) packageForProductId:(NSString *)pid {
   return [self.productIdsToPackages objectForKey:pid];
+}
+
++ (NSArray *) getUserEquipArrayFromFullUserProto:(FullUserProto *)fup {
+  NSMutableArray *arr = [NSMutableArray array];
+  [arr addObject:fup.hasWeaponEquippedUserEquip ? [UserEquip userEquipWithProto:fup.weaponEquippedUserEquip] : [NSNull null]];
+  [arr addObject:fup.hasArmorEquippedUserEquip ? [UserEquip userEquipWithProto:fup.armorEquippedUserEquip] : [NSNull null]];
+  [arr addObject:fup.hasAmuletEquippedUserEquip ? [UserEquip userEquipWithProto:fup.amuletEquippedUserEquip] : [NSNull null]];
+  [arr addObject:fup.hasWeaponTwoEquippedUserEquip ? [UserEquip userEquipWithProto:fup.weaponTwoEquippedUserEquip] : [NSNull null]];
+  [arr addObject:fup.hasArmorTwoEquippedUserEquip ? [UserEquip userEquipWithProto:fup.armorTwoEquippedUserEquip] : [NSNull null]];
+  [arr addObject:fup.hasAmuletTwoEquippedUserEquip ? [UserEquip userEquipWithProto:fup.amuletTwoEquippedUserEquip] : [NSNull null]];
+  return arr;
 }
 
 - (void) dealloc {

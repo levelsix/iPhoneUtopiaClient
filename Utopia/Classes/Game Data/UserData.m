@@ -654,6 +654,7 @@
     self.isComplete = attempt.attemptComplete;
     self.guaranteed = attempt.guaranteed;
     self.speedupTime = attempt.hasTimeOfSpeedup ? [NSDate dateWithTimeIntervalSince1970:attempt.timeOfSpeedup/1000.0] : nil;
+    self.slotNumber = attempt.forgeSlotNumber;
   }
   return self;
 }

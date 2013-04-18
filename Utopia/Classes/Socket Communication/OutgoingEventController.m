@@ -234,7 +234,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //  return [gs myEquipWithId:equipId].quantity;
 //}
 
-- (BOOL) wearEquip:(int)userEquipId {
+- (BOOL) wearEquip:(int)userEquipId forPrestigeSlot:(BOOL)forPrestigeSlot {
   GameState *gs = [GameState sharedGameState];
   UserEquip *ue = [gs myEquipWithUserEquipId:userEquipId];
   
@@ -246,23 +246,38 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     if (fep.equipType == FullEquipProto_EquipTypeWeapon) {
-      if (gs.weaponEquipped == userEquipId) {
+      if (gs.weaponEquipped == userEquipId || gs.weaponEquipped2 == userEquipId) {
+        [Globals popupMessage:@"This item is already equipped."];
         return NO;
       }
-      gs.weaponEquipped = userEquipId;
+      if (forPrestigeSlot) {
+        gs.weaponEquipped2 = userEquipId;
+      } else {
+        gs.weaponEquipped = userEquipId;
+      }
     } else if (fep.equipType == FullEquipProto_EquipTypeArmor) {
-      if (gs.armorEquipped == userEquipId) {
+      if (gs.armorEquipped == userEquipId || gs.armorEquipped2 == userEquipId) {
+        [Globals popupMessage:@"This item is already equipped."];
         return NO;
       }
-      gs.armorEquipped = userEquipId;
+      if (forPrestigeSlot) {
+        gs.armorEquipped2 = userEquipId;
+      } else {
+        gs.armorEquipped = userEquipId;
+      }
     } else if (fep.equipType == FullEquipProto_EquipTypeAmulet) {
-      if (gs.amuletEquipped == userEquipId) {
+      if (gs.amuletEquipped == userEquipId || gs.amuletEquipped2 == userEquipId) {
+        [Globals popupMessage:@"This item is already equipped."];
         return NO;
       }
-      gs.amuletEquipped = userEquipId;
+      if (forPrestigeSlot) {
+        gs.amuletEquipped2 = userEquipId;
+      } else {
+        gs.amuletEquipped = userEquipId;
+      }
     }
     
-    int tag = [[SocketCommunication sharedSocketCommunication] sendEquipEquipmentMessage:userEquipId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendEquipEquipmentMessage:userEquipId forPrestigeSlot:forPrestigeSlot];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
     
     if ([ArmoryViewController sharedArmoryViewController].view.superview) {
@@ -1172,8 +1187,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  if (gs.forgeAttempt) {
-    NSNumber *n = [NSNumber numberWithInt:gs.forgeAttempt.equipId];
+  for (ForgeAttempt *fa in gs.forgeAttempts) {
+    NSNumber *n = [NSNumber numberWithInt:fa.equipId];
     if (![sEquips objectForKey:n]) {
       [rEquips addObject:n];
       shouldSend = YES;
@@ -1582,12 +1597,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (BOOL) submitEquipsToBlacksmithWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo guaranteed:(BOOL)guaranteed {
+- (BOOL) submitEquipsToBlacksmithWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo guaranteed:(BOOL)guaranteed slotNumber:(int)slotNumber {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  if (gs.forgeAttempt) {
+  if ([gs forgeAttemptForSlot:slotNumber]) {
     [Globals popupMessage:@"Attempting to forge equip when forging is already taking place."];
     return NO;
   }
@@ -1608,7 +1623,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         }
       }
       
-      int tag = [sc sendSubmitEquipsToBlacksmithMessageWithUserEquipId:equipOne userEquipId:equipTwo guaranteed:guaranteed clientTime:[self getCurrentMilliseconds]];
+      int tag = [sc sendSubmitEquipsToBlacksmithMessageWithUserEquipId:equipOne userEquipId:equipTwo slotNumber:slotNumber guaranteed:guaranteed clientTime:[self getCurrentMilliseconds]];
       
       ChangeEquipUpdate *ceu1 = [ChangeEquipUpdate updateWithTag:tag userEquip:ue1 remove:YES];
       ChangeEquipUpdate *ceu2 = [ChangeEquipUpdate updateWithTag:tag userEquip:ue2 remove:YES];
@@ -1626,25 +1641,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return NO;
 }
 
-- (void) forgeAttemptWaitComplete {
+- (void) forgeAttemptWaitComplete:(int)blacksmithId {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
+  ForgeAttempt *fa = [gs forgeAttemptForBlacksmithId:blacksmithId];
   
-  int blacksmithId = gs.forgeAttempt.blacksmithId;
   NSDate *now = [NSDate date];
-  float timeInterval = [now timeIntervalSinceDate:gs.forgeAttempt.startTime]/60.f;
-  int minutes = [gl calculateMinutesForForge:gs.forgeAttempt.equipId level:gs.forgeAttempt.level];
+  float timeInterval = [now timeIntervalSinceDate:fa.startTime]/60.f;
+  int minutes = [gl calculateMinutesForForge:fa.equipId level:fa.level];
   
-  if (gs.forgeAttempt.isComplete) {
+  if (fa.isComplete) {
     [Globals popupMessage:@"Attempting to complete forge when it is already complete."];
   } else if (timeInterval > minutes) {
-    gs.forgeAttempt.isComplete = YES;
-    [gs stopForgeTimer];
+    fa.isComplete = YES;
+    [gs beginForgeTimers];
     
     ForgeMenuController *fmc = [ForgeMenuController sharedForgeMenuController];
     
-    if (gs.forgeAttempt.level == fmc.curItem.level && gs.forgeAttempt.equipId == fmc.curItem.equipId) {
+    if (fa.level == fmc.curItem.level && fa.equipId == fmc.curItem.equipId) {
       [fmc reloadCurrentItem];
     }
     
@@ -1656,21 +1671,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) finishForgeAttemptWaittimeWithDiamonds {
+- (void) finishForgeAttemptWaittimeWithDiamonds:(int)blacksmithId {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
+  ForgeAttempt *fa = [gs forgeAttemptForBlacksmithId:blacksmithId];
   
-  int goldCost = [gl calculateGoldCostToSpeedUpForging:gs.forgeAttempt.equipId level:gs.forgeAttempt.level];
+  int goldCost = [gl calculateGoldCostToSpeedUpForging:fa.equipId level:fa.level];
   
-  if (gs.forgeAttempt.isComplete) {
+  if (fa.isComplete) {
     [Globals popupMessage:@"Attempting to complete forge with diamonds when it is already complete."];
   } else if (goldCost <= gs.gold) {
-    gs.forgeAttempt.isComplete = YES;
-    gs.forgeAttempt.speedupTime = [NSDate date];
-    [gs stopForgeTimer];
+    fa.isComplete = YES;
+    fa.speedupTime = [NSDate date];
+    [gs beginForgeTimers];
     
-    int tag = [sc sendFinishForgeAttemptWaittimeWithDiamondsWithBlacksmithId:gs.forgeAttempt.blacksmithId clientTime:[self getCurrentMilliseconds]];
+    int tag = [sc sendFinishForgeAttemptWaittimeWithDiamondsWithBlacksmithId:fa.blacksmithId clientTime:[self getCurrentMilliseconds]];
     GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-goldCost];
     [gs addUnrespondedUpdate:gu];
   } else {
@@ -1678,16 +1694,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) collectForgeEquips {
+- (void) collectForgeEquips:(int)blacksmithId {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   GameState *gs = [GameState sharedGameState];
+  ForgeAttempt *fa = [gs forgeAttemptForBlacksmithId:blacksmithId];
   
-  if (gs.forgeAttempt.isComplete) {
-    int tag = [sc sendCollectForgeEquipsWithBlacksmithId:gs.forgeAttempt.blacksmithId];
+  if (fa.isComplete) {
+    int tag = [sc sendCollectForgeEquipsWithBlacksmithId:fa.blacksmithId];
     NoUpdate *nu = [NoUpdate updateWithTag:tag];
     [gs addUnrespondedUpdate:nu];
   } else {
     [Globals popupMessage:@"Attempting to collect forge equips before it is complete."];
+  }
+}
+
+- (void) purchaseForgeSlot {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
+  if (gs.numAdditionalForgeSlots >= gl.forgeMaxForgeSlots) {
+    [Globals popupMessage:@"Attempting to purchase forge slot at max slot."];
+  } else {
+    [[SocketCommunication sharedSocketCommunication] sendPurchaseForgeSlot];
   }
 }
 

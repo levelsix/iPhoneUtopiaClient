@@ -13372,6 +13372,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 @property (retain) FullUserEquipProto* armorTwoEquippedUserEquip;
 @property (retain) FullUserEquipProto* amuletTwoEquippedUserEquip;
 @property int32_t prestigeLevel;
+@property int32_t numAdditionalForgeSlots;
 @property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -13729,6 +13730,13 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   hasPrestigeLevel_ = !!value;
 }
 @synthesize prestigeLevel;
+- (BOOL) hasNumAdditionalForgeSlots {
+  return !!hasNumAdditionalForgeSlots_;
+}
+- (void) setHasNumAdditionalForgeSlots:(BOOL) value {
+  hasNumAdditionalForgeSlots_ = !!value;
+}
+@synthesize numAdditionalForgeSlots;
 - (BOOL) hasUdid {
   return !!hasUdid_;
 }
@@ -13856,6 +13864,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
     self.armorTwoEquippedUserEquip = [FullUserEquipProto defaultInstance];
     self.amuletTwoEquippedUserEquip = [FullUserEquipProto defaultInstance];
     self.prestigeLevel = 0;
+    self.numAdditionalForgeSlots = 0;
     self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -14052,6 +14061,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasPrestigeLevel) {
     [output writeInt32:61 value:self.prestigeLevel];
   }
+  if (self.hasNumAdditionalForgeSlots) {
+    [output writeInt32:62 value:self.numAdditionalForgeSlots];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -14228,6 +14240,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasPrestigeLevel) {
     size += computeInt32Size(61, self.prestigeLevel);
+  }
+  if (self.hasNumAdditionalForgeSlots) {
+    size += computeInt32Size(62, self.numAdditionalForgeSlots);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -14444,6 +14459,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasPrestigeLevel) {
     [self setPrestigeLevel:other.prestigeLevel];
+  }
+  if (other.hasNumAdditionalForgeSlots) {
+    [self setNumAdditionalForgeSlots:other.numAdditionalForgeSlots];
   }
   if (other.hasUdid) {
     [self setUdid:other.udid];
@@ -14760,6 +14778,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 488: {
         [self setPrestigeLevel:[input readInt32]];
+        break;
+      }
+      case 496: {
+        [self setNumAdditionalForgeSlots:[input readInt32]];
         break;
       }
     }
@@ -15627,6 +15649,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearPrestigeLevel {
   result.hasPrestigeLevel = NO;
   result.prestigeLevel = 0;
+  return self;
+}
+- (BOOL) hasNumAdditionalForgeSlots {
+  return result.hasNumAdditionalForgeSlots;
+}
+- (int32_t) numAdditionalForgeSlots {
+  return result.numAdditionalForgeSlots;
+}
+- (FullUserProto_Builder*) setNumAdditionalForgeSlots:(int32_t) value {
+  result.hasNumAdditionalForgeSlots = YES;
+  result.numAdditionalForgeSlots = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumAdditionalForgeSlots {
+  result.hasNumAdditionalForgeSlots = NO;
+  result.numAdditionalForgeSlots = 0;
   return self;
 }
 - (BOOL) hasUdid {
@@ -27673,6 +27711,7 @@ static PlayerWallPostProto* defaultPlayerWallPostProtoInstance = nil;
 @property BOOL attemptComplete;
 @property int32_t equipOneEnhancementPercent;
 @property int32_t equipTwoEnhancementPercent;
+@property int32_t forgeSlotNumber;
 @end
 
 @implementation UnhandledBlacksmithAttemptProto
@@ -27764,6 +27803,13 @@ static PlayerWallPostProto* defaultPlayerWallPostProtoInstance = nil;
   hasEquipTwoEnhancementPercent_ = !!value;
 }
 @synthesize equipTwoEnhancementPercent;
+- (BOOL) hasForgeSlotNumber {
+  return !!hasForgeSlotNumber_;
+}
+- (void) setHasForgeSlotNumber:(BOOL) value {
+  hasForgeSlotNumber_ = !!value;
+}
+@synthesize forgeSlotNumber;
 - (void) dealloc {
   [super dealloc];
 }
@@ -27780,6 +27826,7 @@ static PlayerWallPostProto* defaultPlayerWallPostProtoInstance = nil;
     self.attemptComplete = NO;
     self.equipOneEnhancementPercent = 0;
     self.equipTwoEnhancementPercent = 0;
+    self.forgeSlotNumber = 0;
   }
   return self;
 }
@@ -27832,6 +27879,9 @@ static UnhandledBlacksmithAttemptProto* defaultUnhandledBlacksmithAttemptProtoIn
   if (self.hasEquipTwoEnhancementPercent) {
     [output writeInt32:12 value:self.equipTwoEnhancementPercent];
   }
+  if (self.hasForgeSlotNumber) {
+    [output writeInt32:13 value:self.forgeSlotNumber];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -27873,6 +27923,9 @@ static UnhandledBlacksmithAttemptProto* defaultUnhandledBlacksmithAttemptProtoIn
   }
   if (self.hasEquipTwoEnhancementPercent) {
     size += computeInt32Size(12, self.equipTwoEnhancementPercent);
+  }
+  if (self.hasForgeSlotNumber) {
+    size += computeInt32Size(13, self.forgeSlotNumber);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -27982,6 +28035,9 @@ static UnhandledBlacksmithAttemptProto* defaultUnhandledBlacksmithAttemptProtoIn
   if (other.hasEquipTwoEnhancementPercent) {
     [self setEquipTwoEnhancementPercent:other.equipTwoEnhancementPercent];
   }
+  if (other.hasForgeSlotNumber) {
+    [self setForgeSlotNumber:other.forgeSlotNumber];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -28045,6 +28101,10 @@ static UnhandledBlacksmithAttemptProto* defaultUnhandledBlacksmithAttemptProtoIn
       }
       case 96: {
         [self setEquipTwoEnhancementPercent:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self setForgeSlotNumber:[input readInt32]];
         break;
       }
     }
@@ -28224,6 +28284,22 @@ static UnhandledBlacksmithAttemptProto* defaultUnhandledBlacksmithAttemptProtoIn
 - (UnhandledBlacksmithAttemptProto_Builder*) clearEquipTwoEnhancementPercent {
   result.hasEquipTwoEnhancementPercent = NO;
   result.equipTwoEnhancementPercent = 0;
+  return self;
+}
+- (BOOL) hasForgeSlotNumber {
+  return result.hasForgeSlotNumber;
+}
+- (int32_t) forgeSlotNumber {
+  return result.forgeSlotNumber;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) setForgeSlotNumber:(int32_t) value {
+  result.hasForgeSlotNumber = YES;
+  result.forgeSlotNumber = value;
+  return self;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) clearForgeSlotNumber {
+  result.hasForgeSlotNumber = NO;
+  result.forgeSlotNumber = 0;
   return self;
 }
 @end

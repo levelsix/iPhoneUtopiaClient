@@ -40,9 +40,6 @@
   int _marketplaceSilverEarnings;
   int _numMarketplaceSalesUnredeemed;
   int _numPostsInMarketplace;
-  int _weaponEquipped;
-  int _armorEquipped;
-  int _amuletEquipped;
   int _playerHasBoughtInAppPurchase;
   NSDate *_lastEnergyRefill;
   NSDate *_lastStaminaRefill;
@@ -90,6 +87,8 @@
   NSMutableArray *_globalChatMessages;
   NSMutableArray *_clanChatMessages;
   
+  NSTimer *_enhanceTimer;
+  
   NSDate *_lastLogoutTime;
   
   uint64_t _lastUserUpdate;
@@ -98,10 +97,6 @@
   
   // For the tagging scheme
   NSMutableArray *_unrespondedUpdates;
-  
-  ForgeAttempt *_forgeAttempt;
-  NSTimer *_forgeTimer;
-  NSTimer *_enhanceTimer;
   
   NSDate *_lastGoldmineRetrieval;
   NSTimer *_goldmineTimer;
@@ -143,6 +138,9 @@
 @property (nonatomic, assign) int weaponEquipped;
 @property (nonatomic, assign) int armorEquipped;
 @property (nonatomic, assign) int amuletEquipped;
+@property (nonatomic, assign) int weaponEquipped2;
+@property (nonatomic, assign) int armorEquipped2;
+@property (nonatomic, assign) int amuletEquipped2;
 @property (nonatomic, assign) int playerHasBoughtInAppPurchase;
 @property (nonatomic, retain) NSDate *lastEnergyRefill;
 @property (nonatomic, retain) NSDate *lastStaminaRefill;
@@ -151,6 +149,8 @@
 @property (nonatomic, assign) BOOL isAdmin;
 @property (nonatomic, retain) NSDate *createTime;
 @property (nonatomic, assign) BOOL hasReceivedfbReward;
+@property (nonatomic, assign) int prestigeLevel;
+@property (nonatomic, assign) int numAdditionalForgeSlots;
 
 @property (nonatomic, retain) NSString *deviceToken;
 
@@ -208,7 +208,8 @@
 
 @property (nonatomic, retain) NSArray *allies;
 
-@property (nonatomic, retain) ForgeAttempt *forgeAttempt;
+@property (nonatomic, retain) NSMutableArray *forgeAttempts;
+@property (nonatomic, retain) NSArray *forgeTimers;
 @property (nonatomic, retain) EquipEnhancementProto *equipEnhancement;
 
 @property (nonatomic, retain) NSDate *lastGoldmineRetrieval;
@@ -251,6 +252,9 @@
 - (int) weaponEquippedId;
 - (int) armorEquippedId;
 - (int) amuletEquippedId;
+- (int) weaponEquippedId2;
+- (int) armorEquippedId2;
+- (int) amuletEquippedId2;
 
 - (void) addToMyEquips:(NSArray *)myEquips;
 - (void) addToMyStructs:(NSArray *)myStructs;
@@ -289,7 +293,7 @@
 - (void) addNewStaticLockBoxEvents:(NSArray *)events;
 - (void) addNewStaticBossEvents:(NSArray *)events;
 - (void) addNewStaticTournaments:(NSArray *)events;
-- (void) addToClanTierLevels:(NSArray *) tiers;
+- (void) addToClanTierLevels:(NSArray *)tiers;
 - (void) addStaticBoosterPacks:(NSArray *)bpps userBoosterPacks:(NSArray *)ubpps;
 
 - (ClanTierLevelProto *) clanTierForLevel:(int)level;
@@ -303,8 +307,12 @@
 
 - (BOOL) hasValidLicense;
 
-- (void) beginForgeTimer;
-- (void) stopForgeTimer;
+- (void) beginForgeTimers;
+- (void) stopForgeTimers;
+- (ForgeAttempt *) forgeAttemptForSlot:(int)slotNum;
+- (ForgeAttempt *) forgeAttemptForBlacksmithId:(int)blacksmithId;
+- (void) addForgeAttempt:(ForgeAttempt *)u;
+- (void) removeForgeAttempt:(int)blacksmithId;
 
 - (void) beginEnhancementTimer;
 - (void) stopEnhancementTimer;
@@ -343,6 +351,8 @@
 - (BOOL) isEngagedInClanTowerWar;
 
 - (NSArray *) mktSearchEquipsSimilarToString:(NSString *)string;
+
+- (NSArray *) getUserEquipArray;
 
 - (void) purgeStaticData;
 - (void) reretrieveStaticData;

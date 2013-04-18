@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 #import "NibUtils.h"
 #import "UserData.h"
+#import "LeaderboardController.h"
 
 typedef enum {
   kMyProfile = 1,
@@ -34,6 +35,11 @@ typedef enum {
   kEquipScopeArmor,
   kEquipScopeAmulets
 } EquipScope;
+
+#define EQUIP_BROWSE_VIEW_TAG 100
+
+@class EquipView;
+@class ProfileEquipBrowseView;
 
 @interface MarketplacePostView : UIView <UITextFieldDelegate>
 
@@ -147,6 +153,12 @@ typedef enum {
 
 @end
 
+@protocol EquipViewDelegate <NSObject>
+
+- (void) equipViewSelected:(EquipView *)view;
+
+@end
+
 @interface EquipView : UIView
 
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
@@ -158,11 +170,31 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
 @property (nonatomic, retain) IBOutlet EnhancementLevelIcon *enhanceIcon;
 
-@property (nonatomic, retain) UIView *darkOverlay;
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *noEquipView;
+@property (nonatomic, retain) IBOutlet UIView *buttonView;
+@property (nonatomic, retain) IBOutlet UILabel *noEquipLabel;
+
+@property (nonatomic, retain) UIImageView *darkOverlay;
 
 @property (nonatomic, retain) UserEquip *equip;
+@property (nonatomic, assign) id<EquipViewDelegate> delegate;
 
 - (void) updateForEquip:(UserEquip *)ue;
+
+@end
+
+@interface ProfileEquipContainerView : UIView
+
+@property (nonatomic, retain) IBOutlet EquipView *nibEquipView;
+
+@end
+
+@interface EquipBrowseCell : UITableViewCell
+
+@property (nonatomic, retain) IBOutlet ProfileEquipContainerView *containerView1;
+@property (nonatomic, retain) IBOutlet ProfileEquipContainerView *containerView2;
+@property (nonatomic, retain) IBOutlet ProfileEquipContainerView *containerView3;
 
 @end
 
@@ -172,12 +204,12 @@ typedef enum {
   int _weaponId;
   int _armorId;
   int _amuletId;
+  id<EquipViewDelegate> _delegate;
 }
 
-@property (nonatomic, retain) IBOutlet EquipView *nibEquipView;
+@property (nonatomic, retain) IBOutlet EquipBrowseCell *browseCell;
 
-- (void) loadEquips:(NSArray *)equips curWeapon:(int)weapon curArmor:(int)armor curAmulet:(int)amulet;
-- (void) setCurWeapon:(int)weapon curArmor:(int)armor curAmulet:(int)amulet;
+- (void) loadEquips:(NSArray *)equips withDelegate:(id<EquipViewDelegate>)delegate;
 - (void) loadEquipsForScope:(EquipScope)scope;
 
 @end
@@ -188,12 +220,64 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
 
-@property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
-
 @property (nonatomic, retain) NSArray *curEquipViews;
+
+@property (nonatomic, retain) IBOutlet EquipView *nibEquipView;
+
+- (void) setUpCurEquipViewsWithDelegate:(id<EquipViewDelegate>)delegate;
+- (void) updateForEquips:(NSArray *)equips isMine:(BOOL)mine prestigeLevel:(int)prestigeLevel;
 
 @end
 
-@interface ProfileEquipContainerView : UIView
+@class ProfileEquipBrowseView;
+
+@interface ProfileEquipBrowseBar : UIView {
+  BOOL _trackingButton1;
+  BOOL _trackingButton2;
+  BOOL _trackingButton3;
+  
+  int _clickedButtons;
+}
+
+@property (nonatomic, retain) IBOutlet UIImageView *button1;
+@property (nonatomic, retain) IBOutlet UIImageView *button2;
+@property (nonatomic, retain) IBOutlet UIImageView *button3;
+
+@property (nonatomic, assign) IBOutlet ProfileEquipBrowseView *browseView;
+
+@end
+
+@interface ProfileEquipBrowseView : UIView {
+  BOOL _isFlipped;
+  int _prestigeLevel;
+  BOOL _isMe;
+}
+
+@property (nonatomic, retain) IBOutlet UITableView *equipTable;
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+
+@property (nonatomic, retain) IBOutlet UIView *mainSlotView;
+@property (nonatomic, retain) IBOutlet UIView *backSlotView;
+@property (nonatomic, retain) IBOutlet ProfileEquipContainerView *equipContainerView;
+
+@property (nonatomic, retain) IBOutlet ProfileEquipBrowseBar *browseBar;
+
+// This is the equipping view
+@property (nonatomic, retain) IBOutlet EquipView *nibEquipView;
+
+@property (nonatomic, retain) EquipTableViewDelegate *equipsTableDelegate;
+
+@property (nonatomic, retain) NSArray *curEquips;
+
+@property (nonatomic, assign) EquipScope curScope;
+@property (nonatomic, assign) BOOL isFlipped;
+
+- (void) loadForEquips:(NSArray *)equips curEquips:(NSArray *)curEquips prestigeLevel:(int)prestigeLevel isMe:(BOOL)isMe;
+- (void) updateForScope:(EquipScope)scope isSlot2:(BOOL)isSlot2;
+- (IBAction)backSlotClicked:(id)sender;
+- (IBAction)closeClicked:(id)sender;
+- (void) doEquippingAnimation:(UserEquip *)ue withNewCurEquipArray:(NSArray *)curEquips;
 
 @end

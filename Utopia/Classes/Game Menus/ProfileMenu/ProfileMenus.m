@@ -339,6 +339,195 @@
 
 @end
 
+@implementation ProfileEquipBrowseBar
+
+@synthesize button1, button2, button3;
+
+- (void) awakeFromNib {
+  [self clickButton:kButton1];
+  [self unclickButton:kButton2];
+  [self unclickButton:kButton3];
+}
+
+- (void) clickButton:(LeaderboardBarButton)button {
+  switch (button) {
+    case kButton1:
+      button1.hidden = NO;
+      _clickedButtons |= kButton1;
+      break;
+      
+    case kButton2:
+      button2.hidden = NO;
+      _clickedButtons |= kButton2;
+      break;
+      
+    case kButton3:
+      button3.hidden = NO;
+      _clickedButtons |= kButton3;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) unclickButton:(LeaderboardBarButton)button {
+  switch (button) {
+    case kButton1:
+      button1.hidden = YES;
+      _clickedButtons &= ~kButton1;
+      break;
+      
+    case kButton2:
+      button2.hidden = YES;
+      _clickedButtons &= ~kButton2;
+      break;
+      
+    case kButton3:
+      button3.hidden = YES;
+      _clickedButtons &= ~kButton3;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) updateForScope:(EquipScope)scope {
+  [self unclickButton:kButton1];
+  [self unclickButton:kButton2];
+  [self unclickButton:kButton3];
+  
+  switch (scope) {
+    case kEquipScopeWeapons:
+      [self clickButton:kButton1];
+      break;
+    case kEquipScopeArmor:
+      [self clickButton:kButton2];
+      break;
+    case kEquipScopeAmulets:
+      [self clickButton:kButton3];
+      break;
+    default:
+      break;
+  }
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (!(_clickedButtons & kButton1) && [button1 pointInside:pt withEvent:nil]) {
+    _trackingButton1 = YES;
+    [self clickButton:kButton1];
+  }
+  
+  pt = [touch locationInView:button3];
+  if (!(_clickedButtons & kButton3) && [button3 pointInside:pt withEvent:nil]) {
+    _trackingButton3 = YES;
+    [self clickButton:kButton3];
+  }
+  
+  pt = [touch locationInView:button2];
+  if (!(_clickedButtons & kButton2) && [button2 pointInside:pt withEvent:nil]) {
+    _trackingButton2 = YES;
+    [self clickButton:kButton2];
+  }
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (_trackingButton1) {
+    if (CGRectContainsPoint(CGRectInset(button1.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton1];
+    } else {
+      [self unclickButton:kButton1];
+    }
+  }
+  
+  pt = [touch locationInView:button2];
+  if (_trackingButton2) {
+    if (CGRectContainsPoint(CGRectInset(button2.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton2];
+    } else {
+      [self unclickButton:kButton2];
+    }
+  }
+  
+  pt = [touch locationInView:button3];
+  if (_trackingButton3) {
+    if (CGRectContainsPoint(CGRectInset(button3.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton3];
+    } else {
+      [self unclickButton:kButton3];
+    }
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:button1];
+  if (_trackingButton1) {
+    if (CGRectContainsPoint(CGRectInset(button1.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton1];
+      [self unclickButton:kButton3];
+      [self unclickButton:kButton2];
+      
+      [self.browseView updateForScope:kEquipScopeWeapons isSlot2:NO];
+    } else {
+      [self unclickButton:kButton1];
+    }
+  }
+  
+  pt = [touch locationInView:button2];
+  if (_trackingButton2) {
+    if (CGRectContainsPoint(CGRectInset(button2.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton2];
+      [self unclickButton:kButton3];
+      [self unclickButton:kButton1];
+      
+      [self.browseView updateForScope:kEquipScopeArmor isSlot2:NO];
+    } else {
+      [self unclickButton:kButton2];
+    }
+  }
+  
+  pt = [touch locationInView:button3];
+  if (_trackingButton3) {
+    if (CGRectContainsPoint(CGRectInset(button3.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton3];
+      [self unclickButton:kButton1];
+      [self unclickButton:kButton2];
+      
+      [self.browseView updateForScope:kEquipScopeAmulets isSlot2:NO];
+    } else {
+      [self unclickButton:kButton3];
+    }
+  }
+  
+  _trackingButton1 = NO;
+  _trackingButton3 = NO;
+  _trackingButton2 = NO;
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self unclickButton:kButton1];
+  [self unclickButton:kButton3];
+  [self unclickButton:kButton2];
+  _trackingButton1 = NO;
+  _trackingButton3 = NO;
+  _trackingButton2 = NO;
+}
+
+- (void) dealloc {
+  self.button3 = nil;
+  self.button2 = nil;
+  self.button1 = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation EquipView
 
 @synthesize bgd, border;
@@ -349,17 +538,28 @@
 @synthesize darkOverlay;
 @synthesize levelIcon;
 
+static float origLabelCenterY = 0;
+
 - (void) awakeFromNib {
-  int offset = 2.5;
-  CGRect rect = CGRectMake(offset, offset, self.bounds.size.width-2*offset, self.bounds.size.height-2*offset);
-  darkOverlay = [[UIView alloc] initWithFrame:rect];
-  darkOverlay.layer.cornerRadius = 2.5f;
-  darkOverlay.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.3f];
+  self.noEquipView.frame = self.mainView.frame;
+  [self addSubview:self.noEquipView];
+  darkOverlay = [[UIImageView alloc] initWithFrame:self.bgd.frame];
+  darkOverlay.contentMode = bgd.contentMode;
   darkOverlay.hidden = YES;
-  [self insertSubview:darkOverlay belowSubview:levelIcon];
+  [self addSubview:darkOverlay];
+  
+  origLabelCenterY = self.noEquipLabel.center.y;
 }
 
 - (void) updateForEquip:(UserEquip *)ue {
+  // This is for the browse cell
+  if (!ue) {
+    self.hidden = YES;
+    return;
+  } else {
+    self.hidden = NO;
+  }
+  
   Globals *gl = [Globals sharedGlobals];
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ue.equipId];
   attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
@@ -371,13 +571,52 @@
   levelIcon.level = ue.level;
   _enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
   
+  NSString *base = [[[Globals stringForRarity:fep.rarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
+  NSString *bgdFile = [base stringByAppendingString:@"profileequip.png"];
+  [Globals imageNamed:bgdFile withView:self.bgd maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:bgdFile withView:self.darkOverlay maskedColor:[UIColor colorWithWhite:0.f alpha:0.3f] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
   self.equip = ue;
   
-  if ([Globals canEquip:fep]) {
-    bgd.highlighted = NO;
+  self.mainView.hidden = NO;
+  self.noEquipView.hidden = YES;
+}
+
+- (void) updateForNoEquipIsMine:(BOOL)mine type:(FullEquipProto_EquipType)type {
+  
+  NSString *bgdFile = @"nothingequipped.png";
+  [Globals imageNamed:bgdFile withView:self.bgd maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:bgdFile withView:self.darkOverlay maskedColor:[UIColor colorWithWhite:0.f alpha:0.3f] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  self.equip = nil;
+  
+  self.mainView.hidden = YES;
+  self.noEquipView.hidden = NO;
+  
+  self.noEquipLabel.text = [NSString stringWithFormat:@"No %@ Equipped", [Globals stringForEquipType:type]];
+  if (mine) {
+    self.buttonView.hidden = NO;
+    self.noEquipLabel.center = ccp(self.noEquipLabel.center.x, origLabelCenterY);
   } else {
-    bgd.highlighted = YES;
+    self.buttonView.hidden = YES;
+    self.noEquipLabel.center = ccp(self.noEquipLabel.center.x, self.noEquipView.frame.size.height/2);
   }
+}
+
+- (void) updateForNotEnoughPrestiges:(int)prestigeLevelRequired {
+  NSString *bgdFile = @"nothingequipped.png";
+  [Globals imageNamed:bgdFile withView:self.bgd maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:bgdFile withView:self.darkOverlay maskedColor:[UIColor colorWithWhite:0.f alpha:0.3f] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  self.equip = nil;
+  
+  self.mainView.hidden = YES;
+  self.noEquipView.hidden = NO;
+  self.buttonView.hidden = YES;
+  
+  self.noEquipLabel.text = [NSString stringWithFormat:@"Prestige %@ to Unlock", prestigeLevelRequired == 1 ? @"Once" : (prestigeLevelRequired == 2 ? @"Twice" : [NSString stringWithFormat:@"%d Times", prestigeLevelRequired])];
+  
+  self.noEquipLabel.center = ccp(self.noEquipLabel.center.x, self.noEquipView.frame.size.height/2);
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -394,9 +633,7 @@
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   if ([self pointInside:[[touches anyObject] locationInView:self] withEvent:event]) {
-    [[ProfileViewController sharedProfileViewController] equipViewSelected:self];
-    darkOverlay.hidden = NO;
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    [_delegate equipViewSelected:self];
   }
   darkOverlay.hidden = YES;
 }
@@ -416,6 +653,10 @@
   self.darkOverlay = nil;
   self.levelIcon = nil;
   self.enhanceIcon = nil;
+  self.noEquipView = nil;
+  self.mainView = nil;
+  self.noEquipLabel = nil;
+  self.buttonView = nil;
   [super dealloc];
 }
 
@@ -856,16 +1097,62 @@
 
 @implementation EquipTabView
 
-- (void) setUpCurEquipViews {
-  for (int i = 0; i < 6; i++) {
-    EquipView
+- (void) setUpCurEquipViewsWithDelegate:(id<EquipViewDelegate>)delegate {
+  NSMutableArray *arr = [NSMutableArray array];
+  
+  float baseX = self.scrollView.frame.size.width/6.f;
+  float baseY = self.scrollView.frame.size.height/2.f;
+  int i;
+  for (i = 0; i < 6; i++) {
+    [[NSBundle mainBundle] loadNibNamed:@"EquipView" owner:self options:nil];
+    EquipView *ev = self.nibEquipView;
+    ev.center = ccp(baseX*(2*i+1), baseY);
+    ev.delegate = delegate;
+    ev.tag = i;
+    [self.scrollView addSubview:ev];
+    [arr addObject:ev];
+    
+    if (i > 0) {
+      UIImageView *divider = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"equipdivider.png"]];
+      divider.center = ccp(baseX*(2*i), baseY);
+      [self.scrollView addSubview:divider];
+      [divider release];
+    }
   }
+  self.scrollView.contentSize = CGSizeMake(baseX*(2*i), self.scrollView.frame.size.height);
+  self.curEquipViews = arr;
+}
+
+- (void) updateForEquips:(NSArray *)equips isMine:(BOOL)mine prestigeLevel:(int)prestigeLevel {
+  for (int i = 0; i < self.curEquipViews.count; i++) {
+    EquipView *ev = [self.curEquipViews objectAtIndex:i];
+    id eq = [equips objectAtIndex:i];
+    if ([eq isKindOfClass:[UserEquip class]]) {
+      [ev updateForEquip:eq];
+    } else {
+      if (i > 2+prestigeLevel) {
+        [ev updateForNotEnoughPrestiges:i-2];
+      } else {
+        [ev updateForNoEquipIsMine:mine type:i%3];
+      }
+    }
+  }
+  
+  Globals *gl = [Globals sharedGlobals];
+  UserEquip *weapon = [(EquipView *)[self.curEquipViews objectAtIndex:0] equip];
+  UserEquip *armor = [(EquipView *)[self.curEquipViews objectAtIndex:1] equip];
+  UserEquip *amulet = [(EquipView *)[self.curEquipViews objectAtIndex:2] equip];
+  self.attackLabel.text = [Globals commafyNumber:[gl calculateAttackForAttackStat:0 weapon:weapon armor:armor amulet:amulet]];
+  self.defenseLabel.text = [Globals commafyNumber:[gl calculateDefenseForDefenseStat:0 weapon:weapon armor:armor amulet:amulet]];
+  
+  self.scrollView.contentOffset = ccp(0,0);
 }
 
 - (void) dealloc {
   self.attackLabel = nil;
   self.defenseLabel = nil;
   self.scrollView = nil;
+  self.nibEquipView = nil;
   self.curEquipViews = nil;
   [super dealloc];
 }
@@ -874,18 +1161,10 @@
 
 @implementation EquipTableViewDelegate
 
-@synthesize nibEquipView;
-
-- (void) loadEquips:(NSArray *)equips curWeapon:(int)weapon curArmor:(int)armor curAmulet:(int)amulet {
+- (void) loadEquips:(NSArray *)equips withDelegate:(id<EquipViewDelegate>)delegate {
   [_equips release];
   _equips = [equips retain];
-  [self setCurWeapon:weapon curArmor:armor curAmulet:amulet];
-}
-
-- (void) setCurWeapon:(int)weapon curArmor:(int)armor curAmulet:(int)amulet {
-  _weaponId = weapon;
-  _armorId = armor;
-  _amuletId = amulet;
+  _delegate = delegate;
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -910,39 +1189,221 @@
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return _equipsForScope.count;
+  return _equipsForScope.count > 0 ? (_equipsForScope.count-1)/3+1 : 0;
 }
 int x = 0;
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  EquipView *cell = [tableView dequeueReusableCellWithIdentifier:@"EquipView"];
+  EquipBrowseCell *cell = [tableView dequeueReusableCellWithIdentifier:@"EquipBrowseCell"];
   
   if (!cell) {
-    [[NSBundle mainBundle] loadNibNamed:@"EquipView" owner:self options:nil];
-    cell = self.nibEquipView;
+    [[NSBundle mainBundle] loadNibNamed:@"EquipBrowseCell" owner:self options:nil];
+    cell = self.browseCell;
   }
   
-  UserEquip *ue = [_equipsForScope objectAtIndex:indexPath.row];
-  [cell updateForEquip:ue];
-  cell.tag = ue.userEquipId;
+  int row = indexPath.row;
+  UserEquip *ue1 = [_equipsForScope objectAtIndex:row*3];
+  UserEquip *ue2 = _equipsForScope.count > row*3+1 ? [_equipsForScope objectAtIndex:row*3+1] : nil;
+  UserEquip *ue3 = _equipsForScope.count > row*3+2 ? [_equipsForScope objectAtIndex:row*3+2] : nil;
+  [cell.containerView1.nibEquipView updateForEquip:ue1];
+  [cell.containerView2.nibEquipView updateForEquip:ue2];
+  [cell.containerView3.nibEquipView updateForEquip:ue3];
+  cell.containerView1.nibEquipView.delegate = _delegate;
+  cell.containerView2.nibEquipView.delegate = _delegate;
+  cell.containerView3.nibEquipView.delegate = _delegate;
+  cell.containerView1.nibEquipView.tag = EQUIP_BROWSE_VIEW_TAG;
+  cell.containerView2.nibEquipView.tag = EQUIP_BROWSE_VIEW_TAG;
+  cell.containerView3.nibEquipView.tag = EQUIP_BROWSE_VIEW_TAG;
   
-  GameState *gs = [GameState sharedGameState];
-  FullEquipProto *fep = [gs equipWithId:ue.equipId];
-  if (fep.equipType == FullEquipProto_EquipTypeWeapon && ue.userEquipId == _weaponId) {
-    cell.border.hidden = NO;
-  } else if (fep.equipType == FullEquipProto_EquipTypeArmor && ue.userEquipId == _armorId) {
-    cell.border.hidden = NO;
-  } else if (fep.equipType == FullEquipProto_EquipTypeAmulet && ue.userEquipId == _amuletId) {
-    cell.border.hidden = NO;
-  } else {
-    cell.border.hidden = YES;
-  }
+  //  GameState *gs = [GameState sharedGameState];
+  //  FullEquipProto *fep = [gs equipWithId:ue.equipId];
+  //  if (fep.equipType == FullEquipProto_EquipTypeWeapon && ue.userEquipId == _weaponId) {
+  //    cell.border.hidden = NO;
+  //  } else if (fep.equipType == FullEquipProto_EquipTypeArmor && ue.userEquipId == _armorId) {
+  //    cell.border.hidden = NO;
+  //  } else if (fep.equipType == FullEquipProto_EquipTypeAmulet && ue.userEquipId == _amuletId) {
+  //    cell.border.hidden = NO;
+  //  } else {
+  //    cell.border.hidden = YES;
+  //  }
   
   return cell;
 }
 
 - (void) dealloc {
   [_equips release];
+  self.browseCell = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation EquipBrowseCell
+
+- (void) dealloc {
+  self.containerView1 = nil;
+  self.containerView2 = nil;
+  self.containerView3 = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation ProfileEquipContainerView
+
+- (void) awakeFromNib {
+  [[NSBundle mainBundle] loadNibNamed:@"EquipView" owner:self options:nil];
+  [self addSubview:self.nibEquipView];
+  self.nibEquipView.center = ccp(self.frame.size.width/2, self.frame.size.height/2);
+  self.backgroundColor = [UIColor clearColor];
+}
+
+- (void) dealloc {
   self.nibEquipView = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation ProfileEquipBrowseView
+
+- (void) awakeFromNib {
+  EquipTableViewDelegate *del = [[EquipTableViewDelegate alloc] init];
+  self.equipTable.delegate = del;
+  self.equipTable.dataSource = del;
+  self.equipsTableDelegate = del;
+  [del release];
+  
+  [[NSBundle mainBundle] loadNibNamed:@"EquipView" owner:self options:nil];
+  [self.mainView addSubview:self.nibEquipView];
+  self.nibEquipView.hidden = YES;
+}
+
+- (void) loadForEquips:(NSArray *)equips curEquips:(NSArray *)curEquips prestigeLevel:(int)prestigeLevel isMe:(BOOL)isMe {
+  [self.equipsTableDelegate loadEquips:equips withDelegate:[ProfileViewController sharedProfileViewController]];
+  self.curEquips = curEquips;
+  [self updateForScope:self.curScope isSlot2:_isFlipped];
+  _prestigeLevel = prestigeLevel;
+  _isMe = isMe;
+}
+
+- (void) updateForScope:(EquipScope)scope isSlot2:(BOOL)isSlot2 {
+  [self.equipsTableDelegate loadEquipsForScope:scope];
+  [self.equipTable reloadData];
+  [self updateSlotForScope:scope isSlot2:isSlot2];
+  
+  if (scope != _curScope) {
+    self.equipTable.contentOffset = ccp(0,0);
+  }
+  
+  [self.browseBar updateForScope:scope];
+  
+  if (isSlot2) {
+    [self flipSlots];
+  } else {
+    [self unflipSlots];
+  }
+  _curScope = scope;
+}
+
+- (void) updateSlotForScope:(EquipScope)scope isSlot2:(BOOL)isSlot2 {
+  int index = (scope - 1) + (isSlot2 ? 3 : 0);
+  if (index < 0 || index >= self.curEquips.count) {
+    return;
+  }
+  
+  id ue = [self.curEquips objectAtIndex:index];
+  
+  if ([ue isKindOfClass:[NSNull class]]) {
+    if (isSlot2 && scope > _prestigeLevel) {
+      [self.equipContainerView.nibEquipView updateForNotEnoughPrestiges:scope];
+    } else {
+      [self.equipContainerView.nibEquipView updateForNoEquipIsMine:NO type:scope-1];
+    }
+  } else {
+    [self.equipContainerView.nibEquipView updateForEquip:ue];
+  }
+}
+
+- (IBAction)backSlotClicked:(id)sender {
+  if (_isFlipped) {
+    [self updateForScope:self.curScope isSlot2:NO];
+  } else {
+    [self updateForScope:self.curScope isSlot2:YES];
+  }
+}
+
+- (IBAction)closeClicked:(id)sender {
+  if (self.superview) {
+    [[ProfileViewController sharedProfileViewController] loadMyProfile];
+    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {
+      [self removeFromSuperview];
+    }];
+    _curScope = 0;
+  }
+}
+
+- (void) flipSlots {
+  self.mainSlotView.transform = CGAffineTransformMakeScale(-1, 1);
+  self.backSlotView.transform = CGAffineTransformMakeScale(-1, 1);
+  
+  CGRect r = self.backSlotView.frame;
+  r.origin.x = self.mainSlotView.frame.origin.x;
+  self.backSlotView.frame = r;
+  
+  _isFlipped = YES;
+}
+
+- (void) unflipSlots {
+  self.mainSlotView.transform = CGAffineTransformIdentity;
+  self.backSlotView.transform = CGAffineTransformIdentity;
+  
+  CGRect r = self.backSlotView.frame;
+  r.origin.x = CGRectGetMaxX(self.mainSlotView.frame)-r.size.width;
+  self.backSlotView.frame = r;
+  
+  _isFlipped = NO;
+}
+
+- (void) doEquippingAnimation:(UserEquip *)ue withNewCurEquipArray:(NSArray *)curEquips {
+  EquipView *ev = nil;
+  for (EquipBrowseCell *e in self.equipTable.visibleCells) {
+    if (e.containerView1.nibEquipView.equip.userEquipId == ue.userEquipId) {
+      ev = e.containerView1.nibEquipView;
+    } else if (e.containerView2.nibEquipView.equip.userEquipId == ue.userEquipId) {
+      ev = e.containerView2.nibEquipView;
+    } else if (e.containerView3.nibEquipView.equip.userEquipId == ue.userEquipId) {
+      ev = e.containerView3.nibEquipView;
+    }
+  }
+  
+  if (ev) {
+    EquipView *equippingView = self.nibEquipView;
+    
+    equippingView.frame = [self.mainView convertRect:ev.frame fromView:ev.superview];
+    [equippingView updateForEquip:ev.equip];
+    equippingView.hidden = NO;
+    [equippingView.layer removeAllAnimations];
+    
+    [UIView animateWithDuration:0.3f animations:^{
+      equippingView.frame = [self.mainView convertRect:self.equipContainerView.nibEquipView.frame fromView:self.equipContainerView];
+      self.equipContainerView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      equippingView.hidden = YES;
+      [self.equipContainerView.nibEquipView updateForEquip:ev.equip];
+      self.equipContainerView.alpha = 1.f;
+      
+      self.curEquips = curEquips;
+    }];
+  }
+}
+
+- (void) dealloc {
+  self.mainSlotView = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
+  self.backSlotView = nil;
+  self.nibEquipView = nil;
+  self.equipTable = nil;
   [super dealloc];
 }
 

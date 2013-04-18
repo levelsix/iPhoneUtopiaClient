@@ -1026,6 +1026,7 @@
 						<string key="notForgingMiddleView">UIView</string>
 						<string key="okayButton">UIButton</string>
 						<string key="progressView">ForgeProgressView</string>
+						<string key="slotBar">ForgeSlotTopBar</string>
 						<string key="statusView">ForgeStatusView</string>
 						<string key="topBar">UIView</string>
 						<string key="twinkleIcon">UIImageView</string>
@@ -1188,6 +1189,10 @@
 							<string key="name">progressView</string>
 							<string key="candidateClassName">ForgeProgressView</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="slotBar">
+							<string key="name">slotBar</string>
+							<string key="candidateClassName">ForgeSlotTopBar</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="statusView">
 							<string key="name">statusView</string>
 							<string key="candidateClassName">ForgeStatusView</string>
@@ -1246,6 +1251,33 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/ForgeProgressView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ForgeSlotTopBar</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="button1">UIImageView</string>
+						<string key="button2">UIImageView</string>
+						<string key="button3">UIImageView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="button1">
+							<string key="name">button1</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button2">
+							<string key="name">button2</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button3">
+							<string key="name">button3</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ForgeSlotTopBar.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

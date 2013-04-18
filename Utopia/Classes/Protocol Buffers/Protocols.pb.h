@@ -278,6 +278,10 @@
 @class PostToMarketplaceRequestProto_Builder;
 @class PostToMarketplaceResponseProto;
 @class PostToMarketplaceResponseProto_Builder;
+@class PrestigeRequestProto;
+@class PrestigeRequestProto_Builder;
+@class PrestigeResponseProto;
+@class PrestigeResponseProto_Builder;
 @class PurchaseBoosterPackRequestProto;
 @class PurchaseBoosterPackRequestProto_Builder;
 @class PurchaseBoosterPackResponseProto;
@@ -286,6 +290,10 @@
 @class PurchaseCityExpansionRequestProto_Builder;
 @class PurchaseCityExpansionResponseProto;
 @class PurchaseCityExpansionResponseProto_Builder;
+@class PurchaseForgeSlotRequestProto;
+@class PurchaseForgeSlotRequestProto_Builder;
+@class PurchaseForgeSlotResponseProto;
+@class PurchaseForgeSlotResponseProto_Builder;
 @class PurchaseFromMarketplaceRequestProto;
 @class PurchaseFromMarketplaceRequestProto_Builder;
 @class PurchaseFromMarketplaceResponseProto;
@@ -612,6 +620,7 @@ typedef enum {
   EventProtocolRequestCPurchaseBoosterPackEvent = 82,
   EventProtocolRequestCResetBoosterPackEvent = 83,
   EventProtocolRequestCChangeClanJoinTypeEvent = 84,
+  EventProtocolRequestCPurchaseForgeSlotEvent = 85,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -701,6 +710,7 @@ typedef enum {
   EventProtocolResponseSPurchaseBoosterPackEvent = 82,
   EventProtocolResponseSResetBoosterPackEvent = 83,
   EventProtocolResponseSChangeClanJoinTypeEvent = 84,
+  EventProtocolResponseSPurchaseForgeSlotEvent = 85,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

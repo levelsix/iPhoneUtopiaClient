@@ -26,7 +26,7 @@
 - (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city equips:(NSArray *)equips;
 - (void) buyEquip:(int)equipId;
 //- (int) sellEquip:(int)equipId;
-- (BOOL) wearEquip:(int)equipId;
+- (BOOL) wearEquip:(int)userEquipId forPrestigeSlot:(BOOL)forPrestigeSlot;
 
 - (void) generateAttackList:(int)numEnemies;
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds;
@@ -105,10 +105,11 @@
 - (void) adColonyRewardWithAmount:(int)amount type:(EarnFreeDiamondsRequestProto_AdColonyRewardType)type;
 - (void) fbConnectReward;
 
-- (BOOL) submitEquipsToBlacksmithWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo guaranteed:(BOOL)guaranteed;
-- (void) forgeAttemptWaitComplete;
-- (void) finishForgeAttemptWaittimeWithDiamonds;
-- (void) collectForgeEquips;
+- (BOOL) submitEquipsToBlacksmithWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo guaranteed:(BOOL)guaranteed slotNumber:(int)slotNumber;
+- (void) forgeAttemptWaitComplete:(int)blacksmithId;
+- (void) finishForgeAttemptWaittimeWithDiamonds:(int)blacksmithId;
+- (void) collectForgeEquips:(int)blacksmithId;
+- (void) purchaseForgeSlot;
 
 - (void) resetStats;
 - (void) resetName:(NSString *)name;

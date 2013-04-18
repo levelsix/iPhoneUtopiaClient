@@ -177,6 +177,7 @@ typedef enum {
 @property (nonatomic, retain) NSDate *startTime;
 @property (nonatomic, assign) BOOL isComplete;
 @property (nonatomic, retain) NSDate *speedupTime;
+@property (nonatomic, assign) int slotNumber;
 
 + (id) forgeAttemptWithUnhandledBlacksmithAttemptProto:(UnhandledBlacksmithAttemptProto *)attempt;
 

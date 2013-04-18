@@ -27,6 +27,7 @@
 
 @interface Globals : NSObject <BattleConstants, EnemyBattleStats> {
   int _equipIdToWear;
+  BOOL _isForSlot2;
 }
 
 @property (nonatomic, assign) float depositPercentCut;
@@ -127,6 +128,8 @@
 @property (nonatomic, retain) NSArray *questIdsGuaranteedWin;
 
 @property (nonatomic, assign) int fbConnectRewardDiamonds;
+@property (nonatomic, assign) int minLevelForPrestige;
+
 
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
@@ -134,6 +137,7 @@
 @property (nonatomic, assign) float forgeDiamondCostForGuaranteeExponentialMultiplier;
 @property (nonatomic, assign) int forgeBaseMinutesToOneGold;
 @property (nonatomic, assign) int forgeMaxEquipLevel;
+@property (nonatomic, assign) int forgeMaxForgeSlots;
 @property (nonatomic, assign) float levelEquipBoostExponentBase;
 
 @property (nonatomic, assign) int averageSizeOfLevelBracket;
@@ -371,6 +375,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (void) adjustViewForCentering:(UIView *)view withLabel:(UILabel *)label;
 
 - (InAppPurchasePackageProto *) packageForProductId:(NSString *)pid;
++ (NSArray *) getUserEquipArrayFromFullUserProto:(FullUserProto *)fup;
 
 @end
 

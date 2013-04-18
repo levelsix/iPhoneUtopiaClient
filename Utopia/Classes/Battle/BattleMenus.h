@@ -9,9 +9,22 @@
 #import <Foundation/Foundation.h>
 #import "NibUtils.h"
 #import "Protocols.pb.h"
+#import "UserData.h"
 
 @class BattleSummaryView;
 @class BattleAnalysisView;
+
+@interface BattleSummaryEquipView : UIView
+
+@property (nonatomic, retain) IBOutlet UILabel *rarityLabel;
+@property (nonatomic, retain) IBOutlet EquipButton *equipIcon;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *equipLevelIcon;
+@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *enhanceLevelIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
+
+- (void) updateForUserEquip:(UserEquip *)ue;
+
+@end
 
 @interface BattleTutorialView : UIView
 
@@ -91,37 +104,6 @@
 @property (nonatomic, retain) IBOutlet UIImageView *rightBgdImage;
 @property (nonatomic, retain) IBOutlet UIImageView *rightCircleIcon;
 
-@property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel1;
-@property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon1;
-@property (nonatomic, retain) IBOutlet EquipLevelIcon *leftEquipLevelIcon1;
-@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *leftEnhanceLevelIcon1;
-@property (nonatomic, retain) IBOutlet UIImageView *leftBgdIcon1;
-@property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel2;
-@property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon2;
-@property (nonatomic, retain) IBOutlet EquipLevelIcon *leftEquipLevelIcon2;
-@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *leftEnhanceLevelIcon2;
-@property (nonatomic, retain) IBOutlet UIImageView *leftBgdIcon2;
-@property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel3;
-@property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon3;
-@property (nonatomic, retain) IBOutlet EquipLevelIcon *leftEquipLevelIcon3;
-@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *leftEnhanceLevelIcon3;
-@property (nonatomic, retain) IBOutlet UIImageView *leftBgdIcon3;
-@property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel1;
-@property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon1;
-@property (nonatomic, retain) IBOutlet EquipLevelIcon *rightEquipLevelIcon1;
-@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *rightEnhanceLevelIcon1;
-@property (nonatomic, retain) IBOutlet UIImageView *rightBgdIcon1;
-@property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel2;
-@property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon2;
-@property (nonatomic, retain) IBOutlet EquipLevelIcon *rightEquipLevelIcon2;
-@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *rightEnhanceLevelIcon2;
-@property (nonatomic, retain) IBOutlet UIImageView *rightBgdIcon2;
-@property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel3;
-@property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon3;
-@property (nonatomic, retain) IBOutlet EquipLevelIcon *rightEquipLevelIcon3;
-@property (nonatomic, retain) IBOutlet EnhancementLevelIcon *rightEnhanceLevelIcon3;
-@property (nonatomic, retain) IBOutlet UIImageView *rightBgdIcon3;
-
 @property (nonatomic, retain) IBOutlet UILabel *coinsGainedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *coinsLostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *expGainedLabel;
@@ -133,6 +115,12 @@
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
+
+@property (nonatomic, retain) IBOutlet BattleSummaryEquipView *equipView;
+@property (nonatomic, retain) IBOutlet UIScrollView *leftScrollView;
+@property (nonatomic, retain) IBOutlet UIScrollView *rightScrollView;
+@property (nonatomic, retain) NSArray *leftEquipViews;
+@property (nonatomic, retain) NSArray *rightEquipViews;
 
 - (void) loadBattleSummaryForBattleResponse:(BattleResponseProto *)brp enemy:(FullUserProto *)fup;
 - (void) close;

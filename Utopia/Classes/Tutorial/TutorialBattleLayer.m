@@ -414,12 +414,8 @@
   
   [self.summaryView loadBattleSummaryForBattleResponse:brp enemy:_fup];
   
-  self.summaryView.leftEquipIcon1.userInteractionEnabled = NO;
-  self.summaryView.leftEquipIcon2.userInteractionEnabled = NO;
-  self.summaryView.leftEquipIcon3.userInteractionEnabled = NO;
-  self.summaryView.rightEquipIcon1.userInteractionEnabled = NO;
-  self.summaryView.rightEquipIcon2.userInteractionEnabled = NO;
-  self.summaryView.rightEquipIcon3.userInteractionEnabled = NO;
+  self.summaryView.leftScrollView.userInteractionEnabled = NO;
+  self.summaryView.rightScrollView.userInteractionEnabled = NO;
 }
 
 - (void) arrowOnClose {

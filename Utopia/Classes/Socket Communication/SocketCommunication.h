@@ -88,7 +88,7 @@
 - (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds events:(BOOL)events clanTierLevels:(BOOL)clanTierLevels bossIds:(NSArray *)bossIds;
 - (int) sendRetrieveStaticDataFromShopMessage:(RetrieveStaticDataForShopRequestProto_RetrieveForShopType)type;
 
-- (int) sendEquipEquipmentMessage:(int) equipId;
+- (int) sendEquipEquipmentMessage:(int)equipId forPrestigeSlot:(BOOL)forPrestigeSlot;
 - (int) sendChangeUserLocationMessageWithLatitude:(CGFloat)lat longitude:(CGFloat)lon;
 
 - (int) sendLevelUpMessage;
@@ -109,10 +109,11 @@
 - (int) sendEarnFreeDiamondsAdColonyMessageClientTime:(uint64_t)time digest:(NSString *)digest amount:(int)amount type:(EarnFreeDiamondsRequestProto_AdColonyRewardType)type;
 - (int) sendEarnFreeDiamondsFBConnectMessageClientTime:(uint64_t)time;
 
-- (int) sendSubmitEquipsToBlacksmithMessageWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo guaranteed:(BOOL)guaranteed clientTime:(uint64_t)time;
+- (int) sendSubmitEquipsToBlacksmithMessageWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo slotNumber:(int)slotNumber guaranteed:(BOOL)guaranteed clientTime:(uint64_t)time;
 - (int) sendForgeAttemptWaitCompleteMessageWithBlacksmithId:(int)blacksmithId clientTime:(uint64_t)time;
 - (int) sendFinishForgeAttemptWaittimeWithDiamondsWithBlacksmithId:(int)blacksmithId clientTime:(uint64_t)time;
 - (int) sendCollectForgeEquipsWithBlacksmithId:(int)blacksmithId;
+- (int) sendPurchaseForgeSlot;
 
 - (int) sendCharacterModWithType:(CharacterModType)modType newType:(UserType)userType newName:(NSString *)name;
 

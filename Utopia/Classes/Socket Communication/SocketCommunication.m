@@ -683,10 +683,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveStaticDataForShopEvent];
 }
 
-- (int) sendEquipEquipmentMessage:(int) equipId {
-  EquipEquipmentRequestProto *req = [[[[EquipEquipmentRequestProto builder]
+- (int) sendEquipEquipmentMessage:(int)equipId forPrestigeSlot:(BOOL)forPrestigeSlot {
+  EquipEquipmentRequestProto *req = [[[[[EquipEquipmentRequestProto builder]
                                        setSender:_sender]
                                       setUserEquipId:equipId]
+                                      setForPrestigeEquipSlot:forPrestigeSlot]
                                      build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCEquipEquipmentEvent];
@@ -847,12 +848,13 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEarnFreeDiamondsEvent];
 }
 
-- (int) sendSubmitEquipsToBlacksmithMessageWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo guaranteed:(BOOL)guaranteed clientTime:(uint64_t)time {
-  SubmitEquipsToBlacksmithRequestProto *req = [[[[[[[SubmitEquipsToBlacksmithRequestProto builder]
+- (int) sendSubmitEquipsToBlacksmithMessageWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo slotNumber:(int)slotNumber guaranteed:(BOOL)guaranteed clientTime:(uint64_t)time {
+  SubmitEquipsToBlacksmithRequestProto *req = [[[[[[[[SubmitEquipsToBlacksmithRequestProto builder]
                                                     setSender:_sender]
                                                    setUserEquipOne:equipOne]
                                                   setUserEquipTwo:equipTwo]
                                                  setPaidToGuarantee:guaranteed]
+                                                 setForgeSlotNumber:slotNumber]
                                                 setStartTime:time]
                                                build];
   return [self sendData:req withMessageType:EventProtocolRequestCSubmitEquipsToBlacksmith];
@@ -882,6 +884,14 @@ static NSString *udid = nil;
                                           setSender:_sender]
                                          build];
   return [self sendData:req withMessageType:EventProtocolRequestCCollectForgeEquips ];
+}
+
+- (int) sendPurchaseForgeSlot {
+  PurchaseForgeSlotRequestProto *req = [[[PurchaseForgeSlotRequestProto builder]
+                                         setSender:_sender]
+                                        build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCPurchaseForgeSlotEvent];
 }
 
 - (int) sendCharacterModWithType:(CharacterModType)modType newType:(UserType)userType newName:(NSString *)name {

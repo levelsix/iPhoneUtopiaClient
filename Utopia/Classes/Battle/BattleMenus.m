@@ -11,6 +11,51 @@
 #import "Globals.h"
 #import "DialogMenuController.h"
 
+@implementation BattleSummaryEquipView
+
+@synthesize rarityLabel, equipIcon, equipLevelIcon;
+@synthesize enhanceLevelIcon, bgdIcon;
+
+- (void) updateForUserEquip:(UserEquip *)ue {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  NSString *fileEnd = @"mini.png";
+  NSString *emptyFile = @"dottedmini.png";
+  
+  if ([ue isKindOfClass:[UserEquip class]]) {
+    FullEquipProto *fep = [gs equipWithId:ue.equipId];
+    rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
+    rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
+    equipIcon.equipId = fep.equipId;
+    equipIcon.level = ue.level;
+    equipIcon.enhancePercent = ue.enhancementPercentage;
+    equipLevelIcon.level = ue.level;
+    enhanceLevelIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
+    
+    NSString *base = [[[Globals stringForRarity:fep.rarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
+    NSString *bgdFile = [base stringByAppendingString:fileEnd];
+    [Globals imageNamed:bgdFile withView:bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  } else {
+    rarityLabel.text = @"";
+    equipIcon.equipId = 0;
+    enhanceLevelIcon.level = 0;
+    enhanceLevelIcon.level = 0;
+    [Globals imageNamed:emptyFile withView:bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  }
+}
+
+- (void) dealloc {
+  self.rarityLabel = nil;
+  self.equipIcon = nil;
+  self.equipLevelIcon = nil;
+  self.enhanceLevelIcon = nil;
+  self.bgdIcon = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation BattleTutorialView
 
 - (void) displayInitialViewWithSummaryView:(BattleSummaryView *)summaryView andAnalysisView:(BattleAnalysisView *)analysisView {
@@ -96,14 +141,22 @@
   
   const int arrSize = 3;
   UserEquip *myEqs[arrSize] = {[gs myEquipWithUserEquipId:gs.weaponEquipped], [gs myEquipWithUserEquipId:gs.armorEquipped], [gs myEquipWithUserEquipId:gs.amuletEquipped]};
+  UserEquip *myEqs2[arrSize] = {[gs myEquipWithUserEquipId:gs.weaponEquipped2], [gs myEquipWithUserEquipId:gs.armorEquipped2], [gs myEquipWithUserEquipId:gs.amuletEquipped2]};
   FullUserEquipProto *enEqs[arrSize] = {enemy.weaponEquippedUserEquip, enemy.armorEquippedUserEquip, enemy.amuletEquippedUserEquip};
+  FullUserEquipProto *enEqs2[arrSize] = {enemy.weaponTwoEquippedUserEquip, enemy.armorTwoEquippedUserEquip, enemy.amuletTwoEquippedUserEquip};
   
   for (int i = 0; i < arrSize; i++) {
     UserEquip *ue = myEqs[i];
+    UserEquip *ue2 = myEqs2[i];
     FullUserEquipProto *fuep = enEqs[i];
+    FullUserEquipProto *fuep2 = enEqs2[i];
     
-    float myStats = [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage] + [gl calculateDefenseForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage];
-    float enStats = [gl calculateAttackForEquip:fuep.equipId level:fuep.level enhancePercent:fuep.enhancementPercentage] + [gl calculateDefenseForEquip:fuep.equipId level:fuep.level enhancePercent:fuep.enhancementPercentage];
+    float myStats1 = [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage] + [gl calculateDefenseForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage];
+    float myStats2 = [gl calculateAttackForEquip:ue2.equipId level:ue2.level enhancePercent:ue2.enhancementPercentage] + [gl calculateDefenseForEquip:ue2.equipId level:ue2.level enhancePercent:ue2.enhancementPercentage];
+    float enStats1 = [gl calculateAttackForEquip:fuep.equipId level:fuep.level enhancePercent:fuep.enhancementPercentage] + [gl calculateDefenseForEquip:fuep.equipId level:fuep.level enhancePercent:fuep.enhancementPercentage];
+    float enStats2 = [gl calculateAttackForEquip:fuep2.equipId level:fuep2.level enhancePercent:fuep2.enhancementPercentage] + [gl calculateDefenseForEquip:fuep2.equipId level:fuep2.level enhancePercent:fuep2.enhancementPercentage];
+    float myStats = myStats1 + myStats2;
+    float enStats = enStats1 + enStats2;
     
     if (myStats == 0 && enStats == 0) {
       arr[2*i] = 0.f;
@@ -354,19 +407,38 @@
 
 @synthesize leftNameLabel, leftLevelLabel, leftPlayerIcon, leftAttackLabel, leftDefenseLabel, leftBgdImage, leftCircleIcon;
 @synthesize rightNameLabel, rightLevelLabel, rightPlayerIcon, rightAttackLabel, rightDefenseLabel, rightBgdImage, rightCircleIcon;
-@synthesize leftRarityLabel1, leftRarityLabel2, leftRarityLabel3;
-@synthesize leftEquipIcon1, leftEquipIcon2, leftEquipIcon3;
-@synthesize leftEquipLevelIcon1, leftEquipLevelIcon2, leftEquipLevelIcon3;
-@synthesize leftEnhanceLevelIcon1, leftEnhanceLevelIcon2, leftEnhanceLevelIcon3;
-@synthesize leftBgdIcon1, leftBgdIcon2, leftBgdIcon3;
-@synthesize rightRarityLabel1, rightRarityLabel2, rightRarityLabel3;
-@synthesize rightEquipIcon1, rightEquipIcon2, rightEquipIcon3;
-@synthesize rightEquipLevelIcon1, rightEquipLevelIcon2, rightEquipLevelIcon3;
-@synthesize rightEnhanceLevelIcon1, rightEnhanceLevelIcon2, rightEnhanceLevelIcon3;
-@synthesize rightBgdIcon1, rightBgdIcon2, rightBgdIcon3;
 @synthesize coinsGainedLabel, coinsLostLabel, expGainedLabel, titleImage;
 @synthesize winLabelsView, defeatLabelsView;
 @synthesize mainView, bgdView;
+
+- (void) awakeFromNib {
+  [self setUpEquipViews];
+}
+
+- (void) setUpEquipViews {
+  NSArray *scrollViews = [NSArray arrayWithObjects:self.leftScrollView, self.rightScrollView, nil];
+  NSArray *equipViewArrays = [NSArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], nil];
+  
+  for (int i = 0; i < 2; i++) {
+    UIScrollView *scrollView = [scrollViews objectAtIndex:i];
+    NSMutableArray *equipViews = [equipViewArrays objectAtIndex:i];
+    
+    float baseX = scrollView.frame.size.width/6.f;
+    float baseY = scrollView.frame.size.height/2.f;
+    int i;
+    for (i = 0; i < 6; i++) {
+      [[NSBundle mainBundle] loadNibNamed:@"BattleSummaryEquipView" owner:self options:nil];
+      BattleSummaryEquipView *ev = self.equipView;
+      ev.center = ccp(baseX*(2*i+1), baseY);
+      [scrollView addSubview:ev];
+      [equipViews addObject:ev];
+    }
+    scrollView.contentSize = CGSizeMake(baseX*(2*i), scrollView.frame.size.height);
+  }
+  
+  self.leftEquipViews = [equipViewArrays objectAtIndex:0];
+  self.rightEquipViews = [equipViewArrays objectAtIndex:1];
+}
 
 - (void) loadBattleSummaryForBattleResponse:(BattleResponseProto *)brp enemy:(FullUserProto *)fup {
   GameState *gs = [GameState sharedGameState];
@@ -391,169 +463,22 @@
   [Globals imageNamed:[enemyPrefix stringByAppendingString:@"bg.png"] withView:rightBgdImage maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   [Globals imageNamed:[enemyPrefix stringByAppendingString:@"circle.png"] withView:rightCircleIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  NSString *fileEnd = @"mini.png";
-  NSString *emptyFile = @"dottedmini.png";
-  
-  UILabel *rarityLabel = leftRarityLabel1;
-  EquipButton *equipButton = leftEquipIcon1;
-  EquipLevelIcon *levelIcon = leftEquipLevelIcon1;
-  EnhancementLevelIcon *enhanceIcon = leftEnhanceLevelIcon1;
-  UserEquip *ue = [gs myEquipWithUserEquipId:gs.weaponEquipped];
-  UIImageView *bgdIcon = leftBgdIcon1;
-  if (ue) {
-    FullEquipProto *fep = [gs equipWithId:ue.equipId];
-    rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
-    rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    equipButton.equipId = fep.equipId;
-    equipButton.level = ue.level;
-    equipButton.enhancePercent = ue.enhancementPercentage;
-    levelIcon.level = ue.level;
-    enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
+  NSArray *equips = [gs getUserEquipArray];
+  NSArray *equipViews = self.leftEquipViews;
+  for (int i = 0; i < equips.count; i++) {
+    UserEquip *ue = [equips objectAtIndex:i];
+    BattleSummaryEquipView *ev = [equipViews objectAtIndex:i];
     
-    NSString *base = [[[Globals stringForRarity:fep.rarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
-    NSString *bgdFile = [base stringByAppendingString:fileEnd];
-    [Globals imageNamed:bgdFile withView:bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  } else {
-    rarityLabel.text = @"";
-    equipButton.equipId = 0;
-    levelIcon.level = 0;
-    enhanceIcon.level = 0;
-    [Globals imageNamed:emptyFile withView:bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    [ev updateForUserEquip:ue];
   }
   
-  rarityLabel = leftRarityLabel2;
-  equipButton = leftEquipIcon2;
-  levelIcon = leftEquipLevelIcon2;
-  enhanceIcon = leftEnhanceLevelIcon2;
-  ue = [gs myEquipWithUserEquipId:gs.armorEquipped];
-  bgdIcon = leftBgdIcon2;
-  if (ue) {
-    FullEquipProto *fep = [gs equipWithId:ue.equipId];
-    rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
-    rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    equipButton.equipId = fep.equipId;
-    equipButton.level = ue.level;
-    equipButton.enhancePercent = ue.enhancementPercentage;
-    levelIcon.level = ue.level;
-    enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
+  equips = [Globals getUserEquipArrayFromFullUserProto:fup];
+  equipViews = self.rightEquipViews;
+  for (int i = 0; i < equips.count; i++) {
+    UserEquip *ue = [equips objectAtIndex:i];
+    BattleSummaryEquipView *ev = [equipViews objectAtIndex:i];
     
-    NSString *base = [[[Globals stringForRarity:fep.rarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
-    NSString *bgdFile = [base stringByAppendingString:fileEnd];
-    [Globals imageNamed:bgdFile withView:bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  } else {
-    rarityLabel.text = @"";
-    equipButton.equipId = 0;
-    levelIcon.level = 0;
-    enhanceIcon.level = 0;
-    [Globals imageNamed:emptyFile withView:bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  }
-  
-  rarityLabel = leftRarityLabel3;
-  equipButton = leftEquipIcon3;
-  levelIcon = leftEquipLevelIcon3;
-  enhanceIcon = leftEnhanceLevelIcon3;
-  ue = [gs myEquipWithUserEquipId:gs.amuletEquipped];
-  bgdIcon = leftBgdIcon3;
-  if (ue) {
-    FullEquipProto *fep = [gs equipWithId:ue.equipId];
-    rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
-    rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    equipButton.equipId = fep.equipId;
-    equipButton.level = ue.level;
-    equipButton.enhancePercent = ue.enhancementPercentage;
-    levelIcon.level = ue.level;
-    enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
-    
-    NSString *base = [[[Globals stringForRarity:fep.rarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
-    NSString *bgdFile = [base stringByAppendingString:fileEnd];
-    [Globals imageNamed:bgdFile withView:bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  } else {
-    rarityLabel.text = @"";
-    equipButton.equipId = 0;
-    levelIcon.level = 0;
-    enhanceIcon.level = 0;
-    [Globals imageNamed:emptyFile withView:bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  }
-  
-  rarityLabel = rightRarityLabel1;
-  equipButton = rightEquipIcon1;
-  levelIcon = rightEquipLevelIcon1;
-  enhanceIcon = rightEnhanceLevelIcon1;
-  FullUserEquipProto *fuep = fup.weaponEquippedUserEquip;
-  bgdIcon = rightBgdIcon1;
-  if (fup.hasWeaponEquippedUserEquip) {
-    FullEquipProto *fep = [gs equipWithId:fuep.equipId];
-    rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
-    rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    equipButton.equipId = fep.equipId;
-    equipButton.level = fuep.level;
-    equipButton.enhancePercent = fuep.enhancementPercentage;
-    levelIcon.level = fuep.level;
-    enhanceIcon.level = [gl calculateEnhancementLevel:fuep.enhancementPercentage];
-    
-    NSString *base = [[[Globals stringForRarity:fep.rarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
-    NSString *bgdFile = [base stringByAppendingString:fileEnd];
-    [Globals imageNamed:bgdFile withView:bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  } else {
-    rarityLabel.text = @"";
-    equipButton.equipId = 0;
-    levelIcon.level = 0;
-    enhanceIcon.level = 0;
-    [Globals imageNamed:emptyFile withView:bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  }
-  
-  rarityLabel = rightRarityLabel2;
-  equipButton = rightEquipIcon2;
-  levelIcon = rightEquipLevelIcon2;
-  enhanceIcon = rightEnhanceLevelIcon2;
-  fuep = fup.armorEquippedUserEquip;
-  bgdIcon = rightBgdIcon2;
-  if (fup.hasArmorEquippedUserEquip) {
-    FullEquipProto *fep = [gs equipWithId:fuep.equipId];
-    rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
-    rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    equipButton.equipId = fep.equipId;
-    equipButton.level = fuep.level;
-    equipButton.enhancePercent = fuep.enhancementPercentage;
-    levelIcon.level = fuep.level;
-    enhanceIcon.level = [gl calculateEnhancementLevel:fuep.enhancementPercentage];
-    
-    NSString *base = [[[Globals stringForRarity:fep.rarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
-    NSString *bgdFile = [base stringByAppendingString:fileEnd];
-    [Globals imageNamed:bgdFile withView:bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  } else {
-    rarityLabel.text = @"";
-    equipButton.equipId = 0;
-    levelIcon.level = 0;
-    enhanceIcon.level = 0;
-    [Globals imageNamed:emptyFile withView:bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  }
-  
-  rarityLabel = rightRarityLabel3;
-  equipButton = rightEquipIcon3;
-  levelIcon = rightEquipLevelIcon3;
-  enhanceIcon = rightEnhanceLevelIcon3;
-  fuep = fup.amuletEquippedUserEquip;
-  bgdIcon = rightBgdIcon3;
-  if (fup.hasAmuletEquippedUserEquip) {
-    FullEquipProto *fep = [gs equipWithId:fuep.equipId];
-    rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
-    rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    equipButton.equipId = fep.equipId;
-    equipButton.level = fuep.level;
-    equipButton.enhancePercent = fuep.enhancementPercentage;
-    levelIcon.level = fuep.level;
-    enhanceIcon.level = [gl calculateEnhancementLevel:fuep.enhancementPercentage];
-    
-    NSString *base = [[[Globals stringForRarity:fep.rarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
-    NSString *bgdFile = [base stringByAppendingString:fileEnd];
-    [Globals imageNamed:bgdFile withView:bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  } else {
-    rarityLabel.text = @"";
-    equipButton.equipId = 0;
-    levelIcon.level = 0;
-    enhanceIcon.level = 0;
-    [Globals imageNamed:emptyFile withView:bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    [ev updateForUserEquip:ue];
   }
   
   if (brp.hasExpGained) {
@@ -589,36 +514,11 @@
   self.rightPlayerIcon = nil;
   self.rightAttackLabel = nil;
   self.rightDefenseLabel = nil;
-  self.leftRarityLabel1 = nil;
-  self.leftRarityLabel2 = nil;
-  self.leftRarityLabel3 = nil;
-  self.leftEquipIcon1 = nil;
-  self.leftEquipIcon2 = nil;
-  self.leftEquipIcon3 = nil;
-  self.leftEquipLevelIcon1 = nil;
-  self.leftEquipLevelIcon2 = nil;
-  self.leftEquipLevelIcon3 = nil;
-  self.leftEnhanceLevelIcon1 = nil;
-  self.leftEnhanceLevelIcon2 = nil;
-  self.leftEnhanceLevelIcon3 = nil;
-  self.leftBgdIcon1 = nil;
-  self.leftBgdIcon2 = nil;
-  self.leftBgdIcon3 = nil;
-  self.rightRarityLabel1 = nil;
-  self.rightRarityLabel2 = nil;
-  self.rightRarityLabel3 = nil;
-  self.rightEquipIcon1 = nil;
-  self.rightEquipIcon2 = nil;
-  self.rightEquipIcon3 = nil;
-  self.rightEquipLevelIcon1 = nil;
-  self.rightEquipLevelIcon2 = nil;
-  self.rightEquipLevelIcon3 = nil;
-  self.rightEnhanceLevelIcon1 = nil;
-  self.rightEnhanceLevelIcon2 = nil;
-  self.rightEnhanceLevelIcon3 = nil;
-  self.rightBgdIcon1 = nil;
-  self.rightBgdIcon2 = nil;
-  self.rightBgdIcon3 = nil;
+  self.leftScrollView = nil;
+  self.rightScrollView = nil;
+  self.equipView = nil;
+  self.leftEquipViews = nil;
+  self.rightEquipViews = nil;
   self.coinsGainedLabel = nil;
   self.coinsLostLabel = nil;
   self.expGainedLabel = nil;
