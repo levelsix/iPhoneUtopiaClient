@@ -1404,6 +1404,7 @@ int x = 0;
   self.backSlotView = nil;
   self.nibEquipView = nil;
   self.equipTable = nil;
+  self.closeButton = nil;
   [super dealloc];
 }
 

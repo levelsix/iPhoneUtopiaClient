@@ -288,8 +288,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     self.bgdView.alpha = 1.f;
   } completion:nil];
   
-  [self loadForgeItems];
-  
   _collectingEquips = NO;
   _shouldShake = NO;
   _forgedUserEquipId = 0;
@@ -321,6 +319,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   NSString *num = slot == 2 ? @"two" : @"three";
   NSString *str = [NSString stringWithFormat:@"Unlock slot %d to forge %@ items at a time.", slot, num];
   self.buySlotDescLabel.text = str;
+  
+  Globals *gl = [Globals sharedGlobals];
+  int cost = slot == 2 ? gl.costOfPurchasingSlotTwo : gl.costOfPurchasingSlotThree;
+  NSString *costStr = [Globals commafyNumber:cost];
+  self.buySlotCostLabel.text = costStr;
 }
 
 - (void) displayForgeMenu {
@@ -639,8 +642,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 }
 
 - (void) loadRightViewForForgeItem:(ForgeItem *)fi fromItemView:(ForgeItemView *)fiv {
+  GameState *gs = [GameState sharedGameState];
+  if (self.slotNumber > gs.numAdditionalForgeSlots+1) {
+    return;
+  }
+  
   Globals *gl = [Globals sharedGlobals];
-  //  FullEquipProto *fep = [gs equipWithId:fi.equipId];
   if (self.curItem != fi) {
     self.forgingRightView.hidden = NO;
     self.buySlotView.hidden = YES;
@@ -940,7 +947,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     
     for (; index < self.forgeItems.count; index++) {
       ForgeItem *f = [self.forgeItems objectAtIndex:index];
-      if (fi.isForging) {
+      if (f.isForging) {
         fi = f;
         break;
       }
@@ -1032,8 +1039,22 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 
 - (IBAction)buyForgeSlotClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   if (gs.numAdditionalForgeSlots+2 < self.slotNumber) {
     [Globals popupMessage:[NSString stringWithFormat:@"Please purchase slot %d before purchasing slot %d.", gs.numAdditionalForgeSlots+2, self.slotNumber]];
+  } else {
+    int cost = self.slotNumber == 2 ? gl.costOfPurchasingSlotTwo : gl.costOfPurchasingSlotThree;
+    NSString *desc = [NSString stringWithFormat:@"Would you like to unlock slot %d for %@ gold?", self.slotNumber, [Globals commafyNumber:cost]];
+    [GenericPopupController displayConfirmationWithDescription:desc title:@"Unlock Slot?" okayButton:@"Unlock" cancelButton:@"Cancel" target:self selector:@selector(buyForgeSlot)];
+  }
+}
+
+- (void) buyForgeSlot {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int cost = self.slotNumber == 2 ? gl.costOfPurchasingSlotTwo : gl.costOfPurchasingSlotThree;
+  if (cost > gs.gold) {
+    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] purchaseForgeSlot];
     [self.loadingView display:self.view];
@@ -1238,9 +1259,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     [self beginForgingSelectedItem];
   }
   [self.loadingView stop];
-  [self.forgeTableView reloadData];
   [self.enhancingView.enhanceTableView reloadData];
-  [self selectRow:[self.forgeItems indexOfObject:self.curItem] animated:NO];
+  [self loadForgeItems];
 }
 
 - (void) receivedCollectForgeEquipsResponse:(CollectForgeEquipsResponseProto *)proto {

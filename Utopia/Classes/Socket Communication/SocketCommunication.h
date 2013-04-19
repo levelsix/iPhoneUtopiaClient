@@ -116,6 +116,7 @@
 - (int) sendPurchaseForgeSlot;
 
 - (int) sendCharacterModWithType:(CharacterModType)modType newType:(UserType)userType newName:(NSString *)name;
+- (int) sendPrestigeMessage;
 
 - (int) sendRetrieveLeaderboardMessage:(LeaderboardType)type afterRank:(int)rank;
 

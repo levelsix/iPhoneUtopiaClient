@@ -5606,7 +5606,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) NSMutableArray* mutableQuestIdsGuaranteedWinList;
 @property int32_t fbConnectRewardDiamonds;
 @property int32_t maxNumTowersClanCanHold;
-@property int32_t minLevelForPrestige;
+@property (retain) StartupResponseProto_StartupConstants_PrestigeConstants* prestigeConstants;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -6230,13 +6230,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMaxNumTowersClanCanHold_ = !!value;
 }
 @synthesize maxNumTowersClanCanHold;
-- (BOOL) hasMinLevelForPrestige {
-  return !!hasMinLevelForPrestige_;
+- (BOOL) hasPrestigeConstants {
+  return !!hasPrestigeConstants_;
 }
-- (void) setHasMinLevelForPrestige:(BOOL) value {
-  hasMinLevelForPrestige_ = !!value;
+- (void) setHasPrestigeConstants:(BOOL) value {
+  hasPrestigeConstants_ = !!value;
 }
-@synthesize minLevelForPrestige;
+@synthesize prestigeConstants;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -6258,6 +6258,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.enhanceConstants = nil;
   self.boosterPackConstants = nil;
   self.mutableQuestIdsGuaranteedWinList = nil;
+  self.prestigeConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -6349,7 +6350,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.questIdForFirstLossTutorial = 0;
     self.fbConnectRewardDiamonds = 0;
     self.maxNumTowersClanCanHold = 0;
-    self.minLevelForPrestige = 0;
+    self.prestigeConstants = [StartupResponseProto_StartupConstants_PrestigeConstants defaultInstance];
   }
   return self;
 }
@@ -6680,8 +6681,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMaxNumTowersClanCanHold) {
     [output writeInt32:102 value:self.maxNumTowersClanCanHold];
   }
-  if (self.hasMinLevelForPrestige) {
-    [output writeInt32:103 value:self.minLevelForPrestige];
+  if (self.hasPrestigeConstants) {
+    [output writeMessage:103 value:self.prestigeConstants];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -6983,8 +6984,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMaxNumTowersClanCanHold) {
     size += computeInt32Size(102, self.maxNumTowersClanCanHold);
   }
-  if (self.hasMinLevelForPrestige) {
-    size += computeInt32Size(103, self.minLevelForPrestige);
+  if (self.hasPrestigeConstants) {
+    size += computeMessageSize(103, self.prestigeConstants);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -7016,6 +7017,221 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_PrestigeConstants ()
+@property int32_t minLevelForPrestige;
+@property int32_t maxPrestigeLevel;
+@end
+
+@implementation StartupResponseProto_StartupConstants_PrestigeConstants
+
+- (BOOL) hasMinLevelForPrestige {
+  return !!hasMinLevelForPrestige_;
+}
+- (void) setHasMinLevelForPrestige:(BOOL) value {
+  hasMinLevelForPrestige_ = !!value;
+}
+@synthesize minLevelForPrestige;
+- (BOOL) hasMaxPrestigeLevel {
+  return !!hasMaxPrestigeLevel_;
+}
+- (void) setHasMaxPrestigeLevel:(BOOL) value {
+  hasMaxPrestigeLevel_ = !!value;
+}
+@synthesize maxPrestigeLevel;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.minLevelForPrestige = 0;
+    self.maxPrestigeLevel = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_PrestigeConstants* defaultStartupResponseProto_StartupConstants_PrestigeConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_PrestigeConstants class]) {
+    defaultStartupResponseProto_StartupConstants_PrestigeConstantsInstance = [[StartupResponseProto_StartupConstants_PrestigeConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_PrestigeConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_PrestigeConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_PrestigeConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_PrestigeConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMinLevelForPrestige) {
+    [output writeInt32:1 value:self.minLevelForPrestige];
+  }
+  if (self.hasMaxPrestigeLevel) {
+    [output writeInt32:2 value:self.maxPrestigeLevel];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMinLevelForPrestige) {
+    size += computeInt32Size(1, self.minLevelForPrestige);
+  }
+  if (self.hasMaxPrestigeLevel) {
+    size += computeInt32Size(2, self.maxPrestigeLevel);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_PrestigeConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_PrestigeConstants*)[[[StartupResponseProto_StartupConstants_PrestigeConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_PrestigeConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_PrestigeConstants*)[[[StartupResponseProto_StartupConstants_PrestigeConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_PrestigeConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_PrestigeConstants*)[[[StartupResponseProto_StartupConstants_PrestigeConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_PrestigeConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_PrestigeConstants*)[[[StartupResponseProto_StartupConstants_PrestigeConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_PrestigeConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_PrestigeConstants*)[[[StartupResponseProto_StartupConstants_PrestigeConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_PrestigeConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_PrestigeConstants*)[[[StartupResponseProto_StartupConstants_PrestigeConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_PrestigeConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_PrestigeConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_PrestigeConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_PrestigeConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_PrestigeConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_PrestigeConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_PrestigeConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_PrestigeConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_PrestigeConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_PrestigeConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_PrestigeConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_PrestigeConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_PrestigeConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_PrestigeConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_PrestigeConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_PrestigeConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_PrestigeConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasMinLevelForPrestige) {
+    [self setMinLevelForPrestige:other.minLevelForPrestige];
+  }
+  if (other.hasMaxPrestigeLevel) {
+    [self setMaxPrestigeLevel:other.maxPrestigeLevel];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setMinLevelForPrestige:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setMaxPrestigeLevel:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMinLevelForPrestige {
+  return result.hasMinLevelForPrestige;
+}
+- (int32_t) minLevelForPrestige {
+  return result.minLevelForPrestige;
+}
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) setMinLevelForPrestige:(int32_t) value {
+  result.hasMinLevelForPrestige = YES;
+  result.minLevelForPrestige = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) clearMinLevelForPrestige {
+  result.hasMinLevelForPrestige = NO;
+  result.minLevelForPrestige = 0;
+  return self;
+}
+- (BOOL) hasMaxPrestigeLevel {
+  return result.hasMaxPrestigeLevel;
+}
+- (int32_t) maxPrestigeLevel {
+  return result.maxPrestigeLevel;
+}
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) setMaxPrestigeLevel:(int32_t) value {
+  result.hasMaxPrestigeLevel = YES;
+  result.maxPrestigeLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) clearMaxPrestigeLevel {
+  result.hasMaxPrestigeLevel = NO;
+  result.maxPrestigeLevel = 0;
+  return self;
 }
 @end
 
@@ -13105,6 +13321,8 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 @property int32_t forgeBaseMinutesToOneGold;
 @property int32_t forgeMaxEquipLevel;
 @property int32_t forgeMaxForgeSlots;
+@property int32_t costOfPurchasingSlotTwo;
+@property int32_t costOfPurchasingSlotThree;
 @end
 
 @implementation StartupResponseProto_StartupConstants_ForgeConstants
@@ -13151,6 +13369,20 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   hasForgeMaxForgeSlots_ = !!value;
 }
 @synthesize forgeMaxForgeSlots;
+- (BOOL) hasCostOfPurchasingSlotTwo {
+  return !!hasCostOfPurchasingSlotTwo_;
+}
+- (void) setHasCostOfPurchasingSlotTwo:(BOOL) value {
+  hasCostOfPurchasingSlotTwo_ = !!value;
+}
+@synthesize costOfPurchasingSlotTwo;
+- (BOOL) hasCostOfPurchasingSlotThree {
+  return !!hasCostOfPurchasingSlotThree_;
+}
+- (void) setHasCostOfPurchasingSlotThree:(BOOL) value {
+  hasCostOfPurchasingSlotThree_ = !!value;
+}
+@synthesize costOfPurchasingSlotThree;
 - (void) dealloc {
   [super dealloc];
 }
@@ -13162,6 +13394,8 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
     self.forgeBaseMinutesToOneGold = 0;
     self.forgeMaxEquipLevel = 0;
     self.forgeMaxForgeSlots = 0;
+    self.costOfPurchasingSlotTwo = 0;
+    self.costOfPurchasingSlotThree = 0;
   }
   return self;
 }
@@ -13199,6 +13433,12 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (self.hasForgeMaxForgeSlots) {
     [output writeInt32:6 value:self.forgeMaxForgeSlots];
   }
+  if (self.hasCostOfPurchasingSlotTwo) {
+    [output writeInt32:7 value:self.costOfPurchasingSlotTwo];
+  }
+  if (self.hasCostOfPurchasingSlotThree) {
+    [output writeInt32:8 value:self.costOfPurchasingSlotThree];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -13225,6 +13465,12 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   }
   if (self.hasForgeMaxForgeSlots) {
     size += computeInt32Size(6, self.forgeMaxForgeSlots);
+  }
+  if (self.hasCostOfPurchasingSlotTwo) {
+    size += computeInt32Size(7, self.costOfPurchasingSlotTwo);
+  }
+  if (self.hasCostOfPurchasingSlotThree) {
+    size += computeInt32Size(8, self.costOfPurchasingSlotThree);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -13319,6 +13565,12 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasForgeMaxForgeSlots) {
     [self setForgeMaxForgeSlots:other.forgeMaxForgeSlots];
   }
+  if (other.hasCostOfPurchasingSlotTwo) {
+    [self setCostOfPurchasingSlotTwo:other.costOfPurchasingSlotTwo];
+  }
+  if (other.hasCostOfPurchasingSlotThree) {
+    [self setCostOfPurchasingSlotThree:other.costOfPurchasingSlotThree];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -13362,6 +13614,14 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 48: {
         [self setForgeMaxForgeSlots:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setCostOfPurchasingSlotTwo:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setCostOfPurchasingSlotThree:[input readInt32]];
         break;
       }
     }
@@ -13461,6 +13721,38 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeMaxForgeSlots {
   result.hasForgeMaxForgeSlots = NO;
   result.forgeMaxForgeSlots = 0;
+  return self;
+}
+- (BOOL) hasCostOfPurchasingSlotTwo {
+  return result.hasCostOfPurchasingSlotTwo;
+}
+- (int32_t) costOfPurchasingSlotTwo {
+  return result.costOfPurchasingSlotTwo;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setCostOfPurchasingSlotTwo:(int32_t) value {
+  result.hasCostOfPurchasingSlotTwo = YES;
+  result.costOfPurchasingSlotTwo = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearCostOfPurchasingSlotTwo {
+  result.hasCostOfPurchasingSlotTwo = NO;
+  result.costOfPurchasingSlotTwo = 0;
+  return self;
+}
+- (BOOL) hasCostOfPurchasingSlotThree {
+  return result.hasCostOfPurchasingSlotThree;
+}
+- (int32_t) costOfPurchasingSlotThree {
+  return result.costOfPurchasingSlotThree;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setCostOfPurchasingSlotThree:(int32_t) value {
+  result.hasCostOfPurchasingSlotThree = YES;
+  result.costOfPurchasingSlotThree = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearCostOfPurchasingSlotThree {
+  result.hasCostOfPurchasingSlotThree = NO;
+  result.costOfPurchasingSlotThree = 0;
   return self;
 }
 @end
@@ -13798,8 +14090,8 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasMaxNumTowersClanCanHold) {
     [self setMaxNumTowersClanCanHold:other.maxNumTowersClanCanHold];
   }
-  if (other.hasMinLevelForPrestige) {
-    [self setMinLevelForPrestige:other.minLevelForPrestige];
+  if (other.hasPrestigeConstants) {
+    [self mergePrestigeConstants:other.prestigeConstants];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -14269,8 +14561,13 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         [self setMaxNumTowersClanCanHold:[input readInt32]];
         break;
       }
-      case 824: {
-        [self setMinLevelForPrestige:[input readInt32]];
+      case 826: {
+        StartupResponseProto_StartupConstants_PrestigeConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_PrestigeConstants builder];
+        if (self.hasPrestigeConstants) {
+          [subBuilder mergeFrom:self.prestigeConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPrestigeConstants:[subBuilder buildPartial]];
         break;
       }
     }
@@ -16029,20 +16326,34 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   result.maxNumTowersClanCanHold = 0;
   return self;
 }
-- (BOOL) hasMinLevelForPrestige {
-  return result.hasMinLevelForPrestige;
+- (BOOL) hasPrestigeConstants {
+  return result.hasPrestigeConstants;
 }
-- (int32_t) minLevelForPrestige {
-  return result.minLevelForPrestige;
+- (StartupResponseProto_StartupConstants_PrestigeConstants*) prestigeConstants {
+  return result.prestigeConstants;
 }
-- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForPrestige:(int32_t) value {
-  result.hasMinLevelForPrestige = YES;
-  result.minLevelForPrestige = value;
+- (StartupResponseProto_StartupConstants_Builder*) setPrestigeConstants:(StartupResponseProto_StartupConstants_PrestigeConstants*) value {
+  result.hasPrestigeConstants = YES;
+  result.prestigeConstants = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForPrestige {
-  result.hasMinLevelForPrestige = NO;
-  result.minLevelForPrestige = 0;
+- (StartupResponseProto_StartupConstants_Builder*) setPrestigeConstantsBuilder:(StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) builderForValue {
+  return [self setPrestigeConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergePrestigeConstants:(StartupResponseProto_StartupConstants_PrestigeConstants*) value {
+  if (result.hasPrestigeConstants &&
+      result.prestigeConstants != [StartupResponseProto_StartupConstants_PrestigeConstants defaultInstance]) {
+    result.prestigeConstants =
+      [[[StartupResponseProto_StartupConstants_PrestigeConstants builderWithPrototype:result.prestigeConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.prestigeConstants = value;
+  }
+  result.hasPrestigeConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearPrestigeConstants {
+  result.hasPrestigeConstants = NO;
+  result.prestigeConstants = [StartupResponseProto_StartupConstants_PrestigeConstants defaultInstance];
   return self;
 }
 @end
@@ -49827,6 +50138,8 @@ BOOL SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusIsValid
     case SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusAlreadyForgingMaxNumOfEquips:
     case SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusClientTooApartFromServerTime:
     case SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusOtherFail:
+    case SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusForgeSlotInUse:
+    case SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusForgeSlotNotYetUnlocked:
       return YES;
     default:
       return NO;

@@ -594,7 +594,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   [self refresh];
   
-  CGRect curRect = self.tableContainerView.frame;
+  CGRect curTCRect = self.tableContainerView.frame;
+  CGRect curCVRect = self.carouselView.frame;
   CGRect r = self.tableContainerView.frame;
   r.origin.x = -r.size.width;
   self.tableContainerView.frame = r;
@@ -611,9 +612,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     
     self.backView.alpha = 0.f;
     
-    self.tableContainerView.frame = curRect;
+    self.tableContainerView.frame = curTCRect;
   } completion:^(BOOL finished) {
-    self.carouselView.frame = curRect;
+    self.carouselView.frame = curCVRect;
     self.carouselView.hidden = YES;
     self.coinBar.hidden = YES;
   }];

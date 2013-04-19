@@ -217,7 +217,7 @@
 - (void) openMenu {
   GameState *gs = [GameState sharedGameState];
   
-  if (gs.level < _minLevel) {
+  if (gs.level < _minLevel && gs.prestigeLevel == 0) {
     [Globals popupMessage:[NSString stringWithFormat:@"The %@ unlocks at level %d.", name, _minLevel]];
     return;
   }
@@ -377,6 +377,7 @@
     }
     self.type = kNotificationForge;
     self.forgeEquipId = fa.equipId;
+    self.blacksmithId = fa.blacksmithId;
   }
   return self;
 }

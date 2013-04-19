@@ -110,6 +110,7 @@ typedef enum {
 @property (nonatomic, assign) int stolenEquipId;
 @property (nonatomic, assign) int stolenEquipLevel;
 @property (nonatomic, assign) int forgeEquipId;
+@property (nonatomic, assign) int blacksmithId;
 @property (nonatomic, assign) BOOL goldmineCollect;
 @property (nonatomic, assign) BOOL hasBeenViewed;
 @property (nonatomic, retain) NSString *wallPost;

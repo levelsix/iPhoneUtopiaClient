@@ -267,6 +267,8 @@ typedef enum {
 // This is the equipping view
 @property (nonatomic, retain) IBOutlet EquipView *nibEquipView;
 
+@property (nonatomic, retain) IBOutlet UIButton *closeButton;
+
 @property (nonatomic, retain) EquipTableViewDelegate *equipsTableDelegate;
 
 @property (nonatomic, retain) NSArray *curEquips;

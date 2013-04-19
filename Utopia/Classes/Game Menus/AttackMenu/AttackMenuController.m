@@ -441,7 +441,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   BOOL hasPerformedTut = [def boolForKey:key];
   FullQuestProto *fqp = [gs questForQuestId:gl.questIdForFirstLossTutorial];
   
-  if (hasPerformedTut) {
+  if (hasPerformedTut || gs.prestigeLevel > 0) {
     [bl beginBattleAgainst:fup inCity:0];
   } else {
     BOOL guaranteedWin = NO;

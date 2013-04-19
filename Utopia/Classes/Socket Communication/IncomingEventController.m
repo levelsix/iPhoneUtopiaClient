@@ -333,6 +333,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSPurchaseForgeSlotEvent:
       responseClass = [PurchaseForgeSlotResponseProto class];
       break;
+    case EventProtocolResponseSPrestigeEvent:
+      responseClass = [PrestigeResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -1864,6 +1867,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   [[SocketCommunication sharedSocketCommunication] rebuildSender];
+}
+
+- (void) handlePrestigeResponseProto:(FullEvent *)fe {
+  PrestigeResponseProto *proto = (PrestigeResponseProto *)fe.event;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Prestige response received with status %d.", proto.status);
+  
+  if (proto.status == PrestigeResponseProto_PrestigeStatusSuccess) {
+    UIApplication *app = [UIApplication sharedApplication];
+    [app.delegate applicationDidEnterBackground:app];
+    [app.delegate applicationWillEnterForeground:app];
+  } else {
+    [Globals popupMessage:@"Server failed to prestige."];
+  }
 }
 
 - (void) handleRetrieveLeaderboardResponseProto:(FullEvent *)fe {

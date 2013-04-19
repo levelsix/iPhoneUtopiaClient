@@ -30,10 +30,6 @@
   _closingPhase = NO;
   _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
   
-//  self.curWeaponView.userInteractionEnabled = NO;
-//  self.curArmorView.userInteractionEnabled = NO;
-//  self.curAmuletView.userInteractionEnabled = NO;
-  
   self.wallTabView.userInteractionEnabled = NO;
 }
 
@@ -85,7 +81,7 @@
     gs.currentStamina += gl.staminaBaseGain;
     gs.skillPoints -= gl.staminaBaseCost;
   }
-
+  
   [self refreshSkillPointsButtons];
   [self loadSkills];
   [self displayMyCurrentStats];
@@ -103,7 +99,7 @@
   // Move arrow to equip top bar button
   [_arrow removeFromSuperview];
   [self.profileBar addSubview:_arrow];
-//  _arrow.center = CGPointMake(CGRectGetMaxX(self.profileBar.equipButton.frame), self.profileBar.equipButton.center.y);
+  _arrow.center = CGPointMake(CGRectGetMaxX(self.profileBar.profileButton.frame), self.profileBar.profileButton.center.y);
   [Globals animateUIArrow:_arrow atAngle:M_PI];
   
   [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].beforeEquipText];
@@ -112,31 +108,28 @@
 
 - (void) setState:(ProfileState)state {
   if (_tutorialEnding) {
-    [super setState:kProfileState];
+    [super setState:kWallState];
   } else if (!_moveToEquipScreenPhase) {
     [super setState:kSkillsState];
+  } else if (state == kProfileState && _moveToEquipScreenPhase) {
+    [super setState:state];
+    [self.profileBar setUserInteractionEnabled:NO];
+    
+    _moveToEquipScreenPhase = NO;
+    _equippingPhase = YES;
+    
+    [DialogMenuController closeView];
+    
+    [_arrow removeFromSuperview];
+    [self.mainView addSubview:_arrow];
+    
+    UIView *amuletEquipView = [self.equipTabView.curEquipViews objectAtIndex:2];
+    CGRect rect = [self.mainView convertRect:amuletEquipView.frame fromView:amuletEquipView.superview];
+    _arrow.center = CGPointMake(CGRectGetMinX(rect), CGRectGetMidY(rect));
+    [Globals animateUIArrow:_arrow atAngle:0];
+    
+    self.equipTabView.scrollView.scrollEnabled = NO;
   }
-//  } else if (state == kEquipState && _moveToEquipScreenPhase) {
-//    [super setState:state];
-//    [self.profileBar setUserInteractionEnabled:NO];
-//    
-//    _moveToEquipScreenPhase = NO;
-//    _equippingPhase = YES;
-//    
-//    [DialogMenuController closeView];
-//    
-//    [_arrow removeFromSuperview];
-//    self.curWeaponView.selected = NO;
-//    self.curArmorView.selected = NO;
-//    self.curAmuletView.selected = YES;
-//    self.curScope = kEquipScopeAmulets;
-//    [self.mainView addSubview:_arrow];
-//    
-//    UIView *amuletEquipView = [self.equipsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-//    CGRect rect = [self.mainView convertRect:amuletEquipView.frame fromView:amuletEquipView.superview];
-//    _arrow.center = CGPointMake(CGRectGetMinX(rect)-_arrow.frame.size.width/2, CGRectGetMidY(rect));
-//    [Globals animateUIArrow:_arrow atAngle:0];
-//  }
   [super setState:_state];
 }
 
@@ -162,18 +155,38 @@
 
 - (void) equipViewSelected:(EquipView *)ev {
   if (_equippingPhase) {
-//    FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ev.equip.equipId];
-//    [self doEquippingAnimation:ev forType:fep.equipType];
+    int tag = ev.tag;
     
-    GameState *gs = [GameState sharedGameState];
-    gs.amuletEquipped = ev.equip.userEquipId;
-    
-    [self loadMyProfile];
-    
-    [self arrowOnClose];
-    
-    _equippingPhase = NO;
-    [Analytics tutorialAmuletEquipped];
+    if (tag == EQUIP_BROWSE_VIEW_TAG) {
+      UserEquip *ue = ev.equip;
+      [self doEquip:ue];
+      self.equipBrowseView.equipTable.userInteractionEnabled = NO;
+      
+      self.equipBrowseView.closeButton.userInteractionEnabled = YES;
+      
+      UIView *close = self.equipBrowseView.closeButton;
+      _arrow.center = CGPointMake(CGRectGetMinX(close.frame)-_arrow.frame.size.width/2, CGRectGetMidY(close.frame));
+      [Globals animateUIArrow:_arrow atAngle:0];
+      
+      [self.equipBrowseView.closeButton addTarget:self action:@selector(arrowOnClose) forControlEvents:UIControlEventTouchUpInside];
+      
+      _equippingPhase = NO;
+    } else {
+      if (!ev.equip) {
+        [super equipViewSelected:ev];
+        self.equipBrowseView.browseBar.userInteractionEnabled = NO;
+        self.equipBrowseView.backSlotView.userInteractionEnabled = NO;
+        self.equipBrowseView.closeButton.userInteractionEnabled = NO;
+        
+        [self.equipBrowseView.mainView addSubview:_arrow];
+        
+        EquipBrowseCell *cell = (EquipBrowseCell *)[self.equipBrowseView.equipTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        UIView *amuletEquipView = cell.containerView1;
+        CGRect rect = [self.equipBrowseView convertRect:amuletEquipView.frame fromView:amuletEquipView.superview];
+        _arrow.center = CGPointMake(CGRectGetMaxX(rect), CGRectGetMidY(rect));
+        [Globals animateUIArrow:_arrow atAngle:M_PI];
+      }
+    }
   }
 }
 
@@ -184,10 +197,6 @@
   [Globals animateUIArrow:_arrow atAngle:0];
   
   _closingPhase = YES;
-}
-
-- (void) currentEquipViewSelected:(EquipView *)cev {
-  return;
 }
 
 - (void) dealloc {

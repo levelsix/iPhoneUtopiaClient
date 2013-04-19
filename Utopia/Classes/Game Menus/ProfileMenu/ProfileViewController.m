@@ -753,6 +753,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
 }
 
+- (IBAction)prestigeClicked:(id)sender {
+  NSString *str = @"Would you like to prestige for an extra equip slot?";
+  [GenericPopupController displayConfirmationWithDescription:str title:nil okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(prestige)];
+  
+  [Analytics attemptedResetGame];
+}
+
+- (void) prestige {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (gs.level < gl.minLevelForPrestige) {
+    [Globals popupMessage:[NSString stringWithFormat:@"You must be level %d to prestige.", gl.minLevelForPrestige]];
+  } else if (gs.prestigeLevel >= gl.maxPrestigeLevel) {
+    [Globals popupMessage:@"You have already reached the max prestige level!"];
+  } else {
+    [self.loadingView display:self.view];
+    [[OutgoingEventController sharedOutgoingEventController] prestige];
+  }
+}
+
 - (IBAction)changeName:(id)sender {
   [GenericPopupController displayNotificationViewWithMiddleView:self.nameChangeView title:@"Change Name?" okayButton:nil target:self selector:@selector(changeName)];
   [self.nameChangeTextField becomeFirstResponder];

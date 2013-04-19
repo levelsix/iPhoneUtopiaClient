@@ -1225,6 +1225,14 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCResetBoosterPackEvent];
 }
 
+- (int) sendPrestigeMessage {
+  PrestigeRequestProto *req = [[[PrestigeRequestProto builder]
+                                setSender:_sender]
+                               build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCPrestigeEvent];
+}
+
 - (int) addAttackSkillPoint {
   [self flushWithInt:EventProtocolRequestCUseSkillPointEvent];
   self.attackPoints++;

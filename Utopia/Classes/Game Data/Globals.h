@@ -128,8 +128,9 @@
 @property (nonatomic, retain) NSArray *questIdsGuaranteedWin;
 
 @property (nonatomic, assign) int fbConnectRewardDiamonds;
-@property (nonatomic, assign) int minLevelForPrestige;
 
+@property (nonatomic, assign) int minLevelForPrestige;
+@property (nonatomic, assign) int maxPrestigeLevel;
 
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
@@ -139,6 +140,8 @@
 @property (nonatomic, assign) int forgeMaxEquipLevel;
 @property (nonatomic, assign) int forgeMaxForgeSlots;
 @property (nonatomic, assign) float levelEquipBoostExponentBase;
+@property (nonatomic, assign) int costOfPurchasingSlotTwo;
+@property (nonatomic, assign) int costOfPurchasingSlotThree;
 
 @property (nonatomic, assign) int averageSizeOfLevelBracket;
 @property (nonatomic, assign) float healthFormulaExponentBase;

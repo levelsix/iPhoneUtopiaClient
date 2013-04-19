@@ -256,7 +256,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.questIdForFirstLossTutorial = constants.questIdForFirstLossTutorial;
   self.questIdsGuaranteedWin = constants.questIdsGuaranteedWinList;
   self.fbConnectRewardDiamonds = constants.fbConnectRewardDiamonds;
-  self.minLevelForPrestige = constants.minLevelForPrestige;
+  
+  self.minLevelForPrestige = constants.prestigeConstants.minLevelForPrestige;
+  self.maxPrestigeLevel = constants.prestigeConstants.maxPrestigeLevel;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;
@@ -294,6 +296,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.averageSizeOfLevelBracket = constants.averageSizeOfLevelBracket;
   self.healthFormulaExponentBase = constants.healthFormulaExponentBase;
   self.forgeMaxForgeSlots = constants.forgeConstants.forgeMaxForgeSlots;
+  self.costOfPurchasingSlotTwo = constants.forgeConstants.costOfPurchasingSlotTwo;
+  self.costOfPurchasingSlotThree = constants.forgeConstants.costOfPurchasingSlotThree;
   
   self.diamondCostToResetCharacter = constants.charModConstants.diamondCostToResetCharacter;
   self.diamondCostToChangeName = constants.charModConstants.diamondCostToChangeName;
@@ -2072,7 +2076,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
     int attack2 = [gl calculateAttackForEquip:ue2.equipId level:ue2.level enhancePercent:ue2.enhancementPercentage];
     int defense2 = [gl calculateDefenseForEquip:ue2.equipId level:ue2.level enhancePercent:ue2.enhancementPercentage];
     
-    if (attack1 + defense1 <= attack2 + defense2) {
+    if ((attack1 + defense1 <= attack2 + defense2) || fep.equipType >= gs.prestigeLevel) {
       ue = ue1;
       _isForSlot2 = NO;
     } else {

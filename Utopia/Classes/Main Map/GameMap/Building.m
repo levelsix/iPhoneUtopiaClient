@@ -357,7 +357,7 @@
     self.tag = cs.type;
     
     GameState *gs = [GameState sharedGameState];
-    if (gs.level < cs.minLevel) {
+    if (gs.level < cs.minLevel && gs.prestigeLevel == 0) {
       self.color = ccc3(80, 80, 80);
        
       CCSprite *lock = [CCSprite spriteWithFile:@"missionlock.png"];

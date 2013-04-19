@@ -2330,4 +2330,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) prestige {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (gs.level < gl.minLevelForPrestige) {
+    [Globals popupMessage:@"Attempting to prestige below appropriate level."];
+  } else if (gs.prestigeLevel >= gl.maxPrestigeLevel) {
+    [Globals popupMessage:@"Attempting to prestige past max prestige level"];
+  } else {
+    [[SocketCommunication sharedSocketCommunication] sendPrestigeMessage];
+  }
+}
+
 @end

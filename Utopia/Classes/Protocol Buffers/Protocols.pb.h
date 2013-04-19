@@ -478,6 +478,8 @@
 @class StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder;
 @class StartupResponseProto_StartupConstants_LockBoxConstants;
 @class StartupResponseProto_StartupConstants_LockBoxConstants_Builder;
+@class StartupResponseProto_StartupConstants_PrestigeConstants;
+@class StartupResponseProto_StartupConstants_PrestigeConstants_Builder;
 @class StartupResponseProto_StartupConstants_ThreeCardMonteConstants;
 @class StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder;
 @class StartupResponseProto_TutorialConstants;
@@ -621,6 +623,7 @@ typedef enum {
   EventProtocolRequestCResetBoosterPackEvent = 83,
   EventProtocolRequestCChangeClanJoinTypeEvent = 84,
   EventProtocolRequestCPurchaseForgeSlotEvent = 85,
+  EventProtocolRequestCPrestigeEvent = 86,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -711,6 +714,7 @@ typedef enum {
   EventProtocolResponseSResetBoosterPackEvent = 83,
   EventProtocolResponseSChangeClanJoinTypeEvent = 84,
   EventProtocolResponseSPurchaseForgeSlotEvent = 85,
+  EventProtocolResponseSPrestigeEvent = 86,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

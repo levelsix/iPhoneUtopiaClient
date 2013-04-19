@@ -478,6 +478,8 @@
 @class StartupResponseProto_StartupConstants_LeaderboardEventConstants_Builder;
 @class StartupResponseProto_StartupConstants_LockBoxConstants;
 @class StartupResponseProto_StartupConstants_LockBoxConstants_Builder;
+@class StartupResponseProto_StartupConstants_PrestigeConstants;
+@class StartupResponseProto_StartupConstants_PrestigeConstants_Builder;
 @class StartupResponseProto_StartupConstants_ThreeCardMonteConstants;
 @class StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder;
 @class StartupResponseProto_TutorialConstants;
@@ -1015,6 +1017,8 @@ typedef enum {
   SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusAlreadyForgingMaxNumOfEquips = 6,
   SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusClientTooApartFromServerTime = 7,
   SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusOtherFail = 8,
+  SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusForgeSlotInUse = 9,
+  SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusForgeSlotNotYetUnlocked = 10,
 } SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatus;
 
 BOOL SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusIsValidValue(SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatus value);
@@ -2683,36 +2687,32 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasUseOldBattleFormula_:1;
+  BOOL hasHealthFormulaExponentBase_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasBossEventSuperAttack_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
-  BOOL hasHealthFormulaExponentBase_:1;
+  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasMinNameLength_:1;
-  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
-  BOOL hasAverageSizeOfLevelBracket_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
+  BOOL hasQuestIdForFirstLossTutorial_:1;
+  BOOL hasFbConnectRewardDiamonds_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
   BOOL hasCarpenterImgVerticalPixelOffset_:1;
   BOOL hasMarketplaceImgVerticalPixelOffset_:1;
   BOOL hasVaultImgVerticalPixelOffset_:1;
   BOOL hasArmoryImgVerticalPixelOffset_:1;
   BOOL hasMaxCityRank_:1;
-  BOOL hasMinLevelForPrestige_:1;
-  BOOL hasMaxNumTowersClanCanHold_:1;
-  BOOL hasFbConnectRewardDiamonds_:1;
-  BOOL hasQuestIdForFirstLossTutorial_:1;
-  BOOL hasMinClanMembersToHoldClanTower_:1;
-  BOOL hasInitStamina_:1;
-  BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
-  BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasNumHoursBeforeReshowingBossEvent_:1;
   BOOL hasNumHoursBeforeReshowingLockBox_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
+  BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
+  BOOL hasInitStamina_:1;
+  BOOL hasMinClanMembersToHoldClanTower_:1;
   BOOL hasMaxLengthOfChatString_:1;
   BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
   BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
@@ -2721,9 +2721,9 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
   BOOL hasSizeOfAttackList_:1;
   BOOL hasMaxNameLength_:1;
-  BOOL hasStaminaBaseCost_:1;
-  BOOL hasEnergyBaseCost_:1;
-  BOOL hasDefenseBaseCost_:1;
+  BOOL hasMinNameLength_:1;
+  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
+  BOOL hasAverageSizeOfLevelBracket_:1;
   BOOL hasAttackBaseCost_:1;
   BOOL hasStaminaBaseGain_:1;
   BOOL hasEnergyBaseGain_:1;
@@ -2741,66 +2741,66 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   BOOL hasArmoryXlength_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
-  BOOL hasDiamondCostForFullEnergyRefill_:1;
-  BOOL hasMaxNumberOfMarketplacePosts_:1;
-  BOOL hasDiamondCostForFullStaminaRefill_:1;
-  BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
-  BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
-  BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
-  BOOL hasMinutesToRefillAstamina_:1;
-  BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
-  BOOL hasMinutesToRefillAenergy_:1;
+  BOOL hasMaxNumTowersClanCanHold_:1;
   BOOL hasNumDaysUntilFreeRetract_:1;
+  BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
+  BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
+  BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
+  BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
+  BOOL hasMaxNumberOfMarketplacePosts_:1;
+  BOOL hasDiamondCostForFullEnergyRefill_:1;
+  BOOL hasDiamondCostForFullStaminaRefill_:1;
+  BOOL hasMinutesToRefillAstamina_:1;
+  BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMaxLevelForStruct_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
-  BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
-  BOOL hasBoosterPackConstants_:1;
-  BOOL hasEnhanceConstants_:1;
-  BOOL hasLeaderboardConstants_:1;
+  BOOL hasStaminaBaseCost_:1;
+  BOOL hasEnergyBaseCost_:1;
+  BOOL hasDefenseBaseCost_:1;
   BOOL hasMinLevelConstants_:1;
-  BOOL hasFormulaConstants_:1;
-  BOOL hasBattleConstants_:1;
+  BOOL hasBoosterPackConstants_:1;
+  BOOL hasLeaderboardConstants_:1;
+  BOOL hasEnhanceConstants_:1;
+  BOOL hasPrestigeConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasExpansionConstants_:1;
   BOOL hasLockBoxConstants_:1;
   BOOL hasGoldmineConstants_:1;
   BOOL hasThreeCardMonteConstants_:1;
   BOOL hasClanConstants_:1;
-  BOOL hasKiipRewardConditions_:1;
-  BOOL hasForgeConstants_:1;
   BOOL hasCharModConstants_:1;
+  BOOL hasForgeConstants_:1;
+  BOOL hasKiipRewardConditions_:1;
+  BOOL hasBattleConstants_:1;
+  BOOL hasFormulaConstants_:1;
   BOOL useOldBattleFormula_:1;
+  Float64 healthFormulaExponentBase;
   Float64 percentReturnedToUserForSellingEquipInArmory;
-  Float64 cutOfVaultDepositTaken;
   Float64 levelEquipBoostExponentBase;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 bossEventSuperAttack;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  Float64 healthFormulaExponentBase;
+  Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingNormStructure;
-  int32_t minNameLength;
-  int32_t adColonyVideosRequiredToRedeemDiamonds;
-  int32_t averageSizeOfLevelBracket;
   int32_t playerWallPostsRetrieveCap;
   int32_t maxCharLengthForWallPost;
+  int32_t questIdForFirstLossTutorial;
+  int32_t fbConnectRewardDiamonds;
   int32_t aviaryImgVerticalPixelOffset;
   int32_t carpenterImgVerticalPixelOffset;
   int32_t marketplaceImgVerticalPixelOffset;
   int32_t vaultImgVerticalPixelOffset;
   int32_t armoryImgVerticalPixelOffset;
   int32_t maxCityRank;
-  int32_t minLevelForPrestige;
-  int32_t maxNumTowersClanCanHold;
-  int32_t fbConnectRewardDiamonds;
-  int32_t questIdForFirstLossTutorial;
-  int32_t minClanMembersToHoldClanTower;
-  int32_t initStamina;
-  int32_t bossEventNumberOfAttacksUntilSuperAttack;
-  int32_t levelToShowRateUsPopup;
+  int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t numHoursBeforeReshowingBossEvent;
   int32_t numHoursBeforeReshowingLockBox;
   int32_t numHoursBeforeReshowingGoldSale;
+  int32_t levelToShowRateUsPopup;
+  int32_t bossEventNumberOfAttacksUntilSuperAttack;
+  int32_t initStamina;
+  int32_t minClanMembersToHoldClanTower;
   int32_t maxLengthOfChatString;
   int32_t diamondPriceForGroupChatPurchasePackage;
   int32_t numChatsGivenPerGroupChatPurchasePackage;
@@ -2809,9 +2809,9 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   int32_t maxNumTimesAttackedByOneInProtectionPeriod;
   int32_t sizeOfAttackList;
   int32_t maxNameLength;
-  int32_t staminaBaseCost;
-  int32_t energyBaseCost;
-  int32_t defenseBaseCost;
+  int32_t minNameLength;
+  int32_t adColonyVideosRequiredToRedeemDiamonds;
+  int32_t averageSizeOfLevelBracket;
   int32_t attackBaseCost;
   int32_t staminaBaseGain;
   int32_t energyBaseGain;
@@ -2829,35 +2829,39 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   int32_t armoryXlength;
   int32_t maxLevelForUser;
   int32_t maxLevelDifferenceForBattle;
-  int32_t diamondCostForFullEnergyRefill;
-  int32_t maxNumberOfMarketplacePosts;
-  int32_t diamondCostForFullStaminaRefill;
-  int32_t numDaysLongMarketplaceLicenseLastsFor;
-  int32_t numDaysShortMarketplaceLicenseLastsFor;
-  int32_t diamondCostOfLongMarketplaceLicense;
-  int32_t minutesToRefillAstamina;
-  int32_t diamondCostOfShortMarketplaceLicense;
-  int32_t minutesToRefillAenergy;
+  int32_t maxNumTowersClanCanHold;
   int32_t numDaysUntilFreeRetract;
+  int32_t diamondCostOfShortMarketplaceLicense;
+  int32_t diamondCostOfLongMarketplaceLicense;
+  int32_t numDaysShortMarketplaceLicenseLastsFor;
+  int32_t numDaysLongMarketplaceLicenseLastsFor;
+  int32_t maxNumberOfMarketplacePosts;
+  int32_t diamondCostForFullEnergyRefill;
+  int32_t diamondCostForFullStaminaRefill;
+  int32_t minutesToRefillAstamina;
+  int32_t minutesToRefillAenergy;
   int32_t maxNumOfSingleStruct;
   int32_t maxLevelForStruct;
   int32_t skillPointsGainedOnLevelup;
-  int32_t maxNumbersOfEnemiesToGenerateAtOnce;
-  StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
-  StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
-  StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
+  int32_t staminaBaseCost;
+  int32_t energyBaseCost;
+  int32_t defenseBaseCost;
   StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
-  StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
-  StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
+  StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
+  StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
+  StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
+  StartupResponseProto_StartupConstants_PrestigeConstants* prestigeConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
   StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
   StartupResponseProto_StartupConstants_GoldmineConstants* goldmineConstants;
   StartupResponseProto_StartupConstants_ThreeCardMonteConstants* threeCardMonteConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
-  StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
   StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
+  StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
+  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
+  StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
+  StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
   NSMutableArray* mutableQuestIdsGuaranteedWinList;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
@@ -2951,7 +2955,7 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (BOOL) hasQuestIdForFirstLossTutorial;
 - (BOOL) hasFbConnectRewardDiamonds;
 - (BOOL) hasMaxNumTowersClanCanHold;
-- (BOOL) hasMinLevelForPrestige;
+- (BOOL) hasPrestigeConstants;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -3039,7 +3043,7 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 @property (readonly) int32_t questIdForFirstLossTutorial;
 @property (readonly) int32_t fbConnectRewardDiamonds;
 @property (readonly) int32_t maxNumTowersClanCanHold;
-@property (readonly) int32_t minLevelForPrestige;
+@property (readonly, retain) StartupResponseProto_StartupConstants_PrestigeConstants* prestigeConstants;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -3066,6 +3070,63 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_PrestigeConstants : PBGeneratedMessage {
+@private
+  BOOL hasMinLevelForPrestige_:1;
+  BOOL hasMaxPrestigeLevel_:1;
+  int32_t minLevelForPrestige;
+  int32_t maxPrestigeLevel;
+}
+- (BOOL) hasMinLevelForPrestige;
+- (BOOL) hasMaxPrestigeLevel;
+@property (readonly) int32_t minLevelForPrestige;
+@property (readonly) int32_t maxPrestigeLevel;
+
++ (StartupResponseProto_StartupConstants_PrestigeConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_PrestigeConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_PrestigeConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_PrestigeConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_PrestigeConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_PrestigeConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_PrestigeConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_PrestigeConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_PrestigeConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_PrestigeConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_PrestigeConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_PrestigeConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_PrestigeConstants*) build;
+- (StartupResponseProto_StartupConstants_PrestigeConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_PrestigeConstants*) other;
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMinLevelForPrestige;
+- (int32_t) minLevelForPrestige;
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) setMinLevelForPrestige:(int32_t) value;
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) clearMinLevelForPrestige;
+
+- (BOOL) hasMaxPrestigeLevel;
+- (int32_t) maxPrestigeLevel;
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) setMaxPrestigeLevel:(int32_t) value;
+- (StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) clearMaxPrestigeLevel;
 @end
 
 @interface StartupResponseProto_StartupConstants_BoosterPackConstants : PBGeneratedMessage {
@@ -4592,12 +4653,16 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   BOOL hasForgeBaseMinutesToOneGold_:1;
   BOOL hasForgeMaxEquipLevel_:1;
   BOOL hasForgeMaxForgeSlots_:1;
+  BOOL hasCostOfPurchasingSlotTwo_:1;
+  BOOL hasCostOfPurchasingSlotThree_:1;
   Float64 forgeTimeBaseForExponentialMultiplier;
   Float64 forgeDiamondCostForGuaranteeExponentialMultiplier;
   int32_t forgeMinDiamondCostForGuarantee;
   int32_t forgeBaseMinutesToOneGold;
   int32_t forgeMaxEquipLevel;
   int32_t forgeMaxForgeSlots;
+  int32_t costOfPurchasingSlotTwo;
+  int32_t costOfPurchasingSlotThree;
 }
 - (BOOL) hasForgeTimeBaseForExponentialMultiplier;
 - (BOOL) hasForgeMinDiamondCostForGuarantee;
@@ -4605,12 +4670,16 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (BOOL) hasForgeBaseMinutesToOneGold;
 - (BOOL) hasForgeMaxEquipLevel;
 - (BOOL) hasForgeMaxForgeSlots;
+- (BOOL) hasCostOfPurchasingSlotTwo;
+- (BOOL) hasCostOfPurchasingSlotThree;
 @property (readonly) Float64 forgeTimeBaseForExponentialMultiplier;
 @property (readonly) int32_t forgeMinDiamondCostForGuarantee;
 @property (readonly) Float64 forgeDiamondCostForGuaranteeExponentialMultiplier;
 @property (readonly) int32_t forgeBaseMinutesToOneGold;
 @property (readonly) int32_t forgeMaxEquipLevel;
 @property (readonly) int32_t forgeMaxForgeSlots;
+@property (readonly) int32_t costOfPurchasingSlotTwo;
+@property (readonly) int32_t costOfPurchasingSlotThree;
 
 + (StartupResponseProto_StartupConstants_ForgeConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_ForgeConstants*) defaultInstance;
@@ -4675,6 +4744,16 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (int32_t) forgeMaxForgeSlots;
 - (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeMaxForgeSlots:(int32_t) value;
 - (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeMaxForgeSlots;
+
+- (BOOL) hasCostOfPurchasingSlotTwo;
+- (int32_t) costOfPurchasingSlotTwo;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setCostOfPurchasingSlotTwo:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearCostOfPurchasingSlotTwo;
+
+- (BOOL) hasCostOfPurchasingSlotThree;
+- (int32_t) costOfPurchasingSlotThree;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setCostOfPurchasingSlotThree:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearCostOfPurchasingSlotThree;
 @end
 
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {
@@ -5194,10 +5273,12 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (StartupResponseProto_StartupConstants_Builder*) setMaxNumTowersClanCanHold:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxNumTowersClanCanHold;
 
-- (BOOL) hasMinLevelForPrestige;
-- (int32_t) minLevelForPrestige;
-- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForPrestige:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForPrestige;
+- (BOOL) hasPrestigeConstants;
+- (StartupResponseProto_StartupConstants_PrestigeConstants*) prestigeConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setPrestigeConstants:(StartupResponseProto_StartupConstants_PrestigeConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setPrestigeConstantsBuilder:(StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergePrestigeConstants:(StartupResponseProto_StartupConstants_PrestigeConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearPrestigeConstants;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {

@@ -128,6 +128,8 @@
 
 @synthesize clanTierLevels = _clanTierLevels;
 
+@synthesize forgeAttempts = _forgeAttempts;
+
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (id) init {
@@ -493,18 +495,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addNotification:(UserNotification *)un {
-    [self.notifications addObject:un];
-    [self.notifications sortUsingComparator:^NSComparisonResult(UserNotification *obj1, UserNotification *obj2) {
-      return [obj2.time compare:obj1.time];
-    }];
-    
-    if ([un.time compare:_lastLogoutTime] == NSOrderedDescending) {
-      un.hasBeenViewed = NO;
-    } else {
-      un.hasBeenViewed = YES;
+  if (un.type == kNotificationForge) {
+    UserNotification *n = nil;
+    for (UserNotification *t in self.notifications) {
+      if (t.type == kNotificationForge && t.blacksmithId == un.blacksmithId) {
+        n = t;
+      }
     }
-    
-    [[[ActivityFeedController sharedActivityFeedController] activityTableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+    [self.notifications removeObject:n];
+  }
+  
+  [self.notifications addObject:un];
+  [self.notifications sortUsingComparator:^NSComparisonResult(UserNotification *obj1, UserNotification *obj2) {
+    return [obj2.time compare:obj1.time];
+  }];
+  
+  if ([un.time compare:_lastLogoutTime] == NSOrderedDescending) {
+    un.hasBeenViewed = NO;
+  } else {
+    un.hasBeenViewed = YES;
+  }
+  
+  if ([ActivityFeedController isInitialized]) {
+    [[[ActivityFeedController sharedActivityFeedController] activityTableView] reloadData];
+  }
   
   if (!_isTutorial) {
     GameState *gs = [GameState sharedGameState];
@@ -861,19 +875,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (BOOL) hasValidLicense {
   Globals *gl = [Globals sharedGlobals];
-
+  
   NSTimeInterval shortLic = [self.lastShortLicensePurchaseTime timeIntervalSinceNow];
   NSTimeInterval time = -((NSTimeInterval)gl.numDaysShortMarketplaceLicenseLastsFor)*24*60*60;
   if (shortLic > time) {
     return YES;
   }
-
+  
   NSTimeInterval longLic = [self.lastLongLicensePurchaseTime timeIntervalSinceNow];
   time = -gl.numDaysLongMarketplaceLicenseLastsFor*24l*60l*60l;
   if (longLic > time) {
     return YES;
   }
-
+  
   return NO;
 }
 
@@ -983,7 +997,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       NSDate *endTime = [fa.startTime dateByAddingTimeInterval:seconds];
       
       if ([endTime compare:[NSDate date]] == NSOrderedDescending) {
-        NSTimer *t = [[NSTimer timerWithTimeInterval:endTime.timeIntervalSinceNow target:self selector:@selector(forgeWaitTimeComplete) userInfo:fa repeats:NO] retain];
+        NSTimer *t = [[NSTimer timerWithTimeInterval:endTime.timeIntervalSinceNow target:self selector:@selector(forgeWaitTimeComplete:) userInfo:fa repeats:NO] retain];
         [[NSRunLoop mainRunLoop] addTimer:t forMode:NSRunLoopCommonModes];
         [timers addObject:t];
       } else {
@@ -1622,7 +1636,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.userId = 0;
   
   [self stopForgeTimers];
-  self.forgeAttempts = nil;
   
   [self stopAllLockBoxTimers];
   [self stopAllGoldSaleTimers];
