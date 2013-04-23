@@ -348,8 +348,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (int) calculateDiamondCostForInstaBuild:(UserStruct *)us;
 - (int) calculateDiamondCostForInstaUpgrade:(UserStruct *)us;
 - (int) calculateMinutesToUpgrade:(UserStruct *)us;
-- (float) calculateAttackForAttackStat:(int)attackStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet;
-- (float) calculateDefenseForDefenseStat:(int)defenseStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet;
+- (float) calculateAttackForAttackStat:(int)attackStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet weapon2:(UserEquip *)weapon2 armor2:(UserEquip *)armor2 amulet2:(UserEquip *)amulet2;
+- (float) calculateDefenseForDefenseStat:(int)defenseStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet weapon2:(UserEquip *)weapon2 armor2:(UserEquip *)armor2 amulet2:(UserEquip *)amulet2;
 - (int) calculateHealthForLevel:(int)level;
 
 - (BOOL) canRetractMarketplacePostForFree:(FullMarketplacePostProto *)post;

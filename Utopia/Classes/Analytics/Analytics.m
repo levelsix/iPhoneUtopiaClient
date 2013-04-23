@@ -176,8 +176,6 @@
   [Crittercism leaveBreadcrumb:event];
   [Amplitude logEvent:event];
 #endif
-  
-  NSLog(@"%@", event);
 }
 
 + (void) event:(NSString *)event withArgs:(NSDictionary *)args {
@@ -190,8 +188,6 @@
   [Crittercism leaveBreadcrumb:event];
   [Amplitude logEvent:event withCustomProperties:args];
 #endif
-  
-  NSLog(@"%@", event);
 }
 
 + (void) logRevenue:(NSNumber *)num {

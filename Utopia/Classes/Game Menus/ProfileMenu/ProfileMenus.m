@@ -881,7 +881,7 @@ static float origLabelCenterY = 0;
 - (IBAction)postClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  if (gs.level < gl.minLevelConstants.marketplaceMinLevel) {
+  if (gs.level < gl.minLevelConstants.marketplaceMinLevel && gs.prestigeLevel <= 0) {
     [Globals popupMessage:[NSString stringWithFormat:@"You cannot post to the marketplace until level %d.", gl.minLevelConstants.marketplaceMinLevel]];
   } else {
     [self.mktPostView updateForEquip:userEquip andAddToSuperView:self.superview];
@@ -1159,8 +1159,11 @@ static float origLabelCenterY = 0;
   UserEquip *weapon = [(EquipView *)[self.curEquipViews objectAtIndex:0] equip];
   UserEquip *armor = [(EquipView *)[self.curEquipViews objectAtIndex:1] equip];
   UserEquip *amulet = [(EquipView *)[self.curEquipViews objectAtIndex:2] equip];
-  self.attackLabel.text = [Globals commafyNumber:[gl calculateAttackForAttackStat:0 weapon:weapon armor:armor amulet:amulet]];
-  self.defenseLabel.text = [Globals commafyNumber:[gl calculateDefenseForDefenseStat:0 weapon:weapon armor:armor amulet:amulet]];
+  UserEquip *weapon2 = [(EquipView *)[self.curEquipViews objectAtIndex:3] equip];
+  UserEquip *armor2 = [(EquipView *)[self.curEquipViews objectAtIndex:4] equip];
+  UserEquip *amulet2 = [(EquipView *)[self.curEquipViews objectAtIndex:5] equip];
+  self.attackLabel.text = [Globals commafyNumber:[gl calculateAttackForAttackStat:0 weapon:weapon armor:armor amulet:amulet weapon2:weapon2 armor2:armor2 amulet2:amulet2]];
+  self.defenseLabel.text = [Globals commafyNumber:[gl calculateDefenseForDefenseStat:0 weapon:weapon armor:armor amulet:amulet weapon2:weapon2 armor2:armor2 amulet2:amulet2]];
   
   self.scrollView.contentOffset = ccp(0,0);
 }

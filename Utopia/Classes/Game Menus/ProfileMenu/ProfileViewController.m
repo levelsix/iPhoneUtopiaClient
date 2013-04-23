@@ -355,12 +355,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   attack  = [globals calculateAttackForAttackStat:_fup.attack
                                            weapon:_fup.hasWeaponEquippedUserEquip ? (UserEquip *)_fup.weaponEquippedUserEquip : nil
                                             armor:_fup.hasArmorEquippedUserEquip ? (UserEquip *)_fup.armorEquippedUserEquip : nil
-                                           amulet:_fup.hasAmuletEquippedUserEquip ? (UserEquip *)_fup.amuletEquippedUserEquip : nil];
+                                           amulet:_fup.hasAmuletEquippedUserEquip ? (UserEquip *)_fup.amuletEquippedUserEquip : nil
+                                           weapon2:_fup.hasWeaponTwoEquippedUserEquip ? (UserEquip *)_fup.weaponTwoEquippedUserEquip : nil
+                                            armor2:_fup.hasArmorTwoEquippedUserEquip ? (UserEquip *)_fup.armorTwoEquippedUserEquip : nil
+                                           amulet2:_fup.hasAmuletTwoEquippedUserEquip ? (UserEquip *)_fup.amuletTwoEquippedUserEquip : nil];
   
   defense = [globals calculateDefenseForDefenseStat:_fup.defense
                                              weapon:_fup.hasWeaponEquippedUserEquip ? (UserEquip *)_fup.weaponEquippedUserEquip : nil
                                               armor:_fup.hasArmorEquippedUserEquip ? (UserEquip *)_fup.armorEquippedUserEquip : nil
-                                             amulet:_fup.hasAmuletEquippedUserEquip ? (UserEquip *)_fup.amuletEquippedUserEquip : nil];
+                                             amulet:_fup.hasAmuletEquippedUserEquip ? (UserEquip *)_fup.amuletEquippedUserEquip : nil
+                                            weapon2:_fup.hasWeaponTwoEquippedUserEquip ? (UserEquip *)_fup.weaponTwoEquippedUserEquip : nil
+                                             armor2:_fup.hasArmorTwoEquippedUserEquip ? (UserEquip *)_fup.armorTwoEquippedUserEquip : nil
+                                            amulet2:_fup.hasAmuletTwoEquippedUserEquip ? (UserEquip *)_fup.amuletTwoEquippedUserEquip : nil];
   attackLabel.text = [NSString stringWithFormat:@"%d", attack];
   defenseLabel.text = [NSString stringWithFormat:@"%d", defense];
   
@@ -448,13 +454,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     
     self.spinner.hidden = YES;
     [self.spinner stopAnimating];
-    
-    Globals *gl = [Globals sharedGlobals];
-    UserEquip *weapon = _fup.hasWeaponEquippedUserEquip ? (UserEquip *)_fup.weaponEquippedUserEquip : nil;
-    UserEquip *armor = _fup.hasArmorEquippedUserEquip ? (UserEquip *)_fup.armorEquippedUserEquip : nil;
-    UserEquip *amulet = _fup.hasAmuletEquippedUserEquip ? (UserEquip *)_fup.amuletEquippedUserEquip : nil;
-    attackLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateAttackForAttackStat:_fup.attack weapon:weapon armor:armor amulet:amulet]];
-    defenseLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateDefenseForDefenseStat:_fup.defense weapon:weapon armor:armor amulet:amulet]];
   }
 }
 
@@ -514,16 +513,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [self.spinner startAnimating];
   
   [ProfileViewController displayView];
-}
-
-- (void) displayMyCurrentStats {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  UserEquip *weaponEquipped = [gs myEquipWithUserEquipId:gs.weaponEquipped];
-  UserEquip *armorEquipped = [gs myEquipWithUserEquipId:gs.armorEquipped];
-  UserEquip *amuletEquipped = [gs myEquipWithUserEquipId:gs.amuletEquipped];
-  attackLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateAttackForAttackStat:gs.attack weapon:weaponEquipped armor:armorEquipped amulet:amuletEquipped]];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateDefenseForDefenseStat:gs.defense weapon:weaponEquipped armor:armorEquipped amulet:amuletEquipped]];
 }
 
 - (void) loadMyProfileWithLevelUp {
@@ -645,7 +634,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 - (IBAction)clanClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  if (gs.level < gl.minLevelConstants.clanHouseMinLevel) {
+  if (gs.level < gl.minLevelConstants.clanHouseMinLevel && gs.prestigeLevel <= 0) {
     [Globals popupMessage:[NSString stringWithFormat:@"You cannot access the clan house until level %d.", gl.minLevelConstants.clanHouseMinLevel]];
   } else if (_fup.clan) {
     [ClanMenuController displayView];
@@ -776,7 +765,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   if (gs.level < gl.minLevelForPrestige) {
-    [Globals popupMessage:[NSString stringWithFormat:@"You must be level %d to prestige.", gl.minLevelForPrestige]];
+    [Globals popupMessage:[NSString stringWithFormat:@"You must be at least level %d to prestige.", gl.minLevelForPrestige]];
   } else if (gs.prestigeLevel >= gl.maxPrestigeLevel) {
     [Globals popupMessage:@"You have already reached the max prestige level!"];
   } else {

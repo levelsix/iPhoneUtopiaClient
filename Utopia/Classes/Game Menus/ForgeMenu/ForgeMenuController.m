@@ -336,7 +336,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (void) displayEnhanceMenu {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  if (gl.minLevelConstants.enhancingMinLevel > gs.level) {
+  if (gl.minLevelConstants.enhancingMinLevel > gs.level && gs.prestigeLevel <= 0) {
     [Globals popupMessage:[NSString stringWithFormat:@"Enhancement unlocks at level %d.", gl.minLevelConstants.enhancingMinLevel]];
     [self displayForgeMenu];
   } else {
