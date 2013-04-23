@@ -86,7 +86,6 @@
   
   [self refreshSkillPointsButtons];
   [self loadSkills];
-  [self displayMyCurrentStats];
   
   if (gs.skillPoints <= 0) {
     [self addingSkillsDone];

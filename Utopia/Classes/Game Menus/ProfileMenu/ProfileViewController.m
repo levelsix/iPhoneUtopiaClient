@@ -544,8 +544,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     clanButton.enabled = NO;
   }
   
-  [self displayMyCurrentStats];
-  
   [self loadEquips:gs.myEquips curEquips:[gs getUserEquipArray] prestigeLevel:gs.prestigeLevel];
   
   if (self.profileBar.state != kMyProfile) {
@@ -671,7 +669,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   [self refreshSkillPointsButtons];
   [self loadSkills];
-  [self displayMyCurrentStats];
 }
 
 - (BOOL) gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {

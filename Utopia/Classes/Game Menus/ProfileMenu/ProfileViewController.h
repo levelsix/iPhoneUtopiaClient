@@ -108,7 +108,6 @@
 - (void) equipViewSelected:(EquipView *)ev;
 - (void) loadSkills;
 - (void) doEquip:(UserEquip *)equip;
-- (void) displayMyCurrentStats;
 
 - (void) receivedEquips:(RetrieveUserEquipForUserResponseProto *)proto;
 - (void) receivedWallPosts:(RetrievePlayerWallPostsResponseProto *)proto;
