@@ -31,7 +31,7 @@
   } else {
     GameState *gs = [GameState sharedGameState];
     UserEquip *eq1 = [gs myEquipWithUserEquipId:gs.weaponEquipped];
-    UserEquip *eq2 = [gs myEquipWithUserEquipId:gs.weaponEquipped];
+    UserEquip *eq2 = [gs myEquipWithUserEquipId:gs.weaponEquipped2];
     val1 = eq1 ? [gl calculateAttackForEquip:eq1.equipId level:eq1.level enhancePercent:eq1.enhancementPercentage] : 0;
     val2 = eq2 ? [gl calculateAttackForEquip:eq2.equipId level:eq2.level enhancePercent:eq2.enhancementPercentage] : 0;
   }
@@ -54,7 +54,7 @@
   } else {
     GameState *gs = [GameState sharedGameState];
     UserEquip *eq1 = [gs myEquipWithUserEquipId:gs.armorEquipped];
-    UserEquip *eq2 = [gs myEquipWithUserEquipId:gs.armorEquipped];
+    UserEquip *eq2 = [gs myEquipWithUserEquipId:gs.armorEquipped2];
     val1 = eq1 ? [gl calculateAttackForEquip:eq1.equipId level:eq1.level enhancePercent:eq1.enhancementPercentage] : 0;
     val2 = eq2 ? [gl calculateAttackForEquip:eq2.equipId level:eq2.level enhancePercent:eq2.enhancementPercentage] : 0;
   }
@@ -77,7 +77,7 @@
   } else {
     GameState *gs = [GameState sharedGameState];
     UserEquip *eq1 = [gs myEquipWithUserEquipId:gs.amuletEquipped];
-    UserEquip *eq2 = [gs myEquipWithUserEquipId:gs.amuletEquipped];
+    UserEquip *eq2 = [gs myEquipWithUserEquipId:gs.amuletEquipped2];
     val1 = eq1 ? [gl calculateAttackForEquip:eq1.equipId level:eq1.level enhancePercent:eq1.enhancementPercentage] : 0;
     val2 = eq2 ? [gl calculateAttackForEquip:eq2.equipId level:eq2.level enhancePercent:eq2.enhancementPercentage] : 0;
   }
@@ -100,7 +100,7 @@
   } else {
     GameState *gs = [GameState sharedGameState];
     UserEquip *eq1 = [gs myEquipWithUserEquipId:gs.weaponEquipped];
-    UserEquip *eq2 = [gs myEquipWithUserEquipId:gs.weaponEquipped];
+    UserEquip *eq2 = [gs myEquipWithUserEquipId:gs.weaponEquipped2];
     val1 = eq1 ? [gl calculateDefenseForEquip:eq1.equipId level:eq1.level enhancePercent:eq1.enhancementPercentage] : 0;
     val2 = eq2 ? [gl calculateDefenseForEquip:eq2.equipId level:eq2.level enhancePercent:eq2.enhancementPercentage] : 0;
   }
@@ -123,7 +123,7 @@
   } else {
     GameState *gs = [GameState sharedGameState];
     UserEquip *eq1 = [gs myEquipWithUserEquipId:gs.armorEquipped];
-    UserEquip *eq2 = [gs myEquipWithUserEquipId:gs.armorEquipped];
+    UserEquip *eq2 = [gs myEquipWithUserEquipId:gs.armorEquipped2];
     val1 = eq1 ? [gl calculateDefenseForEquip:eq1.equipId level:eq1.level enhancePercent:eq1.enhancementPercentage] : 0;
     val2 = eq2 ? [gl calculateDefenseForEquip:eq2.equipId level:eq2.level enhancePercent:eq2.enhancementPercentage] : 0;
   }
@@ -146,7 +146,7 @@
   } else {
     GameState *gs = [GameState sharedGameState];
     UserEquip *eq1 = [gs myEquipWithUserEquipId:gs.amuletEquipped];
-    UserEquip *eq2 = [gs myEquipWithUserEquipId:gs.amuletEquipped];
+    UserEquip *eq2 = [gs myEquipWithUserEquipId:gs.amuletEquipped2];
     val1 = eq1 ? [gl calculateDefenseForEquip:eq1.equipId level:eq1.level enhancePercent:eq1.enhancementPercentage] : 0;
     val2 = eq2 ? [gl calculateDefenseForEquip:eq2.equipId level:eq2.level enhancePercent:eq2.enhancementPercentage] : 0;
   }

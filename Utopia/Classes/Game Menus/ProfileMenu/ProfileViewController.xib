@@ -3678,7 +3678,7 @@
 					<object class="IBUILabel" id="124924779">
 						<reference key="NSNextResponder" ref="1016872126"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{46, 17}, {211, 51}}</string>
+						<string key="NSFrame">{{46, 20}, {211, 51}}</string>
 						<reference key="NSSuperview" ref="1016872126"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1033898015"/>
@@ -6479,8 +6479,8 @@
 						<int key="objectID">1005</int>
 						<reference key="object" ref="1016872126"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="124924779"/>
 							<reference ref="1033898015"/>
+							<reference ref="124924779"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -7345,17 +7345,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">MarketplacePostView</string>
 					<string key="superclassName">UIView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">closeClicked:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">closeClicked:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">closeClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="armoryPriceIcon">UIImageView</string>
 						<string key="armoryPriceLabel">UILabel</string>
@@ -7642,40 +7631,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ProfileEquipPopup</string>
 					<string key="superclassName">UIView</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="closeClicked:">id</string>
-						<string key="equipItemClicked:">id</string>
-						<string key="postClicked:">id</string>
-						<string key="postOkayClicked:">id</string>
-						<string key="tooLowLevelClicked:">id</string>
-						<string key="wrongClassClicked:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="closeClicked:">
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">closeClicked:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">closeClicked:</string>
+						<object class="IBActionInfo" key="NS.object.0">
 							<string key="name">closeClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="equipItemClicked:">
-							<string key="name">equipItemClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="postClicked:">
-							<string key="name">postClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="postOkayClicked:">
-							<string key="name">postOkayClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="tooLowLevelClicked:">
-							<string key="name">tooLowLevelClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="wrongClassClicked:">
-							<string key="name">wrongClassClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="attackLabel">UILabel</string>
 						<string key="bgdView">UIView</string>
@@ -8106,20 +8072,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">WallTabView</string>
 					<string key="superclassName">UIView</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="postToWall:">id</string>
-						<string key="visitProfile:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="postToWall:">
-							<string key="name">postToWall:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="visitProfile:">
-							<string key="name">visitProfile:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="postCell">WallPostCell</string>
 						<string key="spinner">UIActivityIndicatorView</string>
