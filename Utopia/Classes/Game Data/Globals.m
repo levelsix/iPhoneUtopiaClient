@@ -1604,9 +1604,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int weaponAttack = weapon ? [self calculateAttackForEquip:weapon.equipId level:weapon.level enhancePercent:weapon.enhancementPercentage] : 0;
   int armorAttack = armor ? [self calculateAttackForEquip:armor.equipId level:armor.level enhancePercent:armor.enhancementPercentage] : 0;
   int amuletAttack = amulet ? [self calculateAttackForEquip:amulet.equipId level:amulet.level enhancePercent:amulet.enhancementPercentage] : 0;
-  int weaponAttack2 = weapon ? [self calculateAttackForEquip:weapon2.equipId level:weapon2.level enhancePercent:weapon2.enhancementPercentage] : 0;
-  int armorAttack2 = armor ? [self calculateAttackForEquip:armor2.equipId level:armor2.level enhancePercent:armor2.enhancementPercentage] : 0;
-  int amuletAttack2 = amulet ? [self calculateAttackForEquip:amulet2.equipId level:amulet2.level enhancePercent:amulet2.enhancementPercentage] : 0;
+  int weaponAttack2 = weapon2 ? [self calculateAttackForEquip:weapon2.equipId level:weapon2.level enhancePercent:weapon2.enhancementPercentage] : 0;
+  int armorAttack2 = armor2 ? [self calculateAttackForEquip:armor2.equipId level:armor2.level enhancePercent:armor2.enhancementPercentage] : 0;
+  int amuletAttack2 = amulet2 ? [self calculateAttackForEquip:amulet2.equipId level:amulet2.level enhancePercent:amulet2.enhancementPercentage] : 0;
   
   return (weaponAttack+armorAttack+amuletAttack+weaponAttack2+armorAttack2+amuletAttack2);
 }
