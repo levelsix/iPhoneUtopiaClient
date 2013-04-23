@@ -206,7 +206,7 @@
     self.selected = nil;
     [self doReorder];
     
-    [Analytics tutorialPlaceInn];
+    [Analytics tutPlacedInn];
     
     [[SoundEngine sharedSoundEngine] carpenterPurchase];
   }
@@ -234,7 +234,7 @@
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   tc.structUsedDiamonds = NO;
   [self buildingComplete];
-  [Analytics tutorialWaitBuild];
+//  [Analytics tutorialWaitBuild];
 }
 
 - (IBAction)finishNowClicked:(id)sender {
@@ -263,7 +263,7 @@
   
   tc.structUsedDiamonds = YES;
   
-  [Analytics tutorialFinishNow];
+  [Analytics tutFinishNow];
 }
 
 - (void) buildingComplete {
@@ -304,7 +304,7 @@
   [[CCDirector sharedDirector] purgeCachedData];
   [AttackMenuController purgeSingleton];
   
-  [Analytics tutorialComplete];
+  [Analytics tutComplete];
 }
 
 - (void) dealloc {

@@ -11,6 +11,8 @@
 //#import "KiipDelegate.h"
 #import "FacebookDelegate.h"
 
+#define FACEBOOK_APP_ID      @"308804055902016"
+
 @interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
 //  id<TJCVideoAdDelegate>     tapJoyDelegate; 
 //  id<AdColonyDelegate>       adColonyDelegate;
@@ -23,6 +25,8 @@
 @property (nonatomic, retain) id<FacebookGlobalDelegate> facebookDelegate;
 
 @property (nonatomic, assign) int isActive;
+
+@property (nonatomic, assign) BOOL hasTrackedVisit;
 
 @property (nonatomic, retain) UIWindow *window;
 

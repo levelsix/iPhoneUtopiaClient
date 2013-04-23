@@ -49,6 +49,7 @@
 #import "CharSelectionViewController.h"
 #import "TournamentMenuController.h"
 #import "DailyBonusMenuController.h"
+#import "Nanigans.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -477,6 +478,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
+  gs.kabamNaid = proto.kabamNaid;
+  NSLog(@"Kabam NAID: %@", gs.kabamNaid);
+  [Nanigans trackInstall];
+  [Nanigans trackVisit];
+  
   if (proto.updateStatus == StartupResponseProto_UpdateStatusMajorUpdate) {
     [GenericPopupController displayMajorUpdatePopup:proto.appStoreUrl];
     return;
@@ -601,6 +607,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     // This means we just finished tutorial
     if (gs.isTutorial) {
+      [Nanigans trackTutorialComplete];
       [[DialogMenuController sharedDialogMenuController] stopLoading:YES];
     } else {
       [[GameViewController sharedGameViewController] loadGame:NO];
@@ -730,6 +737,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
+    [Nanigans trackPurchase:proto.packagePrice*100];
+    
     // Post notification so all UI with that bar can update
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil]];
     [gs removeNonFullUserUpdatesForTag:tag];

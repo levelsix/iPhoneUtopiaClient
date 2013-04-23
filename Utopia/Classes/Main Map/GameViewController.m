@@ -283,7 +283,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   if (gs.isTutorial) {
     CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
     [Globals displayUIView:csvc.view];
-    [Analytics tutorialOpenedDoor];
   } else {
     [[TopBar sharedTopBar] start];
   }
@@ -330,7 +329,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     [[[CCDirector sharedDirector] runningScene] addChild:layer];
   } else {
     [self startGame];
-    [Analytics tutorialStart];
+    [Analytics tutStart];
   }
 }
 

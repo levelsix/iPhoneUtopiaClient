@@ -2855,7 +2855,6 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
 @property (retain) NSString* udid;
 @property Float32 versionNum;
 @property (retain) NSString* apsalarId;
-@property (retain) NSString* iOs5Udid;
 @property (retain) NSString* macAddress;
 @property (retain) NSString* advertiserId;
 @property BOOL isForceTutorial;
@@ -2884,13 +2883,6 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
   hasApsalarId_ = !!value;
 }
 @synthesize apsalarId;
-- (BOOL) hasIOs5Udid {
-  return !!hasIOs5Udid_;
-}
-- (void) setHasIOs5Udid:(BOOL) value {
-  hasIOs5Udid_ = !!value;
-}
-@synthesize iOs5Udid;
 - (BOOL) hasMacAddress {
   return !!hasMacAddress_;
 }
@@ -2920,7 +2912,6 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
 - (void) dealloc {
   self.udid = nil;
   self.apsalarId = nil;
-  self.iOs5Udid = nil;
   self.macAddress = nil;
   self.advertiserId = nil;
   [super dealloc];
@@ -2930,7 +2921,6 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
     self.udid = @"";
     self.versionNum = 0;
     self.apsalarId = @"";
-    self.iOs5Udid = @"";
     self.macAddress = @"";
     self.advertiserId = @"";
     self.isForceTutorial = NO;
@@ -2962,9 +2952,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (self.hasApsalarId) {
     [output writeString:3 value:self.apsalarId];
   }
-  if (self.hasIOs5Udid) {
-    [output writeString:4 value:self.iOs5Udid];
-  }
   if (self.hasMacAddress) {
     [output writeString:5 value:self.macAddress];
   }
@@ -2991,9 +2978,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   }
   if (self.hasApsalarId) {
     size += computeStringSize(3, self.apsalarId);
-  }
-  if (self.hasIOs5Udid) {
-    size += computeStringSize(4, self.iOs5Udid);
   }
   if (self.hasMacAddress) {
     size += computeStringSize(5, self.macAddress);
@@ -3088,9 +3072,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (other.hasApsalarId) {
     [self setApsalarId:other.apsalarId];
   }
-  if (other.hasIOs5Udid) {
-    [self setIOs5Udid:other.iOs5Udid];
-  }
   if (other.hasMacAddress) {
     [self setMacAddress:other.macAddress];
   }
@@ -3131,10 +3112,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
       }
       case 26: {
         [self setApsalarId:[input readString]];
-        break;
-      }
-      case 34: {
-        [self setIOs5Udid:[input readString]];
         break;
       }
       case 42: {
@@ -3198,22 +3175,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 - (StartupRequestProto_Builder*) clearApsalarId {
   result.hasApsalarId = NO;
   result.apsalarId = @"";
-  return self;
-}
-- (BOOL) hasIOs5Udid {
-  return result.hasIOs5Udid;
-}
-- (NSString*) iOs5Udid {
-  return result.iOs5Udid;
-}
-- (StartupRequestProto_Builder*) setIOs5Udid:(NSString*) value {
-  result.hasIOs5Udid = YES;
-  result.iOs5Udid = value;
-  return self;
-}
-- (StartupRequestProto_Builder*) clearIOs5Udid {
-  result.hasIOs5Udid = NO;
-  result.iOs5Udid = @"";
   return self;
 }
 - (BOOL) hasMacAddress {
@@ -3310,6 +3271,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableLeaderboardEventsList;
 @property (retain) EquipEnhancementProto* equipEnhancement;
 @property (retain) NSMutableArray* mutableRareBoosterPurchasesList;
+@property (retain) NSString* kabamNaid;
 @end
 
 @implementation StartupResponseProto
@@ -3440,6 +3402,13 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 }
 @synthesize equipEnhancement;
 @synthesize mutableRareBoosterPurchasesList;
+- (BOOL) hasKabamNaid {
+  return !!hasKabamNaid_;
+}
+- (void) setHasKabamNaid:(BOOL) value {
+  hasKabamNaid_ = !!value;
+}
+@synthesize kabamNaid;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3479,6 +3448,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableLeaderboardEventsList = nil;
   self.equipEnhancement = nil;
   self.mutableRareBoosterPurchasesList = nil;
+  self.kabamNaid = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3496,6 +3466,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.dailyBonusInfo = [StartupResponseProto_DailyBonusInfo defaultInstance];
     self.playerHasBoughtInAppPurchase = NO;
     self.equipEnhancement = [EquipEnhancementProto defaultInstance];
+    self.kabamNaid = @"";
   }
   return self;
 }
@@ -3854,6 +3825,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (RareBoosterPurchaseProto* element in self.rareBoosterPurchasesList) {
     [output writeMessage:43 value:element];
   }
+  if (self.hasKabamNaid) {
+    [output writeString:44 value:self.kabamNaid];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3996,6 +3970,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (RareBoosterPurchaseProto* element in self.rareBoosterPurchasesList) {
     size += computeMessageSize(43, element);
+  }
+  if (self.hasKabamNaid) {
+    size += computeStringSize(44, self.kabamNaid);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -19255,6 +19232,9 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableRareBoosterPurchasesList addObjectsFromArray:other.mutableRareBoosterPurchasesList];
   }
+  if (other.hasKabamNaid) {
+    [self setKabamNaid:other.kabamNaid];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -19539,6 +19519,10 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         RareBoosterPurchaseProto_Builder* subBuilder = [RareBoosterPurchaseProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRareBoosterPurchases:[subBuilder buildPartial]];
+        break;
+      }
+      case 354: {
+        [self setKabamNaid:[input readString]];
         break;
       }
     }
@@ -20692,6 +20676,22 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     result.mutableRareBoosterPurchasesList = [NSMutableArray array];
   }
   [result.mutableRareBoosterPurchasesList addObject:value];
+  return self;
+}
+- (BOOL) hasKabamNaid {
+  return result.hasKabamNaid;
+}
+- (NSString*) kabamNaid {
+  return result.kabamNaid;
+}
+- (StartupResponseProto_Builder*) setKabamNaid:(NSString*) value {
+  result.hasKabamNaid = YES;
+  result.kabamNaid = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearKabamNaid {
+  result.hasKabamNaid = NO;
+  result.kabamNaid = @"";
   return self;
 }
 @end

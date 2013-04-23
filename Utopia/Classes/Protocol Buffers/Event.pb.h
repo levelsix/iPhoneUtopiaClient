@@ -2070,28 +2070,24 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   BOOL hasVersionNum_:1;
   BOOL hasUdid_:1;
   BOOL hasApsalarId_:1;
-  BOOL hasIOs5Udid_:1;
   BOOL hasMacAddress_:1;
   BOOL hasAdvertiserId_:1;
   BOOL isForceTutorial_:1;
   Float32 versionNum;
   NSString* udid;
   NSString* apsalarId;
-  NSString* iOs5Udid;
   NSString* macAddress;
   NSString* advertiserId;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasVersionNum;
 - (BOOL) hasApsalarId;
-- (BOOL) hasIOs5Udid;
 - (BOOL) hasMacAddress;
 - (BOOL) hasAdvertiserId;
 - (BOOL) hasIsForceTutorial;
 @property (readonly, retain) NSString* udid;
 @property (readonly) Float32 versionNum;
 @property (readonly, retain) NSString* apsalarId;
-@property (readonly, retain) NSString* iOs5Udid;
 @property (readonly, retain) NSString* macAddress;
 @property (readonly, retain) NSString* advertiserId;
 - (BOOL) isForceTutorial;
@@ -2145,11 +2141,6 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (StartupRequestProto_Builder*) setApsalarId:(NSString*) value;
 - (StartupRequestProto_Builder*) clearApsalarId;
 
-- (BOOL) hasIOs5Udid;
-- (NSString*) iOs5Udid;
-- (StartupRequestProto_Builder*) setIOs5Udid:(NSString*) value;
-- (StartupRequestProto_Builder*) clearIOs5Udid;
-
 - (BOOL) hasMacAddress;
 - (NSString*) macAddress;
 - (StartupRequestProto_Builder*) setMacAddress:(NSString*) value;
@@ -2171,43 +2162,45 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   BOOL hasPlayerHasBoughtInAppPurchase_:1;
   BOOL hasExperienceRequiredForCurrentLevel_:1;
   BOOL hasExperienceRequiredForNextLevel_:1;
+  BOOL hasKabamNaid_:1;
   BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasDailyBonusInfo_:1;
   BOOL hasSender_:1;
+  BOOL hasEquipEnhancement_:1;
+  BOOL hasDailyBonusInfo_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasTutorialConstants_:1;
-  BOOL hasEquipEnhancement_:1;
   BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
   int32_t experienceRequiredForCurrentLevel;
   int32_t experienceRequiredForNextLevel;
+  NSString* kabamNaid;
   NSString* reviewPageConfirmationMessage;
   NSString* reviewPageUrl;
   NSString* appStoreUrl;
-  StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
   FullUserProto* sender;
+  EquipEnhancementProto* equipEnhancement;
+  StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
   StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_TutorialConstants* tutorialConstants;
-  EquipEnhancementProto* equipEnhancement;
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableUnhandledForgeAttemptList;
-  NSMutableArray* mutableForgeAttemptEquipList;
-  NSMutableArray* mutableMktSearchEquipsList;
-  NSMutableArray* mutableGlobalChatsList;
-  NSMutableArray* mutableClanChatsList;
-  NSMutableArray* mutableGoldSalesList;
-  NSMutableArray* mutableClanTierLevelsList;
-  NSMutableArray* mutableRareBoosterPurchasesList;
   NSMutableArray* mutableClanTowersList;
+  NSMutableArray* mutableClanTierLevelsList;
+  NSMutableArray* mutableGoldSalesList;
+  NSMutableArray* mutableClanChatsList;
+  NSMutableArray* mutableGlobalChatsList;
+  NSMutableArray* mutableMktSearchEquipsList;
+  NSMutableArray* mutableForgeAttemptEquipList;
   NSMutableArray* mutableStaticStructsList;
   NSMutableArray* mutableStaticEquipsList;
   NSMutableArray* mutableBossEventsList;
+  NSMutableArray* mutableUnhandledForgeAttemptList;
   NSMutableArray* mutableLeaderboardEventsList;
+  NSMutableArray* mutableRareBoosterPurchasesList;
   NSMutableArray* mutableAlliesList;
   NSMutableArray* mutableUserLockBoxEventsList;
   NSMutableArray* mutableLockBoxEventsList;
@@ -2217,13 +2210,13 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   NSMutableArray* mutableAttackNotificationsList;
   NSMutableArray* mutableMarketplacePurchaseNotificationsList;
   NSMutableArray* mutableUserClanInfoList;
+  NSMutableArray* mutableAllCitiesList;
+  NSMutableArray* mutableUserCityInfosList;
   NSMutableArray* mutableEquipsList;
   NSMutableArray* mutableUserEquipsList;
   NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableInProgressCompleteQuestsList;
   NSMutableArray* mutableInProgressIncompleteQuestsList;
-  NSMutableArray* mutableUserCityInfosList;
-  NSMutableArray* mutableAllCitiesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -2238,6 +2231,7 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (BOOL) hasDailyBonusInfo;
 - (BOOL) hasPlayerHasBoughtInAppPurchase;
 - (BOOL) hasEquipEnhancement;
+- (BOOL) hasKabamNaid;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
 @property (readonly) StartupResponseProto_UpdateStatus updateStatus;
@@ -2251,6 +2245,7 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 @property (readonly, retain) StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
 - (BOOL) playerHasBoughtInAppPurchase;
 @property (readonly, retain) EquipEnhancementProto* equipEnhancement;
+@property (readonly, retain) NSString* kabamNaid;
 - (NSArray*) allCitiesList;
 - (FullCityProto*) allCitiesAtIndex:(int32_t) index;
 - (NSArray*) userCityInfosList;
@@ -6155,6 +6150,11 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (StartupResponseProto_Builder*) addRareBoosterPurchases:(RareBoosterPurchaseProto*) value;
 - (StartupResponseProto_Builder*) addAllRareBoosterPurchases:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearRareBoosterPurchasesList;
+
+- (BOOL) hasKabamNaid;
+- (NSString*) kabamNaid;
+- (StartupResponseProto_Builder*) setKabamNaid:(NSString*) value;
+- (StartupResponseProto_Builder*) clearKabamNaid;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {

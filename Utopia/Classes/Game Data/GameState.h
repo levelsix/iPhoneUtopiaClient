@@ -152,6 +152,8 @@
 @property (nonatomic, assign) int prestigeLevel;
 @property (nonatomic, assign) int numAdditionalForgeSlots;
 
+@property (nonatomic, retain) NSString *kabamNaid;
+
 @property (nonatomic, retain) NSString *deviceToken;
 
 @property (nonatomic, retain) NSDate *lastShortLicensePurchaseTime;

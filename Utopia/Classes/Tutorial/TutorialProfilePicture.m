@@ -63,6 +63,8 @@
     _faceDialPhase = NO;
     
     [self beginWallPhase];
+    
+    [Analytics tutPathMenu];
   }
 }
 
@@ -89,6 +91,8 @@
   
   [[ProfileViewController sharedProfileViewController] receivedWallPosts:b.build];
   [[ProfileViewController sharedProfileViewController] setState:kProfileState];
+  
+  [Analytics tutProfileButton];
 }
 
 - (void) dealloc {

@@ -112,19 +112,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   [[OutgoingEventController sharedOutgoingEventController] createUser];
   
   [self.loadingView display:self.view];
+  
+  [Analytics tutUserCreated];
 }
 
 - (void) receivedUserCreateResponse:(UserCreateResponseProto *)ucrp {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   if (ucrp.status == UserCreateResponseProto_UserCreateStatusSuccess) {
-    [Analytics tutorialUserCreated];
   } else if (ucrp.status == UserCreateResponseProto_UserCreateStatusTimeIssue) {
     [DialogMenuController displayViewForText:tc.timeSyncErrorText];
-    [Analytics tutorialTimeSync];
     [self stopLoading:NO];
   } else {
     [DialogMenuController displayViewForText:[NSString stringWithFormat:tc.otherFailText, ucrp.status]];
-    [Analytics tutorialOtherFail];
     [self stopLoading:NO];
   }
 }

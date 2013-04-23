@@ -33,7 +33,8 @@
 
 - (void) viewDidAppear:(BOOL)animated {
   [self.coinBar updateLabels];
-  [Analytics tutorialEnterCarpenter];
+  
+  [Analytics tutCarpenterClicked];
   
   self.carpTable.scrollEnabled = NO;
   
@@ -65,7 +66,7 @@
   if (carp.fsp.structId == 1) {
     _canClose = YES;
     [super carpListingClicked:carp];
-    [Analytics tutorialPurchaseInn];
+    [Analytics tutPurchaseInn];
   }
 }
 

@@ -531,7 +531,7 @@
 @implementation EquipView
 
 @synthesize bgd, border;
-@synthesize equipIcon;
+@synthesize equipIcon, equipMaskIcon;
 @synthesize nameLabel;
 @synthesize attackLabel, defenseLabel;
 @synthesize equip;
@@ -549,6 +549,8 @@ static float origLabelCenterY = 0;
   [self addSubview:darkOverlay];
   
   origLabelCenterY = self.noEquipLabel.center.y;
+  
+  self.equippedLabelView.transform = CGAffineTransformMakeRotation(-M_PI_4);
 }
 
 - (void) updateForEquip:(UserEquip *)ue {
@@ -571,6 +573,18 @@ static float origLabelCenterY = 0;
   levelIcon.level = ue.level;
   _enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
   
+  if (![Globals canEquip:fep]) {
+    [Globals imageNamed:[Globals imageNameForEquip:fep.equipId] withView:self.equipMaskIcon maskedColor:[UIColor colorWithRed:209/256.f green:15/256.f blue:15/256.f alpha:0.6f] indicator:-1 clearImageDuringDownload:YES];
+    
+    self.lockedLabel.text = [NSString stringWithFormat:@"lvl %d", fep.minLevel];
+    
+    self.equipMaskIcon.hidden = NO;
+    self.lockedView.hidden = NO;
+  } else {
+    self.equipMaskIcon.hidden = YES;
+    self.lockedView.hidden = YES;
+  }
+  
   NSString *base = [[[Globals stringForRarity:fep.rarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
   NSString *bgdFile = [base stringByAppendingString:@"profileequip.png"];
   [Globals imageNamed:bgdFile withView:self.bgd maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -580,6 +594,8 @@ static float origLabelCenterY = 0;
   
   self.mainView.hidden = NO;
   self.noEquipView.hidden = YES;
+  
+  self.equippedView.hidden = YES;
 }
 
 - (void) updateForNoEquipIsMine:(BOOL)mine type:(FullEquipProto_EquipType)type {
@@ -645,6 +661,7 @@ static float origLabelCenterY = 0;
 - (void) dealloc {
   self.bgd = nil;
   self.equipIcon = nil;
+  self.equipMaskIcon = nil;
   self.border = nil;
   self.nameLabel = nil;
   self.attackLabel = nil;
@@ -1167,6 +1184,16 @@ static float origLabelCenterY = 0;
   _delegate = delegate;
 }
 
+- (void) loadCurEquips:(NSArray *)curEquips {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (id obj in curEquips) {
+    if ([obj isKindOfClass:[UserEquip class]]) {
+      [arr addObject:[NSNumber numberWithInt:[obj userEquipId]]];
+    }
+  }
+  self.curEquipIds = arr;
+}
+
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
   return 1;
 }
@@ -1214,17 +1241,13 @@ int x = 0;
   cell.containerView2.nibEquipView.tag = EQUIP_BROWSE_VIEW_TAG;
   cell.containerView3.nibEquipView.tag = EQUIP_BROWSE_VIEW_TAG;
   
-  //  GameState *gs = [GameState sharedGameState];
-  //  FullEquipProto *fep = [gs equipWithId:ue.equipId];
-  //  if (fep.equipType == FullEquipProto_EquipTypeWeapon && ue.userEquipId == _weaponId) {
-  //    cell.border.hidden = NO;
-  //  } else if (fep.equipType == FullEquipProto_EquipTypeArmor && ue.userEquipId == _armorId) {
-  //    cell.border.hidden = NO;
-  //  } else if (fep.equipType == FullEquipProto_EquipTypeAmulet && ue.userEquipId == _amuletId) {
-  //    cell.border.hidden = NO;
-  //  } else {
-  //    cell.border.hidden = YES;
-  //  }
+  if ([self.curEquipIds containsObject:[NSNumber numberWithInt:ue1.userEquipId]]) {
+    cell.containerView1.nibEquipView.equippedView.hidden = NO;
+  } if ([self.curEquipIds containsObject:[NSNumber numberWithInt:ue2.userEquipId]]) {
+    cell.containerView2.nibEquipView.equippedView.hidden = NO;
+  } if ([self.curEquipIds containsObject:[NSNumber numberWithInt:ue3.userEquipId]]) {
+    cell.containerView3.nibEquipView.equippedView.hidden = NO;
+  }
   
   return cell;
 }
@@ -1280,6 +1303,7 @@ int x = 0;
 
 - (void) loadForEquips:(NSArray *)equips curEquips:(NSArray *)curEquips prestigeLevel:(int)prestigeLevel isMe:(BOOL)isMe {
   [self.equipsTableDelegate loadEquips:equips withDelegate:[ProfileViewController sharedProfileViewController]];
+  [self.equipsTableDelegate loadCurEquips:curEquips];
   self.curEquips = curEquips;
   [self updateForScope:self.curScope isSlot2:_isFlipped];
   _prestigeLevel = prestigeLevel;
@@ -1334,7 +1358,6 @@ int x = 0;
 
 - (IBAction)closeClicked:(id)sender {
   if (self.superview) {
-    [[ProfileViewController sharedProfileViewController] loadMyProfile];
     [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {
       [self removeFromSuperview];
     }];
@@ -1380,7 +1403,7 @@ int x = 0;
     EquipView *equippingView = self.nibEquipView;
     
     equippingView.frame = [self.mainView convertRect:ev.frame fromView:ev.superview];
-    [equippingView updateForEquip:ev.equip];
+    [equippingView updateForEquip:ue];
     equippingView.hidden = NO;
     [equippingView.layer removeAllAnimations];
     
@@ -1389,7 +1412,7 @@ int x = 0;
       self.equipContainerView.alpha = 0.f;
     } completion:^(BOOL finished) {
       equippingView.hidden = YES;
-      [self.equipContainerView.nibEquipView updateForEquip:ev.equip];
+      [self.equipContainerView.nibEquipView updateForEquip:ue];
       self.equipContainerView.alpha = 1.f;
       
       self.curEquips = curEquips;

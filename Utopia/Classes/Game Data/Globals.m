@@ -462,11 +462,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return;
   }
   [self imageNamed:[self imageNameForEquip:equipId] withView:view maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  
-  //  if (maskedView) {
-  //    [self imageNamed:[self imageNameForEquip:equipId] withImageView:maskedView maskedColor:[self colorForUnequippable] indicator:UIActivityIndicatorViewStyleWhite];
-  //     maskedView.hidden = YES;
-  //  }
 }
 
 + (UIColor *) colorForUnequippable {
@@ -960,7 +955,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
     fullpath = [documentsPath stringByAppendingPathComponent:resName];
     if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
-      if (![view viewWithTag:150]) {
+      if (indicatorStyle >= 0 && ![view viewWithTag:150]) {
         UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:indicatorStyle];
         loadingView.tag = 150;
         [loadingView startAnimating];

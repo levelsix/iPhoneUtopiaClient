@@ -188,6 +188,8 @@
     [DialogMenuController displayViewForText:tc.tapToAttackText];
     DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
     dmc.view.center = ccpAdd(dmc.view.center, ccp(0, 150));
+    
+    [Analytics tutAttackClicked];
   }
 }
 
@@ -212,8 +214,10 @@
     _questButton.selectedImage.opacity = BUTTON_OPACITY;
     
     if (_finishedFirstQuestPhase) {
+      [Analytics tutQuestButton2];
       [[TutorialHomeMap sharedHomeMap] performSelector:@selector(endTutorial) withObject:nil afterDelay:0.5f];
     } else {
+      [Analytics tutQuestButton1];
       _finishedFirstQuestPhase = YES;
     }
     
@@ -235,7 +239,7 @@
     
     [[TutorialHomeMap sharedHomeMap] performSelector:@selector(startCarpPhase) withObject:nil afterDelay:0.5f];
     
-    [Analytics tutorialGoHome];
+    [Analytics tutMyCityClicked];
     
     [DialogMenuController closeView];
   }

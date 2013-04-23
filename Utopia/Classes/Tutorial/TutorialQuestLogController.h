@@ -19,7 +19,6 @@
   UIImageView *_arrow;
 }
 
-- (void) loadQuestAcceptScreen;
 - (void) loadQuestCompleteScreen;
 - (void) loadQuestRedeemScreen;
 

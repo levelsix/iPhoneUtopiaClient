@@ -280,11 +280,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [[SocketCommunication sharedSocketCommunication] sendEquipEquipmentMessage:userEquipId forPrestigeSlot:forPrestigeSlot];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
     
-    if ([ArmoryViewController sharedArmoryViewController].view.superview) {
+    if ([ArmoryViewController isInitialized] && [ArmoryViewController sharedArmoryViewController].view.superview) {
       [[ArmoryViewController sharedArmoryViewController] refresh];
     }
     
-    if ([MarketplaceViewController sharedMarketplaceViewController].view.superview) {
+    if ([MarketplaceViewController isInitialized] && [MarketplaceViewController sharedMarketplaceViewController].view.superview) {
       [[MarketplaceViewController sharedMarketplaceViewController].bottomBar updateLabels];
     }
   } else {

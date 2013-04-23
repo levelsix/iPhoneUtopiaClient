@@ -25,6 +25,7 @@
 #import "Amplitude.h"
 #import <MobileAppTracker/MobileAppTracker.h>
 #import "FBConnect.h"
+#import "Chartboost.h"
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
 #define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
@@ -36,10 +37,12 @@
 
 #define MAT_ADVERTISER_ID    @"885"
 #define MAT_APP_KEY          @"ba62d2918dc7b537cbeaca833085ce89"
+#define MAT_VERSION_KEY      @"MATVersionKey"
 
 #define GIRAFFE_GRAPH_KEY    @"eee3b73ca3f9fc3322e11be77275c13a"
 
-#define FACEBOOK_APP_ID      @"308804055902016"
+#define CHARTBOOST_APP_ID    @"5099987617ba47107a000000"
+#define CHARTBOOST_APP_SIG   @"5afca34d1d011535cf69fb80140f454fbe734c75"
 
 #define SHOULD_VIDEO_USER    0
 
@@ -106,15 +109,34 @@
 }
 
 - (void) setUpMobileAppTracker {
-  [[MobileAppTracker sharedManager] startTrackerWithAdvertiserId:MAT_ADVERTISER_ID
-                                                   advertiserKey:MAT_APP_KEY
-                                                       withError:nil];
+  [[MobileAppTracker sharedManager] startTrackerWithMATAdvertiserId:MAT_ADVERTISER_ID MATConversionKey:MAT_APP_KEY withError:nil];
+
+  [[MobileAppTracker sharedManager] setDebugMode:NO];
   
-  [[MobileAppTracker sharedManager] setShouldDebugResponseFromServer:NO];
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+  float versionNum = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] floatValue];
   
-  [[MobileAppTracker sharedManager] setDeviceId:[[UIDevice currentDevice] uniqueIdentifier]];
+  if (![userDefaults valueForKey:MAT_VERSION_KEY]) {
+    [[MobileAppTracker sharedManager] trackInstall];
+    
+    LNLog(@"MAT: Tracking install");
+    
+    [userDefaults setFloat:versionNum forKey:MAT_VERSION_KEY];
+  } else if ([userDefaults floatForKey:MAT_VERSION_KEY] != versionNum) {
+    [[MobileAppTracker sharedManager] trackUpdate];
+    
+    LNLog(@"MAT: Tracking update");
+    
+    [userDefaults setFloat:versionNum forKey:MAT_VERSION_KEY];
+  }
+}
+
+- (void) setUpChartboost {
+  Chartboost *cb = [Chartboost sharedChartboost];
+  cb.appId = CHARTBOOST_APP_ID;
+  cb.appSignature = CHARTBOOST_APP_SIG;
   
-  [[MobileAppTracker sharedManager] trackInstallWithUpdateOnly:NO];
+  [cb startSession];
 }
 
 -(void) setUpDelightio
@@ -271,6 +293,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   DDLogVerbose(@"did become active");
 	[[CCDirector sharedDirector] resume];
+  
+  [self setUpChartboost];
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
@@ -309,6 +333,7 @@
 -(void) applicationWillEnterForeground:(UIApplication*)application {
   DDLogVerbose(@"will enter foreground");
   self.isActive = YES;
+  self.hasTrackedVisit = NO;
   
 #ifndef DEBUG
   //  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];

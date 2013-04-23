@@ -162,6 +162,7 @@ typedef enum {
 @interface EquipView : UIView
 
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *equipMaskIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *bgd;
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
@@ -169,6 +170,11 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *border;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
 @property (nonatomic, retain) IBOutlet EnhancementLevelIcon *enhanceIcon;
+
+@property (nonatomic, retain) IBOutlet UIView *lockedView;
+@property (nonatomic, retain) IBOutlet UILabel *lockedLabel;
+@property (nonatomic, retain) IBOutlet UIView *equippedView;
+@property (nonatomic, retain) IBOutlet UIView *equippedLabelView;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *noEquipView;
@@ -201,13 +207,11 @@ typedef enum {
 @interface EquipTableViewDelegate : NSObject <UITableViewDelegate, UITableViewDataSource> {
   NSArray *_equips;
   NSMutableArray *_equipsForScope;
-  int _weaponId;
-  int _armorId;
-  int _amuletId;
   id<EquipViewDelegate> _delegate;
 }
 
 @property (nonatomic, retain) IBOutlet EquipBrowseCell *browseCell;
+@property (nonatomic, retain) NSArray *curEquipIds;
 
 - (void) loadEquips:(NSArray *)equips withDelegate:(id<EquipViewDelegate>)delegate;
 - (void) loadEquipsForScope:(EquipScope)scope;

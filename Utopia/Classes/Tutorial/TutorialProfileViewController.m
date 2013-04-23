@@ -35,6 +35,8 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   if (_justLoaded) {
+    [Analytics tutLevelUp];
+    
     _justLoaded = NO;
     
     [self.view addSubview:_arrow];
@@ -103,7 +105,8 @@
   [Globals animateUIArrow:_arrow atAngle:M_PI];
   
   [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].beforeEquipText];
-  [Analytics tutorialSkillPointsAdded];
+  
+  [Analytics tutSkillPoints];
 }
 
 - (void) setState:(ProfileState)state {
@@ -129,6 +132,8 @@
     [Globals animateUIArrow:_arrow atAngle:0];
     
     self.equipTabView.scrollView.scrollEnabled = NO;
+    
+    [Analytics tutProfileClicked];
   }
   [super setState:_state];
 }
@@ -142,9 +147,13 @@
       TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
       [DialogMenuController displayViewForText:tc.duringCreateText];
       
+      [Analytics tutCloseProfile2];
+      
       [[DialogMenuController sharedDialogMenuController] createUser];
     } else {
       [[TutorialMissionMap sharedTutorialMissionMap] levelUpComplete];
+      
+      [Analytics tutCloseProfile1];
     }
   }
 }
@@ -171,6 +180,8 @@
       [self.equipBrowseView.closeButton addTarget:self action:@selector(arrowOnClose) forControlEvents:UIControlEventTouchUpInside];
       
       _equippingPhase = NO;
+      
+      [Analytics tutAmuletEquipped];
     } else {
       if (!ev.equip) {
         [super equipViewSelected:ev];
@@ -185,6 +196,8 @@
         CGRect rect = [self.equipBrowseView convertRect:amuletEquipView.frame fromView:amuletEquipView.superview];
         _arrow.center = CGPointMake(CGRectGetMaxX(rect), CGRectGetMidY(rect));
         [Globals animateUIArrow:_arrow atAngle:M_PI];
+        
+        [Analytics tutNoAmuletClicked];
       }
     }
   }
@@ -197,6 +210,10 @@
   [Globals animateUIArrow:_arrow atAngle:0];
   
   _closingPhase = YES;
+  
+  if (!_tutorialEnding) {
+    [Analytics tutCloseBrowseView];
+  }
 }
 
 - (void) dealloc {

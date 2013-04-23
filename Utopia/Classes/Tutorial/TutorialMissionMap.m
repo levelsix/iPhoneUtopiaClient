@@ -409,8 +409,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
          
          if (_doQuestPhase) {
            ftp = [Globals userTypeIsGood:gs.type] ? tutQuest.taskGood : tutQuest.taskBad;
+           [Analytics tutCompleteQuestTask];
          } else {
            ftp = [Globals userTypeIsGood:gs.type] ? tc.firstTaskGood : tc.firstTaskBad;
+           [Analytics tutCompleteTask1];
          }
          
          int coins = 0;
@@ -467,6 +469,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
     if (_doQuestPhase) {
+      [Analytics tutQuestCoin];
       if (_doTaskPhase) {
         // Move arrow to task
         [_ccArrow removeFromParentAndCleanup:YES];
@@ -478,6 +481,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
         [(TutorialQuestLogController *)[TutorialQuestLogController sharedQuestLogController] loadQuestRedeemScreen];
       }
     } else {
+      [Analytics tutTaskCoin];
       if (_doTaskPhase) {
         // Move arrow to task
         [_ccArrow removeFromParentAndCleanup:YES];

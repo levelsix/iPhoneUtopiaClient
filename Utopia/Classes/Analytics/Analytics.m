@@ -126,50 +126,72 @@
 #define BLACKSMITH_GO_TO_MARKETPLACE @"Blksmth: Went to mktplace"
 #define BLACKSMITH_BUY_ONE @"Blksmth: Buy one clicked"
 
-#define BLACKSMITH_BUY_ONE @"Blksmth: Buy one clicked"
-
-#define TUTORIAL_START @"Tutorial: Start"
-#define TUTORIAL_OPENED_DOOR @"Tutorial: Opened door"
-#define TUTORIAL_PAN_DONE @"Tutorial: Pan done"
-#define TUTORIAL_CHAR_CHOSEN @"Tutorial: Character chosen"
-#define TUTORIAL_QUEST_ACCEPTED @"Tutorial: Quest accepted"
-#define TUTORIAL_CLICKED_VISIT @"Tutorial: Clicked visit"
-#define TUTORIAL_BATTLE_START @"Tutorial: Battle started"
-#define TUTORIAL_BATTLE_COMPLETE @"Tutorial: Battle complete"
-#define TUTORIAL_TASK_COMPLETE @"Tutorial: Task complete"
-#define TUTORIAL_QUEST_REDEEM @"Tutorial: Quest redeemed"
-#define TUTORIAL_SKILL_POINTS_ADDED @"Tutorial: Skill points added"
-#define TUTORIAL_AMULET_EQUIPPED @"Tutorial: Amulet equipped"
-#define TUTORIAL_GO_HOME @"Tutorial: Clicked home"
-#define TUTORIAL_ENTER_CARPENTER @"Tutorial: Enterred carpenter"
-#define TUTORIAL_PURCHASE_INN @"Tutorial: Clicked Inn"
-#define TUTORIAL_PLACE_INN @"Tutorial: Placed Inn"
-#define TUTORIAL_FINISH_NOW @"Tutorial: Insta build"
-#define TUTORIAL_WAIT_BUILD @"Tutorial: Waited for build"
-#define TUTORIAL_PATH_MENU @"Tutorial: Opened path menu"
-#define TUTORIAL_PROFILE_BUTTON @"Tutorial: Clicked profile button"
-#define TUTORIAL_USER_CREATED @"Tutorial: User Created"
-#define TUTORIAL_TIME_SYNC @"Tutorial: Time not synced"
-#define TUTORIAL_OTHER_FAIL @"Tutorial: Other fail"
-#define TUTORIAL_COMPLETE @"Tutorial: Complete"
+#define TUTORIAL_START @"Tut: Start"
+#define TUTORIAL_CHAR_CHOSEN @"Tut: Character chosen"
+#define TUTORIAL_NAME_ENTERED @"Tut: Name entered"
+#define TUTORIAL_COMPLETE_TASK_1 @"Tut: Complete task 1"
+#define TUTORIAL_TASK_COIN @"Tut: Task coin collect"
+#define TUTORIAL_QUEST_BUTTON_1 @"Tut: Quests clicked 1"
+#define TUTORIAL_AVAIL_QUEST @"Tut: Avail quest clicked"
+#define TUTORIAL_CLICKED_VISIT @"Tut: Clicked visit"
+#define TUTORIAL_COMPLETE_QUEST_TASK @"Tut: Complete quest task"
+#define TUTORIAL_QUEST_COIN @"Tut: Quest coin collect"
+#define TUTORIAL_QUEST_REDEEM @"Tut: Quest redeemed"
+#define TUTORIAL_LEVEL_UP @"Tut: Level up"
+#define TUTORIAL_SKILL_POINTS @"Tut: Skill points"
+#define TUTORIAL_PROFILE_CLICKED @"Tut: Clicked profile tab"
+#define TUTORIAL_NO_AMULET_CLICKED @"Tut: No amulet clicked"
+#define TUTORIAL_AMULET_EQUIPPED @"Tut: Amulet equipped"
+#define TUTORIAL_CLOSE_BROWSE_VIEW @"Tut: Close browse view"
+#define TUTORIAL_CLOSE_PROFILE_1 @"Tut: Close profile 1"
+#define TUTORIAL_ATTACK_CLICKED @"Tut: Attack clicked"
+#define TUTORIAL_BATTLE_START @"Tut: Battle started"
+#define TUTORIAL_CLICKED_BEGIN @"Tut: Clicked begin"
+#define TUTORIAL_CLICKED_OKAY_1 @"Tut: Clicked okay 1"
+#define TUTORIAL_CLICKED_OKAY_2 @"Tut: Clicked okay 2"
+#define TUTORIAL_CLICKED_DONE @"Tut: Clicked done"
+#define TUTORIAL_CLOSED_BATTLE_SUMMARY @"Tut: Closed battle summary"
+#define TUTORIAL_MY_CITY_CLICKED @"Tut: My city clicked"
+#define TUTORIAL_CARPENTER_CLICKED @"Tut: Carpenter clicked"
+#define TUTORIAL_PURCHASE_INN @"Tut: Clicked Inn"
+#define TUTORIAL_PLACED_INN @"Tut: Placed Inn"
+#define TUTORIAL_FINISH_NOW @"Tut: Insta build"
+#define TUTORIAL_PATH_MENU @"Tut: Opened path menu"
+#define TUTORIAL_PROFILE_BUTTON @"Tut: Clicked profile button"
+#define TUTORIAL_CLOSE_PROFILE_2 @"Tut: Close profile 2"
+#define TUTORIAL_USER_CREATED @"Tut: User Created"
+#define TUTORIAL_QUEST_BUTTON_2 @"Tut: Quests clicked 2"
+#define TUTORIAL_COMPLETE @"Tut: Complete"
 
 
 @implementation Analytics
 
 + (void) event:(NSString *)event {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.isTutorial && [event rangeOfString:@"Tut"].length > 0) {
+    return;
+  }
+  
 #ifndef DEBUG
-//  [Apsalar event:event];
   [Crittercism leaveBreadcrumb:event];
   [Amplitude logEvent:event];
 #endif
+  
+  NSLog(@"%@", event);
 }
 
 + (void) event:(NSString *)event withArgs:(NSDictionary *)args {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.isTutorial && [event rangeOfString:@"Tut"].length > 0) {
+    return;
+  }
+  
 #ifndef DEBUG
-//  [Apsalar event:event withArgs:args];
   [Crittercism leaveBreadcrumb:event];
   [Amplitude logEvent:event withCustomProperties:args];
 #endif
+  
+  NSLog(@"%@", event);
 }
 
 + (void) logRevenue:(NSNumber *)num {
@@ -902,95 +924,147 @@
 
 // Tutorial
 
-+ (void) tutorialStart {
++ (void) tutStart {
   [Analytics event:TUTORIAL_START];
 }
 
-+ (void) tutorialOpenedDoor {
-  [Analytics event:TUTORIAL_OPENED_DOOR];
-}
-
-+ (void) tutorialPanDone {
-  [Analytics event:TUTORIAL_PAN_DONE];
-}
-
-+ (void) tutorialCharChosen {
++ (void) tutCharChosen {
   [Analytics event:TUTORIAL_CHAR_CHOSEN];
 }
 
-+ (void) tutorialQuestAccept {
-  [Analytics event:TUTORIAL_QUEST_ACCEPTED];
++ (void) tutNameEntered {
+  [Analytics event:TUTORIAL_NAME_ENTERED];
 }
 
-+ (void) tutorialBattleStart {
-  [Analytics event:TUTORIAL_BATTLE_START];
++ (void) tutCompleteTask1 {
+  [Analytics event:TUTORIAL_COMPLETE_TASK_1];
 }
 
-+ (void) tutorialBattleComplete {
-  [Analytics event:TUTORIAL_BATTLE_COMPLETE];
++ (void) tutTaskCoin {
+  [Analytics event:TUTORIAL_TASK_COIN];
 }
 
-+ (void) tutorialTaskComplete {
-  [Analytics event:TUTORIAL_TASK_COMPLETE];
++ (void) tutQuestButton1 {
+  [Analytics event:TUTORIAL_QUEST_BUTTON_1];
 }
 
-+ (void) tutorialQuestRedeem {
++ (void) tutAvailQuest {
+  [Analytics event:TUTORIAL_AVAIL_QUEST];
+}
+
++ (void) tutClickedVisit {
+  [Analytics event:TUTORIAL_CLICKED_VISIT];
+}
+
++ (void) tutCompleteQuestTask {
+  [Analytics event:TUTORIAL_COMPLETE_QUEST_TASK];
+}
+
++ (void) tutQuestCoin {
+  [Analytics event:TUTORIAL_QUEST_COIN];
+}
+
++ (void) tutQuestRedeem {
   [Analytics event:TUTORIAL_QUEST_REDEEM];
 }
 
-+ (void) tutorialSkillPointsAdded {
-  [Analytics event:TUTORIAL_SKILL_POINTS_ADDED];
++ (void) tutLevelUp {
+  [Analytics event:TUTORIAL_LEVEL_UP];
 }
 
-+ (void) tutorialAmuletEquipped {
++ (void) tutSkillPoints {
+  [Analytics event:TUTORIAL_SKILL_POINTS];
+}
+
++ (void) tutProfileClicked {
+  [Analytics event:TUTORIAL_PROFILE_CLICKED];
+}
+
++ (void) tutNoAmuletClicked {
+  [Analytics event:TUTORIAL_NO_AMULET_CLICKED];
+}
+
++ (void) tutAmuletEquipped {
   [Analytics event:TUTORIAL_AMULET_EQUIPPED];
 }
 
-+ (void) tutorialGoHome {
-  [Analytics event:TUTORIAL_GO_HOME];
++ (void) tutCloseBrowseView {
+  [Analytics event:TUTORIAL_CLOSE_BROWSE_VIEW];
 }
 
-+ (void) tutorialEnterCarpenter {
-  [Analytics event:TUTORIAL_ENTER_CARPENTER];
++ (void) tutCloseProfile1 {
+  [Analytics event:TUTORIAL_CLOSE_PROFILE_1];
 }
 
-+ (void) tutorialPurchaseInn {
++ (void) tutAttackClicked {
+  [Analytics event:TUTORIAL_ATTACK_CLICKED];
+}
+
++ (void) tutBattleStart {
+  [Analytics event:TUTORIAL_BATTLE_START];
+}
+
++ (void) tutClickedBegin {
+  [Analytics event:TUTORIAL_CLICKED_BEGIN];
+}
+
++ (void) tutClickedOkay1 {
+  [Analytics event:TUTORIAL_CLICKED_OKAY_1];
+}
+
++ (void) tutClickedOkay2 {
+  [Analytics event:TUTORIAL_CLICKED_OKAY_2];
+}
+
++ (void) tutClickedDone {
+  [Analytics event:TUTORIAL_CLICKED_DONE];
+}
+
++ (void) tutClosedBattleSummary {
+  [Analytics event:TUTORIAL_CLOSED_BATTLE_SUMMARY];
+}
+
++ (void) tutMyCityClicked {
+  [Analytics event:TUTORIAL_MY_CITY_CLICKED];
+}
+
++ (void) tutCarpenterClicked {
+  [Analytics event:TUTORIAL_CARPENTER_CLICKED];
+}
+
++ (void) tutPurchaseInn {
   [Analytics event:TUTORIAL_PURCHASE_INN];
 }
 
-+ (void) tutorialPlaceInn {
-  [Analytics event:TUTORIAL_PLACE_INN];
++ (void) tutPlacedInn {
+  [Analytics event:TUTORIAL_PLACED_INN];
 }
 
-+ (void) tutorialFinishNow {
++ (void) tutFinishNow {
   [Analytics event:TUTORIAL_FINISH_NOW];
 }
 
-+ (void) tutorialWaitBuild {
-  [Analytics event:TUTORIAL_WAIT_BUILD];
-}
-
-+ (void) tutorialPathMenu {
++ (void) tutPathMenu {
   [Analytics event:TUTORIAL_PATH_MENU];
 }
 
-+ (void) tutorialProfileButton {
++ (void) tutProfileButton {
   [Analytics event:TUTORIAL_PROFILE_BUTTON];
 }
 
-+ (void) tutorialUserCreated {
++ (void) tutCloseProfile2 {
+  [Analytics event:TUTORIAL_CLOSE_PROFILE_2];
+}
+
++ (void) tutUserCreated {
   [Analytics event:TUTORIAL_USER_CREATED];
 }
 
-+ (void) tutorialTimeSync {
-  [Analytics event:TUTORIAL_TIME_SYNC];
++ (void) tutQuestButton2 {
+  [Analytics event:TUTORIAL_QUEST_BUTTON_2];
 }
 
-+ (void) tutorialOtherFail {
-  [Analytics event:TUTORIAL_OTHER_FAIL];
-}
-
-+ (void) tutorialComplete {
++ (void) tutComplete {
   [Analytics event:TUTORIAL_COMPLETE];
 }
 

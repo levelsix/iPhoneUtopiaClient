@@ -203,32 +203,44 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (void) loadEquips:(NSArray *)equips curEquips:(NSArray *)curEquips prestigeLevel:(int)prestigeLevel {
-  //  GameState *gs = [GameState sharedGameState];
+  BOOL isMe = profileBar.state == kMyProfile;
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *sortedEquips;
   
-  // Sort equips by equippable and then non-equippable.
-  //  NSMutableArray *equippables = [NSMutableArray array];
-  //  NSMutableArray *unequippables = [NSMutableArray array];
-  //
-  //  for (UserEquip *ue in equips) {
-  //    FullEquipProto *fep = [gs equipWithId:ue.equipId];
-  //    // this will prevent a crash..
-  //    if (!fep) return;
-  //    if ([Globals canEquip:fep]) {
-  //      [equippables addObject:ue];
-  //    } else {
-  //      [unequippables addObject:ue];
-  //    }
-  //  }
-  
-  NSMutableArray *sortedEquips = [[self sortEquips:equips].mutableCopy autorelease];
-  //  [sortedEquips addObjectsFromArray:[self sortEquips:unequippables]];
+  if (isMe) {
+    //Sort equips by equippable and then non-equippable.
+    NSMutableArray *equippables = [NSMutableArray array];
+    NSMutableArray *unequippables = [NSMutableArray array];
+    
+    for (UserEquip *ue in equips) {
+      FullEquipProto *fep = [gs equipWithId:ue.equipId];
+      // this will prevent a crash..
+      if (!fep) return;
+      if ([Globals canEquip:fep]) {
+        [equippables addObject:ue];
+      } else {
+        [unequippables addObject:ue];
+      }
+    }
+    sortedEquips = [[self sortEquips:equippables].mutableCopy autorelease];
+    [sortedEquips addObjectsFromArray:[self sortEquips:unequippables]];
+  } else {
+    sortedEquips = [[self sortEquips:equips].mutableCopy autorelease];
+  }
   
   if (curEquips == nil) {
     // This will make it an array of nulls
     curEquips = [Globals getUserEquipArrayFromFullUserProto:nil];
   }
   
-  BOOL isMe = profileBar.state == kMyProfile;
+  for (int i = 0; i < sortedEquips.count; i++) {
+    UserEquip *ue = [sortedEquips objectAtIndex:i];
+    if ([curEquips containsObject:ue]) {
+      [sortedEquips removeObjectAtIndex:i];
+      [sortedEquips insertObject:ue atIndex:0];
+    }
+  }
+  
   [self.equipTabView updateForEquips:curEquips isMine:isMe prestigeLevel:prestigeLevel];
   [self.equipBrowseView loadForEquips:sortedEquips curEquips:curEquips prestigeLevel:prestigeLevel isMe:isMe];
 }

@@ -103,7 +103,7 @@
   _firstAttack = YES;
   
   // Battle will be started when transition completes..
-  [Analytics tutorialBattleStart];
+  [Analytics tutBattleStart];
   
   _isRunning = YES;
 }
@@ -253,6 +253,8 @@
                         [item runAction:[CCSequence actions:[CCDelayTime actionWithDuration:baseSecs*2.5f], [CCFadeIn actionWithDuration:0.2f], nil]];
                       }],
                      nil]];
+    
+    [Analytics tutClickedBegin];
   } else {
     [super attackStart];
     
@@ -307,6 +309,8 @@
                       _allowAttackingForFirstAttack = YES;
                     }],
                    nil]];
+  
+  [Analytics tutClickedOkay1];
 }
 
 - (void) startEnemyTurn {
@@ -326,8 +330,12 @@
     
     _firstAttack = NO;
   } else {
-    [_overLayer removeFromParentAndCleanup:YES];
-    _overLayer = nil;
+    if (_overLayer) {
+      [_overLayer removeFromParentAndCleanup:YES];
+      _overLayer = nil;
+      
+      [Analytics tutClickedOkay2];
+    }
     [super startEnemyTurn];
   }
 }
@@ -381,6 +389,8 @@
                      nil]];
   
   [_ccArrow removeFromParentAndCleanup:YES];
+  
+  [Analytics tutClickedDone];
 }
 
 - (void) displayStolenEquip {
@@ -463,7 +473,7 @@
   gs.battlesLost = 0;
   gs.flees = 0;
   
-  [Analytics tutorialBattleComplete];
+//  [Analytics tutorialBattleComplete];
 }
 
 - (IBAction)profileButtonClicked:(id)sender {
@@ -484,6 +494,11 @@
 
 - (void) twitterclicked:(id)sender {
   return;
+}
+
+- (void) closeClicked:(id)sender {
+  [super closeClicked:sender];
+  [Analytics tutClosedBattleSummary];
 }
 
 - (void) dealloc {

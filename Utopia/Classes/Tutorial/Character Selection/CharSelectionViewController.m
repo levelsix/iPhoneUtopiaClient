@@ -312,6 +312,8 @@
     [self.view addSubview:chooseNameView];
     
     [nameTextField becomeFirstResponder];
+    
+    [Analytics tutCharChosen];
   } else {
     if (gs.clan && ![Globals userType:gs.type isAlliesWith:_curPage]) {
       [Globals popupMessage:@"You cannot switch sides without leaving your clan!"];
@@ -451,9 +453,10 @@
   
   GameLayer *gLay = [GameLayer sharedGameLayer];
   [gLay loadTutorialMissionMap];
-  [Analytics tutorialCharChosen];
   
   [self downloadNecessaryFiles];
+  
+  [Analytics tutNameEntered];
 }
 
 - (void) downloadNecessaryFiles {

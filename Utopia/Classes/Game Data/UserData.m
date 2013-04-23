@@ -57,6 +57,9 @@
 }
 
 - (BOOL) isEqual:(UserEquip *)object {
+  if (![object respondsToSelector:@selector(userEquipId)]) {
+    return NO;
+  }
   return object.userEquipId == userEquipId;
 }
 

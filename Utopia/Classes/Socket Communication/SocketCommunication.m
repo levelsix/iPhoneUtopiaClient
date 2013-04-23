@@ -325,11 +325,9 @@ static NSString *udid = nil;
     advertiserId = device.identifierForVendor.UUIDString;
   }
   
-  StartupRequestProto_Builder *bldr = [[[[[StartupRequestProto builder]
+  StartupRequestProto_Builder *bldr = [[[[StartupRequestProto builder]
                                           setUdid:udid]
-                                         //                                          setApsalarId:[Apsalar apsalarID]]
                                          setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
-                                        setIOs5Udid:device.uniqueIdentifier]
                                        setMacAddress:[self getMacAddress]];
   
   if (advertiserId) {

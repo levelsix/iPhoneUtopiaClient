@@ -78,55 +78,10 @@
   [Globals animateUIArrow:_arrow atAngle:M_PI_2];
 }
 
-- (void) loadQuestAcceptScreen {
-  [super loadQuestAcceptScreen:_fqp];
-  
-  RewardCell *jc = (RewardCell *)[self.taskListTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
-  jc.equipIcon.userInteractionEnabled = NO;
-  
-  [Analytics tutorialQuestAccept];
-  
-  [self visitBattlePhase];
-  
-}
-
-- (void) loadQuestCompleteScreen {
-  GameState *gs = [GameState sharedGameState];
-  [gs.inProgressCompleteQuests setObject:_fqp forKey:[NSNumber numberWithInt:_fqp.questId]];
-  [super loadQuestCompleteScreen:_fqp];
-  
-  [self visitQuestGiverPhase];
-  
-  [[SoundEngine sharedSoundEngine] questComplete];
-}
-
 - (void) loadQuestRedeemScreen {
   [super loadQuestRedeemScreen:_fqp animated:NO];
   
   [self claimRewardPhase];
-}
-
-- (void) visitBattlePhase {
-  JobCell *jc = (JobCell *)[self.taskListTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
-  UIView *visit = jc.inProgressView;
-  
-  _arrow.center = ccpAdd(jc.frame.origin, ccp(CGRectGetMinX(visit.frame)-15.f, CGRectGetMinY(visit.frame)-15.f));
-  [self.taskListTable addSubview:_arrow];
-  [Globals animateUIArrow:_arrow atAngle:-M_PI_4];
-  
-  jc = (JobCell *)[self.taskListTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
-  jc.userInteractionEnabled = NO;
-}
-
-- (void) visitQuestGiverPhase {
-  [_arrow removeFromSuperview];
-  
-  DescriptionCell *jc = (DescriptionCell *)[self.taskListTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-  UIView *visit = jc.visitView;
-  
-  _arrow.center = ccpAdd(jc.frame.origin, ccp(CGRectGetMinX(visit.frame)-15.f, CGRectGetMidY(visit.frame)));
-  [self.taskListTable addSubview:_arrow];
-  [Globals animateUIArrow:_arrow atAngle:0];
 }
 
 - (void) claimRewardPhase {
@@ -173,7 +128,7 @@
   [TutorialQuestLogController removeView];
   [TutorialQuestLogController purgeSingleton];
   
-  [Analytics tutorialQuestRedeem];
+  [Analytics tutQuestRedeem];
 }
 
 - (void) questSelected:(FullQuestProto *)fqp {
@@ -192,6 +147,8 @@
   _arrow.center = ccpAdd(jc.frame.origin, ccp(CGRectGetMidX(claim.frame), CGRectGetMinY(claim.frame)-15.f));
   [self.taskListTable addSubview:_arrow];
   [Globals animateUIArrow:_arrow atAngle:-M_PI_2];
+  
+  [Analytics tutAvailQuest];
 }
 
 - (IBAction)backClicked:(id)sender {
