@@ -881,7 +881,7 @@ static float origLabelCenterY = 0;
 - (IBAction)postClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  if (gs.level < gl.minLevelConstants.marketplaceMinLevel && gs.prestigeLevel <= 0) {
+  if (gs.level < gl.minLevelConstants.marketplaceMinLevel || gs.prestigeLevel <= 0) {
     [Globals popupMessage:[NSString stringWithFormat:@"You cannot post to the marketplace until level %d.", gl.minLevelConstants.marketplaceMinLevel]];
   } else {
     [self.mktPostView updateForEquip:userEquip andAddToSuperView:self.superview];

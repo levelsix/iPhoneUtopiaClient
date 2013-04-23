@@ -481,6 +481,9 @@
     [ev updateForUserEquip:ue];
   }
   
+  self.leftScrollView.contentOffset = ccp(0,0);
+  self.rightScrollView.contentOffset = ccp(0,0);
+  
   if (brp.hasExpGained) {
     // This is a win
     winLabelsView.hidden = NO;
