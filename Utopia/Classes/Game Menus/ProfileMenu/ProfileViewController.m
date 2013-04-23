@@ -288,12 +288,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   friendLeftView.hidden = isEnemy;
   selfLeftView.hidden = YES;
   
-  [self loadEquips:nil curEquips:nil prestigeLevel:0];
-  
   enemyAttackLabel.text = [NSString stringWithFormat:@"Attack %@ to see Equipment", fup.name];
   
   self.profileBar.state = kOtherPlayerProfile;
   [self.profileBar setProfileState:self.state];
+  
+  [self loadEquips:nil curEquips:nil prestigeLevel:0];
   
   visitButton.enabled = enabled;
   smallAttackButton.enabled = enabled;
@@ -544,14 +544,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     clanButton.enabled = NO;
   }
   
-  [self loadEquips:gs.myEquips curEquips:[gs getUserEquipArray] prestigeLevel:gs.prestigeLevel];
-  
   if (self.profileBar.state != kMyProfile) {
     self.profileBar.state = kMyProfile;
     self.state = kProfileState;
     
   }
   [self loadSkills];
+  
+  [self loadEquips:gs.myEquips curEquips:[gs getUserEquipArray] prestigeLevel:gs.prestigeLevel];
   
   enemyMiddleView.hidden = YES;
   
