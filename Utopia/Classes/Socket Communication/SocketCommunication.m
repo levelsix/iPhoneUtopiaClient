@@ -325,10 +325,11 @@ static NSString *udid = nil;
     advertiserId = device.identifierForVendor.UUIDString;
   }
   
+  NSString *mac = [self getMacAddress];
   StartupRequestProto_Builder *bldr = [[[[StartupRequestProto builder]
                                           setUdid:udid]
                                          setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
-                                       setMacAddress:[self getMacAddress]];
+                                       setMacAddress:mac];
   
   if (advertiserId) {
     [bldr setAdvertiserId:advertiserId];
@@ -337,6 +338,7 @@ static NSString *udid = nil;
   StartupRequestProto *req = [bldr build];
   
   LNLog(@"Sent over udid: %@", udid);
+  LNLog(@"Mac Address: %@", mac);
   return [self sendData:req withMessageType:EventProtocolRequestCStartupEvent];
 }
 

@@ -2685,15 +2685,16 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   BOOL hasHealthFormulaExponentBase_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasLevelEquipBoostExponentBase_:1;
-  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasBossEventSuperAttack_:1;
+  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasPlayerWallPostsRetrieveCap_:1;
-  BOOL hasMaxCharLengthForWallPost_:1;
   BOOL hasQuestIdForFirstLossTutorial_:1;
   BOOL hasFbConnectRewardDiamonds_:1;
+  BOOL hasPlayerWallPostsRetrieveCap_:1;
+  BOOL hasMaxCharLengthForWallPost_:1;
+  BOOL hasMaxNumTowersClanCanHold_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
   BOOL hasCarpenterImgVerticalPixelOffset_:1;
   BOOL hasMarketplaceImgVerticalPixelOffset_:1;
@@ -2701,11 +2702,11 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   BOOL hasArmoryImgVerticalPixelOffset_:1;
   BOOL hasMaxCityRank_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
+  BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
+  BOOL hasLevelToShowRateUsPopup_:1;
   BOOL hasNumHoursBeforeReshowingBossEvent_:1;
   BOOL hasNumHoursBeforeReshowingLockBox_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
-  BOOL hasLevelToShowRateUsPopup_:1;
-  BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
   BOOL hasInitStamina_:1;
   BOOL hasMinClanMembersToHoldClanTower_:1;
   BOOL hasMaxLengthOfChatString_:1;
@@ -2736,7 +2737,6 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   BOOL hasArmoryXlength_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
-  BOOL hasMaxNumTowersClanCanHold_:1;
   BOOL hasNumDaysUntilFreeRetract_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
@@ -2753,11 +2753,13 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   BOOL hasStaminaBaseCost_:1;
   BOOL hasEnergyBaseCost_:1;
   BOOL hasDefenseBaseCost_:1;
+  BOOL hasFaqFileName_:1;
+  BOOL hasPrestigeFaqFileName_:1;
+  BOOL hasPrestigeConstants_:1;
+  BOOL hasEnhanceConstants_:1;
+  BOOL hasLeaderboardConstants_:1;
   BOOL hasMinLevelConstants_:1;
   BOOL hasBoosterPackConstants_:1;
-  BOOL hasLeaderboardConstants_:1;
-  BOOL hasEnhanceConstants_:1;
-  BOOL hasPrestigeConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasExpansionConstants_:1;
   BOOL hasLockBoxConstants_:1;
@@ -2773,15 +2775,16 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   Float64 healthFormulaExponentBase;
   Float64 percentReturnedToUserForSellingEquipInArmory;
   Float64 levelEquipBoostExponentBase;
-  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 bossEventSuperAttack;
+  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
   Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingNormStructure;
-  int32_t playerWallPostsRetrieveCap;
-  int32_t maxCharLengthForWallPost;
   int32_t questIdForFirstLossTutorial;
   int32_t fbConnectRewardDiamonds;
+  int32_t playerWallPostsRetrieveCap;
+  int32_t maxCharLengthForWallPost;
+  int32_t maxNumTowersClanCanHold;
   int32_t aviaryImgVerticalPixelOffset;
   int32_t carpenterImgVerticalPixelOffset;
   int32_t marketplaceImgVerticalPixelOffset;
@@ -2789,11 +2792,11 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   int32_t armoryImgVerticalPixelOffset;
   int32_t maxCityRank;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
+  int32_t bossEventNumberOfAttacksUntilSuperAttack;
+  int32_t levelToShowRateUsPopup;
   int32_t numHoursBeforeReshowingBossEvent;
   int32_t numHoursBeforeReshowingLockBox;
   int32_t numHoursBeforeReshowingGoldSale;
-  int32_t levelToShowRateUsPopup;
-  int32_t bossEventNumberOfAttacksUntilSuperAttack;
   int32_t initStamina;
   int32_t minClanMembersToHoldClanTower;
   int32_t maxLengthOfChatString;
@@ -2824,7 +2827,6 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   int32_t armoryXlength;
   int32_t maxLevelForUser;
   int32_t maxLevelDifferenceForBattle;
-  int32_t maxNumTowersClanCanHold;
   int32_t numDaysUntilFreeRetract;
   int32_t diamondCostOfShortMarketplaceLicense;
   int32_t diamondCostOfLongMarketplaceLicense;
@@ -2841,11 +2843,13 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   int32_t staminaBaseCost;
   int32_t energyBaseCost;
   int32_t defenseBaseCost;
+  NSString* faqFileName;
+  NSString* prestigeFaqFileName;
+  StartupResponseProto_StartupConstants_PrestigeConstants* prestigeConstants;
+  StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
+  StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
   StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
   StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
-  StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
-  StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
-  StartupResponseProto_StartupConstants_PrestigeConstants* prestigeConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
   StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
@@ -2951,6 +2955,8 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (BOOL) hasFbConnectRewardDiamonds;
 - (BOOL) hasMaxNumTowersClanCanHold;
 - (BOOL) hasPrestigeConstants;
+- (BOOL) hasFaqFileName;
+- (BOOL) hasPrestigeFaqFileName;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -3039,6 +3045,8 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 @property (readonly) int32_t fbConnectRewardDiamonds;
 @property (readonly) int32_t maxNumTowersClanCanHold;
 @property (readonly, retain) StartupResponseProto_StartupConstants_PrestigeConstants* prestigeConstants;
+@property (readonly, retain) NSString* faqFileName;
+@property (readonly, retain) NSString* prestigeFaqFileName;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -5274,6 +5282,16 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (StartupResponseProto_StartupConstants_Builder*) setPrestigeConstantsBuilder:(StartupResponseProto_StartupConstants_PrestigeConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergePrestigeConstants:(StartupResponseProto_StartupConstants_PrestigeConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearPrestigeConstants;
+
+- (BOOL) hasFaqFileName;
+- (NSString*) faqFileName;
+- (StartupResponseProto_StartupConstants_Builder*) setFaqFileName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearFaqFileName;
+
+- (BOOL) hasPrestigeFaqFileName;
+- (NSString*) prestigeFaqFileName;
+- (StartupResponseProto_StartupConstants_Builder*) setPrestigeFaqFileName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearPrestigeFaqFileName;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {

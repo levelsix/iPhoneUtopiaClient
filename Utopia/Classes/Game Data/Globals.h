@@ -132,6 +132,9 @@
 @property (nonatomic, assign) int minLevelForPrestige;
 @property (nonatomic, assign) int maxPrestigeLevel;
 
+@property (nonatomic, retain) NSString *faqFileName;
+@property (nonatomic, retain) NSString *prestigeFaqFileName;
+
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
 @property (nonatomic, assign) int forgeMinDiamondCostForGuarantee;

@@ -461,6 +461,7 @@
 
 - (void) openFAQ {
   [FAQMenuController displayView];
+  [[FAQMenuController sharedFAQMenuController] loadFAQ];
 }
 
 - (void) enableButton {
@@ -497,7 +498,7 @@
 }
 
 - (void) incrementNotificationBadge {
-  if (![[ActivityFeedController sharedActivityFeedController] view].superview) {
+  if (![ActivityFeedController isInitialized] || ![[ActivityFeedController sharedActivityFeedController] view].superview) {
     ProfileButton *pb = [_menuItems objectAtIndex:0];
     pb.badgeNum++;
     [_expCircle flashNotification];

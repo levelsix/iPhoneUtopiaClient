@@ -464,9 +464,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   }
   
-  [[EquipMenuController sharedEquipMenuController] receivedArmoryResponse:proto];
-  [[ForgeMenuController sharedForgeMenuController] receivedArmoryResponse:success];
-  [[RefillMenuController sharedRefillMenuController] receivedArmoryResponse:success equip:proto.fullUserEquipOfBoughtItem.equipId];
+  if ([EquipMenuController isInitialized]) {
+    [[EquipMenuController sharedEquipMenuController] receivedArmoryResponse:proto];
+  }
+  if ([ForgeMenuController isInitialized]) {
+    [[ForgeMenuController sharedForgeMenuController] receivedArmoryResponse:success];
+  }
+  if ([RefillMenuController isInitialized]) {
+    [[RefillMenuController sharedRefillMenuController] receivedArmoryResponse:success equip:proto.fullUserEquipOfBoughtItem.equipId];
+  }
 }
 
 - (void) handleStartupResponseProto:(FullEvent *)fe {
@@ -692,9 +698,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     // This will be released after the level up controller closes
     LevelUpViewController *vc = [[LevelUpViewController alloc] initWithLevelUpResponse:proto];
     [Globals displayUIView:vc.view];
-    
-    [[Crittercism sharedInstance] addVote];
-    [[Crittercism sharedInstance] updateVotes];
     
     [Analytics levelUp:proto.newLevel];
     [gs removeNonFullUserUpdatesForTag:tag];

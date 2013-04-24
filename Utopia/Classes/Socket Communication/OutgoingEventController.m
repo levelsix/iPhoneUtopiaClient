@@ -1715,7 +1715,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (gs.numAdditionalForgeSlots >= gl.forgeMaxForgeSlots) {
     [Globals popupMessage:@"Attempting to purchase forge slot at max slot."];
   } else {
-    [[SocketCommunication sharedSocketCommunication] sendPurchaseForgeSlot];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseForgeSlot];
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gs.numAdditionalForgeSlots == 0 ? -gl.costOfPurchasingSlotTwo : -gl.costOfPurchasingSlotThree]];
   }
 }
 

@@ -14,8 +14,10 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
-@property (nonatomic, retain) NSArray *gameplayTextStrings;
-@property (nonatomic, retain) NSArray *faqTextStrings;
+@property (nonatomic, retain) NSArray *textStrings;
+
+@property (nonatomic, retain) IBOutlet UITableView *faqTable;
+@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 
 + (FAQMenuController *) sharedFAQMenuController;
 + (void) displayView;
@@ -24,7 +26,9 @@
 
 - (IBAction)emailButtonClicked:(id)sender;
 - (IBAction)closeClicked:(id)sender;
-- (IBAction)feedbackButtonClicked:(id)sender;
 - (IBAction)forumButtonClicked:(id)sender;
+
+- (void) loadFAQ;
+- (void) loadPrestigeInfo;
 
 @end

@@ -20,6 +20,7 @@
 #import "CharSelectionViewController.h"
 #import "ArmoryViewController.h"
 #import "ClanMenuController.h"
+#import "FAQMenuController.h"
 
 #define EQUIPPING_DURATION 0.5f
 
@@ -54,11 +55,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   
-  //  equippingView = [[UIImageView alloc] init];
-  //  equippingView.contentMode = UIViewContentModeScaleAspectFit;
-  //  [equipTabView addSubview:equippingView];
-  //  equippingView.hidden = YES;
-  
   skillTabView.frame = profileTabView.frame;
   [self.mainView insertSubview:skillTabView aboveSubview:profileTabView];
   
@@ -70,6 +66,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   enemyLeftView.frame = selfLeftView.frame;
   [selfLeftView.superview addSubview:enemyLeftView];
+  
+  enemyMiddleView.frame = equipTabView.frame;
+  [equipTabView.superview addSubview:enemyMiddleView];
   
   friendLeftView.frame = enemyLeftView.frame;
   [selfLeftView.superview addSubview:friendLeftView];
@@ -168,11 +167,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       [EquipMenuController displayViewForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage];
     }
   } else {
-    [self.view addSubview:self.equipBrowseView];
-    [Globals bounceView:self.equipBrowseView.mainView fadeInBgdView:self.equipBrowseView.bgdView];
-    self.equipBrowseView.frame = self.view.bounds;
-    
-    [self.equipBrowseView updateForScope:tag%3+1 isSlot2:tag>2];
+    if (tag-2 > gs.prestigeLevel) {
+      [self prestigeInfoClicked:nil];
+    } else {
+      [self.view addSubview:self.equipBrowseView];
+      [Globals bounceView:self.equipBrowseView.mainView fadeInBgdView:self.equipBrowseView.bgdView];
+      self.equipBrowseView.frame = self.view.bounds;
+      
+      [self.equipBrowseView updateForScope:tag%3+1 isSlot2:tag>2];
+    }
   }
 }
 
@@ -308,9 +311,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [[OutgoingEventController sharedOutgoingEventController] retrieveEquipsForUser:fup.userId];
     [spinner startAnimating];
     self.spinner.hidden = NO;
+    equipTabView.hidden = YES;
   } else {
     [spinner stopAnimating];
     self.spinner.hidden = YES;
+    equipTabView.hidden = isEnemy;
   }
 }
 
@@ -351,14 +356,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [self loadProfileForPlayer:fup buttonsEnabled:YES];
   
   enemyMiddleView.hidden = YES;
+  
   Globals *globals = [Globals sharedGlobals];
   attack  = [globals calculateAttackForAttackStat:_fup.attack
                                            weapon:_fup.hasWeaponEquippedUserEquip ? (UserEquip *)_fup.weaponEquippedUserEquip : nil
                                             armor:_fup.hasArmorEquippedUserEquip ? (UserEquip *)_fup.armorEquippedUserEquip : nil
                                            amulet:_fup.hasAmuletEquippedUserEquip ? (UserEquip *)_fup.amuletEquippedUserEquip : nil
-                                           weapon2:_fup.hasWeaponTwoEquippedUserEquip ? (UserEquip *)_fup.weaponTwoEquippedUserEquip : nil
-                                            armor2:_fup.hasArmorTwoEquippedUserEquip ? (UserEquip *)_fup.armorTwoEquippedUserEquip : nil
-                                           amulet2:_fup.hasAmuletTwoEquippedUserEquip ? (UserEquip *)_fup.amuletTwoEquippedUserEquip : nil];
+                                          weapon2:_fup.hasWeaponTwoEquippedUserEquip ? (UserEquip *)_fup.weaponTwoEquippedUserEquip : nil
+                                           armor2:_fup.hasArmorTwoEquippedUserEquip ? (UserEquip *)_fup.armorTwoEquippedUserEquip : nil
+                                          amulet2:_fup.hasAmuletTwoEquippedUserEquip ? (UserEquip *)_fup.amuletTwoEquippedUserEquip : nil];
   
   defense = [globals calculateDefenseForDefenseStat:_fup.defense
                                              weapon:_fup.hasWeaponEquippedUserEquip ? (UserEquip *)_fup.weaponEquippedUserEquip : nil
@@ -378,7 +384,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   if (equips) {
     [self loadEquips:equips curEquips:[Globals getUserEquipArrayFromFullUserProto:fup] prestigeLevel:fup.prestigeLevel];
+    equipTabView.hidden = NO;
   } else {
+    equipTabView.hidden = YES;
     self.spinner.hidden = NO;
     [self.spinner startAnimating];
     _waitingForEquips = YES;
@@ -420,6 +428,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
           self.spinner.hidden = NO;
           [self.spinner startAnimating];
           
+          equipTabView.hidden = YES;
+          
           [self loadEquips:nil curEquips:nil prestigeLevel:0];
         }
       }
@@ -454,6 +464,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     
     self.spinner.hidden = YES;
     [self.spinner stopAnimating];
+    
+    equipTabView.hidden = NO;
   }
 }
 
@@ -509,6 +521,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   // Make equip spinner spin
   self.enemyMiddleView.hidden = YES;
+  equipTabView.hidden = YES;
   self.spinner.hidden = NO;
   [self.spinner startAnimating];
   
@@ -554,6 +567,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [self loadEquips:gs.myEquips curEquips:[gs getUserEquipArray] prestigeLevel:gs.prestigeLevel];
   
   enemyMiddleView.hidden = YES;
+  equipTabView.hidden = NO;
   
   self.spinner.hidden = YES;
   [self.spinner stopAnimating];
@@ -804,6 +818,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   } else {
     [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
   }
+}
+
+- (IBAction)prestigeInfoClicked:(id)sender {
+  [FAQMenuController displayView];
+  [[FAQMenuController sharedFAQMenuController] loadPrestigeInfo];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

@@ -98,6 +98,7 @@
 @property (nonatomic, retain) IBOutlet UIView *buySlotView;
 @property (nonatomic, retain) IBOutlet UILabel *buySlotDescLabel;
 @property (nonatomic, retain) IBOutlet UILabel *buySlotCostLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *buySlotSpinnerImage;
 
 @property (nonatomic, retain) NSMutableArray *forgeItems;
 @property (nonatomic, retain) ForgeItem *curItem;
@@ -108,6 +109,7 @@
 + (void) displayView;
 + (void) removeView;
 + (void) purgeSingleton;
++ (BOOL) isInitialized;
 
 - (void) displayForgeMenu;
 - (void) displayEnhanceMenu;

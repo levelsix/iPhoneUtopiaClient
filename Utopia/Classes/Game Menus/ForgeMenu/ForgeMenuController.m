@@ -214,6 +214,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   self.buySlotView.frame = self.forgingRightView.frame;
   [self.forgingView addSubview:self.buySlotView];
   
+  [Globals imageNamed:@"spinner.png" withView:self.buySlotSpinnerImage maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  
   [self displayForgeMenu];
 }
 
@@ -647,6 +649,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     return;
   }
   
+  if (fi == nil) {
+    self.forgingRightView.hidden = YES;
+    self.buySlotView.hidden = YES;
+  }
+  
   Globals *gl = [Globals sharedGlobals];
   if (self.curItem != fi) {
     self.forgingRightView.hidden = NO;
@@ -1058,6 +1065,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   } else {
     [[OutgoingEventController sharedOutgoingEventController] purchaseForgeSlot];
     [self.loadingView display:self.view];
+    [self.coinBar updateLabels];
   }
 }
 

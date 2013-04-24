@@ -119,8 +119,8 @@ static BOOL shake_once = NO;
     
     [self begin];
     
-    self.isAccelerometerEnabled = YES;
-    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
+//    self.isAccelerometerEnabled = YES;
+//    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
     shake_once = NO;
   }
   return self;
@@ -394,7 +394,7 @@ static BOOL shake_once = NO;
 }
 
 -(void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration {
-  float THRESHOLD = 1.3;
+  float THRESHOLD = 2.f;
   
   if (acceleration.x > THRESHOLD || acceleration.x < -THRESHOLD ||
       acceleration.y > THRESHOLD || acceleration.y < -THRESHOLD ||

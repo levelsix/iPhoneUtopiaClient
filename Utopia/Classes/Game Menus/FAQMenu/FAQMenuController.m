@@ -14,15 +14,15 @@
 #import "GameViewController.h"
 #import "Crittercism.h"
 
-#define FAQ_FILE_NAME @"FAQ.txt"
-#define HOW_TO_PLAY_HEADER @"How to play:"
-#define FAQ_HEADER @"FAQ:"
+#define FAQ_FILE_NAME @"FAQ.2.txt"
+#define PRESTIGE_FAQ_FILE_NAME @"PrestigeFAQ.txt"
 
 #define SECTION_IDENTIFIER @"Section"
 #define QUESTION_IDENTIFIER @"Question"
 #define TEXT_IDENTIFIER @"Text"
 #define NEWLINE_IDENTIFIER @"Newline"
 
+#define HEADER_SUFFIX @"<h>"
 #define SECTION_SUFFIX @"<s>"
 #define QUESTION_SUFFIX @"?"
 #define REPLACEMENT_DELIMITER @"`"
@@ -39,16 +39,8 @@
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
 
-@synthesize gameplayTextStrings, faqTextStrings;
+@synthesize textStrings;
 @synthesize mainView, bgdView;
-
-- (void)viewDidLoad
-{
-  [super viewDidLoad];
-  // Do any additional setup after loading the view from its nib.
-  
-  [self parseFile:FAQ_FILE_NAME];
-}
 
 - (void) viewWillAppear:(BOOL)animated {
   if (!self.view.superview) {
@@ -57,9 +49,61 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   }
 }
 
+- (void) loadFAQ {
+  Globals *gl = [Globals sharedGlobals];
+  [self loadFile:gl.faqFileName];
+  self.titleLabel.text = @"Help";
+}
+
+- (void) loadPrestigeInfo {
+  Globals *gl = [Globals sharedGlobals];
+  [self loadFile:gl.prestigeFaqFileName];
+  self.titleLabel.text = @"Prestige Info";
+}
+
+- (void) loadFile:(NSString *)file {
+  [self parseFile:file];
+  [self.faqTable reloadData];
+}
+
+- (NSString *) replaceDelimitersInString:(NSString *)line {
+  Globals *gl = [Globals sharedGlobals];
+  while (true) {
+    NSRange delimStart = [line rangeOfString:REPLACEMENT_DELIMITER];
+    if (delimStart.location == NSNotFound) {
+      break;
+    }
+    
+    line = [line stringByReplacingCharactersInRange:delimStart withString:@""];
+    NSRange delimEnd = [line rangeOfString:REPLACEMENT_DELIMITER];
+    
+    if (delimEnd.location == NSNotFound) {
+      break;
+    }
+    
+    line = [line stringByReplacingCharactersInRange:delimEnd withString:@""];
+    NSString *val = [line substringWithRange:NSMakeRange(delimStart.location, delimEnd.location-delimStart.location)];
+    id glVal = [gl performSelector:NSSelectorFromString(val)];
+    // Get the letter right after the selector, it gives us the interpretation
+    NSString *interp = [line substringWithRange:delimEnd];
+    
+    if ([interp isEqualToString:@"f"]) {
+      float *x = (float *)&glVal;
+      line = [line stringByReplacingOccurrencesOfString:[val stringByAppendingString:interp] withString:[NSString stringWithFormat:@"%d", (int)*x]];
+    } else if ([interp isEqualToString:@"i"]) {
+      int *x = (int *)&glVal;
+      line = [line stringByReplacingOccurrencesOfString:[val stringByAppendingString:interp] withString:[NSString stringWithFormat:@"%d", *x]];
+    } else if ([interp isEqualToString:@"p"]) {
+      float *x = (float *)&glVal;
+      line = [line stringByReplacingOccurrencesOfString:[val stringByAppendingString:interp] withString:[NSString stringWithFormat:@"%d", (int)((*x)*100)]];
+    }
+  }
+  return line;
+}
+
 - (void) parseFile:(NSString *)faqFile {
   NSError *e;
-  NSString* fileRoot = [Globals pathToFile:FAQ_FILE_NAME];
+  NSString* fileRoot = [Globals pathToFile:faqFile];
   NSString *fileContents = [NSString stringWithContentsOfFile:fileRoot encoding:NSUTF8StringEncoding error:&e];
   
   if (!fileContents) {
@@ -69,57 +113,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   
   NSArray *lines = [fileContents componentsSeparatedByString:@"\n"];
   
-  NSMutableArray *gameplay = [NSMutableArray array];
-  NSMutableArray *faq = [NSMutableArray array];
+  NSMutableArray *text = [NSMutableArray array];
   NSMutableArray *curArr = nil;
-  Globals *gl = [Globals sharedGlobals];
   for (NSString *line in lines) {
     // Replace delimited strings with their proper constants..
-    while (true) {
-      NSRange delimStart = [line rangeOfString:REPLACEMENT_DELIMITER];
-      if (delimStart.location == NSNotFound) {
-        break;
-      }
-      
-      line = [line stringByReplacingCharactersInRange:delimStart withString:@""];
-      NSRange delimEnd = [line rangeOfString:REPLACEMENT_DELIMITER];
-      
-      if (delimEnd.location == NSNotFound) {
-        break;
-      }
-      
-      line = [line stringByReplacingCharactersInRange:delimEnd withString:@""];
-      NSString *val = [line substringWithRange:NSMakeRange(delimStart.location, delimEnd.location-delimStart.location)];
-      id glVal = [gl performSelector:NSSelectorFromString(val)];
-      // Get the letter right after the selector, it gives us the interpretation
-      NSString *interp = [line substringWithRange:delimEnd];
-      
-      if ([interp isEqualToString:@"f"]) {
-        float *x = (float *)&glVal;
-        line = [line stringByReplacingOccurrencesOfString:[val stringByAppendingString:interp] withString:[NSString stringWithFormat:@"%d", (int)*x]];
-      } else if ([interp isEqualToString:@"i"]) {
-        int *x = (int *)&glVal;
-        line = [line stringByReplacingOccurrencesOfString:[val stringByAppendingString:interp] withString:[NSString stringWithFormat:@"%d", *x]];
-      } else if ([interp isEqualToString:@"p"]) {
-        float *x = (float *)&glVal;
-        line = [line stringByReplacingOccurrencesOfString:[val stringByAppendingString:interp] withString:[NSString stringWithFormat:@"%d", (int)((*x)*100)]];
-      }
-    }
+    line = [self replaceDelimitersInString:line];
     
-    if ([line isEqualToString:HOW_TO_PLAY_HEADER]) {
-      curArr = gameplay;
-    } else if ([line isEqualToString:FAQ_HEADER]) {
-      curArr = faq;
+    if ([line hasSuffix:HEADER_SUFFIX]) {
+      curArr = [NSMutableArray array];
+      [text addObject:curArr];
+      line = [line stringByReplacingOccurrencesOfString:HEADER_SUFFIX withString:@""];
+      [curArr addObject:line];
     } else {
       [curArr addObject:line];
     }
   }
-  self.faqTextStrings = faq;
-  self.gameplayTextStrings = gameplay;
+  self.textStrings = text;
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
-  return 2;
+  return self.textStrings.count;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -135,26 +148,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   [headerView addSubview:label];
   [label release];
   
-  if (section == 0) {
-    label.text = @"How to Play";
-  } else if (section == 1) {
-    label.text = @"Frequently Asked Questions";
-  }
+  label.text = [[self.textStrings objectAtIndex:section] objectAtIndex:0];
   
   return headerView;
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (section == 0) {
-    return gameplayTextStrings.count;
-  } else {
-    return faqTextStrings.count;
-  }
+  // First string is header title
+  return [[self.textStrings objectAtIndex:section] count]-1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSArray *arr = indexPath.section == 0 ? gameplayTextStrings : faqTextStrings;
-  NSString *text = [arr objectAtIndex:indexPath.row];
+  NSArray *arr = [textStrings objectAtIndex:indexPath.section];
+  NSString *text = [arr objectAtIndex:indexPath.row+1];
   
   BOOL isSectionTitle = NO;
   BOOL isQuestion = NO;
@@ -208,8 +214,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSArray *arr = indexPath.section == 0 ? gameplayTextStrings : faqTextStrings;
-  NSString *text = [arr objectAtIndex:indexPath.row];
+  NSArray *arr = [textStrings objectAtIndex:indexPath.section];
+  NSString *text = [arr objectAtIndex:indexPath.row+1];
   
   if (text.length == 0) {
     return NEWLINE_VERTICAL_SPACING;
@@ -263,12 +269,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   }];
 }
 
-- (IBAction)feedbackButtonClicked:(id)sender {
-  //  [[UVHelper sharedUVHelper] openUserVoice];
-  [[Crittercism sharedInstance] setNavTitle:@"Age of Chaos Feedback"];
-  [Crittercism showCrittercism:[GameViewController sharedGameViewController]];
-}
-
 - (IBAction)forumButtonClicked:(id)sender {
   NSString *forumLink = @"http://forum.lvl6.com";
   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:forumLink]];
@@ -281,10 +281,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
     self.view = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    self.gameplayTextStrings = nil;
-    self.faqTextStrings = nil;
+    self.textStrings = nil;
     self.mainView = nil;
     self.bgdView = nil;
+    self.faqTable = nil;
+    self.titleLabel = nil;
   }
 }
 

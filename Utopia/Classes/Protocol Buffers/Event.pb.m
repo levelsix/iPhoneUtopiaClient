@@ -5584,6 +5584,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t fbConnectRewardDiamonds;
 @property int32_t maxNumTowersClanCanHold;
 @property (retain) StartupResponseProto_StartupConstants_PrestigeConstants* prestigeConstants;
+@property (retain) NSString* faqFileName;
+@property (retain) NSString* prestigeFaqFileName;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -6214,6 +6216,20 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasPrestigeConstants_ = !!value;
 }
 @synthesize prestigeConstants;
+- (BOOL) hasFaqFileName {
+  return !!hasFaqFileName_;
+}
+- (void) setHasFaqFileName:(BOOL) value {
+  hasFaqFileName_ = !!value;
+}
+@synthesize faqFileName;
+- (BOOL) hasPrestigeFaqFileName {
+  return !!hasPrestigeFaqFileName_;
+}
+- (void) setHasPrestigeFaqFileName:(BOOL) value {
+  hasPrestigeFaqFileName_ = !!value;
+}
+@synthesize prestigeFaqFileName;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -6236,6 +6252,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.boosterPackConstants = nil;
   self.mutableQuestIdsGuaranteedWinList = nil;
   self.prestigeConstants = nil;
+  self.faqFileName = nil;
+  self.prestigeFaqFileName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -6328,6 +6346,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.fbConnectRewardDiamonds = 0;
     self.maxNumTowersClanCanHold = 0;
     self.prestigeConstants = [StartupResponseProto_StartupConstants_PrestigeConstants defaultInstance];
+    self.faqFileName = @"";
+    self.prestigeFaqFileName = @"";
   }
   return self;
 }
@@ -6661,6 +6681,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasPrestigeConstants) {
     [output writeMessage:103 value:self.prestigeConstants];
   }
+  if (self.hasFaqFileName) {
+    [output writeString:104 value:self.faqFileName];
+  }
+  if (self.hasPrestigeFaqFileName) {
+    [output writeString:105 value:self.prestigeFaqFileName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6963,6 +6989,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasPrestigeConstants) {
     size += computeMessageSize(103, self.prestigeConstants);
+  }
+  if (self.hasFaqFileName) {
+    size += computeStringSize(104, self.faqFileName);
+  }
+  if (self.hasPrestigeFaqFileName) {
+    size += computeStringSize(105, self.prestigeFaqFileName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -14070,6 +14102,12 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasPrestigeConstants) {
     [self mergePrestigeConstants:other.prestigeConstants];
   }
+  if (other.hasFaqFileName) {
+    [self setFaqFileName:other.faqFileName];
+  }
+  if (other.hasPrestigeFaqFileName) {
+    [self setPrestigeFaqFileName:other.prestigeFaqFileName];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -14545,6 +14583,14 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setPrestigeConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 834: {
+        [self setFaqFileName:[input readString]];
+        break;
+      }
+      case 842: {
+        [self setPrestigeFaqFileName:[input readString]];
         break;
       }
     }
@@ -16331,6 +16377,38 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearPrestigeConstants {
   result.hasPrestigeConstants = NO;
   result.prestigeConstants = [StartupResponseProto_StartupConstants_PrestigeConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasFaqFileName {
+  return result.hasFaqFileName;
+}
+- (NSString*) faqFileName {
+  return result.faqFileName;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setFaqFileName:(NSString*) value {
+  result.hasFaqFileName = YES;
+  result.faqFileName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearFaqFileName {
+  result.hasFaqFileName = NO;
+  result.faqFileName = @"";
+  return self;
+}
+- (BOOL) hasPrestigeFaqFileName {
+  return result.hasPrestigeFaqFileName;
+}
+- (NSString*) prestigeFaqFileName {
+  return result.prestigeFaqFileName;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setPrestigeFaqFileName:(NSString*) value {
+  result.hasPrestigeFaqFileName = YES;
+  result.prestigeFaqFileName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearPrestigeFaqFileName {
+  result.hasPrestigeFaqFileName = NO;
+  result.prestigeFaqFileName = @"";
   return self;
 }
 @end

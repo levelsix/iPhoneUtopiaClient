@@ -256,6 +256,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.questIdForFirstLossTutorial = constants.questIdForFirstLossTutorial;
   self.questIdsGuaranteedWin = constants.questIdsGuaranteedWinList;
   self.fbConnectRewardDiamonds = constants.fbConnectRewardDiamonds;
+  self.faqFileName = constants.faqFileName;
+  self.prestigeFaqFileName = constants.prestigeFaqFileName;
   
   self.minLevelForPrestige = constants.prestigeConstants.minLevelForPrestige;
   self.maxPrestigeLevel = constants.prestigeConstants.maxPrestigeLevel;

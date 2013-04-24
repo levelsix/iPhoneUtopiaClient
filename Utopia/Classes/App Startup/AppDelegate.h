@@ -10,10 +10,11 @@
 #import <CoreLocation/CoreLocation.h>
 //#import "KiipDelegate.h"
 #import "FacebookDelegate.h"
+#import <MobileAppTracker/MobileAppTracker.h>
 
 #define FACEBOOK_APP_ID      @"308804055902016"
 
-@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
+@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate, MobileAppTrackerDelegate> {
 //  id<TJCVideoAdDelegate>     tapJoyDelegate; 
 //  id<AdColonyDelegate>       adColonyDelegate;
 //  id<FlurryAdDelegate>       flurryClipsDelegate;

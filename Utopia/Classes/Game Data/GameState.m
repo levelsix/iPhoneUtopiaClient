@@ -495,6 +495,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addNotification:(UserNotification *)un {
+  BOOL removedForgeNotification = NO;
   if (un.type == kNotificationForge) {
     UserNotification *n = nil;
     for (UserNotification *t in self.notifications) {
@@ -502,7 +503,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
         n = t;
       }
     }
-    [self.notifications removeObject:n];
+    
+    if (n) {
+      [self.notifications removeObject:n];
+      removedForgeNotification = YES;
+    }
   }
   
   [self.notifications addObject:un];
@@ -526,10 +531,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     if ([un.time compare:gs.lastLogoutTime] == NSOrderedDescending) {
       // If top bar hasnt started, the activity feed will popup anyways so no need to increment badge.
       if ([tb isStarted]) {
-        ForgeMenuController *fmc = [ForgeMenuController sharedForgeMenuController];
+        ForgeMenuController *fmc = [ForgeMenuController isInitialized] ? [ForgeMenuController sharedForgeMenuController] : nil;
         if (fmc.view.superview && un.type == kNotificationForge) {
           un.hasBeenViewed = YES;
-        } else {
+        } else if ((un.type == kNotificationForge && !removedForgeNotification) || un.type != kNotificationForge) {
           [tb.profilePic incrementNotificationBadge];
           [tb addNotificationToDisplayQueue:un];
         }

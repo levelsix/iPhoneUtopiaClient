@@ -104,14 +104,14 @@
 
 -(void) setUpCrittercism
 {
-  [Crittercism initWithAppID:@"5029a2f0eeaf4125dd000001"
-       andMainViewController:nil];
+  [Crittercism enableWithAppID:@"5029a2f0eeaf4125dd000001"];
 }
 
 - (void) setUpMobileAppTracker {
+  [[MobileAppTracker sharedManager] setDebugMode:YES];
+  [[MobileAppTracker sharedManager] setDelegate:self];
+  
   [[MobileAppTracker sharedManager] startTrackerWithMATAdvertiserId:MAT_ADVERTISER_ID MATConversionKey:MAT_APP_KEY withError:nil];
-
-  [[MobileAppTracker sharedManager] setDebugMode:NO];
   
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
   float versionNum = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] floatValue];
@@ -129,6 +129,17 @@
     
     [userDefaults setFloat:versionNum forKey:MAT_VERSION_KEY];
   }
+}
+
+- (void)mobileAppTracker:(MobileAppTracker *)tracker didSucceedWithData:(NSData *)data {
+  NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+  NSLog(@"MAT.didSucceed:");
+  NSLog(@"%@", response);
+}
+
+- (void)mobileAppTracker:(MobileAppTracker *)tracker didFailWithError:(NSError *)error {
+  NSLog(@"MAT.didFail:");
+  NSLog(@"%@", error);
 }
 
 - (void) setUpChartboost {
@@ -381,7 +392,6 @@
 {
 	DDLogInfo(@"My token is: %@", deviceToken);
   [[OutgoingEventController sharedOutgoingEventController] enableApns:deviceToken];
-  [Crittercism configurePushNotification:deviceToken];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error

@@ -118,6 +118,7 @@
 - (IBAction)goToArmoryClicked:(id)sender;
 - (IBAction)resetSkillsClicked:(id)sender;
 - (IBAction)prestigeClicked:(id)sender;
+- (IBAction)prestigeInfoClicked:(id)sender;
 
 + (ProfileViewController *) sharedProfileViewController;
 + (void) purgeSingleton;

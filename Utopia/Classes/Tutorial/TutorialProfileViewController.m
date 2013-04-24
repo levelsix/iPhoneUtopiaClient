@@ -168,6 +168,7 @@
     if (tag == EQUIP_BROWSE_VIEW_TAG) {
       UserEquip *ue = ev.equip;
       [self doEquip:ue];
+      [self loadMyProfile];
       self.equipBrowseView.equipTable.userInteractionEnabled = NO;
       
       self.equipBrowseView.closeButton.userInteractionEnabled = YES;
