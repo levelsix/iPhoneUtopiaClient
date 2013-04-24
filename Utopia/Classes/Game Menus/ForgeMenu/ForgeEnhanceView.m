@@ -624,6 +624,7 @@
     } else {
       [self.enhanceTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
       [self.enhancingView updateForUserEquip:ue];
+      [self reloadCurrentCells];
     }
   }
   

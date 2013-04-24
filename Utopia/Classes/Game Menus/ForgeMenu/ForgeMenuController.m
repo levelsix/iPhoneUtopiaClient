@@ -652,6 +652,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   if (fi == nil) {
     self.forgingRightView.hidden = YES;
     self.buySlotView.hidden = YES;
+    return;
   }
   
   Globals *gl = [Globals sharedGlobals];

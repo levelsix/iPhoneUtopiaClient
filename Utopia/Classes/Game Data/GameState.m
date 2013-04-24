@@ -532,7 +532,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       // If top bar hasnt started, the activity feed will popup anyways so no need to increment badge.
       if ([tb isStarted]) {
         ForgeMenuController *fmc = [ForgeMenuController isInitialized] ? [ForgeMenuController sharedForgeMenuController] : nil;
-        if (fmc.view.superview && un.type == kNotificationForge) {
+        if (fmc.view.superview && (un.type == kNotificationForge || un.type == kNotificationEnhance)) {
           un.hasBeenViewed = YES;
         } else if ((un.type == kNotificationForge && !removedForgeNotification) || un.type != kNotificationForge) {
           [tb.profilePic incrementNotificationBadge];
