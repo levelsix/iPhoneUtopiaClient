@@ -88,6 +88,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewDidAppear:animated];
+  
+  // Restore filter view defaults without loading nib
+  MarketplaceFilterView *m = [[MarketplaceFilterView alloc] init];
+  [m restoreDefaults];
+  [m release];
+  
   self.postsTableView.scrollEnabled = YES;
   
   self.redeemView.frame = self.view.bounds;
@@ -123,11 +129,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [bottomBar reload];
   
   self.armoryPriceView.alpha = 0.f;
-  
-  // Restore filter view defaults without loading nib
-  MarketplaceFilterView *m = [[MarketplaceFilterView alloc] init];
-  [m restoreDefaults];
-  [m release];
 }
 
 - (void) searchForEquipId:(int)equipId level:(int)level allowAllAbove:(BOOL)allowAllAbove {
