@@ -41,7 +41,6 @@
 #import "IAPHelper.h"
 #import "AttackMenuController.h"
 #import "LeaderboardController.h"
-#import "Crittercism.h"
 #import "ClanMenuController.h"
 #import "SocketCommunication.h"
 #import "LockBoxMenuController.h"

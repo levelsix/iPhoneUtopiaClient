@@ -167,8 +167,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       [EquipMenuController displayViewForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage];
     }
   } else {
-    if (tag-2 > gs.prestigeLevel) {
-      [self prestigeInfoClicked:nil];
+    if (profileBar.state == kMyProfile && tag-2 > gs.prestigeLevel) {
+      self.state = kSpecialState;
     } else {
       [self.view addSubview:self.equipBrowseView];
       [Globals bounceView:self.equipBrowseView.mainView fadeInBgdView:self.equipBrowseView.bgdView];

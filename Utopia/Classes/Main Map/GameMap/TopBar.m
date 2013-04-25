@@ -21,7 +21,7 @@
 #import "ActivityFeedController.h"
 #import "GameViewController.h"
 #import "AttackMenuController.h"
-#import "Crittercism.h"
+//#import "Crittercism.h"
 #import "LeaderboardController.h"
 #import "TutorialQuestLogController.h"
 #import "ChatMenuController.h"
@@ -607,8 +607,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   self.isStarted = YES;
   
 #ifndef DEBUG
-  [Crittercism setUsername:gs.name];
-  [Crittercism setValue:gs.referralCode forKey:@"Referral Code"];
   [Amplitude setUserId:[NSString stringWithFormat:@"%d", gs.userId]];
 #endif
   

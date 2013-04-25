@@ -20,7 +20,7 @@
 //#import "Apsalar.h"
 #import "LoggingContextFilter.h"
 #import "SoundEngine.h"
-#import "Crittercism.h"
+//#import "Crittercism.h"
 #import "Downloader.h"
 #import "Amplitude.h"
 #import <MobileAppTracker/MobileAppTracker.h>
@@ -41,8 +41,8 @@
 
 #define GIRAFFE_GRAPH_KEY    @"eee3b73ca3f9fc3322e11be77275c13a"
 
-#define CHARTBOOST_APP_ID    @"5099987617ba47107a000000"
-#define CHARTBOOST_APP_SIG   @"5afca34d1d011535cf69fb80140f454fbe734c75"
+#define CHARTBOOST_APP_ID    @"50d29b2216ba47b230000046"
+#define CHARTBOOST_APP_SIG   @"5f72ac2d97bf7a6d7835b8a72b207f50bba0d68b"
 
 #define SHOULD_VIDEO_USER    0
 
@@ -104,11 +104,11 @@
 
 -(void) setUpCrittercism
 {
-  [Crittercism enableWithAppID:@"5029a2f0eeaf4125dd000001"];
+//  [Crittercism enableWithAppID:@"5029a2f0eeaf4125dd000001"];
 }
 
 - (void) setUpMobileAppTracker {
-  [[MobileAppTracker sharedManager] setDebugMode:YES];
+  [[MobileAppTracker sharedManager] setDebugMode:NO];
   [[MobileAppTracker sharedManager] setDelegate:self];
   
   [[MobileAppTracker sharedManager] startTrackerWithMATAdvertiserId:MAT_ADVERTISER_ID MATConversionKey:MAT_APP_KEY withError:nil];
@@ -133,13 +133,13 @@
 
 - (void)mobileAppTracker:(MobileAppTracker *)tracker didSucceedWithData:(NSData *)data {
   NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-  NSLog(@"MAT.didSucceed:");
-  NSLog(@"%@", response);
+  LNLog(@"MAT.didSucceed:");
+  LNLog(@"%@", response);
 }
 
 - (void)mobileAppTracker:(MobileAppTracker *)tracker didFailWithError:(NSError *)error {
-  NSLog(@"MAT.didFail:");
-  NSLog(@"%@", error);
+  LNLog(@"MAT.didFail:");
+  LNLog(@"%@", error);
 }
 
 - (void) setUpChartboost {

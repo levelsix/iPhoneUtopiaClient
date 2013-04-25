@@ -596,6 +596,8 @@ static float origLabelCenterY = 0;
   self.noEquipView.hidden = YES;
   
   self.equippedView.hidden = YES;
+  
+  self.userInteractionEnabled = YES;
 }
 
 - (void) updateForNoEquipIsMine:(BOOL)mine type:(FullEquipProto_EquipType)type {
@@ -617,9 +619,11 @@ static float origLabelCenterY = 0;
     self.buttonView.hidden = YES;
     self.noEquipLabel.center = ccp(self.noEquipLabel.center.x, self.noEquipView.frame.size.height/2);
   }
+  
+  self.userInteractionEnabled = YES;
 }
 
-- (void) updateForNotEnoughPrestiges:(int)prestigeLevelRequired {
+- (void) updateForNotEnoughPrestiges:(int)prestigeLevelRequired isMine:(BOOL)mine {
   NSString *bgdFile = @"nothingequipped.png";
   [Globals imageNamed:bgdFile withView:self.bgd maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   [Globals imageNamed:bgdFile withView:self.darkOverlay maskedColor:[UIColor colorWithWhite:0.f alpha:0.3f] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -629,9 +633,15 @@ static float origLabelCenterY = 0;
   self.mainView.hidden = YES;
   self.noEquipView.hidden = NO;
   self.buttonView.hidden = YES;
-  
-  self.noEquipLabel.text = [NSString stringWithFormat:@"Prestige %@ to Unlock", prestigeLevelRequired == 1 ? @"Once" : (prestigeLevelRequired == 2 ? @"Twice" : [NSString stringWithFormat:@"%d Times", prestigeLevelRequired])];
-  
+
+  NSString *times = prestigeLevelRequired == 1 ? @"Once" : (prestigeLevelRequired == 2 ? @"Twice" : [NSString stringWithFormat:@"%d Times", prestigeLevelRequired]);
+  if (mine) {
+    self.noEquipLabel.text = [NSString stringWithFormat:@"Prestige %@ to Unlock", times];
+    self.userInteractionEnabled = YES;
+  } else {
+    self.noEquipLabel.text = [NSString stringWithFormat:@"User \nhas not Prestiged \n%@", times];
+    self.userInteractionEnabled = NO;
+  }
   self.noEquipLabel.center = ccp(self.noEquipLabel.center.x, self.noEquipView.frame.size.height/2);
 }
 
@@ -1148,7 +1158,7 @@ static float origLabelCenterY = 0;
       [ev updateForEquip:eq];
     } else {
       if (i > 2+prestigeLevel) {
-        [ev updateForNotEnoughPrestiges:i-2];
+        [ev updateForNotEnoughPrestiges:i-2 isMine:mine];
       } else {
         [ev updateForNoEquipIsMine:mine type:i%3];
       }
@@ -1342,7 +1352,7 @@ int x = 0;
   
   if ([ue isKindOfClass:[NSNull class]]) {
     if (isSlot2 && scope > _prestigeLevel) {
-      [self.equipContainerView.nibEquipView updateForNotEnoughPrestiges:scope];
+      [self.equipContainerView.nibEquipView updateForNotEnoughPrestiges:scope isMine:_isMe];
     } else {
       [self.equipContainerView.nibEquipView updateForNoEquipIsMine:NO type:scope-1];
     }

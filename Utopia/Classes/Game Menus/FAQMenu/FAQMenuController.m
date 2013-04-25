@@ -12,7 +12,6 @@
 #import "cocos2d.h"
 #import "GameState.h"
 #import "GameViewController.h"
-#import "Crittercism.h"
 
 #define FAQ_FILE_NAME @"FAQ.2.txt"
 #define PRESTIGE_FAQ_FILE_NAME @"PrestigeFAQ.txt"
@@ -46,6 +45,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   if (!self.view.superview) {
     [super viewWillAppear:animated];
     [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+    
+    self.faqTable.contentOffset = ccp(0,0);
   }
 }
 

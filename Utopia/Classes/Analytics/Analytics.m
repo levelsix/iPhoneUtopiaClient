@@ -11,7 +11,7 @@
 #import "Globals.h"
 #import "GameState.h"
 #import <StoreKit/StoreKit.h>
-#import "Crittercism.h"
+//#import "Crittercism.h"
 #import "Amplitude.h"
 
 #define OPENED_APP @"App: Opened"
@@ -173,7 +173,7 @@
   }
   
 #ifndef DEBUG
-  [Crittercism leaveBreadcrumb:event];
+//  [Crittercism leaveBreadcrumb:event];
   [Amplitude logEvent:event];
 #endif
 }
@@ -185,7 +185,7 @@
   }
   
 #ifndef DEBUG
-  [Crittercism leaveBreadcrumb:event];
+//  [Crittercism leaveBreadcrumb:event];
   [Amplitude logEvent:event withCustomProperties:args];
 #endif
 }

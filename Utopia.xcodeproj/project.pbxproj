@@ -533,8 +533,6 @@
 		CF12702B1538ACCB00E0C1AD /* weaponborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269791538ACC600E0C1AD /* weaponborder@2x.png */; };
 		CF12702C1538ACCB00E0C1AD /* weaponcornertag.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12697A1538ACC600E0C1AD /* weaponcornertag.png */; };
 		CF12702D1538ACCB00E0C1AD /* weaponcornertag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12697B1538ACC600E0C1AD /* weaponcornertag@2x.png */; };
-		CF12702E1538ACCB00E0C1AD /* weaponinfobg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12697C1538ACC600E0C1AD /* weaponinfobg.png */; };
-		CF12702F1538ACCB00E0C1AD /* weaponinfobg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12697D1538ACC600E0C1AD /* weaponinfobg@2x.png */; };
 		CF1270301538ACCB00E0C1AD /* bottomgradient.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12697F1538ACC600E0C1AD /* bottomgradient.png */; };
 		CF1270311538ACCB00E0C1AD /* bottomgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269801538ACC600E0C1AD /* bottomgradient@2x.png */; };
 		CF1270321538ACCB00E0C1AD /* dolater.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269811538ACC600E0C1AD /* dolater.png */; };
@@ -1055,7 +1053,6 @@
 		CF5FE528172607AA000B0595 /* libChartboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF5FE527172607AA000B0595 /* libChartboost.a */; };
 		CF5FE52B1726145D000B0595 /* equippedtag.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5FE5291726145D000B0595 /* equippedtag.png */; };
 		CF5FE52C1726145D000B0595 /* equippedtag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5FE52A1726145D000B0595 /* equippedtag@2x.png */; };
-		CF5FE53017277DF6000B0595 /* libCrittercism_v3_5_1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF5FE52F17277DF6000B0595 /* libCrittercism_v3_5_1.a */; };
 		CF62E6DA15FEC58B00DF850F /* aboutclanheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CF62E6B515FEC58B00DF850F /* aboutclanheader.png */; };
 		CF62E6DB15FEC58B00DF850F /* aboutclanheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF62E6B615FEC58B00DF850F /* aboutclanheader@2x.png */; };
 		CF62E6DC15FEC58B00DF850F /* clanbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF62E6B715FEC58B00DF850F /* clanbg.png */; };
@@ -1328,10 +1325,6 @@
 		CFA370F415D0E4FE0066D72E /* resetskillpoints.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA370F015D0E4FD0066D72E /* resetskillpoints.png */; };
 		CFA370F515D0E4FE0066D72E /* specialresetstuff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA370F115D0E4FD0066D72E /* specialresetstuff@2x.png */; };
 		CFA370F615D0E4FE0066D72E /* specialresetstuff.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA370F215D0E4FD0066D72E /* specialresetstuff.png */; };
-		CFA3710115D2358A0066D72E /* equipmentcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA370F715D235830066D72E /* equipmentcircle.png */; };
-		CFA3710215D2358A0066D72E /* equipmentcircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA370F815D235840066D72E /* equipmentcircle@2x.png */; };
-		CFA3710315D2358A0066D72E /* equippedbox.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA370F915D235840066D72E /* equippedbox.png */; };
-		CFA3710415D2358A0066D72E /* equippedbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA370FA15D235850066D72E /* equippedbox@2x.png */; };
 		CFA3710515D2358A0066D72E /* equippeditem.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA370FB15D235860066D72E /* equippeditem.png */; };
 		CFA3710615D2358A0066D72E /* equippeditem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA370FC15D235860066D72E /* equippeditem@2x.png */; };
 		CFA3710715D2358A0066D72E /* equipselected.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA370FD15D235870066D72E /* equipselected.png */; };
@@ -1566,10 +1559,6 @@
 		CFD5E9AA1716846F00FBDEA3 /* bottomgradientcutoff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E97E1716846F00FBDEA3 /* bottomgradientcutoff@2x.png */; };
 		CFD5E9AB1716846F00FBDEA3 /* changeequips.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E97F1716846F00FBDEA3 /* changeequips.png */; };
 		CFD5E9AC1716846F00FBDEA3 /* changeequips@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9801716846F00FBDEA3 /* changeequips@2x.png */; };
-		CFD5E9AD1716846F00FBDEA3 /* commonprofileequip.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9811716846F00FBDEA3 /* commonprofileequip.png */; };
-		CFD5E9AE1716846F00FBDEA3 /* commonprofileequip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9821716846F00FBDEA3 /* commonprofileequip@2x.png */; };
-		CFD5E9AF1716846F00FBDEA3 /* epicprofileequip.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9831716846F00FBDEA3 /* epicprofileequip.png */; };
-		CFD5E9B01716846F00FBDEA3 /* epicprofileequip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9841716846F00FBDEA3 /* epicprofileequip@2x.png */; };
 		CFD5E9B11716846F00FBDEA3 /* equipbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9851716846F00FBDEA3 /* equipbg.png */; };
 		CFD5E9B21716846F00FBDEA3 /* equipbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9861716846F00FBDEA3 /* equipbg@2x.png */; };
 		CFD5E9B31716846F00FBDEA3 /* equipdivider.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9871716846F00FBDEA3 /* equipdivider.png */; };
@@ -1584,18 +1573,10 @@
 		CFD5E9BC1716846F00FBDEA3 /* inactivetabpressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9901716846F00FBDEA3 /* inactivetabpressed@2x.png */; };
 		CFD5E9BD1716846F00FBDEA3 /* inactivetabslot.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9911716846F00FBDEA3 /* inactivetabslot.png */; };
 		CFD5E9BE1716846F00FBDEA3 /* inactivetabslot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9921716846F00FBDEA3 /* inactivetabslot@2x.png */; };
-		CFD5E9BF1716846F00FBDEA3 /* legendaryprofileequip.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9931716846F00FBDEA3 /* legendaryprofileequip.png */; };
-		CFD5E9C01716846F00FBDEA3 /* legendaryprofileequip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9941716846F00FBDEA3 /* legendaryprofileequip@2x.png */; };
 		CFD5E9C11716846F00FBDEA3 /* nothingequipped.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9951716846F00FBDEA3 /* nothingequipped.png */; };
 		CFD5E9C21716846F00FBDEA3 /* nothingequipped@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9961716846F00FBDEA3 /* nothingequipped@2x.png */; };
-		CFD5E9C31716846F00FBDEA3 /* rareprofileequip.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9971716846F00FBDEA3 /* rareprofileequip.png */; };
-		CFD5E9C41716846F00FBDEA3 /* rareprofileequip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9981716846F00FBDEA3 /* rareprofileequip@2x.png */; };
 		CFD5E9C51716846F00FBDEA3 /* slotbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9991716846F00FBDEA3 /* slotbg.png */; };
 		CFD5E9C61716846F00FBDEA3 /* slotbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E99A1716846F00FBDEA3 /* slotbg@2x.png */; };
-		CFD5E9C71716846F00FBDEA3 /* superrareprofileequip.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E99B1716846F00FBDEA3 /* superrareprofileequip.png */; };
-		CFD5E9C81716846F00FBDEA3 /* superrareprofileequip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E99C1716846F00FBDEA3 /* superrareprofileequip@2x.png */; };
-		CFD5E9C91716846F00FBDEA3 /* uncommonprofileequip.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E99D1716846F00FBDEA3 /* uncommonprofileequip.png */; };
-		CFD5E9CA1716846F00FBDEA3 /* uncommonprofileequip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E99E1716846F00FBDEA3 /* uncommonprofileequip@2x.png */; };
 		CFD5E9CB1716846F00FBDEA3 /* weaponactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E99F1716846F00FBDEA3 /* weaponactive.png */; };
 		CFD5E9CC1716846F00FBDEA3 /* weaponactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9A01716846F00FBDEA3 /* weaponactive@2x.png */; };
 		CFD5E9D11717B9C000FBDEA3 /* activenavwall.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD5E9CD1717B9C000FBDEA3 /* activenavwall.png */; };
@@ -1685,94 +1666,6 @@
 		CFF02BD4158C41980072965A /* refilltextbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF02BC4158C41980072965A /* refilltextbg@2x.png */; };
 		CFF02BD6158C41B80072965A /* RefillMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF02BD5158C41B80072965A /* RefillMenuController.xib */; };
 		CFF0B970171D02FF0090DCEE /* BattleSummaryEquipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF0B96F171D02FF0090DCEE /* BattleSummaryEquipView.xib */; };
-		CFF0B971171FA3610090DCEE /* forgenavactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CF96178116B27BE900DD1AA0 /* forgenavactive.png */; };
-		CFF0B972171FA3610090DCEE /* forgenavactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF96178216B27BE900DD1AA0 /* forgenavactive@2x.png */; };
-		CFF0B973171FA3610090DCEE /* forgenavbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF96178316B27BE900DD1AA0 /* forgenavbg.png */; };
-		CFF0B974171FA3610090DCEE /* forgenavbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF96178416B27BE900DD1AA0 /* forgenavbg@2x.png */; };
-		CFF0B975171FA3610090DCEE /* forgetopbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF96178516B27BE900DD1AA0 /* forgetopbar.png */; };
-		CFF0B976171FA3610090DCEE /* forgetopbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF96178616B27BE900DD1AA0 /* forgetopbar@2x.png */; };
-		CFF0B977171FA3610090DCEE /* enhancecheckmarkbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEEE15116B0C0A500F2C48D /* enhancecheckmarkbg.png */; };
-		CFF0B978171FA3610090DCEE /* enhancecheckmarkbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEEE15216B0C0A500F2C48D /* enhancecheckmarkbg@2x.png */; };
-		CFF0B979171FA3610090DCEE /* enhancewithdotted.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7F316A7A5A700ABB1AC /* enhancewithdotted.png */; };
-		CFF0B97A171FA3610090DCEE /* enhancewithdotted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7F416A7A5A800ABB1AC /* enhancewithdotted@2x.png */; };
-		CFF0B97B171FA3610090DCEE /* dottedborderbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7DB16A7A16D00ABB1AC /* dottedborderbg.png */; };
-		CFF0B97C171FA3610090DCEE /* dottedborderbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7DC16A7A16D00ABB1AC /* dottedborderbg@2x.png */; };
-		CFF0B97D171FA3610090DCEE /* enhancebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7DD16A7A16F00ABB1AC /* enhancebutton.png */; };
-		CFF0B97E171FA3610090DCEE /* enhancebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7DE16A7A17100ABB1AC /* enhancebutton@2x.png */; };
-		CFF0B97F171FA3610090DCEE /* enhanceitem.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7DF16A7A17400ABB1AC /* enhanceitem.png */; };
-		CFF0B980171FA3610090DCEE /* enhanceitem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7E016A7A17700ABB1AC /* enhanceitem@2x.png */; };
-		CFF0B981171FA3610090DCEE /* enhanceitemplus.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7E116A7A17A00ABB1AC /* enhanceitemplus.png */; };
-		CFF0B982171FA3610090DCEE /* enhanceitemplus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7E216A7A17D00ABB1AC /* enhanceitemplus@2x.png */; };
-		CFF0B983171FA3610090DCEE /* minusenhanceitem.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7E316A7A18100ABB1AC /* minusenhanceitem.png */; };
-		CFF0B984171FA3610090DCEE /* minusenhanceitem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7E416A7A18500ABB1AC /* minusenhanceitem@2x.png */; };
-		CFF0B985171FA3610090DCEE /* solidborderbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7E516A7A18900ABB1AC /* solidborderbg.png */; };
-		CFF0B986171FA3610090DCEE /* solidborderbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4C7E616A7A18E00ABB1AC /* solidborderbg@2x.png */; };
-		CFF0B987171FA3610090DCEE /* enhancebarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C21D16A3DC0E003C9B36 /* enhancebarbg.png */; };
-		CFF0B988171FA3610090DCEE /* enhancebarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C21E16A3DC0E003C9B36 /* enhancebarbg@2x.png */; };
-		CFF0B989171FA3610090DCEE /* orangeenhancebar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22116A3DC0E003C9B36 /* orangeenhancebar.png */; };
-		CFF0B98A171FA3610090DCEE /* orangeenhancebar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22216A3DC0E003C9B36 /* orangeenhancebar@2x.png */; };
-		CFF0B98B171FA3610090DCEE /* removeenhanceitem.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22316A3DC0E003C9B36 /* removeenhanceitem.png */; };
-		CFF0B98C171FA3610090DCEE /* removeenhanceitem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22416A3DC0E003C9B36 /* removeenhanceitem@2x.png */; };
-		CFF0B98D171FA3610090DCEE /* forgewarning.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22716A3DC0E003C9B36 /* forgewarning.png */; };
-		CFF0B98E171FA3610090DCEE /* forgewarning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22816A3DC0E003C9B36 /* forgewarning@2x.png */; };
-		CFF0B98F171FA3610090DCEE /* yellowenhancebar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22916A3DC0E003C9B36 /* yellowenhancebar.png */; };
-		CFF0B990171FA3610090DCEE /* yellowenhancebar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36C22A16A3DC0E003C9B36 /* yellowenhancebar@2x.png */; };
-		CFF0B991171FA3610090DCEE /* forgebuy1.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09725015BA243C00F8353B /* forgebuy1.png */; };
-		CFF0B992171FA3610090DCEE /* forgebuy1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09725115BA243C00F8353B /* forgebuy1@2x.png */; };
-		CFF0B993171FA3610090DCEE /* forgemarketplace.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09725215BA243C00F8353B /* forgemarketplace.png */; };
-		CFF0B994171FA3610090DCEE /* forgemarketplace@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09725315BA243C00F8353B /* forgemarketplace@2x.png */; };
-		CFF0B995171FA3610090DCEE /* failedx.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0F615B7A1FC00578F6F /* failedx.png */; };
-		CFF0B996171FA3610090DCEE /* failedx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0F715B7A1FC00578F6F /* failedx@2x.png */; };
-		CFF0B997171FA3610090DCEE /* forgechecknow.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0F815B7A1FC00578F6F /* forgechecknow.png */; };
-		CFF0B998171FA3610090DCEE /* forgechecknow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0F915B7A1FC00578F6F /* forgechecknow@2x.png */; };
-		CFF0B999171FA3610090DCEE /* forgeokaybutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0FA15B7A1FC00578F6F /* forgeokaybutton.png */; };
-		CFF0B99A171FA3610090DCEE /* forgeokaybutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0FB15B7A1FC00578F6F /* forgeokaybutton@2x.png */; };
-		CFF0B99B171FA3610090DCEE /* forgestatuscheckbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0FC15B7A1FC00578F6F /* forgestatuscheckbar.png */; };
-		CFF0B99C171FA3610090DCEE /* forgestatuscheckbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0FD15B7A1FC00578F6F /* forgestatuscheckbar@2x.png */; };
-		CFF0B99D171FA3610090DCEE /* plussign.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD69F6115B763AC00F90310 /* plussign.png */; };
-		CFF0B99E171FA3610090DCEE /* plussign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD69F6215B763AC00F90310 /* plussign@2x.png */; };
-		CFF0B99F171FA3610090DCEE /* forgebazaar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730715B69F1500A11A6E /* forgebazaar.png */; };
-		CFF0B9A0171FA3610090DCEE /* forgebazaar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730815B69F1500A11A6E /* forgebazaar@2x.png */; };
-		CFF0B9A1171FA3610090DCEE /* forgebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730915B69F1500A11A6E /* forgebg.png */; };
-		CFF0B9A2171FA3610090DCEE /* forgebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730A15B69F1500A11A6E /* forgebg@2x.png */; };
-		CFF0B9A3171FA3610090DCEE /* forgebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730B15B69F1500A11A6E /* forgebutton.png */; };
-		CFF0B9A4171FA3610090DCEE /* forgebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730C15B69F1500A11A6E /* forgebutton@2x.png */; };
-		CFF0B9A5171FA3610090DCEE /* forgebuttonbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD69F6915B769FF00F90310 /* forgebuttonbg.png */; };
-		CFF0B9A6171FA3610090DCEE /* forgebuttonbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730E15B69F1500A11A6E /* forgebuttonbg@2x.png */; };
-		CFF0B9A7171FA3610090DCEE /* forgeequals.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20730F15B69F1500A11A6E /* forgeequals.png */; };
-		CFF0B9A8171FA3610090DCEE /* forgeequals@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731015B69F1500A11A6E /* forgeequals@2x.png */; };
-		CFF0B9A9171FA3610090DCEE /* forgefinishbarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731115B69F1500A11A6E /* forgefinishbarbg.png */; };
-		CFF0B9AA171FA3610090DCEE /* forgefinishbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731215B69F1500A11A6E /* forgefinishbarbg@2x.png */; };
-		CFF0B9AB171FA3610090DCEE /* forgefinishnow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731315B69F1500A11A6E /* forgefinishnow.png */; };
-		CFF0B9AC171FA3610090DCEE /* forgefinishnow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731415B69F1500A11A6E /* forgefinishnow@2x.png */; };
-		CFF0B9AD171FA3610090DCEE /* forgecoinbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09724815BA1AC700F8353B /* forgecoinbar.png */; };
-		CFF0B9AE171FA3610090DCEE /* forgecoinbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09724915BA1AC700F8353B /* forgecoinbar@2x.png */; };
-		CFF0B9AF171FA3610090DCEE /* forgeweaponactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731915B69F1500A11A6E /* forgeweaponactive.png */; };
-		CFF0B9B0171FA3610090DCEE /* forgeweaponactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731A15B69F1500A11A6E /* forgeweaponactive@2x.png */; };
-		CFF0B9B1171FA3610090DCEE /* forgeweaponinactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09724C15BA214900F8353B /* forgeweaponinactive.png */; };
-		CFF0B9B2171FA3610090DCEE /* forgeweaponinactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09724D15BA214900F8353B /* forgeweaponinactive@2x.png */; };
-		CFF0B9B3171FA3610090DCEE /* forgeyellowbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731D15B69F1500A11A6E /* forgeyellowbar.png */; };
-		CFF0B9B4171FA3610090DCEE /* forgeyellowbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731E15B69F1500A11A6E /* forgeyellowbar@2x.png */; };
-		CFF0B9B5171FA3610090DCEE /* forgingtag.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731F15B69F1500A11A6E /* forgingtag.png */; };
-		CFF0B9B6171FA3610090DCEE /* forgingtag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732015B69F1500A11A6E /* forgingtag@2x.png */; };
-		CFF0B9B7171FA3610090DCEE /* newitembg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732315B69F1500A11A6E /* newitembg.png */; };
-		CFF0B9B8171FA3610090DCEE /* newitembg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732415B69F1500A11A6E /* newitembg@2x.png */; };
-		CFF0B9B9171FA3610090DCEE /* olditembg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732515B69F1500A11A6E /* olditembg.png */; };
-		CFF0B9BA171FA3610090DCEE /* olditembg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732615B69F1500A11A6E /* olditembg@2x.png */; };
-		CFF0B9BB171FA3610090DCEE /* overbigweaponstatsbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732715B69F1500A11A6E /* overbigweaponstatsbar.png */; };
-		CFF0B9BC171FA3610090DCEE /* overbigweaponstatsbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732815B69F1500A11A6E /* overbigweaponstatsbar@2x.png */; };
-		CFF0B9BD171FA3610090DCEE /* overlittleweaponstatsbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732915B69F1500A11A6E /* overlittleweaponstatsbar.png */; };
-		CFF0B9BE171FA3610090DCEE /* overlittleweaponstatsbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732A15B69F1500A11A6E /* overlittleweaponstatsbar@2x.png */; };
-		CFF0B9BF171FA3610090DCEE /* percenttimebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732B15B69F1500A11A6E /* percenttimebg.png */; };
-		CFF0B9C0171FA3610090DCEE /* percenttimebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732C15B69F1500A11A6E /* percenttimebg@2x.png */; };
-		CFF0B9C3171FA5DA0090DCEE /* numberowned.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0B9C1171FA5D90090DCEE /* numberowned.png */; };
-		CFF0B9C4171FA5DA0090DCEE /* numberowned@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0B9C2171FA5D90090DCEE /* numberowned@2x.png */; };
-		CFF0B9CB171FB0080090DCEE /* activeforgeslot.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0B9C5171FB0070090DCEE /* activeforgeslot.png */; };
-		CFF0B9CC171FB0080090DCEE /* activeforgeslot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0B9C6171FB0070090DCEE /* activeforgeslot@2x.png */; };
-		CFF0B9CD171FB0080090DCEE /* forgeslotsdivider.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0B9C7171FB0070090DCEE /* forgeslotsdivider.png */; };
-		CFF0B9CE171FB0080090DCEE /* forgeslotsdivider@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0B9C8171FB0080090DCEE /* forgeslotsdivider@2x.png */; };
-		CFF0B9CF171FB0080090DCEE /* levelgeneric.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0B9C9171FB0080090DCEE /* levelgeneric.png */; };
-		CFF0B9D0171FB0080090DCEE /* levelgeneric@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0B9CA171FB0080090DCEE /* levelgeneric@2x.png */; };
 		CFF0D9FA16CF4D2A00B7F0EB /* buyequip.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9F816CF4D2900B7F0EB /* buyequip.png */; };
 		CFF0D9FB16CF4D2A00B7F0EB /* buyequip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9F916CF4D2A00B7F0EB /* buyequip@2x.png */; };
 		CFF0D9FE16D44F1C00B7F0EB /* resetr.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF0D9FC16D44F1B00B7F0EB /* resetr.png */; };
@@ -2737,8 +2630,6 @@
 		CF1269791538ACC600E0C1AD /* weaponborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weaponborder@2x.png"; sourceTree = "<group>"; };
 		CF12697A1538ACC600E0C1AD /* weaponcornertag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weaponcornertag.png; sourceTree = "<group>"; };
 		CF12697B1538ACC600E0C1AD /* weaponcornertag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weaponcornertag@2x.png"; sourceTree = "<group>"; };
-		CF12697C1538ACC600E0C1AD /* weaponinfobg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weaponinfobg.png; sourceTree = "<group>"; };
-		CF12697D1538ACC600E0C1AD /* weaponinfobg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weaponinfobg@2x.png"; sourceTree = "<group>"; };
 		CF12697F1538ACC600E0C1AD /* bottomgradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottomgradient.png; sourceTree = "<group>"; };
 		CF1269801538ACC600E0C1AD /* bottomgradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottomgradient@2x.png"; sourceTree = "<group>"; };
 		CF1269811538ACC600E0C1AD /* dolater.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dolater.png; sourceTree = "<group>"; };
@@ -3391,9 +3282,6 @@
 		CF5FE527172607AA000B0595 /* libChartboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libChartboost.a; sourceTree = "<group>"; };
 		CF5FE5291726145D000B0595 /* equippedtag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equippedtag.png; sourceTree = "<group>"; };
 		CF5FE52A1726145D000B0595 /* equippedtag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equippedtag@2x.png"; sourceTree = "<group>"; };
-		CF5FE52D17277DF6000B0595 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
-		CF5FE52E17277DF6000B0595 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
-		CF5FE52F17277DF6000B0595 /* libCrittercism_v3_5_1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v3_5_1.a; sourceTree = "<group>"; };
 		CF62E6B515FEC58B00DF850F /* aboutclanheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aboutclanheader.png; sourceTree = "<group>"; };
 		CF62E6B615FEC58B00DF850F /* aboutclanheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aboutclanheader@2x.png"; sourceTree = "<group>"; };
 		CF62E6B715FEC58B00DF850F /* clanbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clanbg.png; sourceTree = "<group>"; };
@@ -3722,10 +3610,6 @@
 		CFA370F015D0E4FD0066D72E /* resetskillpoints.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resetskillpoints.png; sourceTree = "<group>"; };
 		CFA370F115D0E4FD0066D72E /* specialresetstuff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "specialresetstuff@2x.png"; sourceTree = "<group>"; };
 		CFA370F215D0E4FD0066D72E /* specialresetstuff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = specialresetstuff.png; sourceTree = "<group>"; };
-		CFA370F715D235830066D72E /* equipmentcircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equipmentcircle.png; sourceTree = "<group>"; };
-		CFA370F815D235840066D72E /* equipmentcircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equipmentcircle@2x.png"; sourceTree = "<group>"; };
-		CFA370F915D235840066D72E /* equippedbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equippedbox.png; sourceTree = "<group>"; };
-		CFA370FA15D235850066D72E /* equippedbox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equippedbox@2x.png"; sourceTree = "<group>"; };
 		CFA370FB15D235860066D72E /* equippeditem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equippeditem.png; sourceTree = "<group>"; };
 		CFA370FC15D235860066D72E /* equippeditem@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equippeditem@2x.png"; sourceTree = "<group>"; };
 		CFA370FD15D235870066D72E /* equipselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equipselected.png; sourceTree = "<group>"; };
@@ -4021,10 +3905,6 @@
 		CFD5E97E1716846F00FBDEA3 /* bottomgradientcutoff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottomgradientcutoff@2x.png"; sourceTree = "<group>"; };
 		CFD5E97F1716846F00FBDEA3 /* changeequips.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = changeequips.png; sourceTree = "<group>"; };
 		CFD5E9801716846F00FBDEA3 /* changeequips@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "changeequips@2x.png"; sourceTree = "<group>"; };
-		CFD5E9811716846F00FBDEA3 /* commonprofileequip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = commonprofileequip.png; sourceTree = "<group>"; };
-		CFD5E9821716846F00FBDEA3 /* commonprofileequip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commonprofileequip@2x.png"; sourceTree = "<group>"; };
-		CFD5E9831716846F00FBDEA3 /* epicprofileequip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = epicprofileequip.png; sourceTree = "<group>"; };
-		CFD5E9841716846F00FBDEA3 /* epicprofileequip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "epicprofileequip@2x.png"; sourceTree = "<group>"; };
 		CFD5E9851716846F00FBDEA3 /* equipbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equipbg.png; sourceTree = "<group>"; };
 		CFD5E9861716846F00FBDEA3 /* equipbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equipbg@2x.png"; sourceTree = "<group>"; };
 		CFD5E9871716846F00FBDEA3 /* equipdivider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equipdivider.png; sourceTree = "<group>"; };
@@ -4039,18 +3919,10 @@
 		CFD5E9901716846F00FBDEA3 /* inactivetabpressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inactivetabpressed@2x.png"; sourceTree = "<group>"; };
 		CFD5E9911716846F00FBDEA3 /* inactivetabslot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inactivetabslot.png; sourceTree = "<group>"; };
 		CFD5E9921716846F00FBDEA3 /* inactivetabslot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inactivetabslot@2x.png"; sourceTree = "<group>"; };
-		CFD5E9931716846F00FBDEA3 /* legendaryprofileequip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = legendaryprofileequip.png; sourceTree = "<group>"; };
-		CFD5E9941716846F00FBDEA3 /* legendaryprofileequip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "legendaryprofileequip@2x.png"; sourceTree = "<group>"; };
 		CFD5E9951716846F00FBDEA3 /* nothingequipped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nothingequipped.png; sourceTree = "<group>"; };
 		CFD5E9961716846F00FBDEA3 /* nothingequipped@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nothingequipped@2x.png"; sourceTree = "<group>"; };
-		CFD5E9971716846F00FBDEA3 /* rareprofileequip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rareprofileequip.png; sourceTree = "<group>"; };
-		CFD5E9981716846F00FBDEA3 /* rareprofileequip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rareprofileequip@2x.png"; sourceTree = "<group>"; };
 		CFD5E9991716846F00FBDEA3 /* slotbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slotbg.png; sourceTree = "<group>"; };
 		CFD5E99A1716846F00FBDEA3 /* slotbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slotbg@2x.png"; sourceTree = "<group>"; };
-		CFD5E99B1716846F00FBDEA3 /* superrareprofileequip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = superrareprofileequip.png; sourceTree = "<group>"; };
-		CFD5E99C1716846F00FBDEA3 /* superrareprofileequip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "superrareprofileequip@2x.png"; sourceTree = "<group>"; };
-		CFD5E99D1716846F00FBDEA3 /* uncommonprofileequip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uncommonprofileequip.png; sourceTree = "<group>"; };
-		CFD5E99E1716846F00FBDEA3 /* uncommonprofileequip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uncommonprofileequip@2x.png"; sourceTree = "<group>"; };
 		CFD5E99F1716846F00FBDEA3 /* weaponactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weaponactive.png; sourceTree = "<group>"; };
 		CFD5E9A01716846F00FBDEA3 /* weaponactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weaponactive@2x.png"; sourceTree = "<group>"; };
 		CFD5E9CD1717B9C000FBDEA3 /* activenavwall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = activenavwall.png; sourceTree = "<group>"; };
@@ -4336,7 +4208,6 @@
 				CF7F27D6165DE2DD00D967DC /* MobileAppTracker.framework in Frameworks */,
 				CFEAB54216BBD04600AEB7BD /* FacebookSDK.framework in Frameworks */,
 				CF5FE528172607AA000B0595 /* libChartboost.a in Frameworks */,
-				CF5FE53017277DF6000B0595 /* libCrittercism_v3_5_1.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5029,7 +4900,6 @@
 				CFC1414D1657484A0060188D /* librabbitmq */,
 				CF15BA6B16572A8300A51F85 /* rabbitmq */,
 				CF28BBED1628EEB00012F1C1 /* SSZipArchive */,
-				CFC02D9216118115007B052F /* CrittercismSDK */,
 				CF689C0B15C3B89400F2E50E /* JSON */,
 				45C3270C15ABF7B2009F3C60 /* Lumberjack */,
 				CF41D192158BFAE900A4DBC3 /* OpenUDID */,
@@ -6142,8 +6012,6 @@
 				CF1269791538ACC600E0C1AD /* weaponborder@2x.png */,
 				CF12697A1538ACC600E0C1AD /* weaponcornertag.png */,
 				CF12697B1538ACC600E0C1AD /* weaponcornertag@2x.png */,
-				CF12697C1538ACC600E0C1AD /* weaponinfobg.png */,
-				CF12697D1538ACC600E0C1AD /* weaponinfobg@2x.png */,
 			);
 			path = "Profile Images";
 			sourceTree = "<group>";
@@ -7469,16 +7337,6 @@
 			path = ThreeCardMonteMenu;
 			sourceTree = "<group>";
 		};
-		CFC02D9216118115007B052F /* CrittercismSDK */ = {
-			isa = PBXGroup;
-			children = (
-				CF5FE52D17277DF6000B0595 /* Crittercism.h */,
-				CF5FE52E17277DF6000B0595 /* CrittercismDelegate.h */,
-				CF5FE52F17277DF6000B0595 /* libCrittercism_v3_5_1.a */,
-			);
-			path = CrittercismSDK;
-			sourceTree = "<group>";
-		};
 		CFC02E531612BC49007B052F /* GoldMineMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -7756,10 +7614,6 @@
 			children = (
 				CFA3713815D346A80066D72E /* unequibbableitem.png */,
 				CFA3713915D346AE0066D72E /* unequibbableitem@2x.png */,
-				CFA370F715D235830066D72E /* equipmentcircle.png */,
-				CFA370F815D235840066D72E /* equipmentcircle@2x.png */,
-				CFA370F915D235840066D72E /* equippedbox.png */,
-				CFA370FA15D235850066D72E /* equippedbox@2x.png */,
 				CFA370FB15D235860066D72E /* equippeditem.png */,
 				CFA370FC15D235860066D72E /* equippeditem@2x.png */,
 				CFA370FD15D235870066D72E /* equipselected.png */,
@@ -7831,10 +7685,6 @@
 				CFD5E97E1716846F00FBDEA3 /* bottomgradientcutoff@2x.png */,
 				CFD5E97F1716846F00FBDEA3 /* changeequips.png */,
 				CFD5E9801716846F00FBDEA3 /* changeequips@2x.png */,
-				CFD5E9811716846F00FBDEA3 /* commonprofileequip.png */,
-				CFD5E9821716846F00FBDEA3 /* commonprofileequip@2x.png */,
-				CFD5E9831716846F00FBDEA3 /* epicprofileequip.png */,
-				CFD5E9841716846F00FBDEA3 /* epicprofileequip@2x.png */,
 				CFD5E9851716846F00FBDEA3 /* equipbg.png */,
 				CFD5E9861716846F00FBDEA3 /* equipbg@2x.png */,
 				CFD5E9871716846F00FBDEA3 /* equipdivider.png */,
@@ -7849,18 +7699,10 @@
 				CFD5E9901716846F00FBDEA3 /* inactivetabpressed@2x.png */,
 				CFD5E9911716846F00FBDEA3 /* inactivetabslot.png */,
 				CFD5E9921716846F00FBDEA3 /* inactivetabslot@2x.png */,
-				CFD5E9931716846F00FBDEA3 /* legendaryprofileequip.png */,
-				CFD5E9941716846F00FBDEA3 /* legendaryprofileequip@2x.png */,
 				CFD5E9951716846F00FBDEA3 /* nothingequipped.png */,
 				CFD5E9961716846F00FBDEA3 /* nothingequipped@2x.png */,
-				CFD5E9971716846F00FBDEA3 /* rareprofileequip.png */,
-				CFD5E9981716846F00FBDEA3 /* rareprofileequip@2x.png */,
 				CFD5E9991716846F00FBDEA3 /* slotbg.png */,
 				CFD5E99A1716846F00FBDEA3 /* slotbg@2x.png */,
-				CFD5E99B1716846F00FBDEA3 /* superrareprofileequip.png */,
-				CFD5E99C1716846F00FBDEA3 /* superrareprofileequip@2x.png */,
-				CFD5E99D1716846F00FBDEA3 /* uncommonprofileequip.png */,
-				CFD5E99E1716846F00FBDEA3 /* uncommonprofileequip@2x.png */,
 				CFD5E99F1716846F00FBDEA3 /* weaponactive.png */,
 				CFD5E9A01716846F00FBDEA3 /* weaponactive@2x.png */,
 			);
@@ -8476,8 +8318,6 @@
 				CF12702B1538ACCB00E0C1AD /* weaponborder@2x.png in Resources */,
 				CF12702C1538ACCB00E0C1AD /* weaponcornertag.png in Resources */,
 				CF12702D1538ACCB00E0C1AD /* weaponcornertag@2x.png in Resources */,
-				CF12702E1538ACCB00E0C1AD /* weaponinfobg.png in Resources */,
-				CF12702F1538ACCB00E0C1AD /* weaponinfobg@2x.png in Resources */,
 				CF1270301538ACCB00E0C1AD /* bottomgradient.png in Resources */,
 				CF1270311538ACCB00E0C1AD /* bottomgradient@2x.png in Resources */,
 				CF1270321538ACCB00E0C1AD /* dolater.png in Resources */,
@@ -9078,10 +8918,6 @@
 				CFA370F415D0E4FE0066D72E /* resetskillpoints.png in Resources */,
 				CFA370F515D0E4FE0066D72E /* specialresetstuff@2x.png in Resources */,
 				CFA370F615D0E4FE0066D72E /* specialresetstuff.png in Resources */,
-				CFA3710115D2358A0066D72E /* equipmentcircle.png in Resources */,
-				CFA3710215D2358A0066D72E /* equipmentcircle@2x.png in Resources */,
-				CFA3710315D2358A0066D72E /* equippedbox.png in Resources */,
-				CFA3710415D2358A0066D72E /* equippedbox@2x.png in Resources */,
 				CFA3710515D2358A0066D72E /* equippeditem.png in Resources */,
 				CFA3710615D2358A0066D72E /* equippeditem@2x.png in Resources */,
 				CFA3710715D2358A0066D72E /* equipselected.png in Resources */,
@@ -9564,10 +9400,6 @@
 				CFD5E9AA1716846F00FBDEA3 /* bottomgradientcutoff@2x.png in Resources */,
 				CFD5E9AB1716846F00FBDEA3 /* changeequips.png in Resources */,
 				CFD5E9AC1716846F00FBDEA3 /* changeequips@2x.png in Resources */,
-				CFD5E9AD1716846F00FBDEA3 /* commonprofileequip.png in Resources */,
-				CFD5E9AE1716846F00FBDEA3 /* commonprofileequip@2x.png in Resources */,
-				CFD5E9AF1716846F00FBDEA3 /* epicprofileequip.png in Resources */,
-				CFD5E9B01716846F00FBDEA3 /* epicprofileequip@2x.png in Resources */,
 				CFD5E9B11716846F00FBDEA3 /* equipbg.png in Resources */,
 				CFD5E9B21716846F00FBDEA3 /* equipbg@2x.png in Resources */,
 				CFD5E9B31716846F00FBDEA3 /* equipdivider.png in Resources */,
@@ -9582,18 +9414,10 @@
 				CFD5E9BC1716846F00FBDEA3 /* inactivetabpressed@2x.png in Resources */,
 				CFD5E9BD1716846F00FBDEA3 /* inactivetabslot.png in Resources */,
 				CFD5E9BE1716846F00FBDEA3 /* inactivetabslot@2x.png in Resources */,
-				CFD5E9BF1716846F00FBDEA3 /* legendaryprofileequip.png in Resources */,
-				CFD5E9C01716846F00FBDEA3 /* legendaryprofileequip@2x.png in Resources */,
 				CFD5E9C11716846F00FBDEA3 /* nothingequipped.png in Resources */,
 				CFD5E9C21716846F00FBDEA3 /* nothingequipped@2x.png in Resources */,
-				CFD5E9C31716846F00FBDEA3 /* rareprofileequip.png in Resources */,
-				CFD5E9C41716846F00FBDEA3 /* rareprofileequip@2x.png in Resources */,
 				CFD5E9C51716846F00FBDEA3 /* slotbg.png in Resources */,
 				CFD5E9C61716846F00FBDEA3 /* slotbg@2x.png in Resources */,
-				CFD5E9C71716846F00FBDEA3 /* superrareprofileequip.png in Resources */,
-				CFD5E9C81716846F00FBDEA3 /* superrareprofileequip@2x.png in Resources */,
-				CFD5E9C91716846F00FBDEA3 /* uncommonprofileequip.png in Resources */,
-				CFD5E9CA1716846F00FBDEA3 /* uncommonprofileequip@2x.png in Resources */,
 				CFD5E9CB1716846F00FBDEA3 /* weaponactive.png in Resources */,
 				CFD5E9CC1716846F00FBDEA3 /* weaponactive@2x.png in Resources */,
 				CFD5E9D11717B9C000FBDEA3 /* activenavwall.png in Resources */,
@@ -9602,94 +9426,6 @@
 				CFD5E9D41717B9C100FBDEA3 /* navwall@2x.png in Resources */,
 				CFD5E9D61717DEA600FBDEA3 /* EquipBrowseCell.xib in Resources */,
 				CFF0B970171D02FF0090DCEE /* BattleSummaryEquipView.xib in Resources */,
-				CFF0B971171FA3610090DCEE /* forgenavactive.png in Resources */,
-				CFF0B972171FA3610090DCEE /* forgenavactive@2x.png in Resources */,
-				CFF0B973171FA3610090DCEE /* forgenavbg.png in Resources */,
-				CFF0B974171FA3610090DCEE /* forgenavbg@2x.png in Resources */,
-				CFF0B975171FA3610090DCEE /* forgetopbar.png in Resources */,
-				CFF0B976171FA3610090DCEE /* forgetopbar@2x.png in Resources */,
-				CFF0B977171FA3610090DCEE /* enhancecheckmarkbg.png in Resources */,
-				CFF0B978171FA3610090DCEE /* enhancecheckmarkbg@2x.png in Resources */,
-				CFF0B979171FA3610090DCEE /* enhancewithdotted.png in Resources */,
-				CFF0B97A171FA3610090DCEE /* enhancewithdotted@2x.png in Resources */,
-				CFF0B97B171FA3610090DCEE /* dottedborderbg.png in Resources */,
-				CFF0B97C171FA3610090DCEE /* dottedborderbg@2x.png in Resources */,
-				CFF0B97D171FA3610090DCEE /* enhancebutton.png in Resources */,
-				CFF0B97E171FA3610090DCEE /* enhancebutton@2x.png in Resources */,
-				CFF0B97F171FA3610090DCEE /* enhanceitem.png in Resources */,
-				CFF0B980171FA3610090DCEE /* enhanceitem@2x.png in Resources */,
-				CFF0B981171FA3610090DCEE /* enhanceitemplus.png in Resources */,
-				CFF0B982171FA3610090DCEE /* enhanceitemplus@2x.png in Resources */,
-				CFF0B983171FA3610090DCEE /* minusenhanceitem.png in Resources */,
-				CFF0B984171FA3610090DCEE /* minusenhanceitem@2x.png in Resources */,
-				CFF0B985171FA3610090DCEE /* solidborderbg.png in Resources */,
-				CFF0B986171FA3610090DCEE /* solidborderbg@2x.png in Resources */,
-				CFF0B987171FA3610090DCEE /* enhancebarbg.png in Resources */,
-				CFF0B988171FA3610090DCEE /* enhancebarbg@2x.png in Resources */,
-				CFF0B989171FA3610090DCEE /* orangeenhancebar.png in Resources */,
-				CFF0B98A171FA3610090DCEE /* orangeenhancebar@2x.png in Resources */,
-				CFF0B98B171FA3610090DCEE /* removeenhanceitem.png in Resources */,
-				CFF0B98C171FA3610090DCEE /* removeenhanceitem@2x.png in Resources */,
-				CFF0B98D171FA3610090DCEE /* forgewarning.png in Resources */,
-				CFF0B98E171FA3610090DCEE /* forgewarning@2x.png in Resources */,
-				CFF0B98F171FA3610090DCEE /* yellowenhancebar.png in Resources */,
-				CFF0B990171FA3610090DCEE /* yellowenhancebar@2x.png in Resources */,
-				CFF0B991171FA3610090DCEE /* forgebuy1.png in Resources */,
-				CFF0B992171FA3610090DCEE /* forgebuy1@2x.png in Resources */,
-				CFF0B993171FA3610090DCEE /* forgemarketplace.png in Resources */,
-				CFF0B994171FA3610090DCEE /* forgemarketplace@2x.png in Resources */,
-				CFF0B995171FA3610090DCEE /* failedx.png in Resources */,
-				CFF0B996171FA3610090DCEE /* failedx@2x.png in Resources */,
-				CFF0B997171FA3610090DCEE /* forgechecknow.png in Resources */,
-				CFF0B998171FA3610090DCEE /* forgechecknow@2x.png in Resources */,
-				CFF0B999171FA3610090DCEE /* forgeokaybutton.png in Resources */,
-				CFF0B99A171FA3610090DCEE /* forgeokaybutton@2x.png in Resources */,
-				CFF0B99B171FA3610090DCEE /* forgestatuscheckbar.png in Resources */,
-				CFF0B99C171FA3610090DCEE /* forgestatuscheckbar@2x.png in Resources */,
-				CFF0B99D171FA3610090DCEE /* plussign.png in Resources */,
-				CFF0B99E171FA3610090DCEE /* plussign@2x.png in Resources */,
-				CFF0B99F171FA3610090DCEE /* forgebazaar.png in Resources */,
-				CFF0B9A0171FA3610090DCEE /* forgebazaar@2x.png in Resources */,
-				CFF0B9A1171FA3610090DCEE /* forgebg.png in Resources */,
-				CFF0B9A2171FA3610090DCEE /* forgebg@2x.png in Resources */,
-				CFF0B9A3171FA3610090DCEE /* forgebutton.png in Resources */,
-				CFF0B9A4171FA3610090DCEE /* forgebutton@2x.png in Resources */,
-				CFF0B9A5171FA3610090DCEE /* forgebuttonbg.png in Resources */,
-				CFF0B9A6171FA3610090DCEE /* forgebuttonbg@2x.png in Resources */,
-				CFF0B9A7171FA3610090DCEE /* forgeequals.png in Resources */,
-				CFF0B9A8171FA3610090DCEE /* forgeequals@2x.png in Resources */,
-				CFF0B9A9171FA3610090DCEE /* forgefinishbarbg.png in Resources */,
-				CFF0B9AA171FA3610090DCEE /* forgefinishbarbg@2x.png in Resources */,
-				CFF0B9AB171FA3610090DCEE /* forgefinishnow.png in Resources */,
-				CFF0B9AC171FA3610090DCEE /* forgefinishnow@2x.png in Resources */,
-				CFF0B9AD171FA3610090DCEE /* forgecoinbar.png in Resources */,
-				CFF0B9AE171FA3610090DCEE /* forgecoinbar@2x.png in Resources */,
-				CFF0B9AF171FA3610090DCEE /* forgeweaponactive.png in Resources */,
-				CFF0B9B0171FA3610090DCEE /* forgeweaponactive@2x.png in Resources */,
-				CFF0B9B1171FA3610090DCEE /* forgeweaponinactive.png in Resources */,
-				CFF0B9B2171FA3610090DCEE /* forgeweaponinactive@2x.png in Resources */,
-				CFF0B9B3171FA3610090DCEE /* forgeyellowbar.png in Resources */,
-				CFF0B9B4171FA3610090DCEE /* forgeyellowbar@2x.png in Resources */,
-				CFF0B9B5171FA3610090DCEE /* forgingtag.png in Resources */,
-				CFF0B9B6171FA3610090DCEE /* forgingtag@2x.png in Resources */,
-				CFF0B9B7171FA3610090DCEE /* newitembg.png in Resources */,
-				CFF0B9B8171FA3610090DCEE /* newitembg@2x.png in Resources */,
-				CFF0B9B9171FA3610090DCEE /* olditembg.png in Resources */,
-				CFF0B9BA171FA3610090DCEE /* olditembg@2x.png in Resources */,
-				CFF0B9BB171FA3610090DCEE /* overbigweaponstatsbar.png in Resources */,
-				CFF0B9BC171FA3610090DCEE /* overbigweaponstatsbar@2x.png in Resources */,
-				CFF0B9BD171FA3610090DCEE /* overlittleweaponstatsbar.png in Resources */,
-				CFF0B9BE171FA3610090DCEE /* overlittleweaponstatsbar@2x.png in Resources */,
-				CFF0B9BF171FA3610090DCEE /* percenttimebg.png in Resources */,
-				CFF0B9C0171FA3610090DCEE /* percenttimebg@2x.png in Resources */,
-				CFF0B9C3171FA5DA0090DCEE /* numberowned.png in Resources */,
-				CFF0B9C4171FA5DA0090DCEE /* numberowned@2x.png in Resources */,
-				CFF0B9CB171FB0080090DCEE /* activeforgeslot.png in Resources */,
-				CFF0B9CC171FB0080090DCEE /* activeforgeslot@2x.png in Resources */,
-				CFF0B9CD171FB0080090DCEE /* forgeslotsdivider.png in Resources */,
-				CFF0B9CE171FB0080090DCEE /* forgeslotsdivider@2x.png in Resources */,
-				CFF0B9CF171FB0080090DCEE /* levelgeneric.png in Resources */,
-				CFF0B9D0171FB0080090DCEE /* levelgeneric@2x.png in Resources */,
 				CF5FE5231726017C000B0595 /* equiplocked.png in Resources */,
 				CF5FE5241726017C000B0595 /* equiplocked@2x.png in Resources */,
 				CF5FE52B1726145D000B0595 /* equippedtag.png in Resources */,
@@ -10145,7 +9881,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Utopia/libs/CrittercismSDK\"",
 					"$(SRCROOT)/Utopia/libs/**",
 					"\"$(SRCROOT)/Utopia/libs/librabbitmq/.libs\"",
 					"\"$(SRCROOT)/Utopia/libs/Nanigans\"",
@@ -10197,7 +9932,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Utopia/libs/CrittercismSDK\"",
 					"$(SRCROOT)/Utopia/libs/**",
 					"\"$(SRCROOT)/Utopia/libs/librabbitmq/.libs\"",
 					"\"$(SRCROOT)/Utopia/libs/Nanigans\"",

@@ -84,16 +84,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   _swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(openFilterPage:)];
   [self.view addGestureRecognizer:_swipeGestureRecognizer];
+  
+  // Restore filter view defaults without loading nib
+  MarketplaceFilterView *f = [[MarketplaceFilterView alloc] init];
+  [f restoreDefaults];
+  [f release];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewDidAppear:animated];
-  
-  // Restore filter view defaults without loading nib
-  MarketplaceFilterView *m = [[MarketplaceFilterView alloc] init];
-  [m restoreDefaults];
-  [m release];
-  
   self.postsTableView.scrollEnabled = YES;
   
   self.redeemView.frame = self.view.bounds;

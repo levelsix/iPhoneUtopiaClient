@@ -171,10 +171,10 @@
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 
-//- (id) init {
-//  Globals *gl = [Globals sharedGlobals];
-//  return [self initWithNibName:@"ForgeMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName]];
-//}
+- (id) init {
+  Globals *gl = [Globals sharedGlobals];
+  return [self initWithNibName:@"ForgeMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName]];
+}
 
 - (void)viewDidLoad
 {
@@ -1232,8 +1232,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   ForgeItemView *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil) {
     Globals *gl = [Globals sharedGlobals];
-#warning change back
-    NSBundle *bundle = [NSBundle mainBundle];// [Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName];
+    NSBundle *bundle = [Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName];
     [bundle loadNibNamed:@"ForgeItemView" owner:self options:nil];
     cell = self.itemView;
   }
