@@ -1546,9 +1546,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   FullQuestProto *fqp = [gs.inProgressIncompleteQuests objectForKey:questNum];
   
   if (fqp) {
-    
-    [gs.inProgressIncompleteQuests removeObjectForKey:questNum];
     [gs.inProgressCompleteQuests setObject:fqp forKey:questNum];
+    [gs.inProgressIncompleteQuests removeObjectForKey:questNum];
     
     [[QuestLogController sharedQuestLogController] loadQuestRedeemScreen:fqp animated:NO];
     

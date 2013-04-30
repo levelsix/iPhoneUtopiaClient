@@ -12,6 +12,7 @@
 #import "cocos2d.h"
 #import "GameState.h"
 #import "GameViewController.h"
+#import "SoundEngine.h"
 
 #define FAQ_FILE_NAME @"FAQ.2.txt"
 #define PRESTIGE_FAQ_FILE_NAME @"PrestigeFAQ.txt"
@@ -41,6 +42,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
 @synthesize textStrings;
 @synthesize mainView, bgdView;
 
+- (void) viewDidLoad {
+  [super viewDidLoad];
+  
+  self.settingsView.frame = self.faqView.frame;
+  [self.mainView addSubview:self.settingsView];
+}
+
 - (void) viewWillAppear:(BOOL)animated {
   if (!self.view.superview) {
     [super viewWillAppear:animated];
@@ -54,12 +62,54 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   Globals *gl = [Globals sharedGlobals];
   [self loadFile:gl.faqFileName];
   self.titleLabel.text = @"Help";
+  
+  self.settingsView.hidden = YES;
+  self.faqView.hidden = NO;
 }
 
 - (void) loadPrestigeInfo {
   Globals *gl = [Globals sharedGlobals];
   [self loadFile:gl.prestigeFaqFileName];
   self.titleLabel.text = @"Prestige Info";
+  
+  self.settingsView.hidden = YES;
+  self.faqView.hidden = NO;
+}
+
+- (void) loadSettings {
+  self.titleLabel.text = @"Settings";
+  
+  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  self.musicSwitchButton.isOn = ![ud boolForKey:MUSIC_DEFAULTS_KEY];
+  self.soundEffectsSwitchButton.isOn = ![ud boolForKey:SOUND_EFFECTS_DEFAULTS_KEY];
+  self.shakeSwitchButton.isOn = [ud boolForKey:SHAKE_DEFAULTS_KEY];
+  
+  self.settingsView.hidden = NO;
+  self.faqView.hidden = YES;
+}
+
+- (void) switchButtonWasTurnedOn:(SwitchButton *)b {
+  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  if (b.tag == 1) {
+    [ud setBool:NO forKey:MUSIC_DEFAULTS_KEY];
+    [[SoundEngine sharedSoundEngine] resumeBackgroundMusic];
+  } else if (b.tag == 2) {
+    [ud setBool:NO forKey:SOUND_EFFECTS_DEFAULTS_KEY];
+  } else if (b.tag == 3) {
+    [ud setBool:YES forKey:SHAKE_DEFAULTS_KEY];
+  }
+}
+
+- (void) switchButtonWasTurnedOff:(SwitchButton *)b {
+  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  if (b.tag == 1) {
+    [ud setBool:YES forKey:MUSIC_DEFAULTS_KEY];
+    [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
+  } else if (b.tag == 2) {
+    [ud setBool:YES forKey:SOUND_EFFECTS_DEFAULTS_KEY];
+  } else if (b.tag == 3) {
+    [ud setBool:NO forKey:SHAKE_DEFAULTS_KEY];
+  }
 }
 
 - (void) loadFile:(NSString *)file {
@@ -287,6 +337,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
     self.bgdView = nil;
     self.faqTable = nil;
     self.titleLabel = nil;
+    self.faqView = nil;
+    self.settingsView = nil;
   }
 }
 

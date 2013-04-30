@@ -23,6 +23,10 @@
 
 #define IAP_DEFAULTS_KEY @"Unresponded In Apps"
 
+#define MUSIC_DEFAULTS_KEY @"MusicDefaultsKey"
+#define SOUND_EFFECTS_DEFAULTS_KEY @"SoundEffectsDefaultsKey"
+#define SHAKE_DEFAULTS_KEY @"ShakeDefaultsKey"
+
 #define IAP_SUCCESS_NOTIFICATION @"IapSuccessNotification"
 
 @interface Globals : NSObject <BattleConstants, EnemyBattleStats> {

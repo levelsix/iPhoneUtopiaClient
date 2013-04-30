@@ -186,7 +186,7 @@ typedef enum {
 @property (nonatomic, retain) UserEquip *equip;
 @property (nonatomic, assign) id<EquipViewDelegate> delegate;
 
-- (void) updateForEquip:(UserEquip *)ue;
+- (void) updateForEquip:(UserEquip *)ue shouldDisplayLock:(BOOL)lock;
 
 @end
 
@@ -220,7 +220,7 @@ typedef enum {
 
 @interface EquipTabView : UIView
 
-@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, retain) IBOutlet AutoScrollingScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
 

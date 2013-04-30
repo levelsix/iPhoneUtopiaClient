@@ -8,16 +8,24 @@
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MFMailComposeViewController.h>
+#import "NibUtils.h"
 
-@interface FAQMenuController : UIViewController <UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
+@interface FAQMenuController : UIViewController <UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, SwitchButtonDelegate>
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
+
+@property (nonatomic, retain) IBOutlet UIView *faqView;
+@property (nonatomic, retain) IBOutlet UIView *settingsView;
 
 @property (nonatomic, retain) NSArray *textStrings;
 
 @property (nonatomic, retain) IBOutlet UITableView *faqTable;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+
+@property (nonatomic, retain) IBOutlet SwitchButton *musicSwitchButton;
+@property (nonatomic, retain) IBOutlet SwitchButton *soundEffectsSwitchButton;
+@property (nonatomic, retain) IBOutlet SwitchButton *shakeSwitchButton;
 
 + (FAQMenuController *) sharedFAQMenuController;
 + (void) displayView;
@@ -30,5 +38,6 @@
 
 - (void) loadFAQ;
 - (void) loadPrestigeInfo;
+- (void) loadSettings;
 
 @end

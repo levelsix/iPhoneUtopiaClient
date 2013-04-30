@@ -161,6 +161,10 @@
   return;
 }
 
+- (IBAction)changeButtonClicked:(id)sender {
+  return;
+}
+
 - (void) equipViewSelected:(EquipView *)ev {
   if (_equippingPhase) {
     int tag = ev.tag;
@@ -173,6 +177,7 @@
       
       self.equipBrowseView.closeButton.userInteractionEnabled = YES;
       
+      [self.equipBrowseView.mainView addSubview:_arrow];
       UIView *close = self.equipBrowseView.closeButton;
       _arrow.center = CGPointMake(CGRectGetMinX(close.frame)-_arrow.frame.size.width/2, CGRectGetMidY(close.frame));
       [Globals animateUIArrow:_arrow atAngle:0];
@@ -189,11 +194,11 @@
         self.equipBrowseView.backSlotView.userInteractionEnabled = NO;
         self.equipBrowseView.closeButton.userInteractionEnabled = NO;
         
-        [self.equipBrowseView.mainView addSubview:_arrow];
+        [self.equipBrowseView.equipTable addSubview:_arrow];
         
         EquipBrowseCell *cell = (EquipBrowseCell *)[self.equipBrowseView.equipTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         UIView *amuletEquipView = cell.containerView1;
-        CGRect rect = [self.equipBrowseView convertRect:amuletEquipView.frame fromView:amuletEquipView.superview];
+        CGRect rect = [self.equipBrowseView.equipTable convertRect:amuletEquipView.frame fromView:amuletEquipView.superview];
         _arrow.center = CGPointMake(CGRectGetMaxX(rect), CGRectGetMidY(rect));
         [Globals animateUIArrow:_arrow atAngle:M_PI];
         
@@ -205,7 +210,7 @@
 
 - (void) arrowOnClose {
   [self.mainView addSubview:_arrow];
-  UIView *close = [self.view viewWithTag:20];
+  UIView *close = [self.mainView viewWithTag:20];
   _arrow.center = CGPointMake(CGRectGetMinX(close.frame)-_arrow.frame.size.width/2, close.center.y);
   [Globals animateUIArrow:_arrow atAngle:0];
   

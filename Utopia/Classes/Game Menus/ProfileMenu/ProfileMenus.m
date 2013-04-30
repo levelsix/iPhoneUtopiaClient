@@ -551,9 +551,12 @@ static float origLabelCenterY = 0;
   origLabelCenterY = self.noEquipLabel.center.y;
   
   self.equippedLabelView.transform = CGAffineTransformMakeRotation(-M_PI_4);
+  
+  // Comment to show mask icon
+  self.equipMaskIcon = nil;
 }
 
-- (void) updateForEquip:(UserEquip *)ue {
+- (void) updateForEquip:(UserEquip *)ue shouldDisplayLock:(BOOL)lock {
   // This is for the browse cell
   if (!ue) {
     self.hidden = YES;
@@ -573,7 +576,7 @@ static float origLabelCenterY = 0;
   levelIcon.level = ue.level;
   _enhanceIcon.level = [gl calculateEnhancementLevel:ue.enhancementPercentage];
   
-  if (![Globals canEquip:fep]) {
+  if (lock && ![Globals canEquip:fep]) {
     [Globals imageNamed:[Globals imageNameForEquip:fep.equipId] withView:self.equipMaskIcon maskedColor:[UIColor colorWithRed:209/256.f green:15/256.f blue:15/256.f alpha:0.6f] indicator:-1 clearImageDuringDownload:YES];
     
     self.lockedLabel.text = [NSString stringWithFormat:@"lvl %d", fep.minLevel];
@@ -891,7 +894,7 @@ static float origLabelCenterY = 0;
 - (IBAction)postClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  if (gs.level < gl.minLevelConstants.marketplaceMinLevel || gs.prestigeLevel <= 0) {
+  if (gs.level < gl.minLevelConstants.marketplaceMinLevel && gs.prestigeLevel <= 0) {
     [Globals popupMessage:[NSString stringWithFormat:@"You cannot post to the marketplace until level %d.", gl.minLevelConstants.marketplaceMinLevel]];
   } else {
     [self.mktPostView updateForEquip:userEquip andAddToSuperView:self.superview];
@@ -1151,16 +1154,19 @@ static float origLabelCenterY = 0;
 }
 
 - (void) updateForEquips:(NSArray *)equips isMine:(BOOL)mine prestigeLevel:(int)prestigeLevel {
+  float maxX = 0.f;
   for (int i = 0; i < self.curEquipViews.count; i++) {
     EquipView *ev = [self.curEquipViews objectAtIndex:i];
     id eq = [equips objectAtIndex:i];
     if ([eq isKindOfClass:[UserEquip class]]) {
-      [ev updateForEquip:eq];
+      [ev updateForEquip:eq shouldDisplayLock:mine];
+      maxX = CGRectGetMaxX(ev.frame);
     } else {
       if (i > 2+prestigeLevel) {
         [ev updateForNotEnoughPrestiges:i-2 isMine:mine];
       } else {
         [ev updateForNoEquipIsMine:mine type:i%3];
+        maxX = CGRectGetMaxX(ev.frame);
       }
     }
   }
@@ -1175,7 +1181,7 @@ static float origLabelCenterY = 0;
   self.attackLabel.text = [Globals commafyNumber:[gl calculateAttackForAttackStat:0 weapon:weapon armor:armor amulet:amulet weapon2:weapon2 armor2:armor2 amulet2:amulet2]];
   self.defenseLabel.text = [Globals commafyNumber:[gl calculateDefenseForDefenseStat:0 weapon:weapon armor:armor amulet:amulet weapon2:weapon2 armor2:armor2 amulet2:amulet2]];
   
-  self.scrollView.contentOffset = ccp(0,0);
+  self.scrollView.maxX = maxX;
 }
 
 - (void) dealloc {
@@ -1244,9 +1250,9 @@ int x = 0;
   UserEquip *ue1 = [_equipsForScope objectAtIndex:row*3];
   UserEquip *ue2 = _equipsForScope.count > row*3+1 ? [_equipsForScope objectAtIndex:row*3+1] : nil;
   UserEquip *ue3 = _equipsForScope.count > row*3+2 ? [_equipsForScope objectAtIndex:row*3+2] : nil;
-  [cell.containerView1.nibEquipView updateForEquip:ue1];
-  [cell.containerView2.nibEquipView updateForEquip:ue2];
-  [cell.containerView3.nibEquipView updateForEquip:ue3];
+  [cell.containerView1.nibEquipView updateForEquip:ue1 shouldDisplayLock:YES];
+  [cell.containerView2.nibEquipView updateForEquip:ue2 shouldDisplayLock:YES];
+  [cell.containerView3.nibEquipView updateForEquip:ue3 shouldDisplayLock:YES];
   cell.containerView1.nibEquipView.delegate = _delegate;
   cell.containerView2.nibEquipView.delegate = _delegate;
   cell.containerView3.nibEquipView.delegate = _delegate;
@@ -1357,7 +1363,7 @@ int x = 0;
       [self.equipContainerView.nibEquipView updateForNoEquipIsMine:NO type:scope-1];
     }
   } else {
-    [self.equipContainerView.nibEquipView updateForEquip:ue];
+    [self.equipContainerView.nibEquipView updateForEquip:ue shouldDisplayLock:NO];
   }
 }
 
@@ -1416,7 +1422,7 @@ int x = 0;
     EquipView *equippingView = self.nibEquipView;
     
     equippingView.frame = [self.mainView convertRect:ev.frame fromView:ev.superview];
-    [equippingView updateForEquip:ue];
+    [equippingView updateForEquip:ue shouldDisplayLock:NO];
     equippingView.hidden = NO;
     [equippingView.layer removeAllAnimations];
     
@@ -1425,7 +1431,7 @@ int x = 0;
       self.equipContainerView.alpha = 0.f;
     } completion:^(BOOL finished) {
       equippingView.hidden = YES;
-      [self.equipContainerView.nibEquipView updateForEquip:ue];
+      [self.equipContainerView.nibEquipView updateForEquip:ue shouldDisplayLock:NO];
       self.equipContainerView.alpha = 1.f;
       
       self.curEquips = curEquips;

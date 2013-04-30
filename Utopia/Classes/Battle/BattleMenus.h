@@ -117,8 +117,8 @@
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 @property (nonatomic, retain) IBOutlet BattleSummaryEquipView *equipView;
-@property (nonatomic, retain) IBOutlet UIScrollView *leftScrollView;
-@property (nonatomic, retain) IBOutlet UIScrollView *rightScrollView;
+@property (nonatomic, retain) IBOutlet AutoScrollingScrollView *leftScrollView;
+@property (nonatomic, retain) IBOutlet AutoScrollingScrollView *rightScrollView;
 @property (nonatomic, retain) NSArray *leftEquipViews;
 @property (nonatomic, retain) NSArray *rightEquipViews;
 

@@ -465,24 +465,33 @@
   
   NSArray *equips = [gs getUserEquipArray];
   NSArray *equipViews = self.leftEquipViews;
+  int maxX = 0;
   for (int i = 0; i < equips.count; i++) {
     UserEquip *ue = [equips objectAtIndex:i];
     BattleSummaryEquipView *ev = [equipViews objectAtIndex:i];
     
     [ev updateForUserEquip:ue];
+    
+    if (gs.prestigeLevel+2 >= i) {
+      maxX = CGRectGetMaxX(ev.frame);
+    }
   }
+  self.leftScrollView.maxX = maxX;
   
   equips = [Globals getUserEquipArrayFromFullUserProto:fup];
   equipViews = self.rightEquipViews;
+  maxX = 0;
   for (int i = 0; i < equips.count; i++) {
     UserEquip *ue = [equips objectAtIndex:i];
     BattleSummaryEquipView *ev = [equipViews objectAtIndex:i];
     
     [ev updateForUserEquip:ue];
+    
+    if (fup.prestigeLevel+2 >= i) {
+      maxX = CGRectGetMaxX(ev.frame);
+    }
   }
-  
-  self.leftScrollView.contentOffset = ccp(0,0);
-  self.rightScrollView.contentOffset = ccp(0,0);
+  self.rightScrollView.maxX = maxX;
   
   if (brp.hasExpGained) {
     // This is a win

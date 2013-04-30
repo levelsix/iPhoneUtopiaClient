@@ -632,3 +632,41 @@
 }
 
 @end
+
+@implementation AutoScrollingScrollView
+
+#define AUTOSCROLLDUR 0.25f
+#define AUTOSCROLLX 5
+
+- (void) setMaxX:(float)maxX {
+  _maxX = maxX;
+  self.contentOffset = ccp(0,0);
+  _movingLeft = NO;
+  self.timer = [NSTimer scheduledTimerWithTimeInterval:AUTOSCROLLDUR-0.05f target:self selector:@selector(onTimer) userInfo:nil repeats:YES];
+}
+
+- (void) setTimer:(NSTimer *)timer {
+  if (_timer != timer) {
+    [_timer invalidate];
+    [_timer release];
+    _timer = [timer retain];
+  }
+}
+
+- (void) onTimer {
+  if (self.contentOffset.x <= 0 && self.contentOffset.x+self.frame.size.width >= self.maxX-AUTOSCROLLX) {
+    return;
+  }
+  
+  float h = self.contentOffset.x+(_movingLeft ? -1 : 1)*AUTOSCROLLX;
+  if (!_movingLeft && h+self.frame.size.width > self.maxX) {
+    _movingLeft = YES;
+  } else if (_movingLeft && h < 0) {
+    _movingLeft = NO;
+  }
+  [UIView animateWithDuration:AUTOSCROLLDUR delay:0.f options:UIViewAnimationOptionAllowUserInteraction animations:^{
+    [self setContentOffset:CGPointMake(h, 0) animated:NO];
+  } completion:nil];
+}
+
+@end

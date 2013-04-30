@@ -18,6 +18,7 @@ typedef enum {
 
 @interface SoundEngine : NSObject {
   BackgroundMusic _curMusic;
+  BackgroundMusic _lastPlayedMusic;
   
   int _curChargeUp;
 }
@@ -28,6 +29,7 @@ typedef enum {
 - (void) playMissionMapMusic;
 - (void) playBattleMusic;
 - (void) playBazaarMusic;
+- (void) resumeBackgroundMusic;
 - (void) stopBackgroundMusic;
 
 - (void) archerAttack;

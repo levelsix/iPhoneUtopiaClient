@@ -148,6 +148,7 @@
   cb.appSignature = CHARTBOOST_APP_SIG;
   
   [cb startSession];
+  [cb showInterstitial];
 }
 
 -(void) setUpDelightio

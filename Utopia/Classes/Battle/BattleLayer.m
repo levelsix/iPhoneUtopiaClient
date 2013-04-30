@@ -1495,7 +1495,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   {
     TWTweetComposeViewController *tweetSheet = [[[TWTweetComposeViewController alloc] init] autorelease];
     GameState *gs = [GameState sharedGameState];
-    NSString *str = [NSString stringWithFormat:@"%@ %@ %@ in Age of Chaos. Click here to play now! http://bit.ly/14BpdVg #AgeOfChaos", gs.name, brp.hasExpGained ? @"massacred" : @"was defeated by", _fup.name];
+    NSString *str = [NSString stringWithFormat:@"%@ %@ %@ in Age of Chaos. Click here to play now! http://bit.ly/14BpdVg #AgeOfChaos @AoCMobile", gs.name, brp.hasExpGained ? @"massacred" : @"was defeated by", _fup.name];
     [tweetSheet setInitialText:str];
     [[GameViewController sharedGameViewController] presentModalViewController:tweetSheet animated:YES];
   } else {

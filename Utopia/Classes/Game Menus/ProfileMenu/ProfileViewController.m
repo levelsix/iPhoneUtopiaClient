@@ -312,10 +312,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [spinner startAnimating];
     self.spinner.hidden = NO;
     equipTabView.hidden = YES;
+    self.changeButtonView.hidden = YES;
   } else {
     [spinner stopAnimating];
     self.spinner.hidden = YES;
     equipTabView.hidden = isEnemy;
+    self.changeButtonView.hidden = isEnemy;
+    self.changeButtonLabel.text = @"see all";
   }
 }
 
@@ -385,8 +388,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   if (equips) {
     [self loadEquips:equips curEquips:[Globals getUserEquipArrayFromFullUserProto:fup] prestigeLevel:fup.prestigeLevel];
     equipTabView.hidden = NO;
+    self.changeButtonView.hidden = NO;
+    self.changeButtonLabel.text = @"see all";
   } else {
     equipTabView.hidden = YES;
+    self.changeButtonView.hidden = YES;
     self.spinner.hidden = NO;
     [self.spinner startAnimating];
     _waitingForEquips = YES;
@@ -429,6 +435,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
           [self.spinner startAnimating];
           
           equipTabView.hidden = YES;
+          self.changeButtonView.hidden = YES;
           
           [self loadEquips:nil curEquips:nil prestigeLevel:0];
         }
@@ -466,6 +473,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [self.spinner stopAnimating];
     
     equipTabView.hidden = NO;
+    self.changeButtonView.hidden = NO;
   }
 }
 
@@ -522,6 +530,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   // Make equip spinner spin
   self.enemyMiddleView.hidden = YES;
   equipTabView.hidden = YES;
+  self.changeButtonView.hidden = YES;
+  self.changeButtonLabel.text = @"see all";
   self.spinner.hidden = NO;
   [self.spinner startAnimating];
   
@@ -568,6 +578,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   enemyMiddleView.hidden = YES;
   equipTabView.hidden = NO;
+  self.changeButtonView.hidden = NO;
+  self.changeButtonLabel.text = @"change";
   
   self.spinner.hidden = YES;
   [self.spinner stopAnimating];
@@ -889,6 +901,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   if (success) [self closeClicked:nil];
 }
 
+- (IBAction)changeButtonClicked:(id)sender {
+  EquipView *v = [EquipView new];
+  v.tag = 0;
+  [self equipViewSelected:v];
+}
+
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [wallTabView endEditing];
 }
@@ -947,6 +965,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     self.clanButton = nil;
     self.clanView = nil;
     self.equipBrowseView = nil;
+    self.changeButtonLabel = nil;
+    self.changeButtonView = nil;
+    self.equipTabView = nil;
     [_queuedEquips release];
     _queuedEquips = nil;
   }

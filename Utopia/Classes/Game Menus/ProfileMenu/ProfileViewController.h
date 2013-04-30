@@ -91,6 +91,8 @@
 @property (nonatomic, retain) IBOutlet UITextField *nameChangeTextField;
 @property (nonatomic, retain) IBOutlet UIView *nameChangeView;
 
+@property (nonatomic, retain) IBOutlet UIView *changeButtonView;
+@property (nonatomic, retain) IBOutlet UILabel *changeButtonLabel;
 
 // UserId will usually be equal to fup.userId unless we are loading current
 // player's profile or we are waiting for the fup from server
@@ -119,6 +121,7 @@
 - (IBAction)resetSkillsClicked:(id)sender;
 - (IBAction)prestigeClicked:(id)sender;
 - (IBAction)prestigeInfoClicked:(id)sender;
+- (IBAction)changeButtonClicked:(id)sender;
 
 + (ProfileViewController *) sharedProfileViewController;
 + (void) purgeSingleton;

@@ -26,7 +26,7 @@
 #define DELAY_BETWEEN_BUTTONS 0.03
 #define TOTAL_ROTATION_ANGLE 1080
 
-#define THREE_BUTTONS
+#define FOUR_BUTTONS
 
 #ifdef THREE_BUTTONS
 #define START_ANGLE -17.f
@@ -200,17 +200,22 @@
     button1.tag = 1;
     [_menuItems addObject:button1];
     
-    ProfileButton *button2 = [ProfileButton itemFromNormalImage:@"pathprofile.png" selectedImage:nil target:self selector:@selector(button3Clicked:)];
+    ProfileButton *button2 = [ProfileButton itemFromNormalImage:@"pathprofile.png" selectedImage:nil target:self selector:@selector(button2Clicked:)];
     button2.visible = NO;
     button2.tag = 2;
     [_menuItems addObject:button2];
     
-    ProfileButton *button3 = [ProfileButton itemFromNormalImage:@"pathhelp.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
+    ProfileButton *button3 = [ProfileButton itemFromNormalImage:@"pathhelp.png" selectedImage:nil target:self selector:@selector(button3Clicked:)];
     button3.visible = NO;
     button3.tag = 3;
     [_menuItems addObject:button3];
     
-    CCMenu *menu = [CCMenu menuWithItems:button1, button2, button3, nil];
+    ProfileButton *button4 = [ProfileButton itemFromNormalImage:@"pathsettings.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
+    button4.visible = NO;
+    button4.tag = 4;
+    [_menuItems addObject:button4];
+    
+    CCMenu *menu = [CCMenu menuWithItems:button1, button2, button3, button4, nil];
     menu.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
     [self addChild:menu z:-1];
@@ -433,17 +438,16 @@
 }
 
 - (void) button2Clicked:(id)sender {
-  [self buttonClicked:sender selector:@selector(openQuests)];
-  [Analytics openedQuestLog];
-}
-
-- (void) button3Clicked:(id)sender {
   [self buttonClicked:[_menuItems objectAtIndex:1] selector:@selector(openProfile)];
   [Analytics openedMyProfile];
 }
 
-- (void) button4Clicked:(id)sender {
+- (void) button3Clicked:(id)sender {
   [self buttonClicked:sender selector:@selector(openFAQ)];
+}
+
+- (void) button4Clicked:(id)sender {
+  [self buttonClicked:sender selector:@selector(openSettings)];
 }
 
 - (void) openNotifications {
@@ -462,6 +466,11 @@
 - (void) openFAQ {
   [FAQMenuController displayView];
   [[FAQMenuController sharedFAQMenuController] loadFAQ];
+}
+
+- (void) openSettings {
+  [FAQMenuController displayView];
+  [[FAQMenuController sharedFAQMenuController] loadSettings];
 }
 
 - (void) enableButton {

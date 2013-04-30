@@ -359,7 +359,7 @@
 							<object class="IBUILabel" id="895258165">
 								<reference key="NSNextResponder" ref="191373211"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{314, 95}, {119, 21}}</string>
+								<string key="NSFrame">{{314, 91}, {119, 21}}</string>
 								<reference key="NSSuperview" ref="191373211"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="152606941"/>
@@ -391,7 +391,7 @@
 							<object class="IBUIImageView" id="152606941">
 								<reference key="NSNextResponder" ref="191373211"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{395, 83}, {50, 51}}</string>
+								<string key="NSFrame">{{399, 81}, {50, 51}}</string>
 								<reference key="NSSuperview" ref="191373211"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="266019518"/>
@@ -559,7 +559,7 @@
 							<object class="IBUIImageView" id="399218767">
 								<reference key="NSNextResponder" ref="191373211"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{319, 258}, {13, 13}}</string>
+								<string key="NSFrame">{{319, 266}, {13, 13}}</string>
 								<reference key="NSSuperview" ref="191373211"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="538696322"/>
@@ -576,7 +576,7 @@
 							<object class="IBUIImageView" id="1028274085">
 								<reference key="NSNextResponder" ref="191373211"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{381, 258}, {12, 13}}</string>
+								<string key="NSFrame">{{381, 266}, {12, 13}}</string>
 								<reference key="NSSuperview" ref="191373211"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="114511893"/>
@@ -593,7 +593,7 @@
 							<object class="IBUILabel" id="538696322">
 								<reference key="NSNextResponder" ref="191373211"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{340, 253}, {32, 21}}</string>
+								<string key="NSFrame">{{340, 261}, {32, 21}}</string>
 								<reference key="NSSuperview" ref="191373211"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1028274085"/>
@@ -617,7 +617,7 @@
 							<object class="IBUILabel" id="114511893">
 								<reference key="NSNextResponder" ref="191373211"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{401, 253}, {32, 21}}</string>
+								<string key="NSFrame">{{401, 261}, {32, 21}}</string>
 								<reference key="NSSuperview" ref="191373211"/>
 								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -984,11 +984,6 @@
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">7</int>
-						<reference key="object" ref="52359234"/>
-						<reference key="parent" ref="191373211"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">6</int>
 						<reference key="object" ref="1006794309"/>
 						<reference key="parent" ref="191373211"/>
@@ -1041,6 +1036,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">35</int>
 						<reference key="object" ref="154997036"/>
+						<reference key="parent" ref="191373211"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">7</int>
+						<reference key="object" ref="52359234"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 				</array>
@@ -1103,6 +1103,14 @@
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">EnhancementLevelIcon</string>
+					<string key="superclassName">UIImageView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/EnhancementLevelIcon.h</string>
+					</object>
+				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">EquipButton</string>
 					<string key="superclassName">UIImageView</string>
@@ -1541,6 +1549,7 @@
 						<string key="attackLabel">UILabel</string>
 						<string key="bgdView">UIView</string>
 						<string key="defenseLabel">UILabel</string>
+						<string key="enhanceIcon">EnhancementLevelIcon</string>
 						<string key="equipIcon">EquipButton</string>
 						<string key="levelIcon">EquipLevelIcon</string>
 						<string key="mainView">UIView</string>
@@ -1560,6 +1569,10 @@
 						<object class="IBToOneOutletInfo" key="defenseLabel">
 							<string key="name">defenseLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="enhanceIcon">
+							<string key="name">enhanceIcon</string>
+							<string key="candidateClassName">EnhancementLevelIcon</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="equipIcon">
 							<string key="name">equipIcon</string>

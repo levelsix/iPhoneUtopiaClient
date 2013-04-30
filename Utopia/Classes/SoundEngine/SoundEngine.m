@@ -18,7 +18,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 - (void) playBackgroundMusic:(NSString *)music loop:(BOOL)loop {
 #ifndef DEBUG
-  if ([[MPMusicPlayerController iPodMusicPlayer] playbackState] != MPMusicPlaybackStatePlaying) {
+  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  BOOL play = ![ud boolForKey:MUSIC_DEFAULTS_KEY];
+  if (play && [[MPMusicPlayerController iPodMusicPlayer] playbackState] != MPMusicPlaybackStatePlaying) {
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:music loop:loop];
   }
 #endif
@@ -26,10 +28,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 - (int) playEffect:(NSString *)effect {
 #ifndef DEBUG
-  return [[SimpleAudioEngine sharedEngine] playEffect:effect];
-#else
-  return 0;
+  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  BOOL play = ![ud boolForKey:SOUND_EFFECTS_DEFAULTS_KEY];
+  if (play) {
+    return [[SimpleAudioEngine sharedEngine] playEffect:effect];
+  }
 #endif
+  return 0;
 }
 
 - (void) stopEffect:(int)effect {
@@ -64,11 +69,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   }
 }
 
-- (void) stopBackgroundMusic {
-  if (_curMusic != kNoMusic) {
-    _curMusic = kNoMusic;
-    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+- (void) resumeBackgroundMusic {
+  switch (_lastPlayedMusic) {
+    case kHomeMapMusic:
+      [self playHomeMapMusic];
+      break;
+    case kBattleMusic:
+      [self playBattleMusic];
+      break;
+    case kBazaarMusic:
+      [self playBazaarMusic];
+      break;
+      
+    default:
+      break;
   }
+}
+
+- (void) stopBackgroundMusic {
+  _lastPlayedMusic = _curMusic;
+  _curMusic = kNoMusic;
+  [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
 }
 
 - (void) archerAttack {

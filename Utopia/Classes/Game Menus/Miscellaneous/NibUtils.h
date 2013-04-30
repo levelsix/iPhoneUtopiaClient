@@ -172,3 +172,16 @@
 - (void) turnOff;
 
 @end
+
+@interface AutoScrollingScrollViewDelegate : UIView <UIScrollViewDelegate>
+
+@end
+
+@interface AutoScrollingScrollView : CancellableScrollView {
+  BOOL _movingLeft;
+}
+
+@property (nonatomic, retain) NSTimer *timer;
+@property (nonatomic, assign) float maxX;
+
+@end
