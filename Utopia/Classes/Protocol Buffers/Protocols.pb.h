@@ -282,6 +282,12 @@
 @class PrestigeRequestProto_Builder;
 @class PrestigeResponseProto;
 @class PrestigeResponseProto_Builder;
+@class PrivateChatPostProto;
+@class PrivateChatPostProto_Builder;
+@class PrivateChatPostRequestProto;
+@class PrivateChatPostRequestProto_Builder;
+@class PrivateChatPostResponseProto;
+@class PrivateChatPostResponseProto_Builder;
 @class PurchaseBoosterPackRequestProto;
 @class PurchaseBoosterPackRequestProto_Builder;
 @class PurchaseBoosterPackResponseProto;
@@ -400,6 +406,10 @@
 @class RetrievePlayerWallPostsRequestProto_Builder;
 @class RetrievePlayerWallPostsResponseProto;
 @class RetrievePlayerWallPostsResponseProto_Builder;
+@class RetrievePrivateChatPostsRequestProto;
+@class RetrievePrivateChatPostsRequestProto_Builder;
+@class RetrievePrivateChatPostsResponseProto;
+@class RetrievePrivateChatPostsResponseProto_Builder;
 @class RetrieveStaticDataForShopRequestProto;
 @class RetrieveStaticDataForShopRequestProto_Builder;
 @class RetrieveStaticDataForShopResponseProto;
@@ -624,6 +634,8 @@ typedef enum {
   EventProtocolRequestCChangeClanJoinTypeEvent = 84,
   EventProtocolRequestCPurchaseForgeSlotEvent = 85,
   EventProtocolRequestCPrestigeEvent = 86,
+  EventProtocolRequestCPrivateChatPostEvent = 87,
+  EventProtocolRequestCRetrievePrivateChatPostEvent = 88,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -715,6 +727,8 @@ typedef enum {
   EventProtocolResponseSChangeClanJoinTypeEvent = 84,
   EventProtocolResponseSPurchaseForgeSlotEvent = 85,
   EventProtocolResponseSPrestigeEvent = 86,
+  EventProtocolResponseSPrivateChatPostEvent = 87,
+  EventProtocolResponseSRetrievePrivateChatPostEvent = 88,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

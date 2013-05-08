@@ -166,6 +166,9 @@
 - (int) sendPurchaseBoosterPackMessage:(int)boosterPackId purchaseOption:(PurchaseOption)purchaseOption clientTime:(uint64_t)clientTime;
 - (int) sendResetBoosterPackMessage:(int)boosterPackId;
 
+- (int) sendPrivateChatPostMessage:(int)recipientId content:(NSString *)content;
+- (int) sendRetrievePrivateChatPostsMessage:(int)otherUserId;
+
 - (int) addAttackSkillPoint;
 - (int) addDefenseSkillPoint;
 - (int) addEnergySkillPoint;

@@ -51,6 +51,7 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{0, 39}, {16, 16}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="161209503"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -66,6 +67,7 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{16, 39}, {361, 16}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="1065848868"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -81,6 +83,7 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{377, 39}, {16, 16}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
+										<reference key="NSWindow"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -95,6 +98,7 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{0, 16}, {16, 23}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="1030479175"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -110,6 +114,7 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{16, 16}, {361, 23}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="555508597"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -125,6 +130,7 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{377, 16}, {16, 23}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="552129304"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -140,6 +146,7 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrameSize">{16, 16}</string>
 										<reference key="NSSuperview" ref="944736344"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="821110141"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -155,6 +162,7 @@
 										<int key="NSvFlags">295</int>
 										<string key="NSFrame">{{16, 0}, {361, 16}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="29223100"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -170,6 +178,7 @@
 										<int key="NSvFlags">289</int>
 										<string key="NSFrame">{{377, 0}, {16, 16}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="659739206"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -185,6 +194,7 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{19, 25}, {358, 2}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="694679123"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -200,6 +210,7 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{290, 2}, {88, 21}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="171986732"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
@@ -234,6 +245,7 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{20, 1}, {262, 25}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="633337606"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
@@ -242,6 +254,10 @@
 										<int key="IBUILineBreakMode">4</int>
 										<string key="IBUITitleShadowOffset">{0, 1}</string>
 										<string key="IBUINormalTitle">Meepert</string>
+										<object class="NSColor" key="IBUIHighlightedTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC44MDM5MjE1Njg2IDAuNTg4MjM1Mjk0MSAwAA</bytes>
+										</object>
 										<object class="NSColor" key="IBUINormalTitleColor">
 											<int key="NSColorSpace">1</int>
 											<bytes key="NSRGB">MSAwLjc4NDMxMzcyNTUgMAA</bytes>
@@ -261,6 +277,7 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{20, 31}, {357, 19}}</string>
 										<reference key="NSSuperview" ref="944736344"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="493582143"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
@@ -292,6 +309,7 @@
 								</array>
 								<string key="NSFrame">{{36, 4}, {393, 56}}</string>
 								<reference key="NSSuperview" ref="677857229"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="429316899"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="669300451">
@@ -305,6 +323,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{11, 26}, {27, 27}}</string>
 								<reference key="NSSuperview" ref="677857229"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="944736344"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -320,6 +339,7 @@
 								<int key="NSvFlags">256</int>
 								<string key="NSFrame">{{10, 29}, {29, 29}}</string>
 								<reference key="NSSuperview" ref="677857229"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="375775578"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -333,6 +353,7 @@
 						</array>
 						<string key="NSFrameSize">{438, 65}</string>
 						<reference key="NSSuperview" ref="614122729"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1056631760"/>
 						<string key="NSReuseIdentifierKey">_NS:11</string>
 						<reference key="IBUIBackgroundColor" ref="669300451"/>
@@ -345,6 +366,7 @@
 				</array>
 				<string key="NSFrameSize">{438, 66}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="677857229"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -493,21 +515,21 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">profileClicked:</string>
+						<string key="label">nameLabelClicked:</string>
 						<reference key="source" ref="555508597"/>
-						<reference key="destination" ref="614122729"/>
+						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">64</int>
+					<int key="connectionID">87</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">profileClicked:</string>
+						<string key="label">nameLabelClicked:</string>
 						<reference key="source" ref="375775578"/>
-						<reference key="destination" ref="614122729"/>
+						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">65</int>
+					<int key="connectionID">88</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -560,58 +582,8 @@
 						<reference key="parent" ref="614122729"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">4</int>
-						<reference key="object" ref="552129304"/>
-						<reference key="parent" ref="944736344"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">5</int>
-						<reference key="object" ref="161209503"/>
-						<reference key="parent" ref="944736344"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">6</int>
-						<reference key="object" ref="1065848868"/>
-						<reference key="parent" ref="944736344"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">7</int>
-						<reference key="object" ref="29223100"/>
-						<reference key="parent" ref="944736344"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">8</int>
-						<reference key="object" ref="1030479175"/>
-						<reference key="parent" ref="944736344"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">9</int>
-						<reference key="object" ref="493582143"/>
-						<reference key="parent" ref="944736344"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">10</int>
-						<reference key="object" ref="429316899"/>
-						<reference key="parent" ref="944736344"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">11</int>
-						<reference key="object" ref="821110141"/>
-						<reference key="parent" ref="944736344"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">12</int>
-						<reference key="object" ref="171986732"/>
-						<reference key="parent" ref="944736344"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">19</int>
 						<reference key="object" ref="659739206"/>
-						<reference key="parent" ref="944736344"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">15</int>
-						<reference key="object" ref="555508597"/>
 						<reference key="parent" ref="944736344"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -632,6 +604,56 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">68</int>
 						<reference key="object" ref="633337606"/>
+						<reference key="parent" ref="944736344"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">15</int>
+						<reference key="object" ref="555508597"/>
+						<reference key="parent" ref="944736344"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">12</int>
+						<reference key="object" ref="171986732"/>
+						<reference key="parent" ref="944736344"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">8</int>
+						<reference key="object" ref="1030479175"/>
+						<reference key="parent" ref="944736344"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">9</int>
+						<reference key="object" ref="493582143"/>
+						<reference key="parent" ref="944736344"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">6</int>
+						<reference key="object" ref="1065848868"/>
+						<reference key="parent" ref="944736344"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">7</int>
+						<reference key="object" ref="29223100"/>
+						<reference key="parent" ref="944736344"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">10</int>
+						<reference key="object" ref="429316899"/>
+						<reference key="parent" ref="944736344"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">4</int>
+						<reference key="object" ref="552129304"/>
+						<reference key="parent" ref="944736344"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">11</int>
+						<reference key="object" ref="821110141"/>
+						<reference key="parent" ref="944736344"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">5</int>
+						<reference key="object" ref="161209503"/>
 						<reference key="parent" ref="944736344"/>
 					</object>
 				</array>
@@ -671,9 +693,306 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">71</int>
+			<int key="maxID">88</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">ChatCell</string>
+					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="bubbleBotLeft">UIImageView</string>
+						<string key="bubbleBotMid">UIImageView</string>
+						<string key="bubbleBotRight">UIImageView</string>
+						<string key="bubbleMidLeft">UIImageView</string>
+						<string key="bubbleMidMid">UIImageView</string>
+						<string key="bubbleMidRight">UIImageView</string>
+						<string key="bubbleTopLeft">UIImageView</string>
+						<string key="bubbleTopMid">UIImageView</string>
+						<string key="bubbleTopRight">UIImageView</string>
+						<string key="bubbleView">UIView</string>
+						<string key="chatLine">UIImageView</string>
+						<string key="nameButton">UIButton</string>
+						<string key="textLabel">UILabel</string>
+						<string key="timeLabel">UILabel</string>
+						<string key="typeCircle">UIImageView</string>
+						<string key="typeIcon">UIButton</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="bubbleBotLeft">
+							<string key="name">bubbleBotLeft</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bubbleBotMid">
+							<string key="name">bubbleBotMid</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bubbleBotRight">
+							<string key="name">bubbleBotRight</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bubbleMidLeft">
+							<string key="name">bubbleMidLeft</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bubbleMidMid">
+							<string key="name">bubbleMidMid</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bubbleMidRight">
+							<string key="name">bubbleMidRight</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bubbleTopLeft">
+							<string key="name">bubbleTopLeft</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bubbleTopMid">
+							<string key="name">bubbleTopMid</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bubbleTopRight">
+							<string key="name">bubbleTopRight</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bubbleView">
+							<string key="name">bubbleView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="chatLine">
+							<string key="name">chatLine</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="nameButton">
+							<string key="name">nameButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textLabel">
+							<string key="name">textLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeLabel">
+							<string key="name">timeLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="typeCircle">
+							<string key="name">typeCircle</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="typeIcon">
+							<string key="name">typeIcon</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ChatCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ChatMenuController</string>
+					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="backView">UIView</string>
+						<string key="bgdView">UIView</string>
+						<string key="bottomView">UIView</string>
+						<string key="chatCell">ChatCell</string>
+						<string key="chatPopup">UIView</string>
+						<string key="chatTable">UITableView</string>
+						<string key="chatTableView">UIView</string>
+						<string key="mainView">UIView</string>
+						<string key="numChatsLabel">UILabel</string>
+						<string key="postTextField">UITextField</string>
+						<string key="privateChatView">PrivateChatView</string>
+						<string key="spinner">UIActivityIndicatorView</string>
+						<string key="topBar">ChatTopBar</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="backView">
+							<string key="name">backView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bgdView">
+							<string key="name">bgdView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bottomView">
+							<string key="name">bottomView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="chatCell">
+							<string key="name">chatCell</string>
+							<string key="candidateClassName">ChatCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="chatPopup">
+							<string key="name">chatPopup</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="chatTable">
+							<string key="name">chatTable</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="chatTableView">
+							<string key="name">chatTableView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="mainView">
+							<string key="name">mainView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="numChatsLabel">
+							<string key="name">numChatsLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="postTextField">
+							<string key="name">postTextField</string>
+							<string key="candidateClassName">UITextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="privateChatView">
+							<string key="name">privateChatView</string>
+							<string key="candidateClassName">PrivateChatView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="spinner">
+							<string key="name">spinner</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="topBar">
+							<string key="name">topBar</string>
+							<string key="candidateClassName">ChatTopBar</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ChatMenuController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ChatTopBar</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="button1">UIImageView</string>
+						<string key="button1Label">UILabel</string>
+						<string key="button2">UIImageView</string>
+						<string key="button2Label">UILabel</string>
+						<string key="button3">UIImageView</string>
+						<string key="button3Label">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="button1">
+							<string key="name">button1</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button1Label">
+							<string key="name">button1Label</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button2">
+							<string key="name">button2</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button2Label">
+							<string key="name">button2Label</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button3">
+							<string key="name">button3</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button3Label">
+							<string key="name">button3Label</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ChatTopBar.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NiceFontButton</string>
+					<string key="superclassName">UIButton</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NiceFontButton.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NiceFontLabel</string>
+					<string key="superclassName">UILabel</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NiceFontLabel.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NiceFontLabel7</string>
+					<string key="superclassName">UILabel</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NiceFontLabel7.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">PrivateChatCell</string>
+					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="blueCircle">UIImageView</string>
+						<string key="nameLabel">UILabel</string>
+						<string key="textLabel2">UILabel</string>
+						<string key="timeLabel">UILabel</string>
+						<string key="typeImage">UIImageView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="blueCircle">
+							<string key="name">blueCircle</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="nameLabel">
+							<string key="name">nameLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textLabel2">
+							<string key="name">textLabel2</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeLabel">
+							<string key="name">timeLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="typeImage">
+							<string key="name">typeImage</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/PrivateChatCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">PrivateChatView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="chatCell">PrivateChatCell</string>
+						<string key="privateChatTable">UITableView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="chatCell">
+							<string key="name">chatCell</string>
+							<string key="candidateClassName">PrivateChatCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="privateChatTable">
+							<string key="name">privateChatTable</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/PrivateChatView.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>

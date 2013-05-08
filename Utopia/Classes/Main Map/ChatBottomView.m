@@ -160,7 +160,7 @@
   
   if ([self pointInside:pt withEvent:event]) {
     [ChatMenuController displayView];
-    [[ChatMenuController sharedChatMenuController] setIsGlobal:self.isGlobal];
+    [[ChatMenuController sharedChatMenuController] setState:self.isGlobal ? kChatStateGlobal : kChatStateClan];
   }
 }
 

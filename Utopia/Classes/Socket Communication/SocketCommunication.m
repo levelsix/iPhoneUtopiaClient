@@ -1233,6 +1233,25 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCPrestigeEvent];
 }
 
+- (int) sendPrivateChatPostMessage:(int)recipientId content:(NSString *)content {
+  PrivateChatPostRequestProto *req = [[[[[PrivateChatPostRequestProto builder]
+                                         setSender:_sender]
+                                        setRecipientId:recipientId]
+                                       setContent:content]
+                                      build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCPrivateChatPostEvent];
+}
+
+- (int) sendRetrievePrivateChatPostsMessage:(int)otherUserId {
+  RetrievePrivateChatPostsRequestProto *req = [[[[RetrievePrivateChatPostsRequestProto builder]
+                                                 setOtherUserId:otherUserId]
+                                                setSender:_sender]
+                                               build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrievePrivateChatPostEvent];
+}
+
 - (int) addAttackSkillPoint {
   [self flushWithInt:EventProtocolRequestCUseSkillPointEvent];
   self.attackPoints++;

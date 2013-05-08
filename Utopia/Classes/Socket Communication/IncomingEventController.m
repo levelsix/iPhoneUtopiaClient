@@ -49,6 +49,7 @@
 #import "TournamentMenuController.h"
 #import "DailyBonusMenuController.h"
 #import "Nanigans.h"
+#import "ChatMenuController.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -336,6 +337,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSPrestigeEvent:
       responseClass = [PrestigeResponseProto class];
       break;
+    case EventProtocolResponseSPrivateChatPostEvent:
+      responseClass = [PrivateChatPostResponseProto class];
+      break;
+    case EventProtocolResponseSRetrievePrivateChatPostEvent:
+      responseClass = [RetrievePrivateChatPostsResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -550,6 +557,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToRequestedClans:proto.userClanInfoList];
     
     [gs setAllies:proto.alliesList];
+    
+    gs.privateChats = [proto.pcppList mutableCopy];
     
     if (proto.unhandledForgeAttemptList.count > 0) {
       for (UnhandledBlacksmithAttemptProto *u in proto.unhandledForgeAttemptList) {
@@ -2739,10 +2748,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleReceivedRareBoosterPurchaseResponseProto:(FullEvent *)fe {
   ReceivedRareBoosterPurchaseResponseProto *proto = (ReceivedRareBoosterPurchaseResponseProto *)fe.event;
-  RareBoosterPurchaseProto *rbp = proto.rareBoosterPurchase;
-  NSLog(@"%@ got %@ from %@.", rbp.user.name, rbp.equip.name, rbp.booster.name);
   GameState *gs = [GameState sharedGameState];
   [gs addBoosterPurchase:proto.rareBoosterPurchase];
+}
+
+- (void) handlePrivateChatPostResponseProto:(FullEvent *)fe {
+  PrivateChatPostResponseProto *proto = (PrivateChatPostResponseProto *)fe.event;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Private chat post response received with status %d.", proto.status);
+  
+  [[ChatMenuController sharedChatMenuController] receivedPrivateChatPost:proto];
+}
+
+- (void) handleRetrievePrivateChatPostsResponseProto:(FullEvent *)fe {
+  RetrievePrivateChatPostsResponseProto *proto = (RetrievePrivateChatPostsResponseProto *)fe.event;
+  [[ChatMenuController sharedChatMenuController] receivedRetrievePrivateChats:proto];
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve private chats received with status %d.", proto.status);
 }
 
 @end

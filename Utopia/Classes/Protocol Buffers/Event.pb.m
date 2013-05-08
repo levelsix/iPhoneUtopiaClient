@@ -3272,6 +3272,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) EquipEnhancementProto* equipEnhancement;
 @property (retain) NSMutableArray* mutableRareBoosterPurchasesList;
 @property (retain) NSString* kabamNaid;
+@property (retain) NSMutableArray* mutablePcppList;
 @end
 
 @implementation StartupResponseProto
@@ -3409,6 +3410,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasKabamNaid_ = !!value;
 }
 @synthesize kabamNaid;
+@synthesize mutablePcppList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3449,6 +3451,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.equipEnhancement = nil;
   self.mutableRareBoosterPurchasesList = nil;
   self.kabamNaid = nil;
+  self.mutablePcppList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3692,6 +3695,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableRareBoosterPurchasesList objectAtIndex:index];
   return value;
 }
+- (NSArray*) pcppList {
+  return mutablePcppList;
+}
+- (PrivateChatPostProto*) pcppAtIndex:(int32_t) index {
+  id value = [mutablePcppList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -3827,6 +3837,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasKabamNaid) {
     [output writeString:44 value:self.kabamNaid];
+  }
+  for (PrivateChatPostProto* element in self.pcppList) {
+    [output writeMessage:45 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3973,6 +3986,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasKabamNaid) {
     size += computeStringSize(44, self.kabamNaid);
+  }
+  for (PrivateChatPostProto* element in self.pcppList) {
+    size += computeMessageSize(45, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -7587,6 +7603,7 @@ static StartupResponseProto_StartupConstants_BoosterPackConstants* defaultStartu
 @property Float32 enhancePercentConstantA;
 @property Float32 enhancePercentConstantB;
 @property Float32 enhanceLevelExponentBase;
+@property int32_t defaultSecondsToEnhance;
 @end
 
 @implementation StartupResponseProto_StartupConstants_EnhancementConstants
@@ -7675,6 +7692,13 @@ static StartupResponseProto_StartupConstants_BoosterPackConstants* defaultStartu
   hasEnhanceLevelExponentBase_ = !!value;
 }
 @synthesize enhanceLevelExponentBase;
+- (BOOL) hasDefaultSecondsToEnhance {
+  return !!hasDefaultSecondsToEnhance_;
+}
+- (void) setHasDefaultSecondsToEnhance:(BOOL) value {
+  hasDefaultSecondsToEnhance_ = !!value;
+}
+@synthesize defaultSecondsToEnhance;
 - (void) dealloc {
   [super dealloc];
 }
@@ -7692,6 +7716,7 @@ static StartupResponseProto_StartupConstants_BoosterPackConstants* defaultStartu
     self.enhancePercentConstantA = 0;
     self.enhancePercentConstantB = 0;
     self.enhanceLevelExponentBase = 0;
+    self.defaultSecondsToEnhance = 0;
   }
   return self;
 }
@@ -7747,6 +7772,9 @@ static StartupResponseProto_StartupConstants_EnhancementConstants* defaultStartu
   if (self.hasEnhanceLevelExponentBase) {
     [output writeFloat:12 value:self.enhanceLevelExponentBase];
   }
+  if (self.hasDefaultSecondsToEnhance) {
+    [output writeInt32:13 value:self.defaultSecondsToEnhance];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -7791,6 +7819,9 @@ static StartupResponseProto_StartupConstants_EnhancementConstants* defaultStartu
   }
   if (self.hasEnhanceLevelExponentBase) {
     size += computeFloatSize(12, self.enhanceLevelExponentBase);
+  }
+  if (self.hasDefaultSecondsToEnhance) {
+    size += computeInt32Size(13, self.defaultSecondsToEnhance);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -7903,6 +7934,9 @@ static StartupResponseProto_StartupConstants_EnhancementConstants* defaultStartu
   if (other.hasEnhanceLevelExponentBase) {
     [self setEnhanceLevelExponentBase:other.enhanceLevelExponentBase];
   }
+  if (other.hasDefaultSecondsToEnhance) {
+    [self setDefaultSecondsToEnhance:other.defaultSecondsToEnhance];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -7970,6 +8004,10 @@ static StartupResponseProto_StartupConstants_EnhancementConstants* defaultStartu
       }
       case 101: {
         [self setEnhanceLevelExponentBase:[input readFloat]];
+        break;
+      }
+      case 104: {
+        [self setDefaultSecondsToEnhance:[input readInt32]];
         break;
       }
     }
@@ -8165,6 +8203,22 @@ static StartupResponseProto_StartupConstants_EnhancementConstants* defaultStartu
 - (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceLevelExponentBase {
   result.hasEnhanceLevelExponentBase = NO;
   result.enhanceLevelExponentBase = 0;
+  return self;
+}
+- (BOOL) hasDefaultSecondsToEnhance {
+  return result.hasDefaultSecondsToEnhance;
+}
+- (int32_t) defaultSecondsToEnhance {
+  return result.defaultSecondsToEnhance;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setDefaultSecondsToEnhance:(int32_t) value {
+  result.hasDefaultSecondsToEnhance = YES;
+  result.defaultSecondsToEnhance = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearDefaultSecondsToEnhance {
+  result.hasDefaultSecondsToEnhance = NO;
+  result.defaultSecondsToEnhance = 0;
   return self;
 }
 @end
@@ -19313,6 +19367,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasKabamNaid) {
     [self setKabamNaid:other.kabamNaid];
   }
+  if (other.mutablePcppList.count > 0) {
+    if (result.mutablePcppList == nil) {
+      result.mutablePcppList = [NSMutableArray array];
+    }
+    [result.mutablePcppList addObjectsFromArray:other.mutablePcppList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -19601,6 +19661,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
       }
       case 354: {
         [self setKabamNaid:[input readString]];
+        break;
+      }
+      case 362: {
+        PrivateChatPostProto_Builder* subBuilder = [PrivateChatPostProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addPcpp:[subBuilder buildPartial]];
         break;
       }
     }
@@ -20770,6 +20836,35 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
 - (StartupResponseProto_Builder*) clearKabamNaid {
   result.hasKabamNaid = NO;
   result.kabamNaid = @"";
+  return self;
+}
+- (NSArray*) pcppList {
+  if (result.mutablePcppList == nil) { return [NSArray array]; }
+  return result.mutablePcppList;
+}
+- (PrivateChatPostProto*) pcppAtIndex:(int32_t) index {
+  return [result pcppAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replacePcppAtIndex:(int32_t) index with:(PrivateChatPostProto*) value {
+  [result.mutablePcppList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllPcpp:(NSArray*) values {
+  if (result.mutablePcppList == nil) {
+    result.mutablePcppList = [NSMutableArray array];
+  }
+  [result.mutablePcppList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearPcppList {
+  result.mutablePcppList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addPcpp:(PrivateChatPostProto*) value {
+  if (result.mutablePcppList == nil) {
+    result.mutablePcppList = [NSMutableArray array];
+  }
+  [result.mutablePcppList addObject:value];
   return self;
 }
 @end
@@ -74321,6 +74416,1245 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (PurchaseForgeSlotResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusSuccess;
+  return self;
+}
+@end
+
+@interface PrivateChatPostRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t recipientId;
+@property (retain) NSString* content;
+@end
+
+@implementation PrivateChatPostRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasRecipientId {
+  return !!hasRecipientId_;
+}
+- (void) setHasRecipientId:(BOOL) value {
+  hasRecipientId_ = !!value;
+}
+@synthesize recipientId;
+- (BOOL) hasContent {
+  return !!hasContent_;
+}
+- (void) setHasContent:(BOOL) value {
+  hasContent_ = !!value;
+}
+@synthesize content;
+- (void) dealloc {
+  self.sender = nil;
+  self.content = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.recipientId = 0;
+    self.content = @"";
+  }
+  return self;
+}
+static PrivateChatPostRequestProto* defaultPrivateChatPostRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [PrivateChatPostRequestProto class]) {
+    defaultPrivateChatPostRequestProtoInstance = [[PrivateChatPostRequestProto alloc] init];
+  }
+}
++ (PrivateChatPostRequestProto*) defaultInstance {
+  return defaultPrivateChatPostRequestProtoInstance;
+}
+- (PrivateChatPostRequestProto*) defaultInstance {
+  return defaultPrivateChatPostRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasRecipientId) {
+    [output writeInt32:2 value:self.recipientId];
+  }
+  if (self.hasContent) {
+    [output writeString:3 value:self.content];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasRecipientId) {
+    size += computeInt32Size(2, self.recipientId);
+  }
+  if (self.hasContent) {
+    size += computeStringSize(3, self.content);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PrivateChatPostRequestProto*) parseFromData:(NSData*) data {
+  return (PrivateChatPostRequestProto*)[[[PrivateChatPostRequestProto builder] mergeFromData:data] build];
+}
++ (PrivateChatPostRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PrivateChatPostRequestProto*)[[[PrivateChatPostRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PrivateChatPostRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PrivateChatPostRequestProto*)[[[PrivateChatPostRequestProto builder] mergeFromInputStream:input] build];
+}
++ (PrivateChatPostRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PrivateChatPostRequestProto*)[[[PrivateChatPostRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PrivateChatPostRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PrivateChatPostRequestProto*)[[[PrivateChatPostRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PrivateChatPostRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PrivateChatPostRequestProto*)[[[PrivateChatPostRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PrivateChatPostRequestProto_Builder*) builder {
+  return [[[PrivateChatPostRequestProto_Builder alloc] init] autorelease];
+}
++ (PrivateChatPostRequestProto_Builder*) builderWithPrototype:(PrivateChatPostRequestProto*) prototype {
+  return [[PrivateChatPostRequestProto builder] mergeFrom:prototype];
+}
+- (PrivateChatPostRequestProto_Builder*) builder {
+  return [PrivateChatPostRequestProto builder];
+}
+@end
+
+@interface PrivateChatPostRequestProto_Builder()
+@property (retain) PrivateChatPostRequestProto* result;
+@end
+
+@implementation PrivateChatPostRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PrivateChatPostRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PrivateChatPostRequestProto_Builder*) clear {
+  self.result = [[[PrivateChatPostRequestProto alloc] init] autorelease];
+  return self;
+}
+- (PrivateChatPostRequestProto_Builder*) clone {
+  return [PrivateChatPostRequestProto builderWithPrototype:result];
+}
+- (PrivateChatPostRequestProto*) defaultInstance {
+  return [PrivateChatPostRequestProto defaultInstance];
+}
+- (PrivateChatPostRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PrivateChatPostRequestProto*) buildPartial {
+  PrivateChatPostRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PrivateChatPostRequestProto_Builder*) mergeFrom:(PrivateChatPostRequestProto*) other {
+  if (other == [PrivateChatPostRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasRecipientId) {
+    [self setRecipientId:other.recipientId];
+  }
+  if (other.hasContent) {
+    [self setContent:other.content];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PrivateChatPostRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PrivateChatPostRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setRecipientId:[input readInt32]];
+        break;
+      }
+      case 26: {
+        [self setContent:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (PrivateChatPostRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (PrivateChatPostRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (PrivateChatPostRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (PrivateChatPostRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasRecipientId {
+  return result.hasRecipientId;
+}
+- (int32_t) recipientId {
+  return result.recipientId;
+}
+- (PrivateChatPostRequestProto_Builder*) setRecipientId:(int32_t) value {
+  result.hasRecipientId = YES;
+  result.recipientId = value;
+  return self;
+}
+- (PrivateChatPostRequestProto_Builder*) clearRecipientId {
+  result.hasRecipientId = NO;
+  result.recipientId = 0;
+  return self;
+}
+- (BOOL) hasContent {
+  return result.hasContent;
+}
+- (NSString*) content {
+  return result.content;
+}
+- (PrivateChatPostRequestProto_Builder*) setContent:(NSString*) value {
+  result.hasContent = YES;
+  result.content = value;
+  return self;
+}
+- (PrivateChatPostRequestProto_Builder*) clearContent {
+  result.hasContent = NO;
+  result.content = @"";
+  return self;
+}
+@end
+
+@interface PrivateChatPostResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property PrivateChatPostResponseProto_PrivateChatPostStatus status;
+@property (retain) PrivateChatPostProto* post;
+@end
+
+@implementation PrivateChatPostResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (BOOL) hasPost {
+  return !!hasPost_;
+}
+- (void) setHasPost:(BOOL) value {
+  hasPost_ = !!value;
+}
+@synthesize post;
+- (void) dealloc {
+  self.sender = nil;
+  self.post = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = PrivateChatPostResponseProto_PrivateChatPostStatusSuccess;
+    self.post = [PrivateChatPostProto defaultInstance];
+  }
+  return self;
+}
+static PrivateChatPostResponseProto* defaultPrivateChatPostResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [PrivateChatPostResponseProto class]) {
+    defaultPrivateChatPostResponseProtoInstance = [[PrivateChatPostResponseProto alloc] init];
+  }
+}
++ (PrivateChatPostResponseProto*) defaultInstance {
+  return defaultPrivateChatPostResponseProtoInstance;
+}
+- (PrivateChatPostResponseProto*) defaultInstance {
+  return defaultPrivateChatPostResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  if (self.hasPost) {
+    [output writeMessage:3 value:self.post];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  if (self.hasPost) {
+    size += computeMessageSize(3, self.post);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PrivateChatPostResponseProto*) parseFromData:(NSData*) data {
+  return (PrivateChatPostResponseProto*)[[[PrivateChatPostResponseProto builder] mergeFromData:data] build];
+}
++ (PrivateChatPostResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PrivateChatPostResponseProto*)[[[PrivateChatPostResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PrivateChatPostResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PrivateChatPostResponseProto*)[[[PrivateChatPostResponseProto builder] mergeFromInputStream:input] build];
+}
++ (PrivateChatPostResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PrivateChatPostResponseProto*)[[[PrivateChatPostResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PrivateChatPostResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PrivateChatPostResponseProto*)[[[PrivateChatPostResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PrivateChatPostResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PrivateChatPostResponseProto*)[[[PrivateChatPostResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PrivateChatPostResponseProto_Builder*) builder {
+  return [[[PrivateChatPostResponseProto_Builder alloc] init] autorelease];
+}
++ (PrivateChatPostResponseProto_Builder*) builderWithPrototype:(PrivateChatPostResponseProto*) prototype {
+  return [[PrivateChatPostResponseProto builder] mergeFrom:prototype];
+}
+- (PrivateChatPostResponseProto_Builder*) builder {
+  return [PrivateChatPostResponseProto builder];
+}
+@end
+
+BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatPostResponseProto_PrivateChatPostStatus value) {
+  switch (value) {
+    case PrivateChatPostResponseProto_PrivateChatPostStatusSuccess:
+    case PrivateChatPostResponseProto_PrivateChatPostStatusNoContentSent:
+    case PrivateChatPostResponseProto_PrivateChatPostStatusPostTooLarge:
+    case PrivateChatPostResponseProto_PrivateChatPostStatusOtherFail:
+    case PrivateChatPostResponseProto_PrivateChatPostStatusBanned:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface PrivateChatPostResponseProto_Builder()
+@property (retain) PrivateChatPostResponseProto* result;
+@end
+
+@implementation PrivateChatPostResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PrivateChatPostResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PrivateChatPostResponseProto_Builder*) clear {
+  self.result = [[[PrivateChatPostResponseProto alloc] init] autorelease];
+  return self;
+}
+- (PrivateChatPostResponseProto_Builder*) clone {
+  return [PrivateChatPostResponseProto builderWithPrototype:result];
+}
+- (PrivateChatPostResponseProto*) defaultInstance {
+  return [PrivateChatPostResponseProto defaultInstance];
+}
+- (PrivateChatPostResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PrivateChatPostResponseProto*) buildPartial {
+  PrivateChatPostResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PrivateChatPostResponseProto_Builder*) mergeFrom:(PrivateChatPostResponseProto*) other {
+  if (other == [PrivateChatPostResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.hasPost) {
+    [self mergePost:other.post];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PrivateChatPostResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PrivateChatPostResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        PrivateChatPostProto_Builder* subBuilder = [PrivateChatPostProto builder];
+        if (self.hasPost) {
+          [subBuilder mergeFrom:self.post];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPost:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (PrivateChatPostResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (PrivateChatPostResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (PrivateChatPostResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (PrivateChatPostResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (PrivateChatPostResponseProto_PrivateChatPostStatus) status {
+  return result.status;
+}
+- (PrivateChatPostResponseProto_Builder*) setStatus:(PrivateChatPostResponseProto_PrivateChatPostStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (PrivateChatPostResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = PrivateChatPostResponseProto_PrivateChatPostStatusSuccess;
+  return self;
+}
+- (BOOL) hasPost {
+  return result.hasPost;
+}
+- (PrivateChatPostProto*) post {
+  return result.post;
+}
+- (PrivateChatPostResponseProto_Builder*) setPost:(PrivateChatPostProto*) value {
+  result.hasPost = YES;
+  result.post = value;
+  return self;
+}
+- (PrivateChatPostResponseProto_Builder*) setPostBuilder:(PrivateChatPostProto_Builder*) builderForValue {
+  return [self setPost:[builderForValue build]];
+}
+- (PrivateChatPostResponseProto_Builder*) mergePost:(PrivateChatPostProto*) value {
+  if (result.hasPost &&
+      result.post != [PrivateChatPostProto defaultInstance]) {
+    result.post =
+      [[[PrivateChatPostProto builderWithPrototype:result.post] mergeFrom:value] buildPartial];
+  } else {
+    result.post = value;
+  }
+  result.hasPost = YES;
+  return self;
+}
+- (PrivateChatPostResponseProto_Builder*) clearPost {
+  result.hasPost = NO;
+  result.post = [PrivateChatPostProto defaultInstance];
+  return self;
+}
+@end
+
+@interface RetrievePrivateChatPostsRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t otherUserId;
+@property int32_t beforePrivateChatId;
+@end
+
+@implementation RetrievePrivateChatPostsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasOtherUserId {
+  return !!hasOtherUserId_;
+}
+- (void) setHasOtherUserId:(BOOL) value {
+  hasOtherUserId_ = !!value;
+}
+@synthesize otherUserId;
+- (BOOL) hasBeforePrivateChatId {
+  return !!hasBeforePrivateChatId_;
+}
+- (void) setHasBeforePrivateChatId:(BOOL) value {
+  hasBeforePrivateChatId_ = !!value;
+}
+@synthesize beforePrivateChatId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.otherUserId = 0;
+    self.beforePrivateChatId = 0;
+  }
+  return self;
+}
+static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrievePrivateChatPostsRequestProto class]) {
+    defaultRetrievePrivateChatPostsRequestProtoInstance = [[RetrievePrivateChatPostsRequestProto alloc] init];
+  }
+}
++ (RetrievePrivateChatPostsRequestProto*) defaultInstance {
+  return defaultRetrievePrivateChatPostsRequestProtoInstance;
+}
+- (RetrievePrivateChatPostsRequestProto*) defaultInstance {
+  return defaultRetrievePrivateChatPostsRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasOtherUserId) {
+    [output writeInt32:2 value:self.otherUserId];
+  }
+  if (self.hasBeforePrivateChatId) {
+    [output writeInt32:3 value:self.beforePrivateChatId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasOtherUserId) {
+    size += computeInt32Size(2, self.otherUserId);
+  }
+  if (self.hasBeforePrivateChatId) {
+    size += computeInt32Size(3, self.beforePrivateChatId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrievePrivateChatPostsRequestProto*) parseFromData:(NSData*) data {
+  return (RetrievePrivateChatPostsRequestProto*)[[[RetrievePrivateChatPostsRequestProto builder] mergeFromData:data] build];
+}
++ (RetrievePrivateChatPostsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrievePrivateChatPostsRequestProto*)[[[RetrievePrivateChatPostsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrievePrivateChatPostsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrievePrivateChatPostsRequestProto*)[[[RetrievePrivateChatPostsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RetrievePrivateChatPostsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrievePrivateChatPostsRequestProto*)[[[RetrievePrivateChatPostsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrievePrivateChatPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrievePrivateChatPostsRequestProto*)[[[RetrievePrivateChatPostsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrievePrivateChatPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrievePrivateChatPostsRequestProto*)[[[RetrievePrivateChatPostsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrievePrivateChatPostsRequestProto_Builder*) builder {
+  return [[[RetrievePrivateChatPostsRequestProto_Builder alloc] init] autorelease];
+}
++ (RetrievePrivateChatPostsRequestProto_Builder*) builderWithPrototype:(RetrievePrivateChatPostsRequestProto*) prototype {
+  return [[RetrievePrivateChatPostsRequestProto builder] mergeFrom:prototype];
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) builder {
+  return [RetrievePrivateChatPostsRequestProto builder];
+}
+@end
+
+@interface RetrievePrivateChatPostsRequestProto_Builder()
+@property (retain) RetrievePrivateChatPostsRequestProto* result;
+@end
+
+@implementation RetrievePrivateChatPostsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrievePrivateChatPostsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) clear {
+  self.result = [[[RetrievePrivateChatPostsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) clone {
+  return [RetrievePrivateChatPostsRequestProto builderWithPrototype:result];
+}
+- (RetrievePrivateChatPostsRequestProto*) defaultInstance {
+  return [RetrievePrivateChatPostsRequestProto defaultInstance];
+}
+- (RetrievePrivateChatPostsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrievePrivateChatPostsRequestProto*) buildPartial {
+  RetrievePrivateChatPostsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) mergeFrom:(RetrievePrivateChatPostsRequestProto*) other {
+  if (other == [RetrievePrivateChatPostsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasOtherUserId) {
+    [self setOtherUserId:other.otherUserId];
+  }
+  if (other.hasBeforePrivateChatId) {
+    [self setBeforePrivateChatId:other.beforePrivateChatId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setOtherUserId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setBeforePrivateChatId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasOtherUserId {
+  return result.hasOtherUserId;
+}
+- (int32_t) otherUserId {
+  return result.otherUserId;
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) setOtherUserId:(int32_t) value {
+  result.hasOtherUserId = YES;
+  result.otherUserId = value;
+  return self;
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) clearOtherUserId {
+  result.hasOtherUserId = NO;
+  result.otherUserId = 0;
+  return self;
+}
+- (BOOL) hasBeforePrivateChatId {
+  return result.hasBeforePrivateChatId;
+}
+- (int32_t) beforePrivateChatId {
+  return result.beforePrivateChatId;
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) setBeforePrivateChatId:(int32_t) value {
+  result.hasBeforePrivateChatId = YES;
+  result.beforePrivateChatId = value;
+  return self;
+}
+- (RetrievePrivateChatPostsRequestProto_Builder*) clearBeforePrivateChatId {
+  result.hasBeforePrivateChatId = NO;
+  result.beforePrivateChatId = 0;
+  return self;
+}
+@end
+
+@interface RetrievePrivateChatPostsResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutablePostsList;
+@property int32_t beforePrivateChatId;
+@property RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus status;
+@property int32_t otherUserId;
+@end
+
+@implementation RetrievePrivateChatPostsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutablePostsList;
+- (BOOL) hasBeforePrivateChatId {
+  return !!hasBeforePrivateChatId_;
+}
+- (void) setHasBeforePrivateChatId:(BOOL) value {
+  hasBeforePrivateChatId_ = !!value;
+}
+@synthesize beforePrivateChatId;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (BOOL) hasOtherUserId {
+  return !!hasOtherUserId_;
+}
+- (void) setHasOtherUserId:(BOOL) value {
+  hasOtherUserId_ = !!value;
+}
+@synthesize otherUserId;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutablePostsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.beforePrivateChatId = 0;
+    self.status = RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusSuccess;
+    self.otherUserId = 0;
+  }
+  return self;
+}
+static RetrievePrivateChatPostsResponseProto* defaultRetrievePrivateChatPostsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrievePrivateChatPostsResponseProto class]) {
+    defaultRetrievePrivateChatPostsResponseProtoInstance = [[RetrievePrivateChatPostsResponseProto alloc] init];
+  }
+}
++ (RetrievePrivateChatPostsResponseProto*) defaultInstance {
+  return defaultRetrievePrivateChatPostsResponseProtoInstance;
+}
+- (RetrievePrivateChatPostsResponseProto*) defaultInstance {
+  return defaultRetrievePrivateChatPostsResponseProtoInstance;
+}
+- (NSArray*) postsList {
+  return mutablePostsList;
+}
+- (GroupChatMessageProto*) postsAtIndex:(int32_t) index {
+  id value = [mutablePostsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (GroupChatMessageProto* element in self.postsList) {
+    [output writeMessage:2 value:element];
+  }
+  if (self.hasBeforePrivateChatId) {
+    [output writeInt32:3 value:self.beforePrivateChatId];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:4 value:self.status];
+  }
+  if (self.hasOtherUserId) {
+    [output writeInt32:5 value:self.otherUserId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (GroupChatMessageProto* element in self.postsList) {
+    size += computeMessageSize(2, element);
+  }
+  if (self.hasBeforePrivateChatId) {
+    size += computeInt32Size(3, self.beforePrivateChatId);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(4, self.status);
+  }
+  if (self.hasOtherUserId) {
+    size += computeInt32Size(5, self.otherUserId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrievePrivateChatPostsResponseProto*) parseFromData:(NSData*) data {
+  return (RetrievePrivateChatPostsResponseProto*)[[[RetrievePrivateChatPostsResponseProto builder] mergeFromData:data] build];
+}
++ (RetrievePrivateChatPostsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrievePrivateChatPostsResponseProto*)[[[RetrievePrivateChatPostsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrievePrivateChatPostsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrievePrivateChatPostsResponseProto*)[[[RetrievePrivateChatPostsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrievePrivateChatPostsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrievePrivateChatPostsResponseProto*)[[[RetrievePrivateChatPostsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrievePrivateChatPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrievePrivateChatPostsResponseProto*)[[[RetrievePrivateChatPostsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrievePrivateChatPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrievePrivateChatPostsResponseProto*)[[[RetrievePrivateChatPostsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrievePrivateChatPostsResponseProto_Builder*) builder {
+  return [[[RetrievePrivateChatPostsResponseProto_Builder alloc] init] autorelease];
+}
++ (RetrievePrivateChatPostsResponseProto_Builder*) builderWithPrototype:(RetrievePrivateChatPostsResponseProto*) prototype {
+  return [[RetrievePrivateChatPostsResponseProto builder] mergeFrom:prototype];
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) builder {
+  return [RetrievePrivateChatPostsResponseProto builder];
+}
+@end
+
+BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValidValue(RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus value) {
+  switch (value) {
+    case RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusSuccess:
+    case RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RetrievePrivateChatPostsResponseProto_Builder()
+@property (retain) RetrievePrivateChatPostsResponseProto* result;
+@end
+
+@implementation RetrievePrivateChatPostsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrievePrivateChatPostsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) clear {
+  self.result = [[[RetrievePrivateChatPostsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) clone {
+  return [RetrievePrivateChatPostsResponseProto builderWithPrototype:result];
+}
+- (RetrievePrivateChatPostsResponseProto*) defaultInstance {
+  return [RetrievePrivateChatPostsResponseProto defaultInstance];
+}
+- (RetrievePrivateChatPostsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrievePrivateChatPostsResponseProto*) buildPartial {
+  RetrievePrivateChatPostsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) mergeFrom:(RetrievePrivateChatPostsResponseProto*) other {
+  if (other == [RetrievePrivateChatPostsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutablePostsList.count > 0) {
+    if (result.mutablePostsList == nil) {
+      result.mutablePostsList = [NSMutableArray array];
+    }
+    [result.mutablePostsList addObjectsFromArray:other.mutablePostsList];
+  }
+  if (other.hasBeforePrivateChatId) {
+    [self setBeforePrivateChatId:other.beforePrivateChatId];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.hasOtherUserId) {
+    [self setOtherUserId:other.otherUserId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        GroupChatMessageProto_Builder* subBuilder = [GroupChatMessageProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addPosts:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self setBeforePrivateChatId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        int32_t value = [input readEnum];
+        if (RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
+        }
+        break;
+      }
+      case 40: {
+        [self setOtherUserId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) postsList {
+  if (result.mutablePostsList == nil) { return [NSArray array]; }
+  return result.mutablePostsList;
+}
+- (GroupChatMessageProto*) postsAtIndex:(int32_t) index {
+  return [result postsAtIndex:index];
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) replacePostsAtIndex:(int32_t) index with:(GroupChatMessageProto*) value {
+  [result.mutablePostsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) addAllPosts:(NSArray*) values {
+  if (result.mutablePostsList == nil) {
+    result.mutablePostsList = [NSMutableArray array];
+  }
+  [result.mutablePostsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) clearPostsList {
+  result.mutablePostsList = nil;
+  return self;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) addPosts:(GroupChatMessageProto*) value {
+  if (result.mutablePostsList == nil) {
+    result.mutablePostsList = [NSMutableArray array];
+  }
+  [result.mutablePostsList addObject:value];
+  return self;
+}
+- (BOOL) hasBeforePrivateChatId {
+  return result.hasBeforePrivateChatId;
+}
+- (int32_t) beforePrivateChatId {
+  return result.beforePrivateChatId;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) setBeforePrivateChatId:(int32_t) value {
+  result.hasBeforePrivateChatId = YES;
+  result.beforePrivateChatId = value;
+  return self;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) clearBeforePrivateChatId {
+  result.hasBeforePrivateChatId = NO;
+  result.beforePrivateChatId = 0;
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus) status {
+  return result.status;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) setStatus:(RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusSuccess;
+  return self;
+}
+- (BOOL) hasOtherUserId {
+  return result.hasOtherUserId;
+}
+- (int32_t) otherUserId {
+  return result.otherUserId;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) setOtherUserId:(int32_t) value {
+  result.hasOtherUserId = YES;
+  result.otherUserId = value;
+  return self;
+}
+- (RetrievePrivateChatPostsResponseProto_Builder*) clearOtherUserId {
+  result.hasOtherUserId = NO;
+  result.otherUserId = 0;
   return self;
 }
 @end

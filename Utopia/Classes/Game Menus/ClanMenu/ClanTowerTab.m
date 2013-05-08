@@ -306,17 +306,23 @@
   ClanTowerView *v = _selectedView;
   _currentTowerId = 0;
   if (animated) {
+    self.scrollView.contentOffset = ccp(0,0);
+    self.scrollView.timer = nil;
     [UIView animateWithDuration:0.3f animations:^{
       [self updateForCurrentTowers];
     } completion:^(BOOL finished) {
       v.frame = [self.scrollView convertRect:v.frame fromView:self];
       [self.scrollView addSubview:v];
+      self.scrollView.maxX = self.scrollView.maxX;
     }];
   } else {
     if (_selectedView) {
       [self.scrollView addSubview:_selectedView];
     }
     [self updateForCurrentTowers];
+    
+    // scroll to front
+    self.scrollView.maxX = self.scrollView.maxX;
   }
   
   _selectedView = nil;
@@ -348,14 +354,24 @@
     }
     
     ClanTowerView *tv = [self.towerViews lastObject];
-    self.scrollView.contentSize = CGSizeMake(pt.x+tv.frame.size.width/2+TOWER_VIEW_SPACING/2, self.scrollView.frame.size.height);
+    
+    int maxX = pt.x+tv.frame.size.width/2+TOWER_VIEW_SPACING/2;
+    if (self.scrollView.maxX != maxX) {
+      self.scrollView.contentSize = CGSizeMake(maxX, self.scrollView.frame.size.height);
+      self.scrollView.maxX = maxX;
+    }
     
     if (towers.count < self.towerViews.count) {
+      for (int i = towers.count; i < self.towerViews.count; i++) {
+        [[self.towerViews objectAtIndex:i] removeFromSuperview];
+      }
       [self.towerViews removeObjectsInRange:NSMakeRange(towers.count, self.towerViews.count-towers.count)];
     }
     
     self.scrollView.alpha = 1.f;
     self.infoView.alpha = 0.f;
+    
+    self.topLabel.text = @"Maintain control of a tower to earn gold!";
   } else {
     ClanTowerProto *ctp = [gs clanTowerWithId:_currentTowerId];
     if (!ctp) {
@@ -366,6 +382,8 @@
       [_selectedView updateForTower:ctp];
       
       [[ClanMenuController sharedClanMenuController] towerClicked:ctp];
+      
+      self.topLabel.text = [NSString stringWithFormat:@"Control the %@ for %d hours and everyone in your clan earns %d gold!", ctp.towerName, ctp.numHoursToCollect, ctp.goldReward];
     }
   }
 }
@@ -399,6 +417,8 @@
     [[ClanMenuController sharedClanMenuController] towerClicked:ctp];
     
     tv.userInteractionEnabled = NO;
+    
+    self.topLabel.text = [NSString stringWithFormat:@"Control the %@ for %d hours and everyone in your clan earns %d gold!", ctp.towerName, ctp.numHoursToCollect, ctp.goldReward];
   }
 }
 

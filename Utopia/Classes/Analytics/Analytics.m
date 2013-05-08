@@ -168,7 +168,7 @@
 
 + (void) event:(NSString *)event {
   GameState *gs = [GameState sharedGameState];
-  if (gs.isTutorial && [event rangeOfString:@"Tut"].length > 0) {
+  if (gs.isTutorial && [event rangeOfString:@"Tut"].length == 0) {
     return;
   }
   

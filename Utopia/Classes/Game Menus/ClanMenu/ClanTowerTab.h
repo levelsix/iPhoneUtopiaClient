@@ -74,9 +74,11 @@
 @property (nonatomic, retain) IBOutlet ClanTowerView *nibView;
 @property (nonatomic, retain) IBOutlet ClanTowerInfoView *infoView;
 
-@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, retain) IBOutlet AutoScrollingScrollView *scrollView;
 
 @property (nonatomic, retain) NSTimer *timer;
+
+@property (nonatomic, retain) IBOutlet UILabel *topLabel;
 
 - (void) displayTowerWithId:(int)towerId;
 - (void) loadClanTowerList:(BOOL)animated;

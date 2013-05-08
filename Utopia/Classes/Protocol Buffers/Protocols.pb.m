@@ -105,6 +105,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCChangeClanJoinTypeEvent:
     case EventProtocolRequestCPurchaseForgeSlotEvent:
     case EventProtocolRequestCPrestigeEvent:
+    case EventProtocolRequestCPrivateChatPostEvent:
+    case EventProtocolRequestCRetrievePrivateChatPostEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
@@ -198,6 +200,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSChangeClanJoinTypeEvent:
     case EventProtocolResponseSPurchaseForgeSlotEvent:
     case EventProtocolResponseSPrestigeEvent:
+    case EventProtocolResponseSPrivateChatPostEvent:
+    case EventProtocolResponseSRetrievePrivateChatPostEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

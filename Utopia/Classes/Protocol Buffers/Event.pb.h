@@ -282,6 +282,12 @@
 @class PrestigeRequestProto_Builder;
 @class PrestigeResponseProto;
 @class PrestigeResponseProto_Builder;
+@class PrivateChatPostProto;
+@class PrivateChatPostProto_Builder;
+@class PrivateChatPostRequestProto;
+@class PrivateChatPostRequestProto_Builder;
+@class PrivateChatPostResponseProto;
+@class PrivateChatPostResponseProto_Builder;
 @class PurchaseBoosterPackRequestProto;
 @class PurchaseBoosterPackRequestProto_Builder;
 @class PurchaseBoosterPackResponseProto;
@@ -400,6 +406,10 @@
 @class RetrievePlayerWallPostsRequestProto_Builder;
 @class RetrievePlayerWallPostsResponseProto;
 @class RetrievePlayerWallPostsResponseProto_Builder;
+@class RetrievePrivateChatPostsRequestProto;
+@class RetrievePrivateChatPostsRequestProto_Builder;
+@class RetrievePrivateChatPostsResponseProto;
+@class RetrievePrivateChatPostsResponseProto_Builder;
 @class RetrieveStaticDataForShopRequestProto;
 @class RetrieveStaticDataForShopRequestProto_Builder;
 @class RetrieveStaticDataForShopResponseProto;
@@ -1402,6 +1412,23 @@ typedef enum {
 
 BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatus value);
 
+typedef enum {
+  PrivateChatPostResponseProto_PrivateChatPostStatusSuccess = 0,
+  PrivateChatPostResponseProto_PrivateChatPostStatusNoContentSent = 1,
+  PrivateChatPostResponseProto_PrivateChatPostStatusPostTooLarge = 2,
+  PrivateChatPostResponseProto_PrivateChatPostStatusOtherFail = 3,
+  PrivateChatPostResponseProto_PrivateChatPostStatusBanned = 4,
+} PrivateChatPostResponseProto_PrivateChatPostStatus;
+
+BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatPostResponseProto_PrivateChatPostStatus value);
+
+typedef enum {
+  RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusSuccess = 0,
+  RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusFail = 1,
+} RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus;
+
+BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValidValue(RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus value);
+
 
 @interface EventRoot : NSObject {
 }
@@ -2166,13 +2193,13 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasSender_:1;
   BOOL hasEquipEnhancement_:1;
   BOOL hasDailyBonusInfo_:1;
+  BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasTutorialConstants_:1;
-  BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
+  BOOL hasStartupStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
   int32_t experienceRequiredForCurrentLevel;
   int32_t experienceRequiredForNextLevel;
@@ -2180,43 +2207,44 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   NSString* reviewPageConfirmationMessage;
   NSString* reviewPageUrl;
   NSString* appStoreUrl;
-  FullUserProto* sender;
   EquipEnhancementProto* equipEnhancement;
   StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
+  FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_TutorialConstants* tutorialConstants;
-  StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
+  StartupResponseProto_StartupStatus startupStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableClanTowersList;
-  NSMutableArray* mutableClanTierLevelsList;
-  NSMutableArray* mutableGoldSalesList;
-  NSMutableArray* mutableClanChatsList;
-  NSMutableArray* mutableGlobalChatsList;
-  NSMutableArray* mutableMktSearchEquipsList;
   NSMutableArray* mutableForgeAttemptEquipList;
+  NSMutableArray* mutableMktSearchEquipsList;
+  NSMutableArray* mutableGlobalChatsList;
+  NSMutableArray* mutableClanChatsList;
+  NSMutableArray* mutableGoldSalesList;
+  NSMutableArray* mutableClanTierLevelsList;
+  NSMutableArray* mutableClanTowersList;
   NSMutableArray* mutableStaticStructsList;
   NSMutableArray* mutableStaticEquipsList;
   NSMutableArray* mutableBossEventsList;
-  NSMutableArray* mutableUnhandledForgeAttemptList;
   NSMutableArray* mutableLeaderboardEventsList;
   NSMutableArray* mutableRareBoosterPurchasesList;
-  NSMutableArray* mutableAlliesList;
-  NSMutableArray* mutableUserLockBoxEventsList;
-  NSMutableArray* mutableLockBoxEventsList;
-  NSMutableArray* mutableClanBulletinPostNotificationsList;
-  NSMutableArray* mutablePlayerWallPostNotificationsList;
-  NSMutableArray* mutableReferralNotificationsList;
-  NSMutableArray* mutableAttackNotificationsList;
-  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
-  NSMutableArray* mutableUserClanInfoList;
-  NSMutableArray* mutableAllCitiesList;
-  NSMutableArray* mutableUserCityInfosList;
-  NSMutableArray* mutableEquipsList;
-  NSMutableArray* mutableUserEquipsList;
+  NSMutableArray* mutablePcppList;
   NSMutableArray* mutableAvailableQuestsList;
+  NSMutableArray* mutableUserEquipsList;
+  NSMutableArray* mutableEquipsList;
   NSMutableArray* mutableInProgressCompleteQuestsList;
   NSMutableArray* mutableInProgressIncompleteQuestsList;
+  NSMutableArray* mutableUserClanInfoList;
+  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
+  NSMutableArray* mutableAttackNotificationsList;
+  NSMutableArray* mutableReferralNotificationsList;
+  NSMutableArray* mutablePlayerWallPostNotificationsList;
+  NSMutableArray* mutableClanBulletinPostNotificationsList;
+  NSMutableArray* mutableLockBoxEventsList;
+  NSMutableArray* mutableUserLockBoxEventsList;
+  NSMutableArray* mutableUserCityInfosList;
+  NSMutableArray* mutableAllCitiesList;
+  NSMutableArray* mutableAlliesList;
+  NSMutableArray* mutableUnhandledForgeAttemptList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -2306,6 +2334,8 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (LeaderboardEventProto*) leaderboardEventsAtIndex:(int32_t) index;
 - (NSArray*) rareBoosterPurchasesList;
 - (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index;
+- (NSArray*) pcppList;
+- (PrivateChatPostProto*) pcppAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -3230,6 +3260,7 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   BOOL hasEnhanceLevelExponentBase_:1;
   BOOL hasMaxEnhancementLevel_:1;
   BOOL hasEnhancePercentPerLevel_:1;
+  BOOL hasDefaultSecondsToEnhance_:1;
   Float32 enhanceTimeConstantA;
   Float32 enhanceTimeConstantB;
   Float32 enhanceTimeConstantC;
@@ -3242,6 +3273,7 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
   Float32 enhanceLevelExponentBase;
   int32_t maxEnhancementLevel;
   int32_t enhancePercentPerLevel;
+  int32_t defaultSecondsToEnhance;
 }
 - (BOOL) hasMaxEnhancementLevel;
 - (BOOL) hasEnhancePercentPerLevel;
@@ -3255,6 +3287,7 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (BOOL) hasEnhancePercentConstantA;
 - (BOOL) hasEnhancePercentConstantB;
 - (BOOL) hasEnhanceLevelExponentBase;
+- (BOOL) hasDefaultSecondsToEnhance;
 @property (readonly) int32_t maxEnhancementLevel;
 @property (readonly) int32_t enhancePercentPerLevel;
 @property (readonly) Float32 enhanceTimeConstantA;
@@ -3267,6 +3300,7 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 @property (readonly) Float32 enhancePercentConstantA;
 @property (readonly) Float32 enhancePercentConstantB;
 @property (readonly) Float32 enhanceLevelExponentBase;
+@property (readonly) int32_t defaultSecondsToEnhance;
 
 + (StartupResponseProto_StartupConstants_EnhancementConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_EnhancementConstants*) defaultInstance;
@@ -3361,6 +3395,11 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (Float32) enhanceLevelExponentBase;
 - (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhanceLevelExponentBase:(Float32) value;
 - (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhanceLevelExponentBase;
+
+- (BOOL) hasDefaultSecondsToEnhance;
+- (int32_t) defaultSecondsToEnhance;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setDefaultSecondsToEnhance:(int32_t) value;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearDefaultSecondsToEnhance;
 @end
 
 @interface StartupResponseProto_StartupConstants_LeaderboardEventConstants : PBGeneratedMessage {
@@ -6173,6 +6212,13 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (NSString*) kabamNaid;
 - (StartupResponseProto_Builder*) setKabamNaid:(NSString*) value;
 - (StartupResponseProto_Builder*) clearKabamNaid;
+
+- (NSArray*) pcppList;
+- (PrivateChatPostProto*) pcppAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replacePcppAtIndex:(int32_t) index with:(PrivateChatPostProto*) value;
+- (StartupResponseProto_Builder*) addPcpp:(PrivateChatPostProto*) value;
+- (StartupResponseProto_Builder*) addAllPcpp:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearPcppList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
@@ -18643,5 +18689,298 @@ BOOL PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusIsValidValue(Purchase
 - (PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatus) status;
 - (PurchaseForgeSlotResponseProto_Builder*) setStatus:(PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatus) value;
 - (PurchaseForgeSlotResponseProto_Builder*) clearStatus;
+@end
+
+@interface PrivateChatPostRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasRecipientId_:1;
+  BOOL hasContent_:1;
+  BOOL hasSender_:1;
+  int32_t recipientId;
+  NSString* content;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasRecipientId;
+- (BOOL) hasContent;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t recipientId;
+@property (readonly, retain) NSString* content;
+
++ (PrivateChatPostRequestProto*) defaultInstance;
+- (PrivateChatPostRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PrivateChatPostRequestProto_Builder*) builder;
++ (PrivateChatPostRequestProto_Builder*) builder;
++ (PrivateChatPostRequestProto_Builder*) builderWithPrototype:(PrivateChatPostRequestProto*) prototype;
+
++ (PrivateChatPostRequestProto*) parseFromData:(NSData*) data;
++ (PrivateChatPostRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PrivateChatPostRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (PrivateChatPostRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PrivateChatPostRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PrivateChatPostRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PrivateChatPostRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PrivateChatPostRequestProto* result;
+}
+
+- (PrivateChatPostRequestProto*) defaultInstance;
+
+- (PrivateChatPostRequestProto_Builder*) clear;
+- (PrivateChatPostRequestProto_Builder*) clone;
+
+- (PrivateChatPostRequestProto*) build;
+- (PrivateChatPostRequestProto*) buildPartial;
+
+- (PrivateChatPostRequestProto_Builder*) mergeFrom:(PrivateChatPostRequestProto*) other;
+- (PrivateChatPostRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PrivateChatPostRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PrivateChatPostRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PrivateChatPostRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PrivateChatPostRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PrivateChatPostRequestProto_Builder*) clearSender;
+
+- (BOOL) hasRecipientId;
+- (int32_t) recipientId;
+- (PrivateChatPostRequestProto_Builder*) setRecipientId:(int32_t) value;
+- (PrivateChatPostRequestProto_Builder*) clearRecipientId;
+
+- (BOOL) hasContent;
+- (NSString*) content;
+- (PrivateChatPostRequestProto_Builder*) setContent:(NSString*) value;
+- (PrivateChatPostRequestProto_Builder*) clearContent;
+@end
+
+@interface PrivateChatPostResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasPost_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  PrivateChatPostProto* post;
+  PrivateChatPostResponseProto_PrivateChatPostStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasPost;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) PrivateChatPostResponseProto_PrivateChatPostStatus status;
+@property (readonly, retain) PrivateChatPostProto* post;
+
++ (PrivateChatPostResponseProto*) defaultInstance;
+- (PrivateChatPostResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PrivateChatPostResponseProto_Builder*) builder;
++ (PrivateChatPostResponseProto_Builder*) builder;
++ (PrivateChatPostResponseProto_Builder*) builderWithPrototype:(PrivateChatPostResponseProto*) prototype;
+
++ (PrivateChatPostResponseProto*) parseFromData:(NSData*) data;
++ (PrivateChatPostResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PrivateChatPostResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (PrivateChatPostResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PrivateChatPostResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PrivateChatPostResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PrivateChatPostResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PrivateChatPostResponseProto* result;
+}
+
+- (PrivateChatPostResponseProto*) defaultInstance;
+
+- (PrivateChatPostResponseProto_Builder*) clear;
+- (PrivateChatPostResponseProto_Builder*) clone;
+
+- (PrivateChatPostResponseProto*) build;
+- (PrivateChatPostResponseProto*) buildPartial;
+
+- (PrivateChatPostResponseProto_Builder*) mergeFrom:(PrivateChatPostResponseProto*) other;
+- (PrivateChatPostResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PrivateChatPostResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PrivateChatPostResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PrivateChatPostResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PrivateChatPostResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PrivateChatPostResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (PrivateChatPostResponseProto_PrivateChatPostStatus) status;
+- (PrivateChatPostResponseProto_Builder*) setStatus:(PrivateChatPostResponseProto_PrivateChatPostStatus) value;
+- (PrivateChatPostResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasPost;
+- (PrivateChatPostProto*) post;
+- (PrivateChatPostResponseProto_Builder*) setPost:(PrivateChatPostProto*) value;
+- (PrivateChatPostResponseProto_Builder*) setPostBuilder:(PrivateChatPostProto_Builder*) builderForValue;
+- (PrivateChatPostResponseProto_Builder*) mergePost:(PrivateChatPostProto*) value;
+- (PrivateChatPostResponseProto_Builder*) clearPost;
+@end
+
+@interface RetrievePrivateChatPostsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasOtherUserId_:1;
+  BOOL hasBeforePrivateChatId_:1;
+  BOOL hasSender_:1;
+  int32_t otherUserId;
+  int32_t beforePrivateChatId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasOtherUserId;
+- (BOOL) hasBeforePrivateChatId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t otherUserId;
+@property (readonly) int32_t beforePrivateChatId;
+
++ (RetrievePrivateChatPostsRequestProto*) defaultInstance;
+- (RetrievePrivateChatPostsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrievePrivateChatPostsRequestProto_Builder*) builder;
++ (RetrievePrivateChatPostsRequestProto_Builder*) builder;
++ (RetrievePrivateChatPostsRequestProto_Builder*) builderWithPrototype:(RetrievePrivateChatPostsRequestProto*) prototype;
+
++ (RetrievePrivateChatPostsRequestProto*) parseFromData:(NSData*) data;
++ (RetrievePrivateChatPostsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrievePrivateChatPostsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrievePrivateChatPostsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrievePrivateChatPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrievePrivateChatPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrievePrivateChatPostsRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrievePrivateChatPostsRequestProto* result;
+}
+
+- (RetrievePrivateChatPostsRequestProto*) defaultInstance;
+
+- (RetrievePrivateChatPostsRequestProto_Builder*) clear;
+- (RetrievePrivateChatPostsRequestProto_Builder*) clone;
+
+- (RetrievePrivateChatPostsRequestProto*) build;
+- (RetrievePrivateChatPostsRequestProto*) buildPartial;
+
+- (RetrievePrivateChatPostsRequestProto_Builder*) mergeFrom:(RetrievePrivateChatPostsRequestProto*) other;
+- (RetrievePrivateChatPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrievePrivateChatPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrievePrivateChatPostsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrievePrivateChatPostsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrievePrivateChatPostsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrievePrivateChatPostsRequestProto_Builder*) clearSender;
+
+- (BOOL) hasOtherUserId;
+- (int32_t) otherUserId;
+- (RetrievePrivateChatPostsRequestProto_Builder*) setOtherUserId:(int32_t) value;
+- (RetrievePrivateChatPostsRequestProto_Builder*) clearOtherUserId;
+
+- (BOOL) hasBeforePrivateChatId;
+- (int32_t) beforePrivateChatId;
+- (RetrievePrivateChatPostsRequestProto_Builder*) setBeforePrivateChatId:(int32_t) value;
+- (RetrievePrivateChatPostsRequestProto_Builder*) clearBeforePrivateChatId;
+@end
+
+@interface RetrievePrivateChatPostsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasBeforePrivateChatId_:1;
+  BOOL hasOtherUserId_:1;
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  int32_t beforePrivateChatId;
+  int32_t otherUserId;
+  MinimumUserProto* sender;
+  RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus status;
+  NSMutableArray* mutablePostsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasBeforePrivateChatId;
+- (BOOL) hasStatus;
+- (BOOL) hasOtherUserId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t beforePrivateChatId;
+@property (readonly) RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus status;
+@property (readonly) int32_t otherUserId;
+- (NSArray*) postsList;
+- (GroupChatMessageProto*) postsAtIndex:(int32_t) index;
+
++ (RetrievePrivateChatPostsResponseProto*) defaultInstance;
+- (RetrievePrivateChatPostsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrievePrivateChatPostsResponseProto_Builder*) builder;
++ (RetrievePrivateChatPostsResponseProto_Builder*) builder;
++ (RetrievePrivateChatPostsResponseProto_Builder*) builderWithPrototype:(RetrievePrivateChatPostsResponseProto*) prototype;
+
++ (RetrievePrivateChatPostsResponseProto*) parseFromData:(NSData*) data;
++ (RetrievePrivateChatPostsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrievePrivateChatPostsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrievePrivateChatPostsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrievePrivateChatPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrievePrivateChatPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrievePrivateChatPostsResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrievePrivateChatPostsResponseProto* result;
+}
+
+- (RetrievePrivateChatPostsResponseProto*) defaultInstance;
+
+- (RetrievePrivateChatPostsResponseProto_Builder*) clear;
+- (RetrievePrivateChatPostsResponseProto_Builder*) clone;
+
+- (RetrievePrivateChatPostsResponseProto*) build;
+- (RetrievePrivateChatPostsResponseProto*) buildPartial;
+
+- (RetrievePrivateChatPostsResponseProto_Builder*) mergeFrom:(RetrievePrivateChatPostsResponseProto*) other;
+- (RetrievePrivateChatPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrievePrivateChatPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrievePrivateChatPostsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrievePrivateChatPostsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrievePrivateChatPostsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrievePrivateChatPostsResponseProto_Builder*) clearSender;
+
+- (NSArray*) postsList;
+- (GroupChatMessageProto*) postsAtIndex:(int32_t) index;
+- (RetrievePrivateChatPostsResponseProto_Builder*) replacePostsAtIndex:(int32_t) index with:(GroupChatMessageProto*) value;
+- (RetrievePrivateChatPostsResponseProto_Builder*) addPosts:(GroupChatMessageProto*) value;
+- (RetrievePrivateChatPostsResponseProto_Builder*) addAllPosts:(NSArray*) values;
+- (RetrievePrivateChatPostsResponseProto_Builder*) clearPostsList;
+
+- (BOOL) hasBeforePrivateChatId;
+- (int32_t) beforePrivateChatId;
+- (RetrievePrivateChatPostsResponseProto_Builder*) setBeforePrivateChatId:(int32_t) value;
+- (RetrievePrivateChatPostsResponseProto_Builder*) clearBeforePrivateChatId;
+
+- (BOOL) hasStatus;
+- (RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus) status;
+- (RetrievePrivateChatPostsResponseProto_Builder*) setStatus:(RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus) value;
+- (RetrievePrivateChatPostsResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasOtherUserId;
+- (int32_t) otherUserId;
+- (RetrievePrivateChatPostsResponseProto_Builder*) setOtherUserId:(int32_t) value;
+- (RetrievePrivateChatPostsResponseProto_Builder*) clearOtherUserId;
 @end
 

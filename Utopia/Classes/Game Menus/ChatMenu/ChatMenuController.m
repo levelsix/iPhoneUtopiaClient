@@ -17,11 +17,12 @@
 
 @implementation ChatTopBar
 
-@synthesize button1, button2;
+@synthesize button1, button2, button3;
 
 - (void) awakeFromNib {
   [self clickButton:kButton1];
   [self unclickButton:kButton2];
+  [self unclickButton:kButton3];
   
   GameState *gs = [GameState sharedGameState];
   if (gs.clanChatBadgeNum > 0) {
@@ -29,10 +30,25 @@
   }
 }
 
-- (void) loadForIsGlobal:(BOOL)isGlobal {
+- (void) loadForChatState:(ChatState)state {
   [self unclickButton:kButton1];
   [self unclickButton:kButton2];
-  [self clickButton:isGlobal ? kButton1 : kButton2];
+  [self unclickButton:kButton3];
+  
+  switch (state) {
+    case kChatStateGlobal:
+      [self clickButton:kButton1];
+      break;
+    case kChatStateClan:
+      [self clickButton:kButton2];
+      break;
+    case kChatStatePrivate:
+      [self clickButton:kButton3];
+      break;
+      
+    default:
+      break;
+  }
 }
 
 - (void) clickButton:(LeaderboardBarButton)button {
@@ -45,6 +61,11 @@
     case kButton2:
       button2.hidden = NO;
       _clickedButtons |= kButton2;
+      break;
+      
+    case kButton3:
+      button3.hidden = NO;
+      _clickedButtons |= kButton3;
       break;
       
     default:
@@ -64,6 +85,11 @@
       _clickedButtons &= ~kButton2;
       break;
       
+    case kButton3:
+      button3.hidden = YES;
+      _clickedButtons &= ~kButton3;
+      break;
+      
     default:
       break;
   }
@@ -81,6 +107,12 @@
   if (!(_clickedButtons & kButton2) && [button2 pointInside:pt withEvent:nil]) {
     _trackingButton2 = YES;
     [self clickButton:kButton2];
+  }
+  
+  pt = [touch locationInView:button3];
+  if (!(_clickedButtons & kButton3) && [button3 pointInside:pt withEvent:nil]) {
+    _trackingButton3 = YES;
+    [self clickButton:kButton3];
   }
 }
 
@@ -103,6 +135,15 @@
       [self unclickButton:kButton2];
     }
   }
+  
+  pt = [touch locationInView:button3];
+  if (_trackingButton3) {
+    if (CGRectContainsPoint(CGRectInset(button3.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton3];
+    } else {
+      [self unclickButton:kButton3];
+    }
+  }
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -112,8 +153,9 @@
     if (CGRectContainsPoint(CGRectInset(button1.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self clickButton:kButton1];
       [self unclickButton:kButton2];
+      [self unclickButton:kButton3];
       
-      [[ChatMenuController sharedChatMenuController] setIsGlobal:YES];
+      [[ChatMenuController sharedChatMenuController] setState:kChatStateGlobal];
     } else {
       [self unclickButton:kButton1];
     }
@@ -124,28 +166,127 @@
     if (CGRectContainsPoint(CGRectInset(button2.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self clickButton:kButton2];
       [self unclickButton:kButton1];
+      [self unclickButton:kButton3];
       
-      [[ChatMenuController sharedChatMenuController] setIsGlobal:NO];
+      [[ChatMenuController sharedChatMenuController] setState:kChatStateClan];
     } else {
       [self unclickButton:kButton2];
     }
   }
   
+  pt = [touch locationInView:button3];
+  if (_trackingButton3) {
+    if (CGRectContainsPoint(CGRectInset(button3.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kButton3];
+      [self unclickButton:kButton1];
+      [self unclickButton:kButton2];
+      
+      [[ChatMenuController sharedChatMenuController] setState:kChatStatePrivate];
+    } else {
+      [self unclickButton:kButton3];
+    }
+  }
+  
   _trackingButton1 = NO;
   _trackingButton2 = NO;
+  _trackingButton3 = NO;
 }
 
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
   [self unclickButton:kButton1];
   [self unclickButton:kButton2];
+  [self unclickButton:kButton3];
   _trackingButton1 = NO;
   _trackingButton2 = NO;
+  _trackingButton3 = NO;
 }
 
 - (void) dealloc {
   self.button2 = nil;
   self.button1 = nil;
+  self.button3 = nil;
+  self.button1Label = nil;
   self.button2Label = nil;
+  self.button3Label = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation PrivateChatCell
+
+- (void) awakeFromNib {
+  CAGradientLayer *gradient = [CAGradientLayer layer];
+  gradient.frame = self.bounds;
+  UIColor *topColor = [UIColor colorWithRed:35/255.f green:35/255.f blue:35/255.f alpha:0.5f];
+  UIColor *botColor = [UIColor colorWithRed:12/255.f green:12/255.f blue:12/255.f alpha:0.5f];
+  gradient.colors = [NSArray arrayWithObjects:(id)[topColor CGColor], (id)[botColor CGColor], nil];
+  [self.contentView.layer insertSublayer:gradient atIndex:0];
+  
+  self.selectedBackgroundView = [[[UIView alloc] initWithFrame:self.bounds] autorelease];
+  self.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.5f];
+}
+
+- (void) updateForPrivateChat:(PrivateChatPostProto *)pcpp {
+  GameState *gs = [GameState sharedGameState];
+  self.privateChat = pcpp;
+  
+  MinimumUserProto *mup;
+  if (pcpp.poster.userId == gs.userId) {
+    mup = pcpp.recipient;
+  } else {
+    mup = pcpp.poster;
+  }
+  
+  self.typeImage.image = [Globals squareImageForUser:mup.userType];
+  self.nameLabel.text = mup.name;
+  self.textLabel2.text = pcpp.content;
+  self.timeLabel.text = [Globals stringForTimeSinceNow:[NSDate dateWithTimeIntervalSince1970:pcpp.timeOfPost/1000.] shortened:NO];
+}
+
+- (void) dealloc {
+  self.blueCircle = nil;
+  self.typeImage = nil;
+  self.nameLabel = nil;
+  self.textLabel2 = nil;
+  self.timeLabel = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation PrivateChatView
+
+- (void) awakeFromNib {
+  self.privateChatTable.tableFooterView = [UIView new];
+}
+
+- (int) numberOfSectionsInTableView:(UITableView *)tableView {
+  return 1;
+}
+
+- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  GameState *gs = [GameState sharedGameState];
+  return gs.privateChats.count;
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  PrivateChatCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PrivateChatCell"];
+  
+  if (!cell) {
+    [[NSBundle mainBundle] loadNibNamed:@"PrivateChatCell" owner:self options:nil];
+    cell = self.chatCell;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  [cell updateForPrivateChat:[gs.privateChats objectAtIndex:indexPath.row]];
+  
+  return cell;
+}
+
+- (void) dealloc {
+  self.privateChatTable = nil;
+  self.chatCell = nil;
   [super dealloc];
 }
 
@@ -300,13 +441,6 @@ static float buttonInitialWidth = 159.f;
   }
 }
 
-- (IBAction)profileClicked:(id)sender {
-  if (self.chatMessage) {
-    [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:chatMessage.sender withState:kProfileState];
-    [ProfileViewController displayView];
-  }
-}
-
 - (void) dealloc {
   self.bubbleView = nil;
   self.bubbleBotLeft = nil;
@@ -336,18 +470,25 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 @synthesize bottomView, postTextField;
 @synthesize topBar;
 @synthesize mainView, bgdView;
-@synthesize isGlobal;
+@synthesize state = _state;
 
 - (void)viewDidLoad
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
-  self.isGlobal = YES;
+  self.state = kChatStateGlobal;
+  
+  self.privateChatView.frame = self.chatTableView.frame;
+  [self.chatTableView.superview addSubview:self.privateChatView];
+  
+  [self.mainView addSubview:self.chatPopup];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [self.chatTable reloadData];
   [self updateNumChatsLabel];
+  
+  self.chatPopup.hidden = YES;
   
   self.mainView.center = CGPointMake(self.mainView.center.x, self.mainView.superview.frame.size.height+self.mainView.frame.size.height/2);
   self.bgdView.alpha = 0.f;
@@ -357,21 +498,37 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   }];
 }
 
-- (void) setIsGlobal:(BOOL)i {
+- (void) setState:(ChatState)state {
   GameState *gs = [GameState sharedGameState];
-  if (i == NO && !gs.clan) {
+  if (state == kChatStateClan && !gs.clan) {
     [Globals popupMessage:@"You must be in a clan first!"];
-    isGlobal = YES;
+    state = _state;
   } else {
-    isGlobal = i;
+    _state = state;
     
-    if (i == NO) {
+    if (state == kChatStateClan) {
       [gs clanChatViewed];
     }
   }
   
+  if (state == kChatStatePrivate) {
+    self.privateChatView.hidden = NO;
+    self.chatTableView.hidden = YES;
+    [self loadPrivateChatViewAnimated:NO];
+  } else {
+    self.privateChatView.hidden = YES;
+    self.chatTableView.hidden = NO;
+    [self loadChatTableAnimated:NO];
+  }
+  self.backView.hidden = YES;
+  self.spinner.hidden = YES;
+  
+  self.chatPopup.hidden = YES;
+  
+  [self.postTextField resignFirstResponder];
+  
   [self.chatTable reloadData];
-  [self.topBar loadForIsGlobal:isGlobal];
+  [self.topBar loadForChatState:state];
   [self updateNumChatsLabel];
   
   int numRows = [self.chatTable numberOfRowsInSection:0];
@@ -382,10 +539,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 
 - (NSArray *) arrayForState {
   GameState *gs = [GameState sharedGameState];
-  if (isGlobal) {
+  if (self.state == kChatStateGlobal) {
     return gs.globalChatMessages;
-  } else {
+  } else if (self.state == kChatStateClan) {
     return gs.clanChatMessages;
+  } else {
+    return self.privateChatMsgs;
   }
 }
 
@@ -411,29 +570,132 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 }
 
 - (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (!chatCellLoaded) {
-    [[NSBundle mainBundle] loadNibNamed:@"ChatCell" owner:self options:nil];
-    chatCellLoaded = YES;
-    self.chatCell = nil;
+  if (tableView.tag == 1) {
+    if (!chatCellLoaded) {
+      [[NSBundle mainBundle] loadNibNamed:@"ChatCell" owner:self options:nil];
+      chatCellLoaded = YES;
+      self.chatCell = nil;
+    }
+    
+    ChatMessage *cm = [[self arrayForState] objectAtIndex:indexPath.row];
+    CGSize size = [cm.message sizeWithFont:[UIFont fontWithName:@"SanvitoPro-Semibold" size:cellLabelFontSize] constrainedToSize:CGSizeMake(chatLabelWidth, 999) lineBreakMode:UILineBreakModeWordWrap];
+    
+    return cellHeight + (size.height-cellLabelHeight);
+  }
+  return tableView.rowHeight;
+}
+
+- (void) loadPrivateChatViewAnimated:(BOOL)animated {
+  CGRect r = self.chatTableView.frame;
+  r.origin = CGPointMake(0, 0);
+  self.chatTableView.frame = r;
+  self.chatTableView.hidden = NO;
+  self.backView.alpha = 1.f;
+  
+  void (^block)(void) = ^{
+    CGRect r = self.chatTableView.frame;
+    r.origin = CGPointMake(r.size.width, 0);
+    self.chatTableView.frame = r;
+    
+    r = self.privateChatView.frame;
+    r.origin = CGPointMake(0, 0);
+    self.privateChatView.frame = r;
+    
+    self.backView.alpha = 0.f;
+  };
+  
+  if (animated) {
+    [UIView animateWithDuration:0.3f animations:block completion:^(BOOL finished) {
+      self.backView.hidden = YES;
+    }];
+  } else {
+    block();
+    self.backView.hidden = YES;
+  }
+}
+
+- (void) loadChatTableAnimated:(BOOL)animated {
+  CGRect r = self.privateChatView.frame;
+  r.origin = CGPointMake(0, 0);
+  self.privateChatView.frame = r;
+  self.privateChatView.hidden = NO;
+  self.backView.hidden = NO;
+  self.backView.alpha = 0.f;
+  
+  void (^block)(void) = ^{
+    CGRect r = self.chatTableView.frame;
+    r.origin = CGPointMake(0, 0);
+    self.chatTableView.frame = r;
+    
+    r = self.privateChatView.frame;
+    r.origin = CGPointMake(-r.size.width, 0);
+    self.privateChatView.frame = r;
+    
+    self.backView.alpha = 1.f;
+  };
+  
+  if (animated) {
+    [UIView animateWithDuration:0.3f animations:block];
+  } else {
+    block();
+  }
+}
+
+- (void) loadPrivateChatsForUserId:(int)userId animated:(BOOL)animated {
+  if (self.state != kChatStatePrivate) {
+    self.state = kChatStatePrivate;
   }
   
-  ChatMessage *cm = [[self arrayForState] objectAtIndex:indexPath.row];
-  CGSize size = [cm.message sizeWithFont:[UIFont fontWithName:@"SanvitoPro-Semibold" size:cellLabelFontSize] constrainedToSize:CGSizeMake(chatLabelWidth, 999) lineBreakMode:UILineBreakModeWordWrap];
+  [self loadChatTableAnimated:animated];
+  [[OutgoingEventController sharedOutgoingEventController] retrievePrivateChatPosts:userId];
+  _otherUserId = userId;
+  self.privateChatMsgs = nil;
+  [self.chatTable reloadData];
+  self.spinner.hidden = NO;
+}
+
+- (void) displayChatPopupOnView:(UIView *)label {
+  self.chatPopup.hidden = NO;
+  self.chatPopup.alpha = 0.f;
   
-  return cellHeight + (size.height-cellLabelHeight);
+  CGPoint translPt = [self.chatPopup.superview convertPoint:label.center fromView:label.superview];
+  self.chatPopup.center = ccp(translPt.x, translPt.y-self.chatPopup.frame.size.height/2-label.frame.size.height/2);
+  
+  [UIView animateWithDuration:0.2f animations:^{
+    self.chatPopup.alpha = 1.f;
+  }];
+}
+
+- (void) removeChatPopup {
+  [UIView animateWithDuration:0.2f animations:^{
+    self.chatPopup.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    self.chatPopup.hidden = YES;
+  }];
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  [self.postTextField resignFirstResponder];
+  // This is for the private chat list
+  GameState *gs = [GameState sharedGameState];
+  PrivateChatCell *pcc = (PrivateChatCell *)[tableView cellForRowAtIndexPath:indexPath];
+  int userId = pcc.privateChat.poster.userId;
+  userId = userId == gs.userId ? pcc.privateChat.recipient.userId : userId;
+  [self loadPrivateChatsForUserId:userId animated:YES];
+  
+  [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (void) scrollViewWillBeginDragging:(UIScrollView *)scrollView {
   [self.postTextField resignFirstResponder];
+  [self removeChatPopup];
+}
+
+- (IBAction)backClicked:(id)sender {
+  [self.postTextField resignFirstResponder];
+  [self loadPrivateChatViewAnimated:YES];
 }
 
 - (void) updateNumChatsLabel {
-  GameState *gs = [GameState sharedGameState];
-  self.numChatsLabel.text = isGlobal ? [Globals commafyNumber:gs.numGroupChatsRemaining] : @"N/A";
 }
 
 - (void) close {
@@ -453,12 +715,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 }
 
 - (IBAction)addChatsClicked:(id)sender {
-  if (isGlobal) {
-    [[RefillMenuController sharedRefillMenuController] displayBuySpeakersView];
-  } else {
-    [Globals popupMessage:@"You don't need speakers to chat with your clan."];
-  }
-  [self.postTextField resignFirstResponder];
+  //  if (isGlobal) {
+  //    [[RefillMenuController sharedRefillMenuController] displayBuySpeakersView];
+  //  } else {
+  //    [Globals popupMessage:@"You don't need speakers to chat with your clan."];
+  //  }
+  //  [self.postTextField resignFirstResponder];
 }
 
 - (IBAction)chatRulesClicked:(id)sender {
@@ -466,24 +728,61 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   [self.postTextField resignFirstResponder];
 }
 
+- (IBAction)nameLabelClicked:(UIView *)sender {
+  while (![sender isKindOfClass:[ChatCell class]]) {
+    sender = [sender superview];
+  }
+  GameState *gs = [GameState sharedGameState];
+  ChatCell *cell = (ChatCell *)sender;
+  self.clickedMinUser = cell.chatMessage.sender;
+  
+  if (self.state == kChatStatePrivate || self.clickedMinUser.userId == gs.userId) {
+    [self profileClicked:nil];
+  } else {
+    [self displayChatPopupOnView:cell.nameButton];
+  }
+}
+
+- (IBAction)profileClicked:(id)sender {
+  if (self.clickedMinUser) {
+    [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:self.clickedMinUser withState:kProfileState];
+    [ProfileViewController displayView];
+  }
+}
+
+- (IBAction)chatClicked:(id)sender {
+  [self loadPrivateChatsForUserId:self.clickedMinUser.userId animated:NO];
+}
+
 - (IBAction)sendClicked:(id)sender {
   [self send];
 }
 
 - (void) send {
-  //  GameState *gs = [GameState sharedGameState];
+  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSString *msg = self.postTextField.text;
-  //  if ((isGlobal && gs.numGroupChatsRemaining > 0) || !isGlobal) {
   if (msg.length > 0 && msg.length <= gl.maxLengthOfChatString) {
-    GroupChatScope scope = self.isGlobal ? GroupChatScopeGlobal : GroupChatScopeClan;
-    [[OutgoingEventController sharedOutgoingEventController] sendGroupChat:scope message:msg];
-    [self updateNumChatsLabel];
+    if (self.state == kChatStatePrivate) {
+      [[OutgoingEventController sharedOutgoingEventController] privateChatPost:_otherUserId content:msg];
+      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        ChatMessage *cm = [[ChatMessage alloc] init];
+        cm.date = [NSDate date];
+        cm.message = msg;
+        cm.sender = gs.minUser;
+        [self addChatMessage:cm];
+      });
+    } else {
+      //  if ((isGlobal && gs.numGroupChatsRemaining > 0) || !isGlobal) {
+      GroupChatScope scope = self.state == kChatStateGlobal ? GroupChatScopeGlobal : GroupChatScopeClan;
+      [[OutgoingEventController sharedOutgoingEventController] sendGroupChat:scope message:msg];
+      [self updateNumChatsLabel];
+    }
+    //  } else {
+    //    [self addChatsClicked:nil];
+    //  }
   }
   self.postTextField.text = nil;
-  //  } else {
-  //    [self addChatsClicked:nil];
-  //  }
   [self.postTextField resignFirstResponder];
 }
 
@@ -497,6 +796,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     r.origin.y = s.origin.y-r.size.height;
     self.chatTable.frame = r;
   }];
+  
+  self.chatPopup.hidden = YES;
   
   int numRows = [self.chatTable numberOfRowsInSection:0];
   if (numRows > 0) {
@@ -529,11 +830,67 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   return YES;
 }
 
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  [postTextField resignFirstResponder];
+- (void) addChatMessage:(ChatMessage *)msg {
+  [self.privateChatMsgs addObject:msg];
+  
+  NSIndexPath *path = [NSIndexPath indexPathForRow:self.privateChatMsgs.count-1 inSection:0];
+  [self.chatTable insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
+  
+  if (self.chatTable.contentOffset.y > self.chatTable.contentSize.height-self.chatTable.frame.size.height-100) {
+    [self.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+  }
 }
 
-- (void)didReceiveMemoryWarning
+- (void) receivedRetrievePrivateChats:(RetrievePrivateChatPostsResponseProto *)proto {
+  if (_otherUserId == proto.otherUserId) {
+    NSMutableArray *arr = [NSMutableArray array];;
+    for (GroupChatMessageProto *chat in proto.postsList) {
+      [arr addObject:[[ChatMessage alloc] initWithProto:chat]];
+    }
+    [arr sortUsingComparator:^NSComparisonResult(ChatMessage *obj1, ChatMessage *obj2) {
+      return [obj1.date compare:obj2.date];
+    }];
+    self.privateChatMsgs = arr;
+    
+    [self.chatTable reloadData];
+    self.spinner.hidden = YES;
+    
+    int numRows = [self.chatTable numberOfRowsInSection:0];
+    if (numRows > 0) {
+      [self.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:numRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    }
+  }
+}
+
+- (void) receivedPrivateChatPost:(PrivateChatPostResponseProto *)proto {
+  GameState *gs = [GameState sharedGameState];
+  if (_otherUserId == proto.sender.userId && proto.sender.userId != gs.userId) {
+    ChatMessage *cm = [[ChatMessage alloc] init];
+    cm.sender = proto.post.poster;
+    cm.date = [NSDate dateWithTimeIntervalSince1970:proto.post.timeOfPost/1000.];
+    cm.message = proto.post.content;
+    [self addChatMessage:cm];
+  }
+  
+  int userId = proto.post.recipient.userId == gs.userId ? proto.post.poster.userId : proto.post.recipient.userId;
+  PrivateChatPostProto *privChat = nil;
+  for (PrivateChatPostProto *pcpp in gs.privateChats) {
+    int otherUserId = pcpp.recipient.userId == gs.userId ? pcpp.poster.userId : pcpp.recipient.userId;
+    if (userId == otherUserId) {
+      privChat = pcpp;
+    }
+  }
+  [gs.privateChats removeObject:privChat];
+  [gs.privateChats insertObject:proto.post atIndex:0];
+  [self.privateChatView.privateChatTable reloadData];
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self.postTextField resignFirstResponder];
+  [self removeChatPopup];
+}
+
+- (void) didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
   if (self.isViewLoaded && !self.view.superview) {
@@ -548,6 +905,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     self.bgdView = nil;
     self.mainView = nil;
     self.topBar = nil;
+    self.privateChatView = nil;
+    self.chatTableView = nil;
+    self.chatPopup = nil;
   }
 }
 

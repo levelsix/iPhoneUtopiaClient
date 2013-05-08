@@ -203,6 +203,7 @@
 @property (nonatomic, retain) NSMutableArray *globalChatMessages;
 @property (nonatomic, retain) NSMutableArray *clanChatMessages;
 @property (nonatomic, retain) NSMutableArray *boosterPurchases;
+@property (nonatomic, retain) NSMutableArray *privateChats;
 
 @property (nonatomic, retain) NSMutableArray *unrespondedUpdates;
 

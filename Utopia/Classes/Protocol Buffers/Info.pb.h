@@ -118,6 +118,8 @@
 @class PlayerWallPostProto_Builder;
 @class PossessEquipJobProto;
 @class PossessEquipJobProto_Builder;
+@class PrivateChatPostProto;
+@class PrivateChatPostProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
 @class UnhandledBlacksmithAttemptProto;
@@ -342,6 +344,94 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
+@end
+
+@interface PrivateChatPostProto : PBGeneratedMessage {
+@private
+  BOOL hasTimeOfPost_:1;
+  BOOL hasPrivateChatPostId_:1;
+  BOOL hasContent_:1;
+  BOOL hasPoster_:1;
+  BOOL hasRecipient_:1;
+  int64_t timeOfPost;
+  int32_t privateChatPostId;
+  NSString* content;
+  MinimumUserProto* poster;
+  MinimumUserProto* recipient;
+}
+- (BOOL) hasPrivateChatPostId;
+- (BOOL) hasPoster;
+- (BOOL) hasRecipient;
+- (BOOL) hasTimeOfPost;
+- (BOOL) hasContent;
+@property (readonly) int32_t privateChatPostId;
+@property (readonly, retain) MinimumUserProto* poster;
+@property (readonly, retain) MinimumUserProto* recipient;
+@property (readonly) int64_t timeOfPost;
+@property (readonly, retain) NSString* content;
+
++ (PrivateChatPostProto*) defaultInstance;
+- (PrivateChatPostProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PrivateChatPostProto_Builder*) builder;
++ (PrivateChatPostProto_Builder*) builder;
++ (PrivateChatPostProto_Builder*) builderWithPrototype:(PrivateChatPostProto*) prototype;
+
++ (PrivateChatPostProto*) parseFromData:(NSData*) data;
++ (PrivateChatPostProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PrivateChatPostProto*) parseFromInputStream:(NSInputStream*) input;
++ (PrivateChatPostProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PrivateChatPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PrivateChatPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PrivateChatPostProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PrivateChatPostProto* result;
+}
+
+- (PrivateChatPostProto*) defaultInstance;
+
+- (PrivateChatPostProto_Builder*) clear;
+- (PrivateChatPostProto_Builder*) clone;
+
+- (PrivateChatPostProto*) build;
+- (PrivateChatPostProto*) buildPartial;
+
+- (PrivateChatPostProto_Builder*) mergeFrom:(PrivateChatPostProto*) other;
+- (PrivateChatPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PrivateChatPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasPrivateChatPostId;
+- (int32_t) privateChatPostId;
+- (PrivateChatPostProto_Builder*) setPrivateChatPostId:(int32_t) value;
+- (PrivateChatPostProto_Builder*) clearPrivateChatPostId;
+
+- (BOOL) hasPoster;
+- (MinimumUserProto*) poster;
+- (PrivateChatPostProto_Builder*) setPoster:(MinimumUserProto*) value;
+- (PrivateChatPostProto_Builder*) setPosterBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PrivateChatPostProto_Builder*) mergePoster:(MinimumUserProto*) value;
+- (PrivateChatPostProto_Builder*) clearPoster;
+
+- (BOOL) hasRecipient;
+- (MinimumUserProto*) recipient;
+- (PrivateChatPostProto_Builder*) setRecipient:(MinimumUserProto*) value;
+- (PrivateChatPostProto_Builder*) setRecipientBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PrivateChatPostProto_Builder*) mergeRecipient:(MinimumUserProto*) value;
+- (PrivateChatPostProto_Builder*) clearRecipient;
+
+- (BOOL) hasTimeOfPost;
+- (int64_t) timeOfPost;
+- (PrivateChatPostProto_Builder*) setTimeOfPost:(int64_t) value;
+- (PrivateChatPostProto_Builder*) clearTimeOfPost;
+
+- (BOOL) hasContent;
+- (NSString*) content;
+- (PrivateChatPostProto_Builder*) setContent:(NSString*) value;
+- (PrivateChatPostProto_Builder*) clearContent;
 @end
 
 @interface RareBoosterPurchaseProto : PBGeneratedMessage {

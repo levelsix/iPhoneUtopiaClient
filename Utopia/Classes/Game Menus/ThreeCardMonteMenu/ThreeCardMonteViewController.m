@@ -296,8 +296,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
     [[OutgoingEventController sharedOutgoingEventController] playThreeCardMonte:cardId];
     
     [self flipCardsDown:YES];
+    _continueShuffling = YES;
+    _timesShuffled = 0;
     [self performSelector:@selector(shuffleCards) withObject:nil afterDelay:FLIP_DURATION];
-    [self performSelector:@selector(stopShuffling) withObject:nil afterDelay:SHUFFLE_DURATION+FLIP_DURATION];
     
     [self updateGoldLabel];
     
@@ -310,14 +311,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
 }
 
 - (void) shuffleCards {
-  _continueShuffling = YES;
+  _timesShuffled++;
   [UIView animateWithDuration:SHUFFLE_SPEED animations:^{
     CGRect frame = badCardView.frame;
     badCardView.frame = mediumCardView.frame;
     mediumCardView.frame = goodCardView.frame;
     goodCardView.frame = frame;
   } completion:^(BOOL finished) {
-    if (_continueShuffling) {
+    if (_continueShuffling || _timesShuffled < 5) {
       [self shuffleCards];
     } else {
       [self allowPicking];
@@ -419,7 +420,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
 }
 
 - (void) receivedPlayThreeCardMonteResponse:(PlayThreeCardMonteResponseProto *)proto {
-  
+  [self stopShuffling];
 }
 
 - (void) receivedRetreiveThreeCardMonteResponse:(RetrieveThreeCardMonteResponseProto *)proto {

@@ -163,4 +163,7 @@
 - (void) purchaseBoosterPack:(int)boosterPackId purchaseOption:(PurchaseOption)option;
 - (void) resetBoosterPack:(int)boosterPackId;
 
+- (void) privateChatPost:(int)recipientId content:(NSString *)content;
+- (void) retrievePrivateChatPosts:(int)otherUserId;
+
 @end

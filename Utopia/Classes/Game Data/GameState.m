@@ -186,16 +186,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time {
-  if (time == 0) {
-    // Special case: if time is 0, let it go through automatically
-    _lastUserUpdate = 0;
-  } else if (time <= _lastUserUpdate) {
-    return;
-  } else {
-    _lastUserUpdate = time;
-  }
-  
-  LNLog(@"Before, Energy: %@, Stamina: %@", self.lastEnergyRefill, self.lastStaminaRefill);
+//  if (time == 0) {
+//    // Special case: if time is 0, let it go through automatically
+//    _lastUserUpdate = 0;
+//  } else if (time <= _lastUserUpdate) {
+//    LNLog(@"Did not update. This Update time = %lld, Last Update time = %lld.", time, _lastUserUpdate);
+//    return;
+//  } else {
+//    _lastUserUpdate = time;
+//    NSLog(@"Updated time to %lld.", time);
+//  }
   
   // Copy over data from full user proto
   if (_userId != user.userId || ![_name isEqualToString:user.name] || _type != user.userType || (user.hasClan && ![self.clan.data isEqualToData:user.clan.data]) || (!user.hasClan && self.clan)) {
@@ -256,22 +256,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   self.lastGoldmineRetrieval = user.hasLastGoldmineRetrieval ? [NSDate dateWithTimeIntervalSince1970:user.lastGoldmineRetrieval/1000.0] : nil;
   
-  LNLog(@"Medium, Energy: %@, Stamina: %@", self.lastEnergyRefill, self.lastStaminaRefill);
-  
   for (id<GameStateUpdate> gsu in _unrespondedUpdates) {
     if ([gsu respondsToSelector:@selector(update)]) {
       [gsu update];
     }
   }
   
-  LNLog(@"After, Energy: %@, Stamina: %@", self.lastEnergyRefill, self.lastStaminaRefill);
-  
   [[TopBar sharedTopBar] setUpEnergyTimer];
   [[TopBar sharedTopBar] setUpStaminaTimer];
 }
 
 - (MinimumUserProto *) minUser {
-  return [[[[[[MinimumUserProto builder] setName:_name] setUserId:_userId] setUserType:_type] setClan:_clan] build];
+  MinimumUserProto_Builder *mup = [[[[MinimumUserProto builder] setName:_name] setUserId:_userId] setUserType:_type];
+  if (_clan != nil) {
+    mup.clan = _clan;
+  }
+  return mup.build;
 }
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId {
@@ -607,12 +607,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if ([ChatMenuController isInitialized]) {
     ChatMenuController *cmc = [ChatMenuController sharedChatMenuController];
     if (cmc.view.superview) {
-      if ((cmc.isGlobal && scope == GroupChatScopeGlobal) || (!cmc.isGlobal && scope == GroupChatScopeClan)) {
+      if ((cmc.state == kChatStateGlobal && scope == GroupChatScopeGlobal) || (cmc.state == kChatStateClan && scope == GroupChatScopeClan)) {
         NSIndexPath *path = [NSIndexPath indexPathForRow:arrCount-1 inSection:0];
         [cmc.chatTable insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
         
         // Give 100 pixels of leniency
-        if (cmc.chatTable.contentOffset.y > cmc.chatTable.contentSize.height-cmc.chatTable.frame.size.height-100) {
+        if (cmc.chatPopup.hidden && cmc.chatTable.contentOffset.y > cmc.chatTable.contentSize.height-cmc.chatTable.frame.size.height-100) {
           [cmc.chatTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:YES];
         }
       }
@@ -629,7 +629,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     
     if (shouldIncrement && [ChatMenuController isInitialized]) {
       ChatMenuController *cmc = [ChatMenuController sharedChatMenuController];
-      if (cmc.view.superview && !cmc.isGlobal) {
+      if (cmc.view.superview && cmc.state == kChatStateClan) {
         shouldIncrement = NO;
       }
     }

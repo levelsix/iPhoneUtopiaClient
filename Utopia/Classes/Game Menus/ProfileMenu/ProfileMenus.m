@@ -1112,7 +1112,7 @@ static float origLabelCenterY = 0;
   NSIndexPath *path = [wallTableView indexPathForCell:cell];
   PlayerWallPostProto *proto = [wallPosts objectAtIndex:path.row];
   
-  [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:proto.poster withState:kProfileState];
+  [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:proto.poster withState:kWallState];
 }
 
 - (void) dealloc {

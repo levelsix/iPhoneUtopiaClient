@@ -428,6 +428,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
 
 - (void) viewProfile:(FullUserProto *)fup {
   [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:fup buttonsEnabled:YES];
+  [[ProfileViewController sharedProfileViewController] setState:kProfileState];
   [ProfileViewController displayView];
 }
 

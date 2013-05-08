@@ -1582,18 +1582,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) fbConnectReward {
   GameState *gs = [GameState sharedGameState];
-  if (!gs.hasReceivedfbReward) {
-    while (gs.userId == 0) {
-      [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.f]];
-      
-      if (gs.isTutorial) {
-        return;
-      }
-    }
+  while (gs.userId == 0) {
+    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.f]];
     
+    if (gs.isTutorial) {
+      return;
+    }
+  }
+  
+  if (!gs.hasReceivedfbReward) {
     [[SocketCommunication sharedSocketCommunication] sendEarnFreeDiamondsFBConnectMessageClientTime:[self getCurrentMilliseconds]];
-  } else {
-    [Globals popupMessage:@"Attempting to send FB Connect message after already receiving reward."];
   }
 }
 
@@ -1891,6 +1889,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (int) requestJoinClan:(int)clanId {
   GameState *gs = [GameState sharedGameState];
+  
+  for (ClanTowerProto *ctp in gs.clanTowers) {
+    if (ctp.hasTowerAttacker && (ctp.towerAttacker.clanId == clanId || ctp.towerOwner.clanId == clanId)) {
+      [Globals popupMessage:@"You can't join a clan while it is engaged in war!"];
+      return 0;
+    }
+  }
   
   if (gs.clan) {
     [Globals popupMessage:@"Attempting to request to join clan while in a clan."];
@@ -2342,6 +2347,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     [[SocketCommunication sharedSocketCommunication] sendPrestigeMessage];
   }
+}
+
+- (void) privateChatPost:(int)recipientId content:(NSString *)content {
+  [[SocketCommunication sharedSocketCommunication] sendPrivateChatPostMessage:recipientId content:content];
+}
+
+- (void) retrievePrivateChatPosts:(int)otherUserId {
+  [[SocketCommunication sharedSocketCommunication] sendRetrievePrivateChatPostsMessage:otherUserId];
 }
 
 @end

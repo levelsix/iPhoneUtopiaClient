@@ -56,6 +56,8 @@
   BOOL _allowPicking;
   BOOL _shouldRestart;
   
+  int _timesShuffled;
+  
   int _numPlays;
   
   MonteCardView *_winningCardView;

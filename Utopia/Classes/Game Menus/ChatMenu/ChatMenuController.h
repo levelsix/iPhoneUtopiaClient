@@ -9,18 +9,48 @@
 #import <UIKit/UIKit.h>
 #import "UserData.h"
 #import "LeaderboardController.h"
+#import "Protocols.pb.h"
+
+typedef enum {
+  kChatStateGlobal = 1,
+  kChatStateClan,
+  kChatStatePrivate
+} ChatState;
 
 @interface ChatTopBar : UIView {
   BOOL _trackingButton1;
   BOOL _trackingButton2;
+  BOOL _trackingButton3;
   
   int _clickedButtons;
 }
 
 @property (nonatomic, retain) IBOutlet UIImageView *button1;
 @property (nonatomic, retain) IBOutlet UIImageView *button2;
+@property (nonatomic, retain) IBOutlet UIImageView *button3;
 
+@property (nonatomic, retain) IBOutlet UILabel *button1Label;
 @property (nonatomic, retain) IBOutlet UILabel *button2Label;
+@property (nonatomic, retain) IBOutlet UILabel *button3Label;
+
+@end
+
+@interface PrivateChatCell : UITableViewCell
+
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *textLabel2;
+@property (nonatomic, retain) IBOutlet UILabel *timeLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *typeImage;
+@property (nonatomic, retain) IBOutlet UIImageView *blueCircle;
+
+@property (nonatomic, retain) PrivateChatPostProto *privateChat;
+
+@end
+
+@interface PrivateChatView : UIView <UITableViewDataSource>
+
+@property (nonatomic, retain) IBOutlet PrivateChatCell *chatCell;
+@property (nonatomic, retain) IBOutlet UITableView *privateChatTable;
 
 @end
 
@@ -48,9 +78,12 @@
 
 @end
 
-@interface ChatMenuController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface ChatMenuController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
+  int _otherUserId;
+  BOOL _loading;
+}
 
-@property (nonatomic, assign) BOOL isGlobal;
+@property (nonatomic, assign) ChatState state;
 
 @property (nonatomic, retain) IBOutlet ChatCell *chatCell;
 
@@ -65,11 +98,24 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
+@property (nonatomic, retain) IBOutlet PrivateChatView *privateChatView;
+@property (nonatomic, retain) IBOutlet UIView *chatTableView;
+@property (nonatomic, retain) IBOutlet UIView *backView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
+
+@property (nonatomic, retain) NSMutableArray *privateChatMsgs;
+
+@property (nonatomic, retain) MinimumUserProto *clickedMinUser;
+@property (nonatomic, retain) IBOutlet UIView *chatPopup;
+
 + (ChatMenuController *) sharedChatMenuController;
 + (void) purgeSingleton;
 + (void) displayView;
 + (void) removeView;
 + (BOOL) isInitialized;
+
+- (void) receivedRetrievePrivateChats:(RetrievePrivateChatPostsResponseProto *)proto;
+- (void) receivedPrivateChatPost:(PrivateChatPostResponseProto *)proto;
 
 - (void) updateNumChatsLabel;
 

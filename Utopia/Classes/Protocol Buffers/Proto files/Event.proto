@@ -187,6 +187,10 @@ message StartupResponseProto {
 	
 	optional string kabamNaid = 44;
 	
+	//repeated most recent private chat posts regarding this user
+	repeated PrivateChatPostProto pcpp = 45;
+	
+	
 	message DailyBonusInfo {
 		optional int32 numConsecutiveDaysPlayed = 1;
 		optional int32 dayOneCoins = 2;
@@ -389,6 +393,7 @@ message StartupResponseProto {
 			optional float enhancePercentConstantA = 10;
 			optional float enhancePercentConstantB = 11;
 			optional float enhanceLevelExponentBase = 12;
+			optional int32 defaultSecondsToEnhance = 13;
 		}
 		
 		message LeaderboardEventConstants {
@@ -2631,4 +2636,50 @@ message PurchaseForgeSlotResponseProto {
 		FAIL_OTHER = 3;	
 		FAIL_USER_HAS_MORE_THAN_MAX_FORGE_SLOTS = 4;	
 	}
+}
+
+//------------------------------------------------------------------------------------
+
+message PrivateChatPostRequestProto {
+	optional MinimumUserProto sender = 1;
+	optional int32 recipientId = 2;
+	optional string content = 3;
+}
+
+																						//DONE
+message PrivateChatPostResponseProto {
+	 optional MinimumUserProto sender = 1;
+     optional PrivateChatPostStatus status = 2;
+	 optional PrivateChatPostProto post = 3;
+	
+     enum PrivateChatPostStatus {
+     	SUCCESS = 0;
+     	NO_CONTENT_SENT = 1;
+     	POST_TOO_LARGE = 2;
+     	OTHER_FAIL = 3;
+     	BANNED = 4;
+	}
+}
+
+message RetrievePrivateChatPostsRequestProto {
+	optional MinimumUserProto sender = 1;
+	optional int32 otherUserId = 2;
+	
+	//all prior posts not including this id
+	//if this is not set then return most recent ones
+	optional int32 beforePrivateChatId = 3;
+	
+}
+
+message RetrievePrivateChatPostsResponseProto {
+	optional MinimumUserProto sender = 1;
+	repeated GroupChatMessageProto posts = 2;
+	optional int32 beforePrivateChatId = 3;
+	optional RetrievePrivateChatPostsStatus status = 4;
+	optional int32 otherUserId = 5;
+
+	enum RetrievePrivateChatPostsStatus {
+		SUCCESS = 0;
+		FAIL = 1;
+	}	
 }
