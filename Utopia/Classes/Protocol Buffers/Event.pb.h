@@ -342,6 +342,10 @@
 @class RedeemMarketplaceEarningsRequestProto_Builder;
 @class RedeemMarketplaceEarningsResponseProto;
 @class RedeemMarketplaceEarningsResponseProto_Builder;
+@class RedeemUserLockBoxItemsRequestProto;
+@class RedeemUserLockBoxItemsRequestProto_Builder;
+@class RedeemUserLockBoxItemsResponseProto;
+@class RedeemUserLockBoxItemsResponseProto_Builder;
 @class ReferralCodeUsedResponseProto;
 @class ReferralCodeUsedResponseProto_Builder;
 @class RefillStatWaitCompleteRequestProto;
@@ -1428,6 +1432,15 @@ typedef enum {
 } RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus;
 
 BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValidValue(RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus value);
+
+typedef enum {
+  RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatusSuccess = 0,
+  RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatusFailAlreadyRedeemed = 1,
+  RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatusFailInvalidEventId = 2,
+  RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatusFailOther = 3,
+} RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatus;
+
+BOOL RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatusIsValidValue(RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -2712,44 +2725,53 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasUseOldBattleFormula_:1;
+  BOOL hasBossEventSuperAttack_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasHealthFormulaExponentBase_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
-  BOOL hasBossEventSuperAttack_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
-  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasQuestIdForFirstLossTutorial_:1;
-  BOOL hasFbConnectRewardDiamonds_:1;
-  BOOL hasPlayerWallPostsRetrieveCap_:1;
-  BOOL hasMaxCharLengthForWallPost_:1;
-  BOOL hasMaxNumTowersClanCanHold_:1;
-  BOOL hasAviaryImgVerticalPixelOffset_:1;
-  BOOL hasCarpenterImgVerticalPixelOffset_:1;
-  BOOL hasMarketplaceImgVerticalPixelOffset_:1;
-  BOOL hasVaultImgVerticalPixelOffset_:1;
-  BOOL hasArmoryImgVerticalPixelOffset_:1;
+  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasMaxCityRank_:1;
-  BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
-  BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
-  BOOL hasLevelToShowRateUsPopup_:1;
-  BOOL hasNumHoursBeforeReshowingBossEvent_:1;
-  BOOL hasNumHoursBeforeReshowingLockBox_:1;
-  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
-  BOOL hasInitStamina_:1;
-  BOOL hasMinClanMembersToHoldClanTower_:1;
-  BOOL hasMaxLengthOfChatString_:1;
-  BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
-  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
-  BOOL hasMinBattlesRequiredForKdrconsideration_:1;
-  BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
-  BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
-  BOOL hasSizeOfAttackList_:1;
-  BOOL hasMaxNameLength_:1;
-  BOOL hasMinNameLength_:1;
-  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
+  BOOL hasArmoryImgVerticalPixelOffset_:1;
+  BOOL hasVaultImgVerticalPixelOffset_:1;
+  BOOL hasMarketplaceImgVerticalPixelOffset_:1;
+  BOOL hasCarpenterImgVerticalPixelOffset_:1;
+  BOOL hasAviaryImgVerticalPixelOffset_:1;
+  BOOL hasMaxCharLengthForWallPost_:1;
+  BOOL hasPlayerWallPostsRetrieveCap_:1;
+  BOOL hasMaxNumTowersClanCanHold_:1;
+  BOOL hasFbConnectRewardDiamonds_:1;
   BOOL hasAverageSizeOfLevelBracket_:1;
+  BOOL hasQuestIdForFirstLossTutorial_:1;
+  BOOL hasMaxLevelForUser_:1;
+  BOOL hasMaxLevelDifferenceForBattle_:1;
+  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
+  BOOL hasMinNameLength_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasSizeOfAttackList_:1;
+  BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
+  BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
+  BOOL hasMinBattlesRequiredForKdrconsideration_:1;
+  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
+  BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
+  BOOL hasMaxLengthOfChatString_:1;
+  BOOL hasMinClanMembersToHoldClanTower_:1;
+  BOOL hasInitStamina_:1;
+  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
+  BOOL hasNumHoursBeforeReshowingLockBox_:1;
+  BOOL hasNumHoursBeforeReshowingBossEvent_:1;
+  BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
+  BOOL hasAdminChatUserId_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasMaxLevelForStruct_:1;
+  BOOL hasMarketplaceXlength_:1;
+  BOOL hasSkillPointsGainedOnLevelup_:1;
+  BOOL hasStaminaBaseCost_:1;
+  BOOL hasEnergyBaseCost_:1;
+  BOOL hasDefenseBaseCost_:1;
   BOOL hasAttackBaseCost_:1;
   BOOL hasStaminaBaseGain_:1;
   BOOL hasEnergyBaseGain_:1;
@@ -2760,35 +2782,27 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
   BOOL hasCarpenterYlength_:1;
   BOOL hasCarpenterXlength_:1;
   BOOL hasMarketplaceYlength_:1;
-  BOOL hasMarketplaceXlength_:1;
-  BOOL hasVaultYlength_:1;
-  BOOL hasVaultXlength_:1;
-  BOOL hasArmoryYlength_:1;
-  BOOL hasArmoryXlength_:1;
-  BOOL hasMaxLevelForUser_:1;
-  BOOL hasMaxLevelDifferenceForBattle_:1;
-  BOOL hasNumDaysUntilFreeRetract_:1;
-  BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
-  BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
+  BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
+  BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
+  BOOL hasNumDaysUntilFreeRetract_:1;
+  BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
+  BOOL hasArmoryYlength_:1;
+  BOOL hasVaultXlength_:1;
   BOOL hasMaxNumberOfMarketplacePosts_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasMinutesToRefillAstamina_:1;
   BOOL hasMinutesToRefillAenergy_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
-  BOOL hasMaxLevelForStruct_:1;
-  BOOL hasSkillPointsGainedOnLevelup_:1;
-  BOOL hasStaminaBaseCost_:1;
-  BOOL hasEnergyBaseCost_:1;
-  BOOL hasDefenseBaseCost_:1;
-  BOOL hasFaqFileName_:1;
+  BOOL hasVaultYlength_:1;
+  BOOL hasArmoryXlength_:1;
   BOOL hasPrestigeFaqFileName_:1;
+  BOOL hasFaqFileName_:1;
   BOOL hasPrestigeConstants_:1;
-  BOOL hasEnhanceConstants_:1;
-  BOOL hasLeaderboardConstants_:1;
   BOOL hasMinLevelConstants_:1;
+  BOOL hasLeaderboardConstants_:1;
+  BOOL hasEnhanceConstants_:1;
   BOOL hasBoosterPackConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasExpansionConstants_:1;
@@ -2802,44 +2816,53 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
   BOOL hasBattleConstants_:1;
   BOOL hasFormulaConstants_:1;
   BOOL useOldBattleFormula_:1;
+  Float64 bossEventSuperAttack;
+  Float64 levelEquipBoostExponentBase;
   Float64 healthFormulaExponentBase;
   Float64 percentReturnedToUserForSellingEquipInArmory;
-  Float64 levelEquipBoostExponentBase;
-  Float64 bossEventSuperAttack;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingNormStructure;
-  int32_t questIdForFirstLossTutorial;
-  int32_t fbConnectRewardDiamonds;
-  int32_t playerWallPostsRetrieveCap;
-  int32_t maxCharLengthForWallPost;
-  int32_t maxNumTowersClanCanHold;
-  int32_t aviaryImgVerticalPixelOffset;
-  int32_t carpenterImgVerticalPixelOffset;
-  int32_t marketplaceImgVerticalPixelOffset;
-  int32_t vaultImgVerticalPixelOffset;
-  int32_t armoryImgVerticalPixelOffset;
+  Float64 cutOfVaultDepositTaken;
   int32_t maxCityRank;
-  int32_t maxNumbersOfEnemiesToGenerateAtOnce;
-  int32_t bossEventNumberOfAttacksUntilSuperAttack;
-  int32_t levelToShowRateUsPopup;
-  int32_t numHoursBeforeReshowingBossEvent;
-  int32_t numHoursBeforeReshowingLockBox;
-  int32_t numHoursBeforeReshowingGoldSale;
-  int32_t initStamina;
-  int32_t minClanMembersToHoldClanTower;
-  int32_t maxLengthOfChatString;
-  int32_t diamondPriceForGroupChatPurchasePackage;
-  int32_t numChatsGivenPerGroupChatPurchasePackage;
-  int32_t minBattlesRequiredForKdrconsideration;
-  int32_t hoursInAttackedByOneProtectionPeriod;
-  int32_t maxNumTimesAttackedByOneInProtectionPeriod;
-  int32_t sizeOfAttackList;
-  int32_t maxNameLength;
-  int32_t minNameLength;
-  int32_t adColonyVideosRequiredToRedeemDiamonds;
+  int32_t armoryImgVerticalPixelOffset;
+  int32_t vaultImgVerticalPixelOffset;
+  int32_t marketplaceImgVerticalPixelOffset;
+  int32_t carpenterImgVerticalPixelOffset;
+  int32_t aviaryImgVerticalPixelOffset;
+  int32_t maxCharLengthForWallPost;
+  int32_t playerWallPostsRetrieveCap;
+  int32_t maxNumTowersClanCanHold;
+  int32_t fbConnectRewardDiamonds;
   int32_t averageSizeOfLevelBracket;
+  int32_t questIdForFirstLossTutorial;
+  int32_t maxLevelForUser;
+  int32_t maxLevelDifferenceForBattle;
+  int32_t adColonyVideosRequiredToRedeemDiamonds;
+  int32_t minNameLength;
+  int32_t maxNameLength;
+  int32_t sizeOfAttackList;
+  int32_t maxNumTimesAttackedByOneInProtectionPeriod;
+  int32_t hoursInAttackedByOneProtectionPeriod;
+  int32_t minBattlesRequiredForKdrconsideration;
+  int32_t numChatsGivenPerGroupChatPurchasePackage;
+  int32_t diamondPriceForGroupChatPurchasePackage;
+  int32_t maxLengthOfChatString;
+  int32_t minClanMembersToHoldClanTower;
+  int32_t initStamina;
+  int32_t numHoursBeforeReshowingGoldSale;
+  int32_t numHoursBeforeReshowingLockBox;
+  int32_t numHoursBeforeReshowingBossEvent;
+  int32_t levelToShowRateUsPopup;
+  int32_t bossEventNumberOfAttacksUntilSuperAttack;
+  int32_t adminChatUserId;
+  int32_t maxNumOfSingleStruct;
+  int32_t maxLevelForStruct;
+  int32_t marketplaceXlength;
+  int32_t skillPointsGainedOnLevelup;
+  int32_t staminaBaseCost;
+  int32_t energyBaseCost;
+  int32_t defenseBaseCost;
   int32_t attackBaseCost;
   int32_t staminaBaseGain;
   int32_t energyBaseGain;
@@ -2850,35 +2873,27 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
   int32_t carpenterYlength;
   int32_t carpenterXlength;
   int32_t marketplaceYlength;
-  int32_t marketplaceXlength;
-  int32_t vaultYlength;
-  int32_t vaultXlength;
-  int32_t armoryYlength;
-  int32_t armoryXlength;
-  int32_t maxLevelForUser;
-  int32_t maxLevelDifferenceForBattle;
-  int32_t numDaysUntilFreeRetract;
-  int32_t diamondCostOfShortMarketplaceLicense;
-  int32_t diamondCostOfLongMarketplaceLicense;
   int32_t numDaysShortMarketplaceLicenseLastsFor;
+  int32_t diamondCostOfLongMarketplaceLicense;
+  int32_t diamondCostOfShortMarketplaceLicense;
+  int32_t numDaysUntilFreeRetract;
+  int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t numDaysLongMarketplaceLicenseLastsFor;
+  int32_t armoryYlength;
+  int32_t vaultXlength;
   int32_t maxNumberOfMarketplacePosts;
   int32_t diamondCostForFullEnergyRefill;
   int32_t diamondCostForFullStaminaRefill;
   int32_t minutesToRefillAstamina;
   int32_t minutesToRefillAenergy;
-  int32_t maxNumOfSingleStruct;
-  int32_t maxLevelForStruct;
-  int32_t skillPointsGainedOnLevelup;
-  int32_t staminaBaseCost;
-  int32_t energyBaseCost;
-  int32_t defenseBaseCost;
-  NSString* faqFileName;
+  int32_t vaultYlength;
+  int32_t armoryXlength;
   NSString* prestigeFaqFileName;
+  NSString* faqFileName;
   StartupResponseProto_StartupConstants_PrestigeConstants* prestigeConstants;
-  StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
-  StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
   StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
+  StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
+  StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
   StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
@@ -2987,6 +3002,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasPrestigeConstants;
 - (BOOL) hasFaqFileName;
 - (BOOL) hasPrestigeFaqFileName;
+- (BOOL) hasAdminChatUserId;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -3077,6 +3093,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 @property (readonly, retain) StartupResponseProto_StartupConstants_PrestigeConstants* prestigeConstants;
 @property (readonly, retain) NSString* faqFileName;
 @property (readonly, retain) NSString* prestigeFaqFileName;
+@property (readonly) int32_t adminChatUserId;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -3885,6 +3902,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
   BOOL hasSilverCostToPickLockBox_:1;
   BOOL hasNumMinutesToRepickLockBox_:1;
   BOOL hasGoldCostToResetPickLockBox_:1;
+  BOOL hasNumDaysToShowAfterEventEnded_:1;
   Float32 goldChanceToPickLockBox;
   Float32 silverChanceToPickLockBox;
   Float32 freeChanceToPickLockBox;
@@ -3892,6 +3910,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
   int32_t silverCostToPickLockBox;
   int32_t numMinutesToRepickLockBox;
   int32_t goldCostToResetPickLockBox;
+  int32_t numDaysToShowAfterEventEnded;
 }
 - (BOOL) hasGoldCostToPickLockBox;
 - (BOOL) hasSilverCostToPickLockBox;
@@ -3900,6 +3919,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasFreeChanceToPickLockBox;
 - (BOOL) hasNumMinutesToRepickLockBox;
 - (BOOL) hasGoldCostToResetPickLockBox;
+- (BOOL) hasNumDaysToShowAfterEventEnded;
 @property (readonly) int32_t goldCostToPickLockBox;
 @property (readonly) int32_t silverCostToPickLockBox;
 @property (readonly) Float32 goldChanceToPickLockBox;
@@ -3907,6 +3927,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 @property (readonly) Float32 freeChanceToPickLockBox;
 @property (readonly) int32_t numMinutesToRepickLockBox;
 @property (readonly) int32_t goldCostToResetPickLockBox;
+@property (readonly) int32_t numDaysToShowAfterEventEnded;
 
 + (StartupResponseProto_StartupConstants_LockBoxConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_LockBoxConstants*) defaultInstance;
@@ -3976,6 +3997,11 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (int32_t) goldCostToResetPickLockBox;
 - (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setGoldCostToResetPickLockBox:(int32_t) value;
 - (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearGoldCostToResetPickLockBox;
+
+- (BOOL) hasNumDaysToShowAfterEventEnded;
+- (int32_t) numDaysToShowAfterEventEnded;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) setNumDaysToShowAfterEventEnded:(int32_t) value;
+- (StartupResponseProto_StartupConstants_LockBoxConstants_Builder*) clearNumDaysToShowAfterEventEnded;
 @end
 
 @interface StartupResponseProto_StartupConstants_GoldmineConstants : PBGeneratedMessage {
@@ -5331,6 +5357,11 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (NSString*) prestigeFaqFileName;
 - (StartupResponseProto_StartupConstants_Builder*) setPrestigeFaqFileName:(NSString*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearPrestigeFaqFileName;
+
+- (BOOL) hasAdminChatUserId;
+- (int32_t) adminChatUserId;
+- (StartupResponseProto_StartupConstants_Builder*) setAdminChatUserId:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearAdminChatUserId;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -18982,5 +19013,133 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (int32_t) otherUserId;
 - (RetrievePrivateChatPostsResponseProto_Builder*) setOtherUserId:(int32_t) value;
 - (RetrievePrivateChatPostsResponseProto_Builder*) clearOtherUserId;
+@end
+
+@interface RedeemUserLockBoxItemsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasLockBoxEventId_:1;
+  BOOL hasSender_:1;
+  int32_t lockBoxEventId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasLockBoxEventId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t lockBoxEventId;
+
++ (RedeemUserLockBoxItemsRequestProto*) defaultInstance;
+- (RedeemUserLockBoxItemsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RedeemUserLockBoxItemsRequestProto_Builder*) builder;
++ (RedeemUserLockBoxItemsRequestProto_Builder*) builder;
++ (RedeemUserLockBoxItemsRequestProto_Builder*) builderWithPrototype:(RedeemUserLockBoxItemsRequestProto*) prototype;
+
++ (RedeemUserLockBoxItemsRequestProto*) parseFromData:(NSData*) data;
++ (RedeemUserLockBoxItemsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RedeemUserLockBoxItemsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RedeemUserLockBoxItemsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RedeemUserLockBoxItemsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RedeemUserLockBoxItemsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RedeemUserLockBoxItemsRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RedeemUserLockBoxItemsRequestProto* result;
+}
+
+- (RedeemUserLockBoxItemsRequestProto*) defaultInstance;
+
+- (RedeemUserLockBoxItemsRequestProto_Builder*) clear;
+- (RedeemUserLockBoxItemsRequestProto_Builder*) clone;
+
+- (RedeemUserLockBoxItemsRequestProto*) build;
+- (RedeemUserLockBoxItemsRequestProto*) buildPartial;
+
+- (RedeemUserLockBoxItemsRequestProto_Builder*) mergeFrom:(RedeemUserLockBoxItemsRequestProto*) other;
+- (RedeemUserLockBoxItemsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RedeemUserLockBoxItemsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RedeemUserLockBoxItemsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RedeemUserLockBoxItemsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RedeemUserLockBoxItemsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RedeemUserLockBoxItemsRequestProto_Builder*) clearSender;
+
+- (BOOL) hasLockBoxEventId;
+- (int32_t) lockBoxEventId;
+- (RedeemUserLockBoxItemsRequestProto_Builder*) setLockBoxEventId:(int32_t) value;
+- (RedeemUserLockBoxItemsRequestProto_Builder*) clearLockBoxEventId;
+@end
+
+@interface RedeemUserLockBoxItemsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatus status;
+  NSMutableArray* mutableEquipsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatus status;
+- (NSArray*) equipsList;
+- (FullUserEquipProto*) equipsAtIndex:(int32_t) index;
+
++ (RedeemUserLockBoxItemsResponseProto*) defaultInstance;
+- (RedeemUserLockBoxItemsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RedeemUserLockBoxItemsResponseProto_Builder*) builder;
++ (RedeemUserLockBoxItemsResponseProto_Builder*) builder;
++ (RedeemUserLockBoxItemsResponseProto_Builder*) builderWithPrototype:(RedeemUserLockBoxItemsResponseProto*) prototype;
+
++ (RedeemUserLockBoxItemsResponseProto*) parseFromData:(NSData*) data;
++ (RedeemUserLockBoxItemsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RedeemUserLockBoxItemsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RedeemUserLockBoxItemsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RedeemUserLockBoxItemsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RedeemUserLockBoxItemsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RedeemUserLockBoxItemsResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RedeemUserLockBoxItemsResponseProto* result;
+}
+
+- (RedeemUserLockBoxItemsResponseProto*) defaultInstance;
+
+- (RedeemUserLockBoxItemsResponseProto_Builder*) clear;
+- (RedeemUserLockBoxItemsResponseProto_Builder*) clone;
+
+- (RedeemUserLockBoxItemsResponseProto*) build;
+- (RedeemUserLockBoxItemsResponseProto*) buildPartial;
+
+- (RedeemUserLockBoxItemsResponseProto_Builder*) mergeFrom:(RedeemUserLockBoxItemsResponseProto*) other;
+- (RedeemUserLockBoxItemsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RedeemUserLockBoxItemsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RedeemUserLockBoxItemsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RedeemUserLockBoxItemsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RedeemUserLockBoxItemsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RedeemUserLockBoxItemsResponseProto_Builder*) clearSender;
+
+- (NSArray*) equipsList;
+- (FullUserEquipProto*) equipsAtIndex:(int32_t) index;
+- (RedeemUserLockBoxItemsResponseProto_Builder*) replaceEquipsAtIndex:(int32_t) index with:(FullUserEquipProto*) value;
+- (RedeemUserLockBoxItemsResponseProto_Builder*) addEquips:(FullUserEquipProto*) value;
+- (RedeemUserLockBoxItemsResponseProto_Builder*) addAllEquips:(NSArray*) values;
+- (RedeemUserLockBoxItemsResponseProto_Builder*) clearEquipsList;
+
+- (BOOL) hasStatus;
+- (RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatus) status;
+- (RedeemUserLockBoxItemsResponseProto_Builder*) setStatus:(RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatus) value;
+- (RedeemUserLockBoxItemsResponseProto_Builder*) clearStatus;
 @end
 

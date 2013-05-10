@@ -1143,7 +1143,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) updateLockBoxButton {
+  Globals *gl = [Globals sharedGlobals];
+  LockBoxEventProto *e = [self getCurrentLockBoxEvent];
+  UserLockBoxEventProto *ue = [self.myLockBoxEvents objectForKey:[NSNumber numberWithInt:e.lockBoxEventId]];
+  
+  BOOL shouldDisplayButton = NO;
+  BOOL shouldDisplayBadge = NO;
+  if (e) {
+    shouldDisplayButton = YES;
+    
+    uint64_t secs = [[NSDate date] timeIntervalSince1970];
+    uint64_t pickTime = ue.lastPickTime/1000 + 60*gl.numMinutesToRepickLockBox;
+    if (!ue || secs >= pickTime) {
+      shouldDisplayBadge = YES;
+    }
+    
+    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:e.endDate/1000.0];
+    int secs2 = endDate.timeIntervalSinceNow;
+    if (secs2 < 0) {
+      shouldDisplayBadge = YES;
+    }
+  }
+  
+  [[TopBar sharedTopBar] shouldDisplayLockBoxButton:shouldDisplayButton andBadge:shouldDisplayBadge];
+}
+
 - (void) resetLockBoxTimers {
+  Globals *gl = [Globals sharedGlobals];
+  
   [self stopAllLockBoxTimers];
   
   if (_isTutorial) {
@@ -1171,7 +1199,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       [_lockBoxEventTimers addObject:timer];
     }
     
-    Globals *gl = [Globals sharedGlobals];
+    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.endDate/1000.0+gl.numDaysToShowAfterEventEnded*24*60*60] timeIntervalSinceNow];
+    if (timeInterval > 0) {
+      timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateLockBoxButton) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+      [_lockBoxEventTimers addObject:timer];
+    }
+    
     UserLockBoxEventProto *ue = [self.myLockBoxEvents objectForKey:[NSNumber numberWithInt:e.lockBoxEventId]];
     if (ue) {
       timeInterval = [[NSDate dateWithTimeIntervalSince1970:(ue.lastPickTime/1000.0+60*gl.numMinutesToRepickLockBox)] timeIntervalSinceNow];
@@ -1194,10 +1228,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (LockBoxEventProto *) getCurrentLockBoxEvent {
+  Globals *gl = [Globals sharedGlobals];
   double curTime = [[NSDate date] timeIntervalSince1970]*1000.0;
   for (LockBoxEventProto *p in _staticLockBoxEvents) {
-    if (curTime > p.startDate && curTime < p.endDate) {
-      return p;
+    if (curTime > p.startDate && curTime < p.endDate+gl.numDaysToShowAfterEventEnded*24*60*60*1000) {
+      UserLockBoxEventProto *up = [self.myLockBoxEvents objectForKey:[NSNumber numberWithInt:p.lockBoxEventId]];
+      BOOL hasItems = NO;
+      if (curTime > p.endDate) {
+        for (UserLockBoxItemProto *i in up.itemsList) {
+          if (i.quantity > 0) {
+            hasItems = YES;
+          }
+        }
+      } else {
+        hasItems = YES;
+      }
+      
+      if (hasItems && !up.hasBeenRedeemed) {
+        return p;
+      }
     }
   }
   return nil;
@@ -1218,26 +1267,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     b.numLockBoxes = 1;
   }
   [_myLockBoxEvents setObject:b.build forKey:num];
-}
-
-- (void) updateLockBoxButton {
-  Globals *gl = [Globals sharedGlobals];
-  LockBoxEventProto *e = [self getCurrentLockBoxEvent];
-  UserLockBoxEventProto *ue = [self.myLockBoxEvents objectForKey:[NSNumber numberWithInt:e.lockBoxEventId]];
-  
-  BOOL shouldDisplayButton = NO;
-  BOOL shouldDisplayBadge = NO;
-  if (e) {
-    shouldDisplayButton = YES;
-    
-    uint64_t secs = [[NSDate date] timeIntervalSince1970];
-    uint64_t pickTime = ue.lastPickTime/1000 + 60*gl.numMinutesToRepickLockBox;
-    if (!ue || secs >= pickTime) {
-      shouldDisplayBadge = YES;
-    }
-  }
-  
-  [[TopBar sharedTopBar] shouldDisplayLockBoxButton:shouldDisplayButton andBadge:shouldDisplayBadge];
 }
 
 - (void) resetBossEventTimers {

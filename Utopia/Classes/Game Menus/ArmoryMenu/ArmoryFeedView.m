@@ -31,8 +31,11 @@
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:self.feedView.superview];
   _passedThreshold = NO;
   _initialY = self.feedView.frame.origin.y;
+  _touchOffset = pt.y-_initialY;
 }
 
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -43,12 +46,11 @@
   
   CGRect r = view.frame;
   
-  // If moving left or staying still, we want it to default to going back
   if ((_isOpen && pt.y > _initialY+10) || (!_isOpen && pt.y < _initialY-10)) {
     _passedThreshold = YES;
   }
   
-  r.origin.y = clampf(pt.y, [self.feedView minY], [self.feedView maxY]);
+  r.origin.y = clampf(pt.y-_touchOffset, [self.feedView minY], [self.feedView maxY]);
   view.frame = r;
 }
 
@@ -241,7 +243,7 @@
   float time = 0.f;
   if (animated) {
     time = abs(self.frame.origin.y-y)/500.f;
-    [UIView animateWithDuration:time delay:0.f options:UIViewAnimationCurveEaseInOut animations:anim completion:nil];
+    [UIView animateWithDuration:time delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:anim completion:nil];
   } else {
     anim();
   }
@@ -251,7 +253,7 @@
 - (void) openFeedAnimated:(BOOL)animated {
   float time = [self changeFrameToY:[self minY] animated:animated];
   
-  [UIView animateWithDuration:MAX(time, 0.2f) delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+  [UIView animateWithDuration:MAX(time, 0.2f) delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
     self.curLineView.alpha = 0.f;
     self.feedTable.alpha = 1.f;
   } completion:nil];
@@ -263,7 +265,7 @@
   GameState *gs = [GameState sharedGameState];
   if (gs.boosterPurchases.count > 0) {
     [self.curLineView updateForBoosterPurchase:[gs.boosterPurchases objectAtIndex:0]];
-    [UIView animateWithDuration:MAX(time, 0.2f) delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+    [UIView animateWithDuration:MAX(time, 0.2f) delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
       self.curLineView.alpha = 1.f;
       self.feedTable.alpha = 0.f;
     } completion:nil];

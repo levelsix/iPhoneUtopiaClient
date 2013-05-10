@@ -70,7 +70,6 @@
 - (void) loadHomeMap;
 - (void) closeHomeMap;
 - (void) loadBazaarMap;
-- (void) loadHomeMap;
 - (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto;
 - (void) closeMenus;
 - (void) unloadTutorialMissionMap;

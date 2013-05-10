@@ -12,6 +12,7 @@
 #import "TopBar.h"
 #import "GameState.h"
 #import "ClanMenuController.h"
+#import "ChatMenuController.h"
 
 @implementation InGameNotification
 
@@ -27,11 +28,15 @@
         break;
       }
     }
-  } else if (self.notification.type != kNotificationWallPost) {
-    [ActivityFeedController displayView];
-  } else {
+  } else if (self.notification.type == kNotificationWallPost) {
     // This will remove the badge as well as displaying the profile
-    [[[TopBar sharedTopBar] profilePic] button3Clicked:nil];
+    [[[TopBar sharedTopBar] profilePic] button2Clicked:nil];
+    [[ProfileViewController sharedProfileViewController] setState:kWallState];
+  } else if (self.notification.type == kNotificationPrivateChat) {
+    [ChatMenuController displayView];
+    [[ChatMenuController sharedChatMenuController] loadPrivateChatsForUserId:self.notification.otherPlayer.userId animated:NO];
+  } else {
+    [ActivityFeedController displayView];
   }
 }
 

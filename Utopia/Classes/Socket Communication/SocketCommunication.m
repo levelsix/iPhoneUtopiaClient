@@ -25,6 +25,7 @@
 #import "GameViewController.h"
 #import "GenericPopupController.h"
 #import "GameState.h"
+#import <AdSupport/AdSupport.h>
 
 // Tags for keeping state
 #define READING_HEADER_TAG -1
@@ -318,12 +319,8 @@ static NSString *udid = nil;
 }
 
 - (int) sendStartupMessage:(uint64_t)clientTime {
-  UIDevice *device = [UIDevice currentDevice];
-  
-  NSString *advertiserId = nil;
-  if ([device respondsToSelector:@selector(identifierForVendor)]) {
-    advertiserId = device.identifierForVendor.UUIDString;
-  }
+  ASIdentifierManager *as = [ASIdentifierManager sharedManager];
+  NSString *advertiserId = as.advertisingIdentifier.UUIDString;
   
   NSString *mac = [self getMacAddress];
   StartupRequestProto_Builder *bldr = [[[[StartupRequestProto builder]
@@ -1252,6 +1249,15 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrievePrivateChatPostEvent];
 }
 
+- (int) sendRedeemUserLockBoxItemsMessage:(int)lockBoxEventId {
+  RedeemUserLockBoxItemsRequestProto *req = [[[[RedeemUserLockBoxItemsRequestProto builder]
+                                               setLockBoxEventId:lockBoxEventId]
+                                              setSender:_sender]
+                                             build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRedeemUserLockBoxItemsEvent];
+}
+
 - (int) addAttackSkillPoint {
   [self flushWithInt:EventProtocolRequestCUseSkillPointEvent];
   self.attackPoints++;
@@ -1342,6 +1348,7 @@ static NSString *udid = nil;
 - (void) closeDownConnection {
   [_flushTimer invalidate];
   [_flushTimer release];
+  _flushTimer = nil;
   [self flush];
   [_connectionThread end];
   _connectionThread = nil;

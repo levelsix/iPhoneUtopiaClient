@@ -777,7 +777,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
       
     case UserTypeGoodWarrior:
     case UserTypeBadWarrior:
-      return ccp(430, 55);
+      return ccp(self.contentSize.width-50, 55);
       
     case UserTypeBadMage:
     case UserTypeGoodMage:
@@ -835,7 +835,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   CCLabelTTF *damageLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"-%d", (int)_damageDone] fontName:@"DINCond-Black" fontSize:35];
   [self addChild:damageLabel z:3];
-  damageLabel.position = ccp(430, 180);
+  damageLabel.position = ccp(self.contentSize.width-50, 180);
   damageLabel.color = ccc3(255, 0, 0);
   [damageLabel runAction:[CCSequence actions:
                           [CCSpawn actions:

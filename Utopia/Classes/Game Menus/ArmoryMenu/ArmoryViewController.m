@@ -316,6 +316,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [self.topBar unclickButton:kButton2];
   [self.topBar clickButton:kButton1];
   
+  [self.armoryTableView setContentOffset:ccp(0,-self.armoryTableView.contentInset.top)];
+  
   [self refresh];
 }
 
@@ -489,7 +491,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   }
   
   [self.armoryTableView reloadData];
-  [self.armoryTableView setContentOffset:ccp(0,-self.armoryTableView.contentInset.top)];
   
   if (_level) {
     for (int i = 0; i < self.boosterPacks.count; i++) {

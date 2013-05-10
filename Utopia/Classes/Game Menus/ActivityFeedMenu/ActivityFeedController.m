@@ -130,6 +130,12 @@
     subtitleLabel.text = notification.wallPost;
     
     titleLabel.textColor = [Globals blueColor];
+  } else if (notification.type == kNotificationPrivateChat) {
+    // This will only be used in the drop down notifications
+    titleLabel.text = [NSString stringWithFormat:@"%@ has sent you a message.", name];
+    subtitleLabel.text = notification.wallPost;
+    
+    titleLabel.textColor = [Globals blueColor];
   } else if (notification.type == kNotificationGeneral) {
     titleLabel.text = notification.title;
     subtitleLabel.text = notification.subtitle;

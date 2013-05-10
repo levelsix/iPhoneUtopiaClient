@@ -406,6 +406,16 @@
   return self;
 }
 
+- (id) initWithPrivateChatPost:(PrivateChatPostProto *)proto {
+  if ((self = [super init])) {
+    self.otherPlayer = proto.poster;
+    self.time = [NSDate dateWithTimeIntervalSince1970:proto.timeOfPost/1000.];
+    self.type = kNotificationPrivateChat;
+    self.wallPost = proto.content;
+  }
+  return self;
+}
+
 - (id) initWithGoldmineRetrieval:(NSDate *)goldmineStart {
   if ((self = [super init])) {
     Globals *gl = [Globals sharedGlobals];
@@ -477,8 +487,8 @@
     self.jobType = kDefeatTypeJob;
     
     BOOL specificEnemy = (p.typeOfEnemy != DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide);
-    UserType type = specificEnemy ? p.typeOfEnemy : (gs.type+3)%6;
-    NSString *character = [NSString stringWithFormat:@"%@%@", specificEnemy ? [Globals classForUserType:p.typeOfEnemy] : @"Player", p.numEnemiesToDefeat == 1 ? @"" : @"s"];
+    UserType type = specificEnemy ? (UserType)p.typeOfEnemy : (gs.type+3)%6;
+    NSString *character = [NSString stringWithFormat:@"%@%@", specificEnemy ? [Globals classForUserType:(UserType)p.typeOfEnemy] : @"Player", p.numEnemiesToDefeat == 1 ? @"" : @"s"];
     NSString *end = p.cityId > 0 ? [NSString stringWithFormat:@"in %@", [gs cityWithId:p.cityId].name] : [NSString stringWithFormat:@"from the Attack Screen"];
     self.title = [NSString stringWithFormat:@"Defeat %d %@ %@ %@", p.numEnemiesToDefeat, [Globals factionForUserType:type], character, end];
     self.total = p.numEnemiesToDefeat;

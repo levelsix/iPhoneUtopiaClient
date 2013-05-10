@@ -117,6 +117,8 @@ typedef enum {
 - (void) receivedRetrievePrivateChats:(RetrievePrivateChatPostsResponseProto *)proto;
 - (void) receivedPrivateChatPost:(PrivateChatPostResponseProto *)proto;
 
+- (void) loadPrivateChatsForUserId:(int)userId animated:(BOOL)animated;
+
 - (void) updateNumChatsLabel;
 
 - (void) close;

@@ -363,9 +363,10 @@ message StartupResponseProto {
 		optional int32 maxNumTowersClanCanHold = 102;
 		
 		optional PrestigeConstants prestigeConstants = 103;
-		
 		optional string faqFileName = 104;
 		optional string prestigeFaqFileName = 105;
+		
+		optional int32 adminChatUserId = 106;
 		
 		message PrestigeConstants {
 			optional int32 minLevelForPrestige = 1;
@@ -450,6 +451,7 @@ message StartupResponseProto {
 			optional float freeChanceToPickLockBox = 5;
 			optional int32 numMinutesToRepickLockBox = 6;
 			optional int32 goldCostToResetPickLockBox = 7;
+			optional int32 numDaysToShowAfterEventEnded = 8;
 		}
 		
 		message GoldmineConstants {
@@ -2682,4 +2684,24 @@ message RetrievePrivateChatPostsResponseProto {
 		SUCCESS = 0;
 		FAIL = 1;
 	}	
+}
+
+//------------------------------------------------------------------------------------
+
+message RedeemUserLockBoxItemsRequestProto {
+	optional MinimumUserProto sender = 1;
+	optional int32 lockBoxEventId = 2;
+}
+
+message RedeemUserLockBoxItemsResponseProto {
+	optional MinimumUserProto sender = 1;
+	repeated FullUserEquipProto equips = 2; 	
+	optional RedeemUserLockBoxItemsStatus status = 3;
+	
+	enum RedeemUserLockBoxItemsStatus {
+		SUCCESS = 0;
+		FAIL_ALREADY_REDEEMED = 1;
+		FAIL_INVALID_EVENT_ID = 2;
+		FAIL_OTHER = 3;
+	}
 }

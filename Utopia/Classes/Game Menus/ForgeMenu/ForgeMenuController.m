@@ -284,7 +284,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   self.mainView.center = CGPointMake(self.mainView.center.x, CGRectGetMaxY(self.view.frame)+self.mainView.frame.size.height/2);
   self.bgdView.alpha = 0.f;
   
-  [UIView animateWithDuration:0.4f delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+  [UIView animateWithDuration:0.4f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
     self.topBar.center = CGPointMake(self.topBar.center.x, self.topBar.frame.size.height/2);
     self.mainView.center = CGPointMake(self.mainView.center.x, CGRectGetMaxY(self.view.frame)-self.mainView.frame.size.height/2);
     self.bgdView.alpha = 1.f;
@@ -621,7 +621,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     self.upgrDefenseLabel.alpha = 0.f;
     
     self.backMovingView.hidden = NO;
-    [UIView animateWithDuration:0.5f delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+    [UIView animateWithDuration:0.5f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
       self.backMovingView.frame = [self.backMovingView.superview convertRect:self.backOldEquipIcon.frame fromView:self.backOldEquipIcon.superview];
       self.upgrEquipIcon.alpha = 1.f;
       self.backOldAttackLabel.alpha = 1.f;
@@ -756,7 +756,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
       
       self.backMovingView.hidden = NO;
       self.frontMovingView.hidden = NO;
-      [UIView animateWithDuration:0.5f delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+      [UIView animateWithDuration:0.5f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.backMovingView.frame = [self.backMovingView.superview convertRect:self.backOldEquipIcon.frame fromView:self.backOldEquipIcon.superview];
         self.frontMovingView.frame = [self.frontMovingView.superview convertRect:self.frontOldEquipIcon.frame fromView:self.frontOldEquipIcon.superview];
         self.upgrEquipIcon.alpha = 1.f;
@@ -1208,7 +1208,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 
 - (IBAction) closeClicked:(id)sender {
   if (self.view.superview && !_collectingEquips) {
-    [UIView animateWithDuration:0.4f delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+    [UIView animateWithDuration:0.4f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
       self.topBar.center = CGPointMake(self.topBar.center.x, -self.topBar.frame.size.height/2);
       self.mainView.center = CGPointMake(self.mainView.center.x, CGRectGetMaxY(self.view.frame)+self.mainView.frame.size.height/2);
       self.bgdView.alpha = 0.f;

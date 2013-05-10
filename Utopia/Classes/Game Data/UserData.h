@@ -95,7 +95,8 @@ typedef enum {
   kNotificationEnhance,
   kNotificationWallPost,
   kNotificationGoldmine,
-  kNotificationGeneral
+  kNotificationGeneral,
+  kNotificationPrivateChat
 } NotificationType;
 
 @interface UserNotification : NSObject
@@ -129,6 +130,7 @@ typedef enum {
 - (id) initWithEnhancement:(EquipEnhancementProto *)ee;
 - (id) initWithWallPost:(PlayerWallPostProto *)proto;
 - (id) initWithGoldmineRetrieval:(NSDate *)goldmineStart;
+- (id) initWithPrivateChatPost:(PrivateChatPostProto *)proto;
 - (id) initWithTitle:(NSString *)t subtitle:(NSString *)st color:(UIColor *)c;
 
 @end

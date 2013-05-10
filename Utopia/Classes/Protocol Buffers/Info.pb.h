@@ -2185,15 +2185,19 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface LockBoxItemProto : PBGeneratedMessage {
 @private
+  BOOL hasIsGoldBoosterPack_:1;
   BOOL hasChanceToUnlock_:1;
   BOOL hasLockBoxItemId_:1;
   BOOL hasLockBoxEventId_:1;
+  BOOL hasRedeemForNumBoosterItems_:1;
   BOOL hasName_:1;
   BOOL hasImageName_:1;
   BOOL hasType_:1;
+  BOOL isGoldBoosterPack_:1;
   Float32 chanceToUnlock;
   int32_t lockBoxItemId;
   int32_t lockBoxEventId;
+  int32_t redeemForNumBoosterItems;
   NSString* name;
   NSString* imageName;
   EquipClassType type;
@@ -2204,12 +2208,16 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasName;
 - (BOOL) hasType;
 - (BOOL) hasImageName;
+- (BOOL) hasRedeemForNumBoosterItems;
+- (BOOL) hasIsGoldBoosterPack;
 @property (readonly) int32_t lockBoxItemId;
 @property (readonly) int32_t lockBoxEventId;
 @property (readonly) Float32 chanceToUnlock;
 @property (readonly, retain) NSString* name;
 @property (readonly) EquipClassType type;
 @property (readonly, retain) NSString* imageName;
+@property (readonly) int32_t redeemForNumBoosterItems;
+- (BOOL) isGoldBoosterPack;
 
 + (LockBoxItemProto*) defaultInstance;
 - (LockBoxItemProto*) defaultInstance;
@@ -2274,15 +2282,27 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (NSString*) imageName;
 - (LockBoxItemProto_Builder*) setImageName:(NSString*) value;
 - (LockBoxItemProto_Builder*) clearImageName;
+
+- (BOOL) hasRedeemForNumBoosterItems;
+- (int32_t) redeemForNumBoosterItems;
+- (LockBoxItemProto_Builder*) setRedeemForNumBoosterItems:(int32_t) value;
+- (LockBoxItemProto_Builder*) clearRedeemForNumBoosterItems;
+
+- (BOOL) hasIsGoldBoosterPack;
+- (BOOL) isGoldBoosterPack;
+- (LockBoxItemProto_Builder*) setIsGoldBoosterPack:(BOOL) value;
+- (LockBoxItemProto_Builder*) clearIsGoldBoosterPack;
 @end
 
 @interface UserLockBoxEventProto : PBGeneratedMessage {
 @private
+  BOOL hasHasBeenRedeemed_:1;
   BOOL hasLastPickTime_:1;
   BOOL hasLockBoxEventId_:1;
   BOOL hasUserId_:1;
   BOOL hasNumLockBoxes_:1;
   BOOL hasNumTimesCompleted_:1;
+  BOOL hasBeenRedeemed_:1;
   int64_t lastPickTime;
   int32_t lockBoxEventId;
   int32_t userId;
@@ -2295,11 +2315,13 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasNumLockBoxes;
 - (BOOL) hasNumTimesCompleted;
 - (BOOL) hasLastPickTime;
+- (BOOL) hasHasBeenRedeemed;
 @property (readonly) int32_t lockBoxEventId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t numLockBoxes;
 @property (readonly) int32_t numTimesCompleted;
 @property (readonly) int64_t lastPickTime;
+- (BOOL) hasBeenRedeemed;
 - (NSArray*) itemsList;
 - (UserLockBoxItemProto*) itemsAtIndex:(int32_t) index;
 
@@ -2368,6 +2390,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (UserLockBoxEventProto_Builder*) addItems:(UserLockBoxItemProto*) value;
 - (UserLockBoxEventProto_Builder*) addAllItems:(NSArray*) values;
 - (UserLockBoxEventProto_Builder*) clearItemsList;
+
+- (BOOL) hasHasBeenRedeemed;
+- (BOOL) hasBeenRedeemed;
+- (UserLockBoxEventProto_Builder*) setHasBeenRedeemed:(BOOL) value;
+- (UserLockBoxEventProto_Builder*) clearHasBeenRedeemed;
 @end
 
 @interface UserLockBoxItemProto : PBGeneratedMessage {

@@ -14,6 +14,10 @@
 #import "ProfileViewController.h"
 #import "RefillMenuController.h"
 #import "OutgoingEventController.h"
+#import "UserData.h"
+#import "TopBar.h"
+
+#define PRIVATE_CHAT_DEFAULTS_KEY @"PrivateChat%d"
 
 @implementation ChatTopBar
 
@@ -242,6 +246,12 @@
   self.nameLabel.text = mup.name;
   self.textLabel2.text = pcpp.content;
   self.timeLabel.text = [Globals stringForTimeSinceNow:[NSDate dateWithTimeIntervalSince1970:pcpp.timeOfPost/1000.] shortened:NO];
+  
+  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, mup.userId];
+  NSNumber *time = [ud objectForKey:key];
+  NSNumber *time2 = [NSNumber numberWithLongLong:pcpp.timeOfPost];
+  self.blueCircle.hidden = time && [time compare:time2] != NSOrderedAscending;
 }
 
 - (void) dealloc {
@@ -525,6 +535,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   
   self.chatPopup.hidden = YES;
   
+  _otherUserId = 0;
+  
   [self.postTextField resignFirstResponder];
   
   [self.chatTable reloadData];
@@ -591,6 +603,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   self.chatTableView.frame = r;
   self.chatTableView.hidden = NO;
   self.backView.alpha = 1.f;
+  
+  _otherUserId = 0;
   
   void (^block)(void) = ^{
     CGRect r = self.chatTableView.frame;
@@ -724,7 +738,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 }
 
 - (IBAction)chatRulesClicked:(id)sender {
-  [Globals popupMessage:@"No Swearing. No Bashing. No Advertising. No Spamming."];
+  Globals *gl = [Globals sharedGlobals];
+  [self loadPrivateChatsForUserId:gl.adminChatUserId animated:NO];
   [self.postTextField resignFirstResponder];
 }
 
@@ -841,11 +856,23 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   }
 }
 
+- (void) updateUserDefaultsForUserId:(int)userId time:(uint64_t)time {
+  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  NSNumber *t = [NSNumber numberWithLongLong:time];
+  NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, userId];
+  [ud setObject:t forKey:key];
+}
+
 - (void) receivedRetrievePrivateChats:(RetrievePrivateChatPostsResponseProto *)proto {
   if (_otherUserId == proto.otherUserId) {
-    NSMutableArray *arr = [NSMutableArray array];;
+    NSMutableArray *arr = [NSMutableArray array];
+    uint64_t timeOfChat = 0;
     for (GroupChatMessageProto *chat in proto.postsList) {
       [arr addObject:[[ChatMessage alloc] initWithProto:chat]];
+      
+      if (chat.timeOfChat > timeOfChat) {
+        timeOfChat = chat.timeOfChat;
+      }
     }
     [arr sortUsingComparator:^NSComparisonResult(ChatMessage *obj1, ChatMessage *obj2) {
       return [obj1.date compare:obj2.date];
@@ -859,11 +886,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     if (numRows > 0) {
       [self.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:numRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
     }
+    
+    [self updateUserDefaultsForUserId:proto.otherUserId time:timeOfChat];
+    
+    [self.privateChatView.privateChatTable reloadData];
   }
 }
 
 - (void) receivedPrivateChatPost:(PrivateChatPostResponseProto *)proto {
   GameState *gs = [GameState sharedGameState];
+  int userId = proto.post.recipient.userId == gs.userId ? proto.post.poster.userId : proto.post.recipient.userId;
+  
   if (_otherUserId == proto.sender.userId && proto.sender.userId != gs.userId) {
     ChatMessage *cm = [[ChatMessage alloc] init];
     cm.sender = proto.post.poster;
@@ -872,7 +905,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     [self addChatMessage:cm];
   }
   
-  int userId = proto.post.recipient.userId == gs.userId ? proto.post.poster.userId : proto.post.recipient.userId;
+  if (_otherUserId == userId) {
+    [self updateUserDefaultsForUserId:userId time:proto.post.timeOfPost];
+  } else {
+    TopBar *tb = [TopBar sharedTopBar];
+    [tb addNotificationToDisplayQueue:[[UserNotification alloc] initWithPrivateChatPost:proto.post]];
+  }
+  
   PrivateChatPostProto *privChat = nil;
   for (PrivateChatPostProto *pcpp in gs.privateChats) {
     int otherUserId = pcpp.recipient.userId == gs.userId ? pcpp.poster.userId : pcpp.recipient.userId;
@@ -882,6 +921,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   }
   [gs.privateChats removeObject:privChat];
   [gs.privateChats insertObject:proto.post atIndex:0];
+  [self.privateChatView.privateChatTable reloadData];
+  
   [self.privateChatView.privateChatTable reloadData];
 }
 

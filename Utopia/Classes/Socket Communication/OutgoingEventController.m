@@ -2357,4 +2357,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendRetrievePrivateChatPostsMessage:otherUserId];
 }
 
+- (void) redeemLockBoxItems:(int)lockBoxEventId {
+  [[SocketCommunication sharedSocketCommunication] sendRedeemUserLockBoxItemsMessage:lockBoxEventId];
+}
+
 @end

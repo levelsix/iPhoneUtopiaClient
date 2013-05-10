@@ -97,6 +97,27 @@
 
 @end
 
+@interface LockBoxUnusedItemsView : UIView
+
+@property (nonatomic, retain) IBOutletCollection(LockBoxItemView) NSArray *leftItemViews;
+@property (nonatomic, retain) IBOutletCollection(UILabel) NSArray *leftLabels;
+@property (nonatomic, retain) IBOutletCollection(LockBoxItemView) NSArray *rightItemViews;
+
+@property (nonatomic, retain) IBOutlet UILabel *silverChestsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *goldChestsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *cantBuyLabel;
+@property (nonatomic, retain) IBOutlet UIView *buttonView;
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+@property (nonatomic, retain) IBOutlet LoadingView *loadingView;
+
+- (IBAction)openChestsClicked:(id)sender;
+
+- (void) displayForCurrentLockBoxEvent;
+
+@end
+
 @interface LockBoxInfoView : UIView
 
 @property (nonatomic, retain) IBOutlet UILabel *topLabel;
@@ -113,6 +134,8 @@
 @property (nonatomic, retain) IBOutlet EquipButton *prizeEquipIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *descriptionImage;
 @property (nonatomic, retain) IBOutlet UIImageView *tagIcon;
+
+@property (nonatomic, retain) IBOutlet LockBoxUnusedItemsView *unusedItemsView;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;

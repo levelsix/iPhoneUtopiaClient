@@ -202,7 +202,10 @@
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  if (!self.buttonView.hidden) {
+  NSArray *arr = [self.cardView.layer animationKeys];
+  if (arr.count > 0) {
+    [self.cardView.layer removeAllAnimations];
+  } else if (!self.buttonView.hidden) {
     [self showNextEquip];
   }
 }

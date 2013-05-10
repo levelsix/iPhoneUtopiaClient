@@ -175,7 +175,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(TournamentMenuController);
 
 - (IBAction)rulesClicked:(id)sender {
   Globals *gl = [Globals sharedGlobals];
-  NSString *desc = [NSString stringWithFormat:@"Every win is %d points, every loss is %d points, and every flee is %d points.", gl.tournamentWinsWeight, gl.tournamentLossesWeight, gl.tournamentFleesWeight];
+  int win = gl.tournamentWinsWeight;
+  int loss = gl.tournamentLossesWeight;
+  int flee = gl.tournamentFleesWeight;
+  NSString *desc = [NSString stringWithFormat:@"Every win is %d point%@, every loss is %d point%@, and every flee is %d point%@.", win, abs(win) != 1 ? @"s" : @"", loss, abs(loss) != 1 ? @"s" : @"", flee, abs(flee) != 1 ? @"s" : @""];
   [GenericPopupController displayNotificationViewWithText:desc title:@"Tournament Rules"];
 }
 

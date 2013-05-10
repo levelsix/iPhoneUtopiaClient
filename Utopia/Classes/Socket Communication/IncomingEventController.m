@@ -343,6 +343,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRetrievePrivateChatPostEvent:
       responseClass = [RetrievePrivateChatPostsResponseProto class];
       break;
+    case EventProtocolResponseSRedeemUserLockBoxItemsEvent:
+      responseClass = [RedeemUserLockBoxItemsResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -559,6 +562,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs setAllies:proto.alliesList];
     
     gs.privateChats = [proto.pcppList mutableCopy];
+    [gs.privateChats sortUsingComparator:^NSComparisonResult(PrivateChatPostProto *obj1, PrivateChatPostProto *obj2) {
+      if (obj1.timeOfPost < obj2.timeOfPost) {
+        return NSOrderedDescending;
+      } else if (obj1.timeOfPost > obj2.timeOfPost) {
+        return NSOrderedAscending;
+      } else {
+        return NSOrderedSame;
+      }
+    }];
     
     if (proto.unhandledForgeAttemptList.count > 0) {
       for (UnhandledBlacksmithAttemptProto *u in proto.unhandledForgeAttemptList) {
@@ -2763,6 +2775,36 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   RetrievePrivateChatPostsResponseProto *proto = (RetrievePrivateChatPostsResponseProto *)fe.event;
   [[ChatMenuController sharedChatMenuController] receivedRetrievePrivateChats:proto];
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve private chats received with status %d.", proto.status);
+}
+
+- (void) handleRedeemUserLockBoxItemsResponseProto:(FullEvent *)fe {
+  RedeemUserLockBoxItemsResponseProto *proto = (RedeemUserLockBoxItemsResponseProto *)fe.event;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Redeem user lock box items response received with status %d and %d equips.", proto.status, proto.equipsList.count);
+  
+  LockBoxMenuController *lbc = [LockBoxMenuController sharedLockBoxMenuController];
+  [lbc.lockBoxInfoView.unusedItemsView.loadingView stop];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatusSuccess) {
+    [gs addToMyEquips:proto.equipsList];
+    
+    ArmoryViewController *amc = [ArmoryViewController sharedArmoryViewController];
+    [Globals displayUIViewWithoutAdjustment:amc.cardDisplayView];
+    [amc.cardDisplayView beginAnimatingForEquips:proto.equipsList withTarget:lbc.lockBoxInfoView.unusedItemsView andSelector:@selector(closeClicked:)];
+    
+    LockBoxEventProto *e = [gs getCurrentLockBoxEvent];
+    NSNumber *key = [NSNumber numberWithInt:e.lockBoxEventId];
+    UserLockBoxEventProto *ue = [gs.myLockBoxEvents objectForKey:key];
+    ue = [[[UserLockBoxEventProto builderWithPrototype:ue] setHasBeenRedeemed:YES] build];
+    [gs.myLockBoxEvents setObject:ue forKey:key];
+    [gs resetLockBoxTimers];
+    
+    gs.boosterPacks = nil;
+    gs.myBoosterPacks = nil;
+    [[OutgoingEventController sharedOutgoingEventController] retrieveBoosterPacks];
+  } else {
+    [Globals popupMessage:@"Server failed to redeem user lock box items."];
+  }
 }
 
 @end

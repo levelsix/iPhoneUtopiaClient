@@ -282,7 +282,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-  [UIView animateWithDuration:0.25 delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+  [UIView animateWithDuration:0.25 delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
     CGRect frame = mainView.frame;
     frame.origin.y -= VIEW_JUMP_UPON_TEXT_FIELD;
     frame.size.height += VIEW_JUMP_UPON_TEXT_FIELD;
@@ -295,7 +295,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-  [UIView animateWithDuration:0.25 delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+  [UIView animateWithDuration:0.25 delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
     CGRect frame = mainView.frame;
     frame.origin.y += VIEW_JUMP_UPON_TEXT_FIELD;
     frame.size.height -= VIEW_JUMP_UPON_TEXT_FIELD;

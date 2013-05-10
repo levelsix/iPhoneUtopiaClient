@@ -15,6 +15,7 @@
 @interface ArmoryFeedDragView : UIView {
   BOOL _isOpen;
   float _initialY;
+  float _touchOffset;
   BOOL _passedThreshold;
 }
 

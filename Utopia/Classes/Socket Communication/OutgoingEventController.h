@@ -166,4 +166,6 @@
 - (void) privateChatPost:(int)recipientId content:(NSString *)content;
 - (void) retrievePrivateChatPosts:(int)otherUserId;
 
+- (void) redeemLockBoxItems:(int)lockBoxEventId;
+
 @end

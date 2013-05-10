@@ -122,6 +122,7 @@
 - (IBAction)prestigeClicked:(id)sender;
 - (IBAction)prestigeInfoClicked:(id)sender;
 - (IBAction)changeButtonClicked:(id)sender;
+- (IBAction)chatClicked:(id)sender;
 
 + (ProfileViewController *) sharedProfileViewController;
 + (void) purgeSingleton;

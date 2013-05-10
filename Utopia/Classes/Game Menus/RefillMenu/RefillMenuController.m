@@ -245,10 +245,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   if (!view) {
     return;
   }
-  [UIView animateWithDuration:0.1f delay:0.f options:UIViewAnimationCurveEaseIn animations:^{
+  [UIView animateWithDuration:0.1f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
     view.transform = CGAffineTransformMakeScale(1.15f, 1.15f);
   } completion:^(BOOL finished) {
-    [UIView animateWithDuration:0.2f delay:0.f options:UIViewAnimationCurveEaseOut animations:^{
+    [UIView animateWithDuration:0.2f delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
       view.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
       view.alpha = 0.f;
       // If this is the last view we must fade out bgd view as well

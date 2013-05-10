@@ -21,6 +21,7 @@
 #import "ArmoryViewController.h"
 #import "ClanMenuController.h"
 #import "FAQMenuController.h"
+#import "ChatMenuController.h"
 
 #define EQUIPPING_DURATION 0.5f
 
@@ -891,9 +892,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
 }
 
-- (IBAction)visitClicked:(id)sender {
-  [Globals popupMessage:@"Sorry, visiting another player's city is coming soon!"];
-  [Analytics clickedVisitCity];
+- (IBAction)chatClicked:(id)sender {
+  [ChatMenuController displayView];
+  [[ChatMenuController sharedChatMenuController] loadPrivateChatsForUserId:_fup.userId animated:NO];
 }
 
 - (IBAction)attackClicked:(id)sender {

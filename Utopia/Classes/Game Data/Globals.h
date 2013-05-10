@@ -139,6 +139,8 @@
 @property (nonatomic, retain) NSString *faqFileName;
 @property (nonatomic, retain) NSString *prestigeFaqFileName;
 
+@property (nonatomic, assign) int adminChatUserId;
+
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
 @property (nonatomic, assign) int forgeMinDiamondCostForGuarantee;
@@ -179,6 +181,7 @@
 @property (nonatomic, assign) float freeChanceToPickLockBox;
 @property (nonatomic, assign) int numMinutesToRepickLockBox;
 @property (nonatomic, assign) int goldCostToResetPickLockBox;
+@property (nonatomic, assign) int numDaysToShowAfterEventEnded;
 
 // Expansion Constants
 @property (nonatomic, assign) int expansionWaitCompleteHourConstant;

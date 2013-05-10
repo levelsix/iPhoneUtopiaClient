@@ -342,6 +342,10 @@
 @class RedeemMarketplaceEarningsRequestProto_Builder;
 @class RedeemMarketplaceEarningsResponseProto;
 @class RedeemMarketplaceEarningsResponseProto_Builder;
+@class RedeemUserLockBoxItemsRequestProto;
+@class RedeemUserLockBoxItemsRequestProto_Builder;
+@class RedeemUserLockBoxItemsResponseProto;
+@class RedeemUserLockBoxItemsResponseProto_Builder;
 @class ReferralCodeUsedResponseProto;
 @class ReferralCodeUsedResponseProto_Builder;
 @class RefillStatWaitCompleteRequestProto;
@@ -636,6 +640,7 @@ typedef enum {
   EventProtocolRequestCPrestigeEvent = 86,
   EventProtocolRequestCPrivateChatPostEvent = 87,
   EventProtocolRequestCRetrievePrivateChatPostEvent = 88,
+  EventProtocolRequestCRedeemUserLockBoxItemsEvent = 89,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -729,6 +734,7 @@ typedef enum {
   EventProtocolResponseSPrestigeEvent = 86,
   EventProtocolResponseSPrivateChatPostEvent = 87,
   EventProtocolResponseSRetrievePrivateChatPostEvent = 88,
+  EventProtocolResponseSRedeemUserLockBoxItemsEvent = 89,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

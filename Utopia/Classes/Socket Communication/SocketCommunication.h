@@ -140,9 +140,8 @@
 - (int) sendBeginGoldmineTimerMessage:(uint64_t)clientTime reset:(BOOL)reset;
 - (int) sendCollectFromGoldmineMessage:(uint64_t)clientTime;
 
-- (int) sendRetrieveThreeCardMonteMessage;
-
 - (int) sendPickLockBoxMessage:(int)eventId method:(PickLockBoxRequestProto_PickLockBoxMethod)method clientTime:(uint64_t)clientTime;
+- (int) sendRedeemUserLockBoxItemsMessage:(int)lockBoxEventId;
 
 - (int) sendPurchaseCityExpansionMessage:(ExpansionDirection)direction timeOfPurchase:(uint64_t)time;
 - (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp curTime:(uint64_t)time;

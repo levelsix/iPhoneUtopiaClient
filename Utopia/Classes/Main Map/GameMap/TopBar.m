@@ -326,7 +326,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   if (_isForBattleLossTutorial) {
     return;
   }
-  [LockBoxMenuController displayView];
+  
+  GameState *gs = [GameState sharedGameState];
+  LockBoxEventProto *lbe = [gs getCurrentLockBoxEvent];
+  NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:lbe.endDate/1000.0];
+  int secs = endDate.timeIntervalSinceNow;
+  LockBoxMenuController *lbc = [LockBoxMenuController sharedLockBoxMenuController];
+  if (secs < 0) {
+    [lbc.lockBoxInfoView.unusedItemsView displayForCurrentLockBoxEvent];
+  } else {
+    [LockBoxMenuController displayView];
+  }
 }
 
 - (void) bossEventButtonClicked {
@@ -592,7 +602,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   } if (showGoldSale) {
     [GoldShoppeViewController displayView];
   } if (showLockBox) {
-    [[LockBoxMenuController sharedLockBoxMenuController] infoClicked:nil];
+    LockBoxEventProto *lbe = [gs getCurrentLockBoxEvent];
+    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:lbe.endDate/1000.0];
+    int secs = endDate.timeIntervalSinceNow;
+    LockBoxMenuController *lbc = [LockBoxMenuController sharedLockBoxMenuController];
+    if (secs < 0) {
+      [lbc.lockBoxInfoView.unusedItemsView displayForCurrentLockBoxEvent];
+    } else {
+      [lbc.lockBoxInfoView displayForCurrentLockBoxEvent];
+    }
   } if (showBossEvent) {
     [BossEventMenuController displayView];
   } if (showTournament) {

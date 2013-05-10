@@ -30,8 +30,6 @@
 static NSString *fontName = @"AJensonPro-BoldCapt";
 static int fontSize = 12;
 
-static NSString *structureImageString = @"struct%d.png";
-static NSString *equipImageString = @"equip%d.png";
 static NSMutableSet *_donePulsingViews;
 static NSMutableSet *_pulsingViews;
 
@@ -258,6 +256,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.fbConnectRewardDiamonds = constants.fbConnectRewardDiamonds;
   self.faqFileName = constants.faqFileName;
   self.prestigeFaqFileName = constants.prestigeFaqFileName;
+  self.adminChatUserId = constants.adminChatUserId;
   
   self.minLevelForPrestige = constants.prestigeConstants.minLevelForPrestige;
   self.maxPrestigeLevel = constants.prestigeConstants.maxPrestigeLevel;
@@ -323,6 +322,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.freeChanceToPickLockBox = constants.lockBoxConstants.freeChanceToPickLockBox;
   self.numMinutesToRepickLockBox = constants.lockBoxConstants.numMinutesToRepickLockBox;
   self.goldCostToResetPickLockBox = constants.lockBoxConstants.goldCostToResetPickLockBox;
+  self.numDaysToShowAfterEventEnded = constants.lockBoxConstants.numDaysToShowAfterEventEnded;
   
   self.expansionPurchaseCostConstant = constants.expansionConstants.expansionPurchaseCostConstant;
   self.expansionPurchaseCostExponentBase = constants.expansionConstants.expansionPurchaseCostExponentBase;
@@ -1947,11 +1947,9 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
     bgdView.alpha = 0.f;
     view.transform = CGAffineTransformMakeScale(2.0, 2.0);
   } completion:^(BOOL finished) {
-    if (finished) {
-      view.transform = CGAffineTransformIdentity;
-      if (completed) {
-        completed();
-      }
+    view.transform = CGAffineTransformIdentity;
+    if (finished && completed) {
+      completed();
     }
   }];
 }

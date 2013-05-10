@@ -114,7 +114,7 @@
 
 - (void) popView:(UIView *)view {
   view.transform = CGAffineTransformMakeScale(.5f, .5f);
-  [UIView animateWithDuration:0.5f delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+  [UIView animateWithDuration:0.5f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
     view.transform = CGAffineTransformIdentity;
   } completion:^(BOOL finished) {
     [self popCurrentView];

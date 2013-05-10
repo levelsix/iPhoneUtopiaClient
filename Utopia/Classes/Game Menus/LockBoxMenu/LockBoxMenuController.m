@@ -65,7 +65,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
 - (LockBoxInfoView *) lockBoxInfoView {
   if (!lockBoxInfoView) {
     Globals *gl = [Globals sharedGlobals];
-    [[Globals bundleNamed:gl.downloadableNibConstants.lockBoxNibName] loadNibNamed:@"LockBoxInfoView" owner:self options:nil];
+#warning change back
+    NSBundle *bundle = [NSBundle mainBundle]; //[Globals bundleNamed:gl.downloadableNibConstants.lockBoxNibName]
+    [bundle loadNibNamed:@"LockBoxInfoView" owner:self options:nil];
   }
   return lockBoxInfoView;
 }
@@ -74,7 +76,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   GameState *gs = [GameState sharedGameState];
   LockBoxEventProto *lbe = [gs getCurrentLockBoxEvent];
   
-  if (!lbe) {
+  NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:lbe.endDate/1000.0];
+  int secs = endDate.timeIntervalSinceNow;
+  if (!lbe || secs < 0) {
     [self closeClicked:nil];
     self.timer = nil;
     return;
@@ -93,22 +97,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
 
 - (void) loadItems:(NSArray *)items userItems:(NSArray *)userItems {
   NSMutableArray *a = [[items mutableCopy] autorelease];
-  NSMutableArray *ordered = [NSMutableArray arrayWithCapacity:items.count];
   NSMutableArray *ivs = [itemViews.mutableCopy autorelease];
   
-  // Order items by chance
-  while (a.count > 0) {
-    LockBoxItemProto *highestChance = nil;
-    for (LockBoxItemProto *item in a) {
-      if (!highestChance || highestChance.chanceToUnlock < item.chanceToUnlock) {
-        highestChance = item;
-      }
-    }
-    [ordered addObject:highestChance];
-    [a removeObject:highestChance];
-  }
-  
-  for (LockBoxItemProto *item in ordered) {
+  for (LockBoxItemProto *item in a) {
     UserLockBoxItemProto *ui = nil;
     for (UserLockBoxItemProto *userItem in userItems) {
       if (userItem.lockBoxItemId == item.lockBoxItemId) {
@@ -128,7 +119,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   GameState *gs = [GameState sharedGameState];
   LockBoxEventProto *lbe = [gs getCurrentLockBoxEvent];
   
-  if (!lbe) {
+  NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:lbe.endDate/1000.0];
+  int secs = endDate.timeIntervalSinceNow;
+  if (!lbe || secs < 0) {
     [self loadForCurrentEvent];
     return;
   }
@@ -139,11 +132,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   goldLabel.text = [Globals commafyNumber:gs.gold];
   silverLabel.text = [Globals commafyNumber:gs.silver];
   
-  NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:lbe.endDate/1000.0];
-  int secs = endDate.timeIntervalSinceNow;
   int days = (int)(secs/86400);
   secs %= 86400;
-  eventTimeLabel.text = [NSString stringWithFormat:@"EVENT ENDS IN %d DAYS, %@", days, [Globals convertTimeToString:secs withDays:YES]];
+  eventTimeLabel.text = [NSString stringWithFormat:@"EVENT ENDS IN %d DAYS, %@", days, [Globals convertTimeToString:secs withDays:NO]];
   
   NSDate *curDate = [NSDate date];
   NSDate *nextPickDate = [NSDate dateWithTimeIntervalSince1970:ulbe.lastPickTime/1000.0 + 60*gl.numMinutesToRepickLockBox];
@@ -168,7 +159,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   LockBoxEventProto *lbe = [gs getCurrentLockBoxEvent];
   UserLockBoxEventProto *ulbe = [gs.myLockBoxEvents objectForKey:[NSNumber numberWithInt:lbe.lockBoxEventId]];
   
-  if (ulbe.numLockBoxes > 0) {;
+  if (ulbe.numLockBoxes > 0) {
     uint64_t secs = [[NSDate date] timeIntervalSince1970];
     uint64_t pickTime = ulbe.lastPickTime/1000 + 60*gl.numMinutesToRepickLockBox;
     

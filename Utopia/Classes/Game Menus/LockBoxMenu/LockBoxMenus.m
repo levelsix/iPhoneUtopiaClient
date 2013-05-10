@@ -433,6 +433,84 @@
 
 @end
 
+@implementation LockBoxUnusedItemsView
+
+- (void) displayForCurrentLockBoxEvent {
+  GameState *gs = [GameState sharedGameState];
+  LockBoxEventProto *lbe = [gs getCurrentLockBoxEvent];
+  UserLockBoxEventProto *ulbe = [gs.myLockBoxEvents objectForKey:[NSNumber numberWithInt:lbe.lockBoxEventId]];
+  
+  int numViews = self.leftItemViews.count;
+  int numGoldBoxes = 0;
+  int numSilverBoxes = 0;
+  for (int i = 0; i < numViews && i < lbe.itemsList.count; i++) {
+    LockBoxItemProto *item = [lbe.itemsList objectAtIndex:i];
+    LockBoxItemView *liv = [self.leftItemViews objectAtIndex:i];
+    LockBoxItemView *riv = [self.rightItemViews objectAtIndex:i];
+    UILabel *label = [self.leftLabels objectAtIndex:i];
+    
+    UserLockBoxItemProto *ui = nil;
+    for (UserLockBoxItemProto *userItem in ulbe.itemsList) {
+      if (userItem.lockBoxItemId == item.lockBoxItemId) {
+        ui = userItem;
+        break;
+      }
+    }
+
+    [liv loadForImage:item.imageName quantity:1 itemId:item.lockBoxItemId];
+    label.text = [NSString stringWithFormat:@"= %d %@ Chest%@", item.redeemForNumBoosterItems, item.isGoldBoosterPack ? @"Gold" : @"Silver", item.redeemForNumBoosterItems != 1 ? @"s" : @""];
+    [riv loadForImage:item.imageName quantity:ui.quantity itemId:item.lockBoxItemId];
+    
+    if (item.isGoldBoosterPack) {
+      numGoldBoxes += ui.quantity * item.redeemForNumBoosterItems;
+    } else {
+      numSilverBoxes += ui.quantity * item.redeemForNumBoosterItems;
+    }
+  }
+  
+  NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:lbe.endDate/1000.0];
+  NSDate *now = [NSDate date];
+  BOOL eventOver = [now compare:endDate] == NSOrderedDescending;
+  self.buttonView.hidden = !eventOver;
+  self.cantBuyLabel.hidden = eventOver;
+  
+  self.goldChestsLabel.text = [NSString stringWithFormat:@"%d Equip%@ from Gold Chests", numGoldBoxes, numGoldBoxes != 1 ? @"s" : @""];
+  self.silverChestsLabel.text = [NSString stringWithFormat:@"%d Equip%@ from Silver Chests", numSilverBoxes, numSilverBoxes != 1 ? @"s" : @""];
+  
+  [Globals displayUIView:self];
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+}
+
+- (IBAction)openChestsClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  LockBoxEventProto *lbe = [gs getCurrentLockBoxEvent];
+  [[OutgoingEventController sharedOutgoingEventController] redeemLockBoxItems:lbe.lockBoxEventId];
+  
+  [self.loadingView display:self];
+}
+
+- (IBAction)closeClicked:(id)sender {
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [self removeFromSuperview];
+  }];
+}
+
+- (void) dealloc {
+  self.leftItemViews = nil;
+  self.leftLabels = nil;
+  self.rightItemViews = nil;
+  self.silverChestsLabel = nil;
+  self.goldChestsLabel = nil;
+  self.cantBuyLabel = nil;
+  self.buttonView = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
+  self.loadingView = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation LockBoxInfoView
 
 @synthesize topLabel, descriptionLabel, equipNameLabel, attackLabel, defenseLabel;
@@ -451,8 +529,8 @@
   
   NSString *imgNames[5];
   for (int i = 0; i < 5; i++) {
-    LockBoxItemProto *item = [lbe.itemsList objectAtIndex:i];
-    if (item) {
+    if (lbe.itemsList.count > i) {
+      LockBoxItemProto *item = [lbe.itemsList objectAtIndex:i];
       imgNames[i] = item.imageName;
     }
   }
@@ -477,6 +555,10 @@
   }];
 }
 
+- (IBAction)infoClicked:(id)sender {
+  [self.unusedItemsView displayForCurrentLockBoxEvent];
+}
+
 - (void) dealloc {
   self.topLabel = nil;
   self.descriptionLabel = nil;
@@ -493,6 +575,7 @@
   self.tagIcon = nil;
   self.mainView = nil;
   self.bgdView = nil;
+  self.unusedItemsView = nil;
   self.descriptionImage = nil;
   [super dealloc];
 }

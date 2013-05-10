@@ -7816,6 +7816,8 @@ static LockBoxEventProto* defaultLockBoxEventProtoInstance = nil;
 @property (retain) NSString* name;
 @property EquipClassType type;
 @property (retain) NSString* imageName;
+@property int32_t redeemForNumBoosterItems;
+@property BOOL isGoldBoosterPack;
 @end
 
 @implementation LockBoxItemProto
@@ -7862,6 +7864,25 @@ static LockBoxEventProto* defaultLockBoxEventProtoInstance = nil;
   hasImageName_ = !!value;
 }
 @synthesize imageName;
+- (BOOL) hasRedeemForNumBoosterItems {
+  return !!hasRedeemForNumBoosterItems_;
+}
+- (void) setHasRedeemForNumBoosterItems:(BOOL) value {
+  hasRedeemForNumBoosterItems_ = !!value;
+}
+@synthesize redeemForNumBoosterItems;
+- (BOOL) hasIsGoldBoosterPack {
+  return !!hasIsGoldBoosterPack_;
+}
+- (void) setHasIsGoldBoosterPack:(BOOL) value {
+  hasIsGoldBoosterPack_ = !!value;
+}
+- (BOOL) isGoldBoosterPack {
+  return !!isGoldBoosterPack_;
+}
+- (void) setIsGoldBoosterPack:(BOOL) value {
+  isGoldBoosterPack_ = !!value;
+}
 - (void) dealloc {
   self.name = nil;
   self.imageName = nil;
@@ -7875,6 +7896,8 @@ static LockBoxEventProto* defaultLockBoxEventProtoInstance = nil;
     self.name = @"";
     self.type = EquipClassTypeWarrior;
     self.imageName = @"";
+    self.redeemForNumBoosterItems = 0;
+    self.isGoldBoosterPack = NO;
   }
   return self;
 }
@@ -7912,6 +7935,12 @@ static LockBoxItemProto* defaultLockBoxItemProtoInstance = nil;
   if (self.hasImageName) {
     [output writeString:6 value:self.imageName];
   }
+  if (self.hasRedeemForNumBoosterItems) {
+    [output writeInt32:7 value:self.redeemForNumBoosterItems];
+  }
+  if (self.hasIsGoldBoosterPack) {
+    [output writeBool:8 value:self.isGoldBoosterPack];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -7938,6 +7967,12 @@ static LockBoxItemProto* defaultLockBoxItemProtoInstance = nil;
   }
   if (self.hasImageName) {
     size += computeStringSize(6, self.imageName);
+  }
+  if (self.hasRedeemForNumBoosterItems) {
+    size += computeInt32Size(7, self.redeemForNumBoosterItems);
+  }
+  if (self.hasIsGoldBoosterPack) {
+    size += computeBoolSize(8, self.isGoldBoosterPack);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -8032,6 +8067,12 @@ static LockBoxItemProto* defaultLockBoxItemProtoInstance = nil;
   if (other.hasImageName) {
     [self setImageName:other.imageName];
   }
+  if (other.hasRedeemForNumBoosterItems) {
+    [self setRedeemForNumBoosterItems:other.redeemForNumBoosterItems];
+  }
+  if (other.hasIsGoldBoosterPack) {
+    [self setIsGoldBoosterPack:other.isGoldBoosterPack];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8080,6 +8121,14 @@ static LockBoxItemProto* defaultLockBoxItemProtoInstance = nil;
       }
       case 50: {
         [self setImageName:[input readString]];
+        break;
+      }
+      case 56: {
+        [self setRedeemForNumBoosterItems:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setIsGoldBoosterPack:[input readBool]];
         break;
       }
     }
@@ -8181,6 +8230,38 @@ static LockBoxItemProto* defaultLockBoxItemProtoInstance = nil;
   result.imageName = @"";
   return self;
 }
+- (BOOL) hasRedeemForNumBoosterItems {
+  return result.hasRedeemForNumBoosterItems;
+}
+- (int32_t) redeemForNumBoosterItems {
+  return result.redeemForNumBoosterItems;
+}
+- (LockBoxItemProto_Builder*) setRedeemForNumBoosterItems:(int32_t) value {
+  result.hasRedeemForNumBoosterItems = YES;
+  result.redeemForNumBoosterItems = value;
+  return self;
+}
+- (LockBoxItemProto_Builder*) clearRedeemForNumBoosterItems {
+  result.hasRedeemForNumBoosterItems = NO;
+  result.redeemForNumBoosterItems = 0;
+  return self;
+}
+- (BOOL) hasIsGoldBoosterPack {
+  return result.hasIsGoldBoosterPack;
+}
+- (BOOL) isGoldBoosterPack {
+  return result.isGoldBoosterPack;
+}
+- (LockBoxItemProto_Builder*) setIsGoldBoosterPack:(BOOL) value {
+  result.hasIsGoldBoosterPack = YES;
+  result.isGoldBoosterPack = value;
+  return self;
+}
+- (LockBoxItemProto_Builder*) clearIsGoldBoosterPack {
+  result.hasIsGoldBoosterPack = NO;
+  result.isGoldBoosterPack = NO;
+  return self;
+}
 @end
 
 @interface UserLockBoxEventProto ()
@@ -8190,6 +8271,7 @@ static LockBoxItemProto* defaultLockBoxItemProtoInstance = nil;
 @property int32_t numTimesCompleted;
 @property int64_t lastPickTime;
 @property (retain) NSMutableArray* mutableItemsList;
+@property BOOL hasBeenRedeemed;
 @end
 
 @implementation UserLockBoxEventProto
@@ -8230,6 +8312,18 @@ static LockBoxItemProto* defaultLockBoxItemProtoInstance = nil;
 }
 @synthesize lastPickTime;
 @synthesize mutableItemsList;
+- (BOOL) hasHasBeenRedeemed {
+  return !!hasHasBeenRedeemed_;
+}
+- (void) setHasHasBeenRedeemed:(BOOL) value {
+  hasHasBeenRedeemed_ = !!value;
+}
+- (BOOL) hasBeenRedeemed {
+  return !!hasBeenRedeemed_;
+}
+- (void) setHasBeenRedeemed:(BOOL) value {
+  hasBeenRedeemed_ = !!value;
+}
 - (void) dealloc {
   self.mutableItemsList = nil;
   [super dealloc];
@@ -8241,6 +8335,7 @@ static LockBoxItemProto* defaultLockBoxItemProtoInstance = nil;
     self.numLockBoxes = 0;
     self.numTimesCompleted = 0;
     self.lastPickTime = 0L;
+    self.hasBeenRedeemed = NO;
   }
   return self;
 }
@@ -8285,6 +8380,9 @@ static UserLockBoxEventProto* defaultUserLockBoxEventProtoInstance = nil;
   for (UserLockBoxItemProto* element in self.itemsList) {
     [output writeMessage:6 value:element];
   }
+  if (self.hasHasBeenRedeemed) {
+    [output writeBool:7 value:self.hasBeenRedeemed];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -8311,6 +8409,9 @@ static UserLockBoxEventProto* defaultUserLockBoxEventProtoInstance = nil;
   }
   for (UserLockBoxItemProto* element in self.itemsList) {
     size += computeMessageSize(6, element);
+  }
+  if (self.hasHasBeenRedeemed) {
+    size += computeBoolSize(7, self.hasBeenRedeemed);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -8408,6 +8509,9 @@ static UserLockBoxEventProto* defaultUserLockBoxEventProtoInstance = nil;
     }
     [result.mutableItemsList addObjectsFromArray:other.mutableItemsList];
   }
+  if (other.hasHasBeenRedeemed) {
+    [self setHasBeenRedeemed:other.hasBeenRedeemed];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8453,6 +8557,10 @@ static UserLockBoxEventProto* defaultUserLockBoxEventProtoInstance = nil;
         UserLockBoxItemProto_Builder* subBuilder = [UserLockBoxItemProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addItems:[subBuilder buildPartial]];
+        break;
+      }
+      case 56: {
+        [self setHasBeenRedeemed:[input readBool]];
         break;
       }
     }
@@ -8565,6 +8673,22 @@ static UserLockBoxEventProto* defaultUserLockBoxEventProtoInstance = nil;
     result.mutableItemsList = [NSMutableArray array];
   }
   [result.mutableItemsList addObject:value];
+  return self;
+}
+- (BOOL) hasHasBeenRedeemed {
+  return result.hasHasBeenRedeemed;
+}
+- (BOOL) hasBeenRedeemed {
+  return result.hasBeenRedeemed;
+}
+- (UserLockBoxEventProto_Builder*) setHasBeenRedeemed:(BOOL) value {
+  result.hasHasBeenRedeemed = YES;
+  result.hasBeenRedeemed = value;
+  return self;
+}
+- (UserLockBoxEventProto_Builder*) clearHasBeenRedeemed {
+  result.hasHasBeenRedeemed = NO;
+  result.hasBeenRedeemed = NO;
   return self;
 }
 @end

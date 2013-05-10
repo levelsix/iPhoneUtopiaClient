@@ -28,7 +28,7 @@
 }
 
 - (void) close {
-  [UIView animateWithDuration:0.7f delay:0.f options:UIViewAnimationCurveEaseOut animations:^{
+  [UIView animateWithDuration:0.7f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
     CGAffineTransform t = CGAffineTransformIdentity;
     t = CGAffineTransformScale(t, 0.75f, 0.75f);
     t = CGAffineTransformRotate(t, DISAPPEAR_ROTATION_ANGLE);
