@@ -139,7 +139,7 @@
 @property (nonatomic, retain) NSString *faqFileName;
 @property (nonatomic, retain) NSString *prestigeFaqFileName;
 
-@property (nonatomic, assign) int adminChatUserId;
+@property (nonatomic, retain) MinimumUserProto *adminChatUser;
 
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;

@@ -30,7 +30,10 @@
   
   GameState *gs = [GameState sharedGameState];
   if (gs.clanChatBadgeNum > 0) {
-    self.button2Label.text = [NSString stringWithFormat:@"CLAN (%d)", gs.clanChatBadgeNum];
+    self.clanBadgeView.hidden = NO;
+    self.clanBadgeLabel.text = [NSString stringWithFormat:@"%d", gs.clanChatBadgeNum];
+  } else {
+    self.clanBadgeView.hidden = YES;
   }
 }
 
@@ -681,21 +684,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 }
 
 - (void) removeChatPopup {
-  [UIView animateWithDuration:0.2f animations:^{
-    self.chatPopup.alpha = 0.f;
-  } completion:^(BOOL finished) {
-    self.chatPopup.hidden = YES;
-  }];
+  if (!self.chatPopup.hidden) {
+    [UIView animateWithDuration:0.2f animations:^{
+      self.chatPopup.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      self.chatPopup.hidden = YES;
+    }];
+  }
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  // This is for the private chat list
-  GameState *gs = [GameState sharedGameState];
-  PrivateChatCell *pcc = (PrivateChatCell *)[tableView cellForRowAtIndexPath:indexPath];
-  int userId = pcc.privateChat.poster.userId;
-  userId = userId == gs.userId ? pcc.privateChat.recipient.userId : userId;
-  [self loadPrivateChatsForUserId:userId animated:YES];
-  
+  if (tableView.tag == 1) {
+    [self removeChatPopup];
+  } else if (tableView.tag == 2) {
+    // This is for the private chat list
+    GameState *gs = [GameState sharedGameState];
+    PrivateChatCell *pcc = (PrivateChatCell *)[tableView cellForRowAtIndexPath:indexPath];
+    int userId = pcc.privateChat.poster.userId;
+    userId = userId == gs.userId ? pcc.privateChat.recipient.userId : userId;
+    [self loadPrivateChatsForUserId:userId animated:YES];
+  }
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
@@ -710,6 +718,27 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 }
 
 - (void) updateNumChatsLabel {
+  GameState *gs = [GameState sharedGameState];
+  int badgeNum = 0;
+  for (PrivateChatPostProto *p in gs.privateChats) {
+    int userId = p.recipient.userId == gs.userId ? p.poster.userId : p.recipient.userId;
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, userId];
+    NSNumber *time = [ud objectForKey:key];
+    NSNumber *time2 = [NSNumber numberWithLongLong:p.timeOfPost];
+    BOOL viewed = time && [time compare:time2] != NSOrderedAscending;
+    
+    if (!viewed) {
+      badgeNum += 1;
+    }
+  }
+  
+  if (badgeNum > 0) {
+    self.topBar.privateBadgeView.hidden = NO;
+    self.topBar.privateBadgeLabel.text = [NSString stringWithFormat:@"%d", badgeNum];
+  } else {
+    self.topBar.privateBadgeView.hidden = YES;
+  }
 }
 
 - (void) close {
@@ -739,7 +768,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 
 - (IBAction)chatRulesClicked:(id)sender {
   Globals *gl = [Globals sharedGlobals];
-  [self loadPrivateChatsForUserId:gl.adminChatUserId animated:NO];
+  [self loadPrivateChatsForUserId:gl.adminChatUser.userId animated:NO];
   [self.postTextField resignFirstResponder];
 }
 
@@ -864,6 +893,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 }
 
 - (void) receivedRetrievePrivateChats:(RetrievePrivateChatPostsResponseProto *)proto {
+  Globals *gl = [Globals sharedGlobals];
   if (_otherUserId == proto.otherUserId) {
     NSMutableArray *arr = [NSMutableArray array];
     uint64_t timeOfChat = 0;
@@ -877,6 +907,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     [arr sortUsingComparator:^NSComparisonResult(ChatMessage *obj1, ChatMessage *obj2) {
       return [obj1.date compare:obj2.date];
     }];
+    
+    if (_otherUserId == gl.adminChatUser.userId) {
+      GroupChatMessageProto_Builder *p = [GroupChatMessageProto builder];
+      p.sender = gl.adminChatUser;
+      p.content = @"An admin has been notified and will be with you shortly. Thank you for your patience. In the meantime, can you let me know a bit more about your problem so we can better assist you?";
+      p.timeOfChat = [[NSDate date] timeIntervalSince1970]*1000;
+      [arr addObject:[[ChatMessage alloc] initWithProto:p.build]];
+    }
+    
     self.privateChatMsgs = arr;
     
     [self.chatTable reloadData];
@@ -890,6 +929,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     [self updateUserDefaultsForUserId:proto.otherUserId time:timeOfChat];
     
     [self.privateChatView.privateChatTable reloadData];
+    [self updateNumChatsLabel];
   }
 }
 

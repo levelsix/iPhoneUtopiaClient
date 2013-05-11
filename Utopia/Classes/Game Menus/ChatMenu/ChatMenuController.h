@@ -33,6 +33,11 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *button2Label;
 @property (nonatomic, retain) IBOutlet UILabel *button3Label;
 
+@property (nonatomic, retain) IBOutlet UIView *clanBadgeView;
+@property (nonatomic, retain) IBOutlet UILabel *clanBadgeLabel;
+@property (nonatomic, retain) IBOutlet UIView *privateBadgeView;
+@property (nonatomic, retain) IBOutlet UILabel *privateBadgeLabel;
+
 @end
 
 @interface PrivateChatCell : UITableViewCell

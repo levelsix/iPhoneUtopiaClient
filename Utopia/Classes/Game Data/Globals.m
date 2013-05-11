@@ -256,7 +256,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.fbConnectRewardDiamonds = constants.fbConnectRewardDiamonds;
   self.faqFileName = constants.faqFileName;
   self.prestigeFaqFileName = constants.prestigeFaqFileName;
-  self.adminChatUserId = constants.adminChatUserId;
+  self.adminChatUser = constants.adminChatUserProto;
   
   self.minLevelForPrestige = constants.prestigeConstants.minLevelForPrestige;
   self.maxPrestigeLevel = constants.prestigeConstants.maxPrestigeLevel;

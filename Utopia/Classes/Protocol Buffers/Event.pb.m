@@ -5602,7 +5602,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) StartupResponseProto_StartupConstants_PrestigeConstants* prestigeConstants;
 @property (retain) NSString* faqFileName;
 @property (retain) NSString* prestigeFaqFileName;
-@property int32_t adminChatUserId;
+@property (retain) MinimumUserProto* adminChatUserProto;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -6247,13 +6247,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasPrestigeFaqFileName_ = !!value;
 }
 @synthesize prestigeFaqFileName;
-- (BOOL) hasAdminChatUserId {
-  return !!hasAdminChatUserId_;
+- (BOOL) hasAdminChatUserProto {
+  return !!hasAdminChatUserProto_;
 }
-- (void) setHasAdminChatUserId:(BOOL) value {
-  hasAdminChatUserId_ = !!value;
+- (void) setHasAdminChatUserProto:(BOOL) value {
+  hasAdminChatUserProto_ = !!value;
 }
-@synthesize adminChatUserId;
+@synthesize adminChatUserProto;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -6278,6 +6278,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.prestigeConstants = nil;
   self.faqFileName = nil;
   self.prestigeFaqFileName = nil;
+  self.adminChatUserProto = nil;
   [super dealloc];
 }
 - (id) init {
@@ -6372,7 +6373,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.prestigeConstants = [StartupResponseProto_StartupConstants_PrestigeConstants defaultInstance];
     self.faqFileName = @"";
     self.prestigeFaqFileName = @"";
-    self.adminChatUserId = 0;
+    self.adminChatUserProto = [MinimumUserProto defaultInstance];
   }
   return self;
 }
@@ -6712,8 +6713,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasPrestigeFaqFileName) {
     [output writeString:105 value:self.prestigeFaqFileName];
   }
-  if (self.hasAdminChatUserId) {
-    [output writeInt32:106 value:self.adminChatUserId];
+  if (self.hasAdminChatUserProto) {
+    [output writeMessage:106 value:self.adminChatUserProto];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -7024,8 +7025,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasPrestigeFaqFileName) {
     size += computeStringSize(105, self.prestigeFaqFileName);
   }
-  if (self.hasAdminChatUserId) {
-    size += computeInt32Size(106, self.adminChatUserId);
+  if (self.hasAdminChatUserProto) {
+    size += computeMessageSize(106, self.adminChatUserProto);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -14215,8 +14216,8 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasPrestigeFaqFileName) {
     [self setPrestigeFaqFileName:other.prestigeFaqFileName];
   }
-  if (other.hasAdminChatUserId) {
-    [self setAdminChatUserId:other.adminChatUserId];
+  if (other.hasAdminChatUserProto) {
+    [self mergeAdminChatUserProto:other.adminChatUserProto];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -14703,8 +14704,13 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         [self setPrestigeFaqFileName:[input readString]];
         break;
       }
-      case 848: {
-        [self setAdminChatUserId:[input readInt32]];
+      case 850: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasAdminChatUserProto) {
+          [subBuilder mergeFrom:self.adminChatUserProto];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setAdminChatUserProto:[subBuilder buildPartial]];
         break;
       }
     }
@@ -16525,20 +16531,34 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   result.prestigeFaqFileName = @"";
   return self;
 }
-- (BOOL) hasAdminChatUserId {
-  return result.hasAdminChatUserId;
+- (BOOL) hasAdminChatUserProto {
+  return result.hasAdminChatUserProto;
 }
-- (int32_t) adminChatUserId {
-  return result.adminChatUserId;
+- (MinimumUserProto*) adminChatUserProto {
+  return result.adminChatUserProto;
 }
-- (StartupResponseProto_StartupConstants_Builder*) setAdminChatUserId:(int32_t) value {
-  result.hasAdminChatUserId = YES;
-  result.adminChatUserId = value;
+- (StartupResponseProto_StartupConstants_Builder*) setAdminChatUserProto:(MinimumUserProto*) value {
+  result.hasAdminChatUserProto = YES;
+  result.adminChatUserProto = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_Builder*) clearAdminChatUserId {
-  result.hasAdminChatUserId = NO;
-  result.adminChatUserId = 0;
+- (StartupResponseProto_StartupConstants_Builder*) setAdminChatUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setAdminChatUserProto:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeAdminChatUserProto:(MinimumUserProto*) value {
+  if (result.hasAdminChatUserProto &&
+      result.adminChatUserProto != [MinimumUserProto defaultInstance]) {
+    result.adminChatUserProto =
+      [[[MinimumUserProto builderWithPrototype:result.adminChatUserProto] mergeFrom:value] buildPartial];
+  } else {
+    result.adminChatUserProto = value;
+  }
+  result.hasAdminChatUserProto = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearAdminChatUserProto {
+  result.hasAdminChatUserProto = NO;
+  result.adminChatUserProto = [MinimumUserProto defaultInstance];
   return self;
 }
 @end

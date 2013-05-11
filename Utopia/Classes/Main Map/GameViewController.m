@@ -1,4 +1,4 @@
-//
+  //
 //  RootViewController.m
 //  Utopia
 //
@@ -326,7 +326,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     
     layer.tag = 5;
     
-    [[[CCDirector sharedDirector] runningScene] addChild:layer];
+    if (!layer.parent) {
+      [[[CCDirector sharedDirector] runningScene] addChild:layer];
+    }
   } else {
     [self startGame];
     [Analytics tutStart];

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">11E53</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
-		<string key="IBDocument.AppKitVersion">1138.47</string>
+		<int key="IBDocument.SystemTarget">1552</int>
+		<string key="IBDocument.SystemVersion">11G63b</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
+		<string key="IBDocument.AppKitVersion">1138.51</string>
 		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1929</string>
+			<string key="NS.object.0">2083</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -370,6 +370,7 @@
 				<reference key="NSNextKeyView" ref="677857229"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+				<int key="IBUISelectionStyle">0</int>
 				<reference key="IBUIContentView" ref="677857229"/>
 				<string key="IBUIReuseIdentifier">ChatCell</string>
 				<real value="66" key="IBUIRowHeight"/>
@@ -792,6 +793,50 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ChatMenuController</string>
 					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="addChatsClicked:">id</string>
+						<string key="backClicked:">id</string>
+						<string key="chatClicked:">id</string>
+						<string key="chatRulesClicked:">id</string>
+						<string key="closeClicked:">id</string>
+						<string key="nameLabelClicked:">UIView</string>
+						<string key="profileClicked:">id</string>
+						<string key="sendClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="addChatsClicked:">
+							<string key="name">addChatsClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="backClicked:">
+							<string key="name">backClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="chatClicked:">
+							<string key="name">chatClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="chatRulesClicked:">
+							<string key="name">chatRulesClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="closeClicked:">
+							<string key="name">closeClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="nameLabelClicked:">
+							<string key="name">nameLabelClicked:</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBActionInfo" key="profileClicked:">
+							<string key="name">profileClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="sendClicked:">
+							<string key="name">sendClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="backView">UIView</string>
 						<string key="bgdView">UIView</string>
@@ -1010,6 +1055,6 @@
 			<string key="chatheadcircle.png">{29, 29}</string>
 			<string key="chatline.png">{1, 2}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1929</string>
+		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
 </archive>

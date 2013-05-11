@@ -642,7 +642,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       
       if ([ChatMenuController isInitialized]) {
         ChatMenuController *cmc = [ChatMenuController sharedChatMenuController];
-        cmc.topBar.button2Label.text = [NSString stringWithFormat:@"CLAN (%d)", self.clanChatBadgeNum];
+        cmc.topBar.clanBadgeLabel.text = [NSString stringWithFormat:@"%d", self.clanChatBadgeNum];
+        cmc.topBar.clanBadgeView.hidden = NO;
       }
     }
   }
@@ -663,7 +664,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   if ([ChatMenuController isInitialized]) {
     ChatMenuController *cmc = [ChatMenuController sharedChatMenuController];
-    cmc.topBar.button2Label.text = @"CLAN";
+    cmc.topBar.clanBadgeView.hidden = YES;
   }
   
   self.clanChatBadgeNum = 0;
