@@ -31,7 +31,7 @@
   GameState *gs = [GameState sharedGameState];
   if (gs.clanChatBadgeNum > 0) {
     self.clanBadgeView.hidden = NO;
-    self.clanBadgeLabel.text = [NSString stringWithFormat:@"%d", gs.clanChatBadgeNum];
+    self.clanBadgeLabel.text = gs.clanChatBadgeNum < 100 ? [NSString stringWithFormat:@"%d", gs.clanChatBadgeNum] : @"!";
   } else {
     self.clanBadgeView.hidden = YES;
   }
@@ -735,7 +735,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   
   if (badgeNum > 0) {
     self.topBar.privateBadgeView.hidden = NO;
-    self.topBar.privateBadgeLabel.text = [NSString stringWithFormat:@"%d", badgeNum];
+    self.topBar.privateBadgeLabel.text = badgeNum < 100 ? [NSString stringWithFormat:@"%d", badgeNum] : @"!";
   } else {
     self.topBar.privateBadgeView.hidden = YES;
   }

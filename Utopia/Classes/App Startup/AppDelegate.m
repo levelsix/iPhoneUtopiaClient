@@ -132,9 +132,8 @@
 }
 
 - (void)mobileAppTracker:(MobileAppTracker *)tracker didSucceedWithData:(NSData *)data {
-  NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
   LNLog(@"MAT.didSucceed:");
-  LNLog(@"%@", response);
+  LNLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding);
 }
 
 - (void)mobileAppTracker:(MobileAppTracker *)tracker didFailWithError:(NSError *)error {

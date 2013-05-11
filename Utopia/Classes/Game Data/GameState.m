@@ -637,12 +637,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     if (shouldIncrement && [cm.date compare:self.lastLogoutTime] == NSOrderedDescending) {
       self.clanChatBadgeNum++;
       
-      btm.badgeLabel.text = [NSString stringWithFormat:@"%d", self.clanChatBadgeNum];
+      btm.badgeLabel.text = self.clanChatBadgeNum < 100 ? [NSString stringWithFormat:@"%d", self.clanChatBadgeNum] : @"!";
       btm.badgeView.hidden = NO;
       
       if ([ChatMenuController isInitialized]) {
         ChatMenuController *cmc = [ChatMenuController sharedChatMenuController];
-        cmc.topBar.clanBadgeLabel.text = [NSString stringWithFormat:@"%d", self.clanChatBadgeNum];
+        cmc.topBar.clanBadgeLabel.text = self.clanChatBadgeNum < 100 ? [NSString stringWithFormat:@"%d", self.clanChatBadgeNum] : @"!";
         cmc.topBar.clanBadgeView.hidden = NO;
       }
     }

@@ -65,8 +65,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
 - (LockBoxInfoView *) lockBoxInfoView {
   if (!lockBoxInfoView) {
     Globals *gl = [Globals sharedGlobals];
-#warning change back
-    NSBundle *bundle = [NSBundle mainBundle]; //[Globals bundleNamed:gl.downloadableNibConstants.lockBoxNibName]
+    NSBundle *bundle = [Globals bundleNamed:gl.downloadableNibConstants.lockBoxNibName];
     [bundle loadNibNamed:@"LockBoxInfoView" owner:self options:nil];
   }
   return lockBoxInfoView;
