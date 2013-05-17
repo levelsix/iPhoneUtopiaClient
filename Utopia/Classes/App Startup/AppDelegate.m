@@ -39,7 +39,7 @@
 #define MAT_APP_KEY          @"ba62d2918dc7b537cbeaca833085ce89"
 #define MAT_VERSION_KEY      @"MATVersionKey"
 
-#define GIRAFFE_GRAPH_KEY    @"eee3b73ca3f9fc3322e11be77275c13a"
+#define GIRAFFE_GRAPH_KEY    @"eaf66fffc083c9a0628b23925815faa8"
 
 #define CHARTBOOST_APP_ID    @"50d29b2216ba47b230000046"
 #define CHARTBOOST_APP_SIG   @"5f72ac2d97bf7a6d7835b8a72b207f50bba0d68b"
@@ -133,7 +133,7 @@
 
 - (void)mobileAppTracker:(MobileAppTracker *)tracker didSucceedWithData:(NSData *)data {
   LNLog(@"MAT.didSucceed:");
-  LNLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding);
+  LNLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
 }
 
 - (void)mobileAppTracker:(MobileAppTracker *)tracker didFailWithError:(NSError *)error {

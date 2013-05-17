@@ -35,6 +35,8 @@
 @property (nonatomic, retain) IBOutlet UITableView *activityTableView;
 @property (nonatomic, retain) IBOutlet ActivityFeedCell *actCell;
 
+@property (nonatomic, retain) IBOutlet UILabel *noNotificationLabel;
+
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 

@@ -165,6 +165,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
     _inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
     
+    self.privateChats = [[NSMutableArray alloc] init];
+    
     _unrespondedUpdates = [[NSMutableArray alloc] init];
     
     _requestedClans = [[NSMutableArray alloc] init];
@@ -242,6 +244,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.hasReceivedfbReward = user.hasReceivedfbReward;
   self.prestigeLevel = user.prestigeLevel;
   self.numAdditionalForgeSlots = user.numAdditionalForgeSlots;
+  self.numBeginnerSalesPurchased = user.numBeginnerSalesPurchased;
   
   NSTimeInterval t = user.lastEnergyRefillTime/1000.0;
   self.lastEnergyRefill = [NSDate dateWithTimeIntervalSince1970:t];
@@ -1386,8 +1389,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (GoldSaleProto *) getCurrentGoldSale {
+  Globals *gl = [Globals sharedGlobals];
   double curTime = [[NSDate date] timeIntervalSince1970]*1000.0;
   for (GoldSaleProto *p in _staticGoldSales) {
+    if (p.isBeginnerSale && self.numBeginnerSalesPurchased >= gl.numBeginnerSalesAllowed) {
+      continue;
+    }
+    
     if (curTime > p.startDate && curTime < p.endDate) {
       return p;
     }

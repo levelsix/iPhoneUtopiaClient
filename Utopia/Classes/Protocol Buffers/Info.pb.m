@@ -6224,6 +6224,7 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
 @property (retain) NSString* packageS3SaleIdentifier;
 @property (retain) NSString* packageS4SaleIdentifier;
 @property (retain) NSString* packageS5SaleIdentifier;
+@property BOOL isBeginnerSale;
 @end
 
 @implementation GoldSaleProto
@@ -6333,6 +6334,18 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
   hasPackageS5SaleIdentifier_ = !!value;
 }
 @synthesize packageS5SaleIdentifier;
+- (BOOL) hasIsBeginnerSale {
+  return !!hasIsBeginnerSale_;
+}
+- (void) setHasIsBeginnerSale:(BOOL) value {
+  hasIsBeginnerSale_ = !!value;
+}
+- (BOOL) isBeginnerSale {
+  return !!isBeginnerSale_;
+}
+- (void) setIsBeginnerSale:(BOOL) value {
+  isBeginnerSale_ = !!value;
+}
 - (void) dealloc {
   self.package1SaleIdentifier = nil;
   self.package2SaleIdentifier = nil;
@@ -6365,6 +6378,7 @@ static ClanTowerProto* defaultClanTowerProtoInstance = nil;
     self.packageS3SaleIdentifier = @"";
     self.packageS4SaleIdentifier = @"";
     self.packageS5SaleIdentifier = @"";
+    self.isBeginnerSale = NO;
   }
   return self;
 }
@@ -6429,6 +6443,9 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
   if (self.hasPackageS5SaleIdentifier) {
     [output writeString:15 value:self.packageS5SaleIdentifier];
   }
+  if (self.hasIsBeginnerSale) {
+    [output writeBool:16 value:self.isBeginnerSale];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6482,6 +6499,9 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
   }
   if (self.hasPackageS5SaleIdentifier) {
     size += computeStringSize(15, self.packageS5SaleIdentifier);
+  }
+  if (self.hasIsBeginnerSale) {
+    size += computeBoolSize(16, self.isBeginnerSale);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6603,6 +6623,9 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
   if (other.hasPackageS5SaleIdentifier) {
     [self setPackageS5SaleIdentifier:other.packageS5SaleIdentifier];
   }
+  if (other.hasIsBeginnerSale) {
+    [self setIsBeginnerSale:other.isBeginnerSale];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6682,6 +6705,10 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
       }
       case 122: {
         [self setPackageS5SaleIdentifier:[input readString]];
+        break;
+      }
+      case 128: {
+        [self setIsBeginnerSale:[input readBool]];
         break;
       }
     }
@@ -6925,6 +6952,22 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
 - (GoldSaleProto_Builder*) clearPackageS5SaleIdentifier {
   result.hasPackageS5SaleIdentifier = NO;
   result.packageS5SaleIdentifier = @"";
+  return self;
+}
+- (BOOL) hasIsBeginnerSale {
+  return result.hasIsBeginnerSale;
+}
+- (BOOL) isBeginnerSale {
+  return result.isBeginnerSale;
+}
+- (GoldSaleProto_Builder*) setIsBeginnerSale:(BOOL) value {
+  result.hasIsBeginnerSale = YES;
+  result.isBeginnerSale = value;
+  return self;
+}
+- (GoldSaleProto_Builder*) clearIsBeginnerSale {
+  result.hasIsBeginnerSale = NO;
+  result.isBeginnerSale = NO;
   return self;
 }
 @end
@@ -13867,6 +13910,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 @property (retain) FullUserEquipProto* amuletTwoEquippedUserEquip;
 @property int32_t prestigeLevel;
 @property int32_t numAdditionalForgeSlots;
+@property int32_t numBeginnerSalesPurchased;
 @property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -14231,6 +14275,13 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   hasNumAdditionalForgeSlots_ = !!value;
 }
 @synthesize numAdditionalForgeSlots;
+- (BOOL) hasNumBeginnerSalesPurchased {
+  return !!hasNumBeginnerSalesPurchased_;
+}
+- (void) setHasNumBeginnerSalesPurchased:(BOOL) value {
+  hasNumBeginnerSalesPurchased_ = !!value;
+}
+@synthesize numBeginnerSalesPurchased;
 - (BOOL) hasUdid {
   return !!hasUdid_;
 }
@@ -14359,6 +14410,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
     self.amuletTwoEquippedUserEquip = [FullUserEquipProto defaultInstance];
     self.prestigeLevel = 0;
     self.numAdditionalForgeSlots = 0;
+    self.numBeginnerSalesPurchased = 0;
     self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -14558,6 +14610,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumAdditionalForgeSlots) {
     [output writeInt32:62 value:self.numAdditionalForgeSlots];
   }
+  if (self.hasNumBeginnerSalesPurchased) {
+    [output writeInt32:63 value:self.numBeginnerSalesPurchased];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -14737,6 +14792,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasNumAdditionalForgeSlots) {
     size += computeInt32Size(62, self.numAdditionalForgeSlots);
+  }
+  if (self.hasNumBeginnerSalesPurchased) {
+    size += computeInt32Size(63, self.numBeginnerSalesPurchased);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -14956,6 +15014,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasNumAdditionalForgeSlots) {
     [self setNumAdditionalForgeSlots:other.numAdditionalForgeSlots];
+  }
+  if (other.hasNumBeginnerSalesPurchased) {
+    [self setNumBeginnerSalesPurchased:other.numBeginnerSalesPurchased];
   }
   if (other.hasUdid) {
     [self setUdid:other.udid];
@@ -15276,6 +15337,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 496: {
         [self setNumAdditionalForgeSlots:[input readInt32]];
+        break;
+      }
+      case 504: {
+        [self setNumBeginnerSalesPurchased:[input readInt32]];
         break;
       }
     }
@@ -16159,6 +16224,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearNumAdditionalForgeSlots {
   result.hasNumAdditionalForgeSlots = NO;
   result.numAdditionalForgeSlots = 0;
+  return self;
+}
+- (BOOL) hasNumBeginnerSalesPurchased {
+  return result.hasNumBeginnerSalesPurchased;
+}
+- (int32_t) numBeginnerSalesPurchased {
+  return result.numBeginnerSalesPurchased;
+}
+- (FullUserProto_Builder*) setNumBeginnerSalesPurchased:(int32_t) value {
+  result.hasNumBeginnerSalesPurchased = YES;
+  result.numBeginnerSalesPurchased = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumBeginnerSalesPurchased {
+  result.hasNumBeginnerSalesPurchased = NO;
+  result.numBeginnerSalesPurchased = 0;
   return self;
 }
 - (BOOL) hasUdid {

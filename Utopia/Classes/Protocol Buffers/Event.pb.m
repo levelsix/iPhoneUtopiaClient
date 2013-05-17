@@ -5603,6 +5603,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) NSString* faqFileName;
 @property (retain) NSString* prestigeFaqFileName;
 @property (retain) MinimumUserProto* adminChatUserProto;
+@property int32_t numBeginnerSalesAllowed;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -6254,6 +6255,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasAdminChatUserProto_ = !!value;
 }
 @synthesize adminChatUserProto;
+- (BOOL) hasNumBeginnerSalesAllowed {
+  return !!hasNumBeginnerSalesAllowed_;
+}
+- (void) setHasNumBeginnerSalesAllowed:(BOOL) value {
+  hasNumBeginnerSalesAllowed_ = !!value;
+}
+@synthesize numBeginnerSalesAllowed;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -6374,6 +6382,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.faqFileName = @"";
     self.prestigeFaqFileName = @"";
     self.adminChatUserProto = [MinimumUserProto defaultInstance];
+    self.numBeginnerSalesAllowed = 0;
   }
   return self;
 }
@@ -6716,6 +6725,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasAdminChatUserProto) {
     [output writeMessage:106 value:self.adminChatUserProto];
   }
+  if (self.hasNumBeginnerSalesAllowed) {
+    [output writeInt32:107 value:self.numBeginnerSalesAllowed];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -7027,6 +7039,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasAdminChatUserProto) {
     size += computeMessageSize(106, self.adminChatUserProto);
+  }
+  if (self.hasNumBeginnerSalesAllowed) {
+    size += computeInt32Size(107, self.numBeginnerSalesAllowed);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -14219,6 +14234,9 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasAdminChatUserProto) {
     [self mergeAdminChatUserProto:other.adminChatUserProto];
   }
+  if (other.hasNumBeginnerSalesAllowed) {
+    [self setNumBeginnerSalesAllowed:other.numBeginnerSalesAllowed];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -14711,6 +14729,10 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setAdminChatUserProto:[subBuilder buildPartial]];
+        break;
+      }
+      case 856: {
+        [self setNumBeginnerSalesAllowed:[input readInt32]];
         break;
       }
     }
@@ -16559,6 +16581,22 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearAdminChatUserProto {
   result.hasAdminChatUserProto = NO;
   result.adminChatUserProto = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasNumBeginnerSalesAllowed {
+  return result.hasNumBeginnerSalesAllowed;
+}
+- (int32_t) numBeginnerSalesAllowed {
+  return result.numBeginnerSalesAllowed;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setNumBeginnerSalesAllowed:(int32_t) value {
+  result.hasNumBeginnerSalesAllowed = YES;
+  result.numBeginnerSalesAllowed = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearNumBeginnerSalesAllowed {
+  result.hasNumBeginnerSalesAllowed = NO;
+  result.numBeginnerSalesAllowed = 0;
   return self;
 }
 @end

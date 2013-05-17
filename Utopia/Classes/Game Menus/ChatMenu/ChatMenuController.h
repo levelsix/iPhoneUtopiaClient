@@ -10,6 +10,7 @@
 #import "UserData.h"
 #import "LeaderboardController.h"
 #import "Protocols.pb.h"
+#import "MentorChatView.h"
 
 typedef enum {
   kChatStateGlobal = 1,
@@ -56,6 +57,7 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet PrivateChatCell *chatCell;
 @property (nonatomic, retain) IBOutlet UITableView *privateChatTable;
+@property (nonatomic, retain) IBOutlet UILabel *noChatsLabel;
 
 @end
 
@@ -108,10 +110,14 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *backView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 
+@property (nonatomic, retain) IBOutlet MentorChatView *mentorChatView;
+
 @property (nonatomic, retain) NSMutableArray *privateChatMsgs;
 
 @property (nonatomic, retain) MinimumUserProto *clickedMinUser;
 @property (nonatomic, retain) IBOutlet UIView *chatPopup;
+
+@property (nonatomic, retain) IBOutlet UILabel *noPrivateChatsLabel;
 
 + (ChatMenuController *) sharedChatMenuController;
 + (void) purgeSingleton;

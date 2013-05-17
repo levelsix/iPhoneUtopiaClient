@@ -96,6 +96,11 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *secsLabel;
 @property (nonatomic, retain) NSTimer *timer;
 
+@property (nonatomic, retain) IBOutlet UIView *tableContainerView;
+@property (nonatomic, retain) IBOutlet UIView *bottomView;
+@property (nonatomic, retain) IBOutlet UILabel *numBegSaleRemainingLabel;
+@property (nonatomic, retain) IBOutlet UILabel *totalBegSaleLabel;
+
 + (GoldShoppeViewController *)sharedGoldShoppeViewController;
 + (void) displayView;
 + (void) removeView;

@@ -1802,6 +1802,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface GoldSaleProto : PBGeneratedMessage {
 @private
+  BOOL hasIsBeginnerSale_:1;
   BOOL hasStartDate_:1;
   BOOL hasEndDate_:1;
   BOOL hasSaleId_:1;
@@ -1817,6 +1818,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasPackageS3SaleIdentifier_:1;
   BOOL hasPackageS4SaleIdentifier_:1;
   BOOL hasPackageS5SaleIdentifier_:1;
+  BOOL isBeginnerSale_:1;
   int64_t startDate;
   int64_t endDate;
   int32_t saleId;
@@ -1848,6 +1850,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasPackageS3SaleIdentifier;
 - (BOOL) hasPackageS4SaleIdentifier;
 - (BOOL) hasPackageS5SaleIdentifier;
+- (BOOL) hasIsBeginnerSale;
 @property (readonly) int32_t saleId;
 @property (readonly) int64_t startDate;
 @property (readonly) int64_t endDate;
@@ -1863,6 +1866,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) NSString* packageS3SaleIdentifier;
 @property (readonly, retain) NSString* packageS4SaleIdentifier;
 @property (readonly, retain) NSString* packageS5SaleIdentifier;
+- (BOOL) isBeginnerSale;
 
 + (GoldSaleProto*) defaultInstance;
 - (GoldSaleProto*) defaultInstance;
@@ -1972,6 +1976,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (NSString*) packageS5SaleIdentifier;
 - (GoldSaleProto_Builder*) setPackageS5SaleIdentifier:(NSString*) value;
 - (GoldSaleProto_Builder*) clearPackageS5SaleIdentifier;
+
+- (BOOL) hasIsBeginnerSale;
+- (BOOL) isBeginnerSale;
+- (GoldSaleProto_Builder*) setIsBeginnerSale:(BOOL) value;
+- (GoldSaleProto_Builder*) clearIsBeginnerSale;
 @end
 
 @interface GroupChatMessageProto : PBGeneratedMessage {
@@ -3668,8 +3677,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface FullUserProto : PBGeneratedMessage {
 @private
-  BOOL hasHasReceivedfbReward_:1;
   BOOL hasIsFake_:1;
+  BOOL hasHasReceivedfbReward_:1;
   BOOL hasIsAdmin_:1;
   BOOL hasLastLoginTime_:1;
   BOOL hasCreateTime_:1;
@@ -3688,6 +3697,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasNumGroupChatsRemaining_:1;
   BOOL hasPrestigeLevel_:1;
   BOOL hasNumAdditionalForgeSlots_:1;
+  BOOL hasNumBeginnerSalesPurchased_:1;
   BOOL hasNumBadges_:1;
   BOOL hasApsalarId_:1;
   BOOL hasNumTimesKiipRewarded_:1;
@@ -3708,25 +3718,25 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasFlees_:1;
   BOOL hasBattlesLost_:1;
   BOOL hasBattlesWon_:1;
-  BOOL hasMarketplaceCoinsEarnings_:1;
   BOOL hasTasksCompleted_:1;
+  BOOL hasMarketplaceCoinsEarnings_:1;
   BOOL hasExperience_:1;
   BOOL hasVaultBalance_:1;
   BOOL hasName_:1;
   BOOL hasReferralCode_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasUdid_:1;
-  BOOL hasArmorEquippedUserEquip_:1;
   BOOL hasAmuletEquippedUserEquip_:1;
-  BOOL hasWeaponEquippedUserEquip_:1;
   BOOL hasAmuletTwoEquippedUserEquip_:1;
+  BOOL hasArmorEquippedUserEquip_:1;
+  BOOL hasWeaponEquippedUserEquip_:1;
   BOOL hasArmorTwoEquippedUserEquip_:1;
-  BOOL hasUserLocation_:1;
   BOOL hasWeaponTwoEquippedUserEquip_:1;
   BOOL hasClan_:1;
+  BOOL hasUserLocation_:1;
   BOOL hasUserType_:1;
-  BOOL hasReceivedfbReward_:1;
   BOOL isFake_:1;
+  BOOL hasReceivedfbReward_:1;
   BOOL isAdmin_:1;
   int64_t lastLoginTime;
   int64_t createTime;
@@ -3745,6 +3755,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t numGroupChatsRemaining;
   int32_t prestigeLevel;
   int32_t numAdditionalForgeSlots;
+  int32_t numBeginnerSalesPurchased;
   int32_t numBadges;
   int32_t apsalarId;
   int32_t numTimesKiipRewarded;
@@ -3765,22 +3776,22 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t flees;
   int32_t battlesLost;
   int32_t battlesWon;
-  int32_t marketplaceCoinsEarnings;
   int32_t tasksCompleted;
+  int32_t marketplaceCoinsEarnings;
   int32_t experience;
   int32_t vaultBalance;
   NSString* name;
   NSString* referralCode;
   NSString* deviceToken;
   NSString* udid;
-  FullUserEquipProto* armorEquippedUserEquip;
   FullUserEquipProto* amuletEquippedUserEquip;
-  FullUserEquipProto* weaponEquippedUserEquip;
   FullUserEquipProto* amuletTwoEquippedUserEquip;
+  FullUserEquipProto* armorEquippedUserEquip;
+  FullUserEquipProto* weaponEquippedUserEquip;
   FullUserEquipProto* armorTwoEquippedUserEquip;
-  LocationProto* userLocation;
   FullUserEquipProto* weaponTwoEquippedUserEquip;
   MinimumClanProto* clan;
+  LocationProto* userLocation;
   UserType userType;
 }
 - (BOOL) hasUserId;
@@ -3831,6 +3842,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasAmuletTwoEquippedUserEquip;
 - (BOOL) hasPrestigeLevel;
 - (BOOL) hasNumAdditionalForgeSlots;
+- (BOOL) hasNumBeginnerSalesPurchased;
 - (BOOL) hasUdid;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasLastBattleNotificationTime;
@@ -3888,6 +3900,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) FullUserEquipProto* amuletTwoEquippedUserEquip;
 @property (readonly) int32_t prestigeLevel;
 @property (readonly) int32_t numAdditionalForgeSlots;
+@property (readonly) int32_t numBeginnerSalesPurchased;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* deviceToken;
 @property (readonly) int64_t lastBattleNotificationTime;
@@ -4187,6 +4200,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) numAdditionalForgeSlots;
 - (FullUserProto_Builder*) setNumAdditionalForgeSlots:(int32_t) value;
 - (FullUserProto_Builder*) clearNumAdditionalForgeSlots;
+
+- (BOOL) hasNumBeginnerSalesPurchased;
+- (int32_t) numBeginnerSalesPurchased;
+- (FullUserProto_Builder*) setNumBeginnerSalesPurchased:(int32_t) value;
+- (FullUserProto_Builder*) clearNumBeginnerSalesPurchased;
 
 - (BOOL) hasUdid;
 - (NSString*) udid;

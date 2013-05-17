@@ -280,6 +280,7 @@
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   GameState *gs = [GameState sharedGameState];
+  self.noChatsLabel.hidden = gs.privateChats.count > 0;
   return gs.privateChats.count;
 }
 
@@ -300,6 +301,7 @@
 - (void) dealloc {
   self.privateChatTable = nil;
   self.chatCell = nil;
+  self.noChatsLabel = nil;
   [super dealloc];
 }
 
@@ -568,6 +570,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  self.noPrivateChatsLabel.hidden = YES;
   return self.arrayForState.count;
 }
 
@@ -629,6 +632,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     block();
     self.backView.hidden = YES;
   }
+  
+  
+//  [[NSBundle mainBundle] loadNibNamed:@"MentorChatView" owner:self options:nil];
+//  [self.mentorChatView displayForMentor:[[GameState sharedGameState] minUser]];
 }
 
 - (void) loadChatTableAnimated:(BOOL)animated {
@@ -806,8 +813,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSString *msg = self.postTextField.text;
+  
+  
   if (msg.length > 0 && msg.length <= gl.maxLengthOfChatString) {
     if (self.state == kChatStatePrivate) {
+      if (!self.privateChatMsgs) {
+        [Globals popupMessage:@"Please wait till messages are loaded."];
+        return;
+      }
+      
       [[OutgoingEventController sharedOutgoingEventController] privateChatPost:_otherUserId content:msg];
       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         ChatMessage *cm = [[ChatMessage alloc] init];
@@ -908,7 +922,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
       return [obj1.date compare:obj2.date];
     }];
     
-    if (_otherUserId == gl.adminChatUser.userId) {
+    if (arr.count == 0 && _otherUserId == gl.adminChatUser.userId) {
       GroupChatMessageProto_Builder *p = [GroupChatMessageProto builder];
       p.sender = gl.adminChatUser;
       p.content = @"An admin has been notified and will be with you shortly. Thank you for your patience. In the meantime, can you let me know a bit more about your problem so we can better assist you?";
@@ -920,6 +934,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     
     [self.chatTable reloadData];
     self.spinner.hidden = YES;
+    
+    if (arr.count == 0) {
+      self.noPrivateChatsLabel.hidden = NO;
+    }
     
     int numRows = [self.chatTable numberOfRowsInSection:0];
     if (numRows > 0) {
@@ -945,7 +963,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     [self addChatMessage:cm];
   }
   
-  if (_otherUserId == userId) {
+  if (_otherUserId == userId || proto.post.poster.userId == gs.userId) {
     [self updateUserDefaultsForUserId:userId time:proto.post.timeOfPost];
   } else {
     TopBar *tb = [TopBar sharedTopBar];
@@ -963,7 +981,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   [gs.privateChats insertObject:proto.post atIndex:0];
   [self.privateChatView.privateChatTable reloadData];
   
-  [self.privateChatView.privateChatTable reloadData];
+  [self updateNumChatsLabel];
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -989,6 +1007,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     self.privateChatView = nil;
     self.chatTableView = nil;
     self.chatPopup = nil;
+    self.noPrivateChatsLabel = nil;
   }
 }
 

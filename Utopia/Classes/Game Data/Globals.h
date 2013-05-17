@@ -141,6 +141,8 @@
 
 @property (nonatomic, retain) MinimumUserProto *adminChatUser;
 
+@property (nonatomic, assign) int numBeginnerSalesAllowed;
+
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
 @property (nonatomic, assign) int forgeMinDiamondCostForGuarantee;
@@ -239,6 +241,7 @@
 + (Globals *) sharedGlobals;
 + (void) purgeSingleton;
 
+- (void) updateInAppPurchases;
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;
 
 + (NSString *) font;

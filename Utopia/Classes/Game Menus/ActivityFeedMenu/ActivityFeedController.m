@@ -268,7 +268,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [[[GameState sharedGameState] notifications] count];
+  GameState *gs = [GameState sharedGameState];
+  self.noNotificationLabel.hidden = gs.notifications.count > 0;
+  return gs.notifications.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -351,6 +353,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
     self.actCell = nil;
     self.users = nil;
     self.mainView = nil;
+    self.noNotificationLabel = nil;
     self.bgdView = nil;
   }
 }

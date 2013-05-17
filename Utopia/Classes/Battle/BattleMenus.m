@@ -85,7 +85,7 @@
 }
 
 - (void) displayGoToAnalysisView {
-  [self addSubview:self.summaryView.analysisButtonView];
+  [self.mainView addSubview:self.summaryView.analysisButtonView];
   self.buttonView.hidden = YES;
   
   self.speechLabel.text = @"Check out the battle analysis to see how you could improve!";

@@ -331,6 +331,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (gs.connected) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt product:product];
     [[GameState sharedGameState] addUnrespondedUpdates:[GoldUpdate updateWithTag:tag change:gold], [SilverUpdate updateWithTag:tag change:silver], nil];
+    
+    if ([product.productIdentifier rangeOfString:@"bsale"].length > 0) {
+      gs.numBeginnerSalesPurchased++;
+    }
   }
   
   NSString *key = IAP_DEFAULTS_KEY;
@@ -1582,10 +1586,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) fbConnectReward {
   GameState *gs = [GameState sharedGameState];
+  int i = 0;
   while (gs.userId == 0) {
     [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.f]];
     
-    if (gs.isTutorial) {
+    i++;
+    if (gs.isTutorial || i > 30) {
       return;
     }
   }

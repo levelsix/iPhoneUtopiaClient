@@ -442,25 +442,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   BOOL hasPerformedTut = [def boolForKey:key];
   FullQuestProto *fqp = [gs questForQuestId:gl.questIdForFirstLossTutorial];
   
-  if (hasPerformedTut || gs.prestigeLevel > 0) {
-    [bl beginBattleAgainst:fup inCity:0];
-  } else {
-    BOOL guaranteedWin = NO;
-    for (NSNumber *qId in gl.questIdsGuaranteedWin) {
-      if ([gs questForQuestId:qId.intValue]) {
-        guaranteedWin = YES;
-      }
-    }
-    
-    if (guaranteedWin) {
-      [bl performGuaranteedWinWithUser:fup inCity:0];
-    } else if (fqp) {
-      [bl performFirstLossTutorialWithUser:fup inCity:0];
-      [def setBool:YES forKey:key];
-    } else {
-      [bl beginBattleAgainst:fup inCity:0];
-    }
-  }
+  [bl performFirstLossTutorialWithUser:fup inCity:0];
+//  if (hasPerformedTut || gs.prestigeLevel > 0) {
+//    [bl beginBattleAgainst:fup inCity:0];
+//  } else {
+//    BOOL guaranteedWin = NO;
+//    for (NSNumber *qId in gl.questIdsGuaranteedWin) {
+//      if ([gs questForQuestId:qId.intValue]) {
+//        guaranteedWin = YES;
+//      }
+//    }
+//    
+//    if (guaranteedWin) {
+//      [bl performGuaranteedWinWithUser:fup inCity:0];
+//    } else if (fqp) {
+//      [bl performFirstLossTutorialWithUser:fup inCity:0];
+//      [def setBool:YES forKey:key];
+//    } else {
+//      [bl beginBattleAgainst:fup inCity:0];
+//    }
+//  }
 }
 
 - (void) mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {

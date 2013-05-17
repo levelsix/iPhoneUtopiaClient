@@ -33,6 +33,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *girlImageView;
 @property (nonatomic, retain) IBOutlet UIView *buttonView;
 @property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
+@property (nonatomic, retain) IBOutlet UIView *mainView;
 
 @property (nonatomic, retain) BattleSummaryView *summaryView;
 @property (nonatomic, retain) BattleAnalysisView *analysisView;

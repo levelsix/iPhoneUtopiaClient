@@ -512,6 +512,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   // Must do gold sales before startup constants so that the product ids can be retrieved
   gs.staticGoldSales = [proto.goldSalesList.mutableCopy autorelease];
+  [gs.staticGoldSales sortUsingComparator:^NSComparisonResult(GoldSaleProto *obj1, GoldSaleProto *obj2) {
+    if (obj1.isBeginnerSale) {
+      return  NSOrderedAscending;
+    } else if (obj2.isBeginnerSale) {
+      return NSOrderedDescending;
+    }
+    return NSOrderedSame;
+  }];
   [gs resetGoldSaleTimers];
   [gl updateConstants:proto.startupConstants];
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
@@ -561,7 +569,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs setAllies:proto.alliesList];
     
-    gs.privateChats = [proto.pcppList mutableCopy];
+    gs.privateChats = proto.pcppList ? [proto.pcppList mutableCopy] : [NSMutableArray array];
     [gs.privateChats sortUsingComparator:^NSComparisonResult(PrivateChatPostProto *obj1, PrivateChatPostProto *obj2) {
       if (obj1.timeOfPost < obj2.timeOfPost) {
         return NSOrderedDescending;
@@ -733,7 +741,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"In App Purchase response received with status %d.", proto.status);
   
-  [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
+  GoldShoppeViewController *gsvc = [GoldShoppeViewController sharedGoldShoppeViewController];
+  [gsvc stopLoading];
+  gsvc.state = gsvc.state;
   
   NSString *key = IAP_DEFAULTS_KEY;
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

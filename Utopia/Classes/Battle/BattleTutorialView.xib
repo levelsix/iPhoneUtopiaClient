@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">11E53</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
-		<string key="IBDocument.AppKitVersion">1138.47</string>
+		<int key="IBDocument.SystemTarget">1552</int>
+		<string key="IBDocument.SystemVersion">11G63b</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
+		<string key="IBDocument.AppKitVersion">1138.51</string>
 		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1929</string>
+			<string key="NS.object.0">2083</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -324,6 +324,14 @@
 					<int key="connectionID">28</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">mainView</string>
+						<reference key="source" ref="849467596"/>
+						<reference key="destination" ref="506201925"/>
+					</object>
+					<int key="connectionID">37</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">buttonClicked:</string>
 						<reference key="source" ref="145220332"/>
@@ -444,10 +452,18 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">36</int>
+			<int key="maxID">37</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">AutoScrollingScrollView</string>
+					<string key="superclassName">CancellableScrollView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AutoScrollingScrollView.h</string>
+					</object>
+				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">BattleAnalysisView</string>
 					<string key="superclassName">UIView</string>
@@ -603,8 +619,10 @@
 						<string key="analysisClicked:">id</string>
 						<string key="attackAgainClicked:">id</string>
 						<string key="closeClicked:">id</string>
+						<string key="fbClicked:">id</string>
 						<string key="profileButtonClicked:">id</string>
 						<string key="stolenEquipOkayClicked:">id</string>
+						<string key="twitterclicked:">id</string>
 						<string key="viewChestInArmoryClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -620,12 +638,20 @@
 							<string key="name">closeClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="fbClicked:">
+							<string key="name">fbClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="profileButtonClicked:">
 							<string key="name">profileButtonClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="stolenEquipOkayClicked:">
 							<string key="name">stolenEquipOkayClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="twitterclicked:">
+							<string key="name">twitterclicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="viewChestInArmoryClicked:">
@@ -663,6 +689,43 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">BattleSummaryEquipView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="bgdIcon">UIImageView</string>
+						<string key="enhanceLevelIcon">EnhancementLevelIcon</string>
+						<string key="equipIcon">EquipButton</string>
+						<string key="equipLevelIcon">EquipLevelIcon</string>
+						<string key="rarityLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="bgdIcon">
+							<string key="name">bgdIcon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="enhanceLevelIcon">
+							<string key="name">enhanceLevelIcon</string>
+							<string key="candidateClassName">EnhancementLevelIcon</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="equipIcon">
+							<string key="name">equipIcon</string>
+							<string key="candidateClassName">EquipButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="equipLevelIcon">
+							<string key="name">equipLevelIcon</string>
+							<string key="candidateClassName">EquipLevelIcon</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="rarityLabel">
+							<string key="name">rarityLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/BattleSummaryEquipView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">BattleSummaryView</string>
 					<string key="superclassName">UIView</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
@@ -672,52 +735,25 @@
 						<string key="coinsGainedLabel">UILabel</string>
 						<string key="coinsLostLabel">UILabel</string>
 						<string key="defeatLabelsView">UIView</string>
+						<string key="equipView">BattleSummaryEquipView</string>
 						<string key="expGainedLabel">UILabel</string>
 						<string key="leftAttackLabel">UILabel</string>
-						<string key="leftBgdIcon1">UIImageView</string>
-						<string key="leftBgdIcon2">UIImageView</string>
-						<string key="leftBgdIcon3">UIImageView</string>
 						<string key="leftBgdImage">UIImageView</string>
 						<string key="leftCircleIcon">UIImageView</string>
 						<string key="leftDefenseLabel">UILabel</string>
-						<string key="leftEnhanceLevelIcon1">EnhancementLevelIcon</string>
-						<string key="leftEnhanceLevelIcon2">EnhancementLevelIcon</string>
-						<string key="leftEnhanceLevelIcon3">EnhancementLevelIcon</string>
-						<string key="leftEquipIcon1">EquipButton</string>
-						<string key="leftEquipIcon2">EquipButton</string>
-						<string key="leftEquipIcon3">EquipButton</string>
-						<string key="leftEquipLevelIcon1">EquipLevelIcon</string>
-						<string key="leftEquipLevelIcon2">EquipLevelIcon</string>
-						<string key="leftEquipLevelIcon3">EquipLevelIcon</string>
 						<string key="leftLevelLabel">UILabel</string>
 						<string key="leftNameLabel">UIButton</string>
 						<string key="leftPlayerIcon">UIButton</string>
-						<string key="leftRarityLabel1">UILabel</string>
-						<string key="leftRarityLabel2">UILabel</string>
-						<string key="leftRarityLabel3">UILabel</string>
+						<string key="leftScrollView">AutoScrollingScrollView</string>
 						<string key="mainView">UIView</string>
 						<string key="rightAttackLabel">UILabel</string>
-						<string key="rightBgdIcon1">UIImageView</string>
-						<string key="rightBgdIcon2">UIImageView</string>
-						<string key="rightBgdIcon3">UIImageView</string>
 						<string key="rightBgdImage">UIImageView</string>
 						<string key="rightCircleIcon">UIImageView</string>
 						<string key="rightDefenseLabel">UILabel</string>
-						<string key="rightEnhanceLevelIcon1">EnhancementLevelIcon</string>
-						<string key="rightEnhanceLevelIcon2">EnhancementLevelIcon</string>
-						<string key="rightEnhanceLevelIcon3">EnhancementLevelIcon</string>
-						<string key="rightEquipIcon1">EquipButton</string>
-						<string key="rightEquipIcon2">EquipButton</string>
-						<string key="rightEquipIcon3">EquipButton</string>
-						<string key="rightEquipLevelIcon1">EquipLevelIcon</string>
-						<string key="rightEquipLevelIcon2">EquipLevelIcon</string>
-						<string key="rightEquipLevelIcon3">EquipLevelIcon</string>
 						<string key="rightLevelLabel">UILabel</string>
 						<string key="rightNameLabel">UIButton</string>
 						<string key="rightPlayerIcon">UIButton</string>
-						<string key="rightRarityLabel1">UILabel</string>
-						<string key="rightRarityLabel2">UILabel</string>
-						<string key="rightRarityLabel3">UILabel</string>
+						<string key="rightScrollView">AutoScrollingScrollView</string>
 						<string key="titleImage">UIImageView</string>
 						<string key="winLabelsView">UIView</string>
 					</dictionary>
@@ -746,6 +782,10 @@
 							<string key="name">defeatLabelsView</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="equipView">
+							<string key="name">equipView</string>
+							<string key="candidateClassName">BattleSummaryEquipView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="expGainedLabel">
 							<string key="name">expGainedLabel</string>
 							<string key="candidateClassName">UILabel</string>
@@ -753,18 +793,6 @@
 						<object class="IBToOneOutletInfo" key="leftAttackLabel">
 							<string key="name">leftAttackLabel</string>
 							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leftBgdIcon1">
-							<string key="name">leftBgdIcon1</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leftBgdIcon2">
-							<string key="name">leftBgdIcon2</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leftBgdIcon3">
-							<string key="name">leftBgdIcon3</string>
-							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="leftBgdImage">
 							<string key="name">leftBgdImage</string>
@@ -778,42 +806,6 @@
 							<string key="name">leftDefenseLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="leftEnhanceLevelIcon1">
-							<string key="name">leftEnhanceLevelIcon1</string>
-							<string key="candidateClassName">EnhancementLevelIcon</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leftEnhanceLevelIcon2">
-							<string key="name">leftEnhanceLevelIcon2</string>
-							<string key="candidateClassName">EnhancementLevelIcon</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leftEnhanceLevelIcon3">
-							<string key="name">leftEnhanceLevelIcon3</string>
-							<string key="candidateClassName">EnhancementLevelIcon</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leftEquipIcon1">
-							<string key="name">leftEquipIcon1</string>
-							<string key="candidateClassName">EquipButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leftEquipIcon2">
-							<string key="name">leftEquipIcon2</string>
-							<string key="candidateClassName">EquipButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leftEquipIcon3">
-							<string key="name">leftEquipIcon3</string>
-							<string key="candidateClassName">EquipButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leftEquipLevelIcon1">
-							<string key="name">leftEquipLevelIcon1</string>
-							<string key="candidateClassName">EquipLevelIcon</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leftEquipLevelIcon2">
-							<string key="name">leftEquipLevelIcon2</string>
-							<string key="candidateClassName">EquipLevelIcon</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leftEquipLevelIcon3">
-							<string key="name">leftEquipLevelIcon3</string>
-							<string key="candidateClassName">EquipLevelIcon</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="leftLevelLabel">
 							<string key="name">leftLevelLabel</string>
 							<string key="candidateClassName">UILabel</string>
@@ -826,17 +818,9 @@
 							<string key="name">leftPlayerIcon</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="leftRarityLabel1">
-							<string key="name">leftRarityLabel1</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leftRarityLabel2">
-							<string key="name">leftRarityLabel2</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leftRarityLabel3">
-							<string key="name">leftRarityLabel3</string>
-							<string key="candidateClassName">UILabel</string>
+						<object class="IBToOneOutletInfo" key="leftScrollView">
+							<string key="name">leftScrollView</string>
+							<string key="candidateClassName">AutoScrollingScrollView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="mainView">
 							<string key="name">mainView</string>
@@ -845,18 +829,6 @@
 						<object class="IBToOneOutletInfo" key="rightAttackLabel">
 							<string key="name">rightAttackLabel</string>
 							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rightBgdIcon1">
-							<string key="name">rightBgdIcon1</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rightBgdIcon2">
-							<string key="name">rightBgdIcon2</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rightBgdIcon3">
-							<string key="name">rightBgdIcon3</string>
-							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="rightBgdImage">
 							<string key="name">rightBgdImage</string>
@@ -870,42 +842,6 @@
 							<string key="name">rightDefenseLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="rightEnhanceLevelIcon1">
-							<string key="name">rightEnhanceLevelIcon1</string>
-							<string key="candidateClassName">EnhancementLevelIcon</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rightEnhanceLevelIcon2">
-							<string key="name">rightEnhanceLevelIcon2</string>
-							<string key="candidateClassName">EnhancementLevelIcon</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rightEnhanceLevelIcon3">
-							<string key="name">rightEnhanceLevelIcon3</string>
-							<string key="candidateClassName">EnhancementLevelIcon</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rightEquipIcon1">
-							<string key="name">rightEquipIcon1</string>
-							<string key="candidateClassName">EquipButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rightEquipIcon2">
-							<string key="name">rightEquipIcon2</string>
-							<string key="candidateClassName">EquipButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rightEquipIcon3">
-							<string key="name">rightEquipIcon3</string>
-							<string key="candidateClassName">EquipButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rightEquipLevelIcon1">
-							<string key="name">rightEquipLevelIcon1</string>
-							<string key="candidateClassName">EquipLevelIcon</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rightEquipLevelIcon2">
-							<string key="name">rightEquipLevelIcon2</string>
-							<string key="candidateClassName">EquipLevelIcon</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rightEquipLevelIcon3">
-							<string key="name">rightEquipLevelIcon3</string>
-							<string key="candidateClassName">EquipLevelIcon</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="rightLevelLabel">
 							<string key="name">rightLevelLabel</string>
 							<string key="candidateClassName">UILabel</string>
@@ -918,17 +854,9 @@
 							<string key="name">rightPlayerIcon</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="rightRarityLabel1">
-							<string key="name">rightRarityLabel1</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rightRarityLabel2">
-							<string key="name">rightRarityLabel2</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rightRarityLabel3">
-							<string key="name">rightRarityLabel3</string>
-							<string key="candidateClassName">UILabel</string>
+						<object class="IBToOneOutletInfo" key="rightScrollView">
+							<string key="name">rightScrollView</string>
+							<string key="candidateClassName">AutoScrollingScrollView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="titleImage">
 							<string key="name">titleImage</string>
@@ -951,6 +879,7 @@
 						<string key="buttonLabel">UILabel</string>
 						<string key="buttonView">UIView</string>
 						<string key="girlImageView">UIImageView</string>
+						<string key="mainView">UIView</string>
 						<string key="speechBubble">UIView</string>
 						<string key="speechLabel">UILabel</string>
 					</dictionary>
@@ -966,6 +895,10 @@
 						<object class="IBToOneOutletInfo" key="girlImageView">
 							<string key="name">girlImageView</string>
 							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="mainView">
+							<string key="name">mainView</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="speechBubble">
 							<string key="name">speechBubble</string>
@@ -995,6 +928,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/CCNode.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">CancellableScrollView</string>
+					<string key="superclassName">UIScrollView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CancellableScrollView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1112,6 +1053,6 @@
 			<string key="rubyspeech.png">{125, 134}</string>
 			<string key="tutorialbubble.png">{193, 95}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1929</string>
+		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
 </archive>

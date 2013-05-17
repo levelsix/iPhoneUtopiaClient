@@ -304,10 +304,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 
 #pragma mark - View lifecycle
 
-- (id) init {
-  Globals *gl = [Globals sharedGlobals];
-  return [self initWithNibName:@"GoldShoppeViewController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.goldShoppeNibName]];
-}
+//- (id) init {
+//  Globals *gl = [Globals sharedGlobals];
+//  return [self initWithNibName:@"GoldShoppeViewController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.goldShoppeNibName]];
+//}
 
 - (void) setTimer:(NSTimer *)t {
   if (timer != t) {
@@ -401,31 +401,61 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 }
 
 - (void) setState:(GoldShoppeState)state {
-  if (state != _state) {
-    _state = state;
-    switch (state) {
-      case kPackagesState:
-        [self.topBar unclickButton:kEarnFreeButton];
-        [self.topBar clickButton:kGoldCoinsButton];
-        break;
-      case kEarnFreeState:
-        if (_sponsoredOffers.count > 0) {
-          [self.topBar unclickButton:kGoldCoinsButton];
-          [self.topBar clickButton:kEarnFreeButton];
-        } else {
-          [Globals popupMessage:@"Sorry, there are no free offers at this time."];
-          self.state = kPackagesState;
-        }
+  GameState *gs = [GameState sharedGameState];
+  
+  _state = state;
+  switch (state) {
+    case kPackagesState:
+      [self.topBar unclickButton:kEarnFreeButton];
+      [self.topBar clickButton:kGoldCoinsButton];
+      
+      GoldSaleProto *sale = [gs getCurrentGoldSale];
+      if (sale.isBeginnerSale) {
+        [self displayBottomView];
+      } else {
+        [self displayWithoutBottomView];
+      }
+      break;
+    case kEarnFreeState:
+      if (_sponsoredOffers.count > 0) {
+        [self.topBar unclickButton:kGoldCoinsButton];
+        [self.topBar clickButton:kEarnFreeButton];
         
-        [Analytics clickedFreeOffers];
-        break;
-        
-      default:
-        break;
-    }
-    
-    [[self pkgTableView] reloadData];
+        [self displayWithoutBottomView];
+      } else {
+        [Globals popupMessage:@"Sorry, there are no free offers at this time."];
+        self.state = kPackagesState;
+      }
+      
+      [Analytics clickedFreeOffers];
+      break;
+      
+    default:
+      break;
   }
+  
+  [[self pkgTableView] reloadData];
+}
+
+- (void) displayBottomView {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  self.bottomView.hidden = NO;
+  
+  self.totalBegSaleLabel.text = [NSString stringWithFormat:@"limit %d purchases at beginner price.", gl.numBeginnerSalesAllowed];
+  self.numBegSaleRemainingLabel.text = [NSString stringWithFormat:@"%d", gl.numBeginnerSalesAllowed-gs.numBeginnerSalesPurchased];
+  
+  CGRect r = self.tableContainerView.frame;
+  r.size.height = CGRectGetMinY(self.bottomView.frame)-r.origin.y;
+  self.tableContainerView.frame = r;
+}
+
+- (void) displayWithoutBottomView {
+  self.bottomView.hidden = YES;
+  
+  CGRect r = self.tableContainerView.frame;
+  r.size.height = CGRectGetMaxY(self.bottomView.frame)-r.origin.y;
+  self.tableContainerView.frame = r;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -450,7 +480,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   GoldPackageView *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil) {
     Globals *gl = [Globals sharedGlobals];
-    [[Globals bundleNamed:gl.downloadableNibConstants.goldShoppeNibName] loadNibNamed:@"GoldPackageView" owner:self options:nil];
+    NSBundle *bundle = [NSBundle mainBundle];//[Globals bundleNamed:gl.downloadableNibConstants.goldShoppeNibName];
+    [bundle loadNibNamed:@"GoldPackageView" owner:self options:nil];
     cell = self.itemView;
   }
   
@@ -477,6 +508,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (self.loadingView.superview) {
+    return;
+  }
+  
   GoldPackageView *gpv = (GoldPackageView *)[tableView
                                              cellForRowAtIndexPath:indexPath];
   

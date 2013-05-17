@@ -151,6 +151,7 @@
 @property (nonatomic, assign) BOOL hasReceivedfbReward;
 @property (nonatomic, assign) int prestigeLevel;
 @property (nonatomic, assign) int numAdditionalForgeSlots;
+@property (nonatomic, assign) int numBeginnerSalesPurchased;
 
 @property (nonatomic, retain) NSString *kabamNaid;
 

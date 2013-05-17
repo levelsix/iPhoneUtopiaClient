@@ -139,60 +139,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return self;
 }
 
-- (void) updateConstants:(StartupResponseProto_StartupConstants *)constants {
-  if (constants.inAppPurchasePackagesList.count > 0) {
-    self.iapPackages = constants.inAppPurchasePackagesList;
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    
-    for (InAppPurchasePackageProto *pkg in self.iapPackages) {
-      [dict setObject:pkg forKey:pkg.packageId];
-    }
-    
-    GameState *gs = [GameState sharedGameState];
-    for (GoldSaleProto *p in gs.staticGoldSales) {
-      if (self.iapPackages.count > 0) {
-        if (p.hasPackage1SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:0] forKey:p.package1SaleIdentifier];
-        if (p.hasPackage2SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:2] forKey:p.package2SaleIdentifier];
-        if (p.hasPackage3SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:4] forKey:p.package3SaleIdentifier];
-        if (p.hasPackage4SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:6] forKey:p.package4SaleIdentifier];
-        if (p.hasPackage5SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:8] forKey:p.package5SaleIdentifier];
-        if (p.hasPackageS1SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:1] forKey:p.packageS1SaleIdentifier];
-        if (p.hasPackageS2SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:3] forKey:p.packageS2SaleIdentifier];
-        if (p.hasPackageS3SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:5] forKey:p.packageS3SaleIdentifier];
-        if (p.hasPackageS4SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:7] forKey:p.packageS4SaleIdentifier];
-        if (p.hasPackageS5SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:9] forKey:p.packageS5SaleIdentifier];
-      }
-    }
-    self.productIdsToPackages = dict;
-  } else {
-    NSMutableArray *pkgs = [NSMutableArray array];
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    for (int i = 0; i < constants.productIdsList.count && i < constants.productDiamondsGivenList.count; i++) {
-      InAppPurchasePackageProto_Builder *iap = [InAppPurchasePackageProto builder];
-      iap.isGold = YES;
-      iap.imageName = @"stack.png";
-      iap.packageId = [constants.productIdsList objectAtIndex:i];
-      iap.currencyAmount = [[constants.productDiamondsGivenList objectAtIndex:i] intValue];
-      InAppPurchasePackageProto *pkg = [iap build];
-      [pkgs addObject:pkg];
-      [dict setObject:pkg forKey:pkg.packageId];
-    }
-    self.iapPackages = pkgs;
-    
-    GameState *gs = [GameState sharedGameState];
-    for (GoldSaleProto *p in gs.staticGoldSales) {
-      if (self.iapPackages.count > 0) {
-        if (p.hasPackage1SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:0] forKey:p.package1SaleIdentifier];
-        if (p.hasPackage2SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:1] forKey:p.package2SaleIdentifier];
-        if (p.hasPackage3SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:2] forKey:p.package3SaleIdentifier];
-        if (p.hasPackage4SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:3] forKey:p.package4SaleIdentifier];
-        if (p.hasPackage5SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:4] forKey:p.package5SaleIdentifier];
-      }
-    }
-    
-    self.productIdsToPackages = dict;
+- (void) updateInAppPurchases {
+  NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+  
+  for (InAppPurchasePackageProto *pkg in self.iapPackages) {
+    [dict setObject:pkg forKey:pkg.packageId];
   }
+  
+  GameState *gs = [GameState sharedGameState];
+  for (GoldSaleProto *p in gs.staticGoldSales) {
+    if (self.iapPackages.count > 0) {
+      if (p.hasPackage1SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:0] forKey:p.package1SaleIdentifier];
+      if (p.hasPackage2SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:2] forKey:p.package2SaleIdentifier];
+      if (p.hasPackage3SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:4] forKey:p.package3SaleIdentifier];
+      if (p.hasPackage4SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:6] forKey:p.package4SaleIdentifier];
+      if (p.hasPackage5SaleIdentifier)  [dict setObject:[self.iapPackages objectAtIndex:8] forKey:p.package5SaleIdentifier];
+      if (p.hasPackageS1SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:1] forKey:p.packageS1SaleIdentifier];
+      if (p.hasPackageS2SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:3] forKey:p.packageS2SaleIdentifier];
+      if (p.hasPackageS3SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:5] forKey:p.packageS3SaleIdentifier];
+      if (p.hasPackageS4SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:7] forKey:p.packageS4SaleIdentifier];
+      if (p.hasPackageS5SaleIdentifier) [dict setObject:[self.iapPackages objectAtIndex:9] forKey:p.packageS5SaleIdentifier];
+    }
+  }
+  self.productIdsToPackages = dict;
   [[IAPHelper sharedIAPHelper] requestProducts];
+}
+
+- (void) updateConstants:(StartupResponseProto_StartupConstants *)constants {
+  self.iapPackages = constants.inAppPurchasePackagesList;
+  [self updateInAppPurchases];
   
   self.maxLevelDiffForBattle = constants.maxLevelDifferenceForBattle;
   self.maxLevelForUser = constants.maxLevelForUser;
@@ -257,6 +232,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.faqFileName = constants.faqFileName;
   self.prestigeFaqFileName = constants.prestigeFaqFileName;
   self.adminChatUser = constants.adminChatUserProto;
+  self.numBeginnerSalesAllowed = constants.numBeginnerSalesAllowed;
   
   self.minLevelForPrestige = constants.prestigeConstants.minLevelForPrestige;
   self.maxPrestigeLevel = constants.prestigeConstants.maxPrestigeLevel;
