@@ -37,7 +37,7 @@
 @synthesize attackStatButton, defenseStatButton, staminaStatButton, energyStatButton;
 @synthesize enemyAttackLabel, enemyMiddleView;
 @synthesize staminaCostLabel, skillPointsLabel;
-@synthesize selfLeftView, enemyLeftView, friendLeftView;
+@synthesize selfLeftView, friendLeftView;
 @synthesize visitButton, smallAttackButton, bigAttackButton;
 @synthesize spinner;
 @synthesize mainView, bgdView, loadingView;
@@ -65,13 +65,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   wallTabView.frame = profileTabView.frame;
   [self.mainView insertSubview:wallTabView aboveSubview:profileTabView];
   
-  enemyLeftView.frame = selfLeftView.frame;
-  [selfLeftView.superview addSubview:enemyLeftView];
-  
   enemyMiddleView.frame = equipTabView.frame;
   [equipTabView.superview addSubview:enemyMiddleView];
   
-  friendLeftView.frame = enemyLeftView.frame;
+  friendLeftView.frame = selfLeftView.frame;
   [selfLeftView.superview addSubview:friendLeftView];
   
   // Start state at 0 so that when it gets loaded it won't be ignored
@@ -288,9 +285,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   enemyMiddleView.hidden = !isEnemy;
   
-  enemyLeftView.hidden = !isEnemy;
-  friendLeftView.hidden = isEnemy;
+  friendLeftView.hidden = NO;
   selfLeftView.hidden = YES;
+  
+  // Check if this user is currently online
+  uint64_t curTime = [[NSDate date] timeIntervalSince1970]*1000;
+  NSLog(@"%@, %@", [NSDate dateWithTimeIntervalSince1970:fup.lastLoginTime/1000.], [NSDate dateWithTimeIntervalSince1970:fup.lastLogoutTime/1000.]);
+  self.onlineView.hidden = !(fup.lastLoginTime > fup.lastLogoutTime && curTime > fup.lastLoginTime-60*60*1000);
+  
+  CGRect r = self.chatButtonView.frame;
+  r.origin.y = self.onlineView.hidden ? self.friendLeftView.frame.size.height/2-self.chatButtonView.frame.size.height/2 : CGRectGetMaxY(self.onlineView.frame);
+  self.chatButtonView.frame = r;
+  
+  [UIView animateWithDuration:1.f delay:0.f options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{
+    self.greenGlow.alpha = 0.5f;
+  } completion:nil];
   
   enemyAttackLabel.text = [NSString stringWithFormat:@"Attack %@ to see Equipment", fup.name];
   
@@ -521,7 +530,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.clanButton.enabled = NO;
   
   selfLeftView.hidden = YES;
-  enemyLeftView.hidden = YES;
   friendLeftView.hidden = YES;
   
   wallTabView.wallPosts = nil;
@@ -585,7 +593,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.spinner.hidden = YES;
   [self.spinner stopAnimating];
   
-  enemyLeftView.hidden = YES;
   friendLeftView.hidden = YES;
   selfLeftView.hidden = NO;
   
@@ -947,7 +954,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     self.staminaCostLabel = nil;
     self.skillPointsLabel = nil;
     self.selfLeftView = nil;
-    self.enemyLeftView = nil;
     self.friendLeftView = nil;
     self.visitButton = nil;
     self.smallAttackButton = nil;

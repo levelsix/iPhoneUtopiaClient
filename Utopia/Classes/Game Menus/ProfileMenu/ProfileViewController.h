@@ -68,9 +68,12 @@
 @property (nonatomic, retain) IBOutlet UILabel *noEquipLabel;
 @property (nonatomic, retain) IBOutlet UIView *noEquipButtonView;
 
-@property (nonatomic, retain) IBOutlet UIView *enemyLeftView;
 @property (nonatomic, retain) IBOutlet UIView *selfLeftView;
 @property (nonatomic, retain) IBOutlet UIView *friendLeftView;
+
+@property (nonatomic, retain) IBOutlet UIView *greenGlow;
+@property (nonatomic, retain) IBOutlet UIView *onlineView;
+@property (nonatomic, retain) IBOutlet UIView *chatButtonView;
 
 @property (nonatomic, retain) IBOutlet UIButton *visitButton;
 @property (nonatomic, retain) IBOutlet UIButton *smallAttackButton;

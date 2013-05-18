@@ -117,7 +117,7 @@ typedef enum {
 @property (nonatomic, retain) MinimumUserProto *clickedMinUser;
 @property (nonatomic, retain) IBOutlet UIView *chatPopup;
 
-@property (nonatomic, retain) IBOutlet UILabel *noPrivateChatsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *noChatsLabel;
 
 + (ChatMenuController *) sharedChatMenuController;
 + (void) purgeSingleton;

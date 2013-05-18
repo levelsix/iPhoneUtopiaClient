@@ -514,17 +514,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 }
 
 - (void) setState:(ChatState)state {
-  GameState *gs = [GameState sharedGameState];
-  if (state == kChatStateClan && !gs.clan) {
-    [Globals popupMessage:@"You must be in a clan first!"];
-    state = _state;
-  } else {
-    _state = state;
-    
-    if (state == kChatStateClan) {
-      [gs clanChatViewed];
-    }
-  }
+  _state = state;
   
   if (state == kChatStatePrivate) {
     self.privateChatView.hidden = NO;
@@ -552,6 +542,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   if (numRows > 0) {
     [self.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:numRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
   }
+   
+  GameState *gs = [GameState sharedGameState];
+  if (state == kChatStateClan && !gs.clan) {
+    self.noChatsLabel.text = @"\n\nYou must be in a clan first!";
+    self.noChatsLabel.hidden = NO;
+    self.chatTable.hidden = YES;
+    self.bottomView.hidden = YES;
+  } else {
+    self.chatTable.hidden = NO;
+    self.bottomView.hidden = NO;
+    
+    if (state == kChatStateClan) {
+      [gs clanChatViewed];
+    }
+  }
 }
 
 - (NSArray *) arrayForState {
@@ -570,7 +575,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  self.noPrivateChatsLabel.hidden = YES;
+  self.noChatsLabel.hidden = YES;
   return self.arrayForState.count;
 }
 
@@ -634,8 +639,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   }
   
   
-//  [[NSBundle mainBundle] loadNibNamed:@"MentorChatView" owner:self options:nil];
-//  [self.mentorChatView displayForMentor:[[GameState sharedGameState] minUser]];
+  //  [[NSBundle mainBundle] loadNibNamed:@"MentorChatView" owner:self options:nil];
+  //  [self.mentorChatView displayForMentor:[[GameState sharedGameState] minUser]];
 }
 
 - (void) loadChatTableAnimated:(BOOL)animated {
@@ -936,7 +941,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     self.spinner.hidden = YES;
     
     if (arr.count == 0) {
-      self.noPrivateChatsLabel.hidden = NO;
+      self.noChatsLabel.text = @"You have not yet \n begun a conversation.";
+      self.noChatsLabel.hidden = NO;
     }
     
     int numRows = [self.chatTable numberOfRowsInSection:0];
@@ -1007,7 +1013,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     self.privateChatView = nil;
     self.chatTableView = nil;
     self.chatPopup = nil;
-    self.noPrivateChatsLabel = nil;
+    self.noChatsLabel = nil;
   }
 }
 

@@ -568,7 +568,7 @@
 														<string key="NSFrameSize">{438, 183}</string>
 														<reference key="NSSuperview" ref="54912158"/>
 														<reference key="NSWindow"/>
-														<reference key="NSNextKeyView" ref="909100581"/>
+														<reference key="NSNextKeyView" ref="67384237"/>
 														<string key="NSReuseIdentifierKey">_NS:9</string>
 														<reference key="IBUIBackgroundColor" ref="1001881026"/>
 														<bool key="IBUIClipsSubviews">YES</bool>
@@ -588,7 +588,7 @@
 														<float key="IBUISectionHeaderHeight">22</float>
 														<float key="IBUISectionFooterHeight">22</float>
 													</object>
-													<object class="IBUILabel" id="909100581">
+													<object class="IBUILabel" id="67384237">
 														<reference key="NSNextResponder" ref="54912158"/>
 														<int key="NSvFlags">292</int>
 														<string key="NSFrame">{{61, 34}, {316, 116}}</string>
@@ -609,13 +609,13 @@
 														</object>
 														<nil key="IBUIHighlightedColor"/>
 														<int key="IBUIBaselineAdjustment">0</int>
-														<int key="IBUINumberOfLines">2</int>
+														<int key="IBUINumberOfLines">0</int>
 														<int key="IBUITextAlignment">1</int>
-														<object class="IBUIFontDescription" key="IBUIFontDescription" id="352729446">
+														<object class="IBUIFontDescription" key="IBUIFontDescription" id="728818058">
 															<int key="type">1</int>
 															<double key="pointSize">17</double>
 														</object>
-														<object class="NSFont" key="IBUIFont" id="89824099">
+														<object class="NSFont" key="IBUIFont" id="373206429">
 															<string key="NSName">Helvetica</string>
 															<double key="NSSize">17</double>
 															<int key="NSfFlags">16</int>
@@ -882,7 +882,7 @@
 						<string key="NSFrame">{{2, 0}, {434, 233}}</string>
 						<reference key="NSSuperview" ref="1012488606"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="720152585"/>
+						<reference key="NSNextKeyView" ref="530337484"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="1001881026"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -903,7 +903,7 @@
 						<float key="IBUISectionHeaderHeight">22</float>
 						<float key="IBUISectionFooterHeight">22</float>
 					</object>
-					<object class="IBUILabel" id="720152585">
+					<object class="IBUILabel" id="530337484">
 						<reference key="NSNextResponder" ref="1012488606"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{61, 59}, {316, 116}}</string>
@@ -925,8 +925,8 @@
 						<int key="IBUIBaselineAdjustment">0</int>
 						<int key="IBUINumberOfLines">2</int>
 						<int key="IBUITextAlignment">1</int>
-						<reference key="IBUIFontDescription" ref="352729446"/>
-						<reference key="IBUIFont" ref="89824099"/>
+						<reference key="IBUIFontDescription" ref="728818058"/>
+						<reference key="IBUIFont" ref="373206429"/>
 						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 						<double key="preferredMaxLayoutWidth">316</double>
 					</object>
@@ -1184,11 +1184,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">noPrivateChatsLabel</string>
+						<string key="label">noChatsLabel</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="909100581"/>
+						<reference key="destination" ref="67384237"/>
 					</object>
-					<int key="connectionID">129</int>
+					<int key="connectionID">131</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1333,7 +1333,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">noChatsLabel</string>
 						<reference key="source" ref="1012488606"/>
-						<reference key="destination" ref="720152585"/>
+						<reference key="destination" ref="530337484"/>
 					</object>
 					<int key="connectionID">130</int>
 				</object>
@@ -1510,7 +1510,7 @@
 						<reference key="object" ref="1012488606"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="455539021"/>
-							<reference ref="720152585"/>
+							<reference ref="530337484"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -1542,7 +1542,7 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="416932986"/>
 							<reference ref="5938968"/>
-							<reference ref="909100581"/>
+							<reference ref="67384237"/>
 						</array>
 						<reference key="parent" ref="651341151"/>
 					</object>
@@ -1689,12 +1689,12 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">127</int>
-						<reference key="object" ref="720152585"/>
+						<reference key="object" ref="530337484"/>
 						<reference key="parent" ref="1012488606"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">128</int>
-						<reference key="object" ref="909100581"/>
+						<reference key="object" ref="67384237"/>
 						<reference key="parent" ref="54912158"/>
 					</object>
 				</array>
@@ -1772,7 +1772,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">130</int>
+			<int key="maxID">131</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1879,6 +1879,50 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ChatMenuController</string>
 					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="addChatsClicked:">id</string>
+						<string key="backClicked:">id</string>
+						<string key="chatClicked:">id</string>
+						<string key="chatRulesClicked:">id</string>
+						<string key="closeClicked:">id</string>
+						<string key="nameLabelClicked:">UIView</string>
+						<string key="profileClicked:">id</string>
+						<string key="sendClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="addChatsClicked:">
+							<string key="name">addChatsClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="backClicked:">
+							<string key="name">backClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="chatClicked:">
+							<string key="name">chatClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="chatRulesClicked:">
+							<string key="name">chatRulesClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="closeClicked:">
+							<string key="name">closeClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="nameLabelClicked:">
+							<string key="name">nameLabelClicked:</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBActionInfo" key="profileClicked:">
+							<string key="name">profileClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="sendClicked:">
+							<string key="name">sendClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="backView">UIView</string>
 						<string key="bgdView">UIView</string>
@@ -1889,7 +1933,7 @@
 						<string key="chatTableView">UIView</string>
 						<string key="mainView">UIView</string>
 						<string key="mentorChatView">MentorChatView</string>
-						<string key="noPrivateChatsLabel">UILabel</string>
+						<string key="noChatsLabel">UILabel</string>
 						<string key="numChatsLabel">UILabel</string>
 						<string key="postTextField">UITextField</string>
 						<string key="privateChatView">PrivateChatView</string>
@@ -1933,8 +1977,8 @@
 							<string key="name">mentorChatView</string>
 							<string key="candidateClassName">MentorChatView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="noPrivateChatsLabel">
-							<string key="name">noPrivateChatsLabel</string>
+						<object class="IBToOneOutletInfo" key="noChatsLabel">
+							<string key="name">noChatsLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="numChatsLabel">
