@@ -480,7 +480,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   GoldPackageView *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil) {
     Globals *gl = [Globals sharedGlobals];
-    NSBundle *bundle = [NSBundle mainBundle];//[Globals bundleNamed:gl.downloadableNibConstants.goldShoppeNibName];
+    NSBundle *bundle = [Globals bundleNamed:gl.downloadableNibConstants.goldShoppeNibName];
     [bundle loadNibNamed:@"GoldPackageView" owner:self options:nil];
     cell = self.itemView;
   }

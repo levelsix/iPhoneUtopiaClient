@@ -76336,3 +76336,2879 @@ BOOL RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatusIsValidValu
 }
 @end
 
+@interface BeginMentoringUserRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t menteeId;
+@property int64_t clientTime;
+@end
+
+@implementation BeginMentoringUserRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasMenteeId {
+  return !!hasMenteeId_;
+}
+- (void) setHasMenteeId:(BOOL) value {
+  hasMenteeId_ = !!value;
+}
+@synthesize menteeId;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.menteeId = 0;
+    self.clientTime = 0L;
+  }
+  return self;
+}
+static BeginMentoringUserRequestProto* defaultBeginMentoringUserRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [BeginMentoringUserRequestProto class]) {
+    defaultBeginMentoringUserRequestProtoInstance = [[BeginMentoringUserRequestProto alloc] init];
+  }
+}
++ (BeginMentoringUserRequestProto*) defaultInstance {
+  return defaultBeginMentoringUserRequestProtoInstance;
+}
+- (BeginMentoringUserRequestProto*) defaultInstance {
+  return defaultBeginMentoringUserRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasMenteeId) {
+    [output writeInt32:2 value:self.menteeId];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:3 value:self.clientTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasMenteeId) {
+    size += computeInt32Size(2, self.menteeId);
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(3, self.clientTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (BeginMentoringUserRequestProto*) parseFromData:(NSData*) data {
+  return (BeginMentoringUserRequestProto*)[[[BeginMentoringUserRequestProto builder] mergeFromData:data] build];
+}
++ (BeginMentoringUserRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginMentoringUserRequestProto*)[[[BeginMentoringUserRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BeginMentoringUserRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BeginMentoringUserRequestProto*)[[[BeginMentoringUserRequestProto builder] mergeFromInputStream:input] build];
+}
++ (BeginMentoringUserRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginMentoringUserRequestProto*)[[[BeginMentoringUserRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginMentoringUserRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BeginMentoringUserRequestProto*)[[[BeginMentoringUserRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BeginMentoringUserRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginMentoringUserRequestProto*)[[[BeginMentoringUserRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginMentoringUserRequestProto_Builder*) builder {
+  return [[[BeginMentoringUserRequestProto_Builder alloc] init] autorelease];
+}
++ (BeginMentoringUserRequestProto_Builder*) builderWithPrototype:(BeginMentoringUserRequestProto*) prototype {
+  return [[BeginMentoringUserRequestProto builder] mergeFrom:prototype];
+}
+- (BeginMentoringUserRequestProto_Builder*) builder {
+  return [BeginMentoringUserRequestProto builder];
+}
+@end
+
+@interface BeginMentoringUserRequestProto_Builder()
+@property (retain) BeginMentoringUserRequestProto* result;
+@end
+
+@implementation BeginMentoringUserRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[BeginMentoringUserRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BeginMentoringUserRequestProto_Builder*) clear {
+  self.result = [[[BeginMentoringUserRequestProto alloc] init] autorelease];
+  return self;
+}
+- (BeginMentoringUserRequestProto_Builder*) clone {
+  return [BeginMentoringUserRequestProto builderWithPrototype:result];
+}
+- (BeginMentoringUserRequestProto*) defaultInstance {
+  return [BeginMentoringUserRequestProto defaultInstance];
+}
+- (BeginMentoringUserRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BeginMentoringUserRequestProto*) buildPartial {
+  BeginMentoringUserRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (BeginMentoringUserRequestProto_Builder*) mergeFrom:(BeginMentoringUserRequestProto*) other {
+  if (other == [BeginMentoringUserRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasMenteeId) {
+    [self setMenteeId:other.menteeId];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BeginMentoringUserRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BeginMentoringUserRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setMenteeId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (BeginMentoringUserRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (BeginMentoringUserRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (BeginMentoringUserRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (BeginMentoringUserRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasMenteeId {
+  return result.hasMenteeId;
+}
+- (int32_t) menteeId {
+  return result.menteeId;
+}
+- (BeginMentoringUserRequestProto_Builder*) setMenteeId:(int32_t) value {
+  result.hasMenteeId = YES;
+  result.menteeId = value;
+  return self;
+}
+- (BeginMentoringUserRequestProto_Builder*) clearMenteeId {
+  result.hasMenteeId = NO;
+  result.menteeId = 0;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (BeginMentoringUserRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (BeginMentoringUserRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+@end
+
+@interface BeginMentoringUserResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property BeginMentoringUserResponseProto_BeginMentoringUserStatus status;
+@property (retain) NSMutableArray* mutableInitialMessagesList;
+@property (retain) MentorshipProto* mentorship;
+@property BOOL isGood;
+@end
+
+@implementation BeginMentoringUserResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+@synthesize mutableInitialMessagesList;
+- (BOOL) hasMentorship {
+  return !!hasMentorship_;
+}
+- (void) setHasMentorship:(BOOL) value {
+  hasMentorship_ = !!value;
+}
+@synthesize mentorship;
+- (BOOL) hasIsGood {
+  return !!hasIsGood_;
+}
+- (void) setHasIsGood:(BOOL) value {
+  hasIsGood_ = !!value;
+}
+- (BOOL) isGood {
+  return !!isGood_;
+}
+- (void) setIsGood:(BOOL) value {
+  isGood_ = !!value;
+}
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableInitialMessagesList = nil;
+  self.mentorship = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = BeginMentoringUserResponseProto_BeginMentoringUserStatusSuccess;
+    self.mentorship = [MentorshipProto defaultInstance];
+    self.isGood = NO;
+  }
+  return self;
+}
+static BeginMentoringUserResponseProto* defaultBeginMentoringUserResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [BeginMentoringUserResponseProto class]) {
+    defaultBeginMentoringUserResponseProtoInstance = [[BeginMentoringUserResponseProto alloc] init];
+  }
+}
++ (BeginMentoringUserResponseProto*) defaultInstance {
+  return defaultBeginMentoringUserResponseProtoInstance;
+}
+- (BeginMentoringUserResponseProto*) defaultInstance {
+  return defaultBeginMentoringUserResponseProtoInstance;
+}
+- (NSArray*) initialMessagesList {
+  return mutableInitialMessagesList;
+}
+- (PrivateChatPostProto*) initialMessagesAtIndex:(int32_t) index {
+  id value = [mutableInitialMessagesList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  for (PrivateChatPostProto* element in self.initialMessagesList) {
+    [output writeMessage:3 value:element];
+  }
+  if (self.hasMentorship) {
+    [output writeMessage:4 value:self.mentorship];
+  }
+  if (self.hasIsGood) {
+    [output writeBool:5 value:self.isGood];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  for (PrivateChatPostProto* element in self.initialMessagesList) {
+    size += computeMessageSize(3, element);
+  }
+  if (self.hasMentorship) {
+    size += computeMessageSize(4, self.mentorship);
+  }
+  if (self.hasIsGood) {
+    size += computeBoolSize(5, self.isGood);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (BeginMentoringUserResponseProto*) parseFromData:(NSData*) data {
+  return (BeginMentoringUserResponseProto*)[[[BeginMentoringUserResponseProto builder] mergeFromData:data] build];
+}
++ (BeginMentoringUserResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginMentoringUserResponseProto*)[[[BeginMentoringUserResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BeginMentoringUserResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BeginMentoringUserResponseProto*)[[[BeginMentoringUserResponseProto builder] mergeFromInputStream:input] build];
+}
++ (BeginMentoringUserResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginMentoringUserResponseProto*)[[[BeginMentoringUserResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginMentoringUserResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BeginMentoringUserResponseProto*)[[[BeginMentoringUserResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BeginMentoringUserResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginMentoringUserResponseProto*)[[[BeginMentoringUserResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginMentoringUserResponseProto_Builder*) builder {
+  return [[[BeginMentoringUserResponseProto_Builder alloc] init] autorelease];
+}
++ (BeginMentoringUserResponseProto_Builder*) builderWithPrototype:(BeginMentoringUserResponseProto*) prototype {
+  return [[BeginMentoringUserResponseProto builder] mergeFrom:prototype];
+}
+- (BeginMentoringUserResponseProto_Builder*) builder {
+  return [BeginMentoringUserResponseProto builder];
+}
+@end
+
+BOOL BeginMentoringUserResponseProto_BeginMentoringUserStatusIsValidValue(BeginMentoringUserResponseProto_BeginMentoringUserStatus value) {
+  switch (value) {
+    case BeginMentoringUserResponseProto_BeginMentoringUserStatusSuccess:
+    case BeginMentoringUserResponseProto_BeginMentoringUserStatusFailOther:
+    case BeginMentoringUserResponseProto_BeginMentoringUserStatusFailAlreadyAtMaxNumMentees:
+    case BeginMentoringUserResponseProto_BeginMentoringUserStatusFailTooEarlyToAcquireMentee:
+    case BeginMentoringUserResponseProto_BeginMentoringUserStatusFailAlreadyBeingMentored:
+    case BeginMentoringUserResponseProto_BeginMentoringUserStatusFailNotMentor:
+    case BeginMentoringUserResponseProto_BeginMentoringUserStatusFailWrongSide:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface BeginMentoringUserResponseProto_Builder()
+@property (retain) BeginMentoringUserResponseProto* result;
+@end
+
+@implementation BeginMentoringUserResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[BeginMentoringUserResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BeginMentoringUserResponseProto_Builder*) clear {
+  self.result = [[[BeginMentoringUserResponseProto alloc] init] autorelease];
+  return self;
+}
+- (BeginMentoringUserResponseProto_Builder*) clone {
+  return [BeginMentoringUserResponseProto builderWithPrototype:result];
+}
+- (BeginMentoringUserResponseProto*) defaultInstance {
+  return [BeginMentoringUserResponseProto defaultInstance];
+}
+- (BeginMentoringUserResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BeginMentoringUserResponseProto*) buildPartial {
+  BeginMentoringUserResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (BeginMentoringUserResponseProto_Builder*) mergeFrom:(BeginMentoringUserResponseProto*) other {
+  if (other == [BeginMentoringUserResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.mutableInitialMessagesList.count > 0) {
+    if (result.mutableInitialMessagesList == nil) {
+      result.mutableInitialMessagesList = [NSMutableArray array];
+    }
+    [result.mutableInitialMessagesList addObjectsFromArray:other.mutableInitialMessagesList];
+  }
+  if (other.hasMentorship) {
+    [self mergeMentorship:other.mentorship];
+  }
+  if (other.hasIsGood) {
+    [self setIsGood:other.isGood];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BeginMentoringUserResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BeginMentoringUserResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (BeginMentoringUserResponseProto_BeginMentoringUserStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        PrivateChatPostProto_Builder* subBuilder = [PrivateChatPostProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addInitialMessages:[subBuilder buildPartial]];
+        break;
+      }
+      case 34: {
+        MentorshipProto_Builder* subBuilder = [MentorshipProto builder];
+        if (self.hasMentorship) {
+          [subBuilder mergeFrom:self.mentorship];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMentorship:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        [self setIsGood:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (BeginMentoringUserResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (BeginMentoringUserResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (BeginMentoringUserResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (BeginMentoringUserResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (BeginMentoringUserResponseProto_BeginMentoringUserStatus) status {
+  return result.status;
+}
+- (BeginMentoringUserResponseProto_Builder*) setStatus:(BeginMentoringUserResponseProto_BeginMentoringUserStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (BeginMentoringUserResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = BeginMentoringUserResponseProto_BeginMentoringUserStatusSuccess;
+  return self;
+}
+- (NSArray*) initialMessagesList {
+  if (result.mutableInitialMessagesList == nil) { return [NSArray array]; }
+  return result.mutableInitialMessagesList;
+}
+- (PrivateChatPostProto*) initialMessagesAtIndex:(int32_t) index {
+  return [result initialMessagesAtIndex:index];
+}
+- (BeginMentoringUserResponseProto_Builder*) replaceInitialMessagesAtIndex:(int32_t) index with:(PrivateChatPostProto*) value {
+  [result.mutableInitialMessagesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (BeginMentoringUserResponseProto_Builder*) addAllInitialMessages:(NSArray*) values {
+  if (result.mutableInitialMessagesList == nil) {
+    result.mutableInitialMessagesList = [NSMutableArray array];
+  }
+  [result.mutableInitialMessagesList addObjectsFromArray:values];
+  return self;
+}
+- (BeginMentoringUserResponseProto_Builder*) clearInitialMessagesList {
+  result.mutableInitialMessagesList = nil;
+  return self;
+}
+- (BeginMentoringUserResponseProto_Builder*) addInitialMessages:(PrivateChatPostProto*) value {
+  if (result.mutableInitialMessagesList == nil) {
+    result.mutableInitialMessagesList = [NSMutableArray array];
+  }
+  [result.mutableInitialMessagesList addObject:value];
+  return self;
+}
+- (BOOL) hasMentorship {
+  return result.hasMentorship;
+}
+- (MentorshipProto*) mentorship {
+  return result.mentorship;
+}
+- (BeginMentoringUserResponseProto_Builder*) setMentorship:(MentorshipProto*) value {
+  result.hasMentorship = YES;
+  result.mentorship = value;
+  return self;
+}
+- (BeginMentoringUserResponseProto_Builder*) setMentorshipBuilder:(MentorshipProto_Builder*) builderForValue {
+  return [self setMentorship:[builderForValue build]];
+}
+- (BeginMentoringUserResponseProto_Builder*) mergeMentorship:(MentorshipProto*) value {
+  if (result.hasMentorship &&
+      result.mentorship != [MentorshipProto defaultInstance]) {
+    result.mentorship =
+      [[[MentorshipProto builderWithPrototype:result.mentorship] mergeFrom:value] buildPartial];
+  } else {
+    result.mentorship = value;
+  }
+  result.hasMentorship = YES;
+  return self;
+}
+- (BeginMentoringUserResponseProto_Builder*) clearMentorship {
+  result.hasMentorship = NO;
+  result.mentorship = [MentorshipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasIsGood {
+  return result.hasIsGood;
+}
+- (BOOL) isGood {
+  return result.isGood;
+}
+- (BeginMentoringUserResponseProto_Builder*) setIsGood:(BOOL) value {
+  result.hasIsGood = YES;
+  result.isGood = value;
+  return self;
+}
+- (BeginMentoringUserResponseProto_Builder*) clearIsGood {
+  result.hasIsGood = NO;
+  result.isGood = NO;
+  return self;
+}
+@end
+
+@interface MenteeBecameAvailableResponseProto ()
+@property (retain) MinimumUserProtoForMentorship* mentee;
+@end
+
+@implementation MenteeBecameAvailableResponseProto
+
+- (BOOL) hasMentee {
+  return !!hasMentee_;
+}
+- (void) setHasMentee:(BOOL) value {
+  hasMentee_ = !!value;
+}
+@synthesize mentee;
+- (void) dealloc {
+  self.mentee = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.mentee = [MinimumUserProtoForMentorship defaultInstance];
+  }
+  return self;
+}
+static MenteeBecameAvailableResponseProto* defaultMenteeBecameAvailableResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [MenteeBecameAvailableResponseProto class]) {
+    defaultMenteeBecameAvailableResponseProtoInstance = [[MenteeBecameAvailableResponseProto alloc] init];
+  }
+}
++ (MenteeBecameAvailableResponseProto*) defaultInstance {
+  return defaultMenteeBecameAvailableResponseProtoInstance;
+}
+- (MenteeBecameAvailableResponseProto*) defaultInstance {
+  return defaultMenteeBecameAvailableResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMentee) {
+    [output writeMessage:1 value:self.mentee];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMentee) {
+    size += computeMessageSize(1, self.mentee);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MenteeBecameAvailableResponseProto*) parseFromData:(NSData*) data {
+  return (MenteeBecameAvailableResponseProto*)[[[MenteeBecameAvailableResponseProto builder] mergeFromData:data] build];
+}
++ (MenteeBecameAvailableResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MenteeBecameAvailableResponseProto*)[[[MenteeBecameAvailableResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MenteeBecameAvailableResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MenteeBecameAvailableResponseProto*)[[[MenteeBecameAvailableResponseProto builder] mergeFromInputStream:input] build];
+}
++ (MenteeBecameAvailableResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MenteeBecameAvailableResponseProto*)[[[MenteeBecameAvailableResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MenteeBecameAvailableResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MenteeBecameAvailableResponseProto*)[[[MenteeBecameAvailableResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MenteeBecameAvailableResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MenteeBecameAvailableResponseProto*)[[[MenteeBecameAvailableResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MenteeBecameAvailableResponseProto_Builder*) builder {
+  return [[[MenteeBecameAvailableResponseProto_Builder alloc] init] autorelease];
+}
++ (MenteeBecameAvailableResponseProto_Builder*) builderWithPrototype:(MenteeBecameAvailableResponseProto*) prototype {
+  return [[MenteeBecameAvailableResponseProto builder] mergeFrom:prototype];
+}
+- (MenteeBecameAvailableResponseProto_Builder*) builder {
+  return [MenteeBecameAvailableResponseProto builder];
+}
+@end
+
+@interface MenteeBecameAvailableResponseProto_Builder()
+@property (retain) MenteeBecameAvailableResponseProto* result;
+@end
+
+@implementation MenteeBecameAvailableResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MenteeBecameAvailableResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MenteeBecameAvailableResponseProto_Builder*) clear {
+  self.result = [[[MenteeBecameAvailableResponseProto alloc] init] autorelease];
+  return self;
+}
+- (MenteeBecameAvailableResponseProto_Builder*) clone {
+  return [MenteeBecameAvailableResponseProto builderWithPrototype:result];
+}
+- (MenteeBecameAvailableResponseProto*) defaultInstance {
+  return [MenteeBecameAvailableResponseProto defaultInstance];
+}
+- (MenteeBecameAvailableResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MenteeBecameAvailableResponseProto*) buildPartial {
+  MenteeBecameAvailableResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MenteeBecameAvailableResponseProto_Builder*) mergeFrom:(MenteeBecameAvailableResponseProto*) other {
+  if (other == [MenteeBecameAvailableResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasMentee) {
+    [self mergeMentee:other.mentee];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MenteeBecameAvailableResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MenteeBecameAvailableResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProtoForMentorship_Builder* subBuilder = [MinimumUserProtoForMentorship builder];
+        if (self.hasMentee) {
+          [subBuilder mergeFrom:self.mentee];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMentee:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMentee {
+  return result.hasMentee;
+}
+- (MinimumUserProtoForMentorship*) mentee {
+  return result.mentee;
+}
+- (MenteeBecameAvailableResponseProto_Builder*) setMentee:(MinimumUserProtoForMentorship*) value {
+  result.hasMentee = YES;
+  result.mentee = value;
+  return self;
+}
+- (MenteeBecameAvailableResponseProto_Builder*) setMenteeBuilder:(MinimumUserProtoForMentorship_Builder*) builderForValue {
+  return [self setMentee:[builderForValue build]];
+}
+- (MenteeBecameAvailableResponseProto_Builder*) mergeMentee:(MinimumUserProtoForMentorship*) value {
+  if (result.hasMentee &&
+      result.mentee != [MinimumUserProtoForMentorship defaultInstance]) {
+    result.mentee =
+      [[[MinimumUserProtoForMentorship builderWithPrototype:result.mentee] mergeFrom:value] buildPartial];
+  } else {
+    result.mentee = value;
+  }
+  result.hasMentee = YES;
+  return self;
+}
+- (MenteeBecameAvailableResponseProto_Builder*) clearMentee {
+  result.hasMentee = NO;
+  result.mentee = [MinimumUserProtoForMentorship defaultInstance];
+  return self;
+}
+@end
+
+@interface RetrieveAllMentorsRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@end
+
+@implementation RetrieveAllMentorsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static RetrieveAllMentorsRequestProto* defaultRetrieveAllMentorsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveAllMentorsRequestProto class]) {
+    defaultRetrieveAllMentorsRequestProtoInstance = [[RetrieveAllMentorsRequestProto alloc] init];
+  }
+}
++ (RetrieveAllMentorsRequestProto*) defaultInstance {
+  return defaultRetrieveAllMentorsRequestProtoInstance;
+}
+- (RetrieveAllMentorsRequestProto*) defaultInstance {
+  return defaultRetrieveAllMentorsRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveAllMentorsRequestProto*) parseFromData:(NSData*) data {
+  return (RetrieveAllMentorsRequestProto*)[[[RetrieveAllMentorsRequestProto builder] mergeFromData:data] build];
+}
++ (RetrieveAllMentorsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveAllMentorsRequestProto*)[[[RetrieveAllMentorsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveAllMentorsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveAllMentorsRequestProto*)[[[RetrieveAllMentorsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveAllMentorsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveAllMentorsRequestProto*)[[[RetrieveAllMentorsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveAllMentorsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveAllMentorsRequestProto*)[[[RetrieveAllMentorsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveAllMentorsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveAllMentorsRequestProto*)[[[RetrieveAllMentorsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveAllMentorsRequestProto_Builder*) builder {
+  return [[[RetrieveAllMentorsRequestProto_Builder alloc] init] autorelease];
+}
++ (RetrieveAllMentorsRequestProto_Builder*) builderWithPrototype:(RetrieveAllMentorsRequestProto*) prototype {
+  return [[RetrieveAllMentorsRequestProto builder] mergeFrom:prototype];
+}
+- (RetrieveAllMentorsRequestProto_Builder*) builder {
+  return [RetrieveAllMentorsRequestProto builder];
+}
+@end
+
+@interface RetrieveAllMentorsRequestProto_Builder()
+@property (retain) RetrieveAllMentorsRequestProto* result;
+@end
+
+@implementation RetrieveAllMentorsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveAllMentorsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveAllMentorsRequestProto_Builder*) clear {
+  self.result = [[[RetrieveAllMentorsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveAllMentorsRequestProto_Builder*) clone {
+  return [RetrieveAllMentorsRequestProto builderWithPrototype:result];
+}
+- (RetrieveAllMentorsRequestProto*) defaultInstance {
+  return [RetrieveAllMentorsRequestProto defaultInstance];
+}
+- (RetrieveAllMentorsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveAllMentorsRequestProto*) buildPartial {
+  RetrieveAllMentorsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveAllMentorsRequestProto_Builder*) mergeFrom:(RetrieveAllMentorsRequestProto*) other {
+  if (other == [RetrieveAllMentorsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveAllMentorsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveAllMentorsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveAllMentorsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveAllMentorsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveAllMentorsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveAllMentorsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+@end
+
+@interface RetrieveAllMentorsResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableMentorsList;
+@property RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatus status;
+@end
+
+@implementation RetrieveAllMentorsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableMentorsList;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableMentorsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatusSuccess;
+  }
+  return self;
+}
+static RetrieveAllMentorsResponseProto* defaultRetrieveAllMentorsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveAllMentorsResponseProto class]) {
+    defaultRetrieveAllMentorsResponseProtoInstance = [[RetrieveAllMentorsResponseProto alloc] init];
+  }
+}
++ (RetrieveAllMentorsResponseProto*) defaultInstance {
+  return defaultRetrieveAllMentorsResponseProtoInstance;
+}
+- (RetrieveAllMentorsResponseProto*) defaultInstance {
+  return defaultRetrieveAllMentorsResponseProtoInstance;
+}
+- (NSArray*) mentorsList {
+  return mutableMentorsList;
+}
+- (MinimumUserProto*) mentorsAtIndex:(int32_t) index {
+  id value = [mutableMentorsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (MinimumUserProto* element in self.mentorsList) {
+    [output writeMessage:2 value:element];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (MinimumUserProto* element in self.mentorsList) {
+    size += computeMessageSize(2, element);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(3, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveAllMentorsResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveAllMentorsResponseProto*)[[[RetrieveAllMentorsResponseProto builder] mergeFromData:data] build];
+}
++ (RetrieveAllMentorsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveAllMentorsResponseProto*)[[[RetrieveAllMentorsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveAllMentorsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveAllMentorsResponseProto*)[[[RetrieveAllMentorsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveAllMentorsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveAllMentorsResponseProto*)[[[RetrieveAllMentorsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveAllMentorsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveAllMentorsResponseProto*)[[[RetrieveAllMentorsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveAllMentorsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveAllMentorsResponseProto*)[[[RetrieveAllMentorsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveAllMentorsResponseProto_Builder*) builder {
+  return [[[RetrieveAllMentorsResponseProto_Builder alloc] init] autorelease];
+}
++ (RetrieveAllMentorsResponseProto_Builder*) builderWithPrototype:(RetrieveAllMentorsResponseProto*) prototype {
+  return [[RetrieveAllMentorsResponseProto builder] mergeFrom:prototype];
+}
+- (RetrieveAllMentorsResponseProto_Builder*) builder {
+  return [RetrieveAllMentorsResponseProto builder];
+}
+@end
+
+BOOL RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatusIsValidValue(RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatus value) {
+  switch (value) {
+    case RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatusSuccess:
+    case RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RetrieveAllMentorsResponseProto_Builder()
+@property (retain) RetrieveAllMentorsResponseProto* result;
+@end
+
+@implementation RetrieveAllMentorsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveAllMentorsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveAllMentorsResponseProto_Builder*) clear {
+  self.result = [[[RetrieveAllMentorsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveAllMentorsResponseProto_Builder*) clone {
+  return [RetrieveAllMentorsResponseProto builderWithPrototype:result];
+}
+- (RetrieveAllMentorsResponseProto*) defaultInstance {
+  return [RetrieveAllMentorsResponseProto defaultInstance];
+}
+- (RetrieveAllMentorsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveAllMentorsResponseProto*) buildPartial {
+  RetrieveAllMentorsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveAllMentorsResponseProto_Builder*) mergeFrom:(RetrieveAllMentorsResponseProto*) other {
+  if (other == [RetrieveAllMentorsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableMentorsList.count > 0) {
+    if (result.mutableMentorsList == nil) {
+      result.mutableMentorsList = [NSMutableArray array];
+    }
+    [result.mutableMentorsList addObjectsFromArray:other.mutableMentorsList];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveAllMentorsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveAllMentorsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addMentors:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveAllMentorsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveAllMentorsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveAllMentorsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveAllMentorsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) mentorsList {
+  if (result.mutableMentorsList == nil) { return [NSArray array]; }
+  return result.mutableMentorsList;
+}
+- (MinimumUserProto*) mentorsAtIndex:(int32_t) index {
+  return [result mentorsAtIndex:index];
+}
+- (RetrieveAllMentorsResponseProto_Builder*) replaceMentorsAtIndex:(int32_t) index with:(MinimumUserProto*) value {
+  [result.mutableMentorsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveAllMentorsResponseProto_Builder*) addAllMentors:(NSArray*) values {
+  if (result.mutableMentorsList == nil) {
+    result.mutableMentorsList = [NSMutableArray array];
+  }
+  [result.mutableMentorsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveAllMentorsResponseProto_Builder*) clearMentorsList {
+  result.mutableMentorsList = nil;
+  return self;
+}
+- (RetrieveAllMentorsResponseProto_Builder*) addMentors:(MinimumUserProto*) value {
+  if (result.mutableMentorsList == nil) {
+    result.mutableMentorsList = [NSMutableArray array];
+  }
+  [result.mutableMentorsList addObject:value];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatus) status {
+  return result.status;
+}
+- (RetrieveAllMentorsResponseProto_Builder*) setStatus:(RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RetrieveAllMentorsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatusSuccess;
+  return self;
+}
+@end
+
+@interface RetrieveAvailableMenteesRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@end
+
+@implementation RetrieveAvailableMenteesRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static RetrieveAvailableMenteesRequestProto* defaultRetrieveAvailableMenteesRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveAvailableMenteesRequestProto class]) {
+    defaultRetrieveAvailableMenteesRequestProtoInstance = [[RetrieveAvailableMenteesRequestProto alloc] init];
+  }
+}
++ (RetrieveAvailableMenteesRequestProto*) defaultInstance {
+  return defaultRetrieveAvailableMenteesRequestProtoInstance;
+}
+- (RetrieveAvailableMenteesRequestProto*) defaultInstance {
+  return defaultRetrieveAvailableMenteesRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveAvailableMenteesRequestProto*) parseFromData:(NSData*) data {
+  return (RetrieveAvailableMenteesRequestProto*)[[[RetrieveAvailableMenteesRequestProto builder] mergeFromData:data] build];
+}
++ (RetrieveAvailableMenteesRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveAvailableMenteesRequestProto*)[[[RetrieveAvailableMenteesRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveAvailableMenteesRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveAvailableMenteesRequestProto*)[[[RetrieveAvailableMenteesRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveAvailableMenteesRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveAvailableMenteesRequestProto*)[[[RetrieveAvailableMenteesRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveAvailableMenteesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveAvailableMenteesRequestProto*)[[[RetrieveAvailableMenteesRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveAvailableMenteesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveAvailableMenteesRequestProto*)[[[RetrieveAvailableMenteesRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveAvailableMenteesRequestProto_Builder*) builder {
+  return [[[RetrieveAvailableMenteesRequestProto_Builder alloc] init] autorelease];
+}
++ (RetrieveAvailableMenteesRequestProto_Builder*) builderWithPrototype:(RetrieveAvailableMenteesRequestProto*) prototype {
+  return [[RetrieveAvailableMenteesRequestProto builder] mergeFrom:prototype];
+}
+- (RetrieveAvailableMenteesRequestProto_Builder*) builder {
+  return [RetrieveAvailableMenteesRequestProto builder];
+}
+@end
+
+@interface RetrieveAvailableMenteesRequestProto_Builder()
+@property (retain) RetrieveAvailableMenteesRequestProto* result;
+@end
+
+@implementation RetrieveAvailableMenteesRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveAvailableMenteesRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveAvailableMenteesRequestProto_Builder*) clear {
+  self.result = [[[RetrieveAvailableMenteesRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveAvailableMenteesRequestProto_Builder*) clone {
+  return [RetrieveAvailableMenteesRequestProto builderWithPrototype:result];
+}
+- (RetrieveAvailableMenteesRequestProto*) defaultInstance {
+  return [RetrieveAvailableMenteesRequestProto defaultInstance];
+}
+- (RetrieveAvailableMenteesRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveAvailableMenteesRequestProto*) buildPartial {
+  RetrieveAvailableMenteesRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveAvailableMenteesRequestProto_Builder*) mergeFrom:(RetrieveAvailableMenteesRequestProto*) other {
+  if (other == [RetrieveAvailableMenteesRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveAvailableMenteesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveAvailableMenteesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveAvailableMenteesRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveAvailableMenteesRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveAvailableMenteesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveAvailableMenteesRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+@end
+
+@interface RetrieveAvailableMenteesResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableMenteesList;
+@property RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatus status;
+@end
+
+@implementation RetrieveAvailableMenteesResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableMenteesList;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableMenteesList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatusSuccess;
+  }
+  return self;
+}
+static RetrieveAvailableMenteesResponseProto* defaultRetrieveAvailableMenteesResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveAvailableMenteesResponseProto class]) {
+    defaultRetrieveAvailableMenteesResponseProtoInstance = [[RetrieveAvailableMenteesResponseProto alloc] init];
+  }
+}
++ (RetrieveAvailableMenteesResponseProto*) defaultInstance {
+  return defaultRetrieveAvailableMenteesResponseProtoInstance;
+}
+- (RetrieveAvailableMenteesResponseProto*) defaultInstance {
+  return defaultRetrieveAvailableMenteesResponseProtoInstance;
+}
+- (NSArray*) menteesList {
+  return mutableMenteesList;
+}
+- (MinimumUserProtoForMentorship*) menteesAtIndex:(int32_t) index {
+  id value = [mutableMenteesList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (MinimumUserProtoForMentorship* element in self.menteesList) {
+    [output writeMessage:2 value:element];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (MinimumUserProtoForMentorship* element in self.menteesList) {
+    size += computeMessageSize(2, element);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(3, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveAvailableMenteesResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveAvailableMenteesResponseProto*)[[[RetrieveAvailableMenteesResponseProto builder] mergeFromData:data] build];
+}
++ (RetrieveAvailableMenteesResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveAvailableMenteesResponseProto*)[[[RetrieveAvailableMenteesResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveAvailableMenteesResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveAvailableMenteesResponseProto*)[[[RetrieveAvailableMenteesResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveAvailableMenteesResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveAvailableMenteesResponseProto*)[[[RetrieveAvailableMenteesResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveAvailableMenteesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveAvailableMenteesResponseProto*)[[[RetrieveAvailableMenteesResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveAvailableMenteesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveAvailableMenteesResponseProto*)[[[RetrieveAvailableMenteesResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveAvailableMenteesResponseProto_Builder*) builder {
+  return [[[RetrieveAvailableMenteesResponseProto_Builder alloc] init] autorelease];
+}
++ (RetrieveAvailableMenteesResponseProto_Builder*) builderWithPrototype:(RetrieveAvailableMenteesResponseProto*) prototype {
+  return [[RetrieveAvailableMenteesResponseProto builder] mergeFrom:prototype];
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) builder {
+  return [RetrieveAvailableMenteesResponseProto builder];
+}
+@end
+
+BOOL RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatusIsValidValue(RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatus value) {
+  switch (value) {
+    case RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatusSuccess:
+    case RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RetrieveAvailableMenteesResponseProto_Builder()
+@property (retain) RetrieveAvailableMenteesResponseProto* result;
+@end
+
+@implementation RetrieveAvailableMenteesResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveAvailableMenteesResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) clear {
+  self.result = [[[RetrieveAvailableMenteesResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) clone {
+  return [RetrieveAvailableMenteesResponseProto builderWithPrototype:result];
+}
+- (RetrieveAvailableMenteesResponseProto*) defaultInstance {
+  return [RetrieveAvailableMenteesResponseProto defaultInstance];
+}
+- (RetrieveAvailableMenteesResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveAvailableMenteesResponseProto*) buildPartial {
+  RetrieveAvailableMenteesResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) mergeFrom:(RetrieveAvailableMenteesResponseProto*) other {
+  if (other == [RetrieveAvailableMenteesResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableMenteesList.count > 0) {
+    if (result.mutableMenteesList == nil) {
+      result.mutableMenteesList = [NSMutableArray array];
+    }
+    [result.mutableMenteesList addObjectsFromArray:other.mutableMenteesList];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        MinimumUserProtoForMentorship_Builder* subBuilder = [MinimumUserProtoForMentorship builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addMentees:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) menteesList {
+  if (result.mutableMenteesList == nil) { return [NSArray array]; }
+  return result.mutableMenteesList;
+}
+- (MinimumUserProtoForMentorship*) menteesAtIndex:(int32_t) index {
+  return [result menteesAtIndex:index];
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) replaceMenteesAtIndex:(int32_t) index with:(MinimumUserProtoForMentorship*) value {
+  [result.mutableMenteesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) addAllMentees:(NSArray*) values {
+  if (result.mutableMenteesList == nil) {
+    result.mutableMenteesList = [NSMutableArray array];
+  }
+  [result.mutableMenteesList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) clearMenteesList {
+  result.mutableMenteesList = nil;
+  return self;
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) addMentees:(MinimumUserProtoForMentorship*) value {
+  if (result.mutableMenteesList == nil) {
+    result.mutableMenteesList = [NSMutableArray array];
+  }
+  [result.mutableMenteesList addObject:value];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatus) status {
+  return result.status;
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) setStatus:(RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RetrieveAvailableMenteesResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatusSuccess;
+  return self;
+}
+@end
+
+@interface DropMenteeRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t menteeToDrop;
+@end
+
+@implementation DropMenteeRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasMenteeToDrop {
+  return !!hasMenteeToDrop_;
+}
+- (void) setHasMenteeToDrop:(BOOL) value {
+  hasMenteeToDrop_ = !!value;
+}
+@synthesize menteeToDrop;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.menteeToDrop = 0;
+  }
+  return self;
+}
+static DropMenteeRequestProto* defaultDropMenteeRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [DropMenteeRequestProto class]) {
+    defaultDropMenteeRequestProtoInstance = [[DropMenteeRequestProto alloc] init];
+  }
+}
++ (DropMenteeRequestProto*) defaultInstance {
+  return defaultDropMenteeRequestProtoInstance;
+}
+- (DropMenteeRequestProto*) defaultInstance {
+  return defaultDropMenteeRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasMenteeToDrop) {
+    [output writeInt32:2 value:self.menteeToDrop];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasMenteeToDrop) {
+    size += computeInt32Size(2, self.menteeToDrop);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (DropMenteeRequestProto*) parseFromData:(NSData*) data {
+  return (DropMenteeRequestProto*)[[[DropMenteeRequestProto builder] mergeFromData:data] build];
+}
++ (DropMenteeRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DropMenteeRequestProto*)[[[DropMenteeRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (DropMenteeRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (DropMenteeRequestProto*)[[[DropMenteeRequestProto builder] mergeFromInputStream:input] build];
+}
++ (DropMenteeRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DropMenteeRequestProto*)[[[DropMenteeRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DropMenteeRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (DropMenteeRequestProto*)[[[DropMenteeRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (DropMenteeRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DropMenteeRequestProto*)[[[DropMenteeRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DropMenteeRequestProto_Builder*) builder {
+  return [[[DropMenteeRequestProto_Builder alloc] init] autorelease];
+}
++ (DropMenteeRequestProto_Builder*) builderWithPrototype:(DropMenteeRequestProto*) prototype {
+  return [[DropMenteeRequestProto builder] mergeFrom:prototype];
+}
+- (DropMenteeRequestProto_Builder*) builder {
+  return [DropMenteeRequestProto builder];
+}
+@end
+
+@interface DropMenteeRequestProto_Builder()
+@property (retain) DropMenteeRequestProto* result;
+@end
+
+@implementation DropMenteeRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[DropMenteeRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (DropMenteeRequestProto_Builder*) clear {
+  self.result = [[[DropMenteeRequestProto alloc] init] autorelease];
+  return self;
+}
+- (DropMenteeRequestProto_Builder*) clone {
+  return [DropMenteeRequestProto builderWithPrototype:result];
+}
+- (DropMenteeRequestProto*) defaultInstance {
+  return [DropMenteeRequestProto defaultInstance];
+}
+- (DropMenteeRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (DropMenteeRequestProto*) buildPartial {
+  DropMenteeRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (DropMenteeRequestProto_Builder*) mergeFrom:(DropMenteeRequestProto*) other {
+  if (other == [DropMenteeRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasMenteeToDrop) {
+    [self setMenteeToDrop:other.menteeToDrop];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (DropMenteeRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (DropMenteeRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setMenteeToDrop:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (DropMenteeRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (DropMenteeRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (DropMenteeRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (DropMenteeRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasMenteeToDrop {
+  return result.hasMenteeToDrop;
+}
+- (int32_t) menteeToDrop {
+  return result.menteeToDrop;
+}
+- (DropMenteeRequestProto_Builder*) setMenteeToDrop:(int32_t) value {
+  result.hasMenteeToDrop = YES;
+  result.menteeToDrop = value;
+  return self;
+}
+- (DropMenteeRequestProto_Builder*) clearMenteeToDrop {
+  result.hasMenteeToDrop = NO;
+  result.menteeToDrop = 0;
+  return self;
+}
+@end
+
+@interface DropMenteeResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property DropMenteeResponseProto_DropMenteeStatus status;
+@end
+
+@implementation DropMenteeResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = DropMenteeResponseProto_DropMenteeStatusSuccess;
+  }
+  return self;
+}
+static DropMenteeResponseProto* defaultDropMenteeResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [DropMenteeResponseProto class]) {
+    defaultDropMenteeResponseProtoInstance = [[DropMenteeResponseProto alloc] init];
+  }
+}
++ (DropMenteeResponseProto*) defaultInstance {
+  return defaultDropMenteeResponseProtoInstance;
+}
+- (DropMenteeResponseProto*) defaultInstance {
+  return defaultDropMenteeResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (DropMenteeResponseProto*) parseFromData:(NSData*) data {
+  return (DropMenteeResponseProto*)[[[DropMenteeResponseProto builder] mergeFromData:data] build];
+}
++ (DropMenteeResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DropMenteeResponseProto*)[[[DropMenteeResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (DropMenteeResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (DropMenteeResponseProto*)[[[DropMenteeResponseProto builder] mergeFromInputStream:input] build];
+}
++ (DropMenteeResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DropMenteeResponseProto*)[[[DropMenteeResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DropMenteeResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (DropMenteeResponseProto*)[[[DropMenteeResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (DropMenteeResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DropMenteeResponseProto*)[[[DropMenteeResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DropMenteeResponseProto_Builder*) builder {
+  return [[[DropMenteeResponseProto_Builder alloc] init] autorelease];
+}
++ (DropMenteeResponseProto_Builder*) builderWithPrototype:(DropMenteeResponseProto*) prototype {
+  return [[DropMenteeResponseProto builder] mergeFrom:prototype];
+}
+- (DropMenteeResponseProto_Builder*) builder {
+  return [DropMenteeResponseProto builder];
+}
+@end
+
+BOOL DropMenteeResponseProto_DropMenteeStatusIsValidValue(DropMenteeResponseProto_DropMenteeStatus value) {
+  switch (value) {
+    case DropMenteeResponseProto_DropMenteeStatusSuccess:
+    case DropMenteeResponseProto_DropMenteeStatusFailNotMentee:
+    case DropMenteeResponseProto_DropMenteeStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface DropMenteeResponseProto_Builder()
+@property (retain) DropMenteeResponseProto* result;
+@end
+
+@implementation DropMenteeResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[DropMenteeResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (DropMenteeResponseProto_Builder*) clear {
+  self.result = [[[DropMenteeResponseProto alloc] init] autorelease];
+  return self;
+}
+- (DropMenteeResponseProto_Builder*) clone {
+  return [DropMenteeResponseProto builderWithPrototype:result];
+}
+- (DropMenteeResponseProto*) defaultInstance {
+  return [DropMenteeResponseProto defaultInstance];
+}
+- (DropMenteeResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (DropMenteeResponseProto*) buildPartial {
+  DropMenteeResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (DropMenteeResponseProto_Builder*) mergeFrom:(DropMenteeResponseProto*) other {
+  if (other == [DropMenteeResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (DropMenteeResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (DropMenteeResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (DropMenteeResponseProto_DropMenteeStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (DropMenteeResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (DropMenteeResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (DropMenteeResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (DropMenteeResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (DropMenteeResponseProto_DropMenteeStatus) status {
+  return result.status;
+}
+- (DropMenteeResponseProto_Builder*) setStatus:(DropMenteeResponseProto_DropMenteeStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (DropMenteeResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = DropMenteeResponseProto_DropMenteeStatusSuccess;
+  return self;
+}
+@end
+
+@interface RetrieveMyMenteesRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@end
+
+@implementation RetrieveMyMenteesRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static RetrieveMyMenteesRequestProto* defaultRetrieveMyMenteesRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveMyMenteesRequestProto class]) {
+    defaultRetrieveMyMenteesRequestProtoInstance = [[RetrieveMyMenteesRequestProto alloc] init];
+  }
+}
++ (RetrieveMyMenteesRequestProto*) defaultInstance {
+  return defaultRetrieveMyMenteesRequestProtoInstance;
+}
+- (RetrieveMyMenteesRequestProto*) defaultInstance {
+  return defaultRetrieveMyMenteesRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveMyMenteesRequestProto*) parseFromData:(NSData*) data {
+  return (RetrieveMyMenteesRequestProto*)[[[RetrieveMyMenteesRequestProto builder] mergeFromData:data] build];
+}
++ (RetrieveMyMenteesRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveMyMenteesRequestProto*)[[[RetrieveMyMenteesRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveMyMenteesRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveMyMenteesRequestProto*)[[[RetrieveMyMenteesRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveMyMenteesRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveMyMenteesRequestProto*)[[[RetrieveMyMenteesRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveMyMenteesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveMyMenteesRequestProto*)[[[RetrieveMyMenteesRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveMyMenteesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveMyMenteesRequestProto*)[[[RetrieveMyMenteesRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveMyMenteesRequestProto_Builder*) builder {
+  return [[[RetrieveMyMenteesRequestProto_Builder alloc] init] autorelease];
+}
++ (RetrieveMyMenteesRequestProto_Builder*) builderWithPrototype:(RetrieveMyMenteesRequestProto*) prototype {
+  return [[RetrieveMyMenteesRequestProto builder] mergeFrom:prototype];
+}
+- (RetrieveMyMenteesRequestProto_Builder*) builder {
+  return [RetrieveMyMenteesRequestProto builder];
+}
+@end
+
+@interface RetrieveMyMenteesRequestProto_Builder()
+@property (retain) RetrieveMyMenteesRequestProto* result;
+@end
+
+@implementation RetrieveMyMenteesRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveMyMenteesRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveMyMenteesRequestProto_Builder*) clear {
+  self.result = [[[RetrieveMyMenteesRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveMyMenteesRequestProto_Builder*) clone {
+  return [RetrieveMyMenteesRequestProto builderWithPrototype:result];
+}
+- (RetrieveMyMenteesRequestProto*) defaultInstance {
+  return [RetrieveMyMenteesRequestProto defaultInstance];
+}
+- (RetrieveMyMenteesRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveMyMenteesRequestProto*) buildPartial {
+  RetrieveMyMenteesRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveMyMenteesRequestProto_Builder*) mergeFrom:(RetrieveMyMenteesRequestProto*) other {
+  if (other == [RetrieveMyMenteesRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveMyMenteesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveMyMenteesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveMyMenteesRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveMyMenteesRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveMyMenteesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveMyMenteesRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+@end
+
+@interface RetrieveMyMenteesResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatus status;
+@property (retain) NSMutableArray* mutableMentorshipsList;
+@end
+
+@implementation RetrieveMyMenteesResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+@synthesize mutableMentorshipsList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableMentorshipsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusSuccess;
+  }
+  return self;
+}
+static RetrieveMyMenteesResponseProto* defaultRetrieveMyMenteesResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveMyMenteesResponseProto class]) {
+    defaultRetrieveMyMenteesResponseProtoInstance = [[RetrieveMyMenteesResponseProto alloc] init];
+  }
+}
++ (RetrieveMyMenteesResponseProto*) defaultInstance {
+  return defaultRetrieveMyMenteesResponseProtoInstance;
+}
+- (RetrieveMyMenteesResponseProto*) defaultInstance {
+  return defaultRetrieveMyMenteesResponseProtoInstance;
+}
+- (NSArray*) mentorshipsList {
+  return mutableMentorshipsList;
+}
+- (MentorshipProto*) mentorshipsAtIndex:(int32_t) index {
+  id value = [mutableMentorshipsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  for (MentorshipProto* element in self.mentorshipsList) {
+    [output writeMessage:3 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  for (MentorshipProto* element in self.mentorshipsList) {
+    size += computeMessageSize(3, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveMyMenteesResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveMyMenteesResponseProto*)[[[RetrieveMyMenteesResponseProto builder] mergeFromData:data] build];
+}
++ (RetrieveMyMenteesResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveMyMenteesResponseProto*)[[[RetrieveMyMenteesResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveMyMenteesResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveMyMenteesResponseProto*)[[[RetrieveMyMenteesResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveMyMenteesResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveMyMenteesResponseProto*)[[[RetrieveMyMenteesResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveMyMenteesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveMyMenteesResponseProto*)[[[RetrieveMyMenteesResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveMyMenteesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveMyMenteesResponseProto*)[[[RetrieveMyMenteesResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveMyMenteesResponseProto_Builder*) builder {
+  return [[[RetrieveMyMenteesResponseProto_Builder alloc] init] autorelease];
+}
++ (RetrieveMyMenteesResponseProto_Builder*) builderWithPrototype:(RetrieveMyMenteesResponseProto*) prototype {
+  return [[RetrieveMyMenteesResponseProto builder] mergeFrom:prototype];
+}
+- (RetrieveMyMenteesResponseProto_Builder*) builder {
+  return [RetrieveMyMenteesResponseProto builder];
+}
+@end
+
+BOOL RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusIsValidValue(RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatus value) {
+  switch (value) {
+    case RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusSuccess:
+    case RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RetrieveMyMenteesResponseProto_Builder()
+@property (retain) RetrieveMyMenteesResponseProto* result;
+@end
+
+@implementation RetrieveMyMenteesResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveMyMenteesResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveMyMenteesResponseProto_Builder*) clear {
+  self.result = [[[RetrieveMyMenteesResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveMyMenteesResponseProto_Builder*) clone {
+  return [RetrieveMyMenteesResponseProto builderWithPrototype:result];
+}
+- (RetrieveMyMenteesResponseProto*) defaultInstance {
+  return [RetrieveMyMenteesResponseProto defaultInstance];
+}
+- (RetrieveMyMenteesResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveMyMenteesResponseProto*) buildPartial {
+  RetrieveMyMenteesResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveMyMenteesResponseProto_Builder*) mergeFrom:(RetrieveMyMenteesResponseProto*) other {
+  if (other == [RetrieveMyMenteesResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.mutableMentorshipsList.count > 0) {
+    if (result.mutableMentorshipsList == nil) {
+      result.mutableMentorshipsList = [NSMutableArray array];
+    }
+    [result.mutableMentorshipsList addObjectsFromArray:other.mutableMentorshipsList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveMyMenteesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveMyMenteesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        MentorshipProto_Builder* subBuilder = [MentorshipProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addMentorships:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveMyMenteesResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveMyMenteesResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveMyMenteesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveMyMenteesResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatus) status {
+  return result.status;
+}
+- (RetrieveMyMenteesResponseProto_Builder*) setStatus:(RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RetrieveMyMenteesResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusSuccess;
+  return self;
+}
+- (NSArray*) mentorshipsList {
+  if (result.mutableMentorshipsList == nil) { return [NSArray array]; }
+  return result.mutableMentorshipsList;
+}
+- (MentorshipProto*) mentorshipsAtIndex:(int32_t) index {
+  return [result mentorshipsAtIndex:index];
+}
+- (RetrieveMyMenteesResponseProto_Builder*) replaceMentorshipsAtIndex:(int32_t) index with:(MentorshipProto*) value {
+  [result.mutableMentorshipsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveMyMenteesResponseProto_Builder*) addAllMentorships:(NSArray*) values {
+  if (result.mutableMentorshipsList == nil) {
+    result.mutableMentorshipsList = [NSMutableArray array];
+  }
+  [result.mutableMentorshipsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveMyMenteesResponseProto_Builder*) clearMentorshipsList {
+  result.mutableMentorshipsList = nil;
+  return self;
+}
+- (RetrieveMyMenteesResponseProto_Builder*) addMentorships:(MentorshipProto*) value {
+  if (result.mutableMentorshipsList == nil) {
+    result.mutableMentorshipsList = [NSMutableArray array];
+  }
+  [result.mutableMentorshipsList addObject:value];
+  return self;
+}
+@end
+

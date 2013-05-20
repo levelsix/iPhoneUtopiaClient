@@ -252,9 +252,9 @@
   
   NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
   NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, mup.userId];
-  NSNumber *time = [ud objectForKey:key];
-  NSNumber *time2 = [NSNumber numberWithLongLong:pcpp.timeOfPost];
-  self.blueCircle.hidden = time && [time compare:time2] != NSOrderedAscending;
+  int curId = [ud integerForKey:key];
+  int thisId = pcpp.privateChatPostId;
+  self.blueCircle.hidden = curId >= thisId;
 }
 
 - (void) dealloc {
@@ -545,7 +545,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
    
   GameState *gs = [GameState sharedGameState];
   if (state == kChatStateClan && !gs.clan) {
-    self.noChatsLabel.text = @"\n\nYou must be in a clan first!";
+    self.noChatsLabel.text = @"\nJoin a clan to chat with them!\nTo find a clan, click on the Bazaar button, \nthen click on the Clan House.";
     self.noChatsLabel.hidden = NO;
     self.chatTable.hidden = YES;
     self.bottomView.hidden = YES;
@@ -736,9 +736,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     int userId = p.recipient.userId == gs.userId ? p.poster.userId : p.recipient.userId;
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, userId];
-    NSNumber *time = [ud objectForKey:key];
-    NSNumber *time2 = [NSNumber numberWithLongLong:p.timeOfPost];
-    BOOL viewed = time && [time compare:time2] != NSOrderedAscending;
+    int curId = [ud integerForKey:key];
+    int thisId = p.privateChatPostId;
+    BOOL viewed = curId >= thisId;
     
     if (!viewed) {
       badgeNum += 1;
@@ -904,28 +904,29 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   }
 }
 
-- (void) updateUserDefaultsForUserId:(int)userId time:(uint64_t)time {
+- (void) updateUserDefaultsForUserId:(int)userId chatId:(int)chatId {
   NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-  NSNumber *t = [NSNumber numberWithLongLong:time];
   NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, userId];
-  [ud setObject:t forKey:key];
+  int curId = [ud integerForKey:key];
+  
+  if (curId < chatId) {
+    [ud setInteger:chatId forKey:key];
+  }
 }
 
 - (void) receivedRetrievePrivateChats:(RetrievePrivateChatPostsResponseProto *)proto {
   Globals *gl = [Globals sharedGlobals];
   if (_otherUserId == proto.otherUserId) {
     NSMutableArray *arr = [NSMutableArray array];
-    uint64_t timeOfChat = 0;
+    int chatId = 0;
     for (GroupChatMessageProto *chat in proto.postsList) {
       [arr addObject:[[ChatMessage alloc] initWithProto:chat]];
       
-      if (chat.timeOfChat > timeOfChat) {
-        timeOfChat = chat.timeOfChat;
+      if (chat.chatId > chatId) {
+        chatId = chat.chatId;
       }
     }
-    [arr sortUsingComparator:^NSComparisonResult(ChatMessage *obj1, ChatMessage *obj2) {
-      return [obj1.date compare:obj2.date];
-    }];
+    arr = [[[arr reverseObjectEnumerator] allObjects] mutableCopy];
     
     if (arr.count == 0 && _otherUserId == gl.adminChatUser.userId) {
       GroupChatMessageProto_Builder *p = [GroupChatMessageProto builder];
@@ -950,7 +951,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
       [self.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:numRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
     }
     
-    [self updateUserDefaultsForUserId:proto.otherUserId time:timeOfChat];
+    [self updateUserDefaultsForUserId:proto.otherUserId chatId:chatId];
     
     [self.privateChatView.privateChatTable reloadData];
     [self updateNumChatsLabel];
@@ -970,7 +971,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   }
   
   if (_otherUserId == userId || proto.post.poster.userId == gs.userId) {
-    [self updateUserDefaultsForUserId:userId time:proto.post.timeOfPost];
+    [self updateUserDefaultsForUserId:userId chatId:proto.post.privateChatPostId];
   } else {
     TopBar *tb = [TopBar sharedTopBar];
     [tb addNotificationToDisplayQueue:[[UserNotification alloc] initWithPrivateChatPost:proto.post]];

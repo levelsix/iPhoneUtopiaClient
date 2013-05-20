@@ -84,6 +84,8 @@
 @class LockBoxEventProto_Builder;
 @class LockBoxItemProto;
 @class LockBoxItemProto_Builder;
+@class MentorshipProto;
+@class MentorshipProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
@@ -97,6 +99,8 @@
 @class MinimumUserProtoForClanTowerScores_Builder;
 @class MinimumUserProtoForClans;
 @class MinimumUserProtoForClans_Builder;
+@class MinimumUserProtoForMentorship;
+@class MinimumUserProtoForMentorship_Builder;
 @class MinimumUserProtoWithBattleHistory;
 @class MinimumUserProtoWithBattleHistory_Builder;
 @class MinimumUserProtoWithLevel;
@@ -344,6 +348,203 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
+@end
+
+@interface MentorshipProto : PBGeneratedMessage {
+@private
+  BOOL hasIsDropped_:1;
+  BOOL hasStartTime_:1;
+  BOOL hasQuestOneCompleteTime_:1;
+  BOOL hasQuestTwoCompleteTime_:1;
+  BOOL hasQuestThreeCompleteTime_:1;
+  BOOL hasQuestFourCompleteTime_:1;
+  BOOL hasQuestFiveCompleteTime_:1;
+  BOOL hasId_:1;
+  BOOL hasMentorId_:1;
+  BOOL hasMenteeId_:1;
+  BOOL isDropped_:1;
+  int64_t startTime;
+  int64_t questOneCompleteTime;
+  int64_t questTwoCompleteTime;
+  int64_t questThreeCompleteTime;
+  int64_t questFourCompleteTime;
+  int64_t questFiveCompleteTime;
+  int32_t id;
+  int32_t mentorId;
+  int32_t menteeId;
+}
+- (BOOL) hasId;
+- (BOOL) hasMentorId;
+- (BOOL) hasMenteeId;
+- (BOOL) hasStartTime;
+- (BOOL) hasQuestOneCompleteTime;
+- (BOOL) hasQuestTwoCompleteTime;
+- (BOOL) hasQuestThreeCompleteTime;
+- (BOOL) hasQuestFourCompleteTime;
+- (BOOL) hasQuestFiveCompleteTime;
+- (BOOL) hasIsDropped;
+@property (readonly) int32_t id;
+@property (readonly) int32_t mentorId;
+@property (readonly) int32_t menteeId;
+@property (readonly) int64_t startTime;
+@property (readonly) int64_t questOneCompleteTime;
+@property (readonly) int64_t questTwoCompleteTime;
+@property (readonly) int64_t questThreeCompleteTime;
+@property (readonly) int64_t questFourCompleteTime;
+@property (readonly) int64_t questFiveCompleteTime;
+- (BOOL) isDropped;
+
++ (MentorshipProto*) defaultInstance;
+- (MentorshipProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MentorshipProto_Builder*) builder;
++ (MentorshipProto_Builder*) builder;
++ (MentorshipProto_Builder*) builderWithPrototype:(MentorshipProto*) prototype;
+
++ (MentorshipProto*) parseFromData:(NSData*) data;
++ (MentorshipProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MentorshipProto*) parseFromInputStream:(NSInputStream*) input;
++ (MentorshipProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MentorshipProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MentorshipProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MentorshipProto_Builder : PBGeneratedMessage_Builder {
+@private
+  MentorshipProto* result;
+}
+
+- (MentorshipProto*) defaultInstance;
+
+- (MentorshipProto_Builder*) clear;
+- (MentorshipProto_Builder*) clone;
+
+- (MentorshipProto*) build;
+- (MentorshipProto*) buildPartial;
+
+- (MentorshipProto_Builder*) mergeFrom:(MentorshipProto*) other;
+- (MentorshipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MentorshipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasId;
+- (int32_t) id;
+- (MentorshipProto_Builder*) setId:(int32_t) value;
+- (MentorshipProto_Builder*) clearId;
+
+- (BOOL) hasMentorId;
+- (int32_t) mentorId;
+- (MentorshipProto_Builder*) setMentorId:(int32_t) value;
+- (MentorshipProto_Builder*) clearMentorId;
+
+- (BOOL) hasMenteeId;
+- (int32_t) menteeId;
+- (MentorshipProto_Builder*) setMenteeId:(int32_t) value;
+- (MentorshipProto_Builder*) clearMenteeId;
+
+- (BOOL) hasStartTime;
+- (int64_t) startTime;
+- (MentorshipProto_Builder*) setStartTime:(int64_t) value;
+- (MentorshipProto_Builder*) clearStartTime;
+
+- (BOOL) hasQuestOneCompleteTime;
+- (int64_t) questOneCompleteTime;
+- (MentorshipProto_Builder*) setQuestOneCompleteTime:(int64_t) value;
+- (MentorshipProto_Builder*) clearQuestOneCompleteTime;
+
+- (BOOL) hasQuestTwoCompleteTime;
+- (int64_t) questTwoCompleteTime;
+- (MentorshipProto_Builder*) setQuestTwoCompleteTime:(int64_t) value;
+- (MentorshipProto_Builder*) clearQuestTwoCompleteTime;
+
+- (BOOL) hasQuestThreeCompleteTime;
+- (int64_t) questThreeCompleteTime;
+- (MentorshipProto_Builder*) setQuestThreeCompleteTime:(int64_t) value;
+- (MentorshipProto_Builder*) clearQuestThreeCompleteTime;
+
+- (BOOL) hasQuestFourCompleteTime;
+- (int64_t) questFourCompleteTime;
+- (MentorshipProto_Builder*) setQuestFourCompleteTime:(int64_t) value;
+- (MentorshipProto_Builder*) clearQuestFourCompleteTime;
+
+- (BOOL) hasQuestFiveCompleteTime;
+- (int64_t) questFiveCompleteTime;
+- (MentorshipProto_Builder*) setQuestFiveCompleteTime:(int64_t) value;
+- (MentorshipProto_Builder*) clearQuestFiveCompleteTime;
+
+- (BOOL) hasIsDropped;
+- (BOOL) isDropped;
+- (MentorshipProto_Builder*) setIsDropped:(BOOL) value;
+- (MentorshipProto_Builder*) clearIsDropped;
+@end
+
+@interface MinimumUserProtoForMentorship : PBGeneratedMessage {
+@private
+  BOOL hasIsGood_:1;
+  BOOL hasCreateTime_:1;
+  BOOL hasMup_:1;
+  BOOL isGood_:1;
+  int64_t createTime;
+  MinimumUserProto* mup;
+}
+- (BOOL) hasMup;
+- (BOOL) hasCreateTime;
+- (BOOL) hasIsGood;
+@property (readonly, retain) MinimumUserProto* mup;
+@property (readonly) int64_t createTime;
+- (BOOL) isGood;
+
++ (MinimumUserProtoForMentorship*) defaultInstance;
+- (MinimumUserProtoForMentorship*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MinimumUserProtoForMentorship_Builder*) builder;
++ (MinimumUserProtoForMentorship_Builder*) builder;
++ (MinimumUserProtoForMentorship_Builder*) builderWithPrototype:(MinimumUserProtoForMentorship*) prototype;
+
++ (MinimumUserProtoForMentorship*) parseFromData:(NSData*) data;
++ (MinimumUserProtoForMentorship*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserProtoForMentorship*) parseFromInputStream:(NSInputStream*) input;
++ (MinimumUserProtoForMentorship*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserProtoForMentorship*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MinimumUserProtoForMentorship*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MinimumUserProtoForMentorship_Builder : PBGeneratedMessage_Builder {
+@private
+  MinimumUserProtoForMentorship* result;
+}
+
+- (MinimumUserProtoForMentorship*) defaultInstance;
+
+- (MinimumUserProtoForMentorship_Builder*) clear;
+- (MinimumUserProtoForMentorship_Builder*) clone;
+
+- (MinimumUserProtoForMentorship*) build;
+- (MinimumUserProtoForMentorship*) buildPartial;
+
+- (MinimumUserProtoForMentorship_Builder*) mergeFrom:(MinimumUserProtoForMentorship*) other;
+- (MinimumUserProtoForMentorship_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MinimumUserProtoForMentorship_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMup;
+- (MinimumUserProto*) mup;
+- (MinimumUserProtoForMentorship_Builder*) setMup:(MinimumUserProto*) value;
+- (MinimumUserProtoForMentorship_Builder*) setMupBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (MinimumUserProtoForMentorship_Builder*) mergeMup:(MinimumUserProto*) value;
+- (MinimumUserProtoForMentorship_Builder*) clearMup;
+
+- (BOOL) hasCreateTime;
+- (int64_t) createTime;
+- (MinimumUserProtoForMentorship_Builder*) setCreateTime:(int64_t) value;
+- (MinimumUserProtoForMentorship_Builder*) clearCreateTime;
+
+- (BOOL) hasIsGood;
+- (BOOL) isGood;
+- (MinimumUserProtoForMentorship_Builder*) setIsGood:(BOOL) value;
+- (MinimumUserProtoForMentorship_Builder*) clearIsGood;
 @end
 
 @interface PrivateChatPostProto : PBGeneratedMessage {
@@ -1987,10 +2188,12 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @private
   BOOL hasIsAdmin_:1;
   BOOL hasTimeOfChat_:1;
+  BOOL hasChatId_:1;
   BOOL hasContent_:1;
   BOOL hasSender_:1;
   BOOL isAdmin_:1;
   int64_t timeOfChat;
+  int32_t chatId;
   NSString* content;
   MinimumUserProto* sender;
 }
@@ -1998,10 +2201,12 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasTimeOfChat;
 - (BOOL) hasContent;
 - (BOOL) hasIsAdmin;
+- (BOOL) hasChatId;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t timeOfChat;
 @property (readonly, retain) NSString* content;
 - (BOOL) isAdmin;
+@property (readonly) int32_t chatId;
 
 + (GroupChatMessageProto*) defaultInstance;
 - (GroupChatMessageProto*) defaultInstance;
@@ -2058,6 +2263,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) isAdmin;
 - (GroupChatMessageProto_Builder*) setIsAdmin:(BOOL) value;
 - (GroupChatMessageProto_Builder*) clearIsAdmin;
+
+- (BOOL) hasChatId;
+- (int32_t) chatId;
+- (GroupChatMessageProto_Builder*) setChatId:(int32_t) value;
+- (GroupChatMessageProto_Builder*) clearChatId;
 @end
 
 @interface LockBoxEventProto : PBGeneratedMessage {
@@ -3677,22 +3887,23 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface FullUserProto : PBGeneratedMessage {
 @private
+  BOOL hasIsAdmin_:1;
+  BOOL hasIsMentor_:1;
   BOOL hasIsFake_:1;
   BOOL hasHasReceivedfbReward_:1;
-  BOOL hasIsAdmin_:1;
   BOOL hasLastLoginTime_:1;
   BOOL hasCreateTime_:1;
   BOOL hasLastLogoutTime_:1;
   BOOL hasLastTimeAttacked_:1;
   BOOL hasLastBattleNotificationTime_:1;
   BOOL hasLastStaminaRefillTime_:1;
-  BOOL hasLastShortLicensePurchaseTime_:1;
   BOOL hasLastEnergyRefillTime_:1;
+  BOOL hasLastShortLicensePurchaseTime_:1;
   BOOL hasLastLongLicensePurchaseTime_:1;
   BOOL hasLastGoldmineRetrieval_:1;
-  BOOL hasNumPostsInMarketplace_:1;
-  BOOL hasNumMarketplaceSalesUnredeemed_:1;
   BOOL hasNumCoinsRetrievedFromStructs_:1;
+  BOOL hasNumMarketplaceSalesUnredeemed_:1;
+  BOOL hasNumPostsInMarketplace_:1;
   BOOL hasNumAdColonyVideosWatched_:1;
   BOOL hasNumGroupChatsRemaining_:1;
   BOOL hasPrestigeLevel_:1;
@@ -3723,34 +3934,35 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasExperience_:1;
   BOOL hasVaultBalance_:1;
   BOOL hasName_:1;
-  BOOL hasReferralCode_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasUdid_:1;
-  BOOL hasAmuletEquippedUserEquip_:1;
+  BOOL hasReferralCode_:1;
+  BOOL hasClan_:1;
   BOOL hasAmuletTwoEquippedUserEquip_:1;
+  BOOL hasAmuletEquippedUserEquip_:1;
   BOOL hasArmorEquippedUserEquip_:1;
   BOOL hasWeaponEquippedUserEquip_:1;
   BOOL hasArmorTwoEquippedUserEquip_:1;
   BOOL hasWeaponTwoEquippedUserEquip_:1;
-  BOOL hasClan_:1;
   BOOL hasUserLocation_:1;
   BOOL hasUserType_:1;
+  BOOL isAdmin_:1;
+  BOOL isMentor_:1;
   BOOL isFake_:1;
   BOOL hasReceivedfbReward_:1;
-  BOOL isAdmin_:1;
   int64_t lastLoginTime;
   int64_t createTime;
   int64_t lastLogoutTime;
   int64_t lastTimeAttacked;
   int64_t lastBattleNotificationTime;
   int64_t lastStaminaRefillTime;
-  int64_t lastShortLicensePurchaseTime;
   int64_t lastEnergyRefillTime;
+  int64_t lastShortLicensePurchaseTime;
   int64_t lastLongLicensePurchaseTime;
   int64_t lastGoldmineRetrieval;
-  int32_t numPostsInMarketplace;
-  int32_t numMarketplaceSalesUnredeemed;
   int32_t numCoinsRetrievedFromStructs;
+  int32_t numMarketplaceSalesUnredeemed;
+  int32_t numPostsInMarketplace;
   int32_t numAdColonyVideosWatched;
   int32_t numGroupChatsRemaining;
   int32_t prestigeLevel;
@@ -3781,16 +3993,16 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t experience;
   int32_t vaultBalance;
   NSString* name;
-  NSString* referralCode;
   NSString* deviceToken;
   NSString* udid;
-  FullUserEquipProto* amuletEquippedUserEquip;
+  NSString* referralCode;
+  MinimumClanProto* clan;
   FullUserEquipProto* amuletTwoEquippedUserEquip;
+  FullUserEquipProto* amuletEquippedUserEquip;
   FullUserEquipProto* armorEquippedUserEquip;
   FullUserEquipProto* weaponEquippedUserEquip;
   FullUserEquipProto* armorTwoEquippedUserEquip;
   FullUserEquipProto* weaponTwoEquippedUserEquip;
-  MinimumClanProto* clan;
   LocationProto* userLocation;
   UserType userType;
 }
@@ -3843,6 +4055,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasPrestigeLevel;
 - (BOOL) hasNumAdditionalForgeSlots;
 - (BOOL) hasNumBeginnerSalesPurchased;
+- (BOOL) hasIsMentor;
 - (BOOL) hasUdid;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasLastBattleNotificationTime;
@@ -3901,6 +4114,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t prestigeLevel;
 @property (readonly) int32_t numAdditionalForgeSlots;
 @property (readonly) int32_t numBeginnerSalesPurchased;
+- (BOOL) isMentor;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* deviceToken;
 @property (readonly) int64_t lastBattleNotificationTime;
@@ -4205,6 +4419,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) numBeginnerSalesPurchased;
 - (FullUserProto_Builder*) setNumBeginnerSalesPurchased:(int32_t) value;
 - (FullUserProto_Builder*) clearNumBeginnerSalesPurchased;
+
+- (BOOL) hasIsMentor;
+- (BOOL) isMentor;
+- (FullUserProto_Builder*) setIsMentor:(BOOL) value;
+- (FullUserProto_Builder*) clearIsMentor;
 
 - (BOOL) hasUdid;
 - (NSString*) udid;

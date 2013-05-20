@@ -290,8 +290,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   // Check if this user is currently online
   uint64_t curTime = [[NSDate date] timeIntervalSince1970]*1000;
-  NSLog(@"%@, %@", [NSDate dateWithTimeIntervalSince1970:fup.lastLoginTime/1000.], [NSDate dateWithTimeIntervalSince1970:fup.lastLogoutTime/1000.]);
-  self.onlineView.hidden = !(fup.lastLoginTime > fup.lastLogoutTime && curTime > fup.lastLoginTime-60*60*1000);
+  self.onlineView.hidden = !(fup.lastLoginTime > fup.lastLogoutTime && curTime-60*60*1000 < fup.lastLoginTime && !fup.isFake);
   
   CGRect r = self.chatButtonView.frame;
   r.origin.y = self.onlineView.hidden ? self.friendLeftView.frame.size.height/2-self.chatButtonView.frame.size.height/2 : CGRectGetMaxY(self.onlineView.frame);

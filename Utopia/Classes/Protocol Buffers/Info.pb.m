@@ -195,6 +195,808 @@ BOOL ExpansionDirectionIsValidValue(ExpansionDirection value) {
       return NO;
   }
 }
+@interface MentorshipProto ()
+@property int32_t id;
+@property int32_t mentorId;
+@property int32_t menteeId;
+@property int64_t startTime;
+@property int64_t questOneCompleteTime;
+@property int64_t questTwoCompleteTime;
+@property int64_t questThreeCompleteTime;
+@property int64_t questFourCompleteTime;
+@property int64_t questFiveCompleteTime;
+@property BOOL isDropped;
+@end
+
+@implementation MentorshipProto
+
+- (BOOL) hasId {
+  return !!hasId_;
+}
+- (void) setHasId:(BOOL) value {
+  hasId_ = !!value;
+}
+@synthesize id;
+- (BOOL) hasMentorId {
+  return !!hasMentorId_;
+}
+- (void) setHasMentorId:(BOOL) value {
+  hasMentorId_ = !!value;
+}
+@synthesize mentorId;
+- (BOOL) hasMenteeId {
+  return !!hasMenteeId_;
+}
+- (void) setHasMenteeId:(BOOL) value {
+  hasMenteeId_ = !!value;
+}
+@synthesize menteeId;
+- (BOOL) hasStartTime {
+  return !!hasStartTime_;
+}
+- (void) setHasStartTime:(BOOL) value {
+  hasStartTime_ = !!value;
+}
+@synthesize startTime;
+- (BOOL) hasQuestOneCompleteTime {
+  return !!hasQuestOneCompleteTime_;
+}
+- (void) setHasQuestOneCompleteTime:(BOOL) value {
+  hasQuestOneCompleteTime_ = !!value;
+}
+@synthesize questOneCompleteTime;
+- (BOOL) hasQuestTwoCompleteTime {
+  return !!hasQuestTwoCompleteTime_;
+}
+- (void) setHasQuestTwoCompleteTime:(BOOL) value {
+  hasQuestTwoCompleteTime_ = !!value;
+}
+@synthesize questTwoCompleteTime;
+- (BOOL) hasQuestThreeCompleteTime {
+  return !!hasQuestThreeCompleteTime_;
+}
+- (void) setHasQuestThreeCompleteTime:(BOOL) value {
+  hasQuestThreeCompleteTime_ = !!value;
+}
+@synthesize questThreeCompleteTime;
+- (BOOL) hasQuestFourCompleteTime {
+  return !!hasQuestFourCompleteTime_;
+}
+- (void) setHasQuestFourCompleteTime:(BOOL) value {
+  hasQuestFourCompleteTime_ = !!value;
+}
+@synthesize questFourCompleteTime;
+- (BOOL) hasQuestFiveCompleteTime {
+  return !!hasQuestFiveCompleteTime_;
+}
+- (void) setHasQuestFiveCompleteTime:(BOOL) value {
+  hasQuestFiveCompleteTime_ = !!value;
+}
+@synthesize questFiveCompleteTime;
+- (BOOL) hasIsDropped {
+  return !!hasIsDropped_;
+}
+- (void) setHasIsDropped:(BOOL) value {
+  hasIsDropped_ = !!value;
+}
+- (BOOL) isDropped {
+  return !!isDropped_;
+}
+- (void) setIsDropped:(BOOL) value {
+  isDropped_ = !!value;
+}
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.id = 0;
+    self.mentorId = 0;
+    self.menteeId = 0;
+    self.startTime = 0L;
+    self.questOneCompleteTime = 0L;
+    self.questTwoCompleteTime = 0L;
+    self.questThreeCompleteTime = 0L;
+    self.questFourCompleteTime = 0L;
+    self.questFiveCompleteTime = 0L;
+    self.isDropped = NO;
+  }
+  return self;
+}
+static MentorshipProto* defaultMentorshipProtoInstance = nil;
++ (void) initialize {
+  if (self == [MentorshipProto class]) {
+    defaultMentorshipProtoInstance = [[MentorshipProto alloc] init];
+  }
+}
++ (MentorshipProto*) defaultInstance {
+  return defaultMentorshipProtoInstance;
+}
+- (MentorshipProto*) defaultInstance {
+  return defaultMentorshipProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasId) {
+    [output writeInt32:1 value:self.id];
+  }
+  if (self.hasMentorId) {
+    [output writeInt32:2 value:self.mentorId];
+  }
+  if (self.hasMenteeId) {
+    [output writeInt32:3 value:self.menteeId];
+  }
+  if (self.hasStartTime) {
+    [output writeInt64:4 value:self.startTime];
+  }
+  if (self.hasQuestOneCompleteTime) {
+    [output writeInt64:5 value:self.questOneCompleteTime];
+  }
+  if (self.hasQuestTwoCompleteTime) {
+    [output writeInt64:6 value:self.questTwoCompleteTime];
+  }
+  if (self.hasQuestThreeCompleteTime) {
+    [output writeInt64:7 value:self.questThreeCompleteTime];
+  }
+  if (self.hasQuestFourCompleteTime) {
+    [output writeInt64:8 value:self.questFourCompleteTime];
+  }
+  if (self.hasQuestFiveCompleteTime) {
+    [output writeInt64:9 value:self.questFiveCompleteTime];
+  }
+  if (self.hasIsDropped) {
+    [output writeBool:10 value:self.isDropped];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasId) {
+    size += computeInt32Size(1, self.id);
+  }
+  if (self.hasMentorId) {
+    size += computeInt32Size(2, self.mentorId);
+  }
+  if (self.hasMenteeId) {
+    size += computeInt32Size(3, self.menteeId);
+  }
+  if (self.hasStartTime) {
+    size += computeInt64Size(4, self.startTime);
+  }
+  if (self.hasQuestOneCompleteTime) {
+    size += computeInt64Size(5, self.questOneCompleteTime);
+  }
+  if (self.hasQuestTwoCompleteTime) {
+    size += computeInt64Size(6, self.questTwoCompleteTime);
+  }
+  if (self.hasQuestThreeCompleteTime) {
+    size += computeInt64Size(7, self.questThreeCompleteTime);
+  }
+  if (self.hasQuestFourCompleteTime) {
+    size += computeInt64Size(8, self.questFourCompleteTime);
+  }
+  if (self.hasQuestFiveCompleteTime) {
+    size += computeInt64Size(9, self.questFiveCompleteTime);
+  }
+  if (self.hasIsDropped) {
+    size += computeBoolSize(10, self.isDropped);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MentorshipProto*) parseFromData:(NSData*) data {
+  return (MentorshipProto*)[[[MentorshipProto builder] mergeFromData:data] build];
+}
++ (MentorshipProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MentorshipProto*)[[[MentorshipProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MentorshipProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MentorshipProto*)[[[MentorshipProto builder] mergeFromInputStream:input] build];
+}
++ (MentorshipProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MentorshipProto*)[[[MentorshipProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MentorshipProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MentorshipProto*)[[[MentorshipProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MentorshipProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MentorshipProto*)[[[MentorshipProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MentorshipProto_Builder*) builder {
+  return [[[MentorshipProto_Builder alloc] init] autorelease];
+}
++ (MentorshipProto_Builder*) builderWithPrototype:(MentorshipProto*) prototype {
+  return [[MentorshipProto builder] mergeFrom:prototype];
+}
+- (MentorshipProto_Builder*) builder {
+  return [MentorshipProto builder];
+}
+@end
+
+@interface MentorshipProto_Builder()
+@property (retain) MentorshipProto* result;
+@end
+
+@implementation MentorshipProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MentorshipProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MentorshipProto_Builder*) clear {
+  self.result = [[[MentorshipProto alloc] init] autorelease];
+  return self;
+}
+- (MentorshipProto_Builder*) clone {
+  return [MentorshipProto builderWithPrototype:result];
+}
+- (MentorshipProto*) defaultInstance {
+  return [MentorshipProto defaultInstance];
+}
+- (MentorshipProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MentorshipProto*) buildPartial {
+  MentorshipProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MentorshipProto_Builder*) mergeFrom:(MentorshipProto*) other {
+  if (other == [MentorshipProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasId) {
+    [self setId:other.id];
+  }
+  if (other.hasMentorId) {
+    [self setMentorId:other.mentorId];
+  }
+  if (other.hasMenteeId) {
+    [self setMenteeId:other.menteeId];
+  }
+  if (other.hasStartTime) {
+    [self setStartTime:other.startTime];
+  }
+  if (other.hasQuestOneCompleteTime) {
+    [self setQuestOneCompleteTime:other.questOneCompleteTime];
+  }
+  if (other.hasQuestTwoCompleteTime) {
+    [self setQuestTwoCompleteTime:other.questTwoCompleteTime];
+  }
+  if (other.hasQuestThreeCompleteTime) {
+    [self setQuestThreeCompleteTime:other.questThreeCompleteTime];
+  }
+  if (other.hasQuestFourCompleteTime) {
+    [self setQuestFourCompleteTime:other.questFourCompleteTime];
+  }
+  if (other.hasQuestFiveCompleteTime) {
+    [self setQuestFiveCompleteTime:other.questFiveCompleteTime];
+  }
+  if (other.hasIsDropped) {
+    [self setIsDropped:other.isDropped];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MentorshipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MentorshipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setMentorId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setMenteeId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setStartTime:[input readInt64]];
+        break;
+      }
+      case 40: {
+        [self setQuestOneCompleteTime:[input readInt64]];
+        break;
+      }
+      case 48: {
+        [self setQuestTwoCompleteTime:[input readInt64]];
+        break;
+      }
+      case 56: {
+        [self setQuestThreeCompleteTime:[input readInt64]];
+        break;
+      }
+      case 64: {
+        [self setQuestFourCompleteTime:[input readInt64]];
+        break;
+      }
+      case 72: {
+        [self setQuestFiveCompleteTime:[input readInt64]];
+        break;
+      }
+      case 80: {
+        [self setIsDropped:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasId {
+  return result.hasId;
+}
+- (int32_t) id {
+  return result.id;
+}
+- (MentorshipProto_Builder*) setId:(int32_t) value {
+  result.hasId = YES;
+  result.id = value;
+  return self;
+}
+- (MentorshipProto_Builder*) clearId {
+  result.hasId = NO;
+  result.id = 0;
+  return self;
+}
+- (BOOL) hasMentorId {
+  return result.hasMentorId;
+}
+- (int32_t) mentorId {
+  return result.mentorId;
+}
+- (MentorshipProto_Builder*) setMentorId:(int32_t) value {
+  result.hasMentorId = YES;
+  result.mentorId = value;
+  return self;
+}
+- (MentorshipProto_Builder*) clearMentorId {
+  result.hasMentorId = NO;
+  result.mentorId = 0;
+  return self;
+}
+- (BOOL) hasMenteeId {
+  return result.hasMenteeId;
+}
+- (int32_t) menteeId {
+  return result.menteeId;
+}
+- (MentorshipProto_Builder*) setMenteeId:(int32_t) value {
+  result.hasMenteeId = YES;
+  result.menteeId = value;
+  return self;
+}
+- (MentorshipProto_Builder*) clearMenteeId {
+  result.hasMenteeId = NO;
+  result.menteeId = 0;
+  return self;
+}
+- (BOOL) hasStartTime {
+  return result.hasStartTime;
+}
+- (int64_t) startTime {
+  return result.startTime;
+}
+- (MentorshipProto_Builder*) setStartTime:(int64_t) value {
+  result.hasStartTime = YES;
+  result.startTime = value;
+  return self;
+}
+- (MentorshipProto_Builder*) clearStartTime {
+  result.hasStartTime = NO;
+  result.startTime = 0L;
+  return self;
+}
+- (BOOL) hasQuestOneCompleteTime {
+  return result.hasQuestOneCompleteTime;
+}
+- (int64_t) questOneCompleteTime {
+  return result.questOneCompleteTime;
+}
+- (MentorshipProto_Builder*) setQuestOneCompleteTime:(int64_t) value {
+  result.hasQuestOneCompleteTime = YES;
+  result.questOneCompleteTime = value;
+  return self;
+}
+- (MentorshipProto_Builder*) clearQuestOneCompleteTime {
+  result.hasQuestOneCompleteTime = NO;
+  result.questOneCompleteTime = 0L;
+  return self;
+}
+- (BOOL) hasQuestTwoCompleteTime {
+  return result.hasQuestTwoCompleteTime;
+}
+- (int64_t) questTwoCompleteTime {
+  return result.questTwoCompleteTime;
+}
+- (MentorshipProto_Builder*) setQuestTwoCompleteTime:(int64_t) value {
+  result.hasQuestTwoCompleteTime = YES;
+  result.questTwoCompleteTime = value;
+  return self;
+}
+- (MentorshipProto_Builder*) clearQuestTwoCompleteTime {
+  result.hasQuestTwoCompleteTime = NO;
+  result.questTwoCompleteTime = 0L;
+  return self;
+}
+- (BOOL) hasQuestThreeCompleteTime {
+  return result.hasQuestThreeCompleteTime;
+}
+- (int64_t) questThreeCompleteTime {
+  return result.questThreeCompleteTime;
+}
+- (MentorshipProto_Builder*) setQuestThreeCompleteTime:(int64_t) value {
+  result.hasQuestThreeCompleteTime = YES;
+  result.questThreeCompleteTime = value;
+  return self;
+}
+- (MentorshipProto_Builder*) clearQuestThreeCompleteTime {
+  result.hasQuestThreeCompleteTime = NO;
+  result.questThreeCompleteTime = 0L;
+  return self;
+}
+- (BOOL) hasQuestFourCompleteTime {
+  return result.hasQuestFourCompleteTime;
+}
+- (int64_t) questFourCompleteTime {
+  return result.questFourCompleteTime;
+}
+- (MentorshipProto_Builder*) setQuestFourCompleteTime:(int64_t) value {
+  result.hasQuestFourCompleteTime = YES;
+  result.questFourCompleteTime = value;
+  return self;
+}
+- (MentorshipProto_Builder*) clearQuestFourCompleteTime {
+  result.hasQuestFourCompleteTime = NO;
+  result.questFourCompleteTime = 0L;
+  return self;
+}
+- (BOOL) hasQuestFiveCompleteTime {
+  return result.hasQuestFiveCompleteTime;
+}
+- (int64_t) questFiveCompleteTime {
+  return result.questFiveCompleteTime;
+}
+- (MentorshipProto_Builder*) setQuestFiveCompleteTime:(int64_t) value {
+  result.hasQuestFiveCompleteTime = YES;
+  result.questFiveCompleteTime = value;
+  return self;
+}
+- (MentorshipProto_Builder*) clearQuestFiveCompleteTime {
+  result.hasQuestFiveCompleteTime = NO;
+  result.questFiveCompleteTime = 0L;
+  return self;
+}
+- (BOOL) hasIsDropped {
+  return result.hasIsDropped;
+}
+- (BOOL) isDropped {
+  return result.isDropped;
+}
+- (MentorshipProto_Builder*) setIsDropped:(BOOL) value {
+  result.hasIsDropped = YES;
+  result.isDropped = value;
+  return self;
+}
+- (MentorshipProto_Builder*) clearIsDropped {
+  result.hasIsDropped = NO;
+  result.isDropped = NO;
+  return self;
+}
+@end
+
+@interface MinimumUserProtoForMentorship ()
+@property (retain) MinimumUserProto* mup;
+@property int64_t createTime;
+@property BOOL isGood;
+@end
+
+@implementation MinimumUserProtoForMentorship
+
+- (BOOL) hasMup {
+  return !!hasMup_;
+}
+- (void) setHasMup:(BOOL) value {
+  hasMup_ = !!value;
+}
+@synthesize mup;
+- (BOOL) hasCreateTime {
+  return !!hasCreateTime_;
+}
+- (void) setHasCreateTime:(BOOL) value {
+  hasCreateTime_ = !!value;
+}
+@synthesize createTime;
+- (BOOL) hasIsGood {
+  return !!hasIsGood_;
+}
+- (void) setHasIsGood:(BOOL) value {
+  hasIsGood_ = !!value;
+}
+- (BOOL) isGood {
+  return !!isGood_;
+}
+- (void) setIsGood:(BOOL) value {
+  isGood_ = !!value;
+}
+- (void) dealloc {
+  self.mup = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.mup = [MinimumUserProto defaultInstance];
+    self.createTime = 0L;
+    self.isGood = NO;
+  }
+  return self;
+}
+static MinimumUserProtoForMentorship* defaultMinimumUserProtoForMentorshipInstance = nil;
++ (void) initialize {
+  if (self == [MinimumUserProtoForMentorship class]) {
+    defaultMinimumUserProtoForMentorshipInstance = [[MinimumUserProtoForMentorship alloc] init];
+  }
+}
++ (MinimumUserProtoForMentorship*) defaultInstance {
+  return defaultMinimumUserProtoForMentorshipInstance;
+}
+- (MinimumUserProtoForMentorship*) defaultInstance {
+  return defaultMinimumUserProtoForMentorshipInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMup) {
+    [output writeMessage:1 value:self.mup];
+  }
+  if (self.hasCreateTime) {
+    [output writeInt64:2 value:self.createTime];
+  }
+  if (self.hasIsGood) {
+    [output writeBool:3 value:self.isGood];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMup) {
+    size += computeMessageSize(1, self.mup);
+  }
+  if (self.hasCreateTime) {
+    size += computeInt64Size(2, self.createTime);
+  }
+  if (self.hasIsGood) {
+    size += computeBoolSize(3, self.isGood);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumUserProtoForMentorship*) parseFromData:(NSData*) data {
+  return (MinimumUserProtoForMentorship*)[[[MinimumUserProtoForMentorship builder] mergeFromData:data] build];
+}
++ (MinimumUserProtoForMentorship*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoForMentorship*)[[[MinimumUserProtoForMentorship builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoForMentorship*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumUserProtoForMentorship*)[[[MinimumUserProtoForMentorship builder] mergeFromInputStream:input] build];
+}
++ (MinimumUserProtoForMentorship*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoForMentorship*)[[[MinimumUserProtoForMentorship builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoForMentorship*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumUserProtoForMentorship*)[[[MinimumUserProtoForMentorship builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumUserProtoForMentorship*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoForMentorship*)[[[MinimumUserProtoForMentorship builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoForMentorship_Builder*) builder {
+  return [[[MinimumUserProtoForMentorship_Builder alloc] init] autorelease];
+}
++ (MinimumUserProtoForMentorship_Builder*) builderWithPrototype:(MinimumUserProtoForMentorship*) prototype {
+  return [[MinimumUserProtoForMentorship builder] mergeFrom:prototype];
+}
+- (MinimumUserProtoForMentorship_Builder*) builder {
+  return [MinimumUserProtoForMentorship builder];
+}
+@end
+
+@interface MinimumUserProtoForMentorship_Builder()
+@property (retain) MinimumUserProtoForMentorship* result;
+@end
+
+@implementation MinimumUserProtoForMentorship_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumUserProtoForMentorship alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumUserProtoForMentorship_Builder*) clear {
+  self.result = [[[MinimumUserProtoForMentorship alloc] init] autorelease];
+  return self;
+}
+- (MinimumUserProtoForMentorship_Builder*) clone {
+  return [MinimumUserProtoForMentorship builderWithPrototype:result];
+}
+- (MinimumUserProtoForMentorship*) defaultInstance {
+  return [MinimumUserProtoForMentorship defaultInstance];
+}
+- (MinimumUserProtoForMentorship*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumUserProtoForMentorship*) buildPartial {
+  MinimumUserProtoForMentorship* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumUserProtoForMentorship_Builder*) mergeFrom:(MinimumUserProtoForMentorship*) other {
+  if (other == [MinimumUserProtoForMentorship defaultInstance]) {
+    return self;
+  }
+  if (other.hasMup) {
+    [self mergeMup:other.mup];
+  }
+  if (other.hasCreateTime) {
+    [self setCreateTime:other.createTime];
+  }
+  if (other.hasIsGood) {
+    [self setIsGood:other.isGood];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumUserProtoForMentorship_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumUserProtoForMentorship_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasMup) {
+          [subBuilder mergeFrom:self.mup];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMup:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setCreateTime:[input readInt64]];
+        break;
+      }
+      case 24: {
+        [self setIsGood:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMup {
+  return result.hasMup;
+}
+- (MinimumUserProto*) mup {
+  return result.mup;
+}
+- (MinimumUserProtoForMentorship_Builder*) setMup:(MinimumUserProto*) value {
+  result.hasMup = YES;
+  result.mup = value;
+  return self;
+}
+- (MinimumUserProtoForMentorship_Builder*) setMupBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setMup:[builderForValue build]];
+}
+- (MinimumUserProtoForMentorship_Builder*) mergeMup:(MinimumUserProto*) value {
+  if (result.hasMup &&
+      result.mup != [MinimumUserProto defaultInstance]) {
+    result.mup =
+      [[[MinimumUserProto builderWithPrototype:result.mup] mergeFrom:value] buildPartial];
+  } else {
+    result.mup = value;
+  }
+  result.hasMup = YES;
+  return self;
+}
+- (MinimumUserProtoForMentorship_Builder*) clearMup {
+  result.hasMup = NO;
+  result.mup = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasCreateTime {
+  return result.hasCreateTime;
+}
+- (int64_t) createTime {
+  return result.createTime;
+}
+- (MinimumUserProtoForMentorship_Builder*) setCreateTime:(int64_t) value {
+  result.hasCreateTime = YES;
+  result.createTime = value;
+  return self;
+}
+- (MinimumUserProtoForMentorship_Builder*) clearCreateTime {
+  result.hasCreateTime = NO;
+  result.createTime = 0L;
+  return self;
+}
+- (BOOL) hasIsGood {
+  return result.hasIsGood;
+}
+- (BOOL) isGood {
+  return result.isGood;
+}
+- (MinimumUserProtoForMentorship_Builder*) setIsGood:(BOOL) value {
+  result.hasIsGood = YES;
+  result.isGood = value;
+  return self;
+}
+- (MinimumUserProtoForMentorship_Builder*) clearIsGood {
+  result.hasIsGood = NO;
+  result.isGood = NO;
+  return self;
+}
+@end
+
 @interface PrivateChatPostProto ()
 @property int32_t privateChatPostId;
 @property (retain) MinimumUserProto* poster;
@@ -6977,6 +7779,7 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
 @property int64_t timeOfChat;
 @property (retain) NSString* content;
 @property BOOL isAdmin;
+@property int32_t chatId;
 @end
 
 @implementation GroupChatMessageProto
@@ -7014,6 +7817,13 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
 - (void) setIsAdmin:(BOOL) value {
   isAdmin_ = !!value;
 }
+- (BOOL) hasChatId {
+  return !!hasChatId_;
+}
+- (void) setHasChatId:(BOOL) value {
+  hasChatId_ = !!value;
+}
+@synthesize chatId;
 - (void) dealloc {
   self.sender = nil;
   self.content = nil;
@@ -7025,6 +7835,7 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
     self.timeOfChat = 0L;
     self.content = @"";
     self.isAdmin = NO;
+    self.chatId = 0;
   }
   return self;
 }
@@ -7056,6 +7867,9 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
   if (self.hasIsAdmin) {
     [output writeBool:4 value:self.isAdmin];
   }
+  if (self.hasChatId) {
+    [output writeInt32:5 value:self.chatId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -7076,6 +7890,9 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
   }
   if (self.hasIsAdmin) {
     size += computeBoolSize(4, self.isAdmin);
+  }
+  if (self.hasChatId) {
+    size += computeInt32Size(5, self.chatId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -7164,6 +7981,9 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
   if (other.hasIsAdmin) {
     [self setIsAdmin:other.isAdmin];
   }
+  if (other.hasChatId) {
+    [self setChatId:other.chatId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -7204,6 +8024,10 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
       }
       case 32: {
         [self setIsAdmin:[input readBool]];
+        break;
+      }
+      case 40: {
+        [self setChatId:[input readInt32]];
         break;
       }
     }
@@ -7285,6 +8109,22 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
 - (GroupChatMessageProto_Builder*) clearIsAdmin {
   result.hasIsAdmin = NO;
   result.isAdmin = NO;
+  return self;
+}
+- (BOOL) hasChatId {
+  return result.hasChatId;
+}
+- (int32_t) chatId {
+  return result.chatId;
+}
+- (GroupChatMessageProto_Builder*) setChatId:(int32_t) value {
+  result.hasChatId = YES;
+  result.chatId = value;
+  return self;
+}
+- (GroupChatMessageProto_Builder*) clearChatId {
+  result.hasChatId = NO;
+  result.chatId = 0;
   return self;
 }
 @end
@@ -13911,6 +14751,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 @property int32_t prestigeLevel;
 @property int32_t numAdditionalForgeSlots;
 @property int32_t numBeginnerSalesPurchased;
+@property BOOL isMentor;
 @property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -14282,6 +15123,18 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   hasNumBeginnerSalesPurchased_ = !!value;
 }
 @synthesize numBeginnerSalesPurchased;
+- (BOOL) hasIsMentor {
+  return !!hasIsMentor_;
+}
+- (void) setHasIsMentor:(BOOL) value {
+  hasIsMentor_ = !!value;
+}
+- (BOOL) isMentor {
+  return !!isMentor_;
+}
+- (void) setIsMentor:(BOOL) value {
+  isMentor_ = !!value;
+}
 - (BOOL) hasUdid {
   return !!hasUdid_;
 }
@@ -14411,6 +15264,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
     self.prestigeLevel = 0;
     self.numAdditionalForgeSlots = 0;
     self.numBeginnerSalesPurchased = 0;
+    self.isMentor = NO;
     self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -14613,6 +15467,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumBeginnerSalesPurchased) {
     [output writeInt32:63 value:self.numBeginnerSalesPurchased];
   }
+  if (self.hasIsMentor) {
+    [output writeBool:64 value:self.isMentor];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -14795,6 +15652,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasNumBeginnerSalesPurchased) {
     size += computeInt32Size(63, self.numBeginnerSalesPurchased);
+  }
+  if (self.hasIsMentor) {
+    size += computeBoolSize(64, self.isMentor);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -15017,6 +15877,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasNumBeginnerSalesPurchased) {
     [self setNumBeginnerSalesPurchased:other.numBeginnerSalesPurchased];
+  }
+  if (other.hasIsMentor) {
+    [self setIsMentor:other.isMentor];
   }
   if (other.hasUdid) {
     [self setUdid:other.udid];
@@ -15341,6 +16204,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 504: {
         [self setNumBeginnerSalesPurchased:[input readInt32]];
+        break;
+      }
+      case 512: {
+        [self setIsMentor:[input readBool]];
         break;
       }
     }
@@ -16240,6 +17107,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearNumBeginnerSalesPurchased {
   result.hasNumBeginnerSalesPurchased = NO;
   result.numBeginnerSalesPurchased = 0;
+  return self;
+}
+- (BOOL) hasIsMentor {
+  return result.hasIsMentor;
+}
+- (BOOL) isMentor {
+  return result.isMentor;
+}
+- (FullUserProto_Builder*) setIsMentor:(BOOL) value {
+  result.hasIsMentor = YES;
+  result.isMentor = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearIsMentor {
+  result.hasIsMentor = NO;
+  result.isMentor = NO;
   return self;
 }
 - (BOOL) hasUdid {

@@ -739,11 +739,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   InAppPurchaseResponseProto *proto = (InAppPurchaseResponseProto *)fe.event;
   int tag = fe.tag;
   
+  GameState *gs = [GameState sharedGameState];
+  
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"In App Purchase response received with status %d.", proto.status);
   
   GoldShoppeViewController *gsvc = [GoldShoppeViewController sharedGoldShoppeViewController];
   [gsvc stopLoading];
   gsvc.state = gsvc.state;
+  [gs resetGoldSaleTimers];
   
   NSString *key = IAP_DEFAULTS_KEY;
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -761,7 +764,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [defaults synchronize];
   }
   
-  GameState *gs = [GameState sharedGameState];
   if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusSuccess) {
     // Duplicate receipt might occur if you close app before response comes back
     if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusDuplicateReceipt) {
@@ -2784,7 +2786,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetrievePrivateChatPostsResponseProto:(FullEvent *)fe {
   RetrievePrivateChatPostsResponseProto *proto = (RetrievePrivateChatPostsResponseProto *)fe.event;
   [[ChatMenuController sharedChatMenuController] receivedRetrievePrivateChats:proto];
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve private chats received with status %d.", proto.status);
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve private chats received with status %d and %d posts.", proto.status, proto.postsList.count);
 }
 
 - (void) handleRedeemUserLockBoxItemsResponseProto:(FullEvent *)fe {

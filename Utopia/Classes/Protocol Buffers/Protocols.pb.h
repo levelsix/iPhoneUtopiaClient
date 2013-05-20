@@ -24,6 +24,10 @@
 @class BeginGoldmineTimerRequestProto_Builder;
 @class BeginGoldmineTimerResponseProto;
 @class BeginGoldmineTimerResponseProto_Builder;
+@class BeginMentoringUserRequestProto;
+@class BeginMentoringUserRequestProto_Builder;
+@class BeginMentoringUserResponseProto;
+@class BeginMentoringUserResponseProto_Builder;
 @class BoosterItemProto;
 @class BoosterItemProto_Builder;
 @class BoosterPackProto;
@@ -102,6 +106,10 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
+@class DropMenteeRequestProto;
+@class DropMenteeRequestProto_Builder;
+@class DropMenteeResponseProto;
+@class DropMenteeResponseProto_Builder;
 @class EarnFreeDiamondsRequestProto;
 @class EarnFreeDiamondsRequestProto_Builder;
 @class EarnFreeDiamondsResponseProto;
@@ -216,6 +224,10 @@
 @class LockBoxItemProto_Builder;
 @class LogoutRequestProto;
 @class LogoutRequestProto_Builder;
+@class MenteeBecameAvailableResponseProto;
+@class MenteeBecameAvailableResponseProto_Builder;
+@class MentorshipProto;
+@class MentorshipProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
@@ -229,6 +241,8 @@
 @class MinimumUserProtoForClanTowerScores_Builder;
 @class MinimumUserProtoForClans;
 @class MinimumUserProtoForClans_Builder;
+@class MinimumUserProtoForMentorship;
+@class MinimumUserProtoForMentorship_Builder;
 @class MinimumUserProtoWithBattleHistory;
 @class MinimumUserProtoWithBattleHistory_Builder;
 @class MinimumUserProtoWithLevel;
@@ -372,6 +386,14 @@
 @class RetractRequestJoinClanRequestProto_Builder;
 @class RetractRequestJoinClanResponseProto;
 @class RetractRequestJoinClanResponseProto_Builder;
+@class RetrieveAllMentorsRequestProto;
+@class RetrieveAllMentorsRequestProto_Builder;
+@class RetrieveAllMentorsResponseProto;
+@class RetrieveAllMentorsResponseProto_Builder;
+@class RetrieveAvailableMenteesRequestProto;
+@class RetrieveAvailableMenteesRequestProto_Builder;
+@class RetrieveAvailableMenteesResponseProto;
+@class RetrieveAvailableMenteesResponseProto_Builder;
 @class RetrieveBoosterPackRequestProto;
 @class RetrieveBoosterPackRequestProto_Builder;
 @class RetrieveBoosterPackResponseProto;
@@ -406,6 +428,10 @@
 @class RetrieveLeaderboardRequestProto_Builder;
 @class RetrieveLeaderboardResponseProto;
 @class RetrieveLeaderboardResponseProto_Builder;
+@class RetrieveMyMenteesRequestProto;
+@class RetrieveMyMenteesRequestProto_Builder;
+@class RetrieveMyMenteesResponseProto;
+@class RetrieveMyMenteesResponseProto_Builder;
 @class RetrievePlayerWallPostsRequestProto;
 @class RetrievePlayerWallPostsRequestProto_Builder;
 @class RetrievePlayerWallPostsResponseProto;
@@ -641,6 +667,11 @@ typedef enum {
   EventProtocolRequestCPrivateChatPostEvent = 87,
   EventProtocolRequestCRetrievePrivateChatPostEvent = 88,
   EventProtocolRequestCRedeemUserLockBoxItemsEvent = 89,
+  EventProtocolRequestCBeginMentoringUserEvent = 90,
+  EventProtocolRequestCRetrieveAllMentorsEvent = 91,
+  EventProtocolRequestCRetrieveAvailableMenteesEvent = 92,
+  EventProtocolRequestCDropMenteeEvent = 93,
+  EventProtocolRequestCRetrieveMyMentees = 94,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -735,6 +766,11 @@ typedef enum {
   EventProtocolResponseSPrivateChatPostEvent = 87,
   EventProtocolResponseSRetrievePrivateChatPostEvent = 88,
   EventProtocolResponseSRedeemUserLockBoxItemsEvent = 89,
+  EventProtocolResponseSBeginMentoringUserEvent = 90,
+  EventProtocolResponseSRetrieveAllMentorsEvent = 91,
+  EventProtocolResponseSRetrieveAvailableMenteesEvent = 92,
+  EventProtocolResponseSDropMenteeEvent = 93,
+  EventProtocolResponseSRetrieveMyMentees = 94,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,
@@ -743,6 +779,7 @@ typedef enum {
   EventProtocolResponseSSendAdminMessageEvent = 106,
   EventProtocolResponseSGeneralNotificationEvent = 107,
   EventProtocolResponseSReceivedRareBoosterPurchaseEvent = 108,
+  EventProtocolResponseSMenteeBecameAvailableEvent = 109,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

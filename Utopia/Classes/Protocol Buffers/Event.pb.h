@@ -24,6 +24,10 @@
 @class BeginGoldmineTimerRequestProto_Builder;
 @class BeginGoldmineTimerResponseProto;
 @class BeginGoldmineTimerResponseProto_Builder;
+@class BeginMentoringUserRequestProto;
+@class BeginMentoringUserRequestProto_Builder;
+@class BeginMentoringUserResponseProto;
+@class BeginMentoringUserResponseProto_Builder;
 @class BoosterItemProto;
 @class BoosterItemProto_Builder;
 @class BoosterPackProto;
@@ -102,6 +106,10 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
+@class DropMenteeRequestProto;
+@class DropMenteeRequestProto_Builder;
+@class DropMenteeResponseProto;
+@class DropMenteeResponseProto_Builder;
 @class EarnFreeDiamondsRequestProto;
 @class EarnFreeDiamondsRequestProto_Builder;
 @class EarnFreeDiamondsResponseProto;
@@ -216,6 +224,10 @@
 @class LockBoxItemProto_Builder;
 @class LogoutRequestProto;
 @class LogoutRequestProto_Builder;
+@class MenteeBecameAvailableResponseProto;
+@class MenteeBecameAvailableResponseProto_Builder;
+@class MentorshipProto;
+@class MentorshipProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
@@ -229,6 +241,8 @@
 @class MinimumUserProtoForClanTowerScores_Builder;
 @class MinimumUserProtoForClans;
 @class MinimumUserProtoForClans_Builder;
+@class MinimumUserProtoForMentorship;
+@class MinimumUserProtoForMentorship_Builder;
 @class MinimumUserProtoWithBattleHistory;
 @class MinimumUserProtoWithBattleHistory_Builder;
 @class MinimumUserProtoWithLevel;
@@ -372,6 +386,14 @@
 @class RetractRequestJoinClanRequestProto_Builder;
 @class RetractRequestJoinClanResponseProto;
 @class RetractRequestJoinClanResponseProto_Builder;
+@class RetrieveAllMentorsRequestProto;
+@class RetrieveAllMentorsRequestProto_Builder;
+@class RetrieveAllMentorsResponseProto;
+@class RetrieveAllMentorsResponseProto_Builder;
+@class RetrieveAvailableMenteesRequestProto;
+@class RetrieveAvailableMenteesRequestProto_Builder;
+@class RetrieveAvailableMenteesResponseProto;
+@class RetrieveAvailableMenteesResponseProto_Builder;
 @class RetrieveBoosterPackRequestProto;
 @class RetrieveBoosterPackRequestProto_Builder;
 @class RetrieveBoosterPackResponseProto;
@@ -406,6 +428,10 @@
 @class RetrieveLeaderboardRequestProto_Builder;
 @class RetrieveLeaderboardResponseProto;
 @class RetrieveLeaderboardResponseProto_Builder;
+@class RetrieveMyMenteesRequestProto;
+@class RetrieveMyMenteesRequestProto_Builder;
+@class RetrieveMyMenteesResponseProto;
+@class RetrieveMyMenteesResponseProto_Builder;
 @class RetrievePlayerWallPostsRequestProto;
 @class RetrievePlayerWallPostsRequestProto_Builder;
 @class RetrievePlayerWallPostsResponseProto;
@@ -1441,6 +1467,47 @@ typedef enum {
 } RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatus;
 
 BOOL RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatusIsValidValue(RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatus value);
+
+typedef enum {
+  BeginMentoringUserResponseProto_BeginMentoringUserStatusSuccess = 0,
+  BeginMentoringUserResponseProto_BeginMentoringUserStatusFailOther = 1,
+  BeginMentoringUserResponseProto_BeginMentoringUserStatusFailAlreadyAtMaxNumMentees = 2,
+  BeginMentoringUserResponseProto_BeginMentoringUserStatusFailTooEarlyToAcquireMentee = 3,
+  BeginMentoringUserResponseProto_BeginMentoringUserStatusFailAlreadyBeingMentored = 4,
+  BeginMentoringUserResponseProto_BeginMentoringUserStatusFailNotMentor = 5,
+  BeginMentoringUserResponseProto_BeginMentoringUserStatusFailWrongSide = 6,
+} BeginMentoringUserResponseProto_BeginMentoringUserStatus;
+
+BOOL BeginMentoringUserResponseProto_BeginMentoringUserStatusIsValidValue(BeginMentoringUserResponseProto_BeginMentoringUserStatus value);
+
+typedef enum {
+  RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatusSuccess = 1,
+  RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatusFailOther = 2,
+} RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatus;
+
+BOOL RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatusIsValidValue(RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatus value);
+
+typedef enum {
+  RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatusSuccess = 1,
+  RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatusFailOther = 2,
+} RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatus;
+
+BOOL RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatusIsValidValue(RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatus value);
+
+typedef enum {
+  DropMenteeResponseProto_DropMenteeStatusSuccess = 1,
+  DropMenteeResponseProto_DropMenteeStatusFailNotMentee = 2,
+  DropMenteeResponseProto_DropMenteeStatusFailOther = 3,
+} DropMenteeResponseProto_DropMenteeStatus;
+
+BOOL DropMenteeResponseProto_DropMenteeStatusIsValidValue(DropMenteeResponseProto_DropMenteeStatus value);
+
+typedef enum {
+  RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusSuccess = 1,
+  RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusFailOther = 2,
+} RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatus;
+
+BOOL RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusIsValidValue(RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -19152,5 +19219,687 @@ BOOL RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatusIsValidValu
 - (RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatus) status;
 - (RedeemUserLockBoxItemsResponseProto_Builder*) setStatus:(RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatus) value;
 - (RedeemUserLockBoxItemsResponseProto_Builder*) clearStatus;
+@end
+
+@interface BeginMentoringUserRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasMenteeId_:1;
+  BOOL hasSender_:1;
+  int64_t clientTime;
+  int32_t menteeId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasMenteeId;
+- (BOOL) hasClientTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t menteeId;
+@property (readonly) int64_t clientTime;
+
++ (BeginMentoringUserRequestProto*) defaultInstance;
+- (BeginMentoringUserRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BeginMentoringUserRequestProto_Builder*) builder;
++ (BeginMentoringUserRequestProto_Builder*) builder;
++ (BeginMentoringUserRequestProto_Builder*) builderWithPrototype:(BeginMentoringUserRequestProto*) prototype;
+
++ (BeginMentoringUserRequestProto*) parseFromData:(NSData*) data;
++ (BeginMentoringUserRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginMentoringUserRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (BeginMentoringUserRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginMentoringUserRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BeginMentoringUserRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BeginMentoringUserRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BeginMentoringUserRequestProto* result;
+}
+
+- (BeginMentoringUserRequestProto*) defaultInstance;
+
+- (BeginMentoringUserRequestProto_Builder*) clear;
+- (BeginMentoringUserRequestProto_Builder*) clone;
+
+- (BeginMentoringUserRequestProto*) build;
+- (BeginMentoringUserRequestProto*) buildPartial;
+
+- (BeginMentoringUserRequestProto_Builder*) mergeFrom:(BeginMentoringUserRequestProto*) other;
+- (BeginMentoringUserRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BeginMentoringUserRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BeginMentoringUserRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BeginMentoringUserRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginMentoringUserRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BeginMentoringUserRequestProto_Builder*) clearSender;
+
+- (BOOL) hasMenteeId;
+- (int32_t) menteeId;
+- (BeginMentoringUserRequestProto_Builder*) setMenteeId:(int32_t) value;
+- (BeginMentoringUserRequestProto_Builder*) clearMenteeId;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (BeginMentoringUserRequestProto_Builder*) setClientTime:(int64_t) value;
+- (BeginMentoringUserRequestProto_Builder*) clearClientTime;
+@end
+
+@interface BeginMentoringUserResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasIsGood_:1;
+  BOOL hasSender_:1;
+  BOOL hasMentorship_:1;
+  BOOL hasStatus_:1;
+  BOOL isGood_:1;
+  MinimumUserProto* sender;
+  MentorshipProto* mentorship;
+  BeginMentoringUserResponseProto_BeginMentoringUserStatus status;
+  NSMutableArray* mutableInitialMessagesList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasMentorship;
+- (BOOL) hasIsGood;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) BeginMentoringUserResponseProto_BeginMentoringUserStatus status;
+@property (readonly, retain) MentorshipProto* mentorship;
+- (BOOL) isGood;
+- (NSArray*) initialMessagesList;
+- (PrivateChatPostProto*) initialMessagesAtIndex:(int32_t) index;
+
++ (BeginMentoringUserResponseProto*) defaultInstance;
+- (BeginMentoringUserResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BeginMentoringUserResponseProto_Builder*) builder;
++ (BeginMentoringUserResponseProto_Builder*) builder;
++ (BeginMentoringUserResponseProto_Builder*) builderWithPrototype:(BeginMentoringUserResponseProto*) prototype;
+
++ (BeginMentoringUserResponseProto*) parseFromData:(NSData*) data;
++ (BeginMentoringUserResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginMentoringUserResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (BeginMentoringUserResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginMentoringUserResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BeginMentoringUserResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BeginMentoringUserResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BeginMentoringUserResponseProto* result;
+}
+
+- (BeginMentoringUserResponseProto*) defaultInstance;
+
+- (BeginMentoringUserResponseProto_Builder*) clear;
+- (BeginMentoringUserResponseProto_Builder*) clone;
+
+- (BeginMentoringUserResponseProto*) build;
+- (BeginMentoringUserResponseProto*) buildPartial;
+
+- (BeginMentoringUserResponseProto_Builder*) mergeFrom:(BeginMentoringUserResponseProto*) other;
+- (BeginMentoringUserResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BeginMentoringUserResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BeginMentoringUserResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BeginMentoringUserResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginMentoringUserResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BeginMentoringUserResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (BeginMentoringUserResponseProto_BeginMentoringUserStatus) status;
+- (BeginMentoringUserResponseProto_Builder*) setStatus:(BeginMentoringUserResponseProto_BeginMentoringUserStatus) value;
+- (BeginMentoringUserResponseProto_Builder*) clearStatus;
+
+- (NSArray*) initialMessagesList;
+- (PrivateChatPostProto*) initialMessagesAtIndex:(int32_t) index;
+- (BeginMentoringUserResponseProto_Builder*) replaceInitialMessagesAtIndex:(int32_t) index with:(PrivateChatPostProto*) value;
+- (BeginMentoringUserResponseProto_Builder*) addInitialMessages:(PrivateChatPostProto*) value;
+- (BeginMentoringUserResponseProto_Builder*) addAllInitialMessages:(NSArray*) values;
+- (BeginMentoringUserResponseProto_Builder*) clearInitialMessagesList;
+
+- (BOOL) hasMentorship;
+- (MentorshipProto*) mentorship;
+- (BeginMentoringUserResponseProto_Builder*) setMentorship:(MentorshipProto*) value;
+- (BeginMentoringUserResponseProto_Builder*) setMentorshipBuilder:(MentorshipProto_Builder*) builderForValue;
+- (BeginMentoringUserResponseProto_Builder*) mergeMentorship:(MentorshipProto*) value;
+- (BeginMentoringUserResponseProto_Builder*) clearMentorship;
+
+- (BOOL) hasIsGood;
+- (BOOL) isGood;
+- (BeginMentoringUserResponseProto_Builder*) setIsGood:(BOOL) value;
+- (BeginMentoringUserResponseProto_Builder*) clearIsGood;
+@end
+
+@interface MenteeBecameAvailableResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasMentee_:1;
+  MinimumUserProtoForMentorship* mentee;
+}
+- (BOOL) hasMentee;
+@property (readonly, retain) MinimumUserProtoForMentorship* mentee;
+
++ (MenteeBecameAvailableResponseProto*) defaultInstance;
+- (MenteeBecameAvailableResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MenteeBecameAvailableResponseProto_Builder*) builder;
++ (MenteeBecameAvailableResponseProto_Builder*) builder;
++ (MenteeBecameAvailableResponseProto_Builder*) builderWithPrototype:(MenteeBecameAvailableResponseProto*) prototype;
+
++ (MenteeBecameAvailableResponseProto*) parseFromData:(NSData*) data;
++ (MenteeBecameAvailableResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MenteeBecameAvailableResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (MenteeBecameAvailableResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MenteeBecameAvailableResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MenteeBecameAvailableResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MenteeBecameAvailableResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  MenteeBecameAvailableResponseProto* result;
+}
+
+- (MenteeBecameAvailableResponseProto*) defaultInstance;
+
+- (MenteeBecameAvailableResponseProto_Builder*) clear;
+- (MenteeBecameAvailableResponseProto_Builder*) clone;
+
+- (MenteeBecameAvailableResponseProto*) build;
+- (MenteeBecameAvailableResponseProto*) buildPartial;
+
+- (MenteeBecameAvailableResponseProto_Builder*) mergeFrom:(MenteeBecameAvailableResponseProto*) other;
+- (MenteeBecameAvailableResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MenteeBecameAvailableResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMentee;
+- (MinimumUserProtoForMentorship*) mentee;
+- (MenteeBecameAvailableResponseProto_Builder*) setMentee:(MinimumUserProtoForMentorship*) value;
+- (MenteeBecameAvailableResponseProto_Builder*) setMenteeBuilder:(MinimumUserProtoForMentorship_Builder*) builderForValue;
+- (MenteeBecameAvailableResponseProto_Builder*) mergeMentee:(MinimumUserProtoForMentorship*) value;
+- (MenteeBecameAvailableResponseProto_Builder*) clearMentee;
+@end
+
+@interface RetrieveAllMentorsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+
++ (RetrieveAllMentorsRequestProto*) defaultInstance;
+- (RetrieveAllMentorsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveAllMentorsRequestProto_Builder*) builder;
++ (RetrieveAllMentorsRequestProto_Builder*) builder;
++ (RetrieveAllMentorsRequestProto_Builder*) builderWithPrototype:(RetrieveAllMentorsRequestProto*) prototype;
+
++ (RetrieveAllMentorsRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveAllMentorsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveAllMentorsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveAllMentorsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveAllMentorsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveAllMentorsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveAllMentorsRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveAllMentorsRequestProto* result;
+}
+
+- (RetrieveAllMentorsRequestProto*) defaultInstance;
+
+- (RetrieveAllMentorsRequestProto_Builder*) clear;
+- (RetrieveAllMentorsRequestProto_Builder*) clone;
+
+- (RetrieveAllMentorsRequestProto*) build;
+- (RetrieveAllMentorsRequestProto*) buildPartial;
+
+- (RetrieveAllMentorsRequestProto_Builder*) mergeFrom:(RetrieveAllMentorsRequestProto*) other;
+- (RetrieveAllMentorsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveAllMentorsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveAllMentorsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveAllMentorsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveAllMentorsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveAllMentorsRequestProto_Builder*) clearSender;
+@end
+
+@interface RetrieveAllMentorsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatus status;
+  NSMutableArray* mutableMentorsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatus status;
+- (NSArray*) mentorsList;
+- (MinimumUserProto*) mentorsAtIndex:(int32_t) index;
+
++ (RetrieveAllMentorsResponseProto*) defaultInstance;
+- (RetrieveAllMentorsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveAllMentorsResponseProto_Builder*) builder;
++ (RetrieveAllMentorsResponseProto_Builder*) builder;
++ (RetrieveAllMentorsResponseProto_Builder*) builderWithPrototype:(RetrieveAllMentorsResponseProto*) prototype;
+
++ (RetrieveAllMentorsResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveAllMentorsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveAllMentorsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveAllMentorsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveAllMentorsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveAllMentorsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveAllMentorsResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveAllMentorsResponseProto* result;
+}
+
+- (RetrieveAllMentorsResponseProto*) defaultInstance;
+
+- (RetrieveAllMentorsResponseProto_Builder*) clear;
+- (RetrieveAllMentorsResponseProto_Builder*) clone;
+
+- (RetrieveAllMentorsResponseProto*) build;
+- (RetrieveAllMentorsResponseProto*) buildPartial;
+
+- (RetrieveAllMentorsResponseProto_Builder*) mergeFrom:(RetrieveAllMentorsResponseProto*) other;
+- (RetrieveAllMentorsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveAllMentorsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveAllMentorsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveAllMentorsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveAllMentorsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveAllMentorsResponseProto_Builder*) clearSender;
+
+- (NSArray*) mentorsList;
+- (MinimumUserProto*) mentorsAtIndex:(int32_t) index;
+- (RetrieveAllMentorsResponseProto_Builder*) replaceMentorsAtIndex:(int32_t) index with:(MinimumUserProto*) value;
+- (RetrieveAllMentorsResponseProto_Builder*) addMentors:(MinimumUserProto*) value;
+- (RetrieveAllMentorsResponseProto_Builder*) addAllMentors:(NSArray*) values;
+- (RetrieveAllMentorsResponseProto_Builder*) clearMentorsList;
+
+- (BOOL) hasStatus;
+- (RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatus) status;
+- (RetrieveAllMentorsResponseProto_Builder*) setStatus:(RetrieveAllMentorsResponseProto_RetrieveAllMentorsStatus) value;
+- (RetrieveAllMentorsResponseProto_Builder*) clearStatus;
+@end
+
+@interface RetrieveAvailableMenteesRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+
++ (RetrieveAvailableMenteesRequestProto*) defaultInstance;
+- (RetrieveAvailableMenteesRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveAvailableMenteesRequestProto_Builder*) builder;
++ (RetrieveAvailableMenteesRequestProto_Builder*) builder;
++ (RetrieveAvailableMenteesRequestProto_Builder*) builderWithPrototype:(RetrieveAvailableMenteesRequestProto*) prototype;
+
++ (RetrieveAvailableMenteesRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveAvailableMenteesRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveAvailableMenteesRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveAvailableMenteesRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveAvailableMenteesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveAvailableMenteesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveAvailableMenteesRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveAvailableMenteesRequestProto* result;
+}
+
+- (RetrieveAvailableMenteesRequestProto*) defaultInstance;
+
+- (RetrieveAvailableMenteesRequestProto_Builder*) clear;
+- (RetrieveAvailableMenteesRequestProto_Builder*) clone;
+
+- (RetrieveAvailableMenteesRequestProto*) build;
+- (RetrieveAvailableMenteesRequestProto*) buildPartial;
+
+- (RetrieveAvailableMenteesRequestProto_Builder*) mergeFrom:(RetrieveAvailableMenteesRequestProto*) other;
+- (RetrieveAvailableMenteesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveAvailableMenteesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveAvailableMenteesRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveAvailableMenteesRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveAvailableMenteesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveAvailableMenteesRequestProto_Builder*) clearSender;
+@end
+
+@interface RetrieveAvailableMenteesResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatus status;
+  NSMutableArray* mutableMenteesList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatus status;
+- (NSArray*) menteesList;
+- (MinimumUserProtoForMentorship*) menteesAtIndex:(int32_t) index;
+
++ (RetrieveAvailableMenteesResponseProto*) defaultInstance;
+- (RetrieveAvailableMenteesResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveAvailableMenteesResponseProto_Builder*) builder;
++ (RetrieveAvailableMenteesResponseProto_Builder*) builder;
++ (RetrieveAvailableMenteesResponseProto_Builder*) builderWithPrototype:(RetrieveAvailableMenteesResponseProto*) prototype;
+
++ (RetrieveAvailableMenteesResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveAvailableMenteesResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveAvailableMenteesResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveAvailableMenteesResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveAvailableMenteesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveAvailableMenteesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveAvailableMenteesResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveAvailableMenteesResponseProto* result;
+}
+
+- (RetrieveAvailableMenteesResponseProto*) defaultInstance;
+
+- (RetrieveAvailableMenteesResponseProto_Builder*) clear;
+- (RetrieveAvailableMenteesResponseProto_Builder*) clone;
+
+- (RetrieveAvailableMenteesResponseProto*) build;
+- (RetrieveAvailableMenteesResponseProto*) buildPartial;
+
+- (RetrieveAvailableMenteesResponseProto_Builder*) mergeFrom:(RetrieveAvailableMenteesResponseProto*) other;
+- (RetrieveAvailableMenteesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveAvailableMenteesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveAvailableMenteesResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveAvailableMenteesResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveAvailableMenteesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveAvailableMenteesResponseProto_Builder*) clearSender;
+
+- (NSArray*) menteesList;
+- (MinimumUserProtoForMentorship*) menteesAtIndex:(int32_t) index;
+- (RetrieveAvailableMenteesResponseProto_Builder*) replaceMenteesAtIndex:(int32_t) index with:(MinimumUserProtoForMentorship*) value;
+- (RetrieveAvailableMenteesResponseProto_Builder*) addMentees:(MinimumUserProtoForMentorship*) value;
+- (RetrieveAvailableMenteesResponseProto_Builder*) addAllMentees:(NSArray*) values;
+- (RetrieveAvailableMenteesResponseProto_Builder*) clearMenteesList;
+
+- (BOOL) hasStatus;
+- (RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatus) status;
+- (RetrieveAvailableMenteesResponseProto_Builder*) setStatus:(RetrieveAvailableMenteesResponseProto_RetrieveAvailableMenteesStatus) value;
+- (RetrieveAvailableMenteesResponseProto_Builder*) clearStatus;
+@end
+
+@interface DropMenteeRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasMenteeToDrop_:1;
+  BOOL hasSender_:1;
+  int32_t menteeToDrop;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasMenteeToDrop;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t menteeToDrop;
+
++ (DropMenteeRequestProto*) defaultInstance;
+- (DropMenteeRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (DropMenteeRequestProto_Builder*) builder;
++ (DropMenteeRequestProto_Builder*) builder;
++ (DropMenteeRequestProto_Builder*) builderWithPrototype:(DropMenteeRequestProto*) prototype;
+
++ (DropMenteeRequestProto*) parseFromData:(NSData*) data;
++ (DropMenteeRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DropMenteeRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (DropMenteeRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DropMenteeRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (DropMenteeRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface DropMenteeRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  DropMenteeRequestProto* result;
+}
+
+- (DropMenteeRequestProto*) defaultInstance;
+
+- (DropMenteeRequestProto_Builder*) clear;
+- (DropMenteeRequestProto_Builder*) clone;
+
+- (DropMenteeRequestProto*) build;
+- (DropMenteeRequestProto*) buildPartial;
+
+- (DropMenteeRequestProto_Builder*) mergeFrom:(DropMenteeRequestProto*) other;
+- (DropMenteeRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (DropMenteeRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (DropMenteeRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (DropMenteeRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (DropMenteeRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (DropMenteeRequestProto_Builder*) clearSender;
+
+- (BOOL) hasMenteeToDrop;
+- (int32_t) menteeToDrop;
+- (DropMenteeRequestProto_Builder*) setMenteeToDrop:(int32_t) value;
+- (DropMenteeRequestProto_Builder*) clearMenteeToDrop;
+@end
+
+@interface DropMenteeResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  DropMenteeResponseProto_DropMenteeStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) DropMenteeResponseProto_DropMenteeStatus status;
+
++ (DropMenteeResponseProto*) defaultInstance;
+- (DropMenteeResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (DropMenteeResponseProto_Builder*) builder;
++ (DropMenteeResponseProto_Builder*) builder;
++ (DropMenteeResponseProto_Builder*) builderWithPrototype:(DropMenteeResponseProto*) prototype;
+
++ (DropMenteeResponseProto*) parseFromData:(NSData*) data;
++ (DropMenteeResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DropMenteeResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (DropMenteeResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DropMenteeResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (DropMenteeResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface DropMenteeResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  DropMenteeResponseProto* result;
+}
+
+- (DropMenteeResponseProto*) defaultInstance;
+
+- (DropMenteeResponseProto_Builder*) clear;
+- (DropMenteeResponseProto_Builder*) clone;
+
+- (DropMenteeResponseProto*) build;
+- (DropMenteeResponseProto*) buildPartial;
+
+- (DropMenteeResponseProto_Builder*) mergeFrom:(DropMenteeResponseProto*) other;
+- (DropMenteeResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (DropMenteeResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (DropMenteeResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (DropMenteeResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (DropMenteeResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (DropMenteeResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (DropMenteeResponseProto_DropMenteeStatus) status;
+- (DropMenteeResponseProto_Builder*) setStatus:(DropMenteeResponseProto_DropMenteeStatus) value;
+- (DropMenteeResponseProto_Builder*) clearStatus;
+@end
+
+@interface RetrieveMyMenteesRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+
++ (RetrieveMyMenteesRequestProto*) defaultInstance;
+- (RetrieveMyMenteesRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveMyMenteesRequestProto_Builder*) builder;
++ (RetrieveMyMenteesRequestProto_Builder*) builder;
++ (RetrieveMyMenteesRequestProto_Builder*) builderWithPrototype:(RetrieveMyMenteesRequestProto*) prototype;
+
++ (RetrieveMyMenteesRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveMyMenteesRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveMyMenteesRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveMyMenteesRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveMyMenteesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveMyMenteesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveMyMenteesRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveMyMenteesRequestProto* result;
+}
+
+- (RetrieveMyMenteesRequestProto*) defaultInstance;
+
+- (RetrieveMyMenteesRequestProto_Builder*) clear;
+- (RetrieveMyMenteesRequestProto_Builder*) clone;
+
+- (RetrieveMyMenteesRequestProto*) build;
+- (RetrieveMyMenteesRequestProto*) buildPartial;
+
+- (RetrieveMyMenteesRequestProto_Builder*) mergeFrom:(RetrieveMyMenteesRequestProto*) other;
+- (RetrieveMyMenteesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveMyMenteesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveMyMenteesRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveMyMenteesRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveMyMenteesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveMyMenteesRequestProto_Builder*) clearSender;
+@end
+
+@interface RetrieveMyMenteesResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatus status;
+  NSMutableArray* mutableMentorshipsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatus status;
+- (NSArray*) mentorshipsList;
+- (MentorshipProto*) mentorshipsAtIndex:(int32_t) index;
+
++ (RetrieveMyMenteesResponseProto*) defaultInstance;
+- (RetrieveMyMenteesResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveMyMenteesResponseProto_Builder*) builder;
++ (RetrieveMyMenteesResponseProto_Builder*) builder;
++ (RetrieveMyMenteesResponseProto_Builder*) builderWithPrototype:(RetrieveMyMenteesResponseProto*) prototype;
+
++ (RetrieveMyMenteesResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveMyMenteesResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveMyMenteesResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveMyMenteesResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveMyMenteesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveMyMenteesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveMyMenteesResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveMyMenteesResponseProto* result;
+}
+
+- (RetrieveMyMenteesResponseProto*) defaultInstance;
+
+- (RetrieveMyMenteesResponseProto_Builder*) clear;
+- (RetrieveMyMenteesResponseProto_Builder*) clone;
+
+- (RetrieveMyMenteesResponseProto*) build;
+- (RetrieveMyMenteesResponseProto*) buildPartial;
+
+- (RetrieveMyMenteesResponseProto_Builder*) mergeFrom:(RetrieveMyMenteesResponseProto*) other;
+- (RetrieveMyMenteesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveMyMenteesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveMyMenteesResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveMyMenteesResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveMyMenteesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveMyMenteesResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatus) status;
+- (RetrieveMyMenteesResponseProto_Builder*) setStatus:(RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatus) value;
+- (RetrieveMyMenteesResponseProto_Builder*) clearStatus;
+
+- (NSArray*) mentorshipsList;
+- (MentorshipProto*) mentorshipsAtIndex:(int32_t) index;
+- (RetrieveMyMenteesResponseProto_Builder*) replaceMentorshipsAtIndex:(int32_t) index with:(MentorshipProto*) value;
+- (RetrieveMyMenteesResponseProto_Builder*) addMentorships:(MentorshipProto*) value;
+- (RetrieveMyMenteesResponseProto_Builder*) addAllMentorships:(NSArray*) values;
+- (RetrieveMyMenteesResponseProto_Builder*) clearMentorshipsList;
 @end
 

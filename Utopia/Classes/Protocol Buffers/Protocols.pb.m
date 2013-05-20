@@ -108,6 +108,11 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCPrivateChatPostEvent:
     case EventProtocolRequestCRetrievePrivateChatPostEvent:
     case EventProtocolRequestCRedeemUserLockBoxItemsEvent:
+    case EventProtocolRequestCBeginMentoringUserEvent:
+    case EventProtocolRequestCRetrieveAllMentorsEvent:
+    case EventProtocolRequestCRetrieveAvailableMenteesEvent:
+    case EventProtocolRequestCDropMenteeEvent:
+    case EventProtocolRequestCRetrieveMyMentees:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
@@ -204,6 +209,11 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSPrivateChatPostEvent:
     case EventProtocolResponseSRetrievePrivateChatPostEvent:
     case EventProtocolResponseSRedeemUserLockBoxItemsEvent:
+    case EventProtocolResponseSBeginMentoringUserEvent:
+    case EventProtocolResponseSRetrieveAllMentorsEvent:
+    case EventProtocolResponseSRetrieveAvailableMenteesEvent:
+    case EventProtocolResponseSDropMenteeEvent:
+    case EventProtocolResponseSRetrieveMyMentees:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
@@ -212,6 +222,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSSendAdminMessageEvent:
     case EventProtocolResponseSGeneralNotificationEvent:
     case EventProtocolResponseSReceivedRareBoosterPurchaseEvent:
+    case EventProtocolResponseSMenteeBecameAvailableEvent:
       return YES;
     default:
       return NO;
