@@ -27,10 +27,6 @@
 #import "FBConnect.h"
 #import "Chartboost.h"
 
-#define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
-#define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
-#define ALAUME_API_KEY       @"d184b5bf284a45c4aa7e19e0230e1c2f"
-#define ALAUME_APP_ID        @"tk"
 #define APSALAR_API_KEY      @"lvl6"
 #define APSALAR_SECRET       @"K7kbMwwF"
 #define TEST_FLIGHT_API_KEY  @"83db3d95fe7af4e3511206c3e7254a5f_MTExODM4MjAxMi0wNy0xOCAyMTowNjoxOC41MjUzMjc"
@@ -39,7 +35,11 @@
 #define MAT_APP_KEY          @"ba62d2918dc7b537cbeaca833085ce89"
 #define MAT_VERSION_KEY      @"MATVersionKey"
 
+#ifdef LEGENDS_OF_CHAOS
 #define GIRAFFE_GRAPH_KEY    @"eaf66fffc083c9a0628b23925815faa8"
+#else
+#define GIRAFFE_GRAPH_KEY    @"eee3b73ca3f9fc3322e11be77275c13a"
+#endif
 
 #define CHARTBOOST_APP_ID    @"50d29b2216ba47b230000046"
 #define CHARTBOOST_APP_SIG   @"5f72ac2d97bf7a6d7835b8a72b207f50bba0d68b"
@@ -255,7 +255,9 @@
   [self setUpDelightio];
   
   // Mobile App Tracker
+#ifdef AGE_OF_CHAOS
   [self setUpMobileAppTracker];
+#endif
   
   // Publish install
   [FBSettings publishInstall:FACEBOOK_APP_ID];
@@ -305,7 +307,9 @@
   DDLogVerbose(@"did become active");
 	[[CCDirector sharedDirector] resume];
   
+#ifdef AGE_OF_CHAOS
   [self setUpChartboost];
+#endif
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {

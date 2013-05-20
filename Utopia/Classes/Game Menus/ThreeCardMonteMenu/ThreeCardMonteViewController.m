@@ -39,6 +39,17 @@ typedef enum {
 @synthesize equipItemDefenseIcon, equipItemDefenseLabel, equipItemEquipButton, equipItemLevelIcon;
 @synthesize oneItemEquipView;
 
+- (void) awakeFromNib {
+#ifdef LEGENDS_OF_CHAOS
+  NSString *cardBack = @"/loccardback.png";
+#else
+  NSString *cardBack = @"/aoccardback.png";
+#endif
+  Globals *gl = [Globals sharedGlobals];
+  NSString *base = gl.downloadableNibConstants.threeCardMonteNibName;
+  cardBackImageView.image = [Globals imageNamed:[base stringByAppendingString:cardBack]];
+}
+
 - (void) flipFaceUp:(BOOL)animated {
   if (animated) {
     [UIView transitionFromView:cardBackImageView toView:frontView duration:FLIP_DURATION options:UIViewAnimationOptionTransitionFlipFromRight completion:nil];

@@ -44,17 +44,25 @@
 
 - (void) postToFacebookWithString:(NSString *)str {
   FBSBJSON *jsonWriter = [[FBSBJSON new] autorelease];
+#ifdef LEGENDS_OF_CHAOS
+  NSString *gameName = @"Legends of Chaos for iOS.";
+  NSString *link = @"";
+#else
+  NSString *gameName = @"Age of Chaos for iOS.";
+  NSString *link = @"http://bit.ly/17afsx5";
+#endif
   
   // The action links to be shown with the post in the feed
   NSArray* actionLinks = [NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    @"Get Started",@"name",@"http://bit.ly/17afsx5",@"link", nil], nil];
+                                                    @"Get Started",@"name",link,@"link", nil], nil];
   NSString *actionLinksStr = [jsonWriter stringWithObject:actionLinks];
+  
   // Dialog parameters
   NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                  str, @"name",
-                                 @"Age of Chaos for iOS.", @"caption",
+                                 gameName, @"caption",
                                  @"Will you fight for all that is good, or turn to the dark side in search of unholy powers? Play the #1 Fantasy RPG game on your iPhone today!", @"description",
-                                 @"http://bit.ly/17afsx5", @"link",
+                                 link, @"link",
                                  @"https://s3.amazonaws.com/lvl6utopia/Resources/aocicon.png", @"picture",
                                  actionLinksStr, @"actions",
                                  nil];

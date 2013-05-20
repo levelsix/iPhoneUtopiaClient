@@ -29,6 +29,14 @@
 
 #define IAP_SUCCESS_NOTIFICATION @"IapSuccessNotification"
 
+#ifdef LEGENDS_OF_CHAOS
+#define GAME_NAME @"Legends of Chaos"
+#define GAME_ABBREV @"LoC"
+#else
+#define GAME_NAME @"Age of Chaos"
+#define GAME_ABBREV @"AoC"
+#endif
+
 @interface Globals : NSObject <BattleConstants, EnemyBattleStats> {
   int _equipIdToWear;
   BOOL _isForSlot2;

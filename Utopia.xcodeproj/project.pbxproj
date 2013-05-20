@@ -826,20 +826,6 @@
 		CF36B80D15509EBC00B8FD61 /* warningbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36B80B15509EBC00B8FD61 /* warningbg@2x.png */; };
 		CF36B81D1552305C00B8FD61 /* BazaarMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF36B81C1552305C00B8FD61 /* BazaarMap.m */; };
 		CF36C27316A40144003C9B36 /* ForgeEnhanceView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF36C27216A40143003C9B36 /* ForgeEnhanceView.m */; };
-		CF3B01AF174AC91F00A3A4F2 /* BrowseClanCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3B019E174AC91F00A3A4F2 /* BrowseClanCell.xib */; };
-		CF3B01B0174AC91F00A3A4F2 /* BrowseClanCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3B019E174AC91F00A3A4F2 /* BrowseClanCell.xib */; };
-		CF3B01B1174AC91F00A3A4F2 /* BrowseSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3B019F174AC91F00A3A4F2 /* BrowseSearchCell.xib */; };
-		CF3B01B2174AC91F00A3A4F2 /* BrowseSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3B019F174AC91F00A3A4F2 /* BrowseSearchCell.xib */; };
-		CF3B01B3174AC91F00A3A4F2 /* ClanBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3B01A0174AC91F00A3A4F2 /* ClanBoardCell.xib */; };
-		CF3B01B4174AC91F00A3A4F2 /* ClanBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3B01A0174AC91F00A3A4F2 /* ClanBoardCell.xib */; };
-		CF3B01B5174AC91F00A3A4F2 /* ClanMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3B01A1174AC91F00A3A4F2 /* ClanMemberCell.xib */; };
-		CF3B01B6174AC91F00A3A4F2 /* ClanMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3B01A1174AC91F00A3A4F2 /* ClanMemberCell.xib */; };
-		CF3B01B7174AC91F00A3A4F2 /* ClanMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3B01A3174AC91F00A3A4F2 /* ClanMenuController.m */; };
-		CF3B01B8174AC91F00A3A4F2 /* ClanMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3B01A3174AC91F00A3A4F2 /* ClanMenuController.m */; };
-		CF3B01B9174AC91F00A3A4F2 /* ClanMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3B01A4174AC91F00A3A4F2 /* ClanMenuController.xib */; };
-		CF3B01BA174AC91F00A3A4F2 /* ClanMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3B01A4174AC91F00A3A4F2 /* ClanMenuController.xib */; };
-		CF3B01BB174AC91F00A3A4F2 /* ClanMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3B01A6174AC91F00A3A4F2 /* ClanMenus.m */; };
-		CF3B01BC174AC91F00A3A4F2 /* ClanMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3B01A6174AC91F00A3A4F2 /* ClanMenus.m */; };
 		CF3BE08C1619475D00CA5A76 /* LockBoxMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3BE08A1619475D00CA5A76 /* LockBoxMenuController.m */; };
 		CF3BE094161A9AB100CA5A76 /* LockBoxMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3BE093161A9AB000CA5A76 /* LockBoxMenus.m */; };
 		CF3CAFE516EEDEF400F5D3B8 /* starterpack.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3CAFE116EEDEF400F5D3B8 /* starterpack.png */; };
@@ -4832,15 +4818,6 @@
 		CF36C22A16A3DC0E003C9B36 /* yellowenhancebar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellowenhancebar@2x.png"; sourceTree = "<group>"; };
 		CF36C27116A40143003C9B36 /* ForgeEnhanceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgeEnhanceView.h; sourceTree = "<group>"; };
 		CF36C27216A40143003C9B36 /* ForgeEnhanceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgeEnhanceView.m; sourceTree = "<group>"; };
-		CF3B019E174AC91F00A3A4F2 /* BrowseClanCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowseClanCell.xib; sourceTree = "<group>"; };
-		CF3B019F174AC91F00A3A4F2 /* BrowseSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowseSearchCell.xib; sourceTree = "<group>"; };
-		CF3B01A0174AC91F00A3A4F2 /* ClanBoardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanBoardCell.xib; sourceTree = "<group>"; };
-		CF3B01A1174AC91F00A3A4F2 /* ClanMemberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanMemberCell.xib; sourceTree = "<group>"; };
-		CF3B01A2174AC91F00A3A4F2 /* ClanMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanMenuController.h; sourceTree = "<group>"; };
-		CF3B01A3174AC91F00A3A4F2 /* ClanMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanMenuController.m; sourceTree = "<group>"; };
-		CF3B01A4174AC91F00A3A4F2 /* ClanMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanMenuController.xib; sourceTree = "<group>"; };
-		CF3B01A5174AC91F00A3A4F2 /* ClanMenus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanMenus.h; sourceTree = "<group>"; };
-		CF3B01A6174AC91F00A3A4F2 /* ClanMenus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanMenus.m; sourceTree = "<group>"; };
 		CF3BE05C161945AA00CA5A76 /* attemptpickbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attemptpickbg.png; sourceTree = "<group>"; };
 		CF3BE05D161945AA00CA5A76 /* attemptpickbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attemptpickbg@2x.png"; sourceTree = "<group>"; };
 		CF3BE05E161945AA00CA5A76 /* freepick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = freepick.png; sourceTree = "<group>"; };
@@ -5170,7 +5147,7 @@
 		CF69F62F1741BF1A001C96D0 /* replymentor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "replymentor@2x.png"; sourceTree = "<group>"; };
 		CF69F63A1741CD57001C96D0 /* MentorChatView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MentorChatView.h; sourceTree = "<group>"; };
 		CF69F63B1741CD58001C96D0 /* MentorChatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MentorChatView.m; sourceTree = "<group>"; };
-		CF69FD2A174212ED001C96D0 /* Utopia copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Utopia copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF69FD2A174212ED001C96D0 /* Legends of Chaos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Legends of Chaos.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF69FD2B174212ED001C96D0 /* Utopia copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Utopia copy-Info.plist"; path = "/Users/Ashwin/Utopia/Utopia copy-Info.plist"; sourceTree = "<absolute>"; };
 		CF69FD2E174214C8001C96D0 /* ageofchaos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ageofchaos.png; sourceTree = "<group>"; };
 		CF69FD2F174214C8001C96D0 /* ageofchaos@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ageofchaos@2x.png"; sourceTree = "<group>"; };
@@ -6231,7 +6208,7 @@
 			children = (
 				CF1256421538A94D00E0C1AD /* Age of Chaos.app */,
 				455FC6B1157EE4E2008DB9E4 /* UtopiaTests.octest */,
-				CF69FD2A174212ED001C96D0 /* Utopia copy.app */,
+				CF69FD2A174212ED001C96D0 /* Legends of Chaos.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -6373,7 +6350,6 @@
 		CF1265491538ACC400E0C1AD /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
-				CF3B019D174AC91F00A3A4F2 /* MentorMenu */,
 				CFF6FACB16F17FEB0088EEDA /* DailyBonusMenu */,
 				CF1B5001167C430D00B73276 /* TournamentMenu */,
 				CFE9547D166E37CC00DA63CF /* BossEventMenu */,
@@ -8561,22 +8537,6 @@
 			path = Carpenter;
 			sourceTree = "<group>";
 		};
-		CF3B019D174AC91F00A3A4F2 /* MentorMenu */ = {
-			isa = PBXGroup;
-			children = (
-				CF3B019E174AC91F00A3A4F2 /* BrowseClanCell.xib */,
-				CF3B019F174AC91F00A3A4F2 /* BrowseSearchCell.xib */,
-				CF3B01A0174AC91F00A3A4F2 /* ClanBoardCell.xib */,
-				CF3B01A1174AC91F00A3A4F2 /* ClanMemberCell.xib */,
-				CF3B01A2174AC91F00A3A4F2 /* ClanMenuController.h */,
-				CF3B01A3174AC91F00A3A4F2 /* ClanMenuController.m */,
-				CF3B01A4174AC91F00A3A4F2 /* ClanMenuController.xib */,
-				CF3B01A5174AC91F00A3A4F2 /* ClanMenus.h */,
-				CF3B01A6174AC91F00A3A4F2 /* ClanMenus.m */,
-			);
-			path = MentorMenu;
-			sourceTree = "<group>";
-		};
 		CF3BE05B1619458400CA5A76 /* Lock box images */ = {
 			isa = PBXGroup;
 			children = (
@@ -9883,7 +9843,7 @@
 			);
 			name = "Legends Of Chaos";
 			productName = Utopia;
-			productReference = CF69FD2A174212ED001C96D0 /* Utopia copy.app */;
+			productReference = CF69FD2A174212ED001C96D0 /* Legends of Chaos.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -11410,11 +11370,6 @@
 				CF4CA58817472BFA00751326 /* onlinenowcircles@2x.png in Resources */,
 				CF4CA58917472BFA00751326 /* onlinenowglow.png in Resources */,
 				CF4CA58A17472BFA00751326 /* onlinenowglow@2x.png in Resources */,
-				CF3B01AF174AC91F00A3A4F2 /* BrowseClanCell.xib in Resources */,
-				CF3B01B1174AC91F00A3A4F2 /* BrowseSearchCell.xib in Resources */,
-				CF3B01B3174AC91F00A3A4F2 /* ClanBoardCell.xib in Resources */,
-				CF3B01B5174AC91F00A3A4F2 /* ClanMemberCell.xib in Resources */,
-				CF3B01B9174AC91F00A3A4F2 /* ClanMenuController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12871,11 +12826,6 @@
 				CF69FD6517421B0F001C96D0 /* Default@2x.png in Resources */,
 				CF9BAB131746E3E4009564DE /* chaticon@2x.png in Resources */,
 				CF9BAB151746E3E4009564DE /* chaticon.png in Resources */,
-				CF3B01B0174AC91F00A3A4F2 /* BrowseClanCell.xib in Resources */,
-				CF3B01B2174AC91F00A3A4F2 /* BrowseSearchCell.xib in Resources */,
-				CF3B01B4174AC91F00A3A4F2 /* ClanBoardCell.xib in Resources */,
-				CF3B01B6174AC91F00A3A4F2 /* ClanMemberCell.xib in Resources */,
-				CF3B01BA174AC91F00A3A4F2 /* ClanMenuController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13160,8 +13110,6 @@
 				CFD5E9201716697200FBDEA3 /* ProfileMenus.m in Sources */,
 				CF5FE5201725EA44000B0595 /* Nanigans.m in Sources */,
 				CF69F63C1741CD58001C96D0 /* MentorChatView.m in Sources */,
-				CF3B01B7174AC91F00A3A4F2 /* ClanMenuController.m in Sources */,
-				CF3B01BB174AC91F00A3A4F2 /* ClanMenus.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13418,8 +13366,6 @@
 				CF69F754174212ED001C96D0 /* ProfileMenus.m in Sources */,
 				CF69F755174212ED001C96D0 /* Nanigans.m in Sources */,
 				CF69F756174212ED001C96D0 /* MentorChatView.m in Sources */,
-				CF3B01B8174AC91F00A3A4F2 /* ClanMenuController.m in Sources */,
-				CF3B01BC174AC91F00A3A4F2 /* ClanMenus.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13588,6 +13534,7 @@
 					"$(inherited)",
 					"COCOS2D_DEBUG=1",
 					"UNIT_TESTING=0",
+					"AGE_OF_CHAOS=1",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
@@ -13639,6 +13586,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "AGE_OF_CHAOS=1";
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
@@ -13693,6 +13641,7 @@
 					"$(inherited)",
 					"COCOS2D_DEBUG=1",
 					"UNIT_TESTING=0",
+					"LEGENDS_OF_CHAOS=1",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
@@ -13718,7 +13667,7 @@
 					"-fobjc-arc",
 					"-lsqlite3.0",
 				);
-				PRODUCT_NAME = "Utopia copy";
+				PRODUCT_NAME = "Legends of Chaos";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
 				WARNING_LDFLAGS = (
@@ -13744,7 +13693,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "LEGENDS_OF_CHAOS=1";
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
@@ -13769,7 +13718,7 @@
 					"-fobjc-arc",
 					"-lsqlite3.0",
 				);
-				PRODUCT_NAME = "Utopia copy";
+				PRODUCT_NAME = "Legends of Chaos";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SKIP_INSTALL = NO;

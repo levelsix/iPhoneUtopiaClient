@@ -16,7 +16,7 @@
 
 #else
 
-//#define USE_PROD
+#define USE_PROD
 
 #define UDID [OpenUDID value]
 //#define FORCE_TUTORIAL
@@ -29,7 +29,12 @@
 #define HOST_PORT 5672
 #define MQ_USERNAME @"lvl6client"
 #define MQ_PASSWORD @"LvL6Pr0dCl!3nT"
+
+#ifdef LEGENDS_OF_CHAOS
+#define MQ_VHOST @"prodlegendsofchaos"
+#else
 #define MQ_VHOST @"prodageofchaos"
+#endif
 
 #else
 
@@ -37,6 +42,11 @@
 #define HOST_PORT 5672
 #define MQ_USERNAME @"lvl6client"
 #define MQ_PASSWORD @"devclient"
+
+#ifdef LEGENDS_OF_CHAOS
+#define MQ_VHOST @"devlegendsofchaos"
+#else
 #define MQ_VHOST @"devageofchaos"
+#endif
 
 #endif
