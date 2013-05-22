@@ -114,6 +114,12 @@
 - (void) displayForgeMenu;
 - (void) displayEnhanceMenu;
 
+- (void) loadForgeItems;
+- (void) beginForgingSelectedItem;
+- (void) finishNow;
+- (void) forgeSucceeded:(int)level;
+- (IBAction) checkResultsClicked:(id)sender;
+
 - (void) reloadCurrentItem;
 - (IBAction) closeClicked:(id)sender;
 - (IBAction) forgeButtonClicked:(id)sender;

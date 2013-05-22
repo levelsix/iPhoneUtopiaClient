@@ -190,7 +190,6 @@ message StartupResponseProto {
 	//repeated most recent private chat posts regarding this user
 	repeated PrivateChatPostProto pcpp = 45;
 	
-	
 	message DailyBonusInfo {
 		optional int32 numConsecutiveDaysPlayed = 1;
 		optional int32 dayOneCoins = 2;
@@ -585,6 +584,8 @@ message StartupResponseProto {
 		optional FullTaskProto firstTaskBad = 35;
 		optional int32 firstBattleCoinGain = 36;
 		optional int32 firstBattleExpGain = 37;
+	
+   		optional string defaultName = 38;
      	
 		message FullTutorialQuestProto {
 				//do one task once, kill one enemy
@@ -2796,6 +2797,19 @@ message RetrieveMyMenteesResponseProto {
 	enum RetrieveMyMenteesStatus {
 		SUCCESS = 1;
 		FAIL_OTHER = 2;
+	}
+}
+
+message MenteeFinishedQuestResponseProto {
+	optional MinimumUserProto mentee = 1;
+	optional MenteeQuestType questType = 2;
+	
+	enum MenteeQuestType {
+		BOUGHT_A_PACKAGE = 1;			//quest one
+		FORGED_EQUIP_TO_LEVEL_N = 2;	//quest two
+		JOINED_A_CLAN = 3;				//quest three
+		LEVELED_UP_TO_LEVEL_N = 4;		//quest four
+		LEVELED_UP_TO_LEVEL_X = 5;		//quest five
 	}
 }
 

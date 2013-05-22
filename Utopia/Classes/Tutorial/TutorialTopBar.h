@@ -13,11 +13,13 @@
   BOOL _questsPhase;
   BOOL _attackPhase;
   BOOL _finishedFirstQuestPhase;
+  BOOL _bazaarPhase;
 }
 
 - (void) updateIcon;
 - (void) beginMyCityPhase;
 - (void) beginQuestsPhase;
 - (void) beginAttackPhase;
+- (void) beginBazaarPhase;
 
 @end

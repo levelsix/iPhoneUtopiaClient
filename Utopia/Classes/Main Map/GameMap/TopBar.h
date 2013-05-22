@@ -132,6 +132,7 @@ typedef enum {
 
 - (void) addNotificationToDisplayQueue:(UserNotification *)un;
 
+- (void) bazaarClicked;
 - (void) questButtonClicked;
 - (void) mapClicked;
 - (void) homeClicked;

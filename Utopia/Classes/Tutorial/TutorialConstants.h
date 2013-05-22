@@ -38,6 +38,7 @@
 @property (nonatomic, retain) NSArray *levelTwoEquips;
 @property (nonatomic, retain) NSArray *levelTwoStructs;
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutorialQuest;
+@property (nonatomic, retain) NSString *defaultName;
 
 @property (nonatomic, retain) NSString *firstTaskText;
 @property (nonatomic, retain) NSString *lootText;
@@ -48,6 +49,9 @@
 
 @property (nonatomic, retain) NSString *beforeAttackText;
 @property (nonatomic, retain) NSString *tapToAttackText;
+
+@property (nonatomic, retain) NSString *beforeBazaarText;
+@property (nonatomic, retain) NSString *beforeBlacksmithText;
 
 @property (nonatomic, retain) NSString *beforeHomeText;
 

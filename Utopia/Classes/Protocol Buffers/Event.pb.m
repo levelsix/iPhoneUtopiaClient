@@ -16638,6 +16638,7 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 @property (retain) FullTaskProto* firstTaskBad;
 @property int32_t firstBattleCoinGain;
 @property int32_t firstBattleExpGain;
+@property (retain) NSString* defaultName;
 @end
 
 @implementation StartupResponseProto_TutorialConstants
@@ -16858,6 +16859,13 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   hasFirstBattleExpGain_ = !!value;
 }
 @synthesize firstBattleExpGain;
+- (BOOL) hasDefaultName {
+  return !!hasDefaultName_;
+}
+- (void) setHasDefaultName:(BOOL) value {
+  hasDefaultName_ = !!value;
+}
+@synthesize defaultName;
 - (void) dealloc {
   self.tutorialQuest = nil;
   self.archerInitWeapon = nil;
@@ -16875,6 +16883,7 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   self.firstWallPost = nil;
   self.firstTaskGood = nil;
   self.firstTaskBad = nil;
+  self.defaultName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -16909,6 +16918,7 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
     self.firstTaskBad = [FullTaskProto defaultInstance];
     self.firstBattleCoinGain = 0;
     self.firstBattleExpGain = 0;
+    self.defaultName = @"";
   }
   return self;
 }
@@ -17078,6 +17088,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (self.hasFirstBattleExpGain) {
     [output writeInt32:37 value:self.firstBattleExpGain];
   }
+  if (self.hasDefaultName) {
+    [output writeString:38 value:self.defaultName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -17194,6 +17207,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   if (self.hasFirstBattleExpGain) {
     size += computeInt32Size(37, self.firstBattleExpGain);
+  }
+  if (self.hasDefaultName) {
+    size += computeStringSize(38, self.defaultName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -18211,6 +18227,9 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasFirstBattleExpGain) {
     [self setFirstBattleExpGain:other.firstBattleExpGain];
   }
+  if (other.hasDefaultName) {
+    [self setDefaultName:other.defaultName];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -18436,6 +18455,10 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
       }
       case 296: {
         [self setFirstBattleExpGain:[input readInt32]];
+        break;
+      }
+      case 306: {
+        [self setDefaultName:[input readString]];
         break;
       }
     }
@@ -19233,6 +19256,22 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
 - (StartupResponseProto_TutorialConstants_Builder*) clearFirstBattleExpGain {
   result.hasFirstBattleExpGain = NO;
   result.firstBattleExpGain = 0;
+  return self;
+}
+- (BOOL) hasDefaultName {
+  return result.hasDefaultName;
+}
+- (NSString*) defaultName {
+  return result.defaultName;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setDefaultName:(NSString*) value {
+  result.hasDefaultName = YES;
+  result.defaultName = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearDefaultName {
+  result.hasDefaultName = NO;
+  result.defaultName = @"";
   return self;
 }
 @end
@@ -79208,6 +79247,258 @@ BOOL RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusIsValidValue(Retrieve
     result.mutableMentorshipsList = [NSMutableArray array];
   }
   [result.mutableMentorshipsList addObject:value];
+  return self;
+}
+@end
+
+@interface MenteeFinishedQuestResponseProto ()
+@property (retain) MinimumUserProto* mentee;
+@property MenteeFinishedQuestResponseProto_MenteeQuestType questType;
+@end
+
+@implementation MenteeFinishedQuestResponseProto
+
+- (BOOL) hasMentee {
+  return !!hasMentee_;
+}
+- (void) setHasMentee:(BOOL) value {
+  hasMentee_ = !!value;
+}
+@synthesize mentee;
+- (BOOL) hasQuestType {
+  return !!hasQuestType_;
+}
+- (void) setHasQuestType:(BOOL) value {
+  hasQuestType_ = !!value;
+}
+@synthesize questType;
+- (void) dealloc {
+  self.mentee = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.mentee = [MinimumUserProto defaultInstance];
+    self.questType = MenteeFinishedQuestResponseProto_MenteeQuestTypeBoughtAPackage;
+  }
+  return self;
+}
+static MenteeFinishedQuestResponseProto* defaultMenteeFinishedQuestResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [MenteeFinishedQuestResponseProto class]) {
+    defaultMenteeFinishedQuestResponseProtoInstance = [[MenteeFinishedQuestResponseProto alloc] init];
+  }
+}
++ (MenteeFinishedQuestResponseProto*) defaultInstance {
+  return defaultMenteeFinishedQuestResponseProtoInstance;
+}
+- (MenteeFinishedQuestResponseProto*) defaultInstance {
+  return defaultMenteeFinishedQuestResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMentee) {
+    [output writeMessage:1 value:self.mentee];
+  }
+  if (self.hasQuestType) {
+    [output writeEnum:2 value:self.questType];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMentee) {
+    size += computeMessageSize(1, self.mentee);
+  }
+  if (self.hasQuestType) {
+    size += computeEnumSize(2, self.questType);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MenteeFinishedQuestResponseProto*) parseFromData:(NSData*) data {
+  return (MenteeFinishedQuestResponseProto*)[[[MenteeFinishedQuestResponseProto builder] mergeFromData:data] build];
+}
++ (MenteeFinishedQuestResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MenteeFinishedQuestResponseProto*)[[[MenteeFinishedQuestResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MenteeFinishedQuestResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MenteeFinishedQuestResponseProto*)[[[MenteeFinishedQuestResponseProto builder] mergeFromInputStream:input] build];
+}
++ (MenteeFinishedQuestResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MenteeFinishedQuestResponseProto*)[[[MenteeFinishedQuestResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MenteeFinishedQuestResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MenteeFinishedQuestResponseProto*)[[[MenteeFinishedQuestResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MenteeFinishedQuestResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MenteeFinishedQuestResponseProto*)[[[MenteeFinishedQuestResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MenteeFinishedQuestResponseProto_Builder*) builder {
+  return [[[MenteeFinishedQuestResponseProto_Builder alloc] init] autorelease];
+}
++ (MenteeFinishedQuestResponseProto_Builder*) builderWithPrototype:(MenteeFinishedQuestResponseProto*) prototype {
+  return [[MenteeFinishedQuestResponseProto builder] mergeFrom:prototype];
+}
+- (MenteeFinishedQuestResponseProto_Builder*) builder {
+  return [MenteeFinishedQuestResponseProto builder];
+}
+@end
+
+BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinishedQuestResponseProto_MenteeQuestType value) {
+  switch (value) {
+    case MenteeFinishedQuestResponseProto_MenteeQuestTypeBoughtAPackage:
+    case MenteeFinishedQuestResponseProto_MenteeQuestTypeForgedEquipToLevelN:
+    case MenteeFinishedQuestResponseProto_MenteeQuestTypeJoinedAClan:
+    case MenteeFinishedQuestResponseProto_MenteeQuestTypeLeveledUpToLevelN:
+    case MenteeFinishedQuestResponseProto_MenteeQuestTypeLeveledUpToLevelX:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface MenteeFinishedQuestResponseProto_Builder()
+@property (retain) MenteeFinishedQuestResponseProto* result;
+@end
+
+@implementation MenteeFinishedQuestResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MenteeFinishedQuestResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MenteeFinishedQuestResponseProto_Builder*) clear {
+  self.result = [[[MenteeFinishedQuestResponseProto alloc] init] autorelease];
+  return self;
+}
+- (MenteeFinishedQuestResponseProto_Builder*) clone {
+  return [MenteeFinishedQuestResponseProto builderWithPrototype:result];
+}
+- (MenteeFinishedQuestResponseProto*) defaultInstance {
+  return [MenteeFinishedQuestResponseProto defaultInstance];
+}
+- (MenteeFinishedQuestResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MenteeFinishedQuestResponseProto*) buildPartial {
+  MenteeFinishedQuestResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MenteeFinishedQuestResponseProto_Builder*) mergeFrom:(MenteeFinishedQuestResponseProto*) other {
+  if (other == [MenteeFinishedQuestResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasMentee) {
+    [self mergeMentee:other.mentee];
+  }
+  if (other.hasQuestType) {
+    [self setQuestType:other.questType];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MenteeFinishedQuestResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MenteeFinishedQuestResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasMentee) {
+          [subBuilder mergeFrom:self.mentee];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMentee:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(value)) {
+          [self setQuestType:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMentee {
+  return result.hasMentee;
+}
+- (MinimumUserProto*) mentee {
+  return result.mentee;
+}
+- (MenteeFinishedQuestResponseProto_Builder*) setMentee:(MinimumUserProto*) value {
+  result.hasMentee = YES;
+  result.mentee = value;
+  return self;
+}
+- (MenteeFinishedQuestResponseProto_Builder*) setMenteeBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setMentee:[builderForValue build]];
+}
+- (MenteeFinishedQuestResponseProto_Builder*) mergeMentee:(MinimumUserProto*) value {
+  if (result.hasMentee &&
+      result.mentee != [MinimumUserProto defaultInstance]) {
+    result.mentee =
+      [[[MinimumUserProto builderWithPrototype:result.mentee] mergeFrom:value] buildPartial];
+  } else {
+    result.mentee = value;
+  }
+  result.hasMentee = YES;
+  return self;
+}
+- (MenteeFinishedQuestResponseProto_Builder*) clearMentee {
+  result.hasMentee = NO;
+  result.mentee = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasQuestType {
+  return result.hasQuestType;
+}
+- (MenteeFinishedQuestResponseProto_MenteeQuestType) questType {
+  return result.questType;
+}
+- (MenteeFinishedQuestResponseProto_Builder*) setQuestType:(MenteeFinishedQuestResponseProto_MenteeQuestType) value {
+  result.hasQuestType = YES;
+  result.questType = value;
+  return self;
+}
+- (MenteeFinishedQuestResponseProto_Builder*) clearQuestType {
+  result.hasQuestType = NO;
+  result.questType = MenteeFinishedQuestResponseProto_MenteeQuestTypeBoughtAPackage;
   return self;
 }
 @end

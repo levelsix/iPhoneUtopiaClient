@@ -141,8 +141,7 @@
     
     [[TopBar sharedTopBar] update];
     
-    NSString *name = [NSString stringWithFormat:@"User%d", arc4random_uniform(100000)+100000];
-    nameTextField.text = name;
+    nameTextField.text = tc.defaultName;
   }
   
   self.view.tag = CHAR_SELECTION_VIEW_TAG;

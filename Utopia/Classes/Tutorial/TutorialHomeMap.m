@@ -45,6 +45,12 @@
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController displayViewForText:tc.beforePlacingText];
+  
+  _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
+  UIView *check = [self.moveMenu viewWithTag:10];
+  [self.moveMenu addSubview:_uiArrow];
+  _uiArrow.center = ccp(CGRectGetMaxX(check.frame)+_uiArrow.frame.size.width/2, check.center.y);
+  [Globals animateUIArrow:_uiArrow atAngle:-M_PI];
 }
 
 - (void) startCarpPhase {
@@ -62,6 +68,13 @@
   [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
   
   [TutorialCarpenterMenuController sharedCarpenterMenuController];
+}
+
+- (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node {
+  if (_canMove) {
+    return;
+  }
+  [super drag:recognizer node:node];
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
@@ -83,11 +96,6 @@
       
       [_ccArrow removeFromParentAndCleanup:YES];
       
-      [_uiArrow removeFromSuperview];
-      [_uiArrow release];
-      _uiArrow = nil;
-      
-      _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
       UIView *finishNowButton = [self.upgradeMenu.upgradingBottomView viewWithTag:17];
       [self.upgradeMenu.upgradingBottomView addSubview:_uiArrow];
       _uiArrow.center = CGPointMake(CGRectGetMinX(finishNowButton.frame)-_uiArrow.frame.size.width/2, finishNowButton.center.y);

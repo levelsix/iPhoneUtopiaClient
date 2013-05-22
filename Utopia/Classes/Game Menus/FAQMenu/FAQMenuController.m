@@ -288,12 +288,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
 }
 
 - (IBAction)emailButtonClicked:(id)sender {
+#ifdef LEGENDS_OF_CHAOS
+  NSString *e = @"support@bestfunfreegames.com";
+#else
+  NSString *e = @"support@lvl6.com";
+#endif
+  
   GameState *gs = [GameState sharedGameState];
   NSString *messageBody = [NSString stringWithFormat:@"\n\nSent by user %@ with referral code %@.", gs.name, gs.referralCode];
   if ([MFMailComposeViewController canSendMail]) {
     MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
     controller.mailComposeDelegate = self;
-    [controller setToRecipients:[NSArray arrayWithObject:@"support@lvl6.com"]];
+    [controller setToRecipients:[NSArray arrayWithObject:e]];
     
     [controller setMessageBody:messageBody isHTML:NO];
     if (controller) [[GameViewController sharedGameViewController] presentModalViewController:controller animated:YES];
@@ -301,7 +307,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   } else {
     // Launches the Mail application on the device.
     
-    NSString *email = [NSString stringWithFormat:@"mailto:support@lvl6.com?body=%@", messageBody];
+    NSString *email = [NSString stringWithFormat:@"mailto:%@?body=%@", e, messageBody];
     email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
@@ -321,7 +327,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
 }
 
 - (IBAction)forumButtonClicked:(id)sender {
+#ifdef LEGENDS_OF_CHAOS
+  NSString *forumLink = @"http://forum.bestfunfreegames.com";
+#else
   NSString *forumLink = @"http://forum.lvl6.com";
+#endif
   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:forumLink]];
 }
 

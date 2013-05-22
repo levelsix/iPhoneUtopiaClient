@@ -655,7 +655,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _attackButton.visible = NO;
   _isAnimating = YES;
   
+  GameState *gs = [GameState sharedGameState];
+  float factor = gs.level > 8 ? 1 : 1+(9-gs.level)/8.f*1.f;
   float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
+  duration = duration * factor;
+  
   _triangle.rotation = START_TRIANGLE_ROTATION;
   [_triangle runAction:
    [CCSequence actionOne:[CCEaseIn actionWithAction:

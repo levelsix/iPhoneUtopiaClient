@@ -13,9 +13,9 @@
 #import <MobileAppTracker/MobileAppTracker.h>
 
 #ifdef LEGENDS_OF_CHAOS
-#define FACEBOOK_APP_ID      @"308804055902016"
-#else
 #define FACEBOOK_APP_ID      @"160187864152452"
+#else
+#define FACEBOOK_APP_ID      @"308804055902016"
 #endif
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate, MobileAppTrackerDelegate> {

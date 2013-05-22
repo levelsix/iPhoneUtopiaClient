@@ -226,6 +226,8 @@
 @class LogoutRequestProto_Builder;
 @class MenteeBecameAvailableResponseProto;
 @class MenteeBecameAvailableResponseProto_Builder;
+@class MenteeFinishedQuestResponseProto;
+@class MenteeFinishedQuestResponseProto_Builder;
 @class MentorshipProto;
 @class MentorshipProto_Builder;
 @class MinimumClanProto;
@@ -780,6 +782,7 @@ typedef enum {
   EventProtocolResponseSGeneralNotificationEvent = 107,
   EventProtocolResponseSReceivedRareBoosterPurchaseEvent = 108,
   EventProtocolResponseSMenteeBecameAvailableEvent = 109,
+  EventProtocolResponseSMenteeFinishedQuestEvent = 110,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

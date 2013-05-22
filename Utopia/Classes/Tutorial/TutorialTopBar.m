@@ -16,6 +16,7 @@
 #import "TutorialConstants.h"
 #import "TutorialProfilePicture.h"
 #import "TutorialAttackMenuController.h"
+#import "TutorialBazaarMap.h"
 
 @implementation TutorialTopBar
 
@@ -119,6 +120,7 @@
   
   [TutorialHomeMap sharedHomeMap];
   
+  [_arrow removeFromParentAndCleanup:YES];
   [self addChild:_arrow];
   _arrow.position = ccpAdd(_homeButton.position, ccp(-_homeButton.contentSize.width/2-_arrow.contentSize.width/2-15, 0));
   [Globals animateCCArrow:_arrow atAngle:0];
@@ -129,9 +131,26 @@
   [DialogMenuController displayViewForText:[[TutorialConstants sharedTutorialConstants] beforeHomeText]];
 }
 
+- (void) beginBazaarPhase {
+  _bazaarPhase = YES;
+  
+  [TutorialBazaarMap sharedBazaarMap];
+  
+  [_arrow removeFromParentAndCleanup:YES];
+  [self addChild:_arrow];
+  _arrow.position = ccpAdd(_bazaarButton.position, ccp(-_bazaarButton.contentSize.width/2-_arrow.contentSize.width/2-15, 0));
+  [Globals animateCCArrow:_arrow atAngle:0];
+  
+  _bazaarButton.normalImage.opacity = 255;
+  _bazaarButton.selectedImage.opacity = 255;
+  
+  [DialogMenuController displayViewForText:[[TutorialConstants sharedTutorialConstants] beforeBazaarText]];
+}
+
 - (void) beginQuestsPhase {
   _questsPhase = YES;
   
+  [_arrow removeFromParentAndCleanup:YES];
   [self addChild:_arrow];
   _arrow.position = ccpAdd(_questButton.position, ccp(-_questButton.contentSize.width/2-15, 0));
   [Globals animateCCArrow:_arrow atAngle:0];
@@ -157,6 +176,7 @@
   _attackButton.normalImage.opacity = 255;
   _attackButton.selectedImage.opacity = 255;
   
+  [_arrow removeFromParentAndCleanup:YES];
   [self addChild:_arrow];
   _arrow.position = ccpAdd(_attackButton.position, ccp(0, _attackButton.contentSize.width/2+15));
   [Globals animateCCArrow:_arrow atAngle:-M_PI_2];
@@ -226,7 +246,17 @@
 }
 
 - (void) bazaarClicked {
-  return;
+  if (_bazaarPhase) {
+    [super bazaarClicked];
+    _bazaarPhase = NO;
+    [_arrow removeFromParentAndCleanup:YES];
+    _bazaarButton.normalImage.opacity = BUTTON_OPACITY;
+    _bazaarButton.selectedImage.opacity = BUTTON_OPACITY;
+    
+    [[TutorialBazaarMap sharedBazaarMap] performSelector:@selector(beginForgePhase) withObject:nil afterDelay:0.5f];
+    
+    [DialogMenuController closeView];
+  }
 }
 
 - (void) homeClicked {

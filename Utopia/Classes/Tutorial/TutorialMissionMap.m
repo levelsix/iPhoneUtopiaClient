@@ -302,7 +302,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 - (void) battleDone {
   _inBattlePhase = NO;
   
-  [(TutorialTopBar *)[TopBar sharedTopBar] beginMyCityPhase];
+  [(TutorialTopBar *)[TopBar sharedTopBar] beginBazaarPhase];
   [TutorialBattleLayer purgeSingleton];
 }
 

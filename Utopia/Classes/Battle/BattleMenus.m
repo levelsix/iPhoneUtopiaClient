@@ -91,7 +91,7 @@
   self.speechLabel.text = @"Check out the battle analysis to see how you could improve!";
   
   UIImageView *arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
-  [self addSubview:arrow];
+  [self.mainView addSubview:arrow];
   arrow.tag = 5;
   arrow.center = ccpAdd(self.summaryView.analysisButtonView.center, ccp(0, -25));
   [Globals animateUIArrow:arrow atAngle:-M_PI_2];
@@ -112,7 +112,7 @@
   } completion:^(BOOL finished) {
     [self.summaryView.mainView addSubview:self.summaryView.analysisButtonView];
     [self.summaryView.analysisButton removeTarget:self action:@selector(analysisClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [[self viewWithTag:5] removeFromSuperview];
+    [[self.mainView viewWithTag:5] removeFromSuperview];
     
     self.summaryView = nil;
     self.analysisView = nil;
@@ -341,7 +341,7 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
           if (_isForTutorial) {
             _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
-            [self addSubview:_arrow];
+            [self.mainView addSubview:_arrow];
             _arrow.center = ccpAdd(self.buttonView.center, ccp(self.buttonView.frame.size.width/2+_arrow.frame.size.width/2, 0));
             [Globals animateUIArrow:_arrow atAngle:M_PI];
           }

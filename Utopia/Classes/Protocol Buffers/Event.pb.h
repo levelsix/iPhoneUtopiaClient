@@ -226,6 +226,8 @@
 @class LogoutRequestProto_Builder;
 @class MenteeBecameAvailableResponseProto;
 @class MenteeBecameAvailableResponseProto_Builder;
+@class MenteeFinishedQuestResponseProto;
+@class MenteeFinishedQuestResponseProto_Builder;
 @class MentorshipProto;
 @class MentorshipProto_Builder;
 @class MinimumClanProto;
@@ -1508,6 +1510,16 @@ typedef enum {
 } RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatus;
 
 BOOL RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusIsValidValue(RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatus value);
+
+typedef enum {
+  MenteeFinishedQuestResponseProto_MenteeQuestTypeBoughtAPackage = 1,
+  MenteeFinishedQuestResponseProto_MenteeQuestTypeForgedEquipToLevelN = 2,
+  MenteeFinishedQuestResponseProto_MenteeQuestTypeJoinedAClan = 3,
+  MenteeFinishedQuestResponseProto_MenteeQuestTypeLeveledUpToLevelN = 4,
+  MenteeFinishedQuestResponseProto_MenteeQuestTypeLeveledUpToLevelX = 5,
+} MenteeFinishedQuestResponseProto_MenteeQuestType;
+
+BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinishedQuestResponseProto_MenteeQuestType value);
 
 
 @interface EventRoot : NSObject {
@@ -5464,6 +5476,7 @@ BOOL RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusIsValidValue(Retrieve
   BOOL hasArcherInitDefense_:1;
   BOOL hasMageInitDefense_:1;
   BOOL hasMageInitAttack_:1;
+  BOOL hasDefaultName_:1;
   BOOL hasMageInitWeapon_:1;
   BOOL hasFirstTaskBad_:1;
   BOOL hasFirstTaskGood_:1;
@@ -5494,6 +5507,7 @@ BOOL RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusIsValidValue(Retrieve
   int32_t archerInitDefense;
   int32_t mageInitDefense;
   int32_t mageInitAttack;
+  NSString* defaultName;
   FullEquipProto* mageInitWeapon;
   FullTaskProto* firstTaskBad;
   FullTaskProto* firstTaskGood;
@@ -5541,6 +5555,7 @@ BOOL RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusIsValidValue(Retrieve
 - (BOOL) hasFirstTaskBad;
 - (BOOL) hasFirstBattleCoinGain;
 - (BOOL) hasFirstBattleExpGain;
+- (BOOL) hasDefaultName;
 @property (readonly) int32_t initEnergy;
 @property (readonly) int32_t initStamina;
 @property (readonly) int32_t initHealth;
@@ -5571,6 +5586,7 @@ BOOL RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusIsValidValue(Retrieve
 @property (readonly, retain) FullTaskProto* firstTaskBad;
 @property (readonly) int32_t firstBattleCoinGain;
 @property (readonly) int32_t firstBattleExpGain;
+@property (readonly, retain) NSString* defaultName;
 - (NSArray*) firstCityElementsForGoodList;
 - (NeutralCityElementProto*) firstCityElementsForGoodAtIndex:(int32_t) index;
 - (NSArray*) firstCityElementsForBadList;
@@ -6013,6 +6029,11 @@ BOOL RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusIsValidValue(Retrieve
 - (int32_t) firstBattleExpGain;
 - (StartupResponseProto_TutorialConstants_Builder*) setFirstBattleExpGain:(int32_t) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearFirstBattleExpGain;
+
+- (BOOL) hasDefaultName;
+- (NSString*) defaultName;
+- (StartupResponseProto_TutorialConstants_Builder*) setDefaultName:(NSString*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearDefaultName;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {
@@ -19901,5 +19922,64 @@ BOOL RetrieveMyMenteesResponseProto_RetrieveMyMenteesStatusIsValidValue(Retrieve
 - (RetrieveMyMenteesResponseProto_Builder*) addMentorships:(MentorshipProto*) value;
 - (RetrieveMyMenteesResponseProto_Builder*) addAllMentorships:(NSArray*) values;
 - (RetrieveMyMenteesResponseProto_Builder*) clearMentorshipsList;
+@end
+
+@interface MenteeFinishedQuestResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasMentee_:1;
+  BOOL hasQuestType_:1;
+  MinimumUserProto* mentee;
+  MenteeFinishedQuestResponseProto_MenteeQuestType questType;
+}
+- (BOOL) hasMentee;
+- (BOOL) hasQuestType;
+@property (readonly, retain) MinimumUserProto* mentee;
+@property (readonly) MenteeFinishedQuestResponseProto_MenteeQuestType questType;
+
++ (MenteeFinishedQuestResponseProto*) defaultInstance;
+- (MenteeFinishedQuestResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MenteeFinishedQuestResponseProto_Builder*) builder;
++ (MenteeFinishedQuestResponseProto_Builder*) builder;
++ (MenteeFinishedQuestResponseProto_Builder*) builderWithPrototype:(MenteeFinishedQuestResponseProto*) prototype;
+
++ (MenteeFinishedQuestResponseProto*) parseFromData:(NSData*) data;
++ (MenteeFinishedQuestResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MenteeFinishedQuestResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (MenteeFinishedQuestResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MenteeFinishedQuestResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MenteeFinishedQuestResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MenteeFinishedQuestResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  MenteeFinishedQuestResponseProto* result;
+}
+
+- (MenteeFinishedQuestResponseProto*) defaultInstance;
+
+- (MenteeFinishedQuestResponseProto_Builder*) clear;
+- (MenteeFinishedQuestResponseProto_Builder*) clone;
+
+- (MenteeFinishedQuestResponseProto*) build;
+- (MenteeFinishedQuestResponseProto*) buildPartial;
+
+- (MenteeFinishedQuestResponseProto_Builder*) mergeFrom:(MenteeFinishedQuestResponseProto*) other;
+- (MenteeFinishedQuestResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MenteeFinishedQuestResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMentee;
+- (MinimumUserProto*) mentee;
+- (MenteeFinishedQuestResponseProto_Builder*) setMentee:(MinimumUserProto*) value;
+- (MenteeFinishedQuestResponseProto_Builder*) setMenteeBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (MenteeFinishedQuestResponseProto_Builder*) mergeMentee:(MinimumUserProto*) value;
+- (MenteeFinishedQuestResponseProto_Builder*) clearMentee;
+
+- (BOOL) hasQuestType;
+- (MenteeFinishedQuestResponseProto_MenteeQuestType) questType;
+- (MenteeFinishedQuestResponseProto_Builder*) setQuestType:(MenteeFinishedQuestResponseProto_MenteeQuestType) value;
+- (MenteeFinishedQuestResponseProto_Builder*) clearQuestType;
 @end
 

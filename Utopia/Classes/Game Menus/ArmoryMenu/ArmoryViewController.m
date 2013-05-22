@@ -505,8 +505,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   if (_isForBattleLossTutorial) {
     [_arrow removeFromSuperview];
     _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
-    [self.tableContainerView addSubview:_arrow];
-    _arrow.center = ccp(self.view.frame.size.width/2, self.armoryTableView.frame.origin.y);
+    [self.view addSubview:_arrow];
+    _arrow.center = [self.view convertPoint:ccp(self.view.frame.size.width/2, self.armoryTableView.frame.origin.y) fromView:self.tableContainerView];
     [Globals animateUIArrow:_arrow atAngle:-M_PI_2];
     
     self.armoryTableView.scrollEnabled = NO;

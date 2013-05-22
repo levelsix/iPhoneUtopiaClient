@@ -112,6 +112,7 @@
 - (void) openSkillsMenu;
 - (void) equipViewSelected:(EquipView *)ev;
 - (void) loadSkills;
+- (void) setupSkillPointButton:(UIButton *)curButton forCost:(int)stateCost;
 - (void) doEquip:(UserEquip *)equip;
 
 - (void) receivedEquips:(RetrieveUserEquipForUserResponseProto *)proto;

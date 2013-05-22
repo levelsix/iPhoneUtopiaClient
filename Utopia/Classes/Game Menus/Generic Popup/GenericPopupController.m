@@ -96,7 +96,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   gpc.genPopup = nil;
 }
 
-+ (void) displayNotificationViewWithText:(NSString *)string title:(NSString *)title {
++ (GenericPopup *) displayNotificationViewWithText:(NSString *)string title:(NSString *)title {
   GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
   GenericPopup *gp = [gpc genPopup];
   gp.notificationView.hidden = NO;
@@ -106,11 +106,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   [GenericPopupController displayView];
   gp.toAppStore = NO;
   
-  gpc.view = nil;
-  gpc.genPopup = nil;
+  return gp;
 }
 
-+ (void) displayNotificationViewWithText:(NSString *)string title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector {
++ (GenericPopup *) displayNotificationViewWithText:(NSString *)string title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector {
   GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
   GenericPopup *gp = [gpc genPopup];
   gp.notificationView.hidden = NO;
@@ -129,11 +128,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
 	[invocation setSelector:selector];
   gp.okInvocation = invocation;
   
-  gpc.view = nil;
-  gpc.genPopup = nil;
+  return gp;
 }
 
-+ (void) displayNotificationViewWithMiddleView:(UIView *)view title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector {
++ (GenericPopup *) displayNotificationViewWithMiddleView:(UIView *)view title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector {
   GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
   GenericPopup *gp = [gpc genPopup];
   gp.notificationView.hidden = NO;
@@ -154,11 +152,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
 	[invocation setSelector:selector];
   gp.okInvocation = invocation;
   
-  gpc.view = nil;
-  gpc.genPopup = nil;
+  return gp;
 }
 
-+ (void) displayMajorUpdatePopup:(NSString *)appStoreLink {
++ (GenericPopup *) displayMajorUpdatePopup:(NSString *)appStoreLink {
   GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
   GenericPopup *gp = [gpc genPopup];
   gp.notificationView.hidden = NO;
@@ -170,11 +167,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   gp.toAppStore = YES;
   gpc.appStoreLink = appStoreLink;
   
-  gpc.view = nil;
-  gpc.genPopup = nil;
+  return gp;
 }
 
-+ (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector {
++ (GenericPopup *) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector {
   GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
   GenericPopup *gp = [gpc genPopup];
   gp.notificationView.hidden = YES;
@@ -194,9 +190,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   gp.okInvocation = invocation;
   
   [GenericPopupController displayView];
+  
+  return gp;
 }
 
-+ (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector {
++ (GenericPopup *) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector {
   GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
   GenericPopup *gp = [gpc genPopup];
   gp.notificationView.hidden = YES;
@@ -224,6 +222,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   gp.cancelInvocation = invocation;
   
   [GenericPopupController displayView];
+  
+  return gp;
 }
 
 - (void) openAppStoreLink {

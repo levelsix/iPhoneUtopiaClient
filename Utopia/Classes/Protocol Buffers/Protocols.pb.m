@@ -223,6 +223,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSGeneralNotificationEvent:
     case EventProtocolResponseSReceivedRareBoosterPurchaseEvent:
     case EventProtocolResponseSMenteeBecameAvailableEvent:
+    case EventProtocolResponseSMenteeFinishedQuestEvent:
       return YES;
     default:
       return NO;

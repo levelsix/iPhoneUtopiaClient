@@ -230,7 +230,8 @@
     item.opacity = 0;
     [_overLayer addChild:menu];
     
-    float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
+    // Increase by 1 second
+    float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION+1;
     _triangle.rotation = START_TRIANGLE_ROTATION;
     
     float firstStop = 1.f/12;
@@ -285,7 +286,7 @@
   [barmaxed addChild:tapanywhere];
   [maxLayer addChild:barmaxed];
   
-  float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
+  float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION+1;
   float secondStop = 5.f/6;
   float secondRot = START_TRIANGLE_ROTATION+secondStop*(END_TRIANGLE_ROTATION-START_TRIANGLE_ROTATION);
   [self runAction:[CCSequence actions:
@@ -394,7 +395,27 @@
 }
 
 - (void) displayStolenEquip {
-  [self displaySummary];
+  GameState *gs = [GameState sharedGameState];
+  
+  UserEquip *ue = [[UserEquip alloc] init];
+  ue.equipId = [gs myEquipWithUserEquipId:gs.weaponEquipped].equipId;
+  ue.userId = gs.userId;
+  ue.level = 1;
+  ue.userEquipId = 4;
+  [gs.myEquips addObject:ue];
+  [ue release];
+  
+  [self.gainedEquipView loadForEquip:(FullUserEquipProto *)ue];
+  
+  // Move arrow to close button (tag 20)
+  [self.gainedEquipView.mainView addSubview:_uiArrow];
+  UIView *okayButton = [self.gainedEquipView viewWithTag:20];
+  _uiArrow.center = CGPointMake(CGRectGetMinX(okayButton.frame)-_uiArrow.frame.size.width/2-2, okayButton.center.y);
+  [Globals animateUIArrow:_uiArrow atAngle:0];
+  
+  self.gainedEquipView.equipIcon.userInteractionEnabled = NO;
+  [Globals displayUIView:self.gainedEquipView];
+  [Globals bounceView:self.gainedEquipView.mainView fadeInBgdView:self.gainedEquipView.bgdView];
 }
 
 - (void) displayStolenLockBox {

@@ -39,27 +39,38 @@
     
     _justLoaded = NO;
     
-    [self.view addSubview:_arrow];
-    CGPoint base = [self.view convertPoint:self.attackStatButton.center fromView:self.skillTabView];
-    _arrow.center = ccpAdd(base, ccp(self.attackStatButton.frame.size.width/2+_arrow.frame.size.width/2,self.attackStatButton.frame.size.height/2+_arrow.frame.size.height/2-4));
-    
-    float rotation = -M_PI_2-3*M_PI_4;
-    _arrow.layer.transform = CATransform3DMakeRotation(rotation, 0.0f, 0.0f, 1.0f);
-    [_arrow.layer removeAllAnimations];
-    
-    UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-    [UIView animateWithDuration:0.75f delay:0.f options:opt animations:^{
-      CGPoint base = [self.view convertPoint:self.staminaStatButton.center fromView:self.skillTabView];
-      _arrow.center = ccpAdd(base, ccp(self.staminaStatButton.frame.size.width/2+_arrow.frame.size.width/2, -(self.staminaStatButton.frame.size.height/2+_arrow.frame.size.height/2-15)));
-      
-      float rotation = M_PI_4;
-      _arrow.layer.transform = CATransform3DMakeRotation(rotation, 0.0f, 0.0f, 1.0f);
-    } completion:nil];
+    [self.mainView addSubview:_arrow];
+    CGPoint base = [self.mainView convertPoint:self.energyStatButton.center fromView:self.skillTabView];
+    _arrow.center = ccpAdd(base, ccp(0, -self.energyStatButton.frame.size.height/2-_arrow.frame.size.height/2));
+    [Globals animateUIArrow:_arrow atAngle:-M_PI_2];
+//    CGPoint base = [self.view convertPoint:self.attackStatButton.center fromView:self.skillTabView];
+//    _arrow.center = ccpAdd(base, ccp(self.attackStatButton.frame.size.width/2+_arrow.frame.size.width/2,self.attackStatButton.frame.size.height/2+_arrow.frame.size.height/2-4));
+//    
+//    float rotation = -M_PI_2-3*M_PI_4;
+//    _arrow.layer.transform = CATransform3DMakeRotation(rotation, 0.0f, 0.0f, 1.0f);
+//    [_arrow.layer removeAllAnimations];
+//    
+//    UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+//    [UIView animateWithDuration:0.75f delay:0.f options:opt animations:^{
+//      CGPoint base = [self.view convertPoint:self.staminaStatButton.center fromView:self.skillTabView];
+//      _arrow.center = ccpAdd(base, ccp(self.staminaStatButton.frame.size.width/2+_arrow.frame.size.width/2, -(self.staminaStatButton.frame.size.height/2+_arrow.frame.size.height/2-15)));
+//      
+//      float rotation = M_PI_4;
+//      _arrow.layer.transform = CATransform3DMakeRotation(rotation, 0.0f, 0.0f, 1.0f);
+//    } completion:nil];
   } else {
     _tutorialEnding = YES;
     [self performSelector:@selector(arrowOnClose) withObject:nil afterDelay:1.f];
   }
   [super viewWillAppear:animated];
+}
+
+- (void) refreshSkillPointsButtons {
+  Globals *gl = [Globals sharedGlobals];
+  [self setupSkillPointButton:self.attackStatButton  forCost:1000];
+  [self setupSkillPointButton:self.defenseStatButton forCost:1000];
+  [self setupSkillPointButton:self.energyStatButton  forCost:gl.energyBaseCost];
+  [self setupSkillPointButton:self.staminaStatButton forCost:1000];
 }
 
 - (IBAction)skillButtonClicked:(id)sender {
@@ -68,20 +79,10 @@
   
   [DialogMenuController closeView];
   
-  if (sender == self.attackStatButton) {
-    gs.attack += gl.attackBaseGain;
-    gs.skillPoints -= gl.attackBaseCost;
-  } else if (sender == self.defenseStatButton) {
-    gs.defense += gl.defenseBaseGain;
-    gs.skillPoints -= gl.defenseBaseCost;
-  } else if (sender == self.energyStatButton) {
+  if (sender == self.energyStatButton) {
     gs.maxEnergy += gl.energyBaseGain;
     gs.currentEnergy += gl.energyBaseGain;
     gs.skillPoints -= gl.energyBaseCost;
-  } else if (sender == self.staminaStatButton) {
-    gs.maxStamina += gl.staminaBaseGain;
-    gs.currentStamina += gl.staminaBaseGain;
-    gs.skillPoints -= gl.staminaBaseCost;
   }
   
   [self refreshSkillPointsButtons];
