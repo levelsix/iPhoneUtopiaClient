@@ -1027,7 +1027,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
         }
       }
     }
-  } else if (self.state == kBrowseClans || self.state == kBrowseWhileNotInClan) {
+  } else if (self.state == kBrowseClans || self.state == kBrowseWhileNotInClan || self.state == kSearchClans) {
     // Check whether we are viewing specific clan or not
     if (self.backView.hidden) {
       // On list

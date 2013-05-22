@@ -36,6 +36,10 @@
 
 @property (nonatomic, retain) NSMutableArray *structRetrievals;
 
+- (NSString *) getIFA;
+- (NSString *) getIPAddress;
+- (NSString *) getMacAddress;
+
 - (void) reloadClanMessageQueue;
 - (void) rebuildSender;
 

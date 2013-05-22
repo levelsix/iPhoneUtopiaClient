@@ -120,6 +120,12 @@ static NSString *udid = nil;
   return macAddressString;
 }
 
+- (NSString *) getIFA {
+  ASIdentifierManager *as = [ASIdentifierManager sharedManager];
+  NSString *advertiserId = as.advertisingIdentifier.UUIDString;
+  return advertiserId;
+}
+
 - (id) init {
   if ((self = [super init])) {
 #ifdef FORCE_TUTORIAL
@@ -319,9 +325,7 @@ static NSString *udid = nil;
 }
 
 - (int) sendStartupMessage:(uint64_t)clientTime {
-  ASIdentifierManager *as = [ASIdentifierManager sharedManager];
-  NSString *advertiserId = as.advertisingIdentifier.UUIDString;
-  
+  NSString *advertiserId = [self getIFA];
   NSString *mac = [self getMacAddress];
   StartupRequestProto_Builder *bldr = [[[[StartupRequestProto builder]
                                           setUdid:udid]

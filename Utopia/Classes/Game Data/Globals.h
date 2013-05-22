@@ -358,6 +358,10 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (int) percentOfSkillPointsInStamina;
 + (UIColor *) colorForColorProto:(ColorProto *)cp;
 
++ (void) makePixelAddictsCreateUserCall;
++ (void) makePixelAddictsAppOpenCall;
++ (void) makePixelAddictsPurchaseCall:(float)price;
+
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;
 - (int) calculateEquipGoldSellCost:(UserEquip *)ue;

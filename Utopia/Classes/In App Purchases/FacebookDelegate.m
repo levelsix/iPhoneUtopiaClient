@@ -12,8 +12,8 @@
 #import "FBSBJSON.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
+#import "AppDelegate.h"
 
-#define FACEBOOK_APP_ID  @"308804055902016" 
 #define FACEBOOK_REQ_MSG @"Hey, check out this cool new iPhone game."
 
 @implementation FacebookDelegate
@@ -46,7 +46,7 @@
   FBSBJSON *jsonWriter = [[FBSBJSON new] autorelease];
 #ifdef LEGENDS_OF_CHAOS
   NSString *gameName = @"Legends of Chaos for iOS.";
-  NSString *link = @"";
+  NSString *link = @"https://itunes.apple.com/us/app/age-of-chaos/id648221050?mt=8";
 #else
   NSString *gameName = @"Age of Chaos for iOS.";
   NSString *link = @"http://bit.ly/17afsx5";

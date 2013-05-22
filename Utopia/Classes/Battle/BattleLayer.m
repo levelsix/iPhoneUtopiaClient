@@ -1495,12 +1495,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 #ifdef LEGENDS_OF_CHAOS
     NSString *link = @"#LegendsOfChaos @LoCMobile";
 #else
-    NSString *link = @"http://bit.ly/14BpdVg #AgeOfChaos @AoCMobile";
+    NSString *link = @"Click here to play now! http://bit.ly/14BpdVg #AgeOfChaos @AoCMobile";
 #endif
     
     TWTweetComposeViewController *tweetSheet = [[[TWTweetComposeViewController alloc] init] autorelease];
     GameState *gs = [GameState sharedGameState];
-    NSString *str = [NSString stringWithFormat:@"%@ %@ %@ in %@. Click here to play now! %@", gs.name, brp.hasExpGained ? @"massacred" : @"was defeated by", _fup.name, GAME_NAME, link];
+    NSString *str = [NSString stringWithFormat:@"%@ %@ %@ in %@. %@", gs.name, brp.hasExpGained ? @"massacred" : @"was defeated by", _fup.name, GAME_NAME, link];
     [tweetSheet setInitialText:str];
     [[GameViewController sharedGameViewController] presentModalViewController:tweetSheet animated:YES];
   } else {

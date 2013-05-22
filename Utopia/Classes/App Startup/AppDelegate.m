@@ -44,6 +44,8 @@
 #define CHARTBOOST_APP_ID    @"50d29b2216ba47b230000046"
 #define CHARTBOOST_APP_SIG   @"5f72ac2d97bf7a6d7835b8a72b207f50bba0d68b"
 
+#define PA_INSTALL_KEY       @"PxlAddictInstallKey"
+
 #define SHOULD_VIDEO_USER    0
 
 @implementation AppDelegate
@@ -105,6 +107,17 @@
 -(void) setUpCrittercism
 {
 //  [Crittercism enableWithAppID:@"5029a2f0eeaf4125dd000001"];
+}
+
+- (void) registerPixelAddictsOpen {
+  [Globals makePixelAddictsAppOpenCall];
+  
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+  BOOL install = [userDefaults boolForKey:PA_INSTALL_KEY];
+  if (!install) {
+    [Globals makePixelAddictsCreateUserCall];
+    [userDefaults setBool:YES forKey:PA_INSTALL_KEY];
+  }
 }
 
 - (void) setUpMobileAppTracker {
@@ -309,6 +322,8 @@
   
 #ifdef AGE_OF_CHAOS
   [self setUpChartboost];
+#else
+  [self registerPixelAddictsOpen];
 #endif
 }
 

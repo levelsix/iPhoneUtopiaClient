@@ -190,7 +190,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   v.tag = KINGDOM_PNG_IMAGE_VIEW_TAG;
   v.backgroundColor = [UIColor blackColor];
   
-  UIImageView *imgView = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"ageofchaos.png"]];
+#ifdef LEGENDS_OF_CHAOS
+  NSString *splash = @"Default.png";
+#else
+  NSString *splash = @"ageofchaos.png";
+#endif
+  
+  
+  UIImageView *imgView = [[UIImageView alloc] initWithImage:[Globals imageNamed:splash]];
   imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
   imgView.userInteractionEnabled = YES;
   [v addSubview:imgView];

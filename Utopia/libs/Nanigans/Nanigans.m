@@ -65,6 +65,10 @@
 
 + (void) trackNanigansEvent:(NSString *)uid type:(NSString *)type name:(NSString *)name extraParams:(NSDictionary *)extraParams
 {
+#ifdef LEGENDS_OF_CHAOS
+  return;
+#endif
+  
   if (type == nil || [type length] == 0) {NSLog(@"TRACK EVENT ERROR: tyoe required"); return;}
   if (name == nil || [name length] == 0) {NSLog(@"TRACK EVENT ERROR: name required"); return;}
   

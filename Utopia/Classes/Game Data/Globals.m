@@ -18,6 +18,10 @@
 #import "HomeMap.h"
 #import "OutgoingEventController.h"
 #import "GameViewController.h"
+#import "OpenUDID.h"
+#import "SocketCommunication.h"
+#import "ODIN.h"
+#import "PAStatsTracker.h"
 
 #define FONT_LABEL_OFFSET 3.f
 #define SHAKE_DURATION 0.05f
@@ -2177,6 +2181,40 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 
 - (InAppPurchasePackageProto *) packageForProductId:(NSString *)pid {
   return [self.productIdsToPackages objectForKey:pid];
+}
+
++ (void) makePixelAddictsCreateUserCall {
+#ifdef LEGENDS_OF_CHAOS
+  NSString *openUDID = [OpenUDID value];
+  NSString *macAddress = [[SocketCommunication sharedSocketCommunication] getMacAddress];
+  NSString *ifa = [[SocketCommunication sharedSocketCommunication] getIFA];
+  NSString *odin = ODIN1();
+  
+  [PAStatsTracker createUserWithOpenUDID:openUDID macAddress:macAddress appleIFA:ifa odin:odin];
+#endif
+}
+
++ (void) makePixelAddictsAppOpenCall {
+#ifdef LEGENDS_OF_CHAOS
+  NSString *openUDID = [OpenUDID value];
+  NSString *macAddress = [[SocketCommunication sharedSocketCommunication] getMacAddress];
+  NSString *ifa = [[SocketCommunication sharedSocketCommunication] getIFA];
+  NSString *odin = ODIN1();
+  
+  [PAStatsTracker loginUserWithOpenUDID:openUDID macAddress:macAddress appleIFA:ifa odin:odin];
+#endif
+}
+
++(void) makePixelAddictsPurchaseCall:(float)price {
+#ifdef LEGENDS_OF_CHAOS
+  NSString *openUDID = [OpenUDID value];
+  NSString *macAddress = [[SocketCommunication sharedSocketCommunication] getMacAddress];
+  NSString *ifa = [[SocketCommunication sharedSocketCommunication] getIFA];
+  NSString *odin = ODIN1();
+  NSNumber *priceN = [NSNumber numberWithFloat:price * 0.7f];
+  
+  [PAStatsTracker purchaseInAppWithOpenUDID:openUDID macAddress:macAddress appleIFA:ifa odin:odin price:priceN];
+#endif
 }
 
 + (NSArray *) getUserEquipArrayFromFullUserProto:(FullUserProto *)fup {

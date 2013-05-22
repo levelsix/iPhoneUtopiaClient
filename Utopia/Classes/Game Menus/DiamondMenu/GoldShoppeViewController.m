@@ -304,10 +304,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 
 #pragma mark - View lifecycle
 
-//- (id) init {
-//  Globals *gl = [Globals sharedGlobals];
-//  return [self initWithNibName:@"GoldShoppeViewController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.goldShoppeNibName]];
-//}
+- (id) init {
+  Globals *gl = [Globals sharedGlobals];
+  return [self initWithNibName:@"GoldShoppeViewController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.goldShoppeNibName]];
+}
 
 - (void) setTimer:(NSTimer *)t {
   if (timer != t) {

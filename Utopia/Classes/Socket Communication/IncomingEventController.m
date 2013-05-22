@@ -773,6 +773,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
     [Nanigans trackPurchase:proto.packagePrice*100];
+    [Globals makePixelAddictsPurchaseCall:proto.packagePrice];
     
     // Post notification so all UI with that bar can update
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil]];

@@ -105,6 +105,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *arrowView;
 @property (nonatomic, retain) IBOutlet UIView *buttonView;
 @property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
+@property (nonatomic, retain) IBOutlet UIButton *redButton;
 @property (nonatomic, retain) CAGradientLayer *gradientLayer;
 
 @end

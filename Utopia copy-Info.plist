@@ -28,7 +28,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>3.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -36,14 +36,14 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb308804055902016</string>
+				<string>fb160187864152452</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>3.0</string>
 	<key>FacebookAppID</key>
-	<string>308804055902016</string>
+	<string>160187864152452</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSJavaNeeded</key>

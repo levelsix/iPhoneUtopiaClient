@@ -579,13 +579,18 @@
   self.gradientLayer = gradient;
   
   self.selectedBackgroundView = [[[UIView alloc] initWithFrame:self.bounds] autorelease];
-  self.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.5f];
+  self.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.3f alpha:0.5f];
 }
 
 - (void) cleanup {
   [super cleanup];
   self.clan = nil;
 }
+
+//- (UIView *)selectedBackgroundView {
+//  NSLog(@"%@", _selectedBackgroundView);
+//  return [super selectedBackgroundView];
+//}
 
 - (void) loadForClan:(FullClanProtoWithClanSize *)c {
   GameState *gs = [GameState sharedGameState];
@@ -622,6 +627,18 @@
   }
 }
 
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+  [super setSelected:highlighted animated:animated];
+  self.redButton.highlighted = NO;
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+  [super setSelected:selected animated:animated];
+  self.redButton.selected = NO;
+  self.redButton.highlighted = NO;
+}
+
+
 - (IBAction)redButtonClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   int clanId = self.clan.clan.clanId;
@@ -637,6 +654,7 @@
 - (void) dealloc {
   self.clan = nil;
   self.topLabel = nil;
+  self.redButton = nil;
   self.membersLabel = nil;
   self.typeLabel = nil;
   self.buttonLabel = nil;
