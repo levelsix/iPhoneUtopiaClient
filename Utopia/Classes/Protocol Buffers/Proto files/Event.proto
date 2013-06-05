@@ -53,6 +53,7 @@ message BattleResponseProto {
 		SUCCESS = 0;
 		OTHER_FAIL = 1;
 		SAME_SIDE = 2;
+		OPPONENT_HAS_ACTIVE_SHIELD = 3;
 	} 
 }
 
@@ -369,6 +370,8 @@ message StartupResponseProto {
 		
 		optional int32 numBeginnerSalesAllowed = 107;
 		
+		optional int32 defaultDaysBattleShieldIsActive = 108;
+		
 		message PrestigeConstants {
 			optional int32 minLevelForPrestige = 1;
 			optional int32 maxPrestigeLevel = 2;
@@ -586,6 +589,8 @@ message StartupResponseProto {
 		optional int32 firstBattleExpGain = 37;
 	
    		optional string defaultName = 38;
+     	
+     	optional int32 costToSpeedUpForge = 39;
      	
 		message FullTutorialQuestProto {
 				//do one task once, kill one enemy
@@ -1184,6 +1189,7 @@ message GenerateAttackListRequestProto {
 	optional double longLowerBound = 5;
 	optional double longUpperBound = 6;
 	optional bool forMap = 7;
+	optional bool showRealPlayers = 8;
 }
 
 																						//DONE
@@ -1192,7 +1198,7 @@ message GenerateAttackListResponseProto {
      repeated FullUserProto enemies = 2;
      optional GenerateAttackListStatus status = 3;
      optional bool forMap = 4;
-     
+     optional bool showRealPlayers = 5;
      
      enum GenerateAttackListStatus {
      	SUCCESS = 0;

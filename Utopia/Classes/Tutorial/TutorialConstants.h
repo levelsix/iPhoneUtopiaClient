@@ -39,6 +39,7 @@
 @property (nonatomic, retain) NSArray *levelTwoStructs;
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutorialQuest;
 @property (nonatomic, retain) NSString *defaultName;
+@property (nonatomic, assign) int costToSpeedUpForge;
 
 @property (nonatomic, retain) NSString *firstTaskText;
 @property (nonatomic, retain) NSString *lootText;
@@ -52,6 +53,11 @@
 
 @property (nonatomic, retain) NSString *beforeBazaarText;
 @property (nonatomic, retain) NSString *beforeBlacksmithText;
+@property (nonatomic, retain) NSString *beforeForgeText;
+@property (nonatomic, retain) NSString *beforeGuaranteeText;
+@property (nonatomic, retain) NSString *beforeFinishForgeText;
+@property (nonatomic, retain) NSString *beforeSpeedUpConfirmedText;
+@property (nonatomic, retain) NSString *beforeCheckResultsText;
 
 @property (nonatomic, retain) NSString *beforeHomeText;
 
@@ -88,6 +94,9 @@
 @property (nonatomic, assign) BOOL structUsedDiamonds;
 
 @property (nonatomic, assign) int diamondRewardForBeingReferred;
+
+@property (nonatomic, retain) UserCreateResponseProto *userCreateResponse;
+@property (nonatomic, retain) StartupResponseProto *startupResponse;
 
 + (TutorialConstants *) sharedTutorialConstants;
 + (void) purgeSingleton;

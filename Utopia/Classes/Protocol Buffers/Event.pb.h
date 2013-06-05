@@ -586,6 +586,7 @@ typedef enum {
   BattleResponseProto_BattleStatusSuccess = 0,
   BattleResponseProto_BattleStatusOtherFail = 1,
   BattleResponseProto_BattleStatusSameSide = 2,
+  BattleResponseProto_BattleStatusOpponentHasActiveShield = 3,
 } BattleResponseProto_BattleStatus;
 
 BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStatus value);
@@ -2804,17 +2805,18 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasUseOldBattleFormula_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
-  BOOL hasBossEventSuperAttack_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasHealthFormulaExponentBase_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
+  BOOL hasBossEventSuperAttack_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasFbConnectRewardDiamonds_:1;
+  BOOL hasHealthFormulaExponentBase_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasMinNameLength_:1;
+  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
   BOOL hasAverageSizeOfLevelBracket_:1;
-  BOOL hasMaxNumTowersClanCanHold_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
@@ -2823,14 +2825,18 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   BOOL hasVaultImgVerticalPixelOffset_:1;
   BOOL hasArmoryImgVerticalPixelOffset_:1;
   BOOL hasMaxCityRank_:1;
-  BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
+  BOOL hasDefaultDaysBattleShieldIsActive_:1;
+  BOOL hasNumBeginnerSalesAllowed_:1;
+  BOOL hasMaxNumTowersClanCanHold_:1;
+  BOOL hasFbConnectRewardDiamonds_:1;
+  BOOL hasQuestIdForFirstLossTutorial_:1;
+  BOOL hasMinClanMembersToHoldClanTower_:1;
   BOOL hasInitStamina_:1;
   BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
   BOOL hasNumHoursBeforeReshowingBossEvent_:1;
   BOOL hasNumHoursBeforeReshowingLockBox_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
-  BOOL hasMinClanMembersToHoldClanTower_:1;
   BOOL hasMaxLengthOfChatString_:1;
   BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
   BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
@@ -2838,15 +2844,17 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
   BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
   BOOL hasSizeOfAttackList_:1;
-  BOOL hasMaxNameLength_:1;
-  BOOL hasMinNameLength_:1;
-  BOOL hasQuestIdForFirstLossTutorial_:1;
-  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
+  BOOL hasSkillPointsGainedOnLevelup_:1;
+  BOOL hasStaminaBaseCost_:1;
+  BOOL hasEnergyBaseCost_:1;
+  BOOL hasDefenseBaseCost_:1;
   BOOL hasAttackBaseCost_:1;
   BOOL hasStaminaBaseGain_:1;
   BOOL hasEnergyBaseGain_:1;
   BOOL hasDefenseBaseGain_:1;
   BOOL hasAttackBaseGain_:1;
+  BOOL hasArmoryXlength_:1;
+  BOOL hasArmoryYlength_:1;
   BOOL hasAviaryYlength_:1;
   BOOL hasAviaryXlength_:1;
   BOOL hasCarpenterYlength_:1;
@@ -2855,11 +2863,7 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   BOOL hasMarketplaceXlength_:1;
   BOOL hasVaultYlength_:1;
   BOOL hasVaultXlength_:1;
-  BOOL hasArmoryYlength_:1;
-  BOOL hasArmoryXlength_:1;
-  BOOL hasMaxLevelForUser_:1;
-  BOOL hasMaxLevelDifferenceForBattle_:1;
-  BOOL hasNumBeginnerSalesAllowed_:1;
+  BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasNumDaysUntilFreeRetract_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
@@ -2869,21 +2873,19 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasMinutesToRefillAstamina_:1;
+  BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMaxLevelForStruct_:1;
-  BOOL hasSkillPointsGainedOnLevelup_:1;
-  BOOL hasStaminaBaseCost_:1;
-  BOOL hasEnergyBaseCost_:1;
-  BOOL hasDefenseBaseCost_:1;
+  BOOL hasMaxLevelForUser_:1;
   BOOL hasFaqFileName_:1;
   BOOL hasPrestigeFaqFileName_:1;
   BOOL hasBoosterPackConstants_:1;
   BOOL hasEnhanceConstants_:1;
   BOOL hasLeaderboardConstants_:1;
   BOOL hasMinLevelConstants_:1;
-  BOOL hasPrestigeConstants_:1;
   BOOL hasAdminChatUserProto_:1;
+  BOOL hasPrestigeConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasExpansionConstants_:1;
   BOOL hasLockBoxConstants_:1;
@@ -2896,17 +2898,18 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   BOOL hasBattleConstants_:1;
   BOOL hasFormulaConstants_:1;
   BOOL useOldBattleFormula_:1;
-  Float64 levelEquipBoostExponentBase;
-  Float64 bossEventSuperAttack;
   Float64 percentReturnedToUserForSellingEquipInArmory;
-  Float64 healthFormulaExponentBase;
   Float64 cutOfVaultDepositTaken;
+  Float64 levelEquipBoostExponentBase;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+  Float64 bossEventSuperAttack;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
   Float64 percentReturnedToUserForSellingNormStructure;
-  int32_t fbConnectRewardDiamonds;
+  Float64 healthFormulaExponentBase;
+  int32_t maxNameLength;
+  int32_t minNameLength;
+  int32_t adColonyVideosRequiredToRedeemDiamonds;
   int32_t averageSizeOfLevelBracket;
-  int32_t maxNumTowersClanCanHold;
   int32_t playerWallPostsRetrieveCap;
   int32_t maxCharLengthForWallPost;
   int32_t aviaryImgVerticalPixelOffset;
@@ -2915,14 +2918,18 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   int32_t vaultImgVerticalPixelOffset;
   int32_t armoryImgVerticalPixelOffset;
   int32_t maxCityRank;
-  int32_t maxNumbersOfEnemiesToGenerateAtOnce;
+  int32_t defaultDaysBattleShieldIsActive;
+  int32_t numBeginnerSalesAllowed;
+  int32_t maxNumTowersClanCanHold;
+  int32_t fbConnectRewardDiamonds;
+  int32_t questIdForFirstLossTutorial;
+  int32_t minClanMembersToHoldClanTower;
   int32_t initStamina;
   int32_t bossEventNumberOfAttacksUntilSuperAttack;
   int32_t levelToShowRateUsPopup;
   int32_t numHoursBeforeReshowingBossEvent;
   int32_t numHoursBeforeReshowingLockBox;
   int32_t numHoursBeforeReshowingGoldSale;
-  int32_t minClanMembersToHoldClanTower;
   int32_t maxLengthOfChatString;
   int32_t diamondPriceForGroupChatPurchasePackage;
   int32_t numChatsGivenPerGroupChatPurchasePackage;
@@ -2930,15 +2937,17 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   int32_t hoursInAttackedByOneProtectionPeriod;
   int32_t maxNumTimesAttackedByOneInProtectionPeriod;
   int32_t sizeOfAttackList;
-  int32_t maxNameLength;
-  int32_t minNameLength;
-  int32_t questIdForFirstLossTutorial;
-  int32_t adColonyVideosRequiredToRedeemDiamonds;
+  int32_t skillPointsGainedOnLevelup;
+  int32_t staminaBaseCost;
+  int32_t energyBaseCost;
+  int32_t defenseBaseCost;
   int32_t attackBaseCost;
   int32_t staminaBaseGain;
   int32_t energyBaseGain;
   int32_t defenseBaseGain;
   int32_t attackBaseGain;
+  int32_t armoryXlength;
+  int32_t armoryYlength;
   int32_t aviaryYlength;
   int32_t aviaryXlength;
   int32_t carpenterYlength;
@@ -2947,11 +2956,7 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   int32_t marketplaceXlength;
   int32_t vaultYlength;
   int32_t vaultXlength;
-  int32_t armoryYlength;
-  int32_t armoryXlength;
-  int32_t maxLevelForUser;
-  int32_t maxLevelDifferenceForBattle;
-  int32_t numBeginnerSalesAllowed;
+  int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t numDaysUntilFreeRetract;
   int32_t diamondCostOfShortMarketplaceLicense;
   int32_t diamondCostOfLongMarketplaceLicense;
@@ -2961,21 +2966,19 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   int32_t diamondCostForFullEnergyRefill;
   int32_t diamondCostForFullStaminaRefill;
   int32_t minutesToRefillAstamina;
+  int32_t maxLevelDifferenceForBattle;
   int32_t minutesToRefillAenergy;
   int32_t maxNumOfSingleStruct;
   int32_t maxLevelForStruct;
-  int32_t skillPointsGainedOnLevelup;
-  int32_t staminaBaseCost;
-  int32_t energyBaseCost;
-  int32_t defenseBaseCost;
+  int32_t maxLevelForUser;
   NSString* faqFileName;
   NSString* prestigeFaqFileName;
   StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
   StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
   StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
   StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
-  StartupResponseProto_StartupConstants_PrestigeConstants* prestigeConstants;
   MinimumUserProto* adminChatUserProto;
+  StartupResponseProto_StartupConstants_PrestigeConstants* prestigeConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
   StartupResponseProto_StartupConstants_LockBoxConstants* lockBoxConstants;
@@ -3085,6 +3088,7 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (BOOL) hasPrestigeFaqFileName;
 - (BOOL) hasAdminChatUserProto;
 - (BOOL) hasNumBeginnerSalesAllowed;
+- (BOOL) hasDefaultDaysBattleShieldIsActive;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -3177,6 +3181,7 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 @property (readonly, retain) NSString* prestigeFaqFileName;
 @property (readonly, retain) MinimumUserProto* adminChatUserProto;
 @property (readonly) int32_t numBeginnerSalesAllowed;
+@property (readonly) int32_t defaultDaysBattleShieldIsActive;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -5452,10 +5457,16 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (int32_t) numBeginnerSalesAllowed;
 - (StartupResponseProto_StartupConstants_Builder*) setNumBeginnerSalesAllowed:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearNumBeginnerSalesAllowed;
+
+- (BOOL) hasDefaultDaysBattleShieldIsActive;
+- (int32_t) defaultDaysBattleShieldIsActive;
+- (StartupResponseProto_StartupConstants_Builder*) setDefaultDaysBattleShieldIsActive:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearDefaultDaysBattleShieldIsActive;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
 @private
+  BOOL hasCostToSpeedUpForge_:1;
   BOOL hasFirstBattleExpGain_:1;
   BOOL hasFirstBattleCoinGain_:1;
   BOOL hasExpRequiredForLevelThree_:1;
@@ -5468,25 +5479,26 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   BOOL hasWarriorInitDefense_:1;
   BOOL hasWarriorInitAttack_:1;
   BOOL hasInitEnergy_:1;
-  BOOL hasInitStamina_:1;
-  BOOL hasInitHealth_:1;
-  BOOL hasStructToBuild_:1;
-  BOOL hasDiamondCostToInstabuildFirstStruct_:1;
-  BOOL hasArcherInitAttack_:1;
-  BOOL hasArcherInitDefense_:1;
   BOOL hasMageInitDefense_:1;
   BOOL hasMageInitAttack_:1;
+  BOOL hasInitStamina_:1;
+  BOOL hasInitHealth_:1;
+  BOOL hasArcherInitDefense_:1;
+  BOOL hasArcherInitAttack_:1;
+  BOOL hasDiamondCostToInstabuildFirstStruct_:1;
+  BOOL hasStructToBuild_:1;
   BOOL hasDefaultName_:1;
-  BOOL hasMageInitWeapon_:1;
   BOOL hasFirstTaskBad_:1;
   BOOL hasFirstTaskGood_:1;
   BOOL hasFirstWallPost_:1;
-  BOOL hasMageInitArmor_:1;
   BOOL hasTutorialQuest_:1;
-  BOOL hasArcherInitArmor_:1;
-  BOOL hasWarriorInitWeapon_:1;
-  BOOL hasWarriorInitArmor_:1;
   BOOL hasArcherInitWeapon_:1;
+  BOOL hasArcherInitArmor_:1;
+  BOOL hasWarriorInitArmor_:1;
+  BOOL hasWarriorInitWeapon_:1;
+  BOOL hasMageInitArmor_:1;
+  BOOL hasMageInitWeapon_:1;
+  int32_t costToSpeedUpForge;
   int32_t firstBattleExpGain;
   int32_t firstBattleCoinGain;
   int32_t expRequiredForLevelThree;
@@ -5499,30 +5511,30 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   int32_t warriorInitDefense;
   int32_t warriorInitAttack;
   int32_t initEnergy;
-  int32_t initStamina;
-  int32_t initHealth;
-  int32_t structToBuild;
-  int32_t diamondCostToInstabuildFirstStruct;
-  int32_t archerInitAttack;
-  int32_t archerInitDefense;
   int32_t mageInitDefense;
   int32_t mageInitAttack;
+  int32_t initStamina;
+  int32_t initHealth;
+  int32_t archerInitDefense;
+  int32_t archerInitAttack;
+  int32_t diamondCostToInstabuildFirstStruct;
+  int32_t structToBuild;
   NSString* defaultName;
-  FullEquipProto* mageInitWeapon;
   FullTaskProto* firstTaskBad;
   FullTaskProto* firstTaskGood;
   PlayerWallPostProto* firstWallPost;
-  FullEquipProto* mageInitArmor;
   StartupResponseProto_TutorialConstants_FullTutorialQuestProto* tutorialQuest;
-  FullEquipProto* archerInitArmor;
-  FullEquipProto* warriorInitWeapon;
-  FullEquipProto* warriorInitArmor;
   FullEquipProto* archerInitWeapon;
+  FullEquipProto* archerInitArmor;
+  FullEquipProto* warriorInitArmor;
+  FullEquipProto* warriorInitWeapon;
+  FullEquipProto* mageInitArmor;
+  FullEquipProto* mageInitWeapon;
   NSMutableArray* mutableCarpenterStructsList;
+  NSMutableArray* mutableFirstCityElementsForBadList;
   NSMutableArray* mutableCitiesNewlyAvailableToUserAfterLevelupList;
   NSMutableArray* mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
   NSMutableArray* mutableNewlyAvailableStructsAfterLevelupList;
-  NSMutableArray* mutableFirstCityElementsForBadList;
   NSMutableArray* mutableFirstCityElementsForGoodList;
 }
 - (BOOL) hasInitEnergy;
@@ -5556,6 +5568,7 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (BOOL) hasFirstBattleCoinGain;
 - (BOOL) hasFirstBattleExpGain;
 - (BOOL) hasDefaultName;
+- (BOOL) hasCostToSpeedUpForge;
 @property (readonly) int32_t initEnergy;
 @property (readonly) int32_t initStamina;
 @property (readonly) int32_t initHealth;
@@ -5587,6 +5600,7 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 @property (readonly) int32_t firstBattleCoinGain;
 @property (readonly) int32_t firstBattleExpGain;
 @property (readonly, retain) NSString* defaultName;
+@property (readonly) int32_t costToSpeedUpForge;
 - (NSArray*) firstCityElementsForGoodList;
 - (NeutralCityElementProto*) firstCityElementsForGoodAtIndex:(int32_t) index;
 - (NSArray*) firstCityElementsForBadList;
@@ -6034,6 +6048,11 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (NSString*) defaultName;
 - (StartupResponseProto_TutorialConstants_Builder*) setDefaultName:(NSString*) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearDefaultName;
+
+- (BOOL) hasCostToSpeedUpForge;
+- (int32_t) costToSpeedUpForge;
+- (StartupResponseProto_TutorialConstants_Builder*) setCostToSpeedUpForge:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearCostToSpeedUpForge;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {
@@ -9476,6 +9495,7 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 @interface GenerateAttackListRequestProto : PBGeneratedMessage {
 @private
   BOOL hasForMap_:1;
+  BOOL hasShowRealPlayers_:1;
   BOOL hasLatLowerBound_:1;
   BOOL hasLatUpperBound_:1;
   BOOL hasLongLowerBound_:1;
@@ -9483,6 +9503,7 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   BOOL hasNumEnemies_:1;
   BOOL hasSender_:1;
   BOOL forMap_:1;
+  BOOL showRealPlayers_:1;
   Float64 latLowerBound;
   Float64 latUpperBound;
   Float64 longLowerBound;
@@ -9497,6 +9518,7 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (BOOL) hasLongLowerBound;
 - (BOOL) hasLongUpperBound;
 - (BOOL) hasForMap;
+- (BOOL) hasShowRealPlayers;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t numEnemies;
 @property (readonly) Float64 latLowerBound;
@@ -9504,6 +9526,7 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 @property (readonly) Float64 longLowerBound;
 @property (readonly) Float64 longUpperBound;
 - (BOOL) forMap;
+- (BOOL) showRealPlayers;
 
 + (GenerateAttackListRequestProto*) defaultInstance;
 - (GenerateAttackListRequestProto*) defaultInstance;
@@ -9575,14 +9598,21 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (BOOL) forMap;
 - (GenerateAttackListRequestProto_Builder*) setForMap:(BOOL) value;
 - (GenerateAttackListRequestProto_Builder*) clearForMap;
+
+- (BOOL) hasShowRealPlayers;
+- (BOOL) showRealPlayers;
+- (GenerateAttackListRequestProto_Builder*) setShowRealPlayers:(BOOL) value;
+- (GenerateAttackListRequestProto_Builder*) clearShowRealPlayers;
 @end
 
 @interface GenerateAttackListResponseProto : PBGeneratedMessage {
 @private
   BOOL hasForMap_:1;
+  BOOL hasShowRealPlayers_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   BOOL forMap_:1;
+  BOOL showRealPlayers_:1;
   MinimumUserProto* sender;
   GenerateAttackListResponseProto_GenerateAttackListStatus status;
   NSMutableArray* mutableEnemiesList;
@@ -9590,9 +9620,11 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasForMap;
+- (BOOL) hasShowRealPlayers;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) GenerateAttackListResponseProto_GenerateAttackListStatus status;
 - (BOOL) forMap;
+- (BOOL) showRealPlayers;
 - (NSArray*) enemiesList;
 - (FullUserProto*) enemiesAtIndex:(int32_t) index;
 
@@ -9653,6 +9685,11 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (BOOL) forMap;
 - (GenerateAttackListResponseProto_Builder*) setForMap:(BOOL) value;
 - (GenerateAttackListResponseProto_Builder*) clearForMap;
+
+- (BOOL) hasShowRealPlayers;
+- (BOOL) showRealPlayers;
+- (GenerateAttackListResponseProto_Builder*) setShowRealPlayers:(BOOL) value;
+- (GenerateAttackListResponseProto_Builder*) clearShowRealPlayers;
 @end
 
 @interface RefillStatWithDiamondsRequestProto : PBGeneratedMessage {

@@ -72,6 +72,8 @@ typedef enum {
   CCMenuItemSprite *_mapButton;
   CCMenu *_bottomButtons;
   
+  CCSprite *_shieldOnView;
+  
   CCSprite *_questNewArrow;
   CCSprite *_questProgArrow;
   CCSprite *_questNewBadge;
@@ -162,6 +164,7 @@ typedef enum {
 - (void) shouldDisplayBossEventButton:(BOOL)button;
 - (void) shouldDisplayTournamentButton:(BOOL)button;
 - (void) shouldDisplayTowerButton:(BOOL)button;
+- (void) shouldDisplayShieldView:(BOOL)shieldView;
 
 + (TopBar *) sharedTopBar;
 + (void) purgeSingleton;

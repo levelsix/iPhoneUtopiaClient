@@ -359,132 +359,47 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleUserCreateResponseProto:(FullEvent *)fe {
+  GameState *gs = [GameState sharedGameState];
+  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
+  
   UserCreateResponseProto *proto = (UserCreateResponseProto *)fe.event;
-  int tag = fe.tag;
   
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Received user create with status %d", proto.status);
   
-  [[DialogMenuController sharedDialogMenuController] receivedUserCreateResponse:proto];
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == UserCreateResponseProto_UserCreateStatusSuccess) {
-    [gs updateUser:proto.sender timestamp:0];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  if (!tc.userCreateResponse) {
+    tc.userCreateResponse = proto;
+  }
+  
+  if (proto.status == UserCreateResponseProto_UserCreateStatusSuccess ||
+      proto.status == UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists) {
     [[OutgoingEventController sharedOutgoingEventController] startup];
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleReconnectResponseProto:(FullEvent *)fe {
-  ReconnectResponseProto *proto = (ReconnectResponseProto *)fe.event;
-  
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Received reconnect response with %@incoming messages.", proto.incomingResponseMessages ? @"" : @"no ");
-}
-
-- (void) handleChatResponseProto:(FullEvent *)fe {
-  ChatResponseProto *proto = (ChatResponseProto *)fe.event;
-  
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"%@", [proto message]);
-}
-
-- (void) handleVaultResponseProto:(FullEvent *)fe {
-  VaultResponseProto *proto = (VaultResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Vault response received with status %d", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == VaultResponseProto_VaultStatusSuccess) {
-    [gs setVaultBalance:proto.vaultAmount];
-    [gs setSilver:proto.coinAmount];
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to perform vault action."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-    [[VaultMenuController sharedVaultMenuController] updateBalance];
-  }
-}
-
-- (void) handleBattleResponseProto:(FullEvent *)fe {
-  BattleResponseProto *proto = (BattleResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Battle response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == BattleResponseProto_BattleStatusSuccess) {
-    if (proto.attacker.userId == gs.userId) {
-      gs.experience += proto.expGained;
-      
-      if (proto.battleResult == BattleResultAttackerWin) {
-        gs.silver += proto.coinsGained;
-      } else {
-        gs.silver -= proto.coinsGained;
-      }
-      
-      if (proto.hasEventIdOfLockBoxGained) {
-        [gs addToNumLockBoxesForEvent:proto.eventIdOfLockBoxGained];
-      }
-      if (proto.hasUserEquipGained) {
-        [gs.staticEquips setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
-        [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.userEquipGained]];
-      }
-      [[BattleLayer sharedBattleLayer] setBrp:proto];
-    } else {
-      if (proto.battleResult == BattleResultAttackerWin) {
-        gs.silver -= proto.coinsGained;
-      } else {
-        gs.silver += proto.coinsGained;
-      }
-      
-      if (proto.hasUserEquipGained) {
-        [[gs staticEquips] setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
-        [gs.myEquips removeObject:[gs myEquipWithUserEquipId:proto.userEquipGained.userEquipId]];
-      }
-      
-      UserNotification *un = [[UserNotification alloc] initWithBattleResponse:proto];
-      [gs addNotification:un];
-      [un release];
-      
-      [Analytics receivedNotification];
+    if (dmc.waitingForUserCreate) {
+      dmc.waitingForStartup = YES;
     }
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to record battle"];
-    [gs removeAndUndoAllUpdatesForTag:tag];
   }
-}
-
-- (void) handleArmoryResponseProto:(FullEvent *)fe {
-  ArmoryResponseProto *proto = (ArmoryResponseProto *)fe.event;
-  int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Armory response received with status %d", proto.status);
-  
-  GameState *gs =[GameState sharedGameState];
-  BOOL success = YES;
-  if (proto.status != ArmoryResponseProto_ArmoryStatusSuccess) {
-    [Globals popupMessage:@"Server failed to perform armory action."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-    success = NO;
-  } else {
-    [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.fullUserEquipOfBoughtItem]];
+  if (dmc.waitingForUserCreate) {
+    [dmc receivedUserCreateResponse:proto];
     
-    [gs removeNonFullUserUpdatesForTag:tag];
+    if (proto.hasSender) {
+      [gs updateUser:proto.sender timestamp:0];
+    }
   }
   
-  if ([EquipMenuController isInitialized]) {
-    [[EquipMenuController sharedEquipMenuController] receivedArmoryResponse:proto];
-  }
-  if ([ForgeMenuController isInitialized]) {
-    [[ForgeMenuController sharedForgeMenuController] receivedArmoryResponse:success];
-  }
-  if ([RefillMenuController isInitialized]) {
-    [[RefillMenuController sharedRefillMenuController] receivedArmoryResponse:success equip:proto.fullUserEquipOfBoughtItem.equipId];
-  }
+  //  [[DialogMenuController sharedDialogMenuController] receivedUserCreateResponse:proto];
+  //  GameState *gs = [GameState sharedGameState];
+  //  if (proto.status == UserCreateResponseProto_UserCreateStatusSuccess) {
+  //    [gs updateUser:proto.sender timestamp:0];
+  //    [[OutgoingEventController sharedOutgoingEventController] startup];
+  //    [gs removeNonFullUserUpdatesForTag:tag];
+  //  } else {
+  //    [gs removeAndUndoAllUpdatesForTag:tag];
+  //  }
 }
 
 - (void) handleStartupResponseProto:(FullEvent *)fe {
+  
   StartupResponseProto *proto = (StartupResponseProto *)fe.event;
   int tag = fe.tag;
   
@@ -492,6 +407,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
+  
+  
+  if (gs.isTutorial) {
+    DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
+    if (!dmc.waitingForStartup) {
+      TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+      if (!tc.startupResponse) {
+        tc.startupResponse = proto;
+      }
+      return;
+    }
+  }
   
   gs.kabamNaid = proto.kabamNaid;
   NSLog(@"Kabam NAID: %@", gs.kabamNaid);
@@ -631,6 +558,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs addChatMessage:cm scope:GroupChatScopeClan];
       [cm release];
     }
+    
     for (RareBoosterPurchaseProto *rbp in proto.rareBoosterPurchasesList) {
       NSLog(@"%@ got %@ from %@.", rbp.user.name, rbp.equip.name, rbp.booster.name);
       [gs addBoosterPurchase:rbp];
@@ -643,6 +571,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (gs.isTutorial) {
       [Nanigans trackTutorialComplete];
       [[DialogMenuController sharedDialogMenuController] stopLoading:YES];
+      [gs.unrespondedUpdates removeAllObjects];
     } else {
       [[GameViewController sharedGameViewController] loadGame:NO];
     }
@@ -699,6 +628,115 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gs removeNonFullUserUpdatesForTag:tag];
   
   [[GameViewController sharedGameViewController] startupComplete];
+}
+
+- (void) handleReconnectResponseProto:(FullEvent *)fe {
+  ReconnectResponseProto *proto = (ReconnectResponseProto *)fe.event;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Received reconnect response with %@incoming messages.", proto.incomingResponseMessages ? @"" : @"no ");
+}
+
+- (void) handleChatResponseProto:(FullEvent *)fe {
+  ChatResponseProto *proto = (ChatResponseProto *)fe.event;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"%@", [proto message]);
+}
+
+- (void) handleVaultResponseProto:(FullEvent *)fe {
+  VaultResponseProto *proto = (VaultResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Vault response received with status %d", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == VaultResponseProto_VaultStatusSuccess) {
+    [gs setVaultBalance:proto.vaultAmount];
+    [gs setSilver:proto.coinAmount];
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to perform vault action."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+    [[VaultMenuController sharedVaultMenuController] updateBalance];
+  }
+}
+
+- (void) handleBattleResponseProto:(FullEvent *)fe {
+  BattleResponseProto *proto = (BattleResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Battle response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == BattleResponseProto_BattleStatusSuccess) {
+    if (proto.attacker.userId == gs.userId) {
+      gs.experience += proto.expGained;
+      
+      if (proto.battleResult == BattleResultAttackerWin) {
+        gs.silver += proto.coinsGained;
+      } else {
+        gs.silver -= proto.coinsGained;
+      }
+      
+      if (proto.hasEventIdOfLockBoxGained) {
+        [gs addToNumLockBoxesForEvent:proto.eventIdOfLockBoxGained];
+      }
+      if (proto.hasUserEquipGained) {
+        [gs.staticEquips setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
+        [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.userEquipGained]];
+      }
+      [[BattleLayer sharedBattleLayer] setBrp:proto];
+    } else {
+      if (proto.battleResult == BattleResultAttackerWin) {
+        gs.silver -= proto.coinsGained;
+      } else {
+        gs.silver += proto.coinsGained;
+      }
+      
+      if (proto.hasUserEquipGained) {
+        [[gs staticEquips] setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
+        [gs.myEquips removeObject:[gs myEquipWithUserEquipId:proto.userEquipGained.userEquipId]];
+      }
+      
+      UserNotification *un = [[UserNotification alloc] initWithBattleResponse:proto];
+      [gs addNotification:un];
+      [un release];
+      
+      [Analytics receivedNotification];
+    }
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to record battle"];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleArmoryResponseProto:(FullEvent *)fe {
+  ArmoryResponseProto *proto = (ArmoryResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Armory response received with status %d", proto.status);
+  
+  GameState *gs =[GameState sharedGameState];
+  BOOL success = YES;
+  if (proto.status != ArmoryResponseProto_ArmoryStatusSuccess) {
+    [Globals popupMessage:@"Server failed to perform armory action."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+    success = NO;
+  } else {
+    [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.fullUserEquipOfBoughtItem]];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  }
+  
+  if ([EquipMenuController isInitialized]) {
+    [[EquipMenuController sharedEquipMenuController] receivedArmoryResponse:proto];
+  }
+  if ([ForgeMenuController isInitialized]) {
+    [[ForgeMenuController sharedForgeMenuController] receivedArmoryResponse:success];
+  }
+  if ([RefillMenuController isInitialized]) {
+    [[RefillMenuController sharedRefillMenuController] receivedArmoryResponse:success equip:proto.fullUserEquipOfBoughtItem.equipId];
+  }
 }
 
 - (void) handleLevelUpResponseProto:(FullEvent *)fe {
@@ -1039,31 +1077,41 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GenerateAttackListResponseProto *proto = (GenerateAttackListResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Generate attack list response received with status %d and %d enemies.", proto.status, proto.enemiesList.count);
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Generate attack list response received with status %d and %d %@ enemies.", proto.status, proto.enemiesList.count, proto.showRealPlayers ? @"real" : @"fake");
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == GenerateAttackListResponseProto_GenerateAttackListStatusSuccess) {
-    NSMutableArray *list = proto.forMap ? gs.attackMapList : gs.attackList;
-    for (FullUserProto *fup in proto.enemiesList) {
-      BOOL shouldBeAdded = YES;
-      // Make sure this is not a repeat
-      for (FullUserProto *checkFup in list) {
-        if (checkFup.userId == fup.userId) {
-          shouldBeAdded = NO;
+    NSMutableArray *list;
+    if (proto.showRealPlayers) {
+      gs.attackPlayersList = [NSMutableArray array];
+      list = gs.attackPlayersList;
+    } else {
+      gs.attackBotList = [NSMutableArray array];
+      list = gs.attackBotList;
+    }
+    
+    if (proto.enemiesList.count != 0) {
+      for (FullUserProto *fup in proto.enemiesList) {
+        BOOL shouldBeAdded = YES;
+        // Make sure this is not a repeat
+        for (FullUserProto *checkFup in list) {
+          if (checkFup.userId == fup.userId) {
+            shouldBeAdded = NO;
+          }
         }
-      }
-      
-      if (shouldBeAdded) {
-        [list addObject:fup];
+        
+        if (shouldBeAdded) {
+          [list addObject:fup];
+        }
       }
     }
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     
-    if (proto.forMap) {
-      [[AttackMenuController sharedAttackMenuController] addNewPins];
-    } else {
-      [[[AttackMenuController sharedAttackMenuController] attackTableView] reloadData];
-    }
+    //    if (proto.forMap) {
+    //      [[AttackMenuController sharedAttackMenuController] addNewPins];
+    //    } else {
+    [[[AttackMenuController sharedAttackMenuController] attackTableView] reloadData];
+    //    }
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"An error occurred while generating the attack list"];
@@ -2667,7 +2715,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.status == SubmitEquipEnhancementResponseProto_EnhanceEquipStatusClientTooApartFromServerTime) {
       [self handleTimeOutOfSync];
     } else {
-    [Globals popupMessage:@"Server failed to submit equip enhancement."];
+      [Globals popupMessage:@"Server failed to submit equip enhancement."];
     }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
@@ -2691,7 +2739,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.status == CollectEquipEnhancementResponseProto_CollectEquipStatusClientTooApartFromServerTime) {
       [self handleTimeOutOfSync];
     } else {
-    [Globals popupMessage:@"Server failed to collect equip enhancement."];
+      [Globals popupMessage:@"Server failed to collect equip enhancement."];
     }
     
     [gs removeAndUndoAllUpdatesForTag:tag];

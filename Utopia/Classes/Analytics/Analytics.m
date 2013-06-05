@@ -127,6 +127,7 @@
 #define BLACKSMITH_BUY_ONE @"Blksmth: Buy one clicked"
 
 #define TUTORIAL_START @"Tut: Start"
+#define TUTORIAL_SIDE_CHOSEN @"Tut: Side Chosen"
 #define TUTORIAL_CHAR_CHOSEN @"Tut: Character chosen"
 #define TUTORIAL_NAME_ENTERED @"Tut: Name entered"
 #define TUTORIAL_COMPLETE_TASK_1 @"Tut: Complete task 1"
@@ -150,7 +151,16 @@
 #define TUTORIAL_CLICKED_OKAY_1 @"Tut: Clicked okay 1"
 #define TUTORIAL_CLICKED_OKAY_2 @"Tut: Clicked okay 2"
 #define TUTORIAL_CLICKED_DONE @"Tut: Clicked done"
+#define TUTORIAL_CLOSED_STOLEN_EQUIP @"Tut: Closed stolen equip"
 #define TUTORIAL_CLOSED_BATTLE_SUMMARY @"Tut: Closed battle summary"
+#define TUTORIAL_BAZAAR_CLICKED @"Tut: Bazaar Clicked"
+#define TUTORIAL_BLACKSMITH_CLICKED @"Tut: Blacksmith Clicked"
+#define TUTORIAL_FORGE_ITEMS_CLICKED @"Tut: Forge Items Clicked"
+#define TUTORIAL_GUARANTEE_CLICKED @"Tut: Guarantee Clicked"
+#define TUTORIAL_FORGE_FINISH_NOW @"Tut: Forge Finish Now"
+#define TUTORIAL_SPEED_UP_CONFIRMED @"Tut: Speed Up Confirmed"
+#define TUTORIAL_CHECK_RESULTS_CLICKED @"Tut: Check Results"
+#define TUTORIAL_CLOSED_FORGE @"Tut: Blacksmith Closed"
 #define TUTORIAL_MY_CITY_CLICKED @"Tut: My city clicked"
 #define TUTORIAL_CARPENTER_CLICKED @"Tut: Carpenter clicked"
 #define TUTORIAL_PURCHASE_INN @"Tut: Clicked Inn"
@@ -162,7 +172,6 @@
 #define TUTORIAL_USER_CREATED @"Tut: User Created"
 #define TUTORIAL_QUEST_BUTTON_2 @"Tut: Quests clicked 2"
 #define TUTORIAL_COMPLETE @"Tut: Complete"
-
 
 @implementation Analytics
 
@@ -920,8 +929,13 @@
 
 // Tutorial
 
+
 + (void) tutStart {
   [Analytics event:TUTORIAL_START];
+}
+
++ (void) tutSideChosen {
+  [Analytics event:TUTORIAL_SIDE_CHOSEN];
 }
 
 + (void) tutCharChosen {
@@ -1016,8 +1030,44 @@
   [Analytics event:TUTORIAL_CLICKED_DONE];
 }
 
++ (void) tutClosedStolenEquip {
+  [Analytics event:TUTORIAL_CLOSED_STOLEN_EQUIP];
+}
+
 + (void) tutClosedBattleSummary {
   [Analytics event:TUTORIAL_CLOSED_BATTLE_SUMMARY];
+}
+
++ (void) tutBazaarClicked {
+  [Analytics event:TUTORIAL_BAZAAR_CLICKED];
+}
+
++ (void) tutBlacksmithClicked {
+  [Analytics event:TUTORIAL_BLACKSMITH_CLICKED];
+}
+
++ (void) tutForgeItemsClicked {
+  [Analytics event:TUTORIAL_FORGE_ITEMS_CLICKED];
+}
+
++ (void) tutGuaranteeClicked {
+  [Analytics event:TUTORIAL_GUARANTEE_CLICKED];
+}
+
++ (void) tutForgeFinishNow {
+  [Analytics event:TUTORIAL_FORGE_FINISH_NOW];
+}
+
++ (void) tutSpeedUpConfirmed {
+  [Analytics event:TUTORIAL_SPEED_UP_CONFIRMED];
+}
+
++ (void) tutCheckResultsClicked {
+  [Analytics event:TUTORIAL_CHECK_RESULTS_CLICKED];
+}
+
++ (void) tutClosedForge {
+  [Analytics event:TUTORIAL_CLOSED_FORGE];
 }
 
 + (void) tutMyCityClicked {

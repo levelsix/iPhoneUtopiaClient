@@ -14752,6 +14752,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 @property int32_t numAdditionalForgeSlots;
 @property int32_t numBeginnerSalesPurchased;
 @property BOOL isMentor;
+@property BOOL hasActiveShield;
 @property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -15135,6 +15136,18 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 - (void) setIsMentor:(BOOL) value {
   isMentor_ = !!value;
 }
+- (BOOL) hasHasActiveShield {
+  return !!hasHasActiveShield_;
+}
+- (void) setHasHasActiveShield:(BOOL) value {
+  hasHasActiveShield_ = !!value;
+}
+- (BOOL) hasActiveShield {
+  return !!hasActiveShield_;
+}
+- (void) setHasActiveShield:(BOOL) value {
+  hasActiveShield_ = !!value;
+}
 - (BOOL) hasUdid {
   return !!hasUdid_;
 }
@@ -15265,6 +15278,7 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
     self.numAdditionalForgeSlots = 0;
     self.numBeginnerSalesPurchased = 0;
     self.isMentor = NO;
+    self.hasActiveShield = NO;
     self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -15470,6 +15484,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasIsMentor) {
     [output writeBool:64 value:self.isMentor];
   }
+  if (self.hasHasActiveShield) {
+    [output writeBool:65 value:self.hasActiveShield];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -15655,6 +15672,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasIsMentor) {
     size += computeBoolSize(64, self.isMentor);
+  }
+  if (self.hasHasActiveShield) {
+    size += computeBoolSize(65, self.hasActiveShield);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -15880,6 +15900,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasIsMentor) {
     [self setIsMentor:other.isMentor];
+  }
+  if (other.hasHasActiveShield) {
+    [self setHasActiveShield:other.hasActiveShield];
   }
   if (other.hasUdid) {
     [self setUdid:other.udid];
@@ -16208,6 +16231,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 512: {
         [self setIsMentor:[input readBool]];
+        break;
+      }
+      case 520: {
+        [self setHasActiveShield:[input readBool]];
         break;
       }
     }
@@ -17123,6 +17150,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearIsMentor {
   result.hasIsMentor = NO;
   result.isMentor = NO;
+  return self;
+}
+- (BOOL) hasHasActiveShield {
+  return result.hasHasActiveShield;
+}
+- (BOOL) hasActiveShield {
+  return result.hasActiveShield;
+}
+- (FullUserProto_Builder*) setHasActiveShield:(BOOL) value {
+  result.hasHasActiveShield = YES;
+  result.hasActiveShield = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearHasActiveShield {
+  result.hasHasActiveShield = NO;
+  result.hasActiveShield = NO;
   return self;
 }
 - (BOOL) hasUdid {

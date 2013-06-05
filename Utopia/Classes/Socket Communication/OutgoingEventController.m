@@ -48,6 +48,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   
+  Globals *gl = [Globals sharedGlobals];
   int tag = [sc sendUserCreateMessageWithName:gs.name
                                          type:gs.type
                                           lat:gs.location.latitude
@@ -56,13 +57,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
                                   deviceToken:gs.deviceToken
                                        attack:gs.attack
                                       defense:gs.defense
-                                       energy:gs.maxEnergy
-                                      stamina:gs.maxStamina
-                         timeOfStructPurchase:tc.structTimeOfPurchase.timeIntervalSince1970*1000
-                            timeOfStructBuild:tc.structTimeOfBuildComplete.timeIntervalSince1970*1000
+                                       energy:tc.initEnergy+gl.skillPointsGainedOnLevelup
+                                      stamina:tc.initStamina
                                       structX:tc.structCoords.x
                                       structY:tc.structCoords.y
-                                 usedDiamonds:tc.structUsedDiamonds];
+                                 usedDiamonds:YES];
   
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
@@ -296,6 +295,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds {
+  // Deactivate this
+  return;
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"%d enemies in rect: %@", numEnemies, [NSValue valueWithCGRect:bounds]);
   if (bounds.size.width <= 0 || bounds.size.height <= 0) {
     [Globals popupMessage:@"Invalid bounds to generate attack list"];
@@ -316,13 +317,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
-- (void) generateAttackList:(int)numEnemies {
+- (void) generateAttackList:(int)numEnemies realPlayersOnly:(BOOL)realPlayersOnly {
   if (numEnemies <= 0) {
     [Globals popupMessage:@"Invalid number of enemies to retrieve"];
     return;
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendGenerateAttackListMessage:numEnemies];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendGenerateAttackListMessage:numEnemies realPlayersOnly:realPlayersOnly];
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
@@ -1127,7 +1128,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  for (FullUserProto *fup in gs.attackList) {
+  for (FullUserProto *fup in gs.attackBotList) {
     int eq = fup.weaponEquippedUserEquip.equipId;
     NSNumber *w = [NSNumber numberWithInt:eq];
     if (eq && ![sEquips objectForKey:w]) {
@@ -1150,7 +1151,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  for (FullUserProto *fup in gs.attackMapList) {
+  for (FullUserProto *fup in gs.attackPlayersList) {
     int eq = fup.weaponEquippedUserEquip.equipId;
     NSNumber *w = [NSNumber numberWithInt:eq];
     if (eq && ![sEquips objectForKey:w]) {

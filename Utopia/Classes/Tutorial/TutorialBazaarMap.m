@@ -14,8 +14,9 @@
 @implementation TutorialBazaarMap
 
 - (void) beginForgePhase {
+  self.scale = 0.6f;
   [self moveToCritStruct:BazaarStructTypeBlacksmith animated:NO];
-  self.position = ccpAdd(self.position, ccp(120, 0));
+  self.position = ccpAdd(self.position, ccp(0, -40));
   
   _isForgePhase = YES;
   
@@ -25,12 +26,18 @@
   [TutorialForgeMenuController sharedForgeMenuController];
 }
 
+- (void) createMyPlayer {
+  return;
+}
+
 - (void) setSelected:(SelectableSprite *)selected {
   if ([selected isKindOfClass: [CritStructBuilding class]]) {
     CritStructBuilding *csb = (CritStructBuilding *)selected;
     if (_isForgePhase && csb.critStruct.type == BazaarStructTypeBlacksmith) {
       _isForgePhase = NO;
       [super setSelected:selected];
+      
+      [Analytics tutBlacksmithClicked];
     }
   }
 }

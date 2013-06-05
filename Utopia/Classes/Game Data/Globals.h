@@ -150,6 +150,7 @@
 @property (nonatomic, retain) MinimumUserProto *adminChatUser;
 
 @property (nonatomic, assign) int numBeginnerSalesAllowed;
+@property (nonatomic, assign) int defaultDaysBattleShieldIsActive;
 
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
@@ -361,6 +362,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (void) makePixelAddictsCreateUserCall;
 + (void) makePixelAddictsAppOpenCall;
 + (void) makePixelAddictsPurchaseCall:(float)price;
+
++ (BOOL) userHasBeginnerShield:(uint64_t)createTime hasActiveShield:(BOOL)hasActiveShield;
 
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;

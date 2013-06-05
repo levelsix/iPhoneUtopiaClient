@@ -148,8 +148,7 @@
   
   ForgeItemView *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil) {
-    Globals *gl = [Globals sharedGlobals];
-    NSBundle *bundle = [Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName];
+    NSBundle *bundle = [NSBundle mainBundle];//[Globals bundleNamed:gl.downloadableNibConstants.blacksmithNibName];
     [bundle loadNibNamed:@"ForgeItemView" owner:self options:nil];
     cell = self.itemView;
   }

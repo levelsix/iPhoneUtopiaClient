@@ -176,24 +176,32 @@
   }
   
   _ccArrow.visible = NO;
+  [_ccArrow removeFromParentAndCleanup:YES];
+  [self addChild:_ccArrow];
+  [_tryAgain removeFromParentAndCleanup:YES];
+  [self addChild:_tryAgain z:1];
+  _tryAgain.position = ccp(self.contentSize.width/2, _tryAgain.contentSize.height/2);
+  _tryAgain.opacity = 0;
+  [_overLayer removeFromParentAndCleanup:YES];
+  
+  _attackMoving = NO;
+  [_attackProgressTimer stopAllActions];
+  
+  _bottomMenu.visible = NO;
+  _attackButton.visible = NO;
+  _isAnimating = YES;
+  
+  _comboBar.visible = YES;
+  _comboBarMoving = YES;
+  
+  // Increase by 1 second
+  float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION+1;
+  _triangle.rotation = START_TRIANGLE_ROTATION;
+  
+  float firstStop = 1.f/12;
+  float firstRot = START_TRIANGLE_ROTATION+firstStop*(END_TRIANGLE_ROTATION-START_TRIANGLE_ROTATION);
+  
   if (_firstAttack) {
-    [_ccArrow removeFromParentAndCleanup:YES];
-    [self addChild:_ccArrow];
-    [_tryAgain removeFromParentAndCleanup:YES];
-    [self addChild:_tryAgain z:1];
-    _tryAgain.position = ccp(self.contentSize.width/2, _tryAgain.contentSize.height/2);
-    _tryAgain.opacity = 0;
-    [_overLayer removeFromParentAndCleanup:YES];
-    
-    _attackMoving = NO;
-    [_attackProgressTimer stopAllActions];
-    
-    _bottomMenu.visible = NO;
-    _attackButton.visible = NO;
-    _isAnimating = YES;
-    
-    _comboBar.visible = YES;
-    _comboBarMoving = YES;
     
     _overLayer = [CCSprite spriteWithFile:@"combowheellight.png"];
     [self addChild:_overLayer z:5];
@@ -230,13 +238,6 @@
     item.opacity = 0;
     [_overLayer addChild:menu];
     
-    // Increase by 1 second
-    float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION+1;
-    _triangle.rotation = START_TRIANGLE_ROTATION;
-    
-    float firstStop = 1.f/12;
-    float firstRot = START_TRIANGLE_ROTATION+firstStop*(END_TRIANGLE_ROTATION-START_TRIANGLE_ROTATION);
-    
     float baseSecs = 1.5f;
     
     [self runAction:[CCSequence actions:
@@ -257,13 +258,18 @@
     
     [Analytics tutClickedBegin];
   } else {
-    [super attackStart];
-    
-    [_ccArrow stopAllActions];
-    _tryAgain.opacity = 0;
-    [_tryAgain stopAllActions];
-    
-    [_tapToAttack runAction:[CCFadeIn actionWithDuration:0.3f]];
+    _allowAttackingForFirstAttack = NO;
+    [self runAction:[CCSequence actions:
+                     [CCCallBlock actionWithBlock:
+                      ^{
+                        [_triangle runAction:[CCRotateBy actionWithDuration:duration*firstStop angle:firstRot-_triangle.rotation]];
+                      }],
+                     [CCDelayTime actionWithDuration:duration*firstStop],
+                     [CCCallBlock actionWithBlock:
+                      ^{
+                        // Send in an object with 255 opacity
+                        [self okayClickedMyTurn:_ccArrow];
+                      }], nil]];
   }
 }
 
@@ -342,7 +348,7 @@
 }
 
 - (void) comboBarClicked {
-  if (_firstAttack && !_allowAttackingForFirstAttack) {
+  if (!_allowAttackingForFirstAttack) {
     if (!_overLayer.parent) {
       [_waitForMax stopAllActions];
       [_waitForMax runAction:[CCSequence actions:[CCFadeIn actionWithDuration:0.1f], [CCDelayTime actionWithDuration:0.5f], [CCFadeOut actionWithDuration:0.1f], nil]];
@@ -423,6 +429,8 @@
 }
 
 - (void) displaySummary {
+  [Analytics tutClosedBattleSummary];
+  
   [self loadBattleSummary];
   [Globals displayUIView:self.summaryView];
   [Globals bounceView:self.summaryView.mainView fadeInBgdView:self.summaryView.bgdView];

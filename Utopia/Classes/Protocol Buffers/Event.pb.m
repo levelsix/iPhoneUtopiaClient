@@ -1215,6 +1215,7 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
     case BattleResponseProto_BattleStatusSuccess:
     case BattleResponseProto_BattleStatusOtherFail:
     case BattleResponseProto_BattleStatusSameSide:
+    case BattleResponseProto_BattleStatusOpponentHasActiveShield:
       return YES;
     default:
       return NO;
@@ -5604,6 +5605,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) NSString* prestigeFaqFileName;
 @property (retain) MinimumUserProto* adminChatUserProto;
 @property int32_t numBeginnerSalesAllowed;
+@property int32_t defaultDaysBattleShieldIsActive;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -6262,6 +6264,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasNumBeginnerSalesAllowed_ = !!value;
 }
 @synthesize numBeginnerSalesAllowed;
+- (BOOL) hasDefaultDaysBattleShieldIsActive {
+  return !!hasDefaultDaysBattleShieldIsActive_;
+}
+- (void) setHasDefaultDaysBattleShieldIsActive:(BOOL) value {
+  hasDefaultDaysBattleShieldIsActive_ = !!value;
+}
+@synthesize defaultDaysBattleShieldIsActive;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -6383,6 +6392,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.prestigeFaqFileName = @"";
     self.adminChatUserProto = [MinimumUserProto defaultInstance];
     self.numBeginnerSalesAllowed = 0;
+    self.defaultDaysBattleShieldIsActive = 0;
   }
   return self;
 }
@@ -6728,6 +6738,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasNumBeginnerSalesAllowed) {
     [output writeInt32:107 value:self.numBeginnerSalesAllowed];
   }
+  if (self.hasDefaultDaysBattleShieldIsActive) {
+    [output writeInt32:108 value:self.defaultDaysBattleShieldIsActive];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -7042,6 +7055,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasNumBeginnerSalesAllowed) {
     size += computeInt32Size(107, self.numBeginnerSalesAllowed);
+  }
+  if (self.hasDefaultDaysBattleShieldIsActive) {
+    size += computeInt32Size(108, self.defaultDaysBattleShieldIsActive);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -14237,6 +14253,9 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasNumBeginnerSalesAllowed) {
     [self setNumBeginnerSalesAllowed:other.numBeginnerSalesAllowed];
   }
+  if (other.hasDefaultDaysBattleShieldIsActive) {
+    [self setDefaultDaysBattleShieldIsActive:other.defaultDaysBattleShieldIsActive];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -14733,6 +14752,10 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 856: {
         [self setNumBeginnerSalesAllowed:[input readInt32]];
+        break;
+      }
+      case 864: {
+        [self setDefaultDaysBattleShieldIsActive:[input readInt32]];
         break;
       }
     }
@@ -16599,6 +16622,22 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   result.numBeginnerSalesAllowed = 0;
   return self;
 }
+- (BOOL) hasDefaultDaysBattleShieldIsActive {
+  return result.hasDefaultDaysBattleShieldIsActive;
+}
+- (int32_t) defaultDaysBattleShieldIsActive {
+  return result.defaultDaysBattleShieldIsActive;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setDefaultDaysBattleShieldIsActive:(int32_t) value {
+  result.hasDefaultDaysBattleShieldIsActive = YES;
+  result.defaultDaysBattleShieldIsActive = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearDefaultDaysBattleShieldIsActive {
+  result.hasDefaultDaysBattleShieldIsActive = NO;
+  result.defaultDaysBattleShieldIsActive = 0;
+  return self;
+}
 @end
 
 @interface StartupResponseProto_TutorialConstants ()
@@ -16639,6 +16678,7 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 @property int32_t firstBattleCoinGain;
 @property int32_t firstBattleExpGain;
 @property (retain) NSString* defaultName;
+@property int32_t costToSpeedUpForge;
 @end
 
 @implementation StartupResponseProto_TutorialConstants
@@ -16866,6 +16906,13 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   hasDefaultName_ = !!value;
 }
 @synthesize defaultName;
+- (BOOL) hasCostToSpeedUpForge {
+  return !!hasCostToSpeedUpForge_;
+}
+- (void) setHasCostToSpeedUpForge:(BOOL) value {
+  hasCostToSpeedUpForge_ = !!value;
+}
+@synthesize costToSpeedUpForge;
 - (void) dealloc {
   self.tutorialQuest = nil;
   self.archerInitWeapon = nil;
@@ -16919,6 +16966,7 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
     self.firstBattleCoinGain = 0;
     self.firstBattleExpGain = 0;
     self.defaultName = @"";
+    self.costToSpeedUpForge = 0;
   }
   return self;
 }
@@ -17091,6 +17139,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (self.hasDefaultName) {
     [output writeString:38 value:self.defaultName];
   }
+  if (self.hasCostToSpeedUpForge) {
+    [output writeInt32:39 value:self.costToSpeedUpForge];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -17210,6 +17261,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   if (self.hasDefaultName) {
     size += computeStringSize(38, self.defaultName);
+  }
+  if (self.hasCostToSpeedUpForge) {
+    size += computeInt32Size(39, self.costToSpeedUpForge);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -18230,6 +18284,9 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasDefaultName) {
     [self setDefaultName:other.defaultName];
   }
+  if (other.hasCostToSpeedUpForge) {
+    [self setCostToSpeedUpForge:other.costToSpeedUpForge];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -18459,6 +18516,10 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
       }
       case 306: {
         [self setDefaultName:[input readString]];
+        break;
+      }
+      case 312: {
+        [self setCostToSpeedUpForge:[input readInt32]];
         break;
       }
     }
@@ -19272,6 +19333,22 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
 - (StartupResponseProto_TutorialConstants_Builder*) clearDefaultName {
   result.hasDefaultName = NO;
   result.defaultName = @"";
+  return self;
+}
+- (BOOL) hasCostToSpeedUpForge {
+  return result.hasCostToSpeedUpForge;
+}
+- (int32_t) costToSpeedUpForge {
+  return result.costToSpeedUpForge;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setCostToSpeedUpForge:(int32_t) value {
+  result.hasCostToSpeedUpForge = YES;
+  result.costToSpeedUpForge = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearCostToSpeedUpForge {
+  result.hasCostToSpeedUpForge = NO;
+  result.costToSpeedUpForge = 0;
   return self;
 }
 @end
@@ -34387,6 +34464,7 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
 @property Float64 longLowerBound;
 @property Float64 longUpperBound;
 @property BOOL forMap;
+@property BOOL showRealPlayers;
 @end
 
 @implementation GenerateAttackListRequestProto
@@ -34445,6 +34523,18 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
 - (void) setForMap:(BOOL) value {
   forMap_ = !!value;
 }
+- (BOOL) hasShowRealPlayers {
+  return !!hasShowRealPlayers_;
+}
+- (void) setHasShowRealPlayers:(BOOL) value {
+  hasShowRealPlayers_ = !!value;
+}
+- (BOOL) showRealPlayers {
+  return !!showRealPlayers_;
+}
+- (void) setShowRealPlayers:(BOOL) value {
+  showRealPlayers_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -34458,6 +34548,7 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
     self.longLowerBound = 0;
     self.longUpperBound = 0;
     self.forMap = NO;
+    self.showRealPlayers = NO;
   }
   return self;
 }
@@ -34498,6 +34589,9 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   if (self.hasForMap) {
     [output writeBool:7 value:self.forMap];
   }
+  if (self.hasShowRealPlayers) {
+    [output writeBool:8 value:self.showRealPlayers];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -34527,6 +34621,9 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   }
   if (self.hasForMap) {
     size += computeBoolSize(7, self.forMap);
+  }
+  if (self.hasShowRealPlayers) {
+    size += computeBoolSize(8, self.showRealPlayers);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -34624,6 +34721,9 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   if (other.hasForMap) {
     [self setForMap:other.forMap];
   }
+  if (other.hasShowRealPlayers) {
+    [self setShowRealPlayers:other.showRealPlayers];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -34676,6 +34776,10 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
       }
       case 56: {
         [self setForMap:[input readBool]];
+        break;
+      }
+      case 64: {
+        [self setShowRealPlayers:[input readBool]];
         break;
       }
     }
@@ -34807,6 +34911,22 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   result.forMap = NO;
   return self;
 }
+- (BOOL) hasShowRealPlayers {
+  return result.hasShowRealPlayers;
+}
+- (BOOL) showRealPlayers {
+  return result.showRealPlayers;
+}
+- (GenerateAttackListRequestProto_Builder*) setShowRealPlayers:(BOOL) value {
+  result.hasShowRealPlayers = YES;
+  result.showRealPlayers = value;
+  return self;
+}
+- (GenerateAttackListRequestProto_Builder*) clearShowRealPlayers {
+  result.hasShowRealPlayers = NO;
+  result.showRealPlayers = NO;
+  return self;
+}
 @end
 
 @interface GenerateAttackListResponseProto ()
@@ -34814,6 +34934,7 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 @property (retain) NSMutableArray* mutableEnemiesList;
 @property GenerateAttackListResponseProto_GenerateAttackListStatus status;
 @property BOOL forMap;
+@property BOOL showRealPlayers;
 @end
 
 @implementation GenerateAttackListResponseProto
@@ -34845,6 +34966,18 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 - (void) setForMap:(BOOL) value {
   forMap_ = !!value;
 }
+- (BOOL) hasShowRealPlayers {
+  return !!hasShowRealPlayers_;
+}
+- (void) setHasShowRealPlayers:(BOOL) value {
+  hasShowRealPlayers_ = !!value;
+}
+- (BOOL) showRealPlayers {
+  return !!showRealPlayers_;
+}
+- (void) setShowRealPlayers:(BOOL) value {
+  showRealPlayers_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.mutableEnemiesList = nil;
@@ -34855,6 +34988,7 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
     self.sender = [MinimumUserProto defaultInstance];
     self.status = GenerateAttackListResponseProto_GenerateAttackListStatusSuccess;
     self.forMap = NO;
+    self.showRealPlayers = NO;
   }
   return self;
 }
@@ -34893,6 +35027,9 @@ static GenerateAttackListResponseProto* defaultGenerateAttackListResponseProtoIn
   if (self.hasForMap) {
     [output writeBool:4 value:self.forMap];
   }
+  if (self.hasShowRealPlayers) {
+    [output writeBool:5 value:self.showRealPlayers];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -34913,6 +35050,9 @@ static GenerateAttackListResponseProto* defaultGenerateAttackListResponseProtoIn
   }
   if (self.hasForMap) {
     size += computeBoolSize(4, self.forMap);
+  }
+  if (self.hasShowRealPlayers) {
+    size += computeBoolSize(5, self.showRealPlayers);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -35015,6 +35155,9 @@ BOOL GenerateAttackListResponseProto_GenerateAttackListStatusIsValidValue(Genera
   if (other.hasForMap) {
     [self setForMap:other.forMap];
   }
+  if (other.hasShowRealPlayers) {
+    [self setShowRealPlayers:other.showRealPlayers];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -35062,6 +35205,10 @@ BOOL GenerateAttackListResponseProto_GenerateAttackListStatusIsValidValue(Genera
       }
       case 32: {
         [self setForMap:[input readBool]];
+        break;
+      }
+      case 40: {
+        [self setShowRealPlayers:[input readBool]];
         break;
       }
     }
@@ -35156,6 +35303,22 @@ BOOL GenerateAttackListResponseProto_GenerateAttackListStatusIsValidValue(Genera
 - (GenerateAttackListResponseProto_Builder*) clearForMap {
   result.hasForMap = NO;
   result.forMap = NO;
+  return self;
+}
+- (BOOL) hasShowRealPlayers {
+  return result.hasShowRealPlayers;
+}
+- (BOOL) showRealPlayers {
+  return result.showRealPlayers;
+}
+- (GenerateAttackListResponseProto_Builder*) setShowRealPlayers:(BOOL) value {
+  result.hasShowRealPlayers = YES;
+  result.showRealPlayers = value;
+  return self;
+}
+- (GenerateAttackListResponseProto_Builder*) clearShowRealPlayers {
+  result.hasShowRealPlayers = NO;
+  result.showRealPlayers = NO;
   return self;
 }
 @end

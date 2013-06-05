@@ -13,6 +13,7 @@
 #import "LNSynthesizeSingleton.h"
 #import "ProfileViewController.h"
 #import "BattleLayer.h"
+#import "GenericPopupController.h"
 
 #define THRESHOLD_ENEMIES_ATTACK_LIST [[Globals sharedGlobals] sizeOfAttackList]
 #define THRESHOLD_ENEMIES_IN_BOUNDS 10
@@ -90,7 +91,7 @@
     r.size.width /= 2;
     if (CGRectContainsPoint(CGRectInset(r, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self unflip];
-      [[AttackMenuController sharedAttackMenuController] setState:kAttackList];
+      [[AttackMenuController sharedAttackMenuController] setState:kBotsList];
     } else {
       [self flip];
     }
@@ -101,7 +102,7 @@
     r.origin.x += r.size.width;
     if (CGRectContainsPoint(CGRectInset(r, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self flip];
-      [[AttackMenuController sharedAttackMenuController] setState:kLocationMap];
+      [[AttackMenuController sharedAttackMenuController] setState:kPlayersList];
     } else {
       [self unflip];
     }
@@ -252,7 +253,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   self.listTabView.frame = self.locationTabView.frame;
   [self.mainView insertSubview:self.listTabView belowSubview:self.locationTabView];
   
-  self.state = kAttackList;
+  self.state = kBotsList;
   
   self.attackTableView.tableFooterView = [[[UIView alloc] init] autorelease];
   
@@ -284,17 +285,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
     self.refreshArrow = nil;
     self.filterImageView = nil;
     self.topBar = nil;
+    self.timer = nil;
   }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [self removeAllPins];
-  [[[GameState sharedGameState] attackList] removeAllObjects];
-  [[[GameState sharedGameState] attackMapList] removeAllObjects];
+  
+  GameState *gs = [GameState sharedGameState];
+  gs.attackBotList = nil;
+  gs.attackPlayersList = nil;
   
   [self.attackTableView reloadData];
   
-  [[OutgoingEventController sharedOutgoingEventController] generateAttackList:THRESHOLD_ENEMIES_ATTACK_LIST];
+  [[OutgoingEventController sharedOutgoingEventController] generateAttackList:THRESHOLD_ENEMIES_ATTACK_LIST realPlayersOnly:YES];
+  [[OutgoingEventController sharedOutgoingEventController] generateAttackList:THRESHOLD_ENEMIES_ATTACK_LIST realPlayersOnly:NO];
   if (_loaded) {
     [self retrieveAttackListForCurrentBounds];
   }
@@ -302,12 +307,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   self.mapSpinner.hidden = NO;
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  self.shieldView.hidden = ![gs hasBeginnerShield];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
   [self removeAllPins];
-  [[[GameState sharedGameState] attackList] removeAllObjects];
-  [[[GameState sharedGameState] attackMapList] removeAllObjects];
+  GameState *gs = [GameState sharedGameState];
+  gs.attackBotList = nil;
+  gs.attackPlayersList = nil;
   self.mapView.showsUserLocation = NO;
 }
 
@@ -324,16 +332,76 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
       } else {
         _mapView.showsUserLocation = NO;
       }
+      
+      self.noPlayersLabel.hidden = YES;
       break;
       
-    case kAttackList:
+    case kBotsList:
+    case kPlayersList:
       listTabView.hidden = NO;
       locationTabView.hidden = YES;
       _mapView.showsUserLocation = NO;
+      
+      [self.attackTableView reloadData];
+      
+      if (_state == kPlayersList) {
+        self.timer = nil;
+        self.shieldLabel.text = @"Notice: Attacking a real player will deactivate your shield.";
+      } else {
+        [self beginShieldLabelTimer];
+      }
       break;
       
     default:
       break;
+  }
+}
+
+- (void) setTimer:(NSTimer *)t {
+  if (_timer != t) {
+    [_timer invalidate];
+    [_timer release];
+    _timer = [t retain];
+  }
+}
+
+- (void) beginShieldLabelTimer {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (![gs hasBeginnerShield]) {
+    self.timer = nil;
+    return;
+  }
+  
+  [self updateLabel];
+  self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabel) userInfo:nil repeats:YES];
+  [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+}
+
+- (void) updateLabel {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if ([gs hasBeginnerShield]) {
+    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:gs.createTime.timeIntervalSince1970 + gl.defaultDaysBattleShieldIsActive*24*60*60];
+    int secs = endDate.timeIntervalSinceNow;
+    NSString *time;
+    
+    int days = (int)(secs/86400);
+    secs %= 86400;
+    int hrs = (int)(secs/3600);
+    secs %= 3600;
+    // Round mins up
+    int mins = (int)((secs+59)/60);
+    secs %= 60;
+    NSString *daysString = days ? [NSString stringWithFormat:@" %dd", days] : @"";
+    NSString *hrsString = days || hrs ? [NSString stringWithFormat:@" %dh", hrs] : @"";
+    NSString *minsString = days || hrs || mins ? [NSString stringWithFormat:@" %dm", mins] : @"";
+    time = [NSString stringWithFormat:@"Your shield is active. You cannot be attacked for%@%@%@.", daysString, hrsString, minsString];
+    
+    self.shieldLabel.text = time;
+  } else {
+    [self beginShieldLabelTimer];
   }
 }
 
@@ -360,7 +428,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
 }
 
 - (void) addNewPins {
-  NSMutableArray *arr = [[GameState sharedGameState] attackMapList];
+  NSMutableArray *arr = nil;
   int userLocEnabled = _mapView.showsUserLocation ? 1 : 0;
   int i = _mapView.annotations.count == 0 ? 0 : _mapView.annotations.count-userLocEnabled;
   for (; i < arr.count; i++) {
@@ -433,6 +501,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
 }
 
 - (void) battle:(FullUserProto *)fup {
+  GameState *gs = [GameState sharedGameState];
+  if ([gs hasBeginnerShield] && !fup.isFake) {
+    [GenericPopupController displayConfirmationWithDescription:@"Attacking will deactivate your shield. Would you like to proceed?" title:@"Proceed?" okayButton:@"Attack" cancelButton:@"Cancel" target:self selector:@selector(doBattle:)];
+  } else {
+    [self doBattle:fup];
+  }
+}
+
+- (void) doBattle:(FullUserProto *)fup {
   // BattleLayer will fade out view
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -473,9 +550,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   GameState *gs = [GameState sharedGameState];
-  int ct = gs.attackList.count;
+  NSArray *arr = self.state == kPlayersList ? gs.attackPlayersList : gs.attackBotList;
+  int ct = arr.count;
   
-  if (ct > 0) {
+  if (arr) {
     [self.listSpinner stopAnimating];
     self.listSpinner.hidden = YES;
   } else {
@@ -483,10 +561,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
     self.listSpinner.hidden = NO;
   }
   
+  if (arr && ct == 0) {
+    self.noPlayersLabel.hidden = NO;
+  } else {
+    self.noPlayersLabel.hidden = YES;
+  }
+  
   return ct;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *arr = self.state == kPlayersList ? gs.attackPlayersList : gs.attackBotList;
+  
   AttackListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AttackListCell"];
   
   if (!cell) {
@@ -494,8 +581,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
     cell = self.listCell;
   }
   
-  GameState *gs = [GameState sharedGameState];
-  [cell updateForUser:[gs.attackList objectAtIndex:indexPath.row]];
+  [cell updateForUser:[arr objectAtIndex:indexPath.row]];
   
   return cell;
 }
@@ -505,8 +591,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
 }
 
 - (void) refresh {
-  [[OutgoingEventController sharedOutgoingEventController] generateAttackList:THRESHOLD_ENEMIES_ATTACK_LIST];
-  [[[GameState sharedGameState] attackList] removeAllObjects];
+  GameState *gs = [GameState sharedGameState];
+  
+  [[OutgoingEventController sharedOutgoingEventController] generateAttackList:THRESHOLD_ENEMIES_ATTACK_LIST realPlayersOnly:self.state == kPlayersList];
+  
+  if (self.state == kPlayersList) {
+    gs.attackPlayersList = nil;
+  } else {
+    gs.attackBotList = nil;
+  }
+  
   [self.attackTableView reloadData];
   [self stopLoading];
 }

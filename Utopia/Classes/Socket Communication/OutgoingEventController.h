@@ -28,7 +28,7 @@
 //- (int) sellEquip:(int)equipId;
 - (BOOL) wearEquip:(int)userEquipId forPrestigeSlot:(BOOL)forPrestigeSlot;
 
-- (void) generateAttackList:(int)numEnemies;
+- (void) generateAttackList:(int)numEnemies realPlayersOnly:(BOOL)realPlayersOnly;
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds;
 
 - (void) startup;

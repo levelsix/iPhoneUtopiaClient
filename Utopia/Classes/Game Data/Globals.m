@@ -237,6 +237,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.prestigeFaqFileName = constants.prestigeFaqFileName;
   self.adminChatUser = constants.adminChatUserProto;
   self.numBeginnerSalesAllowed = constants.numBeginnerSalesAllowed;
+  self.defaultDaysBattleShieldIsActive = constants.defaultDaysBattleShieldIsActive;
   
   self.minLevelForPrestige = constants.prestigeConstants.minLevelForPrestige;
   self.maxPrestigeLevel = constants.prestigeConstants.maxPrestigeLevel;
@@ -2226,6 +2227,17 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   [arr addObject:fup.hasArmorTwoEquippedUserEquip ? [UserEquip userEquipWithProto:fup.armorTwoEquippedUserEquip] : [NSNull null]];
   [arr addObject:fup.hasAmuletTwoEquippedUserEquip ? [UserEquip userEquipWithProto:fup.amuletTwoEquippedUserEquip] : [NSNull null]];
   return arr;
+}
+
++ (BOOL) userHasBeginnerShield:(uint64_t)createTime hasActiveShield:(BOOL)hasActiveShield {
+  if (!hasActiveShield) {
+    return NO;
+  }
+  
+  uint64_t curTime = [[NSDate date] timeIntervalSince1970];
+  uint64_t shieldEndTime = createTime + sharedGlobals.defaultDaysBattleShieldIsActive*24*60*60*1000;
+  
+  return curTime < shieldEndTime;
 }
 
 - (void) dealloc {

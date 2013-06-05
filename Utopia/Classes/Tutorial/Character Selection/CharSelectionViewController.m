@@ -35,95 +35,23 @@
 
 @implementation CharSelectionViewController
 
-@synthesize goodMageView, goodArcherView, goodWarriorView;
-@synthesize badMageView, badArcherView, badWarriorView;
-@synthesize leftArrowButton, rightArrowButton;
-@synthesize charScrollView;
-@synthesize smallAttBar, medAttBar, bigAttBar;
-@synthesize smallDefBar, medDefBar, bigDefBar;
-@synthesize titleLabel;
-@synthesize greenGlow, redGlow;
-@synthesize bottomBar, chooseNameView;
-@synthesize nameTextField;
-@synthesize submitButton;
-@synthesize loadingView;
-@synthesize cancelView;
-
 //SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CharSelectionViewController);
 
 - (void)viewDidLoad
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
-  [nameTextField setAutocapitalizationType:UITextAutocapitalizationTypeWords];
   
-  _pageWidth = charScrollView.frame.size.width;
-  _barWidth = bigAttBar.frame.size.width;
-  // Insert right above the background
-  [self.view insertSubview:charScrollView atIndex:1];
+  [self.nameTextField setAutocapitalizationType:UITextAutocapitalizationTypeWords];
+  self.nameTextField.label.textColor = [UIColor whiteColor];
   
-  CGRect temp;
-  UIView *cur = nil;
-  UIView *prev = nil;
+  self.chooseNameView.frame = self.selectSideView.frame;
+  [self.view addSubview:self.chooseNameView];
+  self.chooseNameView.hidden = YES;
   
-  [charScrollView addSubview:goodWarriorView];
-  
-  cur = goodArcherView;
-  prev = goodWarriorView;
-  [charScrollView addSubview:cur];
-  temp = cur.frame;
-  temp.origin.x = CGRectGetMaxX(prev.frame);
-  cur.frame = temp;
-  
-  cur = goodMageView;
-  prev = goodArcherView;
-  [charScrollView addSubview:cur];
-  temp = cur.frame;
-  temp.origin.x = CGRectGetMaxX(prev.frame);
-  cur.frame = temp;
-  
-  cur = badWarriorView;
-  prev = goodMageView;
-  [charScrollView addSubview:cur];
-  temp = cur.frame;
-  temp.origin.x = CGRectGetMaxX(prev.frame);
-  cur.frame = temp;
-  
-  cur = badArcherView;
-  prev = badWarriorView;
-  [charScrollView addSubview:cur];
-  temp = cur.frame;
-  temp.origin.x = CGRectGetMaxX(prev.frame);
-  cur.frame = temp;
-  
-  cur = badMageView;
-  prev = badArcherView;
-  [charScrollView addSubview:cur];
-  temp = cur.frame;
-  temp.origin.x = CGRectGetMaxX(prev.frame);
-  cur.frame = temp;
-  
-  charScrollView.contentSize = CGSizeMake(CGRectGetMaxX(cur.frame), CGRectGetMaxY(cur.frame));
-  charScrollView.scrollEnabled = YES;
-  charScrollView.pagingEnabled = YES;
-  charScrollView.showsHorizontalScrollIndicator = NO;
-  charScrollView.delegate = self;
-  // Set tag to 10 so it doesnt get hidden when select is clicked
-  charScrollView.tag = 10;
-  
-  smallAttBar.alpha = 0.f;
-  medAttBar.alpha = 0.f;
-  bigAttBar.alpha = 0.f;
-  smallDefBar.alpha = 0.f;
-  medDefBar.alpha = 0.f;
-  bigDefBar.alpha = 0.f;
-  titleLabel.alpha = 0.f;
-  redGlow.alpha = 0.f;
-  greenGlow.alpha = 0.f;
-  
-  _curPage = 0;
-  
-  nameTextField.label.textColor = [UIColor whiteColor];
+  self.selectCharView.frame = self.selectSideView.frame;
+  [self.view addSubview:self.selectCharView];
+  self.selectCharView.hidden = YES;
   
   // Set up the game state
   GameState *gs = [GameState sharedGameState];
@@ -141,7 +69,7 @@
     
     [[TopBar sharedTopBar] update];
     
-    nameTextField.text = tc.defaultName;
+    self.nameTextField.text = tc.defaultName;
   }
   
   self.view.tag = CHAR_SELECTION_VIEW_TAG;
@@ -149,17 +77,19 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   self.view.alpha = 0.f;
-  [UIView animateWithDuration:2.f delay:0.f options:UIViewAnimationOptionAllowUserInteraction animations:^{
+  _animating = YES;
+  [UIView animateWithDuration:2.f animations:^{
     self.view.alpha = 1.f;
-  } completion:nil];
+  } completion:^(BOOL finished) {
+    _animating = NO;
+  }];
   
   GameState *gs = [GameState sharedGameState];
   self.cancelView.hidden = gs.isTutorial;
-}
-
-- (void) viewDidAppear:(BOOL)animated {
-  [self updateArrows];
-  [self animatePage];
+  
+  self.backButton.hidden = YES;
+  
+  self.titleLabel.text = @"Select a Side";
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -167,160 +97,86 @@
   [self release];
 }
 
-- (int) currentPage {
-  return _curPage;
-}
-
-- (void) moveToPage:(int)page {
-  if (page >= 0 && page < 6 && page != _curPage) {
-    _curPage = page;
-    [charScrollView setContentOffset:CGPointMake(_pageWidth*page, 0) animated:YES];
+- (IBAction)sideClicked:(UIView *)sender {
+  if (_animating || self.selectSideView.hidden) {
+    return;
   }
-}
-
-- (IBAction)leftArrowClicked:(id)sender {
-  if (!charScrollView.isDragging && !_isScrolling) {
-    [self moveToPage:[self currentPage]-1];
+  
+  _isGoodSide = sender.tag == 1;
+  
+  GameState *gs = [GameState sharedGameState];
+  if (gs.isTutorial) {
+    [Analytics tutSideChosen];
   }
-}
-
-- (IBAction)rightArrowClicked:(id)sender {
-  if (!charScrollView.isDragging && !_isScrolling) {
-    [self moveToPage:[self currentPage]+1];
-  }
-}
-
-- (void) updateArrows {
-  int curPage = [self currentPage];
-  if (curPage == 0) {
-    leftArrowButton.enabled = NO;
+  
+  if (_isGoodSide) {
+    [self.archerButton setImage:[Globals imageNamed:[Globals imageNameForDialogueSpeaker:DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodArcher]] forState:UIControlStateNormal];
+    [self.warriorButton setImage:[Globals imageNamed:[Globals imageNameForDialogueSpeaker:DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodWarrior]] forState:UIControlStateNormal];
+    [self.mageButton setImage:[Globals imageNamed:[Globals imageNameForDialogueSpeaker:DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodMage]] forState:UIControlStateNormal];
   } else {
-    leftArrowButton.enabled = YES;
+    [self.archerButton setImage:[Globals imageNamed:[Globals imageNameForDialogueSpeaker:DialogueProto_SpeechSegmentProto_DialogueSpeakerBadArcher]] forState:UIControlStateNormal];
+    [self.warriorButton setImage:[Globals imageNamed:[Globals imageNameForDialogueSpeaker:DialogueProto_SpeechSegmentProto_DialogueSpeakerBadWarrior]] forState:UIControlStateNormal];
+    [self.mageButton setImage:[Globals imageNamed:[Globals imageNameForDialogueSpeaker:DialogueProto_SpeechSegmentProto_DialogueSpeakerBadMage]] forState:UIControlStateNormal];
   }
   
-  if (curPage == 5) {
-    rightArrowButton.enabled = NO;
-  } else {
-    rightArrowButton.enabled = YES;
-  }
-}
-
-- (void) animatePage {
-  int page = [self currentPage];
+  self.titleLabel.text = @"Select a Character";
   
-  // Pages ordered by current UserType so leverage globals
-  NSString *title = [NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:page], [Globals classForUserType:page]];
-  titleLabel.text = title;
+  self.selectCharView.hidden = NO;
+  self.selectCharView.alpha = 0.f;
+  self.backButton.hidden = NO;
+  self.backButton.alpha = 0.f;
   
-  UIImageView *attBar = nil;
-  UIImageView *defBar = nil;
-  UIImageView *glow = page/3 == 0 ? greenGlow : redGlow;
-  switch (page % 3) {
-    case 0:
-      attBar = smallAttBar;
-      defBar = bigDefBar;
-      break;
-      
-    case 1:
-      attBar = medAttBar;
-      defBar = medDefBar;
-      break;
-      
-    case 2:
-      attBar = bigAttBar;
-      defBar = smallDefBar;
-      break;
-      
-    default:
-      break;
-  }
-  
-  CGRect r = attBar.frame;
-  r.size.width = 0;
-  attBar.frame = r;
-  attBar.alpha = 1.f;
-  
-  r = defBar.frame;
-  r.size.width = 0;
-  defBar.frame = r;
-  defBar.alpha = 1.f;
-  
-  titleLabel.alpha = 0.f;
-  
-  // In IB, we set the tags of the buttons to page+1
-  UIView *view = [bottomBar viewWithTag:page+1];
-  glow.center = view.center;
-  
-  [UIView animateWithDuration:0.1f animations:^{
-    CGRect t = attBar.frame;
-    t.size.width = _barWidth;
-    attBar.frame = t;
-    
-    t = defBar.frame;
-    t.size.width = _barWidth;
-    defBar.frame = t;
-    
-    titleLabel.alpha = 1.f;
-    glow.alpha = 1.f;
+  _animating = YES;
+  [UIView animateWithDuration:0.3f animations:^{
+    self.selectSideView.alpha = 0.f;
+    self.selectCharView.alpha = 1.f;
+    self.backButton.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    if (finished) {
+      _animating = NO;
+      self.selectSideView.hidden = YES;
+    }
   }];
 }
 
-- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
-  _isScrolling = YES;
-  [UIView animateWithDuration:0.1f animations:^{
-    titleLabel.alpha = 0.f;
-    smallAttBar.alpha = 0.f;
-    medAttBar.alpha = 0.f;
-    bigAttBar.alpha = 0.f;
-    smallDefBar.alpha = 0.f;
-    medDefBar.alpha = 0.f;
-    bigDefBar.alpha = 0.f;
-    greenGlow.alpha = 0.f;
-    redGlow.alpha = 0.f;
-  }];
-}
-
-- (void) scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-  _isScrolling = NO;
-  [self updateArrows];
-  [self animatePage];
-}
-
-- (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-  _isScrolling = NO;
-  _curPage = (int)(charScrollView.contentOffset.x / _pageWidth);
-  [self updateArrows];
-  [self animatePage];
-}
-
-- (IBAction)iconClicked:(UIView *)sender {
-  [self moveToPage:sender.tag-1];
-}
-
-- (IBAction)selectedClicked:(id)sender {
+- (IBAction)selectedClicked:(UIView *)sender {
+  if (_animating || self.selectCharView.hidden) {
+    return;
+  }
+  
+  _chosenType = sender.tag-1 + (_isGoodSide ? 0 : 3);
+  
   GameState *gs = [GameState sharedGameState];
   // If it is tutorial, show name screen
   // Otherwise send the change user type message
   if (gs.isTutorial) {
-    for (UIView *view in self.view.subviews) {
-      if (view.tag != 10) {
-        view.hidden = YES;
-      }
-    }
-    chooseNameView.frame = self.view.bounds;
-    [self.view addSubview:chooseNameView];
+    self.titleLabel.text = @"Choose a Name";
     
-    [nameTextField becomeFirstResponder];
+    self.chooseNameView.hidden = NO;
+    self.chooseNameView.alpha = 0.f;
+    
+    _animating = YES;
+    [UIView animateWithDuration:0.3f animations:^{
+      self.selectCharView.alpha = 0.f;
+      self.chooseNameView.alpha = 1.f;
+    } completion:^(BOOL finished) {
+      if (finished) {
+        _animating = NO;
+        self.selectCharView.hidden = YES;
+      }
+    }];
+    
+    [self.nameTextField becomeFirstResponder];
     
     [Analytics tutCharChosen];
   } else {
-    if (gs.clan && ![Globals userType:gs.type isAlliesWith:_curPage]) {
+    if (gs.clan && ![Globals userType:gs.type isAlliesWith:_chosenType]) {
       [Globals popupMessage:@"You cannot switch sides without leaving your clan!"];
-    } else if (_curPage == gs.type) {
+    } else if (_chosenType == gs.type) {
       [Globals popupMessage:[NSString stringWithFormat:@"You are already a%@ %@ %@!", [Globals userTypeIsGood:gs.type] ? @"n" : @"", [Globals factionForUserType:gs.type], [Globals classForUserType:gs.type]]];
     } else {
       [self.loadingView display:self.view];
-      [[OutgoingEventController sharedOutgoingEventController] changeUserType:_curPage];
+      [[OutgoingEventController sharedOutgoingEventController] changeUserType:_chosenType];
       
       [Analytics typeChange];
       
@@ -342,9 +198,44 @@
 }
 
 - (IBAction)backClicked:(id)sender {
-  [chooseNameView removeFromSuperview];
-  for (UIView *view in self.view.subviews) {
-    view.hidden = NO;
+  if (_animating) {
+    return;
+  }
+  
+  if (!self.chooseNameView.hidden) {
+    self.titleLabel.text = @"Select a Character";
+    
+    self.selectCharView.hidden = NO;
+    self.selectCharView.alpha = 0.f;
+    _animating = YES;
+    [UIView animateWithDuration:0.3f animations:^{
+      self.chooseNameView.alpha = 0.f;
+      self.selectCharView.alpha = 1.f;
+    } completion:^(BOOL finished) {
+      if (finished) {
+        _animating = NO;
+        self.chooseNameView.hidden = YES;
+      }
+    }];
+    
+    [self.nameTextField resignFirstResponder];
+  } else if (!self.selectCharView.hidden) {
+    self.titleLabel.text = @"Select a Side";
+    
+    self.selectSideView.hidden = NO;
+    self.selectSideView.alpha = 0.f;
+    _animating = YES;
+    [UIView animateWithDuration:0.3f animations:^{
+      self.selectCharView.alpha = 0.f;
+      self.selectSideView.alpha = 1.f;
+      self.backButton.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      if (finished) {
+        _animating = NO;
+        self.selectCharView.hidden = YES;
+        self.backButton.hidden = YES;
+      }
+    }];
   }
   
   GameState *gs = [GameState sharedGameState];
@@ -352,6 +243,11 @@
 }
 
 - (IBAction)cancelClicked:(id)sender {
+  if (_animating) {
+    return;
+  }
+  
+  _animating = YES;
   [UIView animateWithDuration:4.f animations:^{
     self.view.alpha = 0.f;
   } completion:^(BOOL finished) {
@@ -359,17 +255,17 @@
   }];
 }
 
-- (IBAction)submitClicked:(id)sender {
-  if (_submitted) {
+- (IBAction)submitClicked:(UIView *)sender {
+  if (_submitted || sender.hidden || _animating) {
     return;
   }
   
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [nameTextField resignFirstResponder];
+  [self.nameTextField resignFirstResponder];
   
-  NSString *realStr = nameTextField.text;
+  NSString *realStr = self.nameTextField.text;
   realStr = [realStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
   
   if (![gl validateUserName:realStr]) {
@@ -392,25 +288,25 @@
   FullEquipProto *weapon = nil;
   FullEquipProto *armor = nil;
   
-  switch (_curPage) {
-    case 0:
-    case 3:
+  switch (_chosenType) {
+    case UserTypeGoodWarrior:
+    case UserTypeBadWarrior:
       weapon = tc.warriorInitWeapon;
       armor = tc.warriorInitArmor;
       gs.attack = tc.warriorInitAttack;
       gs.defense = tc.warriorInitDefense;
       break;
       
-    case 1:
-    case 4:
+    case UserTypeGoodArcher:
+    case UserTypeBadArcher:
       weapon = tc.archerInitWeapon;
       armor = tc.archerInitArmor;
       gs.attack = tc.archerInitAttack;
       gs.defense = tc.archerInitDefense;
       break;
       
-    case 2:
-    case 5:
+    case UserTypeGoodMage:
+    case UserTypeBadMage:
       weapon = tc.mageInitWeapon;
       armor = tc.mageInitArmor;
       gs.attack = tc.mageInitAttack;
@@ -422,7 +318,7 @@
   }
   
   gs.name = realStr;
-  gs.type = _curPage;
+  gs.type = _chosenType;
   tc.enemyType = [Globals userTypeIsGood:gs.type] ? 3 : 0;
   
   [(TutorialTopBar *)[TutorialTopBar sharedTopBar] updateIcon];
@@ -452,6 +348,8 @@
   
   GameLayer *gLay = [GameLayer sharedGameLayer];
   [gLay loadTutorialMissionMap];
+  
+  [[OutgoingEventController sharedOutgoingEventController] createUser];
   
   [self downloadNecessaryFiles];
   
@@ -526,30 +424,14 @@
     self.view = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    self.goodMageView = nil;
-    self.goodArcherView = nil;
-    self.goodWarriorView = nil;
-    self.badMageView = nil;
-    self.badArcherView = nil;
-    self.badWarriorView = nil;
-    self.leftArrowButton = nil;
-    self.rightArrowButton = nil;
-    self.charScrollView = nil;
-    self.smallAttBar = nil;
-    self.medAttBar = nil;
-    self.bigAttBar = nil;
-    self.smallDefBar = nil;
-    self.medDefBar = nil;
-    self.bigDefBar = nil;
     self.titleLabel = nil;
-    self.greenGlow = nil;
-    self.redGlow = nil;
-    self.bottomBar = nil;
     self.chooseNameView = nil;
     self.nameTextField = nil;
     self.submitButton = nil;
     self.loadingView = nil;
     self.cancelView = nil;
+    self.selectCharView = nil;
+    self.selectSideView = nil;
   }
 }
 

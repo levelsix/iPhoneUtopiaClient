@@ -48,6 +48,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.firstBattleCoinGain = constants.firstBattleCoinGain;
   self.firstBattleExpGain = constants.firstBattleExpGain;
   self.defaultName = constants.defaultName;
+  self.costToSpeedUpForge = constants.costToSpeedUpForge;
   
   self.enemyName = @"Rizzy Wirk";
   self.questGiverName = @"Farmer Mitch";
@@ -59,8 +60,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.beforeEquipText = @"Great! Now let's equip that amulet you just received.";
   self.beforeAttackText = @"Now, let's attack a rival player.";
   self.tapToAttackText = @"Tap to attack a rival.";
-  self.beforeBazaarText = @"Good Job! Let's combine your two Rusty Daggers at the Blacksmith!";
-  self.beforeBlacksmithText = @"Click on the blacksmith to enter.";
+  self.beforeBazaarText = @"Good Job! Let's head to the Blacksmith to strengthen your weapons!";
+  self.beforeBlacksmithText = @"Click on the Blacksmith to enter.";
+  self.beforeForgeText = @"Combining identical weapons will make them stronger. Try it now!";
+  self.beforeGuaranteeText = @"Forging may sometimes fail. Let's not leave it up to chance!";
+  self.beforeFinishForgeText = @"Click here to finish now.";
+  self.beforeSpeedUpConfirmedText = @"speed up";
+  self.beforeCheckResultsText = @"Let's check the results!";
   self.beforeHomeText = @"Well done! You're ready to run your own city. Tap here to check it out.";
   self.beforeCarpenterText = @"Buildings earn silver. Tap on your carpenter and build an inn!";
   self.beforePlacingText = @"Tap the green checkmark to place your inn.";
@@ -72,6 +78,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.beforeEndText = @"Alright! Be on your way! The townspeople have quests for you.";
   self.timeSyncErrorText = @"Looks like the time on your device is wrong, reset and restart, thx!";
   self.otherFailText = @"There was an error (code=%d). Email support@lvl6.com for help, thanks!";
+  
+  self.structCoords = CGPointMake(53, 48);
 }
 
 @end

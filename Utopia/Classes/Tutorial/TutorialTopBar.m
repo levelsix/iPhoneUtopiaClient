@@ -256,6 +256,8 @@
     [[TutorialBazaarMap sharedBazaarMap] performSelector:@selector(beginForgePhase) withObject:nil afterDelay:0.5f];
     
     [DialogMenuController closeView];
+    
+    [Analytics tutBazaarClicked];
   }
 }
 

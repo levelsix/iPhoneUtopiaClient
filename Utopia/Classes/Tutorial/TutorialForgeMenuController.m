@@ -39,7 +39,8 @@
 
 - (void) beforeForgeDialog {
   _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
-  [self displayArrowOnRedButton];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [self displayArrowOnRedButton:tc.beforeForgeText];
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -48,33 +49,42 @@
 }
 
 - (void) forgeButtonClicked:(id)sender {
-  Globals *gl = [Globals sharedGlobals];
-  int gold = [gl calculateGoldCostToGuaranteeForgingSuccess:self.curItem.equipId level:self.curItem.level];
-  NSString *desc = [NSString stringWithFormat:@"Would you like to guarantee success for %d gold?", gold];
-  GenericPopup *popup = [GenericPopupController displayConfirmationWithDescription:desc
-                                                       title:nil
-                                                  okayButton:@"Yes"
-                                                cancelButton:@"No"
-                                                      target:self
-                                                    selector:@selector(submitWithGuarantee)];
+  [self submitWithGuarantee];
+  return;
   
-  [popup.cancelButton removeTarget:popup action:@selector(cancelClicked:) forControlEvents:UIControlEventTouchUpInside];
-  [popup.mainView addSubview:_arrow];
-  _arrow.center = [popup.mainView convertPoint:ccp(CGRectGetMaxX(popup.okButton.frame)+_arrow.frame.size.width/2, popup.okButton.frame.size.height/2) fromView:popup.okButton.superview];
-  [Globals animateUIArrow:_arrow atAngle:M_PI];
+//  Globals *gl = [Globals sharedGlobals];
+//  int gold = [gl calculateGoldCostToGuaranteeForgingSuccess:self.curItem.equipId level:self.curItem.level];
+//  NSString *desc = [NSString stringWithFormat:@"Would you like to guarantee success for %d gold?", gold];
+//  GenericPopup *popup = [GenericPopupController displayConfirmationWithDescription:desc
+//                                                       title:nil
+//                                                  okayButton:@"Yes"
+//                                                cancelButton:@"No"
+//                                                      target:self
+//                                                    selector:@selector(submitWithGuarantee)];
+//  
+//  [popup.cancelButton removeTarget:popup action:@selector(cancelClicked:) forControlEvents:UIControlEventTouchUpInside];
+//  [popup.mainView addSubview:_arrow];
+//  _arrow.center = [popup.mainView convertPoint:ccp(CGRectGetMaxX(popup.okButton.frame)+_arrow.frame.size.width/2, popup.okButton.frame.size.height/2) fromView:popup.okButton.superview];
+//  [Globals animateUIArrow:_arrow atAngle:M_PI];
+//  
+//  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+//  [DialogMenuController displayViewForText:tc.beforeGuaranteeText];
+//  [Analytics tutForgeItemsClicked];
 }
 
 - (void) submitWithGuarantee {
+  [DialogMenuController closeView];
+  [_arrow removeFromSuperview];
+  
   ForgeAttempt *fa = [[ForgeAttempt alloc] init];
   fa.blacksmithId = 1;
   fa.equipId = self.curItem.equipId;
   fa.level = 1;
   fa.startTime = [NSDate date];
   fa.isComplete = NO;
-  fa.guaranteed = YES;
+  fa.guaranteed = NO;
   fa.slotNumber = 1;
   
-  Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   [gs.myEquips removeObject:[gs myEquipWithUserEquipId:1]];
    [gs.myEquips removeObject:[gs myEquipWithUserEquipId:4]];
@@ -82,22 +92,20 @@
   [gs.forgeAttempts addObject:fa];
   [fa release];
   
-  int gold = [gl calculateGoldCostToGuaranteeForgingSuccess:self.curItem.equipId level:self.curItem.level];
-  gs.gold -= gold;
-  
-  [self.coinBar updateLabels];
-  
   [self beginForgingSelectedItem];
   [self loadForgeItems];
   
-  [self performSelector:@selector(displayArrowOnRedButton) withObject:nil afterDelay:1.f];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [self performSelector:@selector(displayArrowOnRedButton:) withObject:tc.beforeFinishForgeText afterDelay:1.f];
+  
+  [Analytics tutGuaranteeClicked];
 }
 
 - (IBAction)finishNowClicked:(id)sender {
-  Globals *gl = [Globals sharedGlobals];
-  GameState *gs = [GameState sharedGameState];
-  ForgeAttempt *fa = [gs forgeAttemptForSlot:self.slotNumber];
-  int gold = [gl calculateGoldCostToSpeedUpForging:fa.equipId level:fa.level];
+  [DialogMenuController closeView];
+  
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  int gold = tc.costToSpeedUpForge;
   NSString *desc = [NSString stringWithFormat:@"Would you like to speed up forging for %d gold?", gold];
   GenericPopup *popup = [GenericPopupController displayConfirmationWithDescription:desc
                                                                              title:nil
@@ -110,20 +118,41 @@
   [popup.mainView addSubview:_arrow];
   _arrow.center = [popup.mainView convertPoint:ccp(CGRectGetMaxX(popup.okButton.frame)+_arrow.frame.size.width/2, popup.okButton.frame.size.height/2) fromView:popup.okButton.superview];
   [Globals animateUIArrow:_arrow atAngle:M_PI];
+  
+  [Analytics tutForgeFinishNow];
 }
 
 - (void) finishNow {
+  [DialogMenuController closeView];
+  
   [super finishNow];
-  [self performSelector:@selector(displayArrowOnRedButton) withObject:nil afterDelay:1.f];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [self performSelector:@selector(displayArrowOnRedButton:) withObject:tc.beforeCheckResultsText afterDelay:1.f];
+  
+  GameState *gs = [GameState sharedGameState];
+  int gold = tc.costToSpeedUpForge;
+  gs.gold -= gold;
+  [self.coinBar updateLabels];
+  
+  [Analytics tutSpeedUpConfirmed];
 }
 
 - (IBAction) checkResultsClicked:(id)sender {
+  [DialogMenuController closeView];
+  
   [super checkResultsClicked:sender];
   
   [_arrow removeFromSuperview];
   
   [self performSelector:@selector(fakeCollectEquipSuccess) withObject:nil afterDelay:1.5f];
   [self performSelector:@selector(arrowOnClose) withObject:nil afterDelay:3.f];
+  
+  [Analytics tutCheckResultsClicked];
+}
+
+
+- (void) askToConfirmWearForgedEquip {
+  return;
 }
 
 - (IBAction)okayClicked:(id)sender {
@@ -153,10 +182,14 @@
   _shouldShake = NO;
 }
 
-- (void) displayArrowOnRedButton {
+- (void) displayArrowOnRedButton:(NSString *)message {
   [self.mainView addSubview:_arrow];
   _arrow.center = [self.mainView convertPoint:ccp(-_arrow.frame.size.width/2, CGRectGetMidY(self.forgeButton.frame)) fromView:self.forgeButton.superview];
   [Globals animateUIArrow:_arrow atAngle:0];
+  
+  if (message) {
+    [DialogMenuController displayViewForText:message];
+  }
 }
 
 - (void) arrowOnClose {
@@ -173,6 +206,8 @@
     [super closeClicked:sender];
     
     [(TutorialTopBar *)[TopBar sharedTopBar] beginMyCityPhase];
+    
+    [Analytics tutBlacksmithClicked];
   }
 }
 

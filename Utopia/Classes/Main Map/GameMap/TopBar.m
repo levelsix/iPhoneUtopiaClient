@@ -237,6 +237,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _bottomButtons.position = CGPointZero;
     [self addChild:_bottomButtons z:10];
     
+    _shieldOnView = [CCSprite spriteWithFile:@"shieldonbg.png"];
+    [_attackButton addChild:_shieldOnView z:-1];
+    _shieldOnView.position = ccp(_attackButton.contentSize.width/2, _attackButton.contentSize.height+5);
+    _shieldOnView.visible = NO;
+    
+    CCSprite *shieldIcon = [CCSprite spriteWithFile:@"protectionshield.png"];
+    [_shieldOnView addChild:shieldIcon];
+    shieldIcon.position = ccp(3, _shieldOnView.contentSize.height-7);
+    
+    CCSprite *onIcon = [CCSprite spriteWithFile:@"shieldon.png"];
+    [_shieldOnView addChild:onIcon];
+    onIcon.position = ccp(_shieldOnView.contentSize.width/2, _shieldOnView.contentSize.height/2+2);
+    
     _questNewArrow = [CCSprite spriteWithFile:@"new.png"];
     [self addChild:_questNewArrow];
     _questNewArrow.opacity = 0;
@@ -419,6 +432,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _tournamentButton.selectedImage.opacity = BUTTON_OPACITY;
   _towerButton.normalImage.opacity = BUTTON_OPACITY;
   _towerButton.selectedImage.opacity = BUTTON_OPACITY;
+  [_attackButton recursivelyApplyOpacity:BUTTON_OPACITY];
 }
 
 - (void) resetAllOpacities {
@@ -440,6 +454,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _tournamentButton.selectedImage.opacity = 255;
   _towerButton.normalImage.opacity = 255;
   _towerButton.selectedImage.opacity = 255;
+  [_attackButton recursivelyApplyOpacity:255];
 }
 
 - (void) goToBazaarForFirstLossTutorial {
@@ -1228,7 +1243,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (void) shouldDisplayBossEventButton:(BOOL)button {
   _bossEventButton.visible = button;
-}
+} 
 
 - (void) shouldDisplayTournamentButton:(BOOL)button {
   _tournamentButton.visible = button;
@@ -1236,6 +1251,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (void) shouldDisplayTowerButton:(BOOL)button {
   _towerButton.visible = button;
+}
+
+- (void) shouldDisplayShieldView:(BOOL)shieldView {
+  _shieldOnView.visible = shieldView;
 }
 
 - (void) onEnter {

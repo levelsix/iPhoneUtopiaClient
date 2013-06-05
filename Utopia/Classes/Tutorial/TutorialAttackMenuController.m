@@ -23,7 +23,7 @@
   GameState *gs = [GameState sharedGameState];
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   NSArray *arr = [NSArray arrayWithObjects:tc.enemyName, @"ashwinner101", @"kellz", @"JBiebs12", @"CoopaTroopa", @"aweezy", @"awestonlin", nil];
-  gs.attackList = [NSMutableArray array];
+  gs.attackBotList = [NSMutableArray array];
   for (NSString *str in arr) {
     UserType type = UserTypeGoodWarrior;
     if ([str isEqualToString:tc.enemyName]) {
@@ -33,7 +33,7 @@
     }
     
     FullUserProto *fup = [[[[[FullUserProto builder] setName:str] setLevel:1] setUserType:type] build];
-    [gs.attackList addObject:fup];
+    [gs.attackBotList addObject:fup];
   }
   
   [self.attackTableView reloadData];
@@ -56,6 +56,8 @@
   r.origin.y += self.attackTableView.rowHeight;
   r.size.height -= self.attackTableView.rowHeight;
   dark.frame = r;
+  
+  self.shieldView.hidden = YES;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -84,7 +86,7 @@
 }
 
 - (void) setState:(AttackListState)state {
-  if (state == kAttackList) {
+  if (state == kBotsList) {
     [super setState:state];
   }
 }

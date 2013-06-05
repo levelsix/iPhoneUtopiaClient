@@ -412,14 +412,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     }
   }
   
-  if (_fup != user) {
-    [_fup release];
-    _fup = [user retain];
-  }
-  
   if (![self battleOkayThroughUserDefaults]) {
     [Globals popupMessage:[NSString stringWithFormat:@"%@ has run away. Try again later.", user.name]];
     return NO;
+  }
+  
+  if ([Globals userHasBeginnerShield:user.createTime hasActiveShield:user.hasActiveShield]) {
+    [Globals popupMessage:[NSString stringWithFormat:@"%@ still has an active shield.", user.name]];
+    return NO;
+  }
+  
+  if (_fup != user) {
+    [_fup release];
+    _fup = [user retain];
   }
   
   if (user.isFake) {

@@ -16,6 +16,7 @@
 #import "Globals.h"
 #import "TutorialHomeMap.h"
 #import "TutorialTopBar.h"
+#import "IncomingEventController.h"
 
 #define MASKED_GIRL_TAG 35
 
@@ -109,16 +110,38 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 }
 
 - (void) createUser {
-  [[OutgoingEventController sharedOutgoingEventController] createUser];
+  GameState *gs = [GameState sharedGameState];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   
   [self.loadingView display:self.view];
   
-  [Analytics tutUserCreated];
+  if (!tc.userCreateResponse) {
+    [[OutgoingEventController sharedOutgoingEventController] createUser];
+    self.waitingForUserCreate = YES;
+  } else {
+    [self receivedUserCreateResponse:tc.userCreateResponse];
+    
+    if (tc.userCreateResponse.status == UserCreateResponseProto_UserCreateStatusSuccess ||
+        tc.userCreateResponse.status == UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists) {
+      if (tc.userCreateResponse.hasSender) {
+        [gs updateUser:tc.userCreateResponse.sender timestamp:0];
+      }
+      
+      self.waitingForStartup = YES;
+      if (tc.startupResponse) {
+        FullEvent *fe = [FullEvent new];
+        fe.event = tc.startupResponse;
+        [[IncomingEventController sharedIncomingEventController] handleStartupResponseProto:fe];
+      } else {
+        [[OutgoingEventController sharedOutgoingEventController] startup];
+      }
+    }
+  }
 }
 
 - (void) receivedUserCreateResponse:(UserCreateResponseProto *)ucrp {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  if (ucrp.status == UserCreateResponseProto_UserCreateStatusSuccess) {
+  if (ucrp.status == UserCreateResponseProto_UserCreateStatusSuccess || ucrp.status == UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists) {
   } else if (ucrp.status == UserCreateResponseProto_UserCreateStatusTimeIssue) {
     [DialogMenuController displayViewForText:tc.timeSyncErrorText];
     [self stopLoading:NO];
@@ -133,6 +156,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   
   if (continueTut) {
     [(TutorialTopBar *)[TutorialTopBar sharedTopBar] beginQuestsPhase];
+    
+    [Analytics tutUserCreated];
   }
 }
 

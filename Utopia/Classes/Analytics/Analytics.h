@@ -145,6 +145,7 @@
 
 // Tutorial
 + (void) tutStart;
++ (void) tutSideChosen;
 + (void) tutCharChosen;
 + (void) tutNameEntered;
 + (void) tutCompleteTask1;
@@ -168,7 +169,16 @@
 + (void) tutClickedOkay1;
 + (void) tutClickedOkay2;
 + (void) tutClickedDone;
++ (void) tutClosedStolenEquip;
 + (void) tutClosedBattleSummary;
++ (void) tutBazaarClicked;
++ (void) tutBlacksmithClicked;
++ (void) tutForgeItemsClicked;
++ (void) tutGuaranteeClicked;
++ (void) tutForgeFinishNow;
++ (void) tutSpeedUpConfirmed;
++ (void) tutCheckResultsClicked;
++ (void) tutClosedForge;
 + (void) tutMyCityClicked;
 + (void) tutCarpenterClicked;
 + (void) tutPurchaseInn;

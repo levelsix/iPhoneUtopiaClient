@@ -292,7 +292,7 @@ static NSString *udid = nil;
   }
 }
 
-- (int) sendUserCreateMessageWithName:(NSString *)name type:(UserType)type lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense energy:(int)energy stamina:(int)stamina timeOfStructPurchase:(uint64_t)timeOfStructPurchase timeOfStructBuild:(uint64_t)timeOfStructBuild structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild {
+- (int) sendUserCreateMessageWithName:(NSString *)name type:(UserType)type lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense energy:(int)energy stamina:(int)stamina structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild {
   UserCreateRequestProto_Builder *bldr = [UserCreateRequestProto builder];
   
   bldr.udid = udid;
@@ -315,8 +315,6 @@ static NSString *udid = nil;
   bldr.defense = defense;
   bldr.energy = energy;
   bldr.stamina = stamina;
-  bldr.timeOfStructPurchase = timeOfStructPurchase;
-  bldr.timeOfStructBuild = timeOfStructBuild;
   bldr.structCoords = [[[[CoordinateProto builder] setX:structX] setY:structY] build];
   bldr.usedDiamondsToBuilt = usedDiamondsToBuild;
   
@@ -524,11 +522,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCGenerateAttackListEvent];
 }
 
-- (int) sendGenerateAttackListMessage:(int)numEnemies {
+- (int) sendGenerateAttackListMessage:(int)numEnemies realPlayersOnly:(BOOL)realPlayersOnly {
   GenerateAttackListRequestProto *req = [[[[[GenerateAttackListRequestProto builder]
                                             setSender:_sender]
                                            setNumEnemies:numEnemies]
-                                          setForMap:NO]
+                                          setShowRealPlayers:realPlayersOnly]
                                          build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCGenerateAttackListEvent];

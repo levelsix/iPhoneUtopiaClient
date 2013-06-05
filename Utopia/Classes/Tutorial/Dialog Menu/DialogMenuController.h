@@ -22,6 +22,9 @@
 @property (nonatomic, retain) IBOutlet UIView *speechBubble;
 @property (nonatomic, retain) IBOutlet UIImageView *girlImageView;
 
+@property (nonatomic, assign) BOOL waitingForUserCreate;
+@property (nonatomic, assign) BOOL waitingForStartup;
+
 + (void) displayViewForText:(NSString *)str;
 + (void) closeView;
 - (void) stopLoading:(BOOL)continueTut;

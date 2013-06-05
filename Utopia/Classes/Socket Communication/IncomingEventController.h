@@ -7,10 +7,13 @@
 //
 
 #import "Protocols.pb.h"
+#import "FullEvent.h"
 
 @interface IncomingEventController : NSObject
 
 + (IncomingEventController *) sharedIncomingEventController;
 - (Class) getClassForType: (EventProtocolResponse) type;
+
+- (void) handleStartupResponseProto:(FullEvent *)fe;
 
 @end

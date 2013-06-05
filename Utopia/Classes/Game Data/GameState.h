@@ -80,8 +80,6 @@
   NSMutableDictionary *_inProgressCompleteQuests;
   NSMutableDictionary *_availableQuests;
   
-  NSMutableArray *_attackList;
-  NSMutableArray *_attackMapList;
   NSMutableArray *_notifications;
   NSMutableArray *_wallPosts;
   NSMutableArray *_globalChatMessages;
@@ -152,6 +150,7 @@
 @property (nonatomic, assign) int prestigeLevel;
 @property (nonatomic, assign) int numAdditionalForgeSlots;
 @property (nonatomic, assign) int numBeginnerSalesPurchased;
+@property (nonatomic, assign) BOOL hasActiveShield;
 
 @property (nonatomic, retain) NSString *kabamNaid;
 
@@ -197,8 +196,8 @@
 @property (nonatomic, retain) NSMutableDictionary *inProgressIncompleteQuests;
 @property (nonatomic, retain) NSMutableDictionary *availableQuests;
 
-@property (nonatomic, retain) NSMutableArray *attackList;
-@property (nonatomic, retain) NSMutableArray *attackMapList;
+@property (nonatomic, retain) NSMutableArray *attackBotList;
+@property (nonatomic, retain) NSMutableArray *attackPlayersList;
 @property (nonatomic, retain) NSMutableArray *notifications;
 @property (nonatomic, retain) NSMutableArray *wallPosts;
 @property (nonatomic, retain) NSMutableArray *globalChatMessages;
@@ -357,6 +356,7 @@
 - (NSArray *) mktSearchEquipsSimilarToString:(NSString *)string;
 
 - (NSArray *) getUserEquipArray;
+- (BOOL) hasBeginnerShield;
 
 - (void) purgeStaticData;
 - (void) reretrieveStaticData;

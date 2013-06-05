@@ -12,7 +12,8 @@
 #import "PullRefreshTableViewController.h"
 
 typedef enum {
-  kAttackList = 1,
+  kPlayersList = 1,
+  kBotsList,
   kLocationMap
 } AttackListState;
 
@@ -70,6 +71,13 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UITableView *attackTableView;
 @property (nonatomic, retain) IBOutlet UIImageView *filterImageView;
 @property (nonatomic, retain) IBOutlet AttackMenuBar *topBar;
+
+@property (nonatomic, retain) NSTimer *timer;
+
+@property (nonatomic, retain) IBOutlet UIView *shieldView;
+@property (nonatomic, retain) IBOutlet UILabel *shieldLabel;
+
+@property (nonatomic, retain) IBOutlet UILabel *noPlayersLabel;
 
 @property (nonatomic, assign) AttackListState state;
 
