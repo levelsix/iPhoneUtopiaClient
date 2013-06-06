@@ -571,7 +571,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (gs.isTutorial) {
       [Nanigans trackTutorialComplete];
       [[DialogMenuController sharedDialogMenuController] stopLoading:YES];
-      [gs.unrespondedUpdates removeAllObjects];
     } else {
       [[GameViewController sharedGameViewController] loadGame:NO];
     }

@@ -286,6 +286,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
     self.filterImageView = nil;
     self.topBar = nil;
     self.timer = nil;
+    [_battleFup release];
+    _battleFup = nil;
   }
 }
 
@@ -502,14 +504,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
 
 - (void) battle:(FullUserProto *)fup {
   GameState *gs = [GameState sharedGameState];
+  _battleFup = [fup retain];
   if ([gs hasBeginnerShield] && !fup.isFake) {
-    [GenericPopupController displayConfirmationWithDescription:@"Attacking will deactivate your shield. Would you like to proceed?" title:@"Proceed?" okayButton:@"Attack" cancelButton:@"Cancel" target:self selector:@selector(doBattle:)];
+    [GenericPopupController displayConfirmationWithDescription:@"Attacking will deactivate your shield. Would you like to proceed?" title:@"Proceed?" okayButton:@"Attack" cancelButton:@"Cancel" target:self selector:@selector(doBattle)];
   } else {
-    [self doBattle:fup];
+    [self doBattle];
   }
 }
 
-- (void) doBattle:(FullUserProto *)fup {
+- (void) doBattle {
   // BattleLayer will fade out view
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -517,6 +520,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   NSString *key = [NSString stringWithFormat:PERFORMED_FIRST_LOSS_TUT_KEY, gs.userId];
   BOOL hasPerformedTut = [def boolForKey:key];
+  FullUserProto *fup = _battleFup;
   FullQuestProto *fqp = [gs questForQuestId:gl.questIdForFirstLossTutorial];
   
   if (hasPerformedTut || gs.prestigeLevel > 0) {
@@ -538,6 +542,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
       [bl beginBattleAgainst:fup inCity:0];
     }
   }
+  
+  [fup release];
+  fup = nil;
 }
 
 - (void) mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {

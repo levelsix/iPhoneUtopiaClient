@@ -361,7 +361,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (void) asyncDownloadBundles {
   Globals *gl = [Globals sharedGlobals];
   StartupResponseProto_StartupConstants_DownloadableNibConstants *n = gl.downloadableNibConstants;
-  NSArray *bundleNames = [NSArray arrayWithObjects:n.goldShoppeNibName, n.blacksmithNibName, n.filtersNibName, n.mapNibName, n.threeCardMonteNibName, n.expansionNibName, n.lockBoxNibName, nil];
+  NSArray *bundleNames = [NSArray arrayWithObjects:n.goldShoppeNibName, n.filtersNibName, n.mapNibName, n.threeCardMonteNibName, n.expansionNibName, n.lockBoxNibName, nil];
   Downloader *dl = [Downloader sharedDownloader];
   
   int i = BUNDLE_SCHEDULE_INTERVAL;

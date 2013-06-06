@@ -900,6 +900,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addUnrespondedUpdate:(id<GameStateUpdate>)up {
+  if (_isTutorial) {
+    return;
+  }
+  
   [_unrespondedUpdates addObject:up];
   
   if ([up respondsToSelector:@selector(update)]) {

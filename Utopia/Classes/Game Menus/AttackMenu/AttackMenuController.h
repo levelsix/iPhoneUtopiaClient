@@ -60,6 +60,8 @@ typedef enum {
   MKMapRect lastGoodMapRect;
   BOOL manuallyChangingMapRect;
   AttackListState _state;
+  
+  FullUserProto *_battleFup;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *listTabView;
