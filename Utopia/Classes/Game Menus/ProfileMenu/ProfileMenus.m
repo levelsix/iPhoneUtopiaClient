@@ -790,7 +790,8 @@ static float origLabelCenterY = 0;
   
   titleLabel.text = fep.name;
   titleLabel.textColor = [Globals colorForRarity:fep.rarity];
-  classLabel.text = [Globals stringForEquipClassType:fep.classType];
+  classLabel.text = [Globals shortenedStringForRarity:fep.rarity];
+  classLabel.textColor = [Globals colorForRarity:fep.rarity];
   typeLabel.text = [Globals stringForEquipType:fep.equipType];
   attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
   defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];

@@ -244,7 +244,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     
     CCSprite *shieldIcon = [CCSprite spriteWithFile:@"protectionshield.png"];
     [_shieldOnView addChild:shieldIcon];
-    shieldIcon.position = ccp(3, _shieldOnView.contentSize.height-7);
+    shieldIcon.position = ccp(3, _shieldOnView.contentSize.height-11);
     
     CCSprite *onIcon = [CCSprite spriteWithFile:@"shieldon.png"];
     [_shieldOnView addChild:onIcon];

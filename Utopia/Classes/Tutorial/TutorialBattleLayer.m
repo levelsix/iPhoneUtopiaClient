@@ -27,6 +27,10 @@
   return self;
 }
 
++ (NSString *) getAvailableBackground {
+  return @"battle1.png";
+}
+
 - (void) beginBattle {
   GameState *gs = [GameState sharedGameState];
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
