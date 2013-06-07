@@ -5304,7 +5304,7 @@
 		CF69F63A1741CD57001C96D0 /* MentorChatView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MentorChatView.h; sourceTree = "<group>"; };
 		CF69F63B1741CD58001C96D0 /* MentorChatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MentorChatView.m; sourceTree = "<group>"; };
 		CF69FD2A174212ED001C96D0 /* Legends of Chaos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Legends of Chaos.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CF69FD2B174212ED001C96D0 /* Utopia copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Utopia copy-Info.plist"; path = "Utopia/Utopia copy-Info.plist"; sourceTree = SOURCE_ROOT; };
+		CF69FD2B174212ED001C96D0 /* Legends of Chaos.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Legends of Chaos.plist"; path = "Utopia/Legends of Chaos.plist"; sourceTree = SOURCE_ROOT; };
 		CF69FD30174214C8001C96D0 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		CF69FD31174214C8001C96D0 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		CF69FD32174214C8001C96D0 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
@@ -6355,7 +6355,7 @@
 				455FC6C2157EE683008DB9E4 /* UtopiaTests */,
 				CF1256451538A94D00E0C1AD /* Frameworks */,
 				CF1256431538A94D00E0C1AD /* Products */,
-				CF69FD2B174212ED001C96D0 /* Utopia copy-Info.plist */,
+				CF69FD2B174212ED001C96D0 /* Legends of Chaos.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -13989,7 +13989,7 @@
 					"\"$(SRCROOT)/Utopia/libs/Headers\"",
 					"$(SRCROOT)/Utopia/libs/**",
 				);
-				INFOPLIST_FILE = "Utopia copy-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Utopia/Legends of Chaos.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -14040,7 +14040,7 @@
 					"\"$(SRCROOT)/Utopia/libs/Headers\"",
 					"$(SRCROOT)/Utopia/libs/**",
 				);
-				INFOPLIST_FILE = "Utopia copy-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Utopia/Legends of Chaos.plist";
 				INSTALL_OWNER = "$(USER)";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
