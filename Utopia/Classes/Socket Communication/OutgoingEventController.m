@@ -1616,7 +1616,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     UserEquip *ue1 = [gs myEquipWithUserEquipId:equipOne];
     UserEquip *ue2 = [gs myEquipWithUserEquipId:equipTwo];
     
-    if (ue1.level > 9) {
+    if (ue1.level >= gl.forgeMaxEquipLevel) {
       [Globals popupMessage:@"Attempting to forge two equips that are already at max level."];
     } else if (ue1.equipId == ue2.equipId && ue1.level == ue2.level) {
       int goldCost = 0;
