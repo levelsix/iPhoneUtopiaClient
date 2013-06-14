@@ -32,6 +32,7 @@
 #import "BossEventMenuController.h"
 #import "TournamentMenuController.h"
 #import "ArmoryViewController.h"
+#import "MissionMap.h"
 
 #define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
 #define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
@@ -232,7 +233,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _towerButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(towerButtonClicked)];
     _towerButton.position = ccp(s.contentSize.width/2+BOTTOM_BUTTON_OFFSET, 3*s.contentSize.height/2+2*BOTTOM_BUTTON_OFFSET);
     
-    _bottomButtons = [CCMenu menuWithItems: _mapButton, _attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, _bossEventButton, _tournamentButton, _towerButton, nil];
+    s = [CCSprite spriteWithFile:@"collectablesicon.png"];
+    _gemsButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(gemsButtonClicked)];
+    
+    _bottomButtons = [CCMenu menuWithItems: _mapButton, _attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, _bossEventButton, _tournamentButton, _towerButton, _gemsButton, nil];
     _bottomButtons.contentSize = CGSizeZero;
     _bottomButtons.position = CGPointZero;
     [self addChild:_bottomButtons z:10];
@@ -413,6 +417,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [[GameLayer sharedGameLayer] loadHomeMap];
 }
 
+- (void) gemsButtonClicked {
+  GameLayer *gl = [GameLayer sharedGameLayer];
+  GameMap *gm = gl.currentMap;
+  if ([gm isKindOfClass:[MissionMap class]]) {
+    MissionMap *mm = (MissionMap *)gm;
+    [mm displayGemsView];
+  }
+}
+
 - (void) lowerAllOpacities {
   _questButton.normalImage.opacity = BUTTON_OPACITY;
   _questButton.selectedImage.opacity = BUTTON_OPACITY;
@@ -493,12 +506,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 - (void) loadHomeConfiguration {
   _homeButton.visible = NO;
   _bazaarButton.visible = YES;
+  _gemsButton.visible = NO;
 }
 
 - (void) loadBazaarConfiguration {
   _bazaarButton.visible = NO;
   _homeButton.visible = YES;
   _homeButton.position = _bazaarButton.position;
+  _gemsButton.visible = NO;
   
   if (_isForBattleLossTutorial) {
     [_arrow removeFromParentAndCleanup:YES];
@@ -512,6 +527,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _homeButton.visible = YES;
   _bazaarButton.visible = YES;
   _homeButton.position = ccp(_bazaarButton.position.x, _bazaarButton.position.y+_bazaarButton.contentSize.height/2+_homeButton.contentSize.height/2);
+  
+  _gemsButton.visible = YES;
+  _gemsButton.position = ccp(_towerButton.position.x-_towerButton.contentSize.width/2+_gemsButton.contentSize.width/2, _towerButton.position.y-_towerButton.contentSize.height/2+_gemsButton.contentSize.height/2);
+  if (_towerButton.visible) {
+    _gemsButton.position = ccpAdd(_gemsButton.position, ccp(_towerButton.position.x+_towerButton.contentSize.width/2, 0));
+  }
 }
 
 - (void) start {
@@ -1251,6 +1272,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (void) shouldDisplayTowerButton:(BOOL)button {
   _towerButton.visible = button;
+  
+  if (_gemsButton.visible) {
+    [self loadNormalConfiguration];
+  }
 }
 
 - (void) shouldDisplayShieldView:(BOOL)shieldView {

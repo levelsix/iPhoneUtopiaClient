@@ -20,8 +20,28 @@
 #define MIN_ZOOM 0.3f
 #define DEFAULT_ZOOM 0.8f
 
+#define SILVER_STACK_BOUNCE_DURATION 1.f
+#define DROP_LABEL_DURATION 3.f
+#define PICK_UP_WAIT_TIME 2
+#define DROP_ROTATION 0
+
 @class Building;
 @class SelectableSprite;
+
+//CCMoveByCustom
+@interface CCMoveByCustom : CCMoveBy
+
+-(void) update: (ccTime) t;
+
+@end
+
+
+//CClCustom
+@interface CCMoveToCustom : CCMoveTo
+
+- (void) update: (ccTime) t;
+
+@end
 
 @interface EnemyPopupView : UIView
 
@@ -84,6 +104,7 @@
 - (void) pickUpEquipDrop:(EquipDrop *)ed;
 - (void) addLockBoxDrop:(int)eventId fromSprite:(MapSprite *)sprite secondsToPickup:(int)secondsToPickup ;
 - (void) pickUpLockBoxDrop:(LockBoxDrop *)lbd;
+- (void) pickUpDrop:(CCNode *)drop;
 - (void) pickUpAllDrops;
 
 - (IBAction)attackClicked:(id)sender;

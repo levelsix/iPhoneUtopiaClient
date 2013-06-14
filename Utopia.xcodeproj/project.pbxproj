@@ -1220,7 +1220,7 @@
 		CF4CA58917472BFA00751326 /* onlinenowglow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF69F62C1741BF1A001C96D0 /* onlinenowglow.png */; };
 		CF4CA58A17472BFA00751326 /* onlinenowglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF69F62D1741BF1A001C96D0 /* onlinenowglow@2x.png */; };
 		CF4E450516787CE1005DAE18 /* ResetStaminaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF4E450416787CE1005DAE18 /* ResetStaminaView.xib */; };
-		CF4E450816788277005DAE18 /* ResetStaminaView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4E450716788277005DAE18 /* ResetStaminaView.m */; };
+		CF4E450816788277005DAE18 /* MissionMapViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4E450716788277005DAE18 /* MissionMapViews.m */; };
 		CF52FA151626768600AD3478 /* DownloaderSpinner.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF52FA141626768600AD3478 /* DownloaderSpinner.xib */; };
 		CF57B1C2173D1A67003C8266 /* commonprofileequip.png in Resources */ = {isa = PBXBuildFile; fileRef = CF57B1C0173D1A67003C8266 /* commonprofileequip.png */; };
 		CF57B1C3173D1A67003C8266 /* commonprofileequip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF57B1C1173D1A67003C8266 /* commonprofileequip@2x.png */; };
@@ -1554,7 +1554,7 @@
 		CF69F73B174212ED001C96D0 /* amqp_url.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141FC1658B70C0060188D /* amqp_url.c */; };
 		CF69F73C174212ED001C96D0 /* AMQPConnectionThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */; };
 		CF69F73D174212ED001C96D0 /* BossEventMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE9547F166E380D00DA63CF /* BossEventMenuController.m */; };
-		CF69F73E174212ED001C96D0 /* ResetStaminaView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4E450716788277005DAE18 /* ResetStaminaView.m */; };
+		CF69F73E174212ED001C96D0 /* MissionMapViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4E450716788277005DAE18 /* MissionMapViews.m */; };
 		CF69F73F174212ED001C96D0 /* ClanTowerTab.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE954C5166F3EF500DA63CF /* ClanTowerTab.m */; };
 		CF69F740174212ED001C96D0 /* TournamentMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1B5003167C434800B73276 /* TournamentMenuController.m */; };
 		CF69F741174212ED001C96D0 /* TournamentViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1B500A167C4BE200B73276 /* TournamentViews.m */; };
@@ -3108,6 +3108,48 @@
 		CF877811163E3206008A0F71 /* bigruby2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF87780D163E3206008A0F71 /* bigruby2@2x.png */; };
 		CF877818163E49B8008A0F71 /* increaseclan.png in Resources */ = {isa = PBXBuildFile; fileRef = CF877816163E49B8008A0F71 /* increaseclan.png */; };
 		CF877819163E49B8008A0F71 /* increaseclan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF877817163E49B8008A0F71 /* increaseclan@2x.png */; };
+		CF8A3E631767DD9600BDF639 /* citycollectablesbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E5D1767DD9600BDF639 /* citycollectablesbg.png */; };
+		CF8A3E641767DD9600BDF639 /* citycollectablesbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E5D1767DD9600BDF639 /* citycollectablesbg.png */; };
+		CF8A3E651767DD9600BDF639 /* citycollectablesbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E5E1767DD9600BDF639 /* citycollectablesbg@2x.png */; };
+		CF8A3E661767DD9600BDF639 /* citycollectablesbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E5E1767DD9600BDF639 /* citycollectablesbg@2x.png */; };
+		CF8A3E671767DD9600BDF639 /* citycollectablesheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E5F1767DD9600BDF639 /* citycollectablesheader.png */; };
+		CF8A3E681767DD9600BDF639 /* citycollectablesheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E5F1767DD9600BDF639 /* citycollectablesheader.png */; };
+		CF8A3E691767DD9600BDF639 /* citycollectablesheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E601767DD9600BDF639 /* citycollectablesheader@2x.png */; };
+		CF8A3E6A1767DD9600BDF639 /* citycollectablesheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E601767DD9600BDF639 /* citycollectablesheader@2x.png */; };
+		CF8A3E6B1767DD9600BDF639 /* collectablesicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E611767DD9600BDF639 /* collectablesicon.png */; };
+		CF8A3E6C1767DD9600BDF639 /* collectablesicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E611767DD9600BDF639 /* collectablesicon.png */; };
+		CF8A3E6D1767DD9600BDF639 /* collectablesicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E621767DD9600BDF639 /* collectablesicon@2x.png */; };
+		CF8A3E6E1767DD9600BDF639 /* collectablesicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E621767DD9600BDF639 /* collectablesicon@2x.png */; };
+		CF8A3E851767DDA100BDF639 /* bossunlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E731767DDA100BDF639 /* bossunlocked.png */; };
+		CF8A3E861767DDA100BDF639 /* bossunlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E731767DDA100BDF639 /* bossunlocked.png */; };
+		CF8A3E871767DDA100BDF639 /* bossunlocked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E741767DDA100BDF639 /* bossunlocked@2x.png */; };
+		CF8A3E881767DDA100BDF639 /* bossunlocked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E741767DDA100BDF639 /* bossunlocked@2x.png */; };
+		CF8A3E891767DDA100BDF639 /* cityrankup.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E751767DDA100BDF639 /* cityrankup.png */; };
+		CF8A3E8A1767DDA100BDF639 /* cityrankup.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E751767DDA100BDF639 /* cityrankup.png */; };
+		CF8A3E8B1767DDA100BDF639 /* cityrankup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E761767DDA100BDF639 /* cityrankup@2x.png */; };
+		CF8A3E8C1767DDA100BDF639 /* cityrankup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E761767DDA100BDF639 /* cityrankup@2x.png */; };
+		CF8A3E8D1767DDA100BDF639 /* fighthim.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E771767DDA100BDF639 /* fighthim.png */; };
+		CF8A3E8E1767DDA100BDF639 /* fighthim.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E771767DDA100BDF639 /* fighthim.png */; };
+		CF8A3E8F1767DDA100BDF639 /* fighthim@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E781767DDA100BDF639 /* fighthim@2x.png */; };
+		CF8A3E901767DDA100BDF639 /* fighthim@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3E781767DDA100BDF639 /* fighthim@2x.png */; };
+		CF8A3E991768383A00BDF639 /* behindpiecebox.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3BE06C161945B400CA5A76 /* behindpiecebox.png */; };
+		CF8A3E9A1768383A00BDF639 /* behindpiecebox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3BE06D161945B400CA5A76 /* behindpiecebox@2x.png */; };
+		CF8A3E9B1768383A00BDF639 /* behindpiecebox.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3BE06C161945B400CA5A76 /* behindpiecebox.png */; };
+		CF8A3E9C1768383A00BDF639 /* behindpiecebox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3BE06D161945B400CA5A76 /* behindpiecebox@2x.png */; };
+		CF8A3E9D1769531300BDF639 /* picknow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3BE076161945B400CA5A76 /* picknow.png */; };
+		CF8A3E9E1769531300BDF639 /* picknow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3BE077161945B400CA5A76 /* picknow@2x.png */; };
+		CF8A3E9F1769531400BDF639 /* picknow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3BE076161945B400CA5A76 /* picknow.png */; };
+		CF8A3EA01769531400BDF639 /* picknow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3BE077161945B400CA5A76 /* picknow@2x.png */; };
+		CF8A3EA2176ABB6A00BDF639 /* CityBossView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3EA1176ABB6900BDF639 /* CityBossView.xib */; };
+		CF8A3EA3176ABB6A00BDF639 /* CityBossView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3EA1176ABB6900BDF639 /* CityBossView.xib */; };
+		CF8A3EA5176ABFAA00BDF639 /* BossUnlockedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3EA4176ABFAA00BDF639 /* BossUnlockedView.xib */; };
+		CF8A3EA6176ABFAA00BDF639 /* BossUnlockedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3EA4176ABFAA00BDF639 /* BossUnlockedView.xib */; };
+		CF8A3EA9176AC36E00BDF639 /* bossoverlay.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3EA7176AC36E00BDF639 /* bossoverlay.png */; };
+		CF8A3EAA176AC36E00BDF639 /* bossoverlay.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3EA7176AC36E00BDF639 /* bossoverlay.png */; };
+		CF8A3EAB176AC36E00BDF639 /* bossoverlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3EA8176AC36E00BDF639 /* bossoverlay@2x.png */; };
+		CF8A3EAC176AC36E00BDF639 /* bossoverlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3EA8176AC36E00BDF639 /* bossoverlay@2x.png */; };
+		CF8A3EAF176AC6BA00BDF639 /* BossViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8A3EAE176AC6B900BDF639 /* BossViews.m */; };
+		CF8A3EB0176AC6BA00BDF639 /* BossViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8A3EAE176AC6B900BDF639 /* BossViews.m */; };
 		CF8C7A9B1579C98B003A6AFE /* constructionshelf.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7A971579C98B003A6AFE /* constructionshelf.png */; };
 		CF8C7A9C1579C98B003A6AFE /* constructionshelf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7A981579C98B003A6AFE /* constructionshelf@2x.png */; };
 		CF8C7A9D1579C98B003A6AFE /* constructioncoborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7A991579C98B003A6AFE /* constructioncoborder.png */; };
@@ -3635,6 +3677,7 @@
 		CFF6FAD016F17FEC0088EEDA /* DailyBonusMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF6FACE16F17FEC0088EEDA /* DailyBonusMenuController.xib */; };
 		CFF891681667276200D91A71 /* watertiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF891661667276200D91A71 /* watertiles.png */; };
 		CFF891691667276200D91A71 /* watertiles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF891671667276200D91A71 /* watertiles@2x.png */; };
+		CFFD859A1767D52700D4928F /* CityGemsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFFD85991767D52700D4928F /* CityGemsView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -4982,8 +5025,8 @@
 		CF3BE061161945AA00CA5A76 /* goldpick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "goldpick@2x.png"; sourceTree = "<group>"; };
 		CF3BE062161945AA00CA5A76 /* silverpick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = silverpick.png; sourceTree = "<group>"; };
 		CF3BE063161945AA00CA5A76 /* silverpick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "silverpick@2x.png"; sourceTree = "<group>"; };
-		CF3BE06C161945B400CA5A76 /* behindpiecebox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = behindpiecebox.png; sourceTree = "<group>"; };
-		CF3BE06D161945B400CA5A76 /* behindpiecebox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "behindpiecebox@2x.png"; sourceTree = "<group>"; };
+		CF3BE06C161945B400CA5A76 /* behindpiecebox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = behindpiecebox.png; path = "../Lock box images/behindpiecebox.png"; sourceTree = "<group>"; };
+		CF3BE06D161945B400CA5A76 /* behindpiecebox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "behindpiecebox@2x.png"; path = "../Lock box images/behindpiecebox@2x.png"; sourceTree = "<group>"; };
 		CF3BE06E161945B400CA5A76 /* lockboxevenbgt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lockboxevenbgt.png; sourceTree = "<group>"; };
 		CF3BE06F161945B400CA5A76 /* lockboxevenbgt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockboxevenbgt@2x.png"; sourceTree = "<group>"; };
 		CF3BE070161945B400CA5A76 /* overchestnumber.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overchestnumber.png; sourceTree = "<group>"; };
@@ -4992,8 +5035,8 @@
 		CF3BE073161945B400CA5A76 /* overpiecenumber@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "overpiecenumber@2x.png"; sourceTree = "<group>"; };
 		CF3BE074161945B400CA5A76 /* pickboxbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pickboxbg.png; sourceTree = "<group>"; };
 		CF3BE075161945B400CA5A76 /* pickboxbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pickboxbg@2x.png"; sourceTree = "<group>"; };
-		CF3BE076161945B400CA5A76 /* picknow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = picknow.png; sourceTree = "<group>"; };
-		CF3BE077161945B400CA5A76 /* picknow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "picknow@2x.png"; sourceTree = "<group>"; };
+		CF3BE076161945B400CA5A76 /* picknow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = picknow.png; path = "../Lock box images/picknow.png"; sourceTree = "<group>"; };
+		CF3BE077161945B400CA5A76 /* picknow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "picknow@2x.png"; path = "../Lock box images/picknow@2x.png"; sourceTree = "<group>"; };
 		CF3BE078161945B400CA5A76 /* prizeinfo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prizeinfo.png; sourceTree = "<group>"; };
 		CF3BE079161945B400CA5A76 /* prizeinfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prizeinfo@2x.png"; sourceTree = "<group>"; };
 		CF3BE0891619475D00CA5A76 /* LockBoxMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockBoxMenuController.h; sourceTree = "<group>"; };
@@ -5161,8 +5204,8 @@
 		CF49CBB3169D100100725DB0 /* loadingbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loadingbar.png; sourceTree = "<group>"; };
 		CF49CBB4169D100100725DB0 /* loadingbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loadingbar@2x.png"; sourceTree = "<group>"; };
 		CF4E450416787CE1005DAE18 /* ResetStaminaView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResetStaminaView.xib; sourceTree = "<group>"; };
-		CF4E450616788277005DAE18 /* ResetStaminaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetStaminaView.h; sourceTree = "<group>"; };
-		CF4E450716788277005DAE18 /* ResetStaminaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetStaminaView.m; sourceTree = "<group>"; };
+		CF4E450616788277005DAE18 /* MissionMapViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MissionMapViews.h; sourceTree = "<group>"; };
+		CF4E450716788277005DAE18 /* MissionMapViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MissionMapViews.m; sourceTree = "<group>"; };
 		CF52FA141626768600AD3478 /* DownloaderSpinner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownloaderSpinner.xib; sourceTree = "<group>"; };
 		CF57B1C0173D1A67003C8266 /* commonprofileequip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = commonprofileequip.png; sourceTree = "<group>"; };
 		CF57B1C1173D1A67003C8266 /* commonprofileequip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commonprofileequip@2x.png"; sourceTree = "<group>"; };
@@ -5424,6 +5467,24 @@
 		CF87780D163E3206008A0F71 /* bigruby2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bigruby2@2x.png"; sourceTree = "<group>"; };
 		CF877816163E49B8008A0F71 /* increaseclan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = increaseclan.png; sourceTree = "<group>"; };
 		CF877817163E49B8008A0F71 /* increaseclan@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "increaseclan@2x.png"; sourceTree = "<group>"; };
+		CF8A3E5D1767DD9600BDF639 /* citycollectablesbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = citycollectablesbg.png; sourceTree = "<group>"; };
+		CF8A3E5E1767DD9600BDF639 /* citycollectablesbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "citycollectablesbg@2x.png"; sourceTree = "<group>"; };
+		CF8A3E5F1767DD9600BDF639 /* citycollectablesheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = citycollectablesheader.png; sourceTree = "<group>"; };
+		CF8A3E601767DD9600BDF639 /* citycollectablesheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "citycollectablesheader@2x.png"; sourceTree = "<group>"; };
+		CF8A3E611767DD9600BDF639 /* collectablesicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = collectablesicon.png; sourceTree = "<group>"; };
+		CF8A3E621767DD9600BDF639 /* collectablesicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "collectablesicon@2x.png"; sourceTree = "<group>"; };
+		CF8A3E731767DDA100BDF639 /* bossunlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bossunlocked.png; sourceTree = "<group>"; };
+		CF8A3E741767DDA100BDF639 /* bossunlocked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bossunlocked@2x.png"; sourceTree = "<group>"; };
+		CF8A3E751767DDA100BDF639 /* cityrankup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityrankup.png; sourceTree = "<group>"; };
+		CF8A3E761767DDA100BDF639 /* cityrankup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cityrankup@2x.png"; sourceTree = "<group>"; };
+		CF8A3E771767DDA100BDF639 /* fighthim.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fighthim.png; sourceTree = "<group>"; };
+		CF8A3E781767DDA100BDF639 /* fighthim@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fighthim@2x.png"; sourceTree = "<group>"; };
+		CF8A3EA1176ABB6900BDF639 /* CityBossView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CityBossView.xib; sourceTree = "<group>"; };
+		CF8A3EA4176ABFAA00BDF639 /* BossUnlockedView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BossUnlockedView.xib; sourceTree = "<group>"; };
+		CF8A3EA7176AC36E00BDF639 /* bossoverlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bossoverlay.png; sourceTree = "<group>"; };
+		CF8A3EA8176AC36E00BDF639 /* bossoverlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bossoverlay@2x.png"; sourceTree = "<group>"; };
+		CF8A3EAD176AC6B800BDF639 /* BossViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BossViews.h; sourceTree = "<group>"; };
+		CF8A3EAE176AC6B900BDF639 /* BossViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BossViews.m; sourceTree = "<group>"; };
 		CF8C7A971579C98B003A6AFE /* constructionshelf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = constructionshelf.png; sourceTree = "<group>"; };
 		CF8C7A981579C98B003A6AFE /* constructionshelf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "constructionshelf@2x.png"; sourceTree = "<group>"; };
 		CF8C7A991579C98B003A6AFE /* constructioncoborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = constructioncoborder.png; sourceTree = "<group>"; };
@@ -6118,6 +6179,7 @@
 		CFF7481A161BD4B9001D6D05 /* okbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "okbg@2x.png"; sourceTree = "<group>"; };
 		CFF891661667276200D91A71 /* watertiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = watertiles.png; sourceTree = "<group>"; };
 		CFF891671667276200D91A71 /* watertiles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "watertiles@2x.png"; sourceTree = "<group>"; };
+		CFFD85991767D52700D4928F /* CityGemsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CityGemsView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -7336,7 +7398,7 @@
 				CF1268961538ACC500E0C1AD /* Map Images */,
 				CF1268C51538ACC500E0C1AD /* Marketplace Images */,
 				CF1268F61538ACC500E0C1AD /* Miscellaneous */,
-				CF1269111538ACC500E0C1AD /* Mission Building Images */,
+				CF1269111538ACC500E0C1AD /* Mission Map Images */,
 				CF1269281538ACC600E0C1AD /* Notification Images */,
 				CF1269311538ACC600E0C1AD /* Profile Images */,
 				CF12697E1538ACC600E0C1AD /* Quest Log Images */,
@@ -7901,9 +7963,27 @@
 			path = Miscellaneous;
 			sourceTree = "<group>";
 		};
-		CF1269111538ACC500E0C1AD /* Mission Building Images */ = {
+		CF1269111538ACC500E0C1AD /* Mission Map Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF3BE076161945B400CA5A76 /* picknow.png */,
+				CF3BE077161945B400CA5A76 /* picknow@2x.png */,
+				CF3BE06C161945B400CA5A76 /* behindpiecebox.png */,
+				CF3BE06D161945B400CA5A76 /* behindpiecebox@2x.png */,
+				CF8A3E731767DDA100BDF639 /* bossunlocked.png */,
+				CF8A3E741767DDA100BDF639 /* bossunlocked@2x.png */,
+				CF8A3EA7176AC36E00BDF639 /* bossoverlay.png */,
+				CF8A3EA8176AC36E00BDF639 /* bossoverlay@2x.png */,
+				CF8A3E751767DDA100BDF639 /* cityrankup.png */,
+				CF8A3E761767DDA100BDF639 /* cityrankup@2x.png */,
+				CF8A3E771767DDA100BDF639 /* fighthim.png */,
+				CF8A3E781767DDA100BDF639 /* fighthim@2x.png */,
+				CF8A3E5D1767DD9600BDF639 /* citycollectablesbg.png */,
+				CF8A3E5E1767DD9600BDF639 /* citycollectablesbg@2x.png */,
+				CF8A3E5F1767DD9600BDF639 /* citycollectablesheader.png */,
+				CF8A3E601767DD9600BDF639 /* citycollectablesheader@2x.png */,
+				CF8A3E611767DD9600BDF639 /* collectablesicon.png */,
+				CF8A3E621767DD9600BDF639 /* collectablesicon@2x.png */,
 				CF26A87C16FAC8310020D508 /* fire.plist */,
 				CF26A87816FABCD00020D508 /* dragon.png */,
 				CF26A87916FABCD00020D508 /* dragon@2x.png */,
@@ -7932,6 +8012,7 @@
 				CF3CF23E1574698A00CD04D7 /* yellowtaskbar.png */,
 				CF3CF23F1574698A00CD04D7 /* yellowtaskbar@2x.png */,
 			);
+			name = "Mission Map Images";
 			path = "Mission Building Images";
 			sourceTree = "<group>";
 		};
@@ -8719,8 +8800,6 @@
 				CFF7481A161BD4B9001D6D05 /* okbg@2x.png */,
 				CF3BE08E161A813100CA5A76 /* lockbox.png */,
 				CF3BE08F161A813200CA5A76 /* lockbox@2x.png */,
-				CF3BE06C161945B400CA5A76 /* behindpiecebox.png */,
-				CF3BE06D161945B400CA5A76 /* behindpiecebox@2x.png */,
 				CF3BE06E161945B400CA5A76 /* lockboxevenbgt.png */,
 				CF3BE06F161945B400CA5A76 /* lockboxevenbgt@2x.png */,
 				CF3BE070161945B400CA5A76 /* overchestnumber.png */,
@@ -8729,8 +8808,6 @@
 				CF3BE073161945B400CA5A76 /* overpiecenumber@2x.png */,
 				CF3BE074161945B400CA5A76 /* pickboxbg.png */,
 				CF3BE075161945B400CA5A76 /* pickboxbg@2x.png */,
-				CF3BE076161945B400CA5A76 /* picknow.png */,
-				CF3BE077161945B400CA5A76 /* picknow@2x.png */,
 				CF3BE078161945B400CA5A76 /* prizeinfo.png */,
 				CF3BE079161945B400CA5A76 /* prizeinfo@2x.png */,
 				CF3BE05C161945AA00CA5A76 /* attemptpickbg.png */,
@@ -9476,9 +9553,14 @@
 				CF1265B71538ACC400E0C1AD /* MissionMap.m */,
 				CFEF7207156F2D80006362A4 /* MissionBuildingMenus.h */,
 				CFEF7208156F2D80006362A4 /* MissionBuildingMenus.m */,
-				CF4E450616788277005DAE18 /* ResetStaminaView.h */,
-				CF4E450716788277005DAE18 /* ResetStaminaView.m */,
+				CF4E450616788277005DAE18 /* MissionMapViews.h */,
+				CF4E450716788277005DAE18 /* MissionMapViews.m */,
+				CF8A3EAD176AC6B800BDF639 /* BossViews.h */,
+				CF8A3EAE176AC6B900BDF639 /* BossViews.m */,
 				CF4E450416787CE1005DAE18 /* ResetStaminaView.xib */,
+				CFFD85991767D52700D4928F /* CityGemsView.xib */,
+				CF8A3EA1176ABB6900BDF639 /* CityBossView.xib */,
+				CF8A3EA4176ABFAA00BDF639 /* BossUnlockedView.xib */,
 			);
 			name = MissionMap;
 			sourceTree = "<group>";
@@ -11620,6 +11702,27 @@
 				CFD44CA3175D4282006E2198 /* shieldon@2x.png in Resources */,
 				CFD44CA5175D4282006E2198 /* shieldonbg.png in Resources */,
 				CFD44CA7175D4282006E2198 /* shieldonbg@2x.png in Resources */,
+				CFFD859A1767D52700D4928F /* CityGemsView.xib in Resources */,
+				CF8A3E631767DD9600BDF639 /* citycollectablesbg.png in Resources */,
+				CF8A3E651767DD9600BDF639 /* citycollectablesbg@2x.png in Resources */,
+				CF8A3E671767DD9600BDF639 /* citycollectablesheader.png in Resources */,
+				CF8A3E691767DD9600BDF639 /* citycollectablesheader@2x.png in Resources */,
+				CF8A3E6B1767DD9600BDF639 /* collectablesicon.png in Resources */,
+				CF8A3E6D1767DD9600BDF639 /* collectablesicon@2x.png in Resources */,
+				CF8A3E851767DDA100BDF639 /* bossunlocked.png in Resources */,
+				CF8A3E871767DDA100BDF639 /* bossunlocked@2x.png in Resources */,
+				CF8A3E891767DDA100BDF639 /* cityrankup.png in Resources */,
+				CF8A3E8B1767DDA100BDF639 /* cityrankup@2x.png in Resources */,
+				CF8A3E8D1767DDA100BDF639 /* fighthim.png in Resources */,
+				CF8A3E8F1767DDA100BDF639 /* fighthim@2x.png in Resources */,
+				CF8A3E991768383A00BDF639 /* behindpiecebox.png in Resources */,
+				CF8A3E9A1768383A00BDF639 /* behindpiecebox@2x.png in Resources */,
+				CF8A3E9D1769531300BDF639 /* picknow.png in Resources */,
+				CF8A3E9E1769531300BDF639 /* picknow@2x.png in Resources */,
+				CF8A3EA2176ABB6A00BDF639 /* CityBossView.xib in Resources */,
+				CF8A3EA5176ABFAA00BDF639 /* BossUnlockedView.xib in Resources */,
+				CF8A3EA9176AC36E00BDF639 /* bossoverlay.png in Resources */,
+				CF8A3EAB176AC36E00BDF639 /* bossoverlay@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13154,6 +13257,26 @@
 				CFD44CA4175D4282006E2198 /* shieldon@2x.png in Resources */,
 				CFD44CA6175D4282006E2198 /* shieldonbg.png in Resources */,
 				CFD44CA8175D4282006E2198 /* shieldonbg@2x.png in Resources */,
+				CF8A3E641767DD9600BDF639 /* citycollectablesbg.png in Resources */,
+				CF8A3E661767DD9600BDF639 /* citycollectablesbg@2x.png in Resources */,
+				CF8A3E681767DD9600BDF639 /* citycollectablesheader.png in Resources */,
+				CF8A3E6A1767DD9600BDF639 /* citycollectablesheader@2x.png in Resources */,
+				CF8A3E6C1767DD9600BDF639 /* collectablesicon.png in Resources */,
+				CF8A3E6E1767DD9600BDF639 /* collectablesicon@2x.png in Resources */,
+				CF8A3E861767DDA100BDF639 /* bossunlocked.png in Resources */,
+				CF8A3E881767DDA100BDF639 /* bossunlocked@2x.png in Resources */,
+				CF8A3E8A1767DDA100BDF639 /* cityrankup.png in Resources */,
+				CF8A3E8C1767DDA100BDF639 /* cityrankup@2x.png in Resources */,
+				CF8A3E8E1767DDA100BDF639 /* fighthim.png in Resources */,
+				CF8A3E901767DDA100BDF639 /* fighthim@2x.png in Resources */,
+				CF8A3E9B1768383A00BDF639 /* behindpiecebox.png in Resources */,
+				CF8A3E9C1768383A00BDF639 /* behindpiecebox@2x.png in Resources */,
+				CF8A3E9F1769531400BDF639 /* picknow.png in Resources */,
+				CF8A3EA01769531400BDF639 /* picknow@2x.png in Resources */,
+				CF8A3EA3176ABB6A00BDF639 /* CityBossView.xib in Resources */,
+				CF8A3EA6176ABFAA00BDF639 /* BossUnlockedView.xib in Resources */,
+				CF8A3EAA176AC36E00BDF639 /* bossoverlay.png in Resources */,
+				CF8A3EAC176AC36E00BDF639 /* bossoverlay@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13413,7 +13536,7 @@
 				CFC142031658B70D0060188D /* amqp_url.c in Sources */,
 				CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */,
 				CFE95481166E380D00DA63CF /* BossEventMenuController.m in Sources */,
-				CF4E450816788277005DAE18 /* ResetStaminaView.m in Sources */,
+				CF4E450816788277005DAE18 /* MissionMapViews.m in Sources */,
 				CFE954C6166F3EF500DA63CF /* ClanTowerTab.m in Sources */,
 				CF1B5005167C434800B73276 /* TournamentMenuController.m in Sources */,
 				CF1B500B167C4BE200B73276 /* TournamentViews.m in Sources */,
@@ -13442,6 +13565,7 @@
 				CF3B01FD174B11FB00A3A4F2 /* PAStatsTracker.m in Sources */,
 				CF3B021F174CA5C600A3A4F2 /* TutorialBazaarMap.m in Sources */,
 				CF3B0224174CAE6C00A3A4F2 /* TutorialForgeMenuController.m in Sources */,
+				CF8A3EAF176AC6BA00BDF639 /* BossViews.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13673,7 +13797,7 @@
 				CF69F73B174212ED001C96D0 /* amqp_url.c in Sources */,
 				CF69F73C174212ED001C96D0 /* AMQPConnectionThread.m in Sources */,
 				CF69F73D174212ED001C96D0 /* BossEventMenuController.m in Sources */,
-				CF69F73E174212ED001C96D0 /* ResetStaminaView.m in Sources */,
+				CF69F73E174212ED001C96D0 /* MissionMapViews.m in Sources */,
 				CF69F73F174212ED001C96D0 /* ClanTowerTab.m in Sources */,
 				CF69F740174212ED001C96D0 /* TournamentMenuController.m in Sources */,
 				CF69F741174212ED001C96D0 /* TournamentViews.m in Sources */,
@@ -13702,6 +13826,7 @@
 				CF3B01FE174B11FB00A3A4F2 /* PAStatsTracker.m in Sources */,
 				CFD44C8C175C206F006E2198 /* TutorialForgeMenuController.m in Sources */,
 				CFD44C8D175C206F006E2198 /* TutorialBazaarMap.m in Sources */,
+				CF8A3EB0176AC6BA00BDF639 /* BossViews.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

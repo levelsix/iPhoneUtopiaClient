@@ -9,8 +9,17 @@
 #import "Nanigans.h"
 #import "AppDelegate.h"
 #import "GameState.h"
+#import <AdSupport/AdSupport.h>
 
 #define NANIGANS_VERSION_KEY @"NanigansVersionKey"
+
+#ifdef DEBUG
+#define NanLog(str, ...) NSLog(str, ##__VA_ARGS__)
+#else
+#define NanLog(str, ...)
+#endif
+
+static NSString* NAN_FB_APP_ID = FACEBOOK_APP_ID;
 
 @implementation Nanigans
 
@@ -25,7 +34,7 @@
   
   if (![userDefaults valueForKey:NANIGANS_VERSION_KEY] || [userDefaults floatForKey:NANIGANS_VERSION_KEY] != versionNum )
   {
-    [self trackNanigansEvent:[self userId] type:@"install" name:@"main"];
+    [self trackNanigansEvent:[self userId] type:@"install" name:@"normal"];
     
     // Update version number to NSUserDefaults for other versions:
     [userDefaults setFloat:versionNum forKey:NANIGANS_VERSION_KEY];
@@ -50,35 +59,46 @@
 }
 
 + (void) trackPurchase:(int)cents {
-  [self trackNanigansEvent:[self userId] type:@"purchase" name:@"main" value:[NSString stringWithFormat:@"%d", cents]];
+  [self trackNanigansEvent:[self userId] type:@"purchase" name:@"main" extraParams:@{@"nan_pid":[NSString stringWithFormat:@"%d", cents]}];
 }
 
-+ (void) trackNanigansEvent:(NSString *)uid type:(NSString *)type name:(NSString *)name
++ (void)trackNanigansEvent:(NSString *)uid type:(NSString *)type name:(NSString *)name
 {
-  [self trackNanigansEvent:uid type:type name:name extraParams:@{}];
+  [self trackNanigansEvent:uid type:type name:name extraParams:nil];
 }
 
-+ (void) trackNanigansEvent:(NSString *)uid type:(NSString *)type name:(NSString *)name value:(NSString *)value
++ (void)trackNanigansEvent:(NSString *)uid type:(NSString *)type name:(NSString *)name value:(NSString *)value
 {
   [self trackNanigansEvent:uid type:type name:name extraParams:@{@"value":value}];
 }
 
-+ (void) trackNanigansEvent:(NSString *)uid type:(NSString *)type name:(NSString *)name extraParams:(NSDictionary *)extraParams
++ (void)trackNanigansEvent:(NSString *)uid type:(NSString *)type name:(NSString *)name extraParams:(NSDictionary *)extraParams
 {
 #ifdef LEGENDS_OF_CHAOS
   return;
 #endif
   
-  if (type == nil || [type length] == 0) {NSLog(@"TRACK EVENT ERROR: tyoe required"); return;}
-  if (name == nil || [name length] == 0) {NSLog(@"TRACK EVENT ERROR: name required"); return;}
+  if (type == nil || [type length] == 0) {NanLog(@"TRACK EVENT ERROR: tyoe required"); return;}
+  if (name == nil || [name length] == 0) {NanLog(@"TRACK EVENT ERROR: name required"); return;}
+  
+  NSString* nanApiVersion = @"1.0";
   
   NSString *attributionID = nil;
   if ([type caseInsensitiveCompare:@"install"] == NSOrderedSame || [type caseInsensitiveCompare:@"visit"] == NSOrderedSame) {
-    UIPasteboard *pb = [UIPasteboard pasteboardWithName:@"fb_app_attribution"
-                                                 create:NO];
-    if (!pb) { NSLog(@"TRACK EVENT ERROR: attribution id could not be found?!"); return; }
-    attributionID = pb.string;
-    if (attributionID == nil || [attributionID length] == 0) { NSLog(@"TRACK EVENT : attribution is null/empty?!"); return; }
+    if (NSClassFromString(@"UIPasteboard") != nil) {
+      UIPasteboard *pb = [UIPasteboard pasteboardWithName:@"fb_app_attribution"
+                                                   create:NO];
+      if (pb) {
+        attributionID = pb.string;
+        if (attributionID == nil || [attributionID length] == 0) {
+          NanLog(@"TRACK EVENT: attribution is null/empty?!");
+        }
+      } else {
+        NanLog(@"TRACK EVENT ERROR: attribution id could not be found?!");
+      }
+    } else {
+      NanLog(@"TRACK EVENT ERROR: can not load attribution id on this version of iOS");
+    }
   }
   
   //fetch nan UUID
@@ -94,6 +114,16 @@
     [[NSUserDefaults standardUserDefaults] setValue:nanHash forKey:@"nanHash"];
   }
   
+  NSString *advertisingId = nil;
+  if (NSClassFromString(@"ASIdentifierManager") != nil) {
+    if ([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]) {
+      advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+    }
+  }
+  if (advertisingId == nil || [advertisingId length] == 0) {
+    NanLog(@"TRACK EVENT: can not obtain advertising identifier");
+  }
+  
   //generate unquie event ID
   CFUUIDRef uuid = CFUUIDCreate(NULL);
   NSString *tempUuidStr = (NSString *)CFUUIDCreateString(NULL, uuid);
@@ -105,14 +135,21 @@
   if (!(uid == nil || [uid length] == 0)) {
     [params setObject:uid forKey:@"user_id"];
   }
+  [params setObject:@"iOS" forKey:@"nan_dt"];
+  [params setObject:[UIDevice currentDevice].systemVersion forKey:@"nan_os"];
+  [params setObject:[[NSTimeZone localTimeZone] name] forKey:@"nan_tz"];
   [params setObject:type forKey:@"type"];
   [params setObject:name forKey:@"name"];
   [params setObject:nanHash forKey:@"nan_hash"];
-  [params setObject:FACEBOOK_APP_ID forKey:@"fb_app_id"];
-  if (attributionID != nil) {
+  if (advertisingId != nil) {
+    [params setObject:advertisingId forKey:@"advertising_id"];
+  }
+  [params setObject:NAN_FB_APP_ID forKey:@"fb_app_id"];
+  if (!(attributionID == nil || [attributionID length] == 0)) {
     [params setObject:attributionID forKey:@"fb_attr_id"];
   }
   [params setObject:uuidStr forKey:@"unique"];
+  [params setObject:nanApiVersion forKey:@"avers"];
   [params addEntriesFromDictionary:extraParams];
   
   NSMutableString *getString = [[NSMutableString alloc] initWithString:@""];
@@ -147,29 +184,26 @@
     }
     
   }
-  
-  [NSThread detachNewThreadSelector:@selector(nanigansThread:) toTarget:[Nanigans new] withObject:getString];
-  
-  [getString release];
-}
-
-- (void) nanigansThread:(NSString *)getString {
   NSString *url = [NSString stringWithFormat:@"https://api.nanigans.com/mobile.php%@", getString];
   NSURLRequest *theRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
                                               cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                           timeoutInterval:60.0];
   
-  NSURLResponse* response = nil;
-  NSError *error = nil;
-  NSData* data = [NSURLConnection sendSynchronousRequest:theRequest returningResponse:&response error:&error];
+  dispatch_async(dispatch_queue_create("com.nanigans.tracking", 0), ^{
+    NSURLResponse* response = nil;
+    NSError *error = nil;
+    NSData* data = [NSURLConnection sendSynchronousRequest:theRequest returningResponse:&response error:&error];
+    
+    if (data) {
+      NSString *receivedString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+      NanLog(@"TRACK EVENT REQUEST %@, RESPONSE: %@", url, receivedString);
+      [receivedString release];
+    } else {
+      NanLog(@"TRACK EVENT REQUEST %@, ERROR: %@", url, [error localizedDescription]);
+    }
+  });
   
-  if (data) {
-    NSString *receivedString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-    NSLog(@"TRACK EVENT REQUEST %@, RESPONSE: %@", url, receivedString);
-    [receivedString release];
-  } else {
-    NSLog(@"TRACK EVENT REQUEST %@, ERROR: %@", url, [error localizedDescription]);
-  }
+  [getString release];
 }
 
 @end

@@ -66,6 +66,8 @@
 @class ChatRequestProto_Builder;
 @class ChatResponseProto;
 @class ChatResponseProto_Builder;
+@class CityGemProto;
+@class CityGemProto_Builder;
 @class ClanBulletinPostProto;
 @class ClanBulletinPostProto_Builder;
 @class ClanTierLevelProto;
@@ -358,6 +360,10 @@
 @class RedeemMarketplaceEarningsRequestProto_Builder;
 @class RedeemMarketplaceEarningsResponseProto;
 @class RedeemMarketplaceEarningsResponseProto_Builder;
+@class RedeemUserCityGemsRequestProto;
+@class RedeemUserCityGemsRequestProto_Builder;
+@class RedeemUserCityGemsResponseProto;
+@class RedeemUserCityGemsResponseProto_Builder;
 @class RedeemUserLockBoxItemsRequestProto;
 @class RedeemUserLockBoxItemsRequestProto_Builder;
 @class RedeemUserLockBoxItemsResponseProto;
@@ -566,6 +572,8 @@
 @class UserBoosterItemProto_Builder;
 @class UserBoosterPackProto;
 @class UserBoosterPackProto_Builder;
+@class UserCityGemProto;
+@class UserCityGemProto_Builder;
 @class UserCreateRequestProto;
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
@@ -673,7 +681,8 @@ typedef enum {
   EventProtocolRequestCRetrieveAllMentorsEvent = 91,
   EventProtocolRequestCRetrieveAvailableMenteesEvent = 92,
   EventProtocolRequestCDropMenteeEvent = 93,
-  EventProtocolRequestCRetrieveMyMentees = 94,
+  EventProtocolRequestCRetrieveMyMenteesEvent = 94,
+  EventProtocolRequestCRedeemUserCityGemsEvent = 95,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -772,7 +781,8 @@ typedef enum {
   EventProtocolResponseSRetrieveAllMentorsEvent = 91,
   EventProtocolResponseSRetrieveAvailableMenteesEvent = 92,
   EventProtocolResponseSDropMenteeEvent = 93,
-  EventProtocolResponseSRetrieveMyMentees = 94,
+  EventProtocolResponseSRetrieveMyMenteesEvent = 94,
+  EventProtocolResponseSRedeemUserCityGemsEvent = 95,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

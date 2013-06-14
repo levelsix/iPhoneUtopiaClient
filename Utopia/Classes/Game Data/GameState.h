@@ -236,6 +236,8 @@
 
 @property (nonatomic, assign) int clanChatBadgeNum;
 
+@property (nonatomic, retain) NSArray *cityGems;
+
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
 
@@ -251,6 +253,7 @@
 - (FullQuestProto *) questForQuestId:(int)questId;
 - (LockBoxEventProto *) lockBoxEventWithId:(int)eventId;
 - (BoosterPackProto *) boosterPackForId:(int)packId;
+- (CityGemProto *) gemForId:(int)gemId;
 
 - (int) weaponEquippedId;
 - (int) armorEquippedId;

@@ -519,12 +519,6 @@
   }
 }
 
-- (void) walk {
-  if ([_ub isAlive]) {
-    [super walk];
-  }
-}
-
 - (void) animateBarWithCallback:(NSInvocation *)inv {
   self.callback = inv;
   [self schedule:@selector(updateBar:)];
@@ -556,11 +550,6 @@
   
   _curHp = _ub.curHealth;
   [self updateBar:0];
-  
-  [self stopAllActions];
-  [self.sprite stopAllActions];
-  _curAction = nil;
-  [self walk];
 }
 
 - (void) setName:(NSString *)n {

@@ -8,9 +8,13 @@
 
 #import "cocos2d.h"
 
-@interface SilverStack : CCSprite <CCTargetedTouchDelegate> {
+@interface Drop : CCSprite <CCTargetedTouchDelegate> {
   BOOL _clicked;
 }
+
+@end
+
+@interface SilverStack : Drop
 
 @property (nonatomic, assign) int amount;
 
@@ -18,9 +22,7 @@
 
 @end
 
-@interface GoldStack : CCSprite <CCTargetedTouchDelegate> {
-  BOOL _clicked;
-}
+@interface GoldStack : Drop
 
 @property (nonatomic, assign) int amount;
 
@@ -28,9 +30,7 @@
 
 @end
 
-@interface EquipDrop : CCSprite <CCTargetedTouchDelegate> {
-  BOOL _clicked;
-}
+@interface EquipDrop : Drop
 
 @property (nonatomic, assign) int equipId;
 
@@ -38,12 +38,16 @@
 
 @end
 
-@interface LockBoxDrop : CCSprite <CCTargetedTouchDelegate> {
-  BOOL _clicked;
-}
-
-@property (nonatomic, assign) int eventId;
+@interface LockBoxDrop : Drop
 
 - (id) initWithEventId:(int)eventId;
+
+@end
+
+@interface GemDrop : Drop
+
+@property (nonatomic, assign) int gemId;
+
+- (id) initWithGemId:(int)gemId;
 
 @end

@@ -83,7 +83,7 @@
   if (self.dbi.numConsecutiveDaysPlayed == 5) {
     ArmoryViewController *amc = [ArmoryViewController sharedArmoryViewController];
     [Globals displayUIViewWithoutAdjustment:amc.cardDisplayView];
-    FullEquipProto *fuep = [[[FullEquipProto builder] setEquipId:self.dbi.equipId] build];
+    FullUserEquipProto *fuep = [[[FullUserEquipProto builder] setEquipId:self.dbi.equipId] build];
     [amc.cardDisplayView beginAnimatingForEquips:[NSArray arrayWithObject:fuep] withTarget:nil andSelector:nil];
   } else {
     [[SoundEngine sharedSoundEngine] coinPickup];

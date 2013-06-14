@@ -22,18 +22,6 @@
 
 #define REORDER_START_Z 150
 
-#define SILVER_STACK_BOUNCE_DURATION 1.f
-#define DROP_LABEL_DURATION 3.f
-#define PICK_UP_WAIT_TIME 2.5f
-#define DROP_ROTATION 0
-
-//CCMoveByCustom
-@interface CCMoveByCustom : CCMoveBy
-
--(void) update: (ccTime) t;
-
-@end
-
 @implementation CCMoveByCustom
 - (void) update: (ccTime) t {
 	//Here we neglect to change something with a zero delta.
@@ -47,13 +35,6 @@
 		[target_ setPosition: ccp( (startPosition_.x + delta_.x * t ), (startPosition_.y + delta_.y * t ) )];
 	}
 }
-@end
-
-//CClCustom
-@interface CCMoveToCustom : CCMoveTo
-
-- (void) update: (ccTime) t;
-
 @end
 
 @implementation CCMoveToCustom
@@ -471,7 +452,7 @@
                    [CCEaseSineIn actionWithAction:
                     [CCMoveToCustom actionWithDuration:0.5 position:ccp(lbd.position.x,195)]],
                    [CCEaseSineOut actionWithAction:
-                    [CCMoveToCustom actionWithDuration:0.5 position:ccp(452,lbd.position.y)]],
+                    [CCMoveToCustom actionWithDuration:0.5 position:ccp(self.parent.contentSize.width-28,lbd.position.y)]],
                    [CCScaleTo actionWithDuration:0.5 scale:0.2],
                    nil],
                   [CCCallBlock actionWithBlock:^{[lbd removeFromParentAndCleanup:YES];}],

@@ -346,6 +346,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRedeemUserLockBoxItemsEvent:
       responseClass = [RedeemUserLockBoxItemsResponseProto class];
       break;
+    case EventProtocolResponseSRedeemUserCityGemsEvent:
+      responseClass = [RedeemUserCityGemsResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -491,6 +494,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToStaticEquips:proto.staticEquipsList.count > 0 ? proto.staticEquipsList : proto.equipsList];
     [gs.staticStructs removeAllObjects];
     [gs addToStaticStructs:proto.staticStructsList];
+    
+    gs.cityGems = proto.gemsForAllCitiesList;
     
     [gs addToRequestedClans:proto.userClanInfoList];
     
@@ -2568,7 +2573,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    if (proto.status == BossActionResponseProto_BossActionStatusClientTooApartFromServerTime) {
+    if (proto.status == BossActionResponseProto_BossActionStatusFailClientTooApartFromServerTime) {
       [self handleTimeOutOfSync];
     } else {
       [Globals popupMessage:@"Server failed to attack boss."];
@@ -2864,6 +2869,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[OutgoingEventController sharedOutgoingEventController] retrieveBoosterPacks];
   } else {
     [Globals popupMessage:@"Server failed to redeem user lock box items."];
+  }
+}
+
+- (void) handleRedeemUserCityGemsResponseProto:(FullEvent *)fe {
+  RedeemUserCityGemsResponseProto *proto = (RedeemUserCityGemsResponseProto *)fe.event;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Redeem user city gems response received with status %d and %d equips.", proto.status, proto.equipsList.count);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusSuccess) {
+    [gs addToMyEquips:proto.equipsList];
+  } else {
+    [Globals popupMessage:@"Server failed to redeem user city gems."];
+  }
+  
+  GameLayer *gl = [GameLayer sharedGameLayer];
+  if ([gl.currentMap isKindOfClass:[MissionMap class]]) {
+    [ (MissionMap *)gl.currentMap receivedRedeemGemsResponse:proto];
   }
 }
 

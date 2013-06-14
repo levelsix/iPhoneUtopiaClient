@@ -2237,7 +2237,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   uint64_t curTime = [[NSDate date] timeIntervalSince1970];
   uint64_t shieldEndTime = createTime + sharedGlobals.defaultDaysBattleShieldIsActive*24*60*60*1000;
   
-  return curTime < shieldEndTime;
+  return curTime > shieldEndTime;
 }
 
 - (void) dealloc {

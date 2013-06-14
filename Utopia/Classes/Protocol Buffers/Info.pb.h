@@ -10,6 +10,8 @@
 @class BossEventProto_Builder;
 @class BuildStructJobProto;
 @class BuildStructJobProto_Builder;
+@class CityGemProto;
+@class CityGemProto_Builder;
 @class ClanBulletinPostProto;
 @class ClanBulletinPostProto_Builder;
 @class ClanTierLevelProto;
@@ -134,6 +136,8 @@
 @class UserBoosterItemProto_Builder;
 @class UserBoosterPackProto;
 @class UserBoosterPackProto_Builder;
+@class UserCityGemProto;
+@class UserCityGemProto_Builder;
 @class UserLockBoxEventProto;
 @class UserLockBoxEventProto_Builder;
 @class UserLockBoxItemProto;
@@ -348,6 +352,165 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
+@end
+
+@interface UserCityGemProto : PBGeneratedMessage {
+@private
+  BOOL hasUserId_:1;
+  BOOL hasCityId_:1;
+  BOOL hasGemId_:1;
+  BOOL hasQuantity_:1;
+  int32_t userId;
+  int32_t cityId;
+  int32_t gemId;
+  int32_t quantity;
+}
+- (BOOL) hasUserId;
+- (BOOL) hasCityId;
+- (BOOL) hasGemId;
+- (BOOL) hasQuantity;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t cityId;
+@property (readonly) int32_t gemId;
+@property (readonly) int32_t quantity;
+
++ (UserCityGemProto*) defaultInstance;
+- (UserCityGemProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserCityGemProto_Builder*) builder;
++ (UserCityGemProto_Builder*) builder;
++ (UserCityGemProto_Builder*) builderWithPrototype:(UserCityGemProto*) prototype;
+
++ (UserCityGemProto*) parseFromData:(NSData*) data;
++ (UserCityGemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserCityGemProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserCityGemProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserCityGemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserCityGemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserCityGemProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UserCityGemProto* result;
+}
+
+- (UserCityGemProto*) defaultInstance;
+
+- (UserCityGemProto_Builder*) clear;
+- (UserCityGemProto_Builder*) clone;
+
+- (UserCityGemProto*) build;
+- (UserCityGemProto*) buildPartial;
+
+- (UserCityGemProto_Builder*) mergeFrom:(UserCityGemProto*) other;
+- (UserCityGemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserCityGemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (UserCityGemProto_Builder*) setUserId:(int32_t) value;
+- (UserCityGemProto_Builder*) clearUserId;
+
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (UserCityGemProto_Builder*) setCityId:(int32_t) value;
+- (UserCityGemProto_Builder*) clearCityId;
+
+- (BOOL) hasGemId;
+- (int32_t) gemId;
+- (UserCityGemProto_Builder*) setGemId:(int32_t) value;
+- (UserCityGemProto_Builder*) clearGemId;
+
+- (BOOL) hasQuantity;
+- (int32_t) quantity;
+- (UserCityGemProto_Builder*) setQuantity:(int32_t) value;
+- (UserCityGemProto_Builder*) clearQuantity;
+@end
+
+@interface CityGemProto : PBGeneratedMessage {
+@private
+  BOOL hasIsActive_:1;
+  BOOL hasDroppedOnlyFromBosses_:1;
+  BOOL hasDropRate_:1;
+  BOOL hasGemId_:1;
+  BOOL hasGemImageName_:1;
+  BOOL isActive_:1;
+  BOOL droppedOnlyFromBosses_:1;
+  Float32 dropRate;
+  int32_t gemId;
+  NSString* gemImageName;
+}
+- (BOOL) hasGemId;
+- (BOOL) hasDropRate;
+- (BOOL) hasIsActive;
+- (BOOL) hasGemImageName;
+- (BOOL) hasDroppedOnlyFromBosses;
+@property (readonly) int32_t gemId;
+@property (readonly) Float32 dropRate;
+- (BOOL) isActive;
+@property (readonly, retain) NSString* gemImageName;
+- (BOOL) droppedOnlyFromBosses;
+
++ (CityGemProto*) defaultInstance;
+- (CityGemProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CityGemProto_Builder*) builder;
++ (CityGemProto_Builder*) builder;
++ (CityGemProto_Builder*) builderWithPrototype:(CityGemProto*) prototype;
+
++ (CityGemProto*) parseFromData:(NSData*) data;
++ (CityGemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CityGemProto*) parseFromInputStream:(NSInputStream*) input;
++ (CityGemProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CityGemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CityGemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CityGemProto_Builder : PBGeneratedMessage_Builder {
+@private
+  CityGemProto* result;
+}
+
+- (CityGemProto*) defaultInstance;
+
+- (CityGemProto_Builder*) clear;
+- (CityGemProto_Builder*) clone;
+
+- (CityGemProto*) build;
+- (CityGemProto*) buildPartial;
+
+- (CityGemProto_Builder*) mergeFrom:(CityGemProto*) other;
+- (CityGemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CityGemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasGemId;
+- (int32_t) gemId;
+- (CityGemProto_Builder*) setGemId:(int32_t) value;
+- (CityGemProto_Builder*) clearGemId;
+
+- (BOOL) hasDropRate;
+- (Float32) dropRate;
+- (CityGemProto_Builder*) setDropRate:(Float32) value;
+- (CityGemProto_Builder*) clearDropRate;
+
+- (BOOL) hasIsActive;
+- (BOOL) isActive;
+- (CityGemProto_Builder*) setIsActive:(BOOL) value;
+- (CityGemProto_Builder*) clearIsActive;
+
+- (BOOL) hasGemImageName;
+- (NSString*) gemImageName;
+- (CityGemProto_Builder*) setGemImageName:(NSString*) value;
+- (CityGemProto_Builder*) clearGemImageName;
+
+- (BOOL) hasDroppedOnlyFromBosses;
+- (BOOL) droppedOnlyFromBosses;
+- (CityGemProto_Builder*) setDroppedOnlyFromBosses:(BOOL) value;
+- (CityGemProto_Builder*) clearDroppedOnlyFromBosses;
 @end
 
 @interface MentorshipProto : PBGeneratedMessage {
@@ -2684,51 +2847,51 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface FullBossProto : PBGeneratedMessage {
 @private
+  BOOL hasSuperAttackDamageMultiplier_:1;
   BOOL hasBossId_:1;
   BOOL hasBaseHealth_:1;
   BOOL hasMinDamage_:1;
   BOOL hasMaxDamage_:1;
   BOOL hasMinutesToKill_:1;
-  BOOL hasMinutesToRespawn_:1;
-  BOOL hasMinExp_:1;
-  BOOL hasMaxExp_:1;
+  BOOL hasBaseExp_:1;
   BOOL hasCityId_:1;
   BOOL hasAssetNumWithinCity_:1;
-  BOOL hasStaminaCost_:1;
+  BOOL hasRegularAttackEnergyCost_:1;
+  BOOL hasSuperAttackEnergyCost_:1;
+  Float32 superAttackDamageMultiplier;
   int32_t bossId;
   int32_t baseHealth;
   int32_t minDamage;
   int32_t maxDamage;
   int32_t minutesToKill;
-  int32_t minutesToRespawn;
-  int32_t minExp;
-  int32_t maxExp;
+  int32_t baseExp;
   int32_t cityId;
   int32_t assetNumWithinCity;
-  int32_t staminaCost;
+  int32_t regularAttackEnergyCost;
+  int32_t superAttackEnergyCost;
 }
 - (BOOL) hasBossId;
 - (BOOL) hasBaseHealth;
 - (BOOL) hasMinDamage;
 - (BOOL) hasMaxDamage;
 - (BOOL) hasMinutesToKill;
-- (BOOL) hasMinutesToRespawn;
-- (BOOL) hasMinExp;
-- (BOOL) hasMaxExp;
+- (BOOL) hasBaseExp;
 - (BOOL) hasCityId;
 - (BOOL) hasAssetNumWithinCity;
-- (BOOL) hasStaminaCost;
+- (BOOL) hasRegularAttackEnergyCost;
+- (BOOL) hasSuperAttackDamageMultiplier;
+- (BOOL) hasSuperAttackEnergyCost;
 @property (readonly) int32_t bossId;
 @property (readonly) int32_t baseHealth;
 @property (readonly) int32_t minDamage;
 @property (readonly) int32_t maxDamage;
 @property (readonly) int32_t minutesToKill;
-@property (readonly) int32_t minutesToRespawn;
-@property (readonly) int32_t minExp;
-@property (readonly) int32_t maxExp;
+@property (readonly) int32_t baseExp;
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t assetNumWithinCity;
-@property (readonly) int32_t staminaCost;
+@property (readonly) int32_t regularAttackEnergyCost;
+@property (readonly) Float32 superAttackDamageMultiplier;
+@property (readonly) int32_t superAttackEnergyCost;
 
 + (FullBossProto*) defaultInstance;
 - (FullBossProto*) defaultInstance;
@@ -2789,20 +2952,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullBossProto_Builder*) setMinutesToKill:(int32_t) value;
 - (FullBossProto_Builder*) clearMinutesToKill;
 
-- (BOOL) hasMinutesToRespawn;
-- (int32_t) minutesToRespawn;
-- (FullBossProto_Builder*) setMinutesToRespawn:(int32_t) value;
-- (FullBossProto_Builder*) clearMinutesToRespawn;
-
-- (BOOL) hasMinExp;
-- (int32_t) minExp;
-- (FullBossProto_Builder*) setMinExp:(int32_t) value;
-- (FullBossProto_Builder*) clearMinExp;
-
-- (BOOL) hasMaxExp;
-- (int32_t) maxExp;
-- (FullBossProto_Builder*) setMaxExp:(int32_t) value;
-- (FullBossProto_Builder*) clearMaxExp;
+- (BOOL) hasBaseExp;
+- (int32_t) baseExp;
+- (FullBossProto_Builder*) setBaseExp:(int32_t) value;
+- (FullBossProto_Builder*) clearBaseExp;
 
 - (BOOL) hasCityId;
 - (int32_t) cityId;
@@ -2814,39 +2967,45 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullBossProto_Builder*) setAssetNumWithinCity:(int32_t) value;
 - (FullBossProto_Builder*) clearAssetNumWithinCity;
 
-- (BOOL) hasStaminaCost;
-- (int32_t) staminaCost;
-- (FullBossProto_Builder*) setStaminaCost:(int32_t) value;
-- (FullBossProto_Builder*) clearStaminaCost;
+- (BOOL) hasRegularAttackEnergyCost;
+- (int32_t) regularAttackEnergyCost;
+- (FullBossProto_Builder*) setRegularAttackEnergyCost:(int32_t) value;
+- (FullBossProto_Builder*) clearRegularAttackEnergyCost;
+
+- (BOOL) hasSuperAttackDamageMultiplier;
+- (Float32) superAttackDamageMultiplier;
+- (FullBossProto_Builder*) setSuperAttackDamageMultiplier:(Float32) value;
+- (FullBossProto_Builder*) clearSuperAttackDamageMultiplier;
+
+- (BOOL) hasSuperAttackEnergyCost;
+- (int32_t) superAttackEnergyCost;
+- (FullBossProto_Builder*) setSuperAttackEnergyCost:(int32_t) value;
+- (FullBossProto_Builder*) clearSuperAttackEnergyCost;
 @end
 
 @interface FullUserBossProto : PBGeneratedMessage {
 @private
   BOOL hasStartTime_:1;
-  BOOL hasLastKilledTime_:1;
   BOOL hasBossId_:1;
   BOOL hasUserId_:1;
   BOOL hasCurHealth_:1;
-  BOOL hasNumTimesKilled_:1;
+  BOOL hasCurrentLevel_:1;
   int64_t startTime;
-  int64_t lastKilledTime;
   int32_t bossId;
   int32_t userId;
   int32_t curHealth;
-  int32_t numTimesKilled;
+  int32_t currentLevel;
 }
 - (BOOL) hasBossId;
 - (BOOL) hasUserId;
 - (BOOL) hasCurHealth;
-- (BOOL) hasNumTimesKilled;
+- (BOOL) hasCurrentLevel;
 - (BOOL) hasStartTime;
-- (BOOL) hasLastKilledTime;
 @property (readonly) int32_t bossId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t curHealth;
-@property (readonly) int32_t numTimesKilled;
+@property (readonly) int32_t currentLevel;
 @property (readonly) int64_t startTime;
-@property (readonly) int64_t lastKilledTime;
 
 + (FullUserBossProto*) defaultInstance;
 - (FullUserBossProto*) defaultInstance;
@@ -2897,20 +3056,15 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullUserBossProto_Builder*) setCurHealth:(int32_t) value;
 - (FullUserBossProto_Builder*) clearCurHealth;
 
-- (BOOL) hasNumTimesKilled;
-- (int32_t) numTimesKilled;
-- (FullUserBossProto_Builder*) setNumTimesKilled:(int32_t) value;
-- (FullUserBossProto_Builder*) clearNumTimesKilled;
+- (BOOL) hasCurrentLevel;
+- (int32_t) currentLevel;
+- (FullUserBossProto_Builder*) setCurrentLevel:(int32_t) value;
+- (FullUserBossProto_Builder*) clearCurrentLevel;
 
 - (BOOL) hasStartTime;
 - (int64_t) startTime;
 - (FullUserBossProto_Builder*) setStartTime:(int64_t) value;
 - (FullUserBossProto_Builder*) clearStartTime;
-
-- (BOOL) hasLastKilledTime;
-- (int64_t) lastKilledTime;
-- (FullUserBossProto_Builder*) setLastKilledTime:(int64_t) value;
-- (FullUserBossProto_Builder*) clearLastKilledTime;
 @end
 
 @interface FullClanProtoWithClanSize : PBGeneratedMessage {

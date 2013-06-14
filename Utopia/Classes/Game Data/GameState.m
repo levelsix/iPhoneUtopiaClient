@@ -1578,6 +1578,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
+- (CityGemProto *) gemForId:(int)gemId {
+  for (CityGemProto *gem in self.cityGems) {
+    if (gem.gemId == gemId) {
+      return gem;
+    }
+  }
+  return nil;
+}
+
 - (NSArray *) getUserEquipArray {
   NSMutableArray *arr = [NSMutableArray array];
   const int size = 6;
@@ -1658,12 +1667,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.inProgressCompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressIncompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
   
+  self.prestigeLevel = 0;
+  
   self.carpenterStructs = nil;
   self.armoryAmulets = nil;
   self.armoryArmor = nil;
   self.armoryWeapons = nil;
   self.boosterPacks = nil;
   self.myBoosterPacks = nil;
+  self.cityGems = nil;
   
   self.unrespondedUpdates = [[[NSMutableArray alloc] init] autorelease];
   

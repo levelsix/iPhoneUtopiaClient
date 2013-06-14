@@ -167,5 +167,6 @@
 - (void) retrievePrivateChatPosts:(int)otherUserId;
 
 - (void) redeemLockBoxItems:(int)lockBoxEventId;
+- (void) redeemUserCityGems:(int)cityId;
 
 @end

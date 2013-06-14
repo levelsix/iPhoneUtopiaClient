@@ -172,6 +172,8 @@
 - (int) sendPrivateChatPostMessage:(int)recipientId content:(NSString *)content;
 - (int) sendRetrievePrivateChatPostsMessage:(int)otherUserId;
 
+- (int) sendRedeemUserCityGemsMessage:(int)cityId;
+
 - (int) addAttackSkillPoint;
 - (int) addDefenseSkillPoint;
 - (int) addEnergySkillPoint;

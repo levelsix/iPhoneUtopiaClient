@@ -3274,6 +3274,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableRareBoosterPurchasesList;
 @property (retain) NSString* kabamNaid;
 @property (retain) NSMutableArray* mutablePcppList;
+@property (retain) NSMutableArray* mutableGemsForAllCitiesList;
+@property (retain) NSMutableArray* mutableLivingBossesList;
 @end
 
 @implementation StartupResponseProto
@@ -3412,6 +3414,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 }
 @synthesize kabamNaid;
 @synthesize mutablePcppList;
+@synthesize mutableGemsForAllCitiesList;
+@synthesize mutableLivingBossesList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3453,6 +3457,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableRareBoosterPurchasesList = nil;
   self.kabamNaid = nil;
   self.mutablePcppList = nil;
+  self.mutableGemsForAllCitiesList = nil;
+  self.mutableLivingBossesList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3703,6 +3709,20 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutablePcppList objectAtIndex:index];
   return value;
 }
+- (NSArray*) gemsForAllCitiesList {
+  return mutableGemsForAllCitiesList;
+}
+- (CityGemProto*) gemsForAllCitiesAtIndex:(int32_t) index {
+  id value = [mutableGemsForAllCitiesList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) livingBossesList {
+  return mutableLivingBossesList;
+}
+- (FullUserBossProto*) livingBossesAtIndex:(int32_t) index {
+  id value = [mutableLivingBossesList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -3841,6 +3861,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (PrivateChatPostProto* element in self.pcppList) {
     [output writeMessage:45 value:element];
+  }
+  for (CityGemProto* element in self.gemsForAllCitiesList) {
+    [output writeMessage:46 value:element];
+  }
+  for (FullUserBossProto* element in self.livingBossesList) {
+    [output writeMessage:47 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3990,6 +4016,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (PrivateChatPostProto* element in self.pcppList) {
     size += computeMessageSize(45, element);
+  }
+  for (CityGemProto* element in self.gemsForAllCitiesList) {
+    size += computeMessageSize(46, element);
+  }
+  for (FullUserBossProto* element in self.livingBossesList) {
+    size += computeMessageSize(47, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -19623,6 +19655,18 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutablePcppList addObjectsFromArray:other.mutablePcppList];
   }
+  if (other.mutableGemsForAllCitiesList.count > 0) {
+    if (result.mutableGemsForAllCitiesList == nil) {
+      result.mutableGemsForAllCitiesList = [NSMutableArray array];
+    }
+    [result.mutableGemsForAllCitiesList addObjectsFromArray:other.mutableGemsForAllCitiesList];
+  }
+  if (other.mutableLivingBossesList.count > 0) {
+    if (result.mutableLivingBossesList == nil) {
+      result.mutableLivingBossesList = [NSMutableArray array];
+    }
+    [result.mutableLivingBossesList addObjectsFromArray:other.mutableLivingBossesList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -19917,6 +19961,18 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         PrivateChatPostProto_Builder* subBuilder = [PrivateChatPostProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addPcpp:[subBuilder buildPartial]];
+        break;
+      }
+      case 370: {
+        CityGemProto_Builder* subBuilder = [CityGemProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addGemsForAllCities:[subBuilder buildPartial]];
+        break;
+      }
+      case 378: {
+        FullUserBossProto_Builder* subBuilder = [FullUserBossProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addLivingBosses:[subBuilder buildPartial]];
         break;
       }
     }
@@ -21115,6 +21171,64 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     result.mutablePcppList = [NSMutableArray array];
   }
   [result.mutablePcppList addObject:value];
+  return self;
+}
+- (NSArray*) gemsForAllCitiesList {
+  if (result.mutableGemsForAllCitiesList == nil) { return [NSArray array]; }
+  return result.mutableGemsForAllCitiesList;
+}
+- (CityGemProto*) gemsForAllCitiesAtIndex:(int32_t) index {
+  return [result gemsForAllCitiesAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceGemsForAllCitiesAtIndex:(int32_t) index with:(CityGemProto*) value {
+  [result.mutableGemsForAllCitiesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllGemsForAllCities:(NSArray*) values {
+  if (result.mutableGemsForAllCitiesList == nil) {
+    result.mutableGemsForAllCitiesList = [NSMutableArray array];
+  }
+  [result.mutableGemsForAllCitiesList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearGemsForAllCitiesList {
+  result.mutableGemsForAllCitiesList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addGemsForAllCities:(CityGemProto*) value {
+  if (result.mutableGemsForAllCitiesList == nil) {
+    result.mutableGemsForAllCitiesList = [NSMutableArray array];
+  }
+  [result.mutableGemsForAllCitiesList addObject:value];
+  return self;
+}
+- (NSArray*) livingBossesList {
+  if (result.mutableLivingBossesList == nil) { return [NSArray array]; }
+  return result.mutableLivingBossesList;
+}
+- (FullUserBossProto*) livingBossesAtIndex:(int32_t) index {
+  return [result livingBossesAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceLivingBossesAtIndex:(int32_t) index with:(FullUserBossProto*) value {
+  [result.mutableLivingBossesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllLivingBosses:(NSArray*) values {
+  if (result.mutableLivingBossesList == nil) {
+    result.mutableLivingBossesList = [NSMutableArray array];
+  }
+  [result.mutableLivingBossesList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearLivingBossesList {
+  result.mutableLivingBossesList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addLivingBosses:(FullUserBossProto*) value {
+  if (result.mutableLivingBossesList == nil) {
+    result.mutableLivingBossesList = [NSMutableArray array];
+  }
+  [result.mutableLivingBossesList addObject:value];
   return self;
 }
 @end
@@ -23484,6 +23598,8 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
 @property int32_t expBonusIfCityRankup;
 @property int32_t cityId;
 @property int32_t eventIdOfLockBoxGained;
+@property (retain) UserCityGemProto* gem;
+@property (retain) FullUserBossProto* boss;
 @end
 
 @implementation TaskActionResponseProto
@@ -23568,9 +23684,25 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
   hasEventIdOfLockBoxGained_ = !!value;
 }
 @synthesize eventIdOfLockBoxGained;
+- (BOOL) hasGem {
+  return !!hasGem_;
+}
+- (void) setHasGem:(BOOL) value {
+  hasGem_ = !!value;
+}
+@synthesize gem;
+- (BOOL) hasBoss {
+  return !!hasBoss_;
+}
+- (void) setHasBoss:(BOOL) value {
+  hasBoss_ = !!value;
+}
+@synthesize boss;
 - (void) dealloc {
   self.sender = nil;
   self.lootUserEquip = nil;
+  self.gem = nil;
+  self.boss = nil;
   [super dealloc];
 }
 - (id) init {
@@ -23585,6 +23717,8 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
     self.expBonusIfCityRankup = 0;
     self.cityId = 0;
     self.eventIdOfLockBoxGained = 0;
+    self.gem = [UserCityGemProto defaultInstance];
+    self.boss = [FullUserBossProto defaultInstance];
   }
   return self;
 }
@@ -23634,6 +23768,12 @@ static TaskActionResponseProto* defaultTaskActionResponseProtoInstance = nil;
   if (self.hasEventIdOfLockBoxGained) {
     [output writeInt32:10 value:self.eventIdOfLockBoxGained];
   }
+  if (self.hasGem) {
+    [output writeMessage:11 value:self.gem];
+  }
+  if (self.hasBoss) {
+    [output writeMessage:12 value:self.boss];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -23672,6 +23812,12 @@ static TaskActionResponseProto* defaultTaskActionResponseProtoInstance = nil;
   }
   if (self.hasEventIdOfLockBoxGained) {
     size += computeInt32Size(10, self.eventIdOfLockBoxGained);
+  }
+  if (self.hasGem) {
+    size += computeMessageSize(11, self.gem);
+  }
+  if (self.hasBoss) {
+    size += computeMessageSize(12, self.boss);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -23790,6 +23936,12 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
   if (other.hasEventIdOfLockBoxGained) {
     [self setEventIdOfLockBoxGained:other.eventIdOfLockBoxGained];
   }
+  if (other.hasGem) {
+    [self mergeGem:other.gem];
+  }
+  if (other.hasBoss) {
+    [self mergeBoss:other.boss];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -23864,6 +24016,24 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
       }
       case 80: {
         [self setEventIdOfLockBoxGained:[input readInt32]];
+        break;
+      }
+      case 90: {
+        UserCityGemProto_Builder* subBuilder = [UserCityGemProto builder];
+        if (self.hasGem) {
+          [subBuilder mergeFrom:self.gem];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setGem:[subBuilder buildPartial]];
+        break;
+      }
+      case 98: {
+        FullUserBossProto_Builder* subBuilder = [FullUserBossProto builder];
+        if (self.hasBoss) {
+          [subBuilder mergeFrom:self.boss];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setBoss:[subBuilder buildPartial]];
         break;
       }
     }
@@ -24055,6 +24225,66 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
 - (TaskActionResponseProto_Builder*) clearEventIdOfLockBoxGained {
   result.hasEventIdOfLockBoxGained = NO;
   result.eventIdOfLockBoxGained = 0;
+  return self;
+}
+- (BOOL) hasGem {
+  return result.hasGem;
+}
+- (UserCityGemProto*) gem {
+  return result.gem;
+}
+- (TaskActionResponseProto_Builder*) setGem:(UserCityGemProto*) value {
+  result.hasGem = YES;
+  result.gem = value;
+  return self;
+}
+- (TaskActionResponseProto_Builder*) setGemBuilder:(UserCityGemProto_Builder*) builderForValue {
+  return [self setGem:[builderForValue build]];
+}
+- (TaskActionResponseProto_Builder*) mergeGem:(UserCityGemProto*) value {
+  if (result.hasGem &&
+      result.gem != [UserCityGemProto defaultInstance]) {
+    result.gem =
+      [[[UserCityGemProto builderWithPrototype:result.gem] mergeFrom:value] buildPartial];
+  } else {
+    result.gem = value;
+  }
+  result.hasGem = YES;
+  return self;
+}
+- (TaskActionResponseProto_Builder*) clearGem {
+  result.hasGem = NO;
+  result.gem = [UserCityGemProto defaultInstance];
+  return self;
+}
+- (BOOL) hasBoss {
+  return result.hasBoss;
+}
+- (FullUserBossProto*) boss {
+  return result.boss;
+}
+- (TaskActionResponseProto_Builder*) setBoss:(FullUserBossProto*) value {
+  result.hasBoss = YES;
+  result.boss = value;
+  return self;
+}
+- (TaskActionResponseProto_Builder*) setBossBuilder:(FullUserBossProto_Builder*) builderForValue {
+  return [self setBoss:[builderForValue build]];
+}
+- (TaskActionResponseProto_Builder*) mergeBoss:(FullUserBossProto*) value {
+  if (result.hasBoss &&
+      result.boss != [FullUserBossProto defaultInstance]) {
+    result.boss =
+      [[[FullUserBossProto builderWithPrototype:result.boss] mergeFrom:value] buildPartial];
+  } else {
+    result.boss = value;
+  }
+  result.hasBoss = YES;
+  return self;
+}
+- (TaskActionResponseProto_Builder*) clearBoss {
+  result.hasBoss = NO;
+  result.boss = [FullUserBossProto defaultInstance];
   return self;
 }
 @end
@@ -45351,6 +45581,7 @@ static LoadNeutralCityRequestProto* defaultLoadNeutralCityRequestProtoInstance =
 @property int32_t cityId;
 @property (retain) NSMutableArray* mutableInProgressUserQuestDataInCityList;
 @property (retain) NSMutableArray* mutableUserBossesList;
+@property (retain) NSMutableArray* mutableMyGemsList;
 @end
 
 @implementation LoadNeutralCityResponseProto
@@ -45381,6 +45612,7 @@ static LoadNeutralCityRequestProto* defaultLoadNeutralCityRequestProtoInstance =
 @synthesize cityId;
 @synthesize mutableInProgressUserQuestDataInCityList;
 @synthesize mutableUserBossesList;
+@synthesize mutableMyGemsList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableUserTasksInfoList = nil;
@@ -45388,6 +45620,7 @@ static LoadNeutralCityRequestProto* defaultLoadNeutralCityRequestProtoInstance =
   self.mutableCityElementsList = nil;
   self.mutableInProgressUserQuestDataInCityList = nil;
   self.mutableUserBossesList = nil;
+  self.mutableMyGemsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -45445,6 +45678,13 @@ static LoadNeutralCityResponseProto* defaultLoadNeutralCityResponseProtoInstance
   id value = [mutableUserBossesList objectAtIndex:index];
   return value;
 }
+- (NSArray*) myGemsList {
+  return mutableMyGemsList;
+}
+- (UserCityGemProto*) myGemsAtIndex:(int32_t) index {
+  id value = [mutableMyGemsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -45472,6 +45712,9 @@ static LoadNeutralCityResponseProto* defaultLoadNeutralCityResponseProtoInstance
   }
   for (FullUserBossProto* element in self.userBossesList) {
     [output writeMessage:8 value:element];
+  }
+  for (UserCityGemProto* element in self.myGemsList) {
+    [output writeMessage:9 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -45505,6 +45748,9 @@ static LoadNeutralCityResponseProto* defaultLoadNeutralCityResponseProtoInstance
   }
   for (FullUserBossProto* element in self.userBossesList) {
     size += computeMessageSize(8, element);
+  }
+  for (UserCityGemProto* element in self.myGemsList) {
+    size += computeMessageSize(9, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -45630,6 +45876,12 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
     }
     [result.mutableUserBossesList addObjectsFromArray:other.mutableUserBossesList];
   }
+  if (other.mutableMyGemsList.count > 0) {
+    if (result.mutableMyGemsList == nil) {
+      result.mutableMyGemsList = [NSMutableArray array];
+    }
+    [result.mutableMyGemsList addObjectsFromArray:other.mutableMyGemsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -45701,6 +45953,12 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
         FullUserBossProto_Builder* subBuilder = [FullUserBossProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserBosses:[subBuilder buildPartial]];
+        break;
+      }
+      case 74: {
+        UserCityGemProto_Builder* subBuilder = [UserCityGemProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addMyGems:[subBuilder buildPartial]];
         break;
       }
     }
@@ -45911,6 +46169,35 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
     result.mutableUserBossesList = [NSMutableArray array];
   }
   [result.mutableUserBossesList addObject:value];
+  return self;
+}
+- (NSArray*) myGemsList {
+  if (result.mutableMyGemsList == nil) { return [NSArray array]; }
+  return result.mutableMyGemsList;
+}
+- (UserCityGemProto*) myGemsAtIndex:(int32_t) index {
+  return [result myGemsAtIndex:index];
+}
+- (LoadNeutralCityResponseProto_Builder*) replaceMyGemsAtIndex:(int32_t) index with:(UserCityGemProto*) value {
+  [result.mutableMyGemsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) addAllMyGems:(NSArray*) values {
+  if (result.mutableMyGemsList == nil) {
+    result.mutableMyGemsList = [NSMutableArray array];
+  }
+  [result.mutableMyGemsList addObjectsFromArray:values];
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) clearMyGemsList {
+  result.mutableMyGemsList = nil;
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) addMyGems:(UserCityGemProto*) value {
+  if (result.mutableMyGemsList == nil) {
+    result.mutableMyGemsList = [NSMutableArray array];
+  }
+  [result.mutableMyGemsList addObject:value];
   return self;
 }
 @end
@@ -66884,6 +67171,7 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableDiamondsGainedList;
 @property int32_t bossId;
 @property int32_t expGained;
+@property (retain) UserCityGemProto* gemDropped;
 @end
 
 @implementation BossActionResponseProto
@@ -66926,11 +67214,19 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
   hasExpGained_ = !!value;
 }
 @synthesize expGained;
+- (BOOL) hasGemDropped {
+  return !!hasGemDropped_;
+}
+- (void) setHasGemDropped:(BOOL) value {
+  hasGemDropped_ = !!value;
+}
+@synthesize gemDropped;
 - (void) dealloc {
   self.sender = nil;
   self.mutableLootUserEquipList = nil;
   self.mutableCoinsGainedList = nil;
   self.mutableDiamondsGainedList = nil;
+  self.gemDropped = nil;
   [super dealloc];
 }
 - (id) init {
@@ -66940,6 +67236,7 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
     self.damageDone = 0;
     self.bossId = 0;
     self.expGained = 0;
+    self.gemDropped = [UserCityGemProto defaultInstance];
   }
   return self;
 }
@@ -67004,6 +67301,9 @@ static BossActionResponseProto* defaultBossActionResponseProtoInstance = nil;
   if (self.hasExpGained) {
     [output writeInt32:9 value:self.expGained];
   }
+  if (self.hasGemDropped) {
+    [output writeMessage:10 value:self.gemDropped];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -67047,6 +67347,9 @@ static BossActionResponseProto* defaultBossActionResponseProtoInstance = nil;
   if (self.hasExpGained) {
     size += computeInt32Size(9, self.expGained);
   }
+  if (self.hasGemDropped) {
+    size += computeMessageSize(10, self.gemDropped);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -67083,10 +67386,11 @@ static BossActionResponseProto* defaultBossActionResponseProtoInstance = nil;
 BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProto_BossActionStatus value) {
   switch (value) {
     case BossActionResponseProto_BossActionStatusSuccess:
-    case BossActionResponseProto_BossActionStatusUserNotEnoughStamina:
-    case BossActionResponseProto_BossActionStatusBossHasNotSpawned:
-    case BossActionResponseProto_BossActionStatusOtherFail:
-    case BossActionResponseProto_BossActionStatusClientTooApartFromServerTime:
+    case BossActionResponseProto_BossActionStatusFailUserNotEnoughEnergy:
+    case BossActionResponseProto_BossActionStatusFailBossIsDead:
+    case BossActionResponseProto_BossActionStatusFailOther:
+    case BossActionResponseProto_BossActionStatusFailClientTooApartFromServerTime:
+    case BossActionResponseProto_BossActionStatusFailAttackWindowExpired:
       return YES;
     default:
       return NO;
@@ -67167,6 +67471,9 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   if (other.hasExpGained) {
     [self setExpGained:other.expGained];
   }
+  if (other.hasGemDropped) {
+    [self mergeGemDropped:other.gemDropped];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -67230,6 +67537,15 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
       }
       case 72: {
         [self setExpGained:[input readInt32]];
+        break;
+      }
+      case 82: {
+        UserCityGemProto_Builder* subBuilder = [UserCityGemProto builder];
+        if (self.hasGemDropped) {
+          [subBuilder mergeFrom:self.gemDropped];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setGemDropped:[subBuilder buildPartial]];
         break;
       }
     }
@@ -67418,6 +67734,36 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (BossActionResponseProto_Builder*) clearExpGained {
   result.hasExpGained = NO;
   result.expGained = 0;
+  return self;
+}
+- (BOOL) hasGemDropped {
+  return result.hasGemDropped;
+}
+- (UserCityGemProto*) gemDropped {
+  return result.gemDropped;
+}
+- (BossActionResponseProto_Builder*) setGemDropped:(UserCityGemProto*) value {
+  result.hasGemDropped = YES;
+  result.gemDropped = value;
+  return self;
+}
+- (BossActionResponseProto_Builder*) setGemDroppedBuilder:(UserCityGemProto_Builder*) builderForValue {
+  return [self setGemDropped:[builderForValue build]];
+}
+- (BossActionResponseProto_Builder*) mergeGemDropped:(UserCityGemProto*) value {
+  if (result.hasGemDropped &&
+      result.gemDropped != [UserCityGemProto defaultInstance]) {
+    result.gemDropped =
+      [[[UserCityGemProto builderWithPrototype:result.gemDropped] mergeFrom:value] buildPartial];
+  } else {
+    result.gemDropped = value;
+  }
+  result.hasGemDropped = YES;
+  return self;
+}
+- (BossActionResponseProto_Builder*) clearGemDropped {
+  result.hasGemDropped = NO;
+  result.gemDropped = [UserCityGemProto defaultInstance];
   return self;
 }
 @end
@@ -79662,6 +80008,548 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (MenteeFinishedQuestResponseProto_Builder*) clearQuestType {
   result.hasQuestType = NO;
   result.questType = MenteeFinishedQuestResponseProto_MenteeQuestTypeBoughtAPackage;
+  return self;
+}
+@end
+
+@interface RedeemUserCityGemsRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t cityId;
+@end
+
+@implementation RedeemUserCityGemsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasCityId {
+  return !!hasCityId_;
+}
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
+}
+@synthesize cityId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.cityId = 0;
+  }
+  return self;
+}
+static RedeemUserCityGemsRequestProto* defaultRedeemUserCityGemsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RedeemUserCityGemsRequestProto class]) {
+    defaultRedeemUserCityGemsRequestProtoInstance = [[RedeemUserCityGemsRequestProto alloc] init];
+  }
+}
++ (RedeemUserCityGemsRequestProto*) defaultInstance {
+  return defaultRedeemUserCityGemsRequestProtoInstance;
+}
+- (RedeemUserCityGemsRequestProto*) defaultInstance {
+  return defaultRedeemUserCityGemsRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasCityId) {
+    [output writeInt32:2 value:self.cityId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasCityId) {
+    size += computeInt32Size(2, self.cityId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RedeemUserCityGemsRequestProto*) parseFromData:(NSData*) data {
+  return (RedeemUserCityGemsRequestProto*)[[[RedeemUserCityGemsRequestProto builder] mergeFromData:data] build];
+}
++ (RedeemUserCityGemsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemUserCityGemsRequestProto*)[[[RedeemUserCityGemsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RedeemUserCityGemsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RedeemUserCityGemsRequestProto*)[[[RedeemUserCityGemsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RedeemUserCityGemsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemUserCityGemsRequestProto*)[[[RedeemUserCityGemsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RedeemUserCityGemsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RedeemUserCityGemsRequestProto*)[[[RedeemUserCityGemsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RedeemUserCityGemsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemUserCityGemsRequestProto*)[[[RedeemUserCityGemsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RedeemUserCityGemsRequestProto_Builder*) builder {
+  return [[[RedeemUserCityGemsRequestProto_Builder alloc] init] autorelease];
+}
++ (RedeemUserCityGemsRequestProto_Builder*) builderWithPrototype:(RedeemUserCityGemsRequestProto*) prototype {
+  return [[RedeemUserCityGemsRequestProto builder] mergeFrom:prototype];
+}
+- (RedeemUserCityGemsRequestProto_Builder*) builder {
+  return [RedeemUserCityGemsRequestProto builder];
+}
+@end
+
+@interface RedeemUserCityGemsRequestProto_Builder()
+@property (retain) RedeemUserCityGemsRequestProto* result;
+@end
+
+@implementation RedeemUserCityGemsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RedeemUserCityGemsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RedeemUserCityGemsRequestProto_Builder*) clear {
+  self.result = [[[RedeemUserCityGemsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RedeemUserCityGemsRequestProto_Builder*) clone {
+  return [RedeemUserCityGemsRequestProto builderWithPrototype:result];
+}
+- (RedeemUserCityGemsRequestProto*) defaultInstance {
+  return [RedeemUserCityGemsRequestProto defaultInstance];
+}
+- (RedeemUserCityGemsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RedeemUserCityGemsRequestProto*) buildPartial {
+  RedeemUserCityGemsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RedeemUserCityGemsRequestProto_Builder*) mergeFrom:(RedeemUserCityGemsRequestProto*) other {
+  if (other == [RedeemUserCityGemsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RedeemUserCityGemsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RedeemUserCityGemsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setCityId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RedeemUserCityGemsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RedeemUserCityGemsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RedeemUserCityGemsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RedeemUserCityGemsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasCityId {
+  return result.hasCityId;
+}
+- (int32_t) cityId {
+  return result.cityId;
+}
+- (RedeemUserCityGemsRequestProto_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
+  return self;
+}
+- (RedeemUserCityGemsRequestProto_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
+  return self;
+}
+@end
+
+@interface RedeemUserCityGemsResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableEquipsList;
+@property RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus status;
+@end
+
+@implementation RedeemUserCityGemsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableEquipsList;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableEquipsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusSuccess;
+  }
+  return self;
+}
+static RedeemUserCityGemsResponseProto* defaultRedeemUserCityGemsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RedeemUserCityGemsResponseProto class]) {
+    defaultRedeemUserCityGemsResponseProtoInstance = [[RedeemUserCityGemsResponseProto alloc] init];
+  }
+}
++ (RedeemUserCityGemsResponseProto*) defaultInstance {
+  return defaultRedeemUserCityGemsResponseProtoInstance;
+}
+- (RedeemUserCityGemsResponseProto*) defaultInstance {
+  return defaultRedeemUserCityGemsResponseProtoInstance;
+}
+- (NSArray*) equipsList {
+  return mutableEquipsList;
+}
+- (FullUserEquipProto*) equipsAtIndex:(int32_t) index {
+  id value = [mutableEquipsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (FullUserEquipProto* element in self.equipsList) {
+    [output writeMessage:2 value:element];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (FullUserEquipProto* element in self.equipsList) {
+    size += computeMessageSize(2, element);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(3, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RedeemUserCityGemsResponseProto*) parseFromData:(NSData*) data {
+  return (RedeemUserCityGemsResponseProto*)[[[RedeemUserCityGemsResponseProto builder] mergeFromData:data] build];
+}
++ (RedeemUserCityGemsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemUserCityGemsResponseProto*)[[[RedeemUserCityGemsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RedeemUserCityGemsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RedeemUserCityGemsResponseProto*)[[[RedeemUserCityGemsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RedeemUserCityGemsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemUserCityGemsResponseProto*)[[[RedeemUserCityGemsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RedeemUserCityGemsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RedeemUserCityGemsResponseProto*)[[[RedeemUserCityGemsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RedeemUserCityGemsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemUserCityGemsResponseProto*)[[[RedeemUserCityGemsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RedeemUserCityGemsResponseProto_Builder*) builder {
+  return [[[RedeemUserCityGemsResponseProto_Builder alloc] init] autorelease];
+}
++ (RedeemUserCityGemsResponseProto_Builder*) builderWithPrototype:(RedeemUserCityGemsResponseProto*) prototype {
+  return [[RedeemUserCityGemsResponseProto builder] mergeFrom:prototype];
+}
+- (RedeemUserCityGemsResponseProto_Builder*) builder {
+  return [RedeemUserCityGemsResponseProto builder];
+}
+@end
+
+BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus value) {
+  switch (value) {
+    case RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusSuccess:
+    case RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusFailInsufficientGems:
+    case RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RedeemUserCityGemsResponseProto_Builder()
+@property (retain) RedeemUserCityGemsResponseProto* result;
+@end
+
+@implementation RedeemUserCityGemsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RedeemUserCityGemsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) clear {
+  self.result = [[[RedeemUserCityGemsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) clone {
+  return [RedeemUserCityGemsResponseProto builderWithPrototype:result];
+}
+- (RedeemUserCityGemsResponseProto*) defaultInstance {
+  return [RedeemUserCityGemsResponseProto defaultInstance];
+}
+- (RedeemUserCityGemsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RedeemUserCityGemsResponseProto*) buildPartial {
+  RedeemUserCityGemsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) mergeFrom:(RedeemUserCityGemsResponseProto*) other {
+  if (other == [RedeemUserCityGemsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableEquipsList.count > 0) {
+    if (result.mutableEquipsList == nil) {
+      result.mutableEquipsList = [NSMutableArray array];
+    }
+    [result.mutableEquipsList addObjectsFromArray:other.mutableEquipsList];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RedeemUserCityGemsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addEquips:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RedeemUserCityGemsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) equipsList {
+  if (result.mutableEquipsList == nil) { return [NSArray array]; }
+  return result.mutableEquipsList;
+}
+- (FullUserEquipProto*) equipsAtIndex:(int32_t) index {
+  return [result equipsAtIndex:index];
+}
+- (RedeemUserCityGemsResponseProto_Builder*) replaceEquipsAtIndex:(int32_t) index with:(FullUserEquipProto*) value {
+  [result.mutableEquipsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) addAllEquips:(NSArray*) values {
+  if (result.mutableEquipsList == nil) {
+    result.mutableEquipsList = [NSMutableArray array];
+  }
+  [result.mutableEquipsList addObjectsFromArray:values];
+  return self;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) clearEquipsList {
+  result.mutableEquipsList = nil;
+  return self;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) addEquips:(FullUserEquipProto*) value {
+  if (result.mutableEquipsList == nil) {
+    result.mutableEquipsList = [NSMutableArray array];
+  }
+  [result.mutableEquipsList addObject:value];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus) status {
+  return result.status;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) setStatus:(RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusSuccess;
   return self;
 }
 @end

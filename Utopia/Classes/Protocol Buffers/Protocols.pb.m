@@ -112,7 +112,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRetrieveAllMentorsEvent:
     case EventProtocolRequestCRetrieveAvailableMenteesEvent:
     case EventProtocolRequestCDropMenteeEvent:
-    case EventProtocolRequestCRetrieveMyMentees:
+    case EventProtocolRequestCRetrieveMyMenteesEvent:
+    case EventProtocolRequestCRedeemUserCityGemsEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
@@ -213,7 +214,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSRetrieveAllMentorsEvent:
     case EventProtocolResponseSRetrieveAvailableMenteesEvent:
     case EventProtocolResponseSDropMenteeEvent:
-    case EventProtocolResponseSRetrieveMyMentees:
+    case EventProtocolResponseSRetrieveMyMenteesEvent:
+    case EventProtocolResponseSRedeemUserCityGemsEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

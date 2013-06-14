@@ -56,6 +56,8 @@
   BOOL _allowPicking;
   BOOL _shouldRestart;
   
+  BOOL _showConfirmation;
+  
   int _timesShuffled;
   
   int _numPlays;

@@ -1260,6 +1260,15 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRedeemUserLockBoxItemsEvent];
 }
 
+- (int) sendRedeemUserCityGemsMessage:(int)cityId {
+  RedeemUserCityGemsRequestProto *req = [[[[RedeemUserCityGemsRequestProto builder]
+                                           setCityId:cityId]
+                                          setSender:_sender]
+                                         build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRedeemUserCityGemsEvent];
+}
+
 - (int) addAttackSkillPoint {
   [self flushWithInt:EventProtocolRequestCUseSkillPointEvent];
   self.attackPoints++;

@@ -66,6 +66,8 @@
 @class ChatRequestProto_Builder;
 @class ChatResponseProto;
 @class ChatResponseProto_Builder;
+@class CityGemProto;
+@class CityGemProto_Builder;
 @class ClanBulletinPostProto;
 @class ClanBulletinPostProto_Builder;
 @class ClanTierLevelProto;
@@ -358,6 +360,10 @@
 @class RedeemMarketplaceEarningsRequestProto_Builder;
 @class RedeemMarketplaceEarningsResponseProto;
 @class RedeemMarketplaceEarningsResponseProto_Builder;
+@class RedeemUserCityGemsRequestProto;
+@class RedeemUserCityGemsRequestProto_Builder;
+@class RedeemUserCityGemsResponseProto;
+@class RedeemUserCityGemsResponseProto_Builder;
 @class RedeemUserLockBoxItemsRequestProto;
 @class RedeemUserLockBoxItemsRequestProto_Builder;
 @class RedeemUserLockBoxItemsResponseProto;
@@ -566,6 +572,8 @@
 @class UserBoosterItemProto_Builder;
 @class UserBoosterPackProto;
 @class UserBoosterPackProto_Builder;
+@class UserCityGemProto;
+@class UserCityGemProto_Builder;
 @class UserCreateRequestProto;
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
@@ -1317,10 +1325,11 @@ BOOL PickLockBoxResponseProto_PickLockBoxStatusIsValidValue(PickLockBoxResponseP
 
 typedef enum {
   BossActionResponseProto_BossActionStatusSuccess = 0,
-  BossActionResponseProto_BossActionStatusUserNotEnoughStamina = 1,
-  BossActionResponseProto_BossActionStatusBossHasNotSpawned = 2,
-  BossActionResponseProto_BossActionStatusOtherFail = 3,
-  BossActionResponseProto_BossActionStatusClientTooApartFromServerTime = 4,
+  BossActionResponseProto_BossActionStatusFailUserNotEnoughEnergy = 1,
+  BossActionResponseProto_BossActionStatusFailBossIsDead = 2,
+  BossActionResponseProto_BossActionStatusFailOther = 3,
+  BossActionResponseProto_BossActionStatusFailClientTooApartFromServerTime = 4,
+  BossActionResponseProto_BossActionStatusFailAttackWindowExpired = 5,
 } BossActionResponseProto_BossActionStatus;
 
 BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProto_BossActionStatus value);
@@ -1521,6 +1530,14 @@ typedef enum {
 } MenteeFinishedQuestResponseProto_MenteeQuestType;
 
 BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinishedQuestResponseProto_MenteeQuestType value);
+
+typedef enum {
+  RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusSuccess = 0,
+  RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusFailInsufficientGems = 1,
+  RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusFailOther = 2,
+} RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus;
+
+BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -2288,8 +2305,8 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   BOOL hasAppStoreUrl_:1;
   BOOL hasEquipEnhancement_:1;
   BOOL hasDailyBonusInfo_:1;
-  BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
+  BOOL hasSender_:1;
   BOOL hasTutorialConstants_:1;
   BOOL hasUpdateStatus_:1;
   BOOL hasStartupStatus_:1;
@@ -2302,13 +2319,12 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   NSString* appStoreUrl;
   EquipEnhancementProto* equipEnhancement;
   StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
-  FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
+  FullUserProto* sender;
   StartupResponseProto_TutorialConstants* tutorialConstants;
   StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableForgeAttemptEquipList;
   NSMutableArray* mutableMktSearchEquipsList;
   NSMutableArray* mutableGlobalChatsList;
   NSMutableArray* mutableClanChatsList;
@@ -2321,6 +2337,8 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   NSMutableArray* mutableLeaderboardEventsList;
   NSMutableArray* mutableRareBoosterPurchasesList;
   NSMutableArray* mutablePcppList;
+  NSMutableArray* mutableGemsForAllCitiesList;
+  NSMutableArray* mutableLivingBossesList;
   NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableUserEquipsList;
   NSMutableArray* mutableEquipsList;
@@ -2338,6 +2356,7 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   NSMutableArray* mutableAllCitiesList;
   NSMutableArray* mutableAlliesList;
   NSMutableArray* mutableUnhandledForgeAttemptList;
+  NSMutableArray* mutableForgeAttemptEquipList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -2429,6 +2448,10 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index;
 - (NSArray*) pcppList;
 - (PrivateChatPostProto*) pcppAtIndex:(int32_t) index;
+- (NSArray*) gemsForAllCitiesList;
+- (CityGemProto*) gemsForAllCitiesAtIndex:(int32_t) index;
+- (NSArray*) livingBossesList;
+- (FullUserBossProto*) livingBossesAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -6368,6 +6391,20 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (StartupResponseProto_Builder*) addPcpp:(PrivateChatPostProto*) value;
 - (StartupResponseProto_Builder*) addAllPcpp:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearPcppList;
+
+- (NSArray*) gemsForAllCitiesList;
+- (CityGemProto*) gemsForAllCitiesAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceGemsForAllCitiesAtIndex:(int32_t) index with:(CityGemProto*) value;
+- (StartupResponseProto_Builder*) addGemsForAllCities:(CityGemProto*) value;
+- (StartupResponseProto_Builder*) addAllGemsForAllCities:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearGemsForAllCitiesList;
+
+- (NSArray*) livingBossesList;
+- (FullUserBossProto*) livingBossesAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceLivingBossesAtIndex:(int32_t) index with:(FullUserBossProto*) value;
+- (StartupResponseProto_Builder*) addLivingBosses:(FullUserBossProto*) value;
+- (StartupResponseProto_Builder*) addAllLivingBosses:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearLivingBossesList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
@@ -6934,6 +6971,8 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   BOOL hasEventIdOfLockBoxGained_:1;
   BOOL hasSender_:1;
   BOOL hasLootUserEquip_:1;
+  BOOL hasGem_:1;
+  BOOL hasBoss_:1;
   BOOL hasStatus_:1;
   BOOL taskCompleted_:1;
   BOOL cityRankedUp_:1;
@@ -6944,6 +6983,8 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   int32_t eventIdOfLockBoxGained;
   MinimumUserProto* sender;
   FullUserEquipProto* lootUserEquip;
+  UserCityGemProto* gem;
+  FullUserBossProto* boss;
   TaskActionResponseProto_TaskActionStatus status;
 }
 - (BOOL) hasSender;
@@ -6956,6 +6997,8 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (BOOL) hasExpBonusIfCityRankup;
 - (BOOL) hasCityId;
 - (BOOL) hasEventIdOfLockBoxGained;
+- (BOOL) hasGem;
+- (BOOL) hasBoss;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) TaskActionResponseProto_TaskActionStatus status;
 - (BOOL) taskCompleted;
@@ -6966,6 +7009,8 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 @property (readonly) int32_t expBonusIfCityRankup;
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t eventIdOfLockBoxGained;
+@property (readonly, retain) UserCityGemProto* gem;
+@property (readonly, retain) FullUserBossProto* boss;
 
 + (TaskActionResponseProto*) defaultInstance;
 - (TaskActionResponseProto*) defaultInstance;
@@ -7054,6 +7099,20 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (int32_t) eventIdOfLockBoxGained;
 - (TaskActionResponseProto_Builder*) setEventIdOfLockBoxGained:(int32_t) value;
 - (TaskActionResponseProto_Builder*) clearEventIdOfLockBoxGained;
+
+- (BOOL) hasGem;
+- (UserCityGemProto*) gem;
+- (TaskActionResponseProto_Builder*) setGem:(UserCityGemProto*) value;
+- (TaskActionResponseProto_Builder*) setGemBuilder:(UserCityGemProto_Builder*) builderForValue;
+- (TaskActionResponseProto_Builder*) mergeGem:(UserCityGemProto*) value;
+- (TaskActionResponseProto_Builder*) clearGem;
+
+- (BOOL) hasBoss;
+- (FullUserBossProto*) boss;
+- (TaskActionResponseProto_Builder*) setBoss:(FullUserBossProto*) value;
+- (TaskActionResponseProto_Builder*) setBossBuilder:(FullUserBossProto_Builder*) builderForValue;
+- (TaskActionResponseProto_Builder*) mergeBoss:(FullUserBossProto*) value;
+- (TaskActionResponseProto_Builder*) clearBoss;
 @end
 
 @interface PurchaseNormStructureRequestProto : PBGeneratedMessage {
@@ -11980,6 +12039,7 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   NSMutableArray* mutableCityElementsList;
   NSMutableArray* mutableInProgressUserQuestDataInCityList;
   NSMutableArray* mutableUserBossesList;
+  NSMutableArray* mutableMyGemsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
@@ -11997,6 +12057,8 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (FullUserQuestDataLargeProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index;
 - (NSArray*) userBossesList;
 - (FullUserBossProto*) userBossesAtIndex:(int32_t) index;
+- (NSArray*) myGemsList;
+- (UserCityGemProto*) myGemsAtIndex:(int32_t) index;
 
 + (LoadNeutralCityResponseProto*) defaultInstance;
 - (LoadNeutralCityResponseProto*) defaultInstance;
@@ -12083,6 +12145,13 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (LoadNeutralCityResponseProto_Builder*) addUserBosses:(FullUserBossProto*) value;
 - (LoadNeutralCityResponseProto_Builder*) addAllUserBosses:(NSArray*) values;
 - (LoadNeutralCityResponseProto_Builder*) clearUserBossesList;
+
+- (NSArray*) myGemsList;
+- (UserCityGemProto*) myGemsAtIndex:(int32_t) index;
+- (LoadNeutralCityResponseProto_Builder*) replaceMyGemsAtIndex:(int32_t) index with:(UserCityGemProto*) value;
+- (LoadNeutralCityResponseProto_Builder*) addMyGems:(UserCityGemProto*) value;
+- (LoadNeutralCityResponseProto_Builder*) addAllMyGems:(NSArray*) values;
+- (LoadNeutralCityResponseProto_Builder*) clearMyGemsList;
 @end
 
 @interface RetrieveUserEquipForUserRequestProto : PBGeneratedMessage {
@@ -17027,11 +17096,13 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
   BOOL hasBossId_:1;
   BOOL hasExpGained_:1;
   BOOL hasSender_:1;
+  BOOL hasGemDropped_:1;
   BOOL hasStatus_:1;
   int32_t damageDone;
   int32_t bossId;
   int32_t expGained;
   MinimumUserProto* sender;
+  UserCityGemProto* gemDropped;
   BossActionResponseProto_BossActionStatus status;
   NSMutableArray* mutableCoinsGainedList;
   NSMutableArray* mutableDiamondsGainedList;
@@ -17042,11 +17113,13 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (BOOL) hasDamageDone;
 - (BOOL) hasBossId;
 - (BOOL) hasExpGained;
+- (BOOL) hasGemDropped;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) BossActionResponseProto_BossActionStatus status;
 @property (readonly) int32_t damageDone;
 @property (readonly) int32_t bossId;
 @property (readonly) int32_t expGained;
+@property (readonly, retain) UserCityGemProto* gemDropped;
 - (NSArray*) lootUserEquipList;
 - (FullUserEquipProto*) lootUserEquipAtIndex:(int32_t) index;
 - (NSArray*) coinsGainedList;
@@ -17135,6 +17208,13 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (int32_t) expGained;
 - (BossActionResponseProto_Builder*) setExpGained:(int32_t) value;
 - (BossActionResponseProto_Builder*) clearExpGained;
+
+- (BOOL) hasGemDropped;
+- (UserCityGemProto*) gemDropped;
+- (BossActionResponseProto_Builder*) setGemDropped:(UserCityGemProto*) value;
+- (BossActionResponseProto_Builder*) setGemDroppedBuilder:(UserCityGemProto_Builder*) builderForValue;
+- (BossActionResponseProto_Builder*) mergeGemDropped:(UserCityGemProto*) value;
+- (BossActionResponseProto_Builder*) clearGemDropped;
 @end
 
 @interface BeginClanTowerWarRequestProto : PBGeneratedMessage {
@@ -20018,5 +20098,133 @@ BOOL MenteeFinishedQuestResponseProto_MenteeQuestTypeIsValidValue(MenteeFinished
 - (MenteeFinishedQuestResponseProto_MenteeQuestType) questType;
 - (MenteeFinishedQuestResponseProto_Builder*) setQuestType:(MenteeFinishedQuestResponseProto_MenteeQuestType) value;
 - (MenteeFinishedQuestResponseProto_Builder*) clearQuestType;
+@end
+
+@interface RedeemUserCityGemsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasCityId_:1;
+  BOOL hasSender_:1;
+  int32_t cityId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasCityId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t cityId;
+
++ (RedeemUserCityGemsRequestProto*) defaultInstance;
+- (RedeemUserCityGemsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RedeemUserCityGemsRequestProto_Builder*) builder;
++ (RedeemUserCityGemsRequestProto_Builder*) builder;
++ (RedeemUserCityGemsRequestProto_Builder*) builderWithPrototype:(RedeemUserCityGemsRequestProto*) prototype;
+
++ (RedeemUserCityGemsRequestProto*) parseFromData:(NSData*) data;
++ (RedeemUserCityGemsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RedeemUserCityGemsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RedeemUserCityGemsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RedeemUserCityGemsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RedeemUserCityGemsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RedeemUserCityGemsRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RedeemUserCityGemsRequestProto* result;
+}
+
+- (RedeemUserCityGemsRequestProto*) defaultInstance;
+
+- (RedeemUserCityGemsRequestProto_Builder*) clear;
+- (RedeemUserCityGemsRequestProto_Builder*) clone;
+
+- (RedeemUserCityGemsRequestProto*) build;
+- (RedeemUserCityGemsRequestProto*) buildPartial;
+
+- (RedeemUserCityGemsRequestProto_Builder*) mergeFrom:(RedeemUserCityGemsRequestProto*) other;
+- (RedeemUserCityGemsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RedeemUserCityGemsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RedeemUserCityGemsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RedeemUserCityGemsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RedeemUserCityGemsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RedeemUserCityGemsRequestProto_Builder*) clearSender;
+
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (RedeemUserCityGemsRequestProto_Builder*) setCityId:(int32_t) value;
+- (RedeemUserCityGemsRequestProto_Builder*) clearCityId;
+@end
+
+@interface RedeemUserCityGemsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus status;
+  NSMutableArray* mutableEquipsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus status;
+- (NSArray*) equipsList;
+- (FullUserEquipProto*) equipsAtIndex:(int32_t) index;
+
++ (RedeemUserCityGemsResponseProto*) defaultInstance;
+- (RedeemUserCityGemsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RedeemUserCityGemsResponseProto_Builder*) builder;
++ (RedeemUserCityGemsResponseProto_Builder*) builder;
++ (RedeemUserCityGemsResponseProto_Builder*) builderWithPrototype:(RedeemUserCityGemsResponseProto*) prototype;
+
++ (RedeemUserCityGemsResponseProto*) parseFromData:(NSData*) data;
++ (RedeemUserCityGemsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RedeemUserCityGemsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RedeemUserCityGemsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RedeemUserCityGemsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RedeemUserCityGemsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RedeemUserCityGemsResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RedeemUserCityGemsResponseProto* result;
+}
+
+- (RedeemUserCityGemsResponseProto*) defaultInstance;
+
+- (RedeemUserCityGemsResponseProto_Builder*) clear;
+- (RedeemUserCityGemsResponseProto_Builder*) clone;
+
+- (RedeemUserCityGemsResponseProto*) build;
+- (RedeemUserCityGemsResponseProto*) buildPartial;
+
+- (RedeemUserCityGemsResponseProto_Builder*) mergeFrom:(RedeemUserCityGemsResponseProto*) other;
+- (RedeemUserCityGemsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RedeemUserCityGemsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RedeemUserCityGemsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RedeemUserCityGemsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RedeemUserCityGemsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RedeemUserCityGemsResponseProto_Builder*) clearSender;
+
+- (NSArray*) equipsList;
+- (FullUserEquipProto*) equipsAtIndex:(int32_t) index;
+- (RedeemUserCityGemsResponseProto_Builder*) replaceEquipsAtIndex:(int32_t) index with:(FullUserEquipProto*) value;
+- (RedeemUserCityGemsResponseProto_Builder*) addEquips:(FullUserEquipProto*) value;
+- (RedeemUserCityGemsResponseProto_Builder*) addAllEquips:(NSArray*) values;
+- (RedeemUserCityGemsResponseProto_Builder*) clearEquipsList;
+
+- (BOOL) hasStatus;
+- (RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus) status;
+- (RedeemUserCityGemsResponseProto_Builder*) setStatus:(RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus) value;
+- (RedeemUserCityGemsResponseProto_Builder*) clearStatus;
 @end
 

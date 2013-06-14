@@ -208,7 +208,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   }
   
   if (iv) {
-    UIImageView *imgView = [[UIImageView alloc] initWithFrame:[iv convertRect:self.pickView.chestIcon.frame fromView:self.pickView]];
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:[iv convertRect:self.pickView.chestIcon.frame fromView:self.pickView.mainView]];
     [iv insertSubview:imgView aboveSubview:iv.maskedItemIcon];
     imgView.contentMode = iv.itemIcon.contentMode;
     [Globals imageNamed:item.imageName withView:imgView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -223,6 +223,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
       if (prizeEquip) {
         NSArray *arr = [NSArray arrayWithObjects:itemView1.itemIcon, itemView2.itemIcon, itemView3.itemIcon, itemView4.itemIcon, itemView5.itemIcon, nil];
         [self.prizeView beginPrizeAnimationForImageView:arr prize:prizeEquip];
+        self.prizeView.frame = self.view.bounds;
         [self.view addSubview:self.prizeView];
       }
     }];

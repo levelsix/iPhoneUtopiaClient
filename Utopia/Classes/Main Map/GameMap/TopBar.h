@@ -70,6 +70,7 @@ typedef enum {
   CCMenuItemSprite *_homeButton;
   CCMenuItemSprite *_towerButton;
   CCMenuItemSprite *_mapButton;
+  CCMenuItemSprite *_gemsButton;
   CCMenu *_bottomButtons;
   
   CCSprite *_shieldOnView;

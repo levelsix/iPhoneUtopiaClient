@@ -202,7 +202,7 @@
     if (_toFlyDown) {
       self.chestIcon.hidden = YES;
       
-      UIImageView *imgView = [[UIImageView alloc] initWithFrame:chestIcon.frame];
+      UIImageView *imgView = [[UIImageView alloc] initWithFrame:[self convertRect:chestIcon.frame fromView:self.mainView]];
       [self addSubview:imgView];
       imgView.contentMode = chestIcon.contentMode;
       [Globals imageNamed:_toFlyDown.imageName withView:imgView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -233,6 +233,7 @@
 }
 
 - (void) receivedPickLockResponse:(PickLockBoxResponseProto *)proto {
+  [self.chestIcon.layer removeAllAnimations];
   if (proto.success) {
     [self pickSucceeded:proto.item];
     if (proto.hasItem) _toFlyDown = [proto.item retain];
@@ -307,7 +308,7 @@
 
 @implementation LockBoxPrizeView
 
-@synthesize imgView1, imgView2, imgView3, imgView4, imgView5, whiteCircle, equipIcon;
+@synthesize imgView1, imgView2, imgView3, imgView4, imgView5;
 @synthesize stolenEquipView;
 @synthesize bgdView, mainView;
 
@@ -335,14 +336,10 @@
   
   [[LockBoxMenuController sharedLockBoxMenuController] loadForCurrentEvent];
   
-  whiteCircle.alpha = 0.f;
-  whiteCircle.transform = CGAffineTransformIdentity;
   bgdView.alpha = 0.f;
-  equipIcon.hidden = YES;
   mainView.transform = CGAffineTransformIdentity;
   [UIView animateWithDuration:2.f animations:^{
     bgdView.alpha = 1.f;
-    whiteCircle.alpha = 1.f;
     
     for (int i = 0; i < imgViews.count; i++) {
       UIImageView *newView = [imgViews objectAtIndex:i];
@@ -424,8 +421,6 @@
   self.imgView5 = nil;
   self.bgdView = nil;
   self.mainView = nil;
-  self.whiteCircle = nil;
-  self.equipIcon = nil;
   self.stolenEquipView = nil;
   [oldRects release];
   [super dealloc];

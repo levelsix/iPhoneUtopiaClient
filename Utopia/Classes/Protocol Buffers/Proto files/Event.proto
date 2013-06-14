@@ -191,6 +191,10 @@ message StartupResponseProto {
 	//repeated most recent private chat posts regarding this user
 	repeated PrivateChatPostProto pcpp = 45;
 	
+	repeated CityGemProto gemsForAllCities = 46;
+	
+	repeated FullUserBossProto livingBosses = 47;
+	
 	message DailyBonusInfo {
 		optional int32 numConsecutiveDaysPlayed = 1;
 		optional int32 dayOneCoins = 2;
@@ -727,6 +731,12 @@ message TaskActionResponseProto {
 	optional int32 cityId = 9;
 	
 	optional int32 eventIdOfLockBoxGained = 10;
+	
+	//a gem if dropped
+	optional UserCityGemProto gem = 11;
+	
+	//send this if city ranked up and no active bosses
+	optional FullUserBossProto boss = 12; 
 	
 	enum TaskActionStatus {
 		SUCCESS = 0; 
@@ -1603,6 +1613,7 @@ message LoadNeutralCityResponseProto {
      repeated FullUserQuestDataLargeProto inProgressUserQuestDataInCity = 7;
      
      repeated FullUserBossProto userBosses = 8;
+     repeated UserCityGemProto myGems = 9; //gems for requested city
      
      enum LoadNeutralCityStatus {
      	SUCCESS = 0;
@@ -2371,7 +2382,7 @@ message BossActionRequestProto {
 	optional MinimumUserProto sender = 1;
 	optional int32 bossId = 2;
 	optional int64 curTime = 3;
-	optional bool is_super_attack = 4;
+	optional bool isSuperAttack = 4; //power attack
 }
 
 message BossActionResponseProto {
@@ -2384,12 +2395,17 @@ message BossActionResponseProto {
 	optional int32 bossId = 8;
 	optional int32 expGained = 9;
 	
+	//give possible gem that boss can drop
+	optional UserCityGemProto gemDropped = 10; 
+	
+	
 	enum BossActionStatus {
 		SUCCESS = 0; 
-		USER_NOT_ENOUGH_STAMINA = 1;
-		BOSS_HAS_NOT_SPAWNED = 2;
-		OTHER_FAIL = 3;
-		CLIENT_TOO_APART_FROM_SERVER_TIME = 4;
+		FAIL_USER_NOT_ENOUGH_ENERGY = 1;
+		FAIL_BOSS_IS_DEAD = 2;
+		FAIL_OTHER = 3;
+		FAIL_CLIENT_TOO_APART_FROM_SERVER_TIME = 4;
+		FAIL_ATTACK_WINDOW_EXPIRED = 5;
 	} 
 }
 
@@ -2820,3 +2836,21 @@ message MenteeFinishedQuestResponseProto {
 }
 
 //------------------------------------------------------------------------------------
+
+message RedeemUserCityGemsRequestProto {
+	optional MinimumUserProto sender = 1;
+	optional int32 cityId = 2;
+}
+
+message RedeemUserCityGemsResponseProto {
+	optional MinimumUserProto sender = 1;
+	repeated FullUserEquipProto equips = 2; 	
+	optional RedeemUserCityGemsStatus status = 3;
+	
+	enum RedeemUserCityGemsStatus {
+		SUCCESS = 0;
+		FAIL_INSUFFICIENT_GEMS = 1;
+		FAIL_OTHER = 2;
+	}
+}
+

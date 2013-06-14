@@ -2220,14 +2220,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (!fcp) {
     [Globals popupMessage:@"Attempting to do boss in a locked city"];
-  } else if (gs.currentStamina < fbp.staminaCost) {
-    [Globals popupMessage:@"Attempting to attack boss without enough stamina"];
   } else if (![ub isAlive]) {
     [Globals popupMessage:@"Attempting to attack boss when it is dead."];
   } else {
     uint64_t curTime = [self getCurrentMilliseconds];
-    int tag = [[SocketCommunication sharedSocketCommunication] sendBossActionMessage:ub.bossId isSuperAttack:isSuperAttack curTime:curTime];
-    [gs addUnrespondedUpdate:[StaminaUpdate updateWithTag:tag change:-fbp.staminaCost]];
+//    int tag = [[SocketCommunication sharedSocketCommunication] sendBossActionMessage:ub.bossId isSuperAttack:isSuperAttack curTime:curTime];
+#warning fix
+//    [gs addUnrespondedUpdate:[StaminaUpdate updateWithTag:tag change:-fbp.staminaCost]];
     
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:curTime/1000.];
     if (![ub hasBeenAttacked]) {
@@ -2366,6 +2365,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) redeemLockBoxItems:(int)lockBoxEventId {
   [[SocketCommunication sharedSocketCommunication] sendRedeemUserLockBoxItemsMessage:lockBoxEventId];
+}
+
+- (void) redeemUserCityGems:(int)cityId {
+  [[SocketCommunication sharedSocketCommunication] sendRedeemUserCityGemsMessage:cityId];
 }
 
 @end

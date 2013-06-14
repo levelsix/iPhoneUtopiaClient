@@ -18,6 +18,7 @@
 #import "QuestLogController.h"
 #import "BossEventMenuController.h"
 #import <AudioToolbox/AudioServices.h>
+#import "Drops.h"
 
 #define LAST_BOSS_RESET_STAMINA_TIME_KEY @"Last boss reset stamina time key"
 
@@ -231,28 +232,6 @@
       }
     }
     
-    // Create UserBosses if they don't exist
-    for (CCNode *child in self.children) {
-      if ([child isKindOfClass:[BossSprite class]]) {
-        BossSprite *bs = (BossSprite *)child;
-        if (!bs.ub) {
-          FullBossProto *fbp = bs.fbp;
-          UserBoss *ub = [[UserBoss alloc] init];
-          ub.bossId = fbp.bossId;
-          ub.userId = gs.userId;
-          ub.curHealth = fbp.baseHealth;
-          ub.numTimesKilled = 0;
-          bs.ub = ub;
-          [bs.ub createTimer];
-          [ub release];
-          
-          if (![ub isAlive]) {
-            bs.visible = NO;
-          }
-        }
-      }
-    }
-    
     // Just use jobs for defeat type jobs, tasks are tracked on their own
     _jobs = [[NSMutableArray alloc] init];
     
@@ -312,6 +291,8 @@
     
     _myPlayer.location = CGRectMake(fcp.center.x, fcp.center.y, 1, 1);
     [self moveToSprite:_myPlayer animated:NO];
+    
+    self.userGems = proto.myGemsList.count > 0 ? proto.myGemsList.mutableCopy : [NSMutableArray array];
   }
   return self;
 }
@@ -321,6 +302,87 @@
     [[NSBundle mainBundle] loadNibNamed:@"ResetStaminaView" owner:self options:nil];
   }
   return _resetStaminaView;
+}
+
+- (CityGemsView *) gemsView {
+  if (!_gemsView) {
+    [[NSBundle mainBundle] loadNibNamed:@"CityGemsView" owner:self options:nil];
+  }
+  return _gemsView;
+}
+
+- (BossUnlockedView *) bossUnlockedView {
+  if (!_bossUnlockedView) {
+    [[NSBundle mainBundle] loadNibNamed:@"BossUnlockedView" owner:self options:nil];
+  }
+  return _bossUnlockedView;
+}
+
+- (void) displayGemsView {
+  [self.gemsView displayWithGems:self.userGems andCityId:_cityId];
+}
+
+- (void) addGemDrop:(int)gemId fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt secondsToPickup:(int)secondsToPickup {
+  GemDrop *gd = [[GemDrop alloc] initWithGemId:gemId];
+  [self addChild:gd z:1004];
+  [gd release];
+  gd.position = ccpAdd(sprite.position, ccp(0,sprite.contentSize.height/2));
+  gd.scale = 0.01;
+  gd.opacity = 5;
+  
+  
+  float scale = MIN(50.f/gd.contentSize.width, 50.f/gd.contentSize.height);
+  
+  // Need to fade in, scale to 1, bounce in y dir, move normal in x dir
+  float xPos = CGPointEqualToPoint(pt, CGPointZero) ? ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60 : pt.x-gd.position.x;
+  float yPos = CGPointEqualToPoint(pt, CGPointZero) ? ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10 : pt.y-gd.position.y;
+  
+  // -1 seconds means don't pickup, 0 seconds means default
+  secondsToPickup = secondsToPickup == 0 ? PICK_UP_WAIT_TIME : secondsToPickup;
+  CCDelayTime *dt = secondsToPickup > 0 ? [CCDelayTime actionWithDuration:secondsToPickup] : nil;
+  [gd runAction:[CCSpawn actions:
+                 [CCFadeIn actionWithDuration:0.1],
+                 [CCScaleTo actionWithDuration:0.1 scale:scale],
+                 [CCRotateBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION angle:DROP_ROTATION],
+                 [CCSequence actions:
+                  [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
+                  [CCEaseBounceOut actionWithAction:
+                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-85+yPos)]],
+                  dt,
+                  [CCCallFuncN actionWithTarget:self selector:@selector(pickUpGemDrop:)],
+                  nil],
+                 [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],
+                 nil]];
+}
+
+- (void) pickUpGemDrop:(GemDrop *)ss {
+  [ss stopAllActions];
+  
+  GameState *gs = [GameState sharedGameState];
+  CGPoint world = [ss.parent convertToWorldSpace:ss.position];
+  CityGemProto *gem = [gs gemForId:ss.gemId];
+  UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:gem.gemImageName]];
+  img.contentMode = UIViewContentModeScaleAspectFit;
+  img.center = world;
+  
+  // 0.5 is added to account for position starting in center
+  CGPoint offset = ccpMult(ccp(ss.contentSize.width, ss.contentSize.height), 0.5f*ss.scale);
+  CGPoint worldBL = [ss.parent convertToWorldSpace:ccpSub(ss.position, offset)];
+  CGPoint worldTR = [ss.parent convertToWorldSpace:ccpAdd(ss.position, offset)];
+  CGSize size = CGSizeMake(worldTR.x-worldBL.x, worldTR.y-worldBL.y);
+  img.frame = CGRectMake(worldBL.x, self.gemsView.frame.size.height-worldTR.y, size.width, size.height);
+  
+  [self removeChild:ss cleanup:YES];
+  
+  [self.gemsView animateGem:img withGemId:gem.gemId andGems:self.userGems andCityId:_cityId];
+}
+
+- (void) pickUpDrop:(CCNode *)drop {
+  if ([drop isKindOfClass:[GemDrop class]]) {
+    [self pickUpGemDrop:(GemDrop *)drop];
+  } else {
+    [super pickUpDrop:drop];
+  }
 }
 
 - (void) addEnemiesFromArray:(NSArray *)arr {
@@ -580,6 +642,28 @@
     [self addEquipDrop:tarp.lootUserEquip.equipId fromSprite:_selected toPosition:CGPointZero secondsToPickup:0];
   }
   
+  if (tarp.hasGem) {
+    [self addGemDrop:tarp.gem.gemId fromSprite:_selected toPosition:CGPointZero secondsToPickup:0];
+    
+    UserCityGemProto *toReplace = nil;
+    for (UserCityGemProto *ug in self.userGems) {
+      if (ug.gemId == tarp.gem.gemId) {
+        toReplace = ug;
+      }
+    }
+    
+    if (toReplace) {
+      [self.userGems replaceObjectAtIndex:[self.userGems indexOfObject:toReplace] withObject:tarp.gem];
+    } else {
+      [self.userGems addObject:tarp.gem];
+    }
+  }
+  
+  if (tarp.hasBoss) {
+    GameState *gs = [GameState sharedGameState];
+    [self.bossUnlockedView displayForBoss:[gs bossWithId:tarp.boss.bossId]];
+  }
+  
   _receivedTaskActionResponse = YES;
   
   if (!_taskProgBar.isAnimating) {
@@ -614,13 +698,12 @@
 - (void) performCurrentBossAction {
   if ([_selected isKindOfClass:[BossSprite class]]) {
     BossSprite *bs = (BossSprite *)_selected;
-    FullBossProto *fbp = bs.fbp;
     GameState *gs = [GameState sharedGameState];
     
     // Perform checks
-    if (gs.currentStamina < fbp.staminaCost) {
+    if (gs.currentEnergy < 1) {
       // Not enough energy
-      [[RefillMenuController sharedRefillMenuController] displayEnstView:NO];
+      [[RefillMenuController sharedRefillMenuController] displayEnstView:YES];
       self.selected = nil;
       return;
     }
@@ -773,7 +856,6 @@
   [self stopActionByTag:SHAKE_SCREEN_ACTION_TAG];
   
   if (ub.curHealth == 0) {
-    ub.lastKilledTime = self.potentialBossKillTime;
     [ub createTimer];
     
     [bs runAction:[CCSequence actions:[CCFadeTo actionWithDuration:0.2f opacity:0],
@@ -875,7 +957,7 @@
   BossSprite *bs = [self assetWithId:fbp.assetNumWithinCity];
   
   if (![bs.ub isAlive]) {
-    NSDate *date = [bs.ub nextRespawnTime];
+    NSDate *date = nil;//[bs.ub nextRespawnTime];
     _bossTimeLabel.string = [NSString stringWithFormat:@"Respawn Time: %@", [Globals convertTimeToString:date.timeIntervalSinceNow withDays:YES]];
   } else if (![bs.ub hasBeenAttacked]) {
     _bossTimeLabel.string = [NSString stringWithFormat:@"Tap %@ to begin!", bs.name];
@@ -1107,6 +1189,18 @@
   [arr release];
 }
 
+- (void) receivedRedeemGemsResponse:(RedeemUserCityGemsResponseProto *)proto {
+  if (proto.status == RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusSuccess) {
+    for (int i = 0; i < self.userGems.count; i++) {
+      UserCityGemProto_Builder *b = [UserCityGemProto builderWithPrototype:[self.userGems objectAtIndex:i]];
+      b.quantity--;
+      [self.userGems replaceObjectAtIndex:i withObject:b.build];
+    }
+    
+    [self.gemsView receivedRedeemGemsResponse:proto withUpdatedGems:self.userGems];
+  }
+}
+
 - (void) onEnter {
   [super onEnter];
   
@@ -1116,35 +1210,35 @@
     FullCityProto *fcp = [gs cityWithId:_cityId];
     // Schedule timer if there is a boss
     if (fcp.bossIdsList.count > 0) {
-      _bossTimeLabel = [CCLabelFX labelWithString:@"" fontName:@"Trajan Pro" fontSize:16.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
-      _bossTimeLabel.color = ccc3(236, 230, 195);
-      [self.parent addChild:_bossTimeLabel z:1000];
-      _bossTimeLabel.position = ccp(self.parent.contentSize.width/2, 63.f);
-      
-      CCMenuItem *m = [CCMenuItemImage itemFromNormalImage:@"bossinfo.png" selectedImage:nil target:self selector:@selector(bossInfoClicked)];
-      _infoMenu = [CCMenu menuWithItems:m, nil];
-      [_bossTimeLabel addChild:_infoMenu];
-      [self updateBossLabel];
-      [self schedule:@selector(updateBossLabel) interval:1];
-      
-      _powerAttackBgd = [CCSprite spriteWithFile:@"superattackbg.png"];
-      [self.parent addChild:_powerAttackBgd z:1];
-      _powerAttackBgd.position = ccp(5+_powerAttackBgd.contentSize.width/2, _bossTimeLabel.position.y+3.f);
-      
-      _powerAttackBar = [CCProgressTimer progressWithFile:@"superattackpurple.png"];
-      _powerAttackBar.type = kCCProgressTimerTypeHorizontalBarLR;
-      _powerAttackBar.percentage = 0;
-      [_powerAttackBgd addChild:_powerAttackBar];
-      _powerAttackBar.position = ccp(_powerAttackBgd.contentSize.width/2, _powerAttackBgd.contentSize.height/2);
-      
-      _powerAttackLabel = [CCLabelFX labelWithString:@"0/5" fontName:[Globals font] fontSize:13.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f shadowColor:ccc4(0,0,0,50) fillColor:ccc4(236, 230, 195, 255)];
-      [_powerAttackBgd addChild:_powerAttackLabel];
-      _powerAttackLabel.position = ccpAdd(_powerAttackBar.position, ccp(0,-3));
-      
-      CCLabelFX *superAttackLabel = [CCLabelFX labelWithString:@"Power Attack" fontName:@"Trajan Pro" fontSize:13.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
-      superAttackLabel.color = ccc3(236, 230, 195);
-      [_powerAttackBgd addChild:superAttackLabel z:1000];
-      superAttackLabel.position = ccp(_powerAttackBgd.contentSize.width/2, _powerAttackBgd.contentSize.height/2+superAttackLabel.contentSize.height/2+5);
+//      _bossTimeLabel = [CCLabelFX labelWithString:@"" fontName:@"Trajan Pro" fontSize:16.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+//      _bossTimeLabel.color = ccc3(236, 230, 195);
+//      [self.parent addChild:_bossTimeLabel z:1000];
+//      _bossTimeLabel.position = ccp(self.parent.contentSize.width/2, 63.f);
+//      
+//      CCMenuItem *m = [CCMenuItemImage itemFromNormalImage:@"bossinfo.png" selectedImage:nil target:self selector:@selector(bossInfoClicked)];
+//      _infoMenu = [CCMenu menuWithItems:m, nil];
+//      [_bossTimeLabel addChild:_infoMenu];
+//      [self updateBossLabel];
+//      [self schedule:@selector(updateBossLabel) interval:1];
+//      
+//      _powerAttackBgd = [CCSprite spriteWithFile:@"superattackbg.png"];
+//      [self.parent addChild:_powerAttackBgd z:1];
+//      _powerAttackBgd.position = ccp(5+_powerAttackBgd.contentSize.width/2, _bossTimeLabel.position.y+3.f);
+//      
+//      _powerAttackBar = [CCProgressTimer progressWithFile:@"superattackpurple.png"];
+//      _powerAttackBar.type = kCCProgressTimerTypeHorizontalBarLR;
+//      _powerAttackBar.percentage = 0;
+//      [_powerAttackBgd addChild:_powerAttackBar];
+//      _powerAttackBar.position = ccp(_powerAttackBgd.contentSize.width/2, _powerAttackBgd.contentSize.height/2);
+//      
+//      _powerAttackLabel = [CCLabelFX labelWithString:@"0/5" fontName:[Globals font] fontSize:13.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f shadowColor:ccc4(0,0,0,50) fillColor:ccc4(236, 230, 195, 255)];
+//      [_powerAttackBgd addChild:_powerAttackLabel];
+//      _powerAttackLabel.position = ccpAdd(_powerAttackBar.position, ccp(0,-3));
+//      
+//      CCLabelFX *superAttackLabel = [CCLabelFX labelWithString:@"Power Attack" fontName:@"Trajan Pro" fontSize:13.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+//      superAttackLabel.color = ccc3(236, 230, 195);
+//      [_powerAttackBgd addChild:superAttackLabel z:1000];
+//      superAttackLabel.position = ccp(_powerAttackBgd.contentSize.width/2, _powerAttackBgd.contentSize.height/2+superAttackLabel.contentSize.height/2+5);
       
       // So we can increment it
       [self resetPowerAttack];
@@ -1156,7 +1250,7 @@
       if (!date || [nextShowDate compare:curDate] == NSOrderedAscending) {
         int percent = [gl percentOfSkillPointsInStamina];
         if (percent < 75) {
-          [self.resetStaminaView display];
+//          [self.resetStaminaView display];
           [defaults setObject:curDate forKey:LAST_BOSS_RESET_STAMINA_TIME_KEY];
         }
       }
@@ -1185,6 +1279,10 @@
   self.summaryMenu = nil;
   [obMenu removeFromSuperview];
   self.obMenu = nil;
+  [self.bossUnlockedView removeFromSuperview];
+  self.bossUnlockedView = nil;
+  [self.gemsView removeFromSuperview];
+  self.gemsView = nil;
   self.potentialBossKillTime = nil;
   self.resetStaminaView = nil;
   [super dealloc];

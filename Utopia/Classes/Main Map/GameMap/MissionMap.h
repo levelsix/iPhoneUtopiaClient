@@ -10,7 +10,8 @@
 #import "Protocols.pb.h"
 #import "CCLabelFX.h"
 #import "MissionBuildingMenus.h"
-#import "ResetStaminaView.h"
+#import "MissionMapViews.h"
+#import "BossViews.h"
 
 #define ASSET_TAG_BASE 2555
 
@@ -49,8 +50,12 @@
 @property (nonatomic, retain) IBOutlet MissionBuildingSummaryMenu *summaryMenu;
 @property (nonatomic, retain) IBOutlet MissionOverBuildingMenu *obMenu;
 @property (nonatomic, retain) IBOutlet ResetStaminaView *resetStaminaView;
+@property (nonatomic, retain) IBOutlet CityGemsView *gemsView;
+@property (nonatomic, retain) IBOutlet BossUnlockedView *bossUnlockedView;
 
 @property (nonatomic, retain) NSDate *potentialBossKillTime;
+
+@property (nonatomic, retain) NSMutableArray *userGems;
 
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto;
 - (id) assetWithId:(int)assetId;
@@ -59,7 +64,9 @@
 - (void) receivedTaskResponse:(TaskActionResponseProto *)tarp;
 - (void) receivedBossResponse:(BossActionResponseProto *)barp;
 - (void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk;
+- (void) receivedRedeemGemsResponse:(RedeemUserCityGemsResponseProto *)proto;
 
+- (void) displayGemsView;
 
 - (void) killEnemy:(int)userId;
 

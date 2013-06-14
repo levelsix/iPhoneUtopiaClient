@@ -227,16 +227,14 @@ typedef enum {
 @property (nonatomic, assign) int bossId;
 @property (nonatomic, assign) int userId;
 @property (nonatomic, assign) int curHealth;
-@property (nonatomic, assign) int numTimesKilled;
+@property (nonatomic, assign) int currentLevel;
 @property (nonatomic, retain) NSDate *startTime;
-@property (nonatomic, retain) NSDate *lastKilledTime;
 @property (nonatomic, retain) NSTimer *timer;
 @property (nonatomic, assign) id<UserBossDelegate> delegate;
 
 + (id) userBossWithFullUserBossProto:(FullUserBossProto *)ub;
 - (BOOL) isAlive;
 - (BOOL) hasBeenAttacked;
-- (NSDate *) nextRespawnTime;
 - (NSDate *) timeUpDate;
 - (void) createTimer;
 

@@ -13,14 +13,10 @@
 
 #define RECT_LEEWAY 10
 
-@implementation SilverStack
+@implementation Drop
 
-@synthesize amount;
-
-- (id) initWithAmount:(int)amt {
-  if ((self = [super initWithFile:@"coinstack.png"])) {
-    amount = amt;
-    
+- (id) initWithFile:(NSString *)file {
+  if ((self = [super initWithFile:file])) {
     [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
     // Set isTouchEnabled to YES so that gesture recognizers will ignore
     self.isTouchEnabled = YES;
@@ -30,7 +26,16 @@
 
 - (BOOL) isPointInArea:(CGPoint)pt {
   CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width, self.contentSize.height), -RECT_LEEWAY, -RECT_LEEWAY);
+  
+  if ([self isKindOfClass:[GemDrop class]]) {
+    NSLog(@"%@, %@", NSStringFromCGRect(rect), NSStringFromCGPoint(pt));
+  }
+  
   pt = [self convertToNodeSpace:pt];
+  
+  if ([self isKindOfClass:[GemDrop class]]) {
+    NSLog(@"%@", NSStringFromCGPoint(pt));
+  }
   
   if (CGRectContainsPoint(rect, pt)) {
     return YES;
@@ -49,10 +54,24 @@
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
   CCNode *n = self.parent;
   if ([n isKindOfClass:[GameMap class]]) {
-    GameMap *map = (GameMap *)n;
-    [map pickUpSilverDrop:self];
-    _clicked = YES;
+    GameMap *map = (GameMap *)self.parent;
+    [map pickUpDrop:self];
+#warning change back
+//    _clicked = YES;
   }
+}
+
+@end
+
+@implementation SilverStack
+
+@synthesize amount;
+
+- (id) initWithAmount:(int)amt {
+  if ((self = [super initWithFile:@"coinstack.png"])) {
+    amount = amt;
+  }
+  return self;
 }
 
 @end
@@ -65,39 +84,8 @@
   NSString *file = amt == 1 ? @"pickupgold.png" : @"smallgoldstack.png";
   if ((self = [super initWithFile:file])) {
     amount = amt;
-    
-    [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
-    // Set isTouchEnabled to YES so that gesture recognizers will ignore
-    self.isTouchEnabled = YES;
   }
   return self;
-}
-
-- (BOOL) isPointInArea:(CGPoint)pt {
-  CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width, self.contentSize.height), -RECT_LEEWAY, -RECT_LEEWAY);
-  pt = [self convertToNodeSpace:pt];
-  
-  if (CGRectContainsPoint(rect, pt)) {
-    return YES;
-  }
-  return NO;
-}
-
-- (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-  if (!_clicked) {
-    CGPoint pt = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
-    return [self isPointInArea:pt];
-  }
-  return NO;
-}
-
-- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
-  CCNode *n = self.parent;
-  if ([n isKindOfClass:[GameMap class]]) {
-    GameMap *map = (GameMap *)self.parent;
-    [map pickUpGoldDrop:self];
-    _clicked = YES;
-  }
 }
 
 @end
@@ -109,46 +97,13 @@
 - (id) initWithEquipId:(int)eq {
   if ((self = [super initWithFile:[Globals imageNameForEquip:eq]])) {
     equipId = eq;
-    
-    [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
-    // Set isTouchEnabled to YES so that gesture recognizers will ignore
-    self.isTouchEnabled = YES;
   }
   return self;
-}
-
-- (BOOL) isPointInArea:(CGPoint)pt {
-  CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width, self.contentSize.height), -RECT_LEEWAY, -RECT_LEEWAY);
-  pt = [self convertToNodeSpace:pt];
-  
-  if (CGRectContainsPoint(rect, pt)) {
-    return YES;
-  }
-  return NO;
-}
-
-- (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-  if (!_clicked) {
-    CGPoint pt = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
-    return [self isPointInArea:pt];
-  }
-  return NO;
-}
-
-- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
-  CCNode *n = self.parent;
-  if ([n isKindOfClass:[GameMap class]]) {
-    GameMap *map = (GameMap *)self.parent;
-    [map pickUpEquipDrop:self];
-    _clicked = YES;
-  }
 }
 
 @end
 
 @implementation LockBoxDrop
-
-@synthesize eventId;
 
 - (id) initWithEventId:(int)e {
   GameState *gs = [GameState sharedGameState];
@@ -157,41 +112,27 @@
     [self release];
     return nil;
   }
-  if ((self = [super initWithFile:ev.lockBoxImageName])) {
-    eventId = e;
-    
-    [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
-    // Set isTouchEnabled to YES so that gesture recognizers will ignore
-    self.isTouchEnabled = YES;
-  }
-  return self;
-}
-
-- (BOOL) isPointInArea:(CGPoint)pt {
-  CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width*self.scale, self.contentSize.height*self.scale), -RECT_LEEWAY, -RECT_LEEWAY);
-  pt = [self convertToNodeSpace:pt];
   
-  if (CGRectContainsPoint(rect, pt)) {
-    return YES;
-  }
-  return NO;
+  return [super initWithFile:ev.lockBoxImageName];
 }
 
-- (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-  if (!_clicked) {
-    CGPoint pt = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
-    return [self isPointInArea:pt];
-  }
-  return NO;
-}
+@end
 
-- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
-  CCNode *n = self.parent;
-  if ([n isKindOfClass:[GameMap class]]) {
-    GameMap *map = (GameMap *)self.parent;
-    [map pickUpLockBoxDrop:self];
-    _clicked = YES;
+@implementation GemDrop
+
+- (id) initWithGemId:(int)gemId {
+  GameState *gs = [GameState sharedGameState];
+  CityGemProto *g = [gs gemForId:gemId];
+  if (!g) {
+    [self release];
+    return nil;
   }
+  
+  if ((self = [super initWithFile:g.gemImageName])) {
+    self.gemId = gemId;
+  }
+  
+  return self;
 }
 
 @end

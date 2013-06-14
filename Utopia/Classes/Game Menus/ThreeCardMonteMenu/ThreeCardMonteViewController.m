@@ -15,6 +15,7 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 #import "Downloader.h"
+#import "GenericPopupController.h"
 
 #define FLIP_DURATION 0.5f
 #define SHUFFLE_DURATION 2.f
@@ -243,6 +244,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
   _numPlays = 0;
   self.pattern = nil;
   
+  _showConfirmation = YES;
+  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateGoldLabel) name:IAP_SUCCESS_NOTIFICATION object:nil];
 }
 
@@ -297,6 +300,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
 }
 
 - (void) beginShuffling {
+  if (_showConfirmation) {
+    Globals *gl = [Globals sharedGlobals];
+    NSString *s = [NSString stringWithFormat:@"Would you like to play 3 Card Monte for %d gold?", gl.diamondCostToPlayThreeCardMonte];
+    [GenericPopupController displayConfirmationWithDescription:s title:@"Play 3 Card Monte?" okayButton:@"Play" cancelButton:@"Cancel" target:self selector:@selector(shuffleConfirmed)];
+  } else {
+    [self shuffleConfirmed];
+  }
+}
+
+- (void) shuffleConfirmed {
+  
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
@@ -318,6 +332,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
     
     _numPlays++;
     self.pattern = _pattern ? [_pattern stringByAppendingFormat:@", %d", cardId] : [NSString stringWithFormat:@"%d", cardId];
+    
+    _showConfirmation = NO;
+    _shouldRestart = YES;
   }
 }
 
@@ -454,7 +471,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
 - (IBAction)bottomButtonClicked:(id)sender {
   if (!_shouldRestart) {
     [self beginShuffling];
-    _shouldRestart = YES;
   } else {
     [self flipCardsUp:YES];
     [UIView animateWithDuration:FLIP_DURATION animations:^{

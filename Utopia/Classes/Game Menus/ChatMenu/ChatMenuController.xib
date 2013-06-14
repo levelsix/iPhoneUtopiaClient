@@ -1879,50 +1879,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ChatMenuController</string>
 					<string key="superclassName">UIViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="addChatsClicked:">id</string>
-						<string key="backClicked:">id</string>
-						<string key="chatClicked:">id</string>
-						<string key="chatRulesClicked:">id</string>
-						<string key="closeClicked:">id</string>
-						<string key="nameLabelClicked:">UIView</string>
-						<string key="profileClicked:">id</string>
-						<string key="sendClicked:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="addChatsClicked:">
-							<string key="name">addChatsClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="backClicked:">
-							<string key="name">backClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="chatClicked:">
-							<string key="name">chatClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="chatRulesClicked:">
-							<string key="name">chatRulesClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="closeClicked:">
-							<string key="name">closeClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="nameLabelClicked:">
-							<string key="name">nameLabelClicked:</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBActionInfo" key="profileClicked:">
-							<string key="name">profileClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="sendClicked:">
-							<string key="name">sendClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="backView">UIView</string>
 						<string key="bgdView">UIView</string>

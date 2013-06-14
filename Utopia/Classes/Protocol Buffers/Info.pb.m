@@ -195,6 +195,637 @@ BOOL ExpansionDirectionIsValidValue(ExpansionDirection value) {
       return NO;
   }
 }
+@interface UserCityGemProto ()
+@property int32_t userId;
+@property int32_t cityId;
+@property int32_t gemId;
+@property int32_t quantity;
+@end
+
+@implementation UserCityGemProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasCityId {
+  return !!hasCityId_;
+}
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
+}
+@synthesize cityId;
+- (BOOL) hasGemId {
+  return !!hasGemId_;
+}
+- (void) setHasGemId:(BOOL) value {
+  hasGemId_ = !!value;
+}
+@synthesize gemId;
+- (BOOL) hasQuantity {
+  return !!hasQuantity_;
+}
+- (void) setHasQuantity:(BOOL) value {
+  hasQuantity_ = !!value;
+}
+@synthesize quantity;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.cityId = 0;
+    self.gemId = 0;
+    self.quantity = 0;
+  }
+  return self;
+}
+static UserCityGemProto* defaultUserCityGemProtoInstance = nil;
++ (void) initialize {
+  if (self == [UserCityGemProto class]) {
+    defaultUserCityGemProtoInstance = [[UserCityGemProto alloc] init];
+  }
+}
++ (UserCityGemProto*) defaultInstance {
+  return defaultUserCityGemProtoInstance;
+}
+- (UserCityGemProto*) defaultInstance {
+  return defaultUserCityGemProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasCityId) {
+    [output writeInt32:2 value:self.cityId];
+  }
+  if (self.hasGemId) {
+    [output writeInt32:3 value:self.gemId];
+  }
+  if (self.hasQuantity) {
+    [output writeInt32:4 value:self.quantity];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasCityId) {
+    size += computeInt32Size(2, self.cityId);
+  }
+  if (self.hasGemId) {
+    size += computeInt32Size(3, self.gemId);
+  }
+  if (self.hasQuantity) {
+    size += computeInt32Size(4, self.quantity);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UserCityGemProto*) parseFromData:(NSData*) data {
+  return (UserCityGemProto*)[[[UserCityGemProto builder] mergeFromData:data] build];
+}
++ (UserCityGemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserCityGemProto*)[[[UserCityGemProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UserCityGemProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserCityGemProto*)[[[UserCityGemProto builder] mergeFromInputStream:input] build];
+}
++ (UserCityGemProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserCityGemProto*)[[[UserCityGemProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserCityGemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserCityGemProto*)[[[UserCityGemProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UserCityGemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserCityGemProto*)[[[UserCityGemProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserCityGemProto_Builder*) builder {
+  return [[[UserCityGemProto_Builder alloc] init] autorelease];
+}
++ (UserCityGemProto_Builder*) builderWithPrototype:(UserCityGemProto*) prototype {
+  return [[UserCityGemProto builder] mergeFrom:prototype];
+}
+- (UserCityGemProto_Builder*) builder {
+  return [UserCityGemProto builder];
+}
+@end
+
+@interface UserCityGemProto_Builder()
+@property (retain) UserCityGemProto* result;
+@end
+
+@implementation UserCityGemProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UserCityGemProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UserCityGemProto_Builder*) clear {
+  self.result = [[[UserCityGemProto alloc] init] autorelease];
+  return self;
+}
+- (UserCityGemProto_Builder*) clone {
+  return [UserCityGemProto builderWithPrototype:result];
+}
+- (UserCityGemProto*) defaultInstance {
+  return [UserCityGemProto defaultInstance];
+}
+- (UserCityGemProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UserCityGemProto*) buildPartial {
+  UserCityGemProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UserCityGemProto_Builder*) mergeFrom:(UserCityGemProto*) other {
+  if (other == [UserCityGemProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
+  }
+  if (other.hasGemId) {
+    [self setGemId:other.gemId];
+  }
+  if (other.hasQuantity) {
+    [self setQuantity:other.quantity];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UserCityGemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UserCityGemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setCityId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setGemId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setQuantity:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (UserCityGemProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (UserCityGemProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasCityId {
+  return result.hasCityId;
+}
+- (int32_t) cityId {
+  return result.cityId;
+}
+- (UserCityGemProto_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
+  return self;
+}
+- (UserCityGemProto_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
+  return self;
+}
+- (BOOL) hasGemId {
+  return result.hasGemId;
+}
+- (int32_t) gemId {
+  return result.gemId;
+}
+- (UserCityGemProto_Builder*) setGemId:(int32_t) value {
+  result.hasGemId = YES;
+  result.gemId = value;
+  return self;
+}
+- (UserCityGemProto_Builder*) clearGemId {
+  result.hasGemId = NO;
+  result.gemId = 0;
+  return self;
+}
+- (BOOL) hasQuantity {
+  return result.hasQuantity;
+}
+- (int32_t) quantity {
+  return result.quantity;
+}
+- (UserCityGemProto_Builder*) setQuantity:(int32_t) value {
+  result.hasQuantity = YES;
+  result.quantity = value;
+  return self;
+}
+- (UserCityGemProto_Builder*) clearQuantity {
+  result.hasQuantity = NO;
+  result.quantity = 0;
+  return self;
+}
+@end
+
+@interface CityGemProto ()
+@property int32_t gemId;
+@property Float32 dropRate;
+@property BOOL isActive;
+@property (retain) NSString* gemImageName;
+@property BOOL droppedOnlyFromBosses;
+@end
+
+@implementation CityGemProto
+
+- (BOOL) hasGemId {
+  return !!hasGemId_;
+}
+- (void) setHasGemId:(BOOL) value {
+  hasGemId_ = !!value;
+}
+@synthesize gemId;
+- (BOOL) hasDropRate {
+  return !!hasDropRate_;
+}
+- (void) setHasDropRate:(BOOL) value {
+  hasDropRate_ = !!value;
+}
+@synthesize dropRate;
+- (BOOL) hasIsActive {
+  return !!hasIsActive_;
+}
+- (void) setHasIsActive:(BOOL) value {
+  hasIsActive_ = !!value;
+}
+- (BOOL) isActive {
+  return !!isActive_;
+}
+- (void) setIsActive:(BOOL) value {
+  isActive_ = !!value;
+}
+- (BOOL) hasGemImageName {
+  return !!hasGemImageName_;
+}
+- (void) setHasGemImageName:(BOOL) value {
+  hasGemImageName_ = !!value;
+}
+@synthesize gemImageName;
+- (BOOL) hasDroppedOnlyFromBosses {
+  return !!hasDroppedOnlyFromBosses_;
+}
+- (void) setHasDroppedOnlyFromBosses:(BOOL) value {
+  hasDroppedOnlyFromBosses_ = !!value;
+}
+- (BOOL) droppedOnlyFromBosses {
+  return !!droppedOnlyFromBosses_;
+}
+- (void) setDroppedOnlyFromBosses:(BOOL) value {
+  droppedOnlyFromBosses_ = !!value;
+}
+- (void) dealloc {
+  self.gemImageName = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.gemId = 0;
+    self.dropRate = 0;
+    self.isActive = NO;
+    self.gemImageName = @"";
+    self.droppedOnlyFromBosses = NO;
+  }
+  return self;
+}
+static CityGemProto* defaultCityGemProtoInstance = nil;
++ (void) initialize {
+  if (self == [CityGemProto class]) {
+    defaultCityGemProtoInstance = [[CityGemProto alloc] init];
+  }
+}
++ (CityGemProto*) defaultInstance {
+  return defaultCityGemProtoInstance;
+}
+- (CityGemProto*) defaultInstance {
+  return defaultCityGemProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasGemId) {
+    [output writeInt32:1 value:self.gemId];
+  }
+  if (self.hasDropRate) {
+    [output writeFloat:2 value:self.dropRate];
+  }
+  if (self.hasIsActive) {
+    [output writeBool:3 value:self.isActive];
+  }
+  if (self.hasGemImageName) {
+    [output writeString:4 value:self.gemImageName];
+  }
+  if (self.hasDroppedOnlyFromBosses) {
+    [output writeBool:5 value:self.droppedOnlyFromBosses];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasGemId) {
+    size += computeInt32Size(1, self.gemId);
+  }
+  if (self.hasDropRate) {
+    size += computeFloatSize(2, self.dropRate);
+  }
+  if (self.hasIsActive) {
+    size += computeBoolSize(3, self.isActive);
+  }
+  if (self.hasGemImageName) {
+    size += computeStringSize(4, self.gemImageName);
+  }
+  if (self.hasDroppedOnlyFromBosses) {
+    size += computeBoolSize(5, self.droppedOnlyFromBosses);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (CityGemProto*) parseFromData:(NSData*) data {
+  return (CityGemProto*)[[[CityGemProto builder] mergeFromData:data] build];
+}
++ (CityGemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CityGemProto*)[[[CityGemProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CityGemProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CityGemProto*)[[[CityGemProto builder] mergeFromInputStream:input] build];
+}
++ (CityGemProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CityGemProto*)[[[CityGemProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CityGemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CityGemProto*)[[[CityGemProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CityGemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CityGemProto*)[[[CityGemProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CityGemProto_Builder*) builder {
+  return [[[CityGemProto_Builder alloc] init] autorelease];
+}
++ (CityGemProto_Builder*) builderWithPrototype:(CityGemProto*) prototype {
+  return [[CityGemProto builder] mergeFrom:prototype];
+}
+- (CityGemProto_Builder*) builder {
+  return [CityGemProto builder];
+}
+@end
+
+@interface CityGemProto_Builder()
+@property (retain) CityGemProto* result;
+@end
+
+@implementation CityGemProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[CityGemProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CityGemProto_Builder*) clear {
+  self.result = [[[CityGemProto alloc] init] autorelease];
+  return self;
+}
+- (CityGemProto_Builder*) clone {
+  return [CityGemProto builderWithPrototype:result];
+}
+- (CityGemProto*) defaultInstance {
+  return [CityGemProto defaultInstance];
+}
+- (CityGemProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CityGemProto*) buildPartial {
+  CityGemProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (CityGemProto_Builder*) mergeFrom:(CityGemProto*) other {
+  if (other == [CityGemProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasGemId) {
+    [self setGemId:other.gemId];
+  }
+  if (other.hasDropRate) {
+    [self setDropRate:other.dropRate];
+  }
+  if (other.hasIsActive) {
+    [self setIsActive:other.isActive];
+  }
+  if (other.hasGemImageName) {
+    [self setGemImageName:other.gemImageName];
+  }
+  if (other.hasDroppedOnlyFromBosses) {
+    [self setDroppedOnlyFromBosses:other.droppedOnlyFromBosses];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CityGemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CityGemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setGemId:[input readInt32]];
+        break;
+      }
+      case 21: {
+        [self setDropRate:[input readFloat]];
+        break;
+      }
+      case 24: {
+        [self setIsActive:[input readBool]];
+        break;
+      }
+      case 34: {
+        [self setGemImageName:[input readString]];
+        break;
+      }
+      case 40: {
+        [self setDroppedOnlyFromBosses:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasGemId {
+  return result.hasGemId;
+}
+- (int32_t) gemId {
+  return result.gemId;
+}
+- (CityGemProto_Builder*) setGemId:(int32_t) value {
+  result.hasGemId = YES;
+  result.gemId = value;
+  return self;
+}
+- (CityGemProto_Builder*) clearGemId {
+  result.hasGemId = NO;
+  result.gemId = 0;
+  return self;
+}
+- (BOOL) hasDropRate {
+  return result.hasDropRate;
+}
+- (Float32) dropRate {
+  return result.dropRate;
+}
+- (CityGemProto_Builder*) setDropRate:(Float32) value {
+  result.hasDropRate = YES;
+  result.dropRate = value;
+  return self;
+}
+- (CityGemProto_Builder*) clearDropRate {
+  result.hasDropRate = NO;
+  result.dropRate = 0;
+  return self;
+}
+- (BOOL) hasIsActive {
+  return result.hasIsActive;
+}
+- (BOOL) isActive {
+  return result.isActive;
+}
+- (CityGemProto_Builder*) setIsActive:(BOOL) value {
+  result.hasIsActive = YES;
+  result.isActive = value;
+  return self;
+}
+- (CityGemProto_Builder*) clearIsActive {
+  result.hasIsActive = NO;
+  result.isActive = NO;
+  return self;
+}
+- (BOOL) hasGemImageName {
+  return result.hasGemImageName;
+}
+- (NSString*) gemImageName {
+  return result.gemImageName;
+}
+- (CityGemProto_Builder*) setGemImageName:(NSString*) value {
+  result.hasGemImageName = YES;
+  result.gemImageName = value;
+  return self;
+}
+- (CityGemProto_Builder*) clearGemImageName {
+  result.hasGemImageName = NO;
+  result.gemImageName = @"";
+  return self;
+}
+- (BOOL) hasDroppedOnlyFromBosses {
+  return result.hasDroppedOnlyFromBosses;
+}
+- (BOOL) droppedOnlyFromBosses {
+  return result.droppedOnlyFromBosses;
+}
+- (CityGemProto_Builder*) setDroppedOnlyFromBosses:(BOOL) value {
+  result.hasDroppedOnlyFromBosses = YES;
+  result.droppedOnlyFromBosses = value;
+  return self;
+}
+- (CityGemProto_Builder*) clearDroppedOnlyFromBosses {
+  result.hasDroppedOnlyFromBosses = NO;
+  result.droppedOnlyFromBosses = NO;
+  return self;
+}
+@end
+
 @interface MentorshipProto ()
 @property int32_t id;
 @property int32_t mentorId;
@@ -9835,12 +10466,12 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
 @property int32_t minDamage;
 @property int32_t maxDamage;
 @property int32_t minutesToKill;
-@property int32_t minutesToRespawn;
-@property int32_t minExp;
-@property int32_t maxExp;
+@property int32_t baseExp;
 @property int32_t cityId;
 @property int32_t assetNumWithinCity;
-@property int32_t staminaCost;
+@property int32_t regularAttackEnergyCost;
+@property Float32 superAttackDamageMultiplier;
+@property int32_t superAttackEnergyCost;
 @end
 
 @implementation FullBossProto
@@ -9880,27 +10511,13 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
   hasMinutesToKill_ = !!value;
 }
 @synthesize minutesToKill;
-- (BOOL) hasMinutesToRespawn {
-  return !!hasMinutesToRespawn_;
+- (BOOL) hasBaseExp {
+  return !!hasBaseExp_;
 }
-- (void) setHasMinutesToRespawn:(BOOL) value {
-  hasMinutesToRespawn_ = !!value;
+- (void) setHasBaseExp:(BOOL) value {
+  hasBaseExp_ = !!value;
 }
-@synthesize minutesToRespawn;
-- (BOOL) hasMinExp {
-  return !!hasMinExp_;
-}
-- (void) setHasMinExp:(BOOL) value {
-  hasMinExp_ = !!value;
-}
-@synthesize minExp;
-- (BOOL) hasMaxExp {
-  return !!hasMaxExp_;
-}
-- (void) setHasMaxExp:(BOOL) value {
-  hasMaxExp_ = !!value;
-}
-@synthesize maxExp;
+@synthesize baseExp;
 - (BOOL) hasCityId {
   return !!hasCityId_;
 }
@@ -9915,13 +10532,27 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
   hasAssetNumWithinCity_ = !!value;
 }
 @synthesize assetNumWithinCity;
-- (BOOL) hasStaminaCost {
-  return !!hasStaminaCost_;
+- (BOOL) hasRegularAttackEnergyCost {
+  return !!hasRegularAttackEnergyCost_;
 }
-- (void) setHasStaminaCost:(BOOL) value {
-  hasStaminaCost_ = !!value;
+- (void) setHasRegularAttackEnergyCost:(BOOL) value {
+  hasRegularAttackEnergyCost_ = !!value;
 }
-@synthesize staminaCost;
+@synthesize regularAttackEnergyCost;
+- (BOOL) hasSuperAttackDamageMultiplier {
+  return !!hasSuperAttackDamageMultiplier_;
+}
+- (void) setHasSuperAttackDamageMultiplier:(BOOL) value {
+  hasSuperAttackDamageMultiplier_ = !!value;
+}
+@synthesize superAttackDamageMultiplier;
+- (BOOL) hasSuperAttackEnergyCost {
+  return !!hasSuperAttackEnergyCost_;
+}
+- (void) setHasSuperAttackEnergyCost:(BOOL) value {
+  hasSuperAttackEnergyCost_ = !!value;
+}
+@synthesize superAttackEnergyCost;
 - (void) dealloc {
   [super dealloc];
 }
@@ -9932,12 +10563,12 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
     self.minDamage = 0;
     self.maxDamage = 0;
     self.minutesToKill = 0;
-    self.minutesToRespawn = 0;
-    self.minExp = 0;
-    self.maxExp = 0;
+    self.baseExp = 0;
     self.cityId = 0;
     self.assetNumWithinCity = 0;
-    self.staminaCost = 0;
+    self.regularAttackEnergyCost = 0;
+    self.superAttackDamageMultiplier = 0;
+    self.superAttackEnergyCost = 0;
   }
   return self;
 }
@@ -9972,23 +10603,23 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   if (self.hasMinutesToKill) {
     [output writeInt32:5 value:self.minutesToKill];
   }
-  if (self.hasMinutesToRespawn) {
-    [output writeInt32:6 value:self.minutesToRespawn];
-  }
-  if (self.hasMinExp) {
-    [output writeInt32:7 value:self.minExp];
+  if (self.hasBaseExp) {
+    [output writeInt32:6 value:self.baseExp];
   }
   if (self.hasCityId) {
-    [output writeInt32:8 value:self.cityId];
+    [output writeInt32:7 value:self.cityId];
   }
   if (self.hasAssetNumWithinCity) {
-    [output writeInt32:9 value:self.assetNumWithinCity];
+    [output writeInt32:8 value:self.assetNumWithinCity];
   }
-  if (self.hasStaminaCost) {
-    [output writeInt32:12 value:self.staminaCost];
+  if (self.hasRegularAttackEnergyCost) {
+    [output writeInt32:9 value:self.regularAttackEnergyCost];
   }
-  if (self.hasMaxExp) {
-    [output writeInt32:13 value:self.maxExp];
+  if (self.hasSuperAttackDamageMultiplier) {
+    [output writeFloat:10 value:self.superAttackDamageMultiplier];
+  }
+  if (self.hasSuperAttackEnergyCost) {
+    [output writeInt32:11 value:self.superAttackEnergyCost];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -10014,23 +10645,23 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   if (self.hasMinutesToKill) {
     size += computeInt32Size(5, self.minutesToKill);
   }
-  if (self.hasMinutesToRespawn) {
-    size += computeInt32Size(6, self.minutesToRespawn);
-  }
-  if (self.hasMinExp) {
-    size += computeInt32Size(7, self.minExp);
+  if (self.hasBaseExp) {
+    size += computeInt32Size(6, self.baseExp);
   }
   if (self.hasCityId) {
-    size += computeInt32Size(8, self.cityId);
+    size += computeInt32Size(7, self.cityId);
   }
   if (self.hasAssetNumWithinCity) {
-    size += computeInt32Size(9, self.assetNumWithinCity);
+    size += computeInt32Size(8, self.assetNumWithinCity);
   }
-  if (self.hasStaminaCost) {
-    size += computeInt32Size(12, self.staminaCost);
+  if (self.hasRegularAttackEnergyCost) {
+    size += computeInt32Size(9, self.regularAttackEnergyCost);
   }
-  if (self.hasMaxExp) {
-    size += computeInt32Size(13, self.maxExp);
+  if (self.hasSuperAttackDamageMultiplier) {
+    size += computeFloatSize(10, self.superAttackDamageMultiplier);
+  }
+  if (self.hasSuperAttackEnergyCost) {
+    size += computeInt32Size(11, self.superAttackEnergyCost);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -10122,14 +10753,8 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   if (other.hasMinutesToKill) {
     [self setMinutesToKill:other.minutesToKill];
   }
-  if (other.hasMinutesToRespawn) {
-    [self setMinutesToRespawn:other.minutesToRespawn];
-  }
-  if (other.hasMinExp) {
-    [self setMinExp:other.minExp];
-  }
-  if (other.hasMaxExp) {
-    [self setMaxExp:other.maxExp];
+  if (other.hasBaseExp) {
+    [self setBaseExp:other.baseExp];
   }
   if (other.hasCityId) {
     [self setCityId:other.cityId];
@@ -10137,8 +10762,14 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   if (other.hasAssetNumWithinCity) {
     [self setAssetNumWithinCity:other.assetNumWithinCity];
   }
-  if (other.hasStaminaCost) {
-    [self setStaminaCost:other.staminaCost];
+  if (other.hasRegularAttackEnergyCost) {
+    [self setRegularAttackEnergyCost:other.regularAttackEnergyCost];
+  }
+  if (other.hasSuperAttackDamageMultiplier) {
+    [self setSuperAttackDamageMultiplier:other.superAttackDamageMultiplier];
+  }
+  if (other.hasSuperAttackEnergyCost) {
+    [self setSuperAttackEnergyCost:other.superAttackEnergyCost];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -10182,27 +10813,27 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
         break;
       }
       case 48: {
-        [self setMinutesToRespawn:[input readInt32]];
+        [self setBaseExp:[input readInt32]];
         break;
       }
       case 56: {
-        [self setMinExp:[input readInt32]];
-        break;
-      }
-      case 64: {
         [self setCityId:[input readInt32]];
         break;
       }
-      case 72: {
+      case 64: {
         [self setAssetNumWithinCity:[input readInt32]];
         break;
       }
-      case 96: {
-        [self setStaminaCost:[input readInt32]];
+      case 72: {
+        [self setRegularAttackEnergyCost:[input readInt32]];
         break;
       }
-      case 104: {
-        [self setMaxExp:[input readInt32]];
+      case 85: {
+        [self setSuperAttackDamageMultiplier:[input readFloat]];
+        break;
+      }
+      case 88: {
+        [self setSuperAttackEnergyCost:[input readInt32]];
         break;
       }
     }
@@ -10288,52 +10919,20 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   result.minutesToKill = 0;
   return self;
 }
-- (BOOL) hasMinutesToRespawn {
-  return result.hasMinutesToRespawn;
+- (BOOL) hasBaseExp {
+  return result.hasBaseExp;
 }
-- (int32_t) minutesToRespawn {
-  return result.minutesToRespawn;
+- (int32_t) baseExp {
+  return result.baseExp;
 }
-- (FullBossProto_Builder*) setMinutesToRespawn:(int32_t) value {
-  result.hasMinutesToRespawn = YES;
-  result.minutesToRespawn = value;
+- (FullBossProto_Builder*) setBaseExp:(int32_t) value {
+  result.hasBaseExp = YES;
+  result.baseExp = value;
   return self;
 }
-- (FullBossProto_Builder*) clearMinutesToRespawn {
-  result.hasMinutesToRespawn = NO;
-  result.minutesToRespawn = 0;
-  return self;
-}
-- (BOOL) hasMinExp {
-  return result.hasMinExp;
-}
-- (int32_t) minExp {
-  return result.minExp;
-}
-- (FullBossProto_Builder*) setMinExp:(int32_t) value {
-  result.hasMinExp = YES;
-  result.minExp = value;
-  return self;
-}
-- (FullBossProto_Builder*) clearMinExp {
-  result.hasMinExp = NO;
-  result.minExp = 0;
-  return self;
-}
-- (BOOL) hasMaxExp {
-  return result.hasMaxExp;
-}
-- (int32_t) maxExp {
-  return result.maxExp;
-}
-- (FullBossProto_Builder*) setMaxExp:(int32_t) value {
-  result.hasMaxExp = YES;
-  result.maxExp = value;
-  return self;
-}
-- (FullBossProto_Builder*) clearMaxExp {
-  result.hasMaxExp = NO;
-  result.maxExp = 0;
+- (FullBossProto_Builder*) clearBaseExp {
+  result.hasBaseExp = NO;
+  result.baseExp = 0;
   return self;
 }
 - (BOOL) hasCityId {
@@ -10368,20 +10967,52 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   result.assetNumWithinCity = 0;
   return self;
 }
-- (BOOL) hasStaminaCost {
-  return result.hasStaminaCost;
+- (BOOL) hasRegularAttackEnergyCost {
+  return result.hasRegularAttackEnergyCost;
 }
-- (int32_t) staminaCost {
-  return result.staminaCost;
+- (int32_t) regularAttackEnergyCost {
+  return result.regularAttackEnergyCost;
 }
-- (FullBossProto_Builder*) setStaminaCost:(int32_t) value {
-  result.hasStaminaCost = YES;
-  result.staminaCost = value;
+- (FullBossProto_Builder*) setRegularAttackEnergyCost:(int32_t) value {
+  result.hasRegularAttackEnergyCost = YES;
+  result.regularAttackEnergyCost = value;
   return self;
 }
-- (FullBossProto_Builder*) clearStaminaCost {
-  result.hasStaminaCost = NO;
-  result.staminaCost = 0;
+- (FullBossProto_Builder*) clearRegularAttackEnergyCost {
+  result.hasRegularAttackEnergyCost = NO;
+  result.regularAttackEnergyCost = 0;
+  return self;
+}
+- (BOOL) hasSuperAttackDamageMultiplier {
+  return result.hasSuperAttackDamageMultiplier;
+}
+- (Float32) superAttackDamageMultiplier {
+  return result.superAttackDamageMultiplier;
+}
+- (FullBossProto_Builder*) setSuperAttackDamageMultiplier:(Float32) value {
+  result.hasSuperAttackDamageMultiplier = YES;
+  result.superAttackDamageMultiplier = value;
+  return self;
+}
+- (FullBossProto_Builder*) clearSuperAttackDamageMultiplier {
+  result.hasSuperAttackDamageMultiplier = NO;
+  result.superAttackDamageMultiplier = 0;
+  return self;
+}
+- (BOOL) hasSuperAttackEnergyCost {
+  return result.hasSuperAttackEnergyCost;
+}
+- (int32_t) superAttackEnergyCost {
+  return result.superAttackEnergyCost;
+}
+- (FullBossProto_Builder*) setSuperAttackEnergyCost:(int32_t) value {
+  result.hasSuperAttackEnergyCost = YES;
+  result.superAttackEnergyCost = value;
+  return self;
+}
+- (FullBossProto_Builder*) clearSuperAttackEnergyCost {
+  result.hasSuperAttackEnergyCost = NO;
+  result.superAttackEnergyCost = 0;
   return self;
 }
 @end
@@ -10390,9 +11021,8 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
 @property int32_t bossId;
 @property int32_t userId;
 @property int32_t curHealth;
-@property int32_t numTimesKilled;
+@property int32_t currentLevel;
 @property int64_t startTime;
-@property int64_t lastKilledTime;
 @end
 
 @implementation FullUserBossProto
@@ -10418,13 +11048,13 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   hasCurHealth_ = !!value;
 }
 @synthesize curHealth;
-- (BOOL) hasNumTimesKilled {
-  return !!hasNumTimesKilled_;
+- (BOOL) hasCurrentLevel {
+  return !!hasCurrentLevel_;
 }
-- (void) setHasNumTimesKilled:(BOOL) value {
-  hasNumTimesKilled_ = !!value;
+- (void) setHasCurrentLevel:(BOOL) value {
+  hasCurrentLevel_ = !!value;
 }
-@synthesize numTimesKilled;
+@synthesize currentLevel;
 - (BOOL) hasStartTime {
   return !!hasStartTime_;
 }
@@ -10432,13 +11062,6 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   hasStartTime_ = !!value;
 }
 @synthesize startTime;
-- (BOOL) hasLastKilledTime {
-  return !!hasLastKilledTime_;
-}
-- (void) setHasLastKilledTime:(BOOL) value {
-  hasLastKilledTime_ = !!value;
-}
-@synthesize lastKilledTime;
 - (void) dealloc {
   [super dealloc];
 }
@@ -10447,9 +11070,8 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
     self.bossId = 0;
     self.userId = 0;
     self.curHealth = 0;
-    self.numTimesKilled = 0;
+    self.currentLevel = 0;
     self.startTime = 0L;
-    self.lastKilledTime = 0L;
   }
   return self;
 }
@@ -10478,14 +11100,11 @@ static FullUserBossProto* defaultFullUserBossProtoInstance = nil;
   if (self.hasCurHealth) {
     [output writeInt32:3 value:self.curHealth];
   }
-  if (self.hasNumTimesKilled) {
-    [output writeInt32:4 value:self.numTimesKilled];
+  if (self.hasCurrentLevel) {
+    [output writeInt32:4 value:self.currentLevel];
   }
   if (self.hasStartTime) {
     [output writeInt64:5 value:self.startTime];
-  }
-  if (self.hasLastKilledTime) {
-    [output writeInt64:6 value:self.lastKilledTime];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -10505,14 +11124,11 @@ static FullUserBossProto* defaultFullUserBossProtoInstance = nil;
   if (self.hasCurHealth) {
     size += computeInt32Size(3, self.curHealth);
   }
-  if (self.hasNumTimesKilled) {
-    size += computeInt32Size(4, self.numTimesKilled);
+  if (self.hasCurrentLevel) {
+    size += computeInt32Size(4, self.currentLevel);
   }
   if (self.hasStartTime) {
     size += computeInt64Size(5, self.startTime);
-  }
-  if (self.hasLastKilledTime) {
-    size += computeInt64Size(6, self.lastKilledTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -10598,14 +11214,11 @@ static FullUserBossProto* defaultFullUserBossProtoInstance = nil;
   if (other.hasCurHealth) {
     [self setCurHealth:other.curHealth];
   }
-  if (other.hasNumTimesKilled) {
-    [self setNumTimesKilled:other.numTimesKilled];
+  if (other.hasCurrentLevel) {
+    [self setCurrentLevel:other.currentLevel];
   }
   if (other.hasStartTime) {
     [self setStartTime:other.startTime];
-  }
-  if (other.hasLastKilledTime) {
-    [self setLastKilledTime:other.lastKilledTime];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -10641,15 +11254,11 @@ static FullUserBossProto* defaultFullUserBossProtoInstance = nil;
         break;
       }
       case 32: {
-        [self setNumTimesKilled:[input readInt32]];
+        [self setCurrentLevel:[input readInt32]];
         break;
       }
       case 40: {
         [self setStartTime:[input readInt64]];
-        break;
-      }
-      case 48: {
-        [self setLastKilledTime:[input readInt64]];
         break;
       }
     }
@@ -10703,20 +11312,20 @@ static FullUserBossProto* defaultFullUserBossProtoInstance = nil;
   result.curHealth = 0;
   return self;
 }
-- (BOOL) hasNumTimesKilled {
-  return result.hasNumTimesKilled;
+- (BOOL) hasCurrentLevel {
+  return result.hasCurrentLevel;
 }
-- (int32_t) numTimesKilled {
-  return result.numTimesKilled;
+- (int32_t) currentLevel {
+  return result.currentLevel;
 }
-- (FullUserBossProto_Builder*) setNumTimesKilled:(int32_t) value {
-  result.hasNumTimesKilled = YES;
-  result.numTimesKilled = value;
+- (FullUserBossProto_Builder*) setCurrentLevel:(int32_t) value {
+  result.hasCurrentLevel = YES;
+  result.currentLevel = value;
   return self;
 }
-- (FullUserBossProto_Builder*) clearNumTimesKilled {
-  result.hasNumTimesKilled = NO;
-  result.numTimesKilled = 0;
+- (FullUserBossProto_Builder*) clearCurrentLevel {
+  result.hasCurrentLevel = NO;
+  result.currentLevel = 0;
   return self;
 }
 - (BOOL) hasStartTime {
@@ -10733,22 +11342,6 @@ static FullUserBossProto* defaultFullUserBossProtoInstance = nil;
 - (FullUserBossProto_Builder*) clearStartTime {
   result.hasStartTime = NO;
   result.startTime = 0L;
-  return self;
-}
-- (BOOL) hasLastKilledTime {
-  return result.hasLastKilledTime;
-}
-- (int64_t) lastKilledTime {
-  return result.lastKilledTime;
-}
-- (FullUserBossProto_Builder*) setLastKilledTime:(int64_t) value {
-  result.hasLastKilledTime = YES;
-  result.lastKilledTime = value;
-  return self;
-}
-- (FullUserBossProto_Builder*) clearLastKilledTime {
-  result.hasLastKilledTime = NO;
-  result.lastKilledTime = 0L;
   return self;
 }
 @end

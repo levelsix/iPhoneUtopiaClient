@@ -749,9 +749,8 @@
     self.bossId = ub.bossId;
     self.userId = ub.userId;
     self.curHealth = ub.curHealth;
-    self.numTimesKilled = ub.numTimesKilled;
+    self.currentLevel = ub.currentLevel;
     self.startTime = ub.hasStartTime ? [NSDate dateWithTimeIntervalSince1970:ub.startTime/1000.] : nil;
-    self.lastKilledTime = ub.hasLastKilledTime ? [NSDate dateWithTimeIntervalSince1970:ub.lastKilledTime/1000.] : nil;
     
     if ([self isAlive] && ![self hasBeenAttacked]) {
       GameState *gs = [GameState sharedGameState];
@@ -766,14 +765,6 @@
   return [[[self alloc] initWithFullUserBossProto:ub] autorelease];
 }
 
-- (NSDate *) nextRespawnTime {
-  GameState *gs = [GameState sharedGameState];
-  FullBossProto *fbp = [gs bossWithId:_bossId];
-  BOOL validLastKilledTime = self.lastKilledTime.timeIntervalSince1970 > self.startTime.timeIntervalSince1970;
-  NSDate *baseDate = validLastKilledTime ? self.lastKilledTime : [self.startTime dateByAddingTimeInterval:fbp.minutesToKill*60];
-  return [baseDate dateByAddingTimeInterval:fbp.minutesToRespawn*60];
-}
-
 - (NSDate *) timeUpDate {
   GameState *gs = [GameState sharedGameState];
   FullBossProto *fbp = [gs bossWithId:_bossId];
@@ -781,29 +772,30 @@
 }
 
 - (BOOL) isAlive {
-  if (!self.startTime) {
-    return YES;
-  }
-  
-  BOOL validLastKilledTime = self.lastKilledTime.timeIntervalSince1970 > self.startTime.timeIntervalSince1970;
-  NSDate *endDate = validLastKilledTime ? self.lastKilledTime : [self timeUpDate];
-  NSDate *nextRespawnTime = [self nextRespawnTime];
-  NSDate *now = [NSDate date];
-  
-  return now.timeIntervalSince1970 < endDate.timeIntervalSince1970 || now.timeIntervalSince1970 > nextRespawnTime.timeIntervalSince1970;
+//  if (!self.startTime) {
+//    return NO;
+//  }
+//  
+//  BOOL validLastKilledTime = self.lastKilledTime.timeIntervalSince1970 > self.startTime.timeIntervalSince1970;
+//  NSDate *endDate = validLastKilledTime ? self.lastKilledTime : [self timeUpDate];
+//  NSDate *now = [NSDate date];
+//  
+//  return now.timeIntervalSince1970 < endDate.timeIntervalSince1970;
+  return NO;
 }
 
 - (BOOL) hasBeenAttacked {
-  if (!self.startTime) {
-    return NO;
-  }
-  
-  BOOL validLastKilledTime = self.lastKilledTime.timeIntervalSince1970 > self.startTime.timeIntervalSince1970;
-  NSDate *lastEndDate = validLastKilledTime ? self.lastKilledTime : [self timeUpDate];
-  NSDate *nextRespawnTime = [self nextRespawnTime];
-  NSDate *now = [NSDate date];
-  
-  return !(now.timeIntervalSince1970 > lastEndDate.timeIntervalSince1970 && now.timeIntervalSince1970 > nextRespawnTime.timeIntervalSince1970);
+//  if (!self.startTime) {
+//    return NO;
+//  }
+//  
+//  BOOL validLastKilledTime = self.lastKilledTime.timeIntervalSince1970 > self.startTime.timeIntervalSince1970;
+//  NSDate *lastEndDate = validLastKilledTime ? self.lastKilledTime : [self timeUpDate];
+//  NSDate *nextRespawnTime = [self nextRespawnTime];
+//  NSDate *now = [NSDate date];
+//  
+//  return !(now.timeIntervalSince1970 > lastEndDate.timeIntervalSince1970 && now.timeIntervalSince1970 > nextRespawnTime.timeIntervalSince1970);
+  return NO;
 }
 
 - (void) createTimer {
@@ -819,9 +811,9 @@
     }
   } else {
     // Boss is dead
-    NSDate *respawnDate = [self nextRespawnTime];
-    self.timer = [NSTimer timerWithTimeInterval:respawnDate.timeIntervalSinceNow target:self selector:@selector(respawn) userInfo:nil repeats:NO];
-    LNLog(@"Firing up boss respawn timer with time interval %f", respawnDate.timeIntervalSinceNow);
+//    NSDate *respawnDate = [self nextRespawnTime];
+//    self.timer = [NSTimer timerWithTimeInterval:respawnDate.timeIntervalSinceNow target:self selector:@selector(respawn) userInfo:nil repeats:NO];
+//    LNLog(@"Firing up boss respawn timer with time interval %f", respawnDate.timeIntervalSinceNow);
   }
   
   if (self.timer) {
