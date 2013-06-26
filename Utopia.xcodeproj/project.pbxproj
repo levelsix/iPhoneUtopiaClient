@@ -3564,6 +3564,8 @@
 		CFE0DAE517798F7400A3CEF7 /* Stables.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE0DAE217798F7400A3CEF7 /* Stables.png */; };
 		CFE0DAE617798F7400A3CEF7 /* Stables@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE0DAE317798F7400A3CEF7 /* Stables@2x.png */; };
 		CFE0DAE717798F7400A3CEF7 /* Stables@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE0DAE317798F7400A3CEF7 /* Stables@2x.png */; };
+		CFE0DAEE177AE26E00A3CEF7 /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265421538ACC400E0C1AD /* GameState.m */; };
+		CFE0DAEF177AE26F00A3CEF7 /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265421538ACC400E0C1AD /* GameState.m */; };
 		CFE110F716081C6300DF22EB /* clansearch.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE110F516081C6200DF22EB /* clansearch.png */; };
 		CFE110F816081C6300DF22EB /* clansearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE110F616081C6200DF22EB /* clansearch@2x.png */; };
 		CFE110FA16081DA500DF22EB /* BrowseSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE110F916081DA400DF22EB /* BrowseSearchCell.xib */; };
@@ -13633,6 +13635,7 @@
 				CF3B0224174CAE6C00A3A4F2 /* TutorialForgeMenuController.m in Sources */,
 				CF8A3EAF176AC6BA00BDF639 /* BossViews.m in Sources */,
 				CFEFDCF217716C7E0026E85F /* BossEventMenuController.m in Sources */,
+				CFE0DAEE177AE26E00A3CEF7 /* GameState.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13893,6 +13896,7 @@
 				CFD44C8D175C206F006E2198 /* TutorialBazaarMap.m in Sources */,
 				CF8A3EB0176AC6BA00BDF639 /* BossViews.m in Sources */,
 				CFEFDCF317716C7E0026E85F /* BossEventMenuController.m in Sources */,
+				CFE0DAEF177AE26F00A3CEF7 /* GameState.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
