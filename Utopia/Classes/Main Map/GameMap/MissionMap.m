@@ -684,19 +684,13 @@
       }
     }
     
-    BOOL showTut = NO;
-    
     if (toReplace) {
       [self.userGems replaceObjectAtIndex:[self.userGems indexOfObject:toReplace] withObject:tarp.gem];
     } else {
-      if (_cityId == 1 && self.userGems.count == 0) {
-        showTut = YES;
-      }
-      
       [self.userGems addObject:tarp.gem];
     }
     
-    if (showTut) {
+    if (tarp.isFirstGem) {
       [self addGemDrop:tarp.gem.gemId fromSprite:_selected toPosition:CGPointZero secondsToPickup:-1];
       [self.tutView beginGemTutorial];
     } else {
@@ -1039,7 +1033,12 @@
   
   if (barp.hasGemDropped) {
     CCCallBlock *c = [CCCallBlock actionWithBlock:^{
-      [self addGemDrop:barp.gemDropped.gemId fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:secondsToPickup];
+      if (barp.isFirstGem) {
+        [self addGemDrop:barp.gemDropped.gemId fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:-1];
+        [self.tutView beginGemTutorial];
+      } else {
+        [self addGemDrop:barp.gemDropped.gemId fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:secondsToPickup];
+      }
     }];
     [actions addObject:c];
     [actions addObject:[CCDelayTime actionWithDuration:0.1f]];

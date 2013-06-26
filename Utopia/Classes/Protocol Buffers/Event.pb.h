@@ -7141,6 +7141,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 @private
   BOOL hasTaskCompleted_:1;
   BOOL hasCityRankedUp_:1;
+  BOOL hasIsFirstGem_:1;
   BOOL hasCoinsGained_:1;
   BOOL hasCoinBonusIfCityRankup_:1;
   BOOL hasExpBonusIfCityRankup_:1;
@@ -7153,6 +7154,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   BOOL hasStatus_:1;
   BOOL taskCompleted_:1;
   BOOL cityRankedUp_:1;
+  BOOL isFirstGem_:1;
   int32_t coinsGained;
   int32_t coinBonusIfCityRankup;
   int32_t expBonusIfCityRankup;
@@ -7176,6 +7178,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 - (BOOL) hasEventIdOfLockBoxGained;
 - (BOOL) hasGem;
 - (BOOL) hasBoss;
+- (BOOL) hasIsFirstGem;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) TaskActionResponseProto_TaskActionStatus status;
 - (BOOL) taskCompleted;
@@ -7188,6 +7191,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 @property (readonly) int32_t eventIdOfLockBoxGained;
 @property (readonly, retain) UserCityGemProto* gem;
 @property (readonly, retain) FullUserBossProto* boss;
+- (BOOL) isFirstGem;
 
 + (TaskActionResponseProto*) defaultInstance;
 - (TaskActionResponseProto*) defaultInstance;
@@ -7290,6 +7294,11 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 - (TaskActionResponseProto_Builder*) setBossBuilder:(FullUserBossProto_Builder*) builderForValue;
 - (TaskActionResponseProto_Builder*) mergeBoss:(FullUserBossProto*) value;
 - (TaskActionResponseProto_Builder*) clearBoss;
+
+- (BOOL) hasIsFirstGem;
+- (BOOL) isFirstGem;
+- (TaskActionResponseProto_Builder*) setIsFirstGem:(BOOL) value;
+- (TaskActionResponseProto_Builder*) clearIsFirstGem;
 @end
 
 @interface PurchaseNormStructureRequestProto : PBGeneratedMessage {
@@ -17271,6 +17280,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 @private
   BOOL hasIsSuperAttack_:1;
   BOOL hasIsCriticalAttack_:1;
+  BOOL hasIsFirstGem_:1;
   BOOL hasDamageDone_:1;
   BOOL hasBossId_:1;
   BOOL hasExpGained_:1;
@@ -17279,6 +17289,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   BOOL hasStatus_:1;
   BOOL isSuperAttack_:1;
   BOOL isCriticalAttack_:1;
+  BOOL isFirstGem_:1;
   int32_t damageDone;
   int32_t bossId;
   int32_t expGained;
@@ -17297,6 +17308,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 - (BOOL) hasGemDropped;
 - (BOOL) hasIsSuperAttack;
 - (BOOL) hasIsCriticalAttack;
+- (BOOL) hasIsFirstGem;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) BossActionResponseProto_BossActionStatus status;
 @property (readonly) int32_t damageDone;
@@ -17305,6 +17317,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 @property (readonly, retain) UserCityGemProto* gemDropped;
 - (BOOL) isSuperAttack;
 - (BOOL) isCriticalAttack;
+- (BOOL) isFirstGem;
 - (NSArray*) lootUserEquipList;
 - (FullUserEquipProto*) lootUserEquipAtIndex:(int32_t) index;
 - (NSArray*) coinsGainedList;
@@ -17410,6 +17423,11 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 - (BOOL) isCriticalAttack;
 - (BossActionResponseProto_Builder*) setIsCriticalAttack:(BOOL) value;
 - (BossActionResponseProto_Builder*) clearIsCriticalAttack;
+
+- (BOOL) hasIsFirstGem;
+- (BOOL) isFirstGem;
+- (BossActionResponseProto_Builder*) setIsFirstGem:(BOOL) value;
+- (BossActionResponseProto_Builder*) clearIsFirstGem;
 @end
 
 @interface BeginClanTowerWarRequestProto : PBGeneratedMessage {

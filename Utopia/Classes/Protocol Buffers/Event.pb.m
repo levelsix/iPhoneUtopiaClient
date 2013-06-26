@@ -24322,6 +24322,7 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
 @property int32_t eventIdOfLockBoxGained;
 @property (retain) UserCityGemProto* gem;
 @property (retain) FullUserBossProto* boss;
+@property BOOL isFirstGem;
 @end
 
 @implementation TaskActionResponseProto
@@ -24420,6 +24421,18 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
   hasBoss_ = !!value;
 }
 @synthesize boss;
+- (BOOL) hasIsFirstGem {
+  return !!hasIsFirstGem_;
+}
+- (void) setHasIsFirstGem:(BOOL) value {
+  hasIsFirstGem_ = !!value;
+}
+- (BOOL) isFirstGem {
+  return !!isFirstGem_;
+}
+- (void) setIsFirstGem:(BOOL) value {
+  isFirstGem_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.lootUserEquip = nil;
@@ -24441,6 +24454,7 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
     self.eventIdOfLockBoxGained = 0;
     self.gem = [UserCityGemProto defaultInstance];
     self.boss = [FullUserBossProto defaultInstance];
+    self.isFirstGem = NO;
   }
   return self;
 }
@@ -24496,6 +24510,9 @@ static TaskActionResponseProto* defaultTaskActionResponseProtoInstance = nil;
   if (self.hasBoss) {
     [output writeMessage:12 value:self.boss];
   }
+  if (self.hasIsFirstGem) {
+    [output writeBool:13 value:self.isFirstGem];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -24540,6 +24557,9 @@ static TaskActionResponseProto* defaultTaskActionResponseProtoInstance = nil;
   }
   if (self.hasBoss) {
     size += computeMessageSize(12, self.boss);
+  }
+  if (self.hasIsFirstGem) {
+    size += computeBoolSize(13, self.isFirstGem);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -24664,6 +24684,9 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
   if (other.hasBoss) {
     [self mergeBoss:other.boss];
   }
+  if (other.hasIsFirstGem) {
+    [self setIsFirstGem:other.isFirstGem];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -24756,6 +24779,10 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setBoss:[subBuilder buildPartial]];
+        break;
+      }
+      case 104: {
+        [self setIsFirstGem:[input readBool]];
         break;
       }
     }
@@ -25007,6 +25034,22 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
 - (TaskActionResponseProto_Builder*) clearBoss {
   result.hasBoss = NO;
   result.boss = [FullUserBossProto defaultInstance];
+  return self;
+}
+- (BOOL) hasIsFirstGem {
+  return result.hasIsFirstGem;
+}
+- (BOOL) isFirstGem {
+  return result.isFirstGem;
+}
+- (TaskActionResponseProto_Builder*) setIsFirstGem:(BOOL) value {
+  result.hasIsFirstGem = YES;
+  result.isFirstGem = value;
+  return self;
+}
+- (TaskActionResponseProto_Builder*) clearIsFirstGem {
+  result.hasIsFirstGem = NO;
+  result.isFirstGem = NO;
   return self;
 }
 @end
@@ -67896,6 +67939,7 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
 @property (retain) UserCityGemProto* gemDropped;
 @property BOOL isSuperAttack;
 @property BOOL isCriticalAttack;
+@property BOOL isFirstGem;
 @end
 
 @implementation BossActionResponseProto
@@ -67969,6 +68013,18 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
 - (void) setIsCriticalAttack:(BOOL) value {
   isCriticalAttack_ = !!value;
 }
+- (BOOL) hasIsFirstGem {
+  return !!hasIsFirstGem_;
+}
+- (void) setHasIsFirstGem:(BOOL) value {
+  hasIsFirstGem_ = !!value;
+}
+- (BOOL) isFirstGem {
+  return !!isFirstGem_;
+}
+- (void) setIsFirstGem:(BOOL) value {
+  isFirstGem_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.mutableLootUserEquipList = nil;
@@ -67987,6 +68043,7 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
     self.gemDropped = [UserCityGemProto defaultInstance];
     self.isSuperAttack = NO;
     self.isCriticalAttack = NO;
+    self.isFirstGem = NO;
   }
   return self;
 }
@@ -68060,6 +68117,9 @@ static BossActionResponseProto* defaultBossActionResponseProtoInstance = nil;
   if (self.hasIsCriticalAttack) {
     [output writeBool:12 value:self.isCriticalAttack];
   }
+  if (self.hasIsFirstGem) {
+    [output writeBool:13 value:self.isFirstGem];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -68111,6 +68171,9 @@ static BossActionResponseProto* defaultBossActionResponseProtoInstance = nil;
   }
   if (self.hasIsCriticalAttack) {
     size += computeBoolSize(12, self.isCriticalAttack);
+  }
+  if (self.hasIsFirstGem) {
+    size += computeBoolSize(13, self.isFirstGem);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -68242,6 +68305,9 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   if (other.hasIsCriticalAttack) {
     [self setIsCriticalAttack:other.isCriticalAttack];
   }
+  if (other.hasIsFirstGem) {
+    [self setIsFirstGem:other.isFirstGem];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -68322,6 +68388,10 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
       }
       case 96: {
         [self setIsCriticalAttack:[input readBool]];
+        break;
+      }
+      case 104: {
+        [self setIsFirstGem:[input readBool]];
         break;
       }
     }
@@ -68572,6 +68642,22 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (BossActionResponseProto_Builder*) clearIsCriticalAttack {
   result.hasIsCriticalAttack = NO;
   result.isCriticalAttack = NO;
+  return self;
+}
+- (BOOL) hasIsFirstGem {
+  return result.hasIsFirstGem;
+}
+- (BOOL) isFirstGem {
+  return result.isFirstGem;
+}
+- (BossActionResponseProto_Builder*) setIsFirstGem:(BOOL) value {
+  result.hasIsFirstGem = YES;
+  result.isFirstGem = value;
+  return self;
+}
+- (BossActionResponseProto_Builder*) clearIsFirstGem {
+  result.hasIsFirstGem = NO;
+  result.isFirstGem = NO;
   return self;
 }
 @end

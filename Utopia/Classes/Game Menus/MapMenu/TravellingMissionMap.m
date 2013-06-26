@@ -81,7 +81,9 @@
 
 - (void) updateForBossId:(int)bossId {
   if (!self.bossButton) {
-    UIImage *img = [Globals imageNamed:@"bossbutton.png"];
+    Globals *gl = [Globals sharedGlobals];
+    NSString *base = gl.downloadableNibConstants.mapNibName;
+    UIImage *img = [Globals imageNamed:[base stringByAppendingString:@"/bossbutton.png"]];
     self.bossButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.bossButton setImage:img forState:UIControlStateNormal];
     
