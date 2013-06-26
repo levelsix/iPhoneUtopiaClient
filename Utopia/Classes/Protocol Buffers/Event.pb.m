@@ -81059,6 +81059,7 @@ static RedeemUserCityGemsRequestProto* defaultRedeemUserCityGemsRequestProtoInst
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableEquipsList;
 @property RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus status;
+@property (retain) UserBoosterPackProto* userBoosterPack;
 @end
 
 @implementation RedeemUserCityGemsResponseProto
@@ -81078,15 +81079,24 @@ static RedeemUserCityGemsRequestProto* defaultRedeemUserCityGemsRequestProtoInst
   hasStatus_ = !!value;
 }
 @synthesize status;
+- (BOOL) hasUserBoosterPack {
+  return !!hasUserBoosterPack_;
+}
+- (void) setHasUserBoosterPack:(BOOL) value {
+  hasUserBoosterPack_ = !!value;
+}
+@synthesize userBoosterPack;
 - (void) dealloc {
   self.sender = nil;
   self.mutableEquipsList = nil;
+  self.userBoosterPack = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusSuccess;
+    self.userBoosterPack = [UserBoosterPackProto defaultInstance];
   }
   return self;
 }
@@ -81122,6 +81132,9 @@ static RedeemUserCityGemsResponseProto* defaultRedeemUserCityGemsResponseProtoIn
   if (self.hasStatus) {
     [output writeEnum:3 value:self.status];
   }
+  if (self.hasUserBoosterPack) {
+    [output writeMessage:4 value:self.userBoosterPack];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -81139,6 +81152,9 @@ static RedeemUserCityGemsResponseProto* defaultRedeemUserCityGemsResponseProtoIn
   }
   if (self.hasStatus) {
     size += computeEnumSize(3, self.status);
+  }
+  if (self.hasUserBoosterPack) {
+    size += computeMessageSize(4, self.userBoosterPack);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -81237,6 +81253,9 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.hasUserBoosterPack) {
+    [self mergeUserBoosterPack:other.userBoosterPack];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -81280,6 +81299,15 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
         } else {
           [unknownFields mergeVarintField:3 value:value];
         }
+        break;
+      }
+      case 34: {
+        UserBoosterPackProto_Builder* subBuilder = [UserBoosterPackProto builder];
+        if (self.hasUserBoosterPack) {
+          [subBuilder mergeFrom:self.userBoosterPack];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUserBoosterPack:[subBuilder buildPartial]];
         break;
       }
     }
@@ -81358,6 +81386,36 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 - (RedeemUserCityGemsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusSuccess;
+  return self;
+}
+- (BOOL) hasUserBoosterPack {
+  return result.hasUserBoosterPack;
+}
+- (UserBoosterPackProto*) userBoosterPack {
+  return result.userBoosterPack;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) setUserBoosterPack:(UserBoosterPackProto*) value {
+  result.hasUserBoosterPack = YES;
+  result.userBoosterPack = value;
+  return self;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) setUserBoosterPackBuilder:(UserBoosterPackProto_Builder*) builderForValue {
+  return [self setUserBoosterPack:[builderForValue build]];
+}
+- (RedeemUserCityGemsResponseProto_Builder*) mergeUserBoosterPack:(UserBoosterPackProto*) value {
+  if (result.hasUserBoosterPack &&
+      result.userBoosterPack != [UserBoosterPackProto defaultInstance]) {
+    result.userBoosterPack =
+      [[[UserBoosterPackProto builderWithPrototype:result.userBoosterPack] mergeFrom:value] buildPartial];
+  } else {
+    result.userBoosterPack = value;
+  }
+  result.hasUserBoosterPack = YES;
+  return self;
+}
+- (RedeemUserCityGemsResponseProto_Builder*) clearUserBoosterPack {
+  result.hasUserBoosterPack = NO;
+  result.userBoosterPack = [UserBoosterPackProto defaultInstance];
   return self;
 }
 @end

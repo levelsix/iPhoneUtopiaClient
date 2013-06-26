@@ -1307,7 +1307,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     
     timeInterval = [[e timeUpDate] timeIntervalSinceNow];
     if (timeInterval > 0) {
-      timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateBossEventButton) userInfo:nil repeats:NO];
+      timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateBossButton) userInfo:nil repeats:NO];
       [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
       [_bossTimers addObject:timer];
     }

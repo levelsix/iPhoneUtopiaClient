@@ -20357,15 +20357,19 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 @interface RedeemUserCityGemsResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasUserBoosterPack_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  UserBoosterPackProto* userBoosterPack;
   RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus status;
   NSMutableArray* mutableEquipsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasUserBoosterPack;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus status;
+@property (readonly, retain) UserBoosterPackProto* userBoosterPack;
 - (NSArray*) equipsList;
 - (FullUserEquipProto*) equipsAtIndex:(int32_t) index;
 
@@ -20421,5 +20425,12 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 - (RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus) status;
 - (RedeemUserCityGemsResponseProto_Builder*) setStatus:(RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatus) value;
 - (RedeemUserCityGemsResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasUserBoosterPack;
+- (UserBoosterPackProto*) userBoosterPack;
+- (RedeemUserCityGemsResponseProto_Builder*) setUserBoosterPack:(UserBoosterPackProto*) value;
+- (RedeemUserCityGemsResponseProto_Builder*) setUserBoosterPackBuilder:(UserBoosterPackProto_Builder*) builderForValue;
+- (RedeemUserCityGemsResponseProto_Builder*) mergeUserBoosterPack:(UserBoosterPackProto*) value;
+- (RedeemUserCityGemsResponseProto_Builder*) clearUserBoosterPack;
 @end
 

@@ -835,6 +835,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   GameLayer *gLay = [GameLayer sharedGameLayer];
   
+  [[gLay missionMap] receivedTaskResponse:proto];
+  
   if (proto.status == TaskActionResponseProto_TaskActionStatusSuccess) {
     gs.silver +=  proto.coinsGained;
     
@@ -879,8 +881,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
-  
-  [[gLay missionMap] receivedTaskResponse:proto];
 }
 
 - (void) handleUpdateClientUserResponseProto:(FullEvent *)fe {
@@ -2882,6 +2882,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusSuccess) {
     [gs addToMyEquips:proto.equipsList];
+    [gs.myBoosterPacks setObject:proto.userBoosterPack forKey:[NSNumber numberWithInt:proto.userBoosterPack.boosterPackId]];
   } else {
     [Globals popupMessage:@"Server failed to redeem user city gems."];
   }

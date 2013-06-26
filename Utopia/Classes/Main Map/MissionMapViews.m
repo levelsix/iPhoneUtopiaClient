@@ -339,7 +339,7 @@
   self.rankupLines = [NSArray arrayWithObjects:
                       @"Congratulations! You've ranked up your city.",
                       @"As a reward, I'll let you in on an inside secret, but don't tell anyone!",
-                      @"Each time you rank it up, each building will yield more reward.",
+                      @"Each time you rank it up, you will receive more reward.",
                       nil];
   
   self.bossLines = [NSArray arrayWithObjects:
