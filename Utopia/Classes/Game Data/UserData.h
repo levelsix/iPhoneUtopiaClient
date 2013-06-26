@@ -234,8 +234,8 @@ typedef enum {
 
 + (id) userBossWithFullUserBossProto:(FullUserBossProto *)ub;
 - (BOOL) isAlive;
-- (BOOL) hasBeenAttacked;
 - (NSDate *) timeUpDate;
+- (NSString *) timeTillEndString;
 - (void) createTimer;
 
 @end

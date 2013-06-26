@@ -10462,16 +10462,22 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
 
 @interface FullBossProto ()
 @property int32_t bossId;
-@property int32_t baseHealth;
-@property int32_t minDamage;
-@property int32_t maxDamage;
-@property int32_t minutesToKill;
-@property int32_t baseExp;
 @property int32_t cityId;
 @property int32_t assetNumWithinCity;
 @property int32_t regularAttackEnergyCost;
+@property int32_t minutesToKill;
 @property Float32 superAttackDamageMultiplier;
 @property int32_t superAttackEnergyCost;
+@property (retain) NSString* name;
+@property int32_t expConstantA;
+@property int32_t expConstantB;
+@property int32_t hpConstantA;
+@property int32_t hpConstantB;
+@property int32_t hpConstantC;
+@property int32_t dmgConstantA;
+@property int32_t dmgConstantB;
+@property (retain) NSString* mapIconImageName;
+@property (retain) NSString* unlockedBossImageName;
 @end
 
 @implementation FullBossProto
@@ -10483,41 +10489,6 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
   hasBossId_ = !!value;
 }
 @synthesize bossId;
-- (BOOL) hasBaseHealth {
-  return !!hasBaseHealth_;
-}
-- (void) setHasBaseHealth:(BOOL) value {
-  hasBaseHealth_ = !!value;
-}
-@synthesize baseHealth;
-- (BOOL) hasMinDamage {
-  return !!hasMinDamage_;
-}
-- (void) setHasMinDamage:(BOOL) value {
-  hasMinDamage_ = !!value;
-}
-@synthesize minDamage;
-- (BOOL) hasMaxDamage {
-  return !!hasMaxDamage_;
-}
-- (void) setHasMaxDamage:(BOOL) value {
-  hasMaxDamage_ = !!value;
-}
-@synthesize maxDamage;
-- (BOOL) hasMinutesToKill {
-  return !!hasMinutesToKill_;
-}
-- (void) setHasMinutesToKill:(BOOL) value {
-  hasMinutesToKill_ = !!value;
-}
-@synthesize minutesToKill;
-- (BOOL) hasBaseExp {
-  return !!hasBaseExp_;
-}
-- (void) setHasBaseExp:(BOOL) value {
-  hasBaseExp_ = !!value;
-}
-@synthesize baseExp;
 - (BOOL) hasCityId {
   return !!hasCityId_;
 }
@@ -10539,6 +10510,13 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
   hasRegularAttackEnergyCost_ = !!value;
 }
 @synthesize regularAttackEnergyCost;
+- (BOOL) hasMinutesToKill {
+  return !!hasMinutesToKill_;
+}
+- (void) setHasMinutesToKill:(BOOL) value {
+  hasMinutesToKill_ = !!value;
+}
+@synthesize minutesToKill;
 - (BOOL) hasSuperAttackDamageMultiplier {
   return !!hasSuperAttackDamageMultiplier_;
 }
@@ -10553,22 +10531,101 @@ static UserLockBoxItemProto* defaultUserLockBoxItemProtoInstance = nil;
   hasSuperAttackEnergyCost_ = !!value;
 }
 @synthesize superAttackEnergyCost;
+- (BOOL) hasName {
+  return !!hasName_;
+}
+- (void) setHasName:(BOOL) value {
+  hasName_ = !!value;
+}
+@synthesize name;
+- (BOOL) hasExpConstantA {
+  return !!hasExpConstantA_;
+}
+- (void) setHasExpConstantA:(BOOL) value {
+  hasExpConstantA_ = !!value;
+}
+@synthesize expConstantA;
+- (BOOL) hasExpConstantB {
+  return !!hasExpConstantB_;
+}
+- (void) setHasExpConstantB:(BOOL) value {
+  hasExpConstantB_ = !!value;
+}
+@synthesize expConstantB;
+- (BOOL) hasHpConstantA {
+  return !!hasHpConstantA_;
+}
+- (void) setHasHpConstantA:(BOOL) value {
+  hasHpConstantA_ = !!value;
+}
+@synthesize hpConstantA;
+- (BOOL) hasHpConstantB {
+  return !!hasHpConstantB_;
+}
+- (void) setHasHpConstantB:(BOOL) value {
+  hasHpConstantB_ = !!value;
+}
+@synthesize hpConstantB;
+- (BOOL) hasHpConstantC {
+  return !!hasHpConstantC_;
+}
+- (void) setHasHpConstantC:(BOOL) value {
+  hasHpConstantC_ = !!value;
+}
+@synthesize hpConstantC;
+- (BOOL) hasDmgConstantA {
+  return !!hasDmgConstantA_;
+}
+- (void) setHasDmgConstantA:(BOOL) value {
+  hasDmgConstantA_ = !!value;
+}
+@synthesize dmgConstantA;
+- (BOOL) hasDmgConstantB {
+  return !!hasDmgConstantB_;
+}
+- (void) setHasDmgConstantB:(BOOL) value {
+  hasDmgConstantB_ = !!value;
+}
+@synthesize dmgConstantB;
+- (BOOL) hasMapIconImageName {
+  return !!hasMapIconImageName_;
+}
+- (void) setHasMapIconImageName:(BOOL) value {
+  hasMapIconImageName_ = !!value;
+}
+@synthesize mapIconImageName;
+- (BOOL) hasUnlockedBossImageName {
+  return !!hasUnlockedBossImageName_;
+}
+- (void) setHasUnlockedBossImageName:(BOOL) value {
+  hasUnlockedBossImageName_ = !!value;
+}
+@synthesize unlockedBossImageName;
 - (void) dealloc {
+  self.name = nil;
+  self.mapIconImageName = nil;
+  self.unlockedBossImageName = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.bossId = 0;
-    self.baseHealth = 0;
-    self.minDamage = 0;
-    self.maxDamage = 0;
-    self.minutesToKill = 0;
-    self.baseExp = 0;
     self.cityId = 0;
     self.assetNumWithinCity = 0;
     self.regularAttackEnergyCost = 0;
+    self.minutesToKill = 0;
     self.superAttackDamageMultiplier = 0;
     self.superAttackEnergyCost = 0;
+    self.name = @"";
+    self.expConstantA = 0;
+    self.expConstantB = 0;
+    self.hpConstantA = 0;
+    self.hpConstantB = 0;
+    self.hpConstantC = 0;
+    self.dmgConstantA = 0;
+    self.dmgConstantB = 0;
+    self.mapIconImageName = @"";
+    self.unlockedBossImageName = @"";
   }
   return self;
 }
@@ -10591,35 +10648,53 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   if (self.hasBossId) {
     [output writeInt32:1 value:self.bossId];
   }
-  if (self.hasBaseHealth) {
-    [output writeInt32:2 value:self.baseHealth];
+  if (self.hasCityId) {
+    [output writeInt32:2 value:self.cityId];
   }
-  if (self.hasMinDamage) {
-    [output writeInt32:3 value:self.minDamage];
+  if (self.hasAssetNumWithinCity) {
+    [output writeInt32:3 value:self.assetNumWithinCity];
   }
-  if (self.hasMaxDamage) {
-    [output writeInt32:4 value:self.maxDamage];
+  if (self.hasRegularAttackEnergyCost) {
+    [output writeInt32:4 value:self.regularAttackEnergyCost];
   }
   if (self.hasMinutesToKill) {
     [output writeInt32:5 value:self.minutesToKill];
   }
-  if (self.hasBaseExp) {
-    [output writeInt32:6 value:self.baseExp];
-  }
-  if (self.hasCityId) {
-    [output writeInt32:7 value:self.cityId];
-  }
-  if (self.hasAssetNumWithinCity) {
-    [output writeInt32:8 value:self.assetNumWithinCity];
-  }
-  if (self.hasRegularAttackEnergyCost) {
-    [output writeInt32:9 value:self.regularAttackEnergyCost];
-  }
   if (self.hasSuperAttackDamageMultiplier) {
-    [output writeFloat:10 value:self.superAttackDamageMultiplier];
+    [output writeFloat:6 value:self.superAttackDamageMultiplier];
   }
   if (self.hasSuperAttackEnergyCost) {
-    [output writeInt32:11 value:self.superAttackEnergyCost];
+    [output writeInt32:7 value:self.superAttackEnergyCost];
+  }
+  if (self.hasName) {
+    [output writeString:8 value:self.name];
+  }
+  if (self.hasExpConstantA) {
+    [output writeInt32:9 value:self.expConstantA];
+  }
+  if (self.hasExpConstantB) {
+    [output writeInt32:10 value:self.expConstantB];
+  }
+  if (self.hasHpConstantA) {
+    [output writeInt32:11 value:self.hpConstantA];
+  }
+  if (self.hasHpConstantB) {
+    [output writeInt32:12 value:self.hpConstantB];
+  }
+  if (self.hasHpConstantC) {
+    [output writeInt32:13 value:self.hpConstantC];
+  }
+  if (self.hasDmgConstantA) {
+    [output writeInt32:14 value:self.dmgConstantA];
+  }
+  if (self.hasDmgConstantB) {
+    [output writeInt32:15 value:self.dmgConstantB];
+  }
+  if (self.hasMapIconImageName) {
+    [output writeString:16 value:self.mapIconImageName];
+  }
+  if (self.hasUnlockedBossImageName) {
+    [output writeString:17 value:self.unlockedBossImageName];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -10633,35 +10708,53 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   if (self.hasBossId) {
     size += computeInt32Size(1, self.bossId);
   }
-  if (self.hasBaseHealth) {
-    size += computeInt32Size(2, self.baseHealth);
+  if (self.hasCityId) {
+    size += computeInt32Size(2, self.cityId);
   }
-  if (self.hasMinDamage) {
-    size += computeInt32Size(3, self.minDamage);
+  if (self.hasAssetNumWithinCity) {
+    size += computeInt32Size(3, self.assetNumWithinCity);
   }
-  if (self.hasMaxDamage) {
-    size += computeInt32Size(4, self.maxDamage);
+  if (self.hasRegularAttackEnergyCost) {
+    size += computeInt32Size(4, self.regularAttackEnergyCost);
   }
   if (self.hasMinutesToKill) {
     size += computeInt32Size(5, self.minutesToKill);
   }
-  if (self.hasBaseExp) {
-    size += computeInt32Size(6, self.baseExp);
-  }
-  if (self.hasCityId) {
-    size += computeInt32Size(7, self.cityId);
-  }
-  if (self.hasAssetNumWithinCity) {
-    size += computeInt32Size(8, self.assetNumWithinCity);
-  }
-  if (self.hasRegularAttackEnergyCost) {
-    size += computeInt32Size(9, self.regularAttackEnergyCost);
-  }
   if (self.hasSuperAttackDamageMultiplier) {
-    size += computeFloatSize(10, self.superAttackDamageMultiplier);
+    size += computeFloatSize(6, self.superAttackDamageMultiplier);
   }
   if (self.hasSuperAttackEnergyCost) {
-    size += computeInt32Size(11, self.superAttackEnergyCost);
+    size += computeInt32Size(7, self.superAttackEnergyCost);
+  }
+  if (self.hasName) {
+    size += computeStringSize(8, self.name);
+  }
+  if (self.hasExpConstantA) {
+    size += computeInt32Size(9, self.expConstantA);
+  }
+  if (self.hasExpConstantB) {
+    size += computeInt32Size(10, self.expConstantB);
+  }
+  if (self.hasHpConstantA) {
+    size += computeInt32Size(11, self.hpConstantA);
+  }
+  if (self.hasHpConstantB) {
+    size += computeInt32Size(12, self.hpConstantB);
+  }
+  if (self.hasHpConstantC) {
+    size += computeInt32Size(13, self.hpConstantC);
+  }
+  if (self.hasDmgConstantA) {
+    size += computeInt32Size(14, self.dmgConstantA);
+  }
+  if (self.hasDmgConstantB) {
+    size += computeInt32Size(15, self.dmgConstantB);
+  }
+  if (self.hasMapIconImageName) {
+    size += computeStringSize(16, self.mapIconImageName);
+  }
+  if (self.hasUnlockedBossImageName) {
+    size += computeStringSize(17, self.unlockedBossImageName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -10741,21 +10834,6 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   if (other.hasBossId) {
     [self setBossId:other.bossId];
   }
-  if (other.hasBaseHealth) {
-    [self setBaseHealth:other.baseHealth];
-  }
-  if (other.hasMinDamage) {
-    [self setMinDamage:other.minDamage];
-  }
-  if (other.hasMaxDamage) {
-    [self setMaxDamage:other.maxDamage];
-  }
-  if (other.hasMinutesToKill) {
-    [self setMinutesToKill:other.minutesToKill];
-  }
-  if (other.hasBaseExp) {
-    [self setBaseExp:other.baseExp];
-  }
   if (other.hasCityId) {
     [self setCityId:other.cityId];
   }
@@ -10765,11 +10843,44 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   if (other.hasRegularAttackEnergyCost) {
     [self setRegularAttackEnergyCost:other.regularAttackEnergyCost];
   }
+  if (other.hasMinutesToKill) {
+    [self setMinutesToKill:other.minutesToKill];
+  }
   if (other.hasSuperAttackDamageMultiplier) {
     [self setSuperAttackDamageMultiplier:other.superAttackDamageMultiplier];
   }
   if (other.hasSuperAttackEnergyCost) {
     [self setSuperAttackEnergyCost:other.superAttackEnergyCost];
+  }
+  if (other.hasName) {
+    [self setName:other.name];
+  }
+  if (other.hasExpConstantA) {
+    [self setExpConstantA:other.expConstantA];
+  }
+  if (other.hasExpConstantB) {
+    [self setExpConstantB:other.expConstantB];
+  }
+  if (other.hasHpConstantA) {
+    [self setHpConstantA:other.hpConstantA];
+  }
+  if (other.hasHpConstantB) {
+    [self setHpConstantB:other.hpConstantB];
+  }
+  if (other.hasHpConstantC) {
+    [self setHpConstantC:other.hpConstantC];
+  }
+  if (other.hasDmgConstantA) {
+    [self setDmgConstantA:other.dmgConstantA];
+  }
+  if (other.hasDmgConstantB) {
+    [self setDmgConstantB:other.dmgConstantB];
+  }
+  if (other.hasMapIconImageName) {
+    [self setMapIconImageName:other.mapIconImageName];
+  }
+  if (other.hasUnlockedBossImageName) {
+    [self setUnlockedBossImageName:other.unlockedBossImageName];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -10797,43 +10908,67 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
         break;
       }
       case 16: {
-        [self setBaseHealth:[input readInt32]];
+        [self setCityId:[input readInt32]];
         break;
       }
       case 24: {
-        [self setMinDamage:[input readInt32]];
+        [self setAssetNumWithinCity:[input readInt32]];
         break;
       }
       case 32: {
-        [self setMaxDamage:[input readInt32]];
+        [self setRegularAttackEnergyCost:[input readInt32]];
         break;
       }
       case 40: {
         [self setMinutesToKill:[input readInt32]];
         break;
       }
-      case 48: {
-        [self setBaseExp:[input readInt32]];
-        break;
-      }
-      case 56: {
-        [self setCityId:[input readInt32]];
-        break;
-      }
-      case 64: {
-        [self setAssetNumWithinCity:[input readInt32]];
-        break;
-      }
-      case 72: {
-        [self setRegularAttackEnergyCost:[input readInt32]];
-        break;
-      }
-      case 85: {
+      case 53: {
         [self setSuperAttackDamageMultiplier:[input readFloat]];
         break;
       }
-      case 88: {
+      case 56: {
         [self setSuperAttackEnergyCost:[input readInt32]];
+        break;
+      }
+      case 66: {
+        [self setName:[input readString]];
+        break;
+      }
+      case 72: {
+        [self setExpConstantA:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setExpConstantB:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setHpConstantA:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setHpConstantB:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self setHpConstantC:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self setDmgConstantA:[input readInt32]];
+        break;
+      }
+      case 120: {
+        [self setDmgConstantB:[input readInt32]];
+        break;
+      }
+      case 130: {
+        [self setMapIconImageName:[input readString]];
+        break;
+      }
+      case 138: {
+        [self setUnlockedBossImageName:[input readString]];
         break;
       }
     }
@@ -10853,86 +10988,6 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
 - (FullBossProto_Builder*) clearBossId {
   result.hasBossId = NO;
   result.bossId = 0;
-  return self;
-}
-- (BOOL) hasBaseHealth {
-  return result.hasBaseHealth;
-}
-- (int32_t) baseHealth {
-  return result.baseHealth;
-}
-- (FullBossProto_Builder*) setBaseHealth:(int32_t) value {
-  result.hasBaseHealth = YES;
-  result.baseHealth = value;
-  return self;
-}
-- (FullBossProto_Builder*) clearBaseHealth {
-  result.hasBaseHealth = NO;
-  result.baseHealth = 0;
-  return self;
-}
-- (BOOL) hasMinDamage {
-  return result.hasMinDamage;
-}
-- (int32_t) minDamage {
-  return result.minDamage;
-}
-- (FullBossProto_Builder*) setMinDamage:(int32_t) value {
-  result.hasMinDamage = YES;
-  result.minDamage = value;
-  return self;
-}
-- (FullBossProto_Builder*) clearMinDamage {
-  result.hasMinDamage = NO;
-  result.minDamage = 0;
-  return self;
-}
-- (BOOL) hasMaxDamage {
-  return result.hasMaxDamage;
-}
-- (int32_t) maxDamage {
-  return result.maxDamage;
-}
-- (FullBossProto_Builder*) setMaxDamage:(int32_t) value {
-  result.hasMaxDamage = YES;
-  result.maxDamage = value;
-  return self;
-}
-- (FullBossProto_Builder*) clearMaxDamage {
-  result.hasMaxDamage = NO;
-  result.maxDamage = 0;
-  return self;
-}
-- (BOOL) hasMinutesToKill {
-  return result.hasMinutesToKill;
-}
-- (int32_t) minutesToKill {
-  return result.minutesToKill;
-}
-- (FullBossProto_Builder*) setMinutesToKill:(int32_t) value {
-  result.hasMinutesToKill = YES;
-  result.minutesToKill = value;
-  return self;
-}
-- (FullBossProto_Builder*) clearMinutesToKill {
-  result.hasMinutesToKill = NO;
-  result.minutesToKill = 0;
-  return self;
-}
-- (BOOL) hasBaseExp {
-  return result.hasBaseExp;
-}
-- (int32_t) baseExp {
-  return result.baseExp;
-}
-- (FullBossProto_Builder*) setBaseExp:(int32_t) value {
-  result.hasBaseExp = YES;
-  result.baseExp = value;
-  return self;
-}
-- (FullBossProto_Builder*) clearBaseExp {
-  result.hasBaseExp = NO;
-  result.baseExp = 0;
   return self;
 }
 - (BOOL) hasCityId {
@@ -10983,6 +11038,22 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
   result.regularAttackEnergyCost = 0;
   return self;
 }
+- (BOOL) hasMinutesToKill {
+  return result.hasMinutesToKill;
+}
+- (int32_t) minutesToKill {
+  return result.minutesToKill;
+}
+- (FullBossProto_Builder*) setMinutesToKill:(int32_t) value {
+  result.hasMinutesToKill = YES;
+  result.minutesToKill = value;
+  return self;
+}
+- (FullBossProto_Builder*) clearMinutesToKill {
+  result.hasMinutesToKill = NO;
+  result.minutesToKill = 0;
+  return self;
+}
 - (BOOL) hasSuperAttackDamageMultiplier {
   return result.hasSuperAttackDamageMultiplier;
 }
@@ -11013,6 +11084,166 @@ static FullBossProto* defaultFullBossProtoInstance = nil;
 - (FullBossProto_Builder*) clearSuperAttackEnergyCost {
   result.hasSuperAttackEnergyCost = NO;
   result.superAttackEnergyCost = 0;
+  return self;
+}
+- (BOOL) hasName {
+  return result.hasName;
+}
+- (NSString*) name {
+  return result.name;
+}
+- (FullBossProto_Builder*) setName:(NSString*) value {
+  result.hasName = YES;
+  result.name = value;
+  return self;
+}
+- (FullBossProto_Builder*) clearName {
+  result.hasName = NO;
+  result.name = @"";
+  return self;
+}
+- (BOOL) hasExpConstantA {
+  return result.hasExpConstantA;
+}
+- (int32_t) expConstantA {
+  return result.expConstantA;
+}
+- (FullBossProto_Builder*) setExpConstantA:(int32_t) value {
+  result.hasExpConstantA = YES;
+  result.expConstantA = value;
+  return self;
+}
+- (FullBossProto_Builder*) clearExpConstantA {
+  result.hasExpConstantA = NO;
+  result.expConstantA = 0;
+  return self;
+}
+- (BOOL) hasExpConstantB {
+  return result.hasExpConstantB;
+}
+- (int32_t) expConstantB {
+  return result.expConstantB;
+}
+- (FullBossProto_Builder*) setExpConstantB:(int32_t) value {
+  result.hasExpConstantB = YES;
+  result.expConstantB = value;
+  return self;
+}
+- (FullBossProto_Builder*) clearExpConstantB {
+  result.hasExpConstantB = NO;
+  result.expConstantB = 0;
+  return self;
+}
+- (BOOL) hasHpConstantA {
+  return result.hasHpConstantA;
+}
+- (int32_t) hpConstantA {
+  return result.hpConstantA;
+}
+- (FullBossProto_Builder*) setHpConstantA:(int32_t) value {
+  result.hasHpConstantA = YES;
+  result.hpConstantA = value;
+  return self;
+}
+- (FullBossProto_Builder*) clearHpConstantA {
+  result.hasHpConstantA = NO;
+  result.hpConstantA = 0;
+  return self;
+}
+- (BOOL) hasHpConstantB {
+  return result.hasHpConstantB;
+}
+- (int32_t) hpConstantB {
+  return result.hpConstantB;
+}
+- (FullBossProto_Builder*) setHpConstantB:(int32_t) value {
+  result.hasHpConstantB = YES;
+  result.hpConstantB = value;
+  return self;
+}
+- (FullBossProto_Builder*) clearHpConstantB {
+  result.hasHpConstantB = NO;
+  result.hpConstantB = 0;
+  return self;
+}
+- (BOOL) hasHpConstantC {
+  return result.hasHpConstantC;
+}
+- (int32_t) hpConstantC {
+  return result.hpConstantC;
+}
+- (FullBossProto_Builder*) setHpConstantC:(int32_t) value {
+  result.hasHpConstantC = YES;
+  result.hpConstantC = value;
+  return self;
+}
+- (FullBossProto_Builder*) clearHpConstantC {
+  result.hasHpConstantC = NO;
+  result.hpConstantC = 0;
+  return self;
+}
+- (BOOL) hasDmgConstantA {
+  return result.hasDmgConstantA;
+}
+- (int32_t) dmgConstantA {
+  return result.dmgConstantA;
+}
+- (FullBossProto_Builder*) setDmgConstantA:(int32_t) value {
+  result.hasDmgConstantA = YES;
+  result.dmgConstantA = value;
+  return self;
+}
+- (FullBossProto_Builder*) clearDmgConstantA {
+  result.hasDmgConstantA = NO;
+  result.dmgConstantA = 0;
+  return self;
+}
+- (BOOL) hasDmgConstantB {
+  return result.hasDmgConstantB;
+}
+- (int32_t) dmgConstantB {
+  return result.dmgConstantB;
+}
+- (FullBossProto_Builder*) setDmgConstantB:(int32_t) value {
+  result.hasDmgConstantB = YES;
+  result.dmgConstantB = value;
+  return self;
+}
+- (FullBossProto_Builder*) clearDmgConstantB {
+  result.hasDmgConstantB = NO;
+  result.dmgConstantB = 0;
+  return self;
+}
+- (BOOL) hasMapIconImageName {
+  return result.hasMapIconImageName;
+}
+- (NSString*) mapIconImageName {
+  return result.mapIconImageName;
+}
+- (FullBossProto_Builder*) setMapIconImageName:(NSString*) value {
+  result.hasMapIconImageName = YES;
+  result.mapIconImageName = value;
+  return self;
+}
+- (FullBossProto_Builder*) clearMapIconImageName {
+  result.hasMapIconImageName = NO;
+  result.mapIconImageName = @"";
+  return self;
+}
+- (BOOL) hasUnlockedBossImageName {
+  return result.hasUnlockedBossImageName;
+}
+- (NSString*) unlockedBossImageName {
+  return result.unlockedBossImageName;
+}
+- (FullBossProto_Builder*) setUnlockedBossImageName:(NSString*) value {
+  result.hasUnlockedBossImageName = YES;
+  result.unlockedBossImageName = value;
+  return self;
+}
+- (FullBossProto_Builder*) clearUnlockedBossImageName {
+  result.hasUnlockedBossImageName = NO;
+  result.unlockedBossImageName = @"";
   return self;
 }
 @end
@@ -21291,6 +21522,7 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
 @property (retain) CoordinateProto* center;
 @property (retain) NSMutableArray* mutableTaskIdsList;
 @property (retain) NSMutableArray* mutableBossIdsList;
+@property int32_t boosterPackId;
 @end
 
 @implementation FullCityProto
@@ -21346,6 +21578,13 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
 @synthesize center;
 @synthesize mutableTaskIdsList;
 @synthesize mutableBossIdsList;
+- (BOOL) hasBoosterPackId {
+  return !!hasBoosterPackId_;
+}
+- (void) setHasBoosterPackId:(BOOL) value {
+  hasBoosterPackId_ = !!value;
+}
+@synthesize boosterPackId;
 - (void) dealloc {
   self.name = nil;
   self.mapImgName = nil;
@@ -21363,6 +21602,7 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
     self.coinsGainedBaseOnRankup = 0;
     self.mapImgName = @"";
     self.center = [CoordinateProto defaultInstance];
+    self.boosterPackId = 0;
   }
   return self;
 }
@@ -21423,6 +21663,9 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   for (NSNumber* value in self.mutableBossIdsList) {
     [output writeInt32:11 value:[value intValue]];
   }
+  if (self.hasBoosterPackId) {
+    [output writeInt32:12 value:self.boosterPackId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -21468,6 +21711,9 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
     }
     size += dataSize;
     size += 1 * self.mutableBossIdsList.count;
+  }
+  if (self.hasBoosterPackId) {
+    size += computeInt32Size(12, self.boosterPackId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -21577,6 +21823,9 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
     }
     [result.mutableBossIdsList addObjectsFromArray:other.mutableBossIdsList];
   }
+  if (other.hasBoosterPackId) {
+    [self setBoosterPackId:other.boosterPackId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -21637,6 +21886,10 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
       }
       case 88: {
         [self addBossIds:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setBoosterPackId:[input readInt32]];
         break;
       }
     }
@@ -21828,6 +22081,22 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
 }
 - (FullCityProto_Builder*) clearBossIdsList {
   result.mutableBossIdsList = nil;
+  return self;
+}
+- (BOOL) hasBoosterPackId {
+  return result.hasBoosterPackId;
+}
+- (int32_t) boosterPackId {
+  return result.boosterPackId;
+}
+- (FullCityProto_Builder*) setBoosterPackId:(int32_t) value {
+  result.hasBoosterPackId = YES;
+  result.boosterPackId = value;
+  return self;
+}
+- (FullCityProto_Builder*) clearBoosterPackId {
+  result.hasBoosterPackId = NO;
+  result.boosterPackId = 0;
   return self;
 }
 @end

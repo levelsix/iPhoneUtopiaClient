@@ -878,7 +878,8 @@
   }
 }
 
-- (void) moveToSprite:(CCSprite *)spr animated:(BOOL)animated withOffset:(CGPoint)offset {
+- (float) moveToSprite:(CCSprite *)spr animated:(BOOL)animated withOffset:(CGPoint)offset {
+  float dur = 0.f;
   if (spr) {
     CGPoint pt = spr.position;
     CGSize size = [[CCDirector sharedDirector] winSize];
@@ -888,12 +889,13 @@
     float y = (-pt.y-spr.contentSize.height*3/4)*scaleY_+size.height/2;
     CGPoint newPos = ccpAdd(offset,ccp(x,y));
     if (animated) {
-      float dur = ccpDistance(newPos, self.position)/1000.f;
+      dur = ccpDistance(newPos, self.position)/1000.f;
       [self runAction:[CCEaseSineInOut actionWithAction:[CCMoveTo actionWithDuration:dur position:newPos]]];
     } else {
       self.position = newPos;
     }
   }
+  return dur;
 }
 
 - (void) moveToSprite:(CCSprite *)spr animated:(BOOL)animated {

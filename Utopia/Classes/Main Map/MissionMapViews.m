@@ -14,6 +14,10 @@
 #import "ArmoryViewController.h"
 #import "OutgoingEventController.h"
 #import "GameLayer.h"
+#import "TopBar.h"
+
+#define SPEECH_BUBBLE_SCALE 0.7f
+#define SPEECH_BUBBLE_ANIMATION_DURATION 0.2f
 
 @implementation ResetStaminaView
 
@@ -102,17 +106,20 @@
     gem.frame = [gem.superview convertRect:img.frame fromView:img.superview];
   } completion:^(BOOL finished) {
     [gem removeFromSuperview];
-    img.alpha = 1.f;
     
-    [self performSelector:@selector(closeClicked:) withObject:nil afterDelay:0.5f];
+    [self updateWithGems:gems];
+    
+    if (self.redeemButtonView.hidden) {
+      [self performSelector:@selector(closeClicked:) withObject:nil afterDelay:1.f];
+    }
   }];
 }
 
 - (void) displayWithGems:(NSArray *)gems andCityId:(int)cityId {
   [Globals displayUIView:self];
   
-  [self updateWithGems:gems];
   _cityId = cityId;
+  [self updateWithGems:gems];
   
   self.bgdView.alpha = 0.f;
   self.mainView.center = CGPointMake(self.mainView.center.x, self.mainView.frame.size.height*3/2);
@@ -123,6 +130,7 @@
 }
 
 - (void) updateWithGems:(NSArray *)gems {
+  BOOL hasAllGems = YES;
   for (int i = 0; i < self.gemViews.count; i++) {
     BOOL hasGem = NO;
     for (UserCityGemProto *gem in gems) {
@@ -133,8 +141,24 @@
       }
     }
     
+    hasAllGems &= hasGem;
+    
     [[self.gemViews objectAtIndex:i] loadForGemId:i+1 hasGem:hasGem];
   }
+  
+  GameState *gs = [GameState sharedGameState];
+  FullCityProto *fcp = [gs cityWithId:_cityId];
+  BoosterPackProto *bpp = [gs boosterPackForId:fcp.boosterPackId];
+  self.chestLabel.text = [NSString stringWithFormat:@"Find all 5 gems in %@ to earn a %@ item.", fcp.name, bpp.name];
+  
+  if (hasAllGems) {
+    self.redeemButtonView.hidden = NO;
+    self.hintlabel.hidden = YES;
+  } else {
+    self.redeemButtonView.hidden = YES;
+    self.hintlabel.hidden = NO;
+  }
+  [[TopBar sharedTopBar] shouldDisplayGemsBadge:hasAllGems];
   
   self.gems = gems;
 }
@@ -297,6 +321,116 @@
   self.bgdView = nil;
   self.mainView = nil;
   [oldRects release];
+  [super dealloc];
+}
+
+@end
+
+@implementation GemTutorialView
+
+- (void) awakeFromNib {
+  self.gemLines = [NSArray arrayWithObjects:
+                   @"It looks like you've found a collectible!",
+                   @"Collect 4 more collectibles to get a powerful rare item!",
+                   @"Click here to keep track of and redeem your collectibles!",
+                   @"Each city has their own set of collectibles and chests. Good luck!",
+                   nil];
+  
+  self.rankupLines = [NSArray arrayWithObjects:
+                      @"Congratulations! You've ranked up your city.",
+                      @"As a reward, I'll let you in on an inside secret, but don't tell anyone!",
+                      @"Each time you rank it up, each building will yield more reward.",
+                      nil];
+  
+  self.bossLines = [NSArray arrayWithObjects:
+                    @"I forgot to mention! Ranking up a city unlocks the boss for some time.",
+                    @"Defeat him before time runs out to earn powerful weapons, gold, and gems!",
+                    nil];
+  
+  self.alpha = 0.f;
+}
+
+- (void) beginGemTutorial {
+  _curLine = -1;
+  _curLines = self.gemLines;
+  [self displayNextLine];
+}
+
+- (void) beginBossTutorial {
+  _curLine = -1;
+  _curLines = self.bossLines;
+  [self displayNextLine];
+}
+
+- (void) beginRankupTutorial {
+  _curLine = -1;
+  _curLines = self.rankupLines;
+  [self displayNextLine];
+}
+
+- (IBAction) displayNextLine {
+  _curLine++;
+  if (_curLines.count > _curLine) {
+    [self displayViewForText:[_curLines objectAtIndex:_curLine]];
+    
+    if (_curLine == 2 && _curLines == self.gemLines) {
+      _arrow = [CCSprite spriteWithFile:@"3darrow.png"];
+      
+      TopBar *tb = [TopBar sharedTopBar];
+      [tb.gemsButton addChild:_arrow];
+      _arrow.position = ccp(40, 40);
+      
+      [Globals animateCCArrow:_arrow atAngle:-M_PI_4*3];
+    } else {
+      [_arrow removeFromParentAndCleanup:YES];
+      _arrow = nil;
+    }
+  } else {
+    [self closeView];
+  }
+}
+
+- (void) displayViewForText:(NSString *)str {
+  self.label.text = str;
+  
+  GameState *gs = [GameState sharedGameState];
+  self.girlImageView.highlighted = [Globals userTypeIsBad:gs.type];
+  
+  [Globals displayUIView:self];
+  
+  // Alpha will only start at 0 if it is not already there
+  CGPoint oldCenter = self.speechBubble.center;
+  self.speechBubble.center = CGPointMake(oldCenter.x-30, oldCenter.y);
+  self.speechBubble.transform = CGAffineTransformMakeScale(SPEECH_BUBBLE_SCALE, SPEECH_BUBBLE_SCALE);
+  [UIView animateWithDuration:SPEECH_BUBBLE_ANIMATION_DURATION animations:^{
+    self.alpha = 1.f;
+    self.speechBubble.center = oldCenter;
+    self.speechBubble.transform = CGAffineTransformIdentity;
+  }];
+}
+
+- (void) closeView {
+  [UIView animateWithDuration:SPEECH_BUBBLE_ANIMATION_DURATION animations:^{
+    self.speechBubble.center = CGPointMake(self.speechBubble.center.x-30, self.speechBubble.center.y);
+    self.alpha = 0.f;
+    self.speechBubble.transform = CGAffineTransformMakeScale(SPEECH_BUBBLE_SCALE, SPEECH_BUBBLE_SCALE);
+  } completion:^(BOOL finished) {
+    if (finished) {
+      [self removeFromSuperview];
+    }
+    
+    // Move center back to where it originally was
+    self.speechBubble.center = CGPointMake(self.speechBubble.center.x+30, self.speechBubble.center.y);
+  }];
+}
+
+
+- (void) dealloc {
+  self.label = nil;
+  self.speechBubble = nil;
+  self.girlImageView = nil;
+  self.gemLines = nil;
+  self.bossLines = nil;
   [super dealloc];
 }
 

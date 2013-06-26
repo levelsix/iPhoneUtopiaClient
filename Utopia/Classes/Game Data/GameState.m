@@ -156,6 +156,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticLockBoxEvents = [[NSMutableArray alloc] init];
     _myLockBoxEvents = [[NSMutableDictionary alloc] init];
     _forgeAttempts = [[NSMutableArray alloc] init];
+    _myBosses = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -470,6 +471,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self.myLockBoxEvents setObject:p forKey:[NSNumber numberWithInt:p.lockBoxEventId]];
   }
   [self resetLockBoxTimers];
+}
+
+- (void) addToMyBosses:(NSArray *)bosses {
+  for (FullUserBossProto *f in bosses) {
+    UserBoss *del = nil;
+    for (UserBoss *a in self.myBosses) {
+      if (a.bossId == f.bossId) {
+        del = a;
+      }
+    }
+    [self.myBosses removeObject:del];
+    
+    if ([f isKindOfClass:[FullUserBossProto class]]) {
+      [self.myBosses addObject:[UserBoss userBossWithFullUserBossProto:f]];
+    } else {
+      [self.myBosses addObject:f];
+    }
+  }
+  [self resetBossTimers];
 }
 
 - (void) addToAvailableQuests:(NSArray *)quests {
@@ -840,7 +860,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self.staticEquips setObject:p.middleEquip forKey:[NSNumber numberWithInt:p.middleEquip.equipId]];
     [self.staticEquips setObject:p.rightEquip forKey:[NSNumber numberWithInt:p.rightEquip.equipId]];
   }
-  [self resetBossEventTimers];
 }
 
 - (void) addNewStaticTournaments:(NSArray *)events {
@@ -1276,60 +1295,49 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [_myLockBoxEvents setObject:b.build forKey:num];
 }
 
-- (void) resetBossEventTimers {
-  [self stopAllBossEventTimers];
+- (void) resetBossTimers {
+  [self stopAllBossTimers];
   
-  if (_isTutorial) {
-    return;
-  }
+  [self updateBossButton];
   
-  [self updateBossEventButton];
-  
-  _bossEventTimers = [[NSMutableArray array] retain];
-  for (BossEventProto *e in _staticBossEvents) {
+  _bossTimers = [[NSMutableArray array] retain];
+  for (UserBoss *e in _myBosses) {
     NSTimer *timer;
     NSTimeInterval timeInterval;
     
-    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.startDate/1000.0] timeIntervalSinceNow];
+    timeInterval = [[e timeUpDate] timeIntervalSinceNow];
     if (timeInterval > 0) {
       timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateBossEventButton) userInfo:nil repeats:NO];
       [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-      [_bossEventTimers addObject:timer];
-    }
-    
-    timeInterval = [[NSDate dateWithTimeIntervalSince1970:e.endDate/1000.0] timeIntervalSinceNow];
-    if (timeInterval > 0) {
-      timer = [NSTimer timerWithTimeInterval:timeInterval target:self selector:@selector(updateBossEventButton) userInfo:nil repeats:NO];
-      [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-      [_bossEventTimers addObject:timer];
+      [_bossTimers addObject:timer];
     }
   }
 }
 
-- (BossEventProto *) getCurrentBossEvent {
-  double curTime = [[NSDate date] timeIntervalSince1970]*1000.0;
-  for (BossEventProto *p in _staticBossEvents) {
-    if (curTime > p.startDate && curTime < p.endDate) {
-      return p;
+- (UserBoss *) getCurrentBoss {
+  UserBoss *last = nil;
+  for (UserBoss *p in _myBosses) {
+    if ([p isAlive] && (!last || [[last timeUpDate] compare:[p timeUpDate]] == NSOrderedDescending)) {
+      last = p;
     }
   }
-  return nil;
+  return last;
 }
 
-- (void) stopAllBossEventTimers {
-  for (NSTimer *timer in _bossEventTimers) {
+- (void) stopAllBossTimers {
+  for (NSTimer *timer in _bossTimers) {
     [timer invalidate];
   }
-  [_bossEventTimers removeAllObjects];
-  [_bossEventTimers release];
-  _bossEventTimers = nil;
+  [_bossTimers removeAllObjects];
+  [_bossTimers release];
+  _bossTimers = nil;
 }
 
-- (void) updateBossEventButton {
-  BossEventProto *e = [self getCurrentBossEvent];
+- (void) updateBossButton {
+  UserBoss *e = [self getCurrentBoss];
   
   BOOL shouldDisplayButton = e != nil;
-  [[TopBar sharedTopBar] shouldDisplayBossEventButton:shouldDisplayButton];
+  [[TopBar sharedTopBar] shouldDisplayBossButton:shouldDisplayButton];
 }
 
 - (void) resetTournamentTimers {
@@ -1662,6 +1670,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticTournaments = [[[NSMutableArray alloc] init] autorelease];
   self.boosterPurchases = [[[NSMutableArray alloc] init] autorelease];
   self.forgeAttempts = [[[NSMutableArray alloc] init] autorelease];
+  self.myBosses = [[[NSMutableArray alloc] init] autorelease];
   
   self.availableQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressCompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
@@ -1699,7 +1708,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [self stopAllLockBoxTimers];
   [self stopAllGoldSaleTimers];
-  [self stopAllBossEventTimers];
+  [self stopAllBossTimers];
   [self stopAllTournamentTimers];
   
   [self stopExpansionTimer];
@@ -1747,7 +1756,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.clan = nil;
   self.requestedClans = nil;
   self.lockBoxEventTimers = nil;
-  self.bossEventTimers = nil;
+  self.bossTimers = nil;
   self.myLockBoxEvents = nil;
   self.staticLockBoxEvents = nil;
   self.mktSearchEquips = nil;
@@ -1756,7 +1765,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.equipEnhancement = nil;
   self.clanTowerUserBattles = nil;
   [self stopAllLockBoxTimers];
-  [self stopAllBossEventTimers];
+  [self stopAllBossTimers];
   [self stopForgeTimers];
   [self stopEnhancementTimer];
   [self stopExpansionTimer];

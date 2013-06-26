@@ -238,6 +238,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.adminChatUser = constants.adminChatUserProto;
   self.numBeginnerSalesAllowed = constants.numBeginnerSalesAllowed;
   self.defaultDaysBattleShieldIsActive = constants.defaultDaysBattleShieldIsActive;
+  self.maxBossHealthMultiplier = constants.bossConstants.maxHealthMultiplier;
   
   self.minLevelForPrestige = constants.prestigeConstants.minLevelForPrestige;
   self.maxPrestigeLevel = constants.prestigeConstants.maxPrestigeLevel;
@@ -269,6 +270,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.missLikelihood = constants.battleConstants.battleMissLikelihood;
   self.battleEquipAndStatsWeight = constants.battleConstants.battleEquipAndStatsWeight;
   
+  self.healthFormulaExponentBase = constants.healthConstants.healthFormulaExponentBase;
+  self.healthFormulaLinearA = constants.healthConstants.healthFormulaLinearA;
+  self.healthFormulaLinearB = constants.healthConstants.healthFormulaLinearB;
+  self.healthFormulaLevelCutoff = constants.healthConstants.healthFormulaLevelCutoff;
+  
   self.forgeBaseMinutesToOneGold = constants.forgeConstants.forgeBaseMinutesToOneGold;
   self.forgeDiamondCostForGuaranteeExponentialMultiplier = constants.forgeConstants.forgeDiamondCostForGuaranteeExponentialMultiplier;
   self.forgeMaxEquipLevel = constants.forgeConstants.forgeMaxEquipLevel;
@@ -276,10 +282,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.forgeTimeBaseForExponentialMultiplier = constants.forgeConstants.forgeTimeBaseForExponentialMultiplier;
   self.levelEquipBoostExponentBase = constants.levelEquipBoostExponentBase;
   self.averageSizeOfLevelBracket = constants.averageSizeOfLevelBracket;
-  self.healthFormulaExponentBase = constants.healthFormulaExponentBase;
   self.forgeMaxForgeSlots = constants.forgeConstants.forgeMaxForgeSlots;
   self.costOfPurchasingSlotTwo = constants.forgeConstants.costOfPurchasingSlotTwo;
   self.costOfPurchasingSlotThree = constants.forgeConstants.costOfPurchasingSlotThree;
+  self.forgeSpeedupConstantA = constants.forgeConstants.forgeSpeedupConstantA;
+  self.forgeSpeedupConstantB = constants.forgeConstants.forgeSpeedupConstantB;
   
   self.diamondCostToResetCharacter = constants.charModConstants.diamondCostToResetCharacter;
   self.diamondCostToChangeName = constants.charModConstants.diamondCostToChangeName;
@@ -1584,7 +1591,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (float) calculateAttackForAttackStat:(int)attackStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet weapon2:(UserEquip *)weapon2 armor2:(UserEquip *)armor2 amulet2:(UserEquip *)amulet2 {
-  int   weaponAttack = weapon ? [self calculateAttackForEquip:weapon.equipId level:weapon.level enhancePercent:weapon.enhancementPercentage] : 0;
+  int weaponAttack = weapon ? [self calculateAttackForEquip:weapon.equipId level:weapon.level enhancePercent:weapon.enhancementPercentage] : 0;
   int armorAttack = armor ? [self calculateAttackForEquip:armor.equipId level:armor.level enhancePercent:armor.enhancementPercentage] : 0;
   int amuletAttack = amulet ? [self calculateAttackForEquip:amulet.equipId level:amulet.level enhancePercent:amulet.enhancementPercentage] : 0;
   int weaponAttack2 = weapon2 ? [self calculateAttackForEquip:weapon2.equipId level:weapon2.level enhancePercent:weapon2.enhancementPercentage] : 0;
@@ -1641,7 +1648,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateGoldCostToSpeedUpForging:(int)equipId level:(int)level {
-  return (int)ceil([self calculateMinutesForForge:equipId level:level]/(float)self.forgeBaseMinutesToOneGold);
+  return (int)MAX(1, ceil(self.forgeSpeedupConstantA * log([self calculateMinutesForForge:equipId level:level]) + self.forgeSpeedupConstantB));
 }
 
 - (int) calculateRetailValueForEquip:(int)equipId level:(int)level {
@@ -1652,7 +1659,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateHealthForLevel:(int)level {
-  return (int)(30.f * powf(self.healthFormulaExponentBase, level-1));
+  return (int)(level < self.healthFormulaLevelCutoff ? (30.f * powf(self.healthFormulaExponentBase, level-1)) : self.healthFormulaLinearA*level+self.healthFormulaLinearB );
 }
 
 - (int) calculateNumMinutesForNewExpansion:(UserExpansion *)ue {
@@ -2234,10 +2241,16 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
     return NO;
   }
   
-  uint64_t curTime = [[NSDate date] timeIntervalSince1970];
+  uint64_t curTime = [[NSDate date] timeIntervalSince1970]*1000.;
   uint64_t shieldEndTime = createTime + sharedGlobals.defaultDaysBattleShieldIsActive*24*60*60*1000;
   
-  return curTime > shieldEndTime;
+  return curTime < shieldEndTime;
+}
+
+- (int) healthForBoss:(UserBoss *)boss {
+  GameState *gs = [GameState sharedGameState];
+  FullBossProto *fbp = [gs bossWithId:boss.bossId];
+  return fbp.hpConstantA*(MIN(self.maxBossHealthMultiplier, boss.currentLevel)*fbp.hpConstantB+fbp.hpConstantC);
 }
 
 - (void) dealloc {
@@ -2258,6 +2271,9 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 - (void) recursivelyApplyOpacity:(GLubyte)opacity {
   if ([self conformsToProtocol:@protocol(CCRGBAProtocol)]) {
     [(id<CCRGBAProtocol>)self setOpacity:opacity];
+  }
+  if ([self isKindOfClass:[CCProgressTimer class]]) {
+    self.visible = opacity > 150;
   }
   for (CCNode *c in children_) {
     [c recursivelyApplyOpacity:opacity];

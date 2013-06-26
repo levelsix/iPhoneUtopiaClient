@@ -16,10 +16,20 @@
 
 @end
 
-@interface CityView : UIButton
+@interface CityView : UIButton {
+  int _bossId;
+  CGRect originalRect;
+}
 
 @property (nonatomic, assign) BOOL isLocked;
 @property (nonatomic, retain) FullCityProto *fcp;
+
+@property (nonatomic, retain) IBOutlet UILabel *numlabel;
+
+@property (nonatomic, retain) UIButton *bossButton;
+@property (nonatomic, retain) UILabel *timeLabel;
+
+@property (nonatomic, retain) NSTimer *timer;
 
 @end
 
@@ -28,6 +38,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIView *cityPopup;
+@property (nonatomic, retain) IBOutlet UIView *cityBgdView;
 @property (nonatomic, retain) IBOutlet UILabel *cityNameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *cityRankLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *progressBar;

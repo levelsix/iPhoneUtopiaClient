@@ -72,6 +72,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet MarketplaceFilterView *filterView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 
+@property (nonatomic, retain) NSArray *orderedEquips;
+
 + (MarketplaceViewController *) sharedMarketplaceViewController;
 + (void) displayView;
 + (void) removeView;

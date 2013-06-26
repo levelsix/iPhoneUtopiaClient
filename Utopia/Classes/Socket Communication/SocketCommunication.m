@@ -376,11 +376,12 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCVaultEvent];
 }
 
-- (int) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips {
-  BattleRequestProto_Builder *builder = [[[[[[BattleRequestProto builder]
+- (int) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips isTutorialBattle:(BOOL)isTutorialBattle {
+  BattleRequestProto_Builder *builder = [[[[[[[BattleRequestProto builder]
                                              setAttacker:_sender]
                                             setDefender:defender]
                                            setBattleResult:result]
+                                           setIsTutorialBattle:isTutorialBattle]
                                           setClientTime:curTime]
                                          addAllDefenderUserEquips:equips];
   if (city != -1) {

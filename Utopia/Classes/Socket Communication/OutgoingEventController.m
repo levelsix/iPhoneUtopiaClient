@@ -161,13 +161,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return YES;
 }
 
-- (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city equips:(NSArray *)equips {
+- (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city equips:(NSArray *)equips isTutorialBattle:(BOOL)isTutorialBattle {
   GameState *gs = [GameState sharedGameState];
   
   if (gs.currentStamina > 0) {
     MinimumUserProto *mup = [[[[[MinimumUserProto builder] setName:defender.name] setUserId:defender.userId] setUserType:defender.userType] build];
     
-    int tag = [[SocketCommunication sharedSocketCommunication] sendBattleMessage:mup result:result curTime:[self getCurrentMilliseconds] city:city equips:equips];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendBattleMessage:mup result:result curTime:[self getCurrentMilliseconds] city:city equips:equips isTutorialBattle:isTutorialBattle];
     [gs addUnrespondedUpdate:[StaminaUpdate updateWithTag:tag change:-1]];
     
     switch (result) {
@@ -2212,30 +2212,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (NSDate *) bossAction:(UserBoss *)ub isSuperAttack:(BOOL)isSuperAttack {
+- (void) bossAction:(UserBoss *)ub isSuperAttack:(BOOL)isSuperAttack {
   // Returns the kill time
   GameState *gs = [GameState sharedGameState];
   FullBossProto *fbp = [gs bossWithId:ub.bossId];
   UserCity *fcp = [gs myCityWithId:fbp.cityId];
+  int energyCost = !isSuperAttack ? fbp.regularAttackEnergyCost : fbp.superAttackEnergyCost;
   
   if (!fcp) {
     [Globals popupMessage:@"Attempting to do boss in a locked city"];
   } else if (![ub isAlive]) {
     [Globals popupMessage:@"Attempting to attack boss when it is dead."];
+  } else if (gs.currentEnergy < energyCost) {
+    [Globals popupMessage:@"Attempting to attack boss without enough energy."];
   } else {
     uint64_t curTime = [self getCurrentMilliseconds];
-//    int tag = [[SocketCommunication sharedSocketCommunication] sendBossActionMessage:ub.bossId isSuperAttack:isSuperAttack curTime:curTime];
-#warning fix
-//    [gs addUnrespondedUpdate:[StaminaUpdate updateWithTag:tag change:-fbp.staminaCost]];
-    
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:curTime/1000.];
-    if (![ub hasBeenAttacked]) {
-      ub.startTime = date;
-      [ub createTimer];
-    }
-    return date;
+    int tag = [[SocketCommunication sharedSocketCommunication] sendBossActionMessage:ub.bossId isSuperAttack:isSuperAttack curTime:curTime];
+    [gs addUnrespondedUpdate:[EnergyUpdate updateWithTag:tag change:-energyCost]];
   }
-  return nil;
 }
 
 - (int) claimTower:(int)towerId {

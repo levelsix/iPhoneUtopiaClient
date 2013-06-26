@@ -19,6 +19,7 @@
 #import "BossEventMenuController.h"
 #import <AudioToolbox/AudioServices.h>
 #import "Drops.h"
+#import "CityRankupViewController.h"
 
 #define LAST_BOSS_RESET_STAMINA_TIME_KEY @"Last boss reset stamina time key"
 
@@ -223,10 +224,6 @@
         asset.ub = [UserBoss userBossWithFullUserBossProto:ub];
         asset.ub.delegate = self;
         [asset.ub createTimer];
-        
-        if (![asset.ub isAlive]) {
-          asset.visible = NO;
-        }
       } else {
         ContextLogError(LN_CONTEXT_MAP, @"Could not find asset number %d.", fbp.assetNumWithinCity);
       }
@@ -278,10 +275,13 @@
     }
     
     [[NSBundle mainBundle] loadNibNamed:@"MissionBuildingMenu" owner:self options:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"CityBossView" owner:self options:nil];
     [Globals displayUIView:obMenu];
     [Globals displayUIView:summaryMenu];
+    [Globals displayUIView:self.bossView];
     [obMenu setMissionMap:self];
     obMenu.hidden = YES;
+    self.bossView.hidden = YES;
     
     summaryMenu.alpha = 0.f;
     
@@ -293,6 +293,21 @@
     [self moveToSprite:_myPlayer animated:NO];
     
     self.userGems = proto.myGemsList.count > 0 ? proto.myGemsList.mutableCopy : [NSMutableArray array];
+    BOOL hasAllGems = YES;
+    for (int i = 0; i < 5; i++) {
+      BOOL hasGem = NO;
+      for (UserCityGemProto *gem in self.userGems) {
+        if (gem.gemId == i+1) {
+          if (gem.quantity > 0) {
+            hasGem = YES;
+          }
+        }
+      }
+      
+      hasAllGems &= hasGem;
+    }
+    
+    [[TopBar sharedTopBar] shouldDisplayGemsBadge:hasAllGems];
   }
   return self;
 }
@@ -316,6 +331,13 @@
     [[NSBundle mainBundle] loadNibNamed:@"BossUnlockedView" owner:self options:nil];
   }
   return _bossUnlockedView;
+}
+
+- (GemTutorialView *) tutView {
+  if (!_tutView) {
+    [[NSBundle mainBundle] loadNibNamed:@"GemTutorialView" owner:self options:nil];
+  }
+  return _tutView;
 }
 
 - (void) displayGemsView {
@@ -480,6 +502,16 @@
   }
 }
 
+- (void) updateBossSprite {
+  if (_selected && [_selected isKindOfClass:[BossSprite class]]) {
+    CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];
+    [Globals setFrameForView:self.bossView forPoint:pt];
+    self.bossView.hidden = NO;
+  } else {
+    self.bossView.hidden = YES;
+  }
+}
+
 - (void) performCurrentTask {
   if ([_selected conformsToProtocol:@protocol(TaskElement)]) {
     id<TaskElement> te = (id<TaskElement>)_selected;
@@ -571,7 +603,7 @@
             [ms runAction:[CCSequence actions:
                            [CCSpawn actions:
                             [CCFadeIn actionWithDuration:0.3f],
-//                            [MoveToLocation actionWithDuration:1.f location:loc],
+                            //                            [MoveToLocation actionWithDuration:1.f location:loc],
                             nil],
                            [CCCallBlock actionWithBlock:
                             ^{
@@ -580,7 +612,7 @@
                               ps.position = ccp(3, 7);
                               [ps release];
                             }],
-//                           [MoveToLocation actionWithDuration:2.f location:newLoc],
+                           //                           [MoveToLocation actionWithDuration:2.f location:newLoc],
                            [CCDelayTime actionWithDuration:2.f],
                            [CCFadeOut actionWithDuration:0.3f],
                            [CCCallBlock actionWithBlock:
@@ -598,7 +630,7 @@
         }
       }
     }
-    [self closeMenus];
+    [self closeMenus:_selected];
   }
 }
 
@@ -606,6 +638,7 @@
   if (![_selected conformsToProtocol:@protocol(TaskElement)]) {
     return;
   }
+  GameState *gs = [GameState sharedGameState];
   
   id<TaskElement> te = (id<TaskElement>)_selected;
   FullTaskProto *ftp = te.ftp;
@@ -643,7 +676,6 @@
   }
   
   if (tarp.hasGem) {
-    [self addGemDrop:tarp.gem.gemId fromSprite:_selected toPosition:CGPointZero secondsToPickup:0];
     
     UserCityGemProto *toReplace = nil;
     for (UserCityGemProto *ug in self.userGems) {
@@ -652,16 +684,31 @@
       }
     }
     
+    BOOL showTut = NO;
+    
     if (toReplace) {
       [self.userGems replaceObjectAtIndex:[self.userGems indexOfObject:toReplace] withObject:tarp.gem];
     } else {
+      if (_cityId == 1 && self.userGems.count == 0) {
+        showTut = YES;
+      }
+      
       [self.userGems addObject:tarp.gem];
+    }
+    
+    if (showTut) {
+      [self addGemDrop:tarp.gem.gemId fromSprite:_selected toPosition:CGPointZero secondsToPickup:-1];
+      [self.tutView beginGemTutorial];
+    } else {
+      [self addGemDrop:tarp.gem.gemId fromSprite:_selected toPosition:CGPointZero secondsToPickup:0];
     }
   }
   
   if (tarp.hasBoss) {
     GameState *gs = [GameState sharedGameState];
-    [self.bossUnlockedView displayForBoss:[gs bossWithId:tarp.boss.bossId]];
+    FullBossProto *fbp = [gs bossWithId:tarp.boss.bossId];
+    [self.bossUnlockedView displayForBoss:fbp];
+    [(BossSprite *)[self assetWithId:fbp.assetNumWithinCity] setUb:[UserBoss userBossWithFullUserBossProto:tarp.boss]];
   }
   
   _receivedTaskActionResponse = YES;
@@ -670,6 +717,17 @@
     [self taskComplete];
   } else if (tarp.cityRankedUp) {
     [self taskComplete];
+    
+    UserCity *city = [gs myCityWithId:tarp.cityId];
+    
+    // This will be released after the view closes
+    CityRankupViewController *vc = [[CityRankupViewController alloc] initWithRank:city.curRank coins:tarp.coinBonusIfCityRankup exp:tarp.expBonusIfCityRankup];
+    [Globals displayUIView:vc.view];
+    
+    if (_cityId == 1 && city.curRank == 2) {
+      [self.tutView beginRankupTutorial];
+      [(UIButton *)[vc.mainView viewWithTag:30] addTarget:self.tutView action:@selector(beginBossTutorial) forControlEvents:UIControlEventTouchUpInside];
+    }
   }
 }
 
@@ -682,35 +740,62 @@
 - (void) taskComplete {
   _taskProgBar.visible = NO;
   
-  id<TaskElement> te = (id<TaskElement>)_selected;
-  FullTaskProto *ftp = te.ftp;
-  if (te.partOfQuest && te.numTimesActedForQuest == ftp.numRequiredForCompletion-1) {
-    [te displayCheck];
+  if ([_selected conformsToProtocol:@protocol(TaskElement)]) {
+    id<TaskElement> te = (id<TaskElement>)_selected;
+    FullTaskProto *ftp = te.ftp;
+    if (te.partOfQuest && te.numTimesActedForQuest == ftp.numRequiredForCompletion-1) {
+      [te displayCheck];
+    }
+    te.numTimesActedForTask = MIN(te.numTimesActedForTask+1, ftp.numRequiredForCompletion);
+    te.numTimesActedForQuest = MIN(te.numTimesActedForQuest+1, ftp.numRequiredForCompletion);
+    _performingTask = NO;
+    
+    self.selected = nil;
+  } else if ([_selected isKindOfClass:[BossSprite class]]) {
+    BossSprite *bs = (BossSprite *)_selected;
+    _performingTask = NO;
+    
+    [self doMenuAnimations];
+    
+    if (![bs.ub isAlive]) {
+      self.selected = nil;
+      
+      [bs runAction:
+       [CCSequence actions:
+        [CCFadeOut actionWithDuration:0.3f],
+        [CCCallBlock actionWithBlock:
+         ^{
+           CGRect r = CGRectZero;
+           r.origin = [self randomWalkablePosition];
+           r.size = CGSizeMake(1, 1);
+           bs.location = r;
+           [bs walk];
+         }],
+        [CCFadeIn actionWithDuration:0.3f],
+        nil]];
+      
+    }
   }
-  te.numTimesActedForTask = MIN(te.numTimesActedForTask+1, ftp.numRequiredForCompletion);
-  te.numTimesActedForQuest = MIN(te.numTimesActedForQuest+1, ftp.numRequiredForCompletion);
-  _performingTask = NO;
-  self.selected = nil;
   
   [_myPlayer stopPerformingAnimation];
 }
 
-- (void) performCurrentBossAction {
+- (void) performCurrentBossAction:(BOOL)isSuperAttack {
   if ([_selected isKindOfClass:[BossSprite class]]) {
     BossSprite *bs = (BossSprite *)_selected;
     GameState *gs = [GameState sharedGameState];
+    FullBossProto *fbp = [gs bossWithId:bs.ub.bossId];
     
     // Perform checks
-    if (gs.currentEnergy < 1) {
+    int energyCost = !isSuperAttack ? fbp.regularAttackEnergyCost : fbp.superAttackEnergyCost;
+    if (gs.currentEnergy < energyCost) {
       // Not enough energy
       [[RefillMenuController sharedRefillMenuController] displayEnstView:YES];
       self.selected = nil;
       return;
     }
     
-    Globals *gl = [Globals sharedGlobals];
-    BOOL isSuperAttack = gl.bossNumAttacksTillSuperAttack <= _curPowerAttack;
-    self.potentialBossKillTime = [[OutgoingEventController sharedOutgoingEventController] bossAction:bs.ub isSuperAttack:isSuperAttack];
+    [[OutgoingEventController sharedOutgoingEventController] bossAction:bs.ub isSuperAttack:isSuperAttack];
     
     CGPoint pt = arc4random() % 2 == 0 ? ccp(0, -1) : ccp(-1, 0);
     CGPoint ccPt = pt;
@@ -731,7 +816,13 @@
       ccPt.y = 0;
     }
     
+    _taskProgBar.position = ccp(bs.position.x, bs.position.y+bs.contentSize.height+10);
+    [_taskProgBar animateBarWithText:@"ATTACKING"];
+    _taskProgBar.visible = YES;
+    _receivedTaskActionResponse = NO;
     _performingTask = YES;
+    
+    [self closeMenus:bs];
     
     ccPt = ccpSub([self convertTilePointToCCPoint:ccp(0, 0)], [self convertTilePointToCCPoint:ccPt]);
     float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccPt));
@@ -750,15 +841,20 @@
   
   ub.curHealth = MAX(0, ub.curHealth-barp.damageDone);
   
+  GameState *gs = [GameState sharedGameState];
+  [gs addToMyBosses:[NSArray arrayWithObject:ub]];
+  
   CCLabelTTF *expLabel =  [CCLabelFX labelWithString:[NSString stringWithFormat:@"+%d Exp.", barp.expGained] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
-  [self addChild:expLabel z:1003];
   expLabel.position = ccp(bs.position.x+bs.contentSize.width/2+expLabel.contentSize.width/2, bs.position.y+bs.contentSize.height/2+expLabel.contentSize.height/2);
-  expLabel.color = ccc3(255,200,0);
-  [expLabel runAction:[CCSequence actions:
-                       [CCSpawn actions:
-                        [CCFadeOut actionWithDuration:EXP_LABEL_DURATION],
-                        [CCMoveBy actionWithDuration:EXP_LABEL_DURATION position:ccp(0,40)],nil],
-                       [CCCallBlock actionWithBlock:^{[expLabel removeFromParentAndCleanup:YES];}], nil]];
+  if (barp.expGained > 0) {
+    [self addChild:expLabel z:1003];
+    expLabel.color = ccc3(255,200,0);
+    [expLabel runAction:[CCSequence actions:
+                         [CCSpawn actions:
+                          [CCFadeOut actionWithDuration:EXP_LABEL_DURATION],
+                          [CCMoveBy actionWithDuration:EXP_LABEL_DURATION position:ccp(0,40)],nil],
+                         [CCCallBlock actionWithBlock:^{[expLabel removeFromParentAndCleanup:YES];}], nil]];
+  }
   
   CCLabelTTF *successLabel =  [CCLabelFX labelWithString:[NSString stringWithFormat:@"Success!"] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
   [self addChild:successLabel z:1003];
@@ -770,7 +866,7 @@
                             [CCMoveBy actionWithDuration:EXP_LABEL_DURATION position:ccp(0,40)],nil],
                            [CCCallBlock actionWithBlock:^{[successLabel removeFromParentAndCleanup:YES];}], nil]];
   
-  CCLabelTTF *dmgLabel =  [CCLabelFX labelWithString:[NSString stringWithFormat:@"-%d", barp.damageDone] fontName:@"DINCond-Black" fontSize:30 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+  CCLabelTTF *dmgLabel =  [CCLabelFX labelWithString:[NSString stringWithFormat:@"-%d HP", barp.damageDone] fontName:@"DINCond-Black" fontSize:30 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
   [self addChild:dmgLabel z:1003];
   dmgLabel.position = ccp(bs.position.x, bs.position.y+bs.contentSize.height+dmgLabel.contentSize.height/2+20);
   dmgLabel.color = ccc3(255,0,0);
@@ -789,20 +885,39 @@
     self.goldOnMap += n.intValue;
   }
   
-  Globals *gl = [Globals sharedGlobals];
-  if (_curPowerAttack >= gl.bossNumAttacksTillSuperAttack) {
+  if (barp.isCriticalAttack) {
+    CCLabelTTF *critLabel =  [CCLabelFX labelWithString:[NSString stringWithFormat:@"CRITICAL HIT!"] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+    [self addChild:critLabel z:1003];
+    critLabel.position = ccp(successLabel.position.x+21, successLabel.position.y-successLabel.contentSize.height/2-critLabel.contentSize.height/2);
+    critLabel.color = ccc3(156, 202, 16);
+    [critLabel runAction:[CCSequence actions:
+                          [CCSpawn actions:
+                           [CCFadeOut actionWithDuration:EXP_LABEL_DURATION],
+                           [CCMoveBy actionWithDuration:EXP_LABEL_DURATION position:ccp(0,40)],nil],
+                          [CCCallBlock actionWithBlock:^{[critLabel removeFromParentAndCleanup:YES];}], nil]];
+    
     [self shakeScreen];
   }
+
+  _receivedTaskActionResponse = YES;
   
-  NSMethodSignature* sig = [[self class]
-                            instanceMethodSignatureForSelector:@selector(bossActionComplete:)];
-  NSInvocation* invocation = [NSInvocation
-                              invocationWithMethodSignature:sig];
-  [invocation setTarget:self];
-  [invocation setSelector:@selector(bossActionComplete:)];
-  [invocation setArgument:&barp atIndex:2];
-  [invocation retainArguments];
-  [bs animateBarWithCallback:invocation];
+  if (!_taskProgBar.isAnimating) {
+    [self taskComplete];
+  }
+  
+  [self dropItems:barp fromSprite:bs];
+  
+  [self.bossView updateForUserBoss:bs.ub];
+  
+  //  NSMethodSignature* sig = [[self class]
+  //                            instanceMethodSignatureForSelector:@selector(bossActionComplete:)];
+  //  NSInvocation* invocation = [NSInvocation
+  //                              invocationWithMethodSignature:sig];
+  //  [invocation setTarget:self];
+  //  [invocation setSelector:@selector(bossActionComplete:)];
+  //  [invocation setArgument:&barp atIndex:2];
+  //  [invocation retainArguments];
+  //  [bs animateBarWithCallback:invocation];
 }
 
 - (void) bossTimeUp:(UserBoss *)boss {
@@ -811,12 +926,6 @@
   BossSprite *bs = (BossSprite *)[self assetWithId:fbp.assetNumWithinCity];
   
   if ([bs isKindOfClass:[BossSprite class]]) {
-    [bs runAction:[CCSequence actions:[CCFadeTo actionWithDuration:0.3f opacity:0],
-                   [CCCallBlock actionWithBlock:
-                    ^{
-                      bs.visible = NO;
-                    }], nil]];
-    
     if (bs == _selected) {
       self.selected = nil;
     }
@@ -838,7 +947,6 @@
   // Update the health bar
   bs.ub = boss;
   
-  bs.visible = YES;
   [bs runAction:[CCFadeIn actionWithDuration:0.3f]];
   
   [self resetPowerAttack];
@@ -850,42 +958,28 @@
   BossSprite *bs = (BossSprite *)[self assetWithId:fbp.assetNumWithinCity];
   UserBoss *ub = bs.ub;
   
-  // Must unselect first because it will stop all actions
-  self.selected = nil;
-  
   [self stopActionByTag:SHAKE_SCREEN_ACTION_TAG];
   
   if (ub.curHealth == 0) {
     [ub createTimer];
     
-    [bs runAction:[CCSequence actions:[CCFadeTo actionWithDuration:0.2f opacity:0],
-                   [CCCallBlock actionWithBlock:
-                    ^{
-                      bs.visible = NO;
-                    }], nil]];
     [self dropItems:barp fromSprite:bs];
     
     [self resetPowerAttack];
   } else {
     [self incrementPowerAttack];
   }
-  
-  self.potentialBossKillTime = nil;
-  
-  _performingTask = NO;
-  
-  [_myPlayer stopPerformingAnimation];
 }
 
 - (void) shakeScreen {
   int x = (arc4random_uniform(4)+4)*(arc4random_uniform(2)?-1:1);
   int y = (arc4random_uniform(2)+2)*(arc4random_uniform(2)?-1:1);
   CCMoveBy *m = [CCMoveBy actionWithDuration:0.01 position:ccp(x,y)];
-  CCRepeatForever *a = [CCRepeatForever actionWithAction:[CCSequence actions:m.copy, m.reverse, m.reverse, m.copy, nil]];
+  CCRepeat *a = [CCRepeat actionWithAction:[CCSequence actions:m.copy, m.reverse, m.reverse, m.copy, nil] times:10];
   a.tag = SHAKE_SCREEN_ACTION_TAG;
   [self runAction:a];
   
-  AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+//  AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 
 - (void) dropItems:(BossActionResponseProto *)barp fromSprite:(MapSprite *)sprite {
@@ -921,19 +1015,20 @@
   NSMutableArray *actions = [NSMutableArray array];
   [actions addObject:[CCDelayTime actionWithDuration:0.01f]];
   
-  float y = sprite.position.y-10.f;
+  float y = sprite.position.y+30.f;
   float x = sprite.position.x-allItems.count/2.f*DROP_SPACE;
+  int secondsToPickup = 5;
   for (BossReward *r in allItems) {
     CCCallBlock *c = [CCCallBlock actionWithBlock:^{
       // Must decrement silver/gold on map because it was already added
       if (r.type == kSilverDrop) {
-        [self addSilverDrop:r.value fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:-1];
+        [self addSilverDrop:r.value fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:secondsToPickup];
         self.silverOnMap -= r.value;
       } else if (r.type == kGoldDrop) {
-        [self addGoldDrop:r.value fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:-1];
+        [self addGoldDrop:r.value fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:secondsToPickup];
         self.goldOnMap -= r.value;
       } else {
-        [self addEquipDrop:r.value fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:-1];
+        [self addEquipDrop:r.value fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:secondsToPickup];
       }
     }];
     [actions addObject:c];
@@ -942,30 +1037,28 @@
     x += DROP_SPACE;
   }
   
+  if (barp.hasGemDropped) {
+    CCCallBlock *c = [CCCallBlock actionWithBlock:^{
+      [self addGemDrop:barp.gemDropped.gemId fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:secondsToPickup];
+    }];
+    [actions addObject:c];
+    [actions addObject:[CCDelayTime actionWithDuration:0.1f]];
+    
+    UserCityGemProto *toReplace = nil;
+    for (UserCityGemProto *ug in self.userGems) {
+      if (ug.gemId == barp.gemDropped.gemId) {
+        toReplace = ug;
+      }
+    }
+    
+    if (toReplace) {
+      [self.userGems replaceObjectAtIndex:[self.userGems indexOfObject:toReplace] withObject:barp.gemDropped];
+    } else {
+      [self.userGems addObject:barp.gemDropped];
+    }
+  }
+  
   [self runAction:[CCSequence actionsWithArray:actions]];
-}
-
-- (void) updateBossLabel {
-  GameState *gs = [GameState sharedGameState];
-  FullCityProto *fcp = [gs cityWithId:_cityId];
-  
-  if (fcp.bossIdsList.count == 0) {
-    return;
-  }
-  
-  FullBossProto *fbp = [gs bossWithId:[[fcp.bossIdsList objectAtIndex:0] intValue]];
-  BossSprite *bs = [self assetWithId:fbp.assetNumWithinCity];
-  
-  if (![bs.ub isAlive]) {
-    NSDate *date = nil;//[bs.ub nextRespawnTime];
-    _bossTimeLabel.string = [NSString stringWithFormat:@"Respawn Time: %@", [Globals convertTimeToString:date.timeIntervalSinceNow withDays:YES]];
-  } else if (![bs.ub hasBeenAttacked]) {
-    _bossTimeLabel.string = [NSString stringWithFormat:@"Tap %@ to begin!", bs.name];
-  } else {
-    NSDate *date = [bs.ub timeUpDate];
-    _bossTimeLabel.string = [NSString stringWithFormat:@"Time Left: %@", [Globals convertTimeToString:date.timeIntervalSinceNow withDays:YES]];
-  }
-  _infoMenu.position = ccp(_bossTimeLabel.contentSize.width+15.f, _bossTimeLabel.contentSize.height/2+5.f);
 }
 
 - (void) incrementPowerAttack {
@@ -987,6 +1080,7 @@
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
+  SelectableSprite *oldSelected = _selected;
   if ([_selected conformsToProtocol:@protocol(TaskElement)] && selected == nil) {
     [[TopBar sharedTopBar] fadeOutToolTip:NO];
   } else if ([_selected isKindOfClass:[BossSprite class]]) {
@@ -995,6 +1089,7 @@
   [super setSelected:selected];
   if (_selected) {
     if ([_selected conformsToProtocol:@protocol(TaskElement)]) {
+      
       id<TaskElement> te = (id<TaskElement>)_selected;
       [summaryMenu updateLabelsForTask:te.ftp name:te.name];
       
@@ -1004,33 +1099,65 @@
       [self doMenuAnimations];
       [[TopBar sharedTopBar] fadeInLittleToolTip:YES];
     } else if ([_selected isKindOfClass:[BossSprite class]]) {
-      [[TopBar sharedTopBar] fadeInLittleToolTip:NO];
+      float dur = [self moveToSprite:_selected animated:YES withOffset:ccp(0, -50)];
+      
+      [self performSelector:@selector(doMenuAnimations) withObject:nil afterDelay:dur+0.2f];
+      [[TopBar sharedTopBar] fadeInLittleToolTip:YES];
+      
+      BossSprite *bs = (BossSprite *)_selected;
+      [self.bossView updateForUserBoss:bs.ub];
     }
   } else {
-    [self closeMenus];
+    [self closeMenus:oldSelected];
   }
 }
 
 - (void) doMenuAnimations {
-  [self updateMissionBuildingMenu];
-  obMenu.alpha = 0.f;
-  
-  [[TopBar sharedTopBar] fadeInMenuOverChatView:summaryMenu];
-  
-  [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
-    obMenu.alpha = 1.f;
-  }];
+  if ([_selected conformsToProtocol:@protocol(TaskElement)]) {
+    [self updateMissionBuildingMenu];
+    
+    [[TopBar sharedTopBar] fadeInMenuOverChatView:summaryMenu];
+    
+    [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
+      obMenu.alpha = 1.f;
+    }];
+  } else if ([_selected isKindOfClass:[BossSprite class]]) {
+    [self updateBossSprite];
+    
+    [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
+      self.bossView.alpha = 1.f;
+    }];
+    
+    BossSprite *bs = (BossSprite *)_selected;
+    [bs.bossMenu runAction:[RecursiveFadeTo actionWithDuration:SUMMARY_MENU_ANIMATION_DURATION opacity:0]];
+  }
 }
 
-- (void) closeMenus {
-  [[TopBar sharedTopBar] fadeOutMenuOverChatView:summaryMenu];
-  [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
-    obMenu.alpha = 0.f;
-  } completion:^(BOOL finished) {
-    if (finished) {
-      [self updateMissionBuildingMenu];
+- (void) closeMenus:(SelectableSprite *)selected {
+  if ([selected conformsToProtocol:@protocol(TaskElement)]) {
+    [[TopBar sharedTopBar] fadeOutMenuOverChatView:summaryMenu];
+    [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
+      obMenu.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      if (finished) {
+        [self updateMissionBuildingMenu];
+      }
+    }];
+  } else if ([selected isKindOfClass:[BossSprite class]]) {
+    [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
+      self.bossView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      if (finished) {
+        [self updateBossSprite];
+      }
+    }];
+    
+    // If currently, nothing is selected, put the boss menu back up
+    if (!_selected) {
+      BossSprite *bs = (BossSprite *)selected;
+      [bs.bossMenu runAction:[RecursiveFadeTo actionWithDuration:SUMMARY_MENU_ANIMATION_DURATION opacity:255]];
     }
-  }];
+  }
 }
 
 - (SelectableSprite *) selectableForPt:(CGPoint)pt {
@@ -1039,6 +1166,7 @@
     BossSprite *bs = (BossSprite *)ss;
     
     if (![bs.ub isAlive]) {
+      [Globals popupMessage:@"Complete all the city tasks to unlock the boss."];
       return nil;
     }
   }
@@ -1055,9 +1183,13 @@
   if (oldSelected == _selected && [_selected conformsToProtocol:@protocol(TaskElement)]) {
     [self performCurrentTask];
     return;
-  } else if (oldSelected == _selected && [_selected isKindOfClass:[BossSprite class]]) {
-    [self performCurrentBossAction];
-    return;
+  }
+}
+
+- (IBAction)bossAttackClicked:(UIView *)sender {
+  if (!_performingTask && [_selected isKindOfClass:[BossSprite class]]) {
+    BOOL isSuperAttack = sender.tag == 2;
+    [self performCurrentBossAction:isSuperAttack];
   }
 }
 
@@ -1065,8 +1197,10 @@
   // During drag, take out menus
   if([recognizer state] == UIGestureRecognizerStateBegan ) {
     self.obMenu.hidden = YES;
+    self.bossView.hidden = YES;
   } else if ([recognizer state] == UIGestureRecognizerStateEnded) {
     [self updateMissionBuildingMenu];
+    [self updateBossSprite];
   }
   
   if (!_performingTask) {
@@ -1078,12 +1212,15 @@
 - (void) scale:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
   [super scale:recognizer node:node];
   [self updateMissionBuildingMenu];
+  [self updateBossSprite];
 }
 
 - (void) questAccepted:(FullQuestProto *)fqp {
   QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
-  qg.quest = fqp;
-  qg.questGiverState = kInProgress;
+  if ([qg isKindOfClass:[QuestGiver class]]) {
+    qg.quest = fqp;
+    qg.questGiverState = kInProgress;
+  }
   
   GameState *gs = [GameState sharedGameState];
   for (NSNumber *num in fqp.taskReqsList) {
@@ -1107,8 +1244,10 @@
 
 - (void) questRedeemed:(FullQuestProto *)fqp {
   QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
-  qg.quest = nil;
-  qg.questGiverState = kNoQuest;
+  if ([qg isKindOfClass:[QuestGiver class]]) {
+    qg.quest = nil;
+    qg.questGiverState = kNoQuest;
+  }
   
   GameState *gs = [GameState sharedGameState];
   for (NSNumber *num in fqp.taskReqsList) {
@@ -1210,35 +1349,35 @@
     FullCityProto *fcp = [gs cityWithId:_cityId];
     // Schedule timer if there is a boss
     if (fcp.bossIdsList.count > 0) {
-//      _bossTimeLabel = [CCLabelFX labelWithString:@"" fontName:@"Trajan Pro" fontSize:16.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
-//      _bossTimeLabel.color = ccc3(236, 230, 195);
-//      [self.parent addChild:_bossTimeLabel z:1000];
-//      _bossTimeLabel.position = ccp(self.parent.contentSize.width/2, 63.f);
-//      
-//      CCMenuItem *m = [CCMenuItemImage itemFromNormalImage:@"bossinfo.png" selectedImage:nil target:self selector:@selector(bossInfoClicked)];
-//      _infoMenu = [CCMenu menuWithItems:m, nil];
-//      [_bossTimeLabel addChild:_infoMenu];
-//      [self updateBossLabel];
-//      [self schedule:@selector(updateBossLabel) interval:1];
-//      
-//      _powerAttackBgd = [CCSprite spriteWithFile:@"superattackbg.png"];
-//      [self.parent addChild:_powerAttackBgd z:1];
-//      _powerAttackBgd.position = ccp(5+_powerAttackBgd.contentSize.width/2, _bossTimeLabel.position.y+3.f);
-//      
-//      _powerAttackBar = [CCProgressTimer progressWithFile:@"superattackpurple.png"];
-//      _powerAttackBar.type = kCCProgressTimerTypeHorizontalBarLR;
-//      _powerAttackBar.percentage = 0;
-//      [_powerAttackBgd addChild:_powerAttackBar];
-//      _powerAttackBar.position = ccp(_powerAttackBgd.contentSize.width/2, _powerAttackBgd.contentSize.height/2);
-//      
-//      _powerAttackLabel = [CCLabelFX labelWithString:@"0/5" fontName:[Globals font] fontSize:13.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f shadowColor:ccc4(0,0,0,50) fillColor:ccc4(236, 230, 195, 255)];
-//      [_powerAttackBgd addChild:_powerAttackLabel];
-//      _powerAttackLabel.position = ccpAdd(_powerAttackBar.position, ccp(0,-3));
-//      
-//      CCLabelFX *superAttackLabel = [CCLabelFX labelWithString:@"Power Attack" fontName:@"Trajan Pro" fontSize:13.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
-//      superAttackLabel.color = ccc3(236, 230, 195);
-//      [_powerAttackBgd addChild:superAttackLabel z:1000];
-//      superAttackLabel.position = ccp(_powerAttackBgd.contentSize.width/2, _powerAttackBgd.contentSize.height/2+superAttackLabel.contentSize.height/2+5);
+      //      _bossTimeLabel = [CCLabelFX labelWithString:@"" fontName:@"Trajan Pro" fontSize:16.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+      //      _bossTimeLabel.color = ccc3(236, 230, 195);
+      //      [self.parent addChild:_bossTimeLabel z:1000];
+      //      _bossTimeLabel.position = ccp(self.parent.contentSize.width/2, 63.f);
+      //
+      //      CCMenuItem *m = [CCMenuItemImage itemFromNormalImage:@"bossinfo.png" selectedImage:nil target:self selector:@selector(bossInfoClicked)];
+      //      _infoMenu = [CCMenu menuWithItems:m, nil];
+      //      [_bossTimeLabel addChild:_infoMenu];
+      //      [self updateBossLabel];
+      //      [self schedule:@selector(updateBossLabel) interval:1];
+      //
+      //      _powerAttackBgd = [CCSprite spriteWithFile:@"superattackbg.png"];
+      //      [self.parent addChild:_powerAttackBgd z:1];
+      //      _powerAttackBgd.position = ccp(5+_powerAttackBgd.contentSize.width/2, _bossTimeLabel.position.y+3.f);
+      //
+      //      _powerAttackBar = [CCProgressTimer progressWithFile:@"superattackpurple.png"];
+      //      _powerAttackBar.type = kCCProgressTimerTypeHorizontalBarLR;
+      //      _powerAttackBar.percentage = 0;
+      //      [_powerAttackBgd addChild:_powerAttackBar];
+      //      _powerAttackBar.position = ccp(_powerAttackBgd.contentSize.width/2, _powerAttackBgd.contentSize.height/2);
+      //
+      //      _powerAttackLabel = [CCLabelFX labelWithString:@"0/5" fontName:[Globals font] fontSize:13.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f shadowColor:ccc4(0,0,0,50) fillColor:ccc4(236, 230, 195, 255)];
+      //      [_powerAttackBgd addChild:_powerAttackLabel];
+      //      _powerAttackLabel.position = ccpAdd(_powerAttackBar.position, ccp(0,-3));
+      //
+      //      CCLabelFX *superAttackLabel = [CCLabelFX labelWithString:@"Power Attack" fontName:@"Trajan Pro" fontSize:13.f shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+      //      superAttackLabel.color = ccc3(236, 230, 195);
+      //      [_powerAttackBgd addChild:superAttackLabel z:1000];
+      //      superAttackLabel.position = ccp(_powerAttackBgd.contentSize.width/2, _powerAttackBgd.contentSize.height/2+superAttackLabel.contentSize.height/2+5);
       
       // So we can increment it
       [self resetPowerAttack];
@@ -1250,7 +1389,7 @@
       if (!date || [nextShowDate compare:curDate] == NSOrderedAscending) {
         int percent = [gl percentOfSkillPointsInStamina];
         if (percent < 75) {
-//          [self.resetStaminaView display];
+          //          [self.resetStaminaView display];
           [defaults setObject:curDate forKey:LAST_BOSS_RESET_STAMINA_TIME_KEY];
         }
       }
@@ -1283,7 +1422,8 @@
   self.bossUnlockedView = nil;
   [self.gemsView removeFromSuperview];
   self.gemsView = nil;
-  self.potentialBossKillTime = nil;
+  [self.bossView removeFromSuperview];
+  self.bossView = nil;
   self.resetStaminaView = nil;
   [super dealloc];
 }

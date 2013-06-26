@@ -556,6 +556,7 @@ static ChatResponseProto* defaultChatResponseProtoInstance = nil;
 @property int64_t clientTime;
 @property int32_t neutralCityId;
 @property (retain) NSMutableArray* mutableDefenderUserEquipsList;
+@property BOOL isTutorialBattle;
 @end
 
 @implementation BattleRequestProto
@@ -596,6 +597,18 @@ static ChatResponseProto* defaultChatResponseProtoInstance = nil;
 }
 @synthesize neutralCityId;
 @synthesize mutableDefenderUserEquipsList;
+- (BOOL) hasIsTutorialBattle {
+  return !!hasIsTutorialBattle_;
+}
+- (void) setHasIsTutorialBattle:(BOOL) value {
+  hasIsTutorialBattle_ = !!value;
+}
+- (BOOL) isTutorialBattle {
+  return !!isTutorialBattle_;
+}
+- (void) setIsTutorialBattle:(BOOL) value {
+  isTutorialBattle_ = !!value;
+}
 - (void) dealloc {
   self.attacker = nil;
   self.defender = nil;
@@ -609,6 +622,7 @@ static ChatResponseProto* defaultChatResponseProtoInstance = nil;
     self.battleResult = BattleResultAttackerWin;
     self.clientTime = 0L;
     self.neutralCityId = 0;
+    self.isTutorialBattle = NO;
   }
   return self;
 }
@@ -653,6 +667,9 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   for (FullUserEquipProto* element in self.defenderUserEquipsList) {
     [output writeMessage:6 value:element];
   }
+  if (self.hasIsTutorialBattle) {
+    [output writeBool:7 value:self.isTutorialBattle];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -679,6 +696,9 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   }
   for (FullUserEquipProto* element in self.defenderUserEquipsList) {
     size += computeMessageSize(6, element);
+  }
+  if (self.hasIsTutorialBattle) {
+    size += computeBoolSize(7, self.isTutorialBattle);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -776,6 +796,9 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
     }
     [result.mutableDefenderUserEquipsList addObjectsFromArray:other.mutableDefenderUserEquipsList];
   }
+  if (other.hasIsTutorialBattle) {
+    [self setIsTutorialBattle:other.isTutorialBattle];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -836,6 +859,10 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
         FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addDefenderUserEquips:[subBuilder buildPartial]];
+        break;
+      }
+      case 56: {
+        [self setIsTutorialBattle:[input readBool]];
         break;
       }
     }
@@ -976,6 +1003,22 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
     result.mutableDefenderUserEquipsList = [NSMutableArray array];
   }
   [result.mutableDefenderUserEquipsList addObject:value];
+  return self;
+}
+- (BOOL) hasIsTutorialBattle {
+  return result.hasIsTutorialBattle;
+}
+- (BOOL) isTutorialBattle {
+  return result.isTutorialBattle;
+}
+- (BattleRequestProto_Builder*) setIsTutorialBattle:(BOOL) value {
+  result.hasIsTutorialBattle = YES;
+  result.isTutorialBattle = value;
+  return self;
+}
+- (BattleRequestProto_Builder*) clearIsTutorialBattle {
+  result.hasIsTutorialBattle = NO;
+  result.isTutorialBattle = NO;
   return self;
 }
 @end
@@ -3276,6 +3319,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutablePcppList;
 @property (retain) NSMutableArray* mutableGemsForAllCitiesList;
 @property (retain) NSMutableArray* mutableLivingBossesList;
+@property (retain) NSMutableArray* mutableBossesList;
 @end
 
 @implementation StartupResponseProto
@@ -3416,6 +3460,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutablePcppList;
 @synthesize mutableGemsForAllCitiesList;
 @synthesize mutableLivingBossesList;
+@synthesize mutableBossesList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3459,6 +3504,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutablePcppList = nil;
   self.mutableGemsForAllCitiesList = nil;
   self.mutableLivingBossesList = nil;
+  self.mutableBossesList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3723,6 +3769,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableLivingBossesList objectAtIndex:index];
   return value;
 }
+- (NSArray*) bossesList {
+  return mutableBossesList;
+}
+- (FullBossProto*) bossesAtIndex:(int32_t) index {
+  id value = [mutableBossesList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -3867,6 +3920,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (FullUserBossProto* element in self.livingBossesList) {
     [output writeMessage:47 value:element];
+  }
+  for (FullBossProto* element in self.bossesList) {
+    [output writeMessage:48 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -4022,6 +4078,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (FullUserBossProto* element in self.livingBossesList) {
     size += computeMessageSize(47, element);
+  }
+  for (FullBossProto* element in self.bossesList) {
+    size += computeMessageSize(48, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5595,7 +5654,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
 @property int32_t averageSizeOfLevelBracket;
 @property (retain) StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
-@property Float64 healthFormulaExponentBase;
 @property Float64 levelEquipBoostExponentBase;
 @property int32_t adColonyVideosRequiredToRedeemDiamonds;
 @property (retain) StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
@@ -5638,6 +5696,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) MinimumUserProto* adminChatUserProto;
 @property int32_t numBeginnerSalesAllowed;
 @property int32_t defaultDaysBattleShieldIsActive;
+@property (retain) StartupResponseProto_StartupConstants_HealthConstants* healthConstants;
+@property (retain) StartupResponseProto_StartupConstants_BossConstants* bossConstants;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -6009,13 +6069,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasForgeConstants_ = !!value;
 }
 @synthesize forgeConstants;
-- (BOOL) hasHealthFormulaExponentBase {
-  return !!hasHealthFormulaExponentBase_;
-}
-- (void) setHasHealthFormulaExponentBase:(BOOL) value {
-  hasHealthFormulaExponentBase_ = !!value;
-}
-@synthesize healthFormulaExponentBase;
 - (BOOL) hasLevelEquipBoostExponentBase {
   return !!hasLevelEquipBoostExponentBase_;
 }
@@ -6303,6 +6356,20 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasDefaultDaysBattleShieldIsActive_ = !!value;
 }
 @synthesize defaultDaysBattleShieldIsActive;
+- (BOOL) hasHealthConstants {
+  return !!hasHealthConstants_;
+}
+- (void) setHasHealthConstants:(BOOL) value {
+  hasHealthConstants_ = !!value;
+}
+@synthesize healthConstants;
+- (BOOL) hasBossConstants {
+  return !!hasBossConstants_;
+}
+- (void) setHasBossConstants:(BOOL) value {
+  hasBossConstants_ = !!value;
+}
+@synthesize bossConstants;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -6328,6 +6395,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.faqFileName = nil;
   self.prestigeFaqFileName = nil;
   self.adminChatUserProto = nil;
+  self.healthConstants = nil;
+  self.bossConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -6384,7 +6453,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.kiipRewardConditions = [StartupResponseProto_StartupConstants_KiipRewardConditions defaultInstance];
     self.averageSizeOfLevelBracket = 0;
     self.forgeConstants = [StartupResponseProto_StartupConstants_ForgeConstants defaultInstance];
-    self.healthFormulaExponentBase = 0;
     self.levelEquipBoostExponentBase = 0;
     self.adColonyVideosRequiredToRedeemDiamonds = 0;
     self.charModConstants = [StartupResponseProto_StartupConstants_CharacterModConstants defaultInstance];
@@ -6425,6 +6493,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.adminChatUserProto = [MinimumUserProto defaultInstance];
     self.numBeginnerSalesAllowed = 0;
     self.defaultDaysBattleShieldIsActive = 0;
+    self.healthConstants = [StartupResponseProto_StartupConstants_HealthConstants defaultInstance];
+    self.bossConstants = [StartupResponseProto_StartupConstants_BossConstants defaultInstance];
   }
   return self;
 }
@@ -6641,9 +6711,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasForgeConstants) {
     [output writeMessage:64 value:self.forgeConstants];
   }
-  if (self.hasHealthFormulaExponentBase) {
-    [output writeDouble:65 value:self.healthFormulaExponentBase];
-  }
   if (self.hasLevelEquipBoostExponentBase) {
     [output writeDouble:66 value:self.levelEquipBoostExponentBase];
   }
@@ -6772,6 +6839,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasDefaultDaysBattleShieldIsActive) {
     [output writeInt32:108 value:self.defaultDaysBattleShieldIsActive];
+  }
+  if (self.hasHealthConstants) {
+    [output writeMessage:109 value:self.healthConstants];
+  }
+  if (self.hasBossConstants) {
+    [output writeMessage:110 value:self.bossConstants];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -6954,9 +7027,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasForgeConstants) {
     size += computeMessageSize(64, self.forgeConstants);
   }
-  if (self.hasHealthFormulaExponentBase) {
-    size += computeDoubleSize(65, self.healthFormulaExponentBase);
-  }
   if (self.hasLevelEquipBoostExponentBase) {
     size += computeDoubleSize(66, self.levelEquipBoostExponentBase);
   }
@@ -7091,6 +7161,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasDefaultDaysBattleShieldIsActive) {
     size += computeInt32Size(108, self.defaultDaysBattleShieldIsActive);
   }
+  if (self.hasHealthConstants) {
+    size += computeMessageSize(109, self.healthConstants);
+  }
+  if (self.hasBossConstants) {
+    size += computeMessageSize(110, self.bossConstants);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -7121,6 +7197,474 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_BossConstants ()
+@property int32_t maxHealthMultiplier;
+@end
+
+@implementation StartupResponseProto_StartupConstants_BossConstants
+
+- (BOOL) hasMaxHealthMultiplier {
+  return !!hasMaxHealthMultiplier_;
+}
+- (void) setHasMaxHealthMultiplier:(BOOL) value {
+  hasMaxHealthMultiplier_ = !!value;
+}
+@synthesize maxHealthMultiplier;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.maxHealthMultiplier = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_BossConstants* defaultStartupResponseProto_StartupConstants_BossConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_BossConstants class]) {
+    defaultStartupResponseProto_StartupConstants_BossConstantsInstance = [[StartupResponseProto_StartupConstants_BossConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_BossConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_BossConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_BossConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_BossConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMaxHealthMultiplier) {
+    [output writeInt32:1 value:self.maxHealthMultiplier];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMaxHealthMultiplier) {
+    size += computeInt32Size(1, self.maxHealthMultiplier);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_BossConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_BossConstants*)[[[StartupResponseProto_StartupConstants_BossConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_BossConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BossConstants*)[[[StartupResponseProto_StartupConstants_BossConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BossConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_BossConstants*)[[[StartupResponseProto_StartupConstants_BossConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_BossConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BossConstants*)[[[StartupResponseProto_StartupConstants_BossConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BossConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_BossConstants*)[[[StartupResponseProto_StartupConstants_BossConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_BossConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BossConstants*)[[[StartupResponseProto_StartupConstants_BossConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BossConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_BossConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_BossConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_BossConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_BossConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_BossConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_BossConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_BossConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_BossConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_BossConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_BossConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_BossConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_BossConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BossConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_BossConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_BossConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_BossConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_BossConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_BossConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_BossConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_BossConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_BossConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_BossConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasMaxHealthMultiplier) {
+    [self setMaxHealthMultiplier:other.maxHealthMultiplier];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BossConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_BossConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setMaxHealthMultiplier:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMaxHealthMultiplier {
+  return result.hasMaxHealthMultiplier;
+}
+- (int32_t) maxHealthMultiplier {
+  return result.maxHealthMultiplier;
+}
+- (StartupResponseProto_StartupConstants_BossConstants_Builder*) setMaxHealthMultiplier:(int32_t) value {
+  result.hasMaxHealthMultiplier = YES;
+  result.maxHealthMultiplier = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BossConstants_Builder*) clearMaxHealthMultiplier {
+  result.hasMaxHealthMultiplier = NO;
+  result.maxHealthMultiplier = 0;
+  return self;
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_HealthConstants ()
+@property Float64 healthFormulaExponentBase;
+@property Float64 healthFormulaLinearA;
+@property Float64 healthFormulaLinearB;
+@property int32_t healthFormulaLevelCutoff;
+@end
+
+@implementation StartupResponseProto_StartupConstants_HealthConstants
+
+- (BOOL) hasHealthFormulaExponentBase {
+  return !!hasHealthFormulaExponentBase_;
+}
+- (void) setHasHealthFormulaExponentBase:(BOOL) value {
+  hasHealthFormulaExponentBase_ = !!value;
+}
+@synthesize healthFormulaExponentBase;
+- (BOOL) hasHealthFormulaLinearA {
+  return !!hasHealthFormulaLinearA_;
+}
+- (void) setHasHealthFormulaLinearA:(BOOL) value {
+  hasHealthFormulaLinearA_ = !!value;
+}
+@synthesize healthFormulaLinearA;
+- (BOOL) hasHealthFormulaLinearB {
+  return !!hasHealthFormulaLinearB_;
+}
+- (void) setHasHealthFormulaLinearB:(BOOL) value {
+  hasHealthFormulaLinearB_ = !!value;
+}
+@synthesize healthFormulaLinearB;
+- (BOOL) hasHealthFormulaLevelCutoff {
+  return !!hasHealthFormulaLevelCutoff_;
+}
+- (void) setHasHealthFormulaLevelCutoff:(BOOL) value {
+  hasHealthFormulaLevelCutoff_ = !!value;
+}
+@synthesize healthFormulaLevelCutoff;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.healthFormulaExponentBase = 0;
+    self.healthFormulaLinearA = 0;
+    self.healthFormulaLinearB = 0;
+    self.healthFormulaLevelCutoff = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_HealthConstants* defaultStartupResponseProto_StartupConstants_HealthConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_HealthConstants class]) {
+    defaultStartupResponseProto_StartupConstants_HealthConstantsInstance = [[StartupResponseProto_StartupConstants_HealthConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_HealthConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_HealthConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_HealthConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_HealthConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasHealthFormulaExponentBase) {
+    [output writeDouble:1 value:self.healthFormulaExponentBase];
+  }
+  if (self.hasHealthFormulaLinearA) {
+    [output writeDouble:2 value:self.healthFormulaLinearA];
+  }
+  if (self.hasHealthFormulaLinearB) {
+    [output writeDouble:3 value:self.healthFormulaLinearB];
+  }
+  if (self.hasHealthFormulaLevelCutoff) {
+    [output writeInt32:4 value:self.healthFormulaLevelCutoff];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasHealthFormulaExponentBase) {
+    size += computeDoubleSize(1, self.healthFormulaExponentBase);
+  }
+  if (self.hasHealthFormulaLinearA) {
+    size += computeDoubleSize(2, self.healthFormulaLinearA);
+  }
+  if (self.hasHealthFormulaLinearB) {
+    size += computeDoubleSize(3, self.healthFormulaLinearB);
+  }
+  if (self.hasHealthFormulaLevelCutoff) {
+    size += computeInt32Size(4, self.healthFormulaLevelCutoff);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_HealthConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_HealthConstants*)[[[StartupResponseProto_StartupConstants_HealthConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_HealthConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_HealthConstants*)[[[StartupResponseProto_StartupConstants_HealthConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_HealthConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_HealthConstants*)[[[StartupResponseProto_StartupConstants_HealthConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_HealthConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_HealthConstants*)[[[StartupResponseProto_StartupConstants_HealthConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_HealthConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_HealthConstants*)[[[StartupResponseProto_StartupConstants_HealthConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_HealthConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_HealthConstants*)[[[StartupResponseProto_StartupConstants_HealthConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_HealthConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_HealthConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_HealthConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_HealthConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_HealthConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_HealthConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_HealthConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_HealthConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_HealthConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_HealthConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_HealthConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_HealthConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_HealthConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_HealthConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_HealthConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_HealthConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_HealthConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_HealthConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_HealthConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_HealthConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_HealthConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_HealthConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_HealthConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasHealthFormulaExponentBase) {
+    [self setHealthFormulaExponentBase:other.healthFormulaExponentBase];
+  }
+  if (other.hasHealthFormulaLinearA) {
+    [self setHealthFormulaLinearA:other.healthFormulaLinearA];
+  }
+  if (other.hasHealthFormulaLinearB) {
+    [self setHealthFormulaLinearB:other.healthFormulaLinearB];
+  }
+  if (other.hasHealthFormulaLevelCutoff) {
+    [self setHealthFormulaLevelCutoff:other.healthFormulaLevelCutoff];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_HealthConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_HealthConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 9: {
+        [self setHealthFormulaExponentBase:[input readDouble]];
+        break;
+      }
+      case 17: {
+        [self setHealthFormulaLinearA:[input readDouble]];
+        break;
+      }
+      case 25: {
+        [self setHealthFormulaLinearB:[input readDouble]];
+        break;
+      }
+      case 32: {
+        [self setHealthFormulaLevelCutoff:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasHealthFormulaExponentBase {
+  return result.hasHealthFormulaExponentBase;
+}
+- (Float64) healthFormulaExponentBase {
+  return result.healthFormulaExponentBase;
+}
+- (StartupResponseProto_StartupConstants_HealthConstants_Builder*) setHealthFormulaExponentBase:(Float64) value {
+  result.hasHealthFormulaExponentBase = YES;
+  result.healthFormulaExponentBase = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_HealthConstants_Builder*) clearHealthFormulaExponentBase {
+  result.hasHealthFormulaExponentBase = NO;
+  result.healthFormulaExponentBase = 0;
+  return self;
+}
+- (BOOL) hasHealthFormulaLinearA {
+  return result.hasHealthFormulaLinearA;
+}
+- (Float64) healthFormulaLinearA {
+  return result.healthFormulaLinearA;
+}
+- (StartupResponseProto_StartupConstants_HealthConstants_Builder*) setHealthFormulaLinearA:(Float64) value {
+  result.hasHealthFormulaLinearA = YES;
+  result.healthFormulaLinearA = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_HealthConstants_Builder*) clearHealthFormulaLinearA {
+  result.hasHealthFormulaLinearA = NO;
+  result.healthFormulaLinearA = 0;
+  return self;
+}
+- (BOOL) hasHealthFormulaLinearB {
+  return result.hasHealthFormulaLinearB;
+}
+- (Float64) healthFormulaLinearB {
+  return result.healthFormulaLinearB;
+}
+- (StartupResponseProto_StartupConstants_HealthConstants_Builder*) setHealthFormulaLinearB:(Float64) value {
+  result.hasHealthFormulaLinearB = YES;
+  result.healthFormulaLinearB = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_HealthConstants_Builder*) clearHealthFormulaLinearB {
+  result.hasHealthFormulaLinearB = NO;
+  result.healthFormulaLinearB = 0;
+  return self;
+}
+- (BOOL) hasHealthFormulaLevelCutoff {
+  return result.hasHealthFormulaLevelCutoff;
+}
+- (int32_t) healthFormulaLevelCutoff {
+  return result.healthFormulaLevelCutoff;
+}
+- (StartupResponseProto_StartupConstants_HealthConstants_Builder*) setHealthFormulaLevelCutoff:(int32_t) value {
+  result.hasHealthFormulaLevelCutoff = YES;
+  result.healthFormulaLevelCutoff = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_HealthConstants_Builder*) clearHealthFormulaLevelCutoff {
+  result.hasHealthFormulaLevelCutoff = NO;
+  result.healthFormulaLevelCutoff = 0;
+  return self;
 }
 @end
 
@@ -13503,6 +14047,8 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 @property int32_t forgeMaxForgeSlots;
 @property int32_t costOfPurchasingSlotTwo;
 @property int32_t costOfPurchasingSlotThree;
+@property Float64 forgeSpeedupConstantA;
+@property Float64 forgeSpeedupConstantB;
 @end
 
 @implementation StartupResponseProto_StartupConstants_ForgeConstants
@@ -13563,6 +14109,20 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   hasCostOfPurchasingSlotThree_ = !!value;
 }
 @synthesize costOfPurchasingSlotThree;
+- (BOOL) hasForgeSpeedupConstantA {
+  return !!hasForgeSpeedupConstantA_;
+}
+- (void) setHasForgeSpeedupConstantA:(BOOL) value {
+  hasForgeSpeedupConstantA_ = !!value;
+}
+@synthesize forgeSpeedupConstantA;
+- (BOOL) hasForgeSpeedupConstantB {
+  return !!hasForgeSpeedupConstantB_;
+}
+- (void) setHasForgeSpeedupConstantB:(BOOL) value {
+  hasForgeSpeedupConstantB_ = !!value;
+}
+@synthesize forgeSpeedupConstantB;
 - (void) dealloc {
   [super dealloc];
 }
@@ -13576,6 +14136,8 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
     self.forgeMaxForgeSlots = 0;
     self.costOfPurchasingSlotTwo = 0;
     self.costOfPurchasingSlotThree = 0;
+    self.forgeSpeedupConstantA = 0;
+    self.forgeSpeedupConstantB = 0;
   }
   return self;
 }
@@ -13619,6 +14181,12 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (self.hasCostOfPurchasingSlotThree) {
     [output writeInt32:8 value:self.costOfPurchasingSlotThree];
   }
+  if (self.hasForgeSpeedupConstantA) {
+    [output writeDouble:9 value:self.forgeSpeedupConstantA];
+  }
+  if (self.hasForgeSpeedupConstantB) {
+    [output writeDouble:10 value:self.forgeSpeedupConstantB];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -13651,6 +14219,12 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   }
   if (self.hasCostOfPurchasingSlotThree) {
     size += computeInt32Size(8, self.costOfPurchasingSlotThree);
+  }
+  if (self.hasForgeSpeedupConstantA) {
+    size += computeDoubleSize(9, self.forgeSpeedupConstantA);
+  }
+  if (self.hasForgeSpeedupConstantB) {
+    size += computeDoubleSize(10, self.forgeSpeedupConstantB);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -13751,6 +14325,12 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasCostOfPurchasingSlotThree) {
     [self setCostOfPurchasingSlotThree:other.costOfPurchasingSlotThree];
   }
+  if (other.hasForgeSpeedupConstantA) {
+    [self setForgeSpeedupConstantA:other.forgeSpeedupConstantA];
+  }
+  if (other.hasForgeSpeedupConstantB) {
+    [self setForgeSpeedupConstantB:other.forgeSpeedupConstantB];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -13802,6 +14382,14 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 64: {
         [self setCostOfPurchasingSlotThree:[input readInt32]];
+        break;
+      }
+      case 73: {
+        [self setForgeSpeedupConstantA:[input readDouble]];
+        break;
+      }
+      case 81: {
+        [self setForgeSpeedupConstantB:[input readDouble]];
         break;
       }
     }
@@ -13933,6 +14521,38 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearCostOfPurchasingSlotThree {
   result.hasCostOfPurchasingSlotThree = NO;
   result.costOfPurchasingSlotThree = 0;
+  return self;
+}
+- (BOOL) hasForgeSpeedupConstantA {
+  return result.hasForgeSpeedupConstantA;
+}
+- (Float64) forgeSpeedupConstantA {
+  return result.forgeSpeedupConstantA;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeSpeedupConstantA:(Float64) value {
+  result.hasForgeSpeedupConstantA = YES;
+  result.forgeSpeedupConstantA = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeSpeedupConstantA {
+  result.hasForgeSpeedupConstantA = NO;
+  result.forgeSpeedupConstantA = 0;
+  return self;
+}
+- (BOOL) hasForgeSpeedupConstantB {
+  return result.hasForgeSpeedupConstantB;
+}
+- (Float64) forgeSpeedupConstantB {
+  return result.forgeSpeedupConstantB;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeSpeedupConstantB:(Float64) value {
+  result.hasForgeSpeedupConstantB = YES;
+  result.forgeSpeedupConstantB = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeSpeedupConstantB {
+  result.hasForgeSpeedupConstantB = NO;
+  result.forgeSpeedupConstantB = 0;
   return self;
 }
 @end
@@ -14153,9 +14773,6 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasForgeConstants) {
     [self mergeForgeConstants:other.forgeConstants];
   }
-  if (other.hasHealthFormulaExponentBase) {
-    [self setHealthFormulaExponentBase:other.healthFormulaExponentBase];
-  }
   if (other.hasLevelEquipBoostExponentBase) {
     [self setLevelEquipBoostExponentBase:other.levelEquipBoostExponentBase];
   }
@@ -14287,6 +14904,12 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   }
   if (other.hasDefaultDaysBattleShieldIsActive) {
     [self setDefaultDaysBattleShieldIsActive:other.defaultDaysBattleShieldIsActive];
+  }
+  if (other.hasHealthConstants) {
+    [self mergeHealthConstants:other.healthConstants];
+  }
+  if (other.hasBossConstants) {
+    [self mergeBossConstants:other.bossConstants];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -14547,10 +15170,6 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         [self setForgeConstants:[subBuilder buildPartial]];
         break;
       }
-      case 521: {
-        [self setHealthFormulaExponentBase:[input readDouble]];
-        break;
-      }
       case 529: {
         [self setLevelEquipBoostExponentBase:[input readDouble]];
         break;
@@ -14788,6 +15407,24 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 864: {
         [self setDefaultDaysBattleShieldIsActive:[input readInt32]];
+        break;
+      }
+      case 874: {
+        StartupResponseProto_StartupConstants_HealthConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_HealthConstants builder];
+        if (self.hasHealthConstants) {
+          [subBuilder mergeFrom:self.healthConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setHealthConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 882: {
+        StartupResponseProto_StartupConstants_BossConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_BossConstants builder];
+        if (self.hasBossConstants) {
+          [subBuilder mergeFrom:self.bossConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setBossConstants:[subBuilder buildPartial]];
         break;
       }
     }
@@ -15772,22 +16409,6 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   result.forgeConstants = [StartupResponseProto_StartupConstants_ForgeConstants defaultInstance];
   return self;
 }
-- (BOOL) hasHealthFormulaExponentBase {
-  return result.hasHealthFormulaExponentBase;
-}
-- (Float64) healthFormulaExponentBase {
-  return result.healthFormulaExponentBase;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setHealthFormulaExponentBase:(Float64) value {
-  result.hasHealthFormulaExponentBase = YES;
-  result.healthFormulaExponentBase = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearHealthFormulaExponentBase {
-  result.hasHealthFormulaExponentBase = NO;
-  result.healthFormulaExponentBase = 0;
-  return self;
-}
 - (BOOL) hasLevelEquipBoostExponentBase {
   return result.hasLevelEquipBoostExponentBase;
 }
@@ -16668,6 +17289,66 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearDefaultDaysBattleShieldIsActive {
   result.hasDefaultDaysBattleShieldIsActive = NO;
   result.defaultDaysBattleShieldIsActive = 0;
+  return self;
+}
+- (BOOL) hasHealthConstants {
+  return result.hasHealthConstants;
+}
+- (StartupResponseProto_StartupConstants_HealthConstants*) healthConstants {
+  return result.healthConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setHealthConstants:(StartupResponseProto_StartupConstants_HealthConstants*) value {
+  result.hasHealthConstants = YES;
+  result.healthConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setHealthConstantsBuilder:(StartupResponseProto_StartupConstants_HealthConstants_Builder*) builderForValue {
+  return [self setHealthConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeHealthConstants:(StartupResponseProto_StartupConstants_HealthConstants*) value {
+  if (result.hasHealthConstants &&
+      result.healthConstants != [StartupResponseProto_StartupConstants_HealthConstants defaultInstance]) {
+    result.healthConstants =
+      [[[StartupResponseProto_StartupConstants_HealthConstants builderWithPrototype:result.healthConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.healthConstants = value;
+  }
+  result.hasHealthConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearHealthConstants {
+  result.hasHealthConstants = NO;
+  result.healthConstants = [StartupResponseProto_StartupConstants_HealthConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasBossConstants {
+  return result.hasBossConstants;
+}
+- (StartupResponseProto_StartupConstants_BossConstants*) bossConstants {
+  return result.bossConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setBossConstants:(StartupResponseProto_StartupConstants_BossConstants*) value {
+  result.hasBossConstants = YES;
+  result.bossConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setBossConstantsBuilder:(StartupResponseProto_StartupConstants_BossConstants_Builder*) builderForValue {
+  return [self setBossConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeBossConstants:(StartupResponseProto_StartupConstants_BossConstants*) value {
+  if (result.hasBossConstants &&
+      result.bossConstants != [StartupResponseProto_StartupConstants_BossConstants defaultInstance]) {
+    result.bossConstants =
+      [[[StartupResponseProto_StartupConstants_BossConstants builderWithPrototype:result.bossConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.bossConstants = value;
+  }
+  result.hasBossConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearBossConstants {
+  result.hasBossConstants = NO;
+  result.bossConstants = [StartupResponseProto_StartupConstants_BossConstants defaultInstance];
   return self;
 }
 @end
@@ -19667,6 +20348,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableLivingBossesList addObjectsFromArray:other.mutableLivingBossesList];
   }
+  if (other.mutableBossesList.count > 0) {
+    if (result.mutableBossesList == nil) {
+      result.mutableBossesList = [NSMutableArray array];
+    }
+    [result.mutableBossesList addObjectsFromArray:other.mutableBossesList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -19973,6 +20660,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         FullUserBossProto_Builder* subBuilder = [FullUserBossProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addLivingBosses:[subBuilder buildPartial]];
+        break;
+      }
+      case 386: {
+        FullBossProto_Builder* subBuilder = [FullBossProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addBosses:[subBuilder buildPartial]];
         break;
       }
     }
@@ -21229,6 +21922,35 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     result.mutableLivingBossesList = [NSMutableArray array];
   }
   [result.mutableLivingBossesList addObject:value];
+  return self;
+}
+- (NSArray*) bossesList {
+  if (result.mutableBossesList == nil) { return [NSArray array]; }
+  return result.mutableBossesList;
+}
+- (FullBossProto*) bossesAtIndex:(int32_t) index {
+  return [result bossesAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceBossesAtIndex:(int32_t) index with:(FullBossProto*) value {
+  [result.mutableBossesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllBosses:(NSArray*) values {
+  if (result.mutableBossesList == nil) {
+    result.mutableBossesList = [NSMutableArray array];
+  }
+  [result.mutableBossesList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearBossesList {
+  result.mutableBossesList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addBosses:(FullBossProto*) value {
+  if (result.mutableBossesList == nil) {
+    result.mutableBossesList = [NSMutableArray array];
+  }
+  [result.mutableBossesList addObject:value];
   return self;
 }
 @end
@@ -67172,6 +67894,8 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
 @property int32_t bossId;
 @property int32_t expGained;
 @property (retain) UserCityGemProto* gemDropped;
+@property BOOL isSuperAttack;
+@property BOOL isCriticalAttack;
 @end
 
 @implementation BossActionResponseProto
@@ -67221,6 +67945,30 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
   hasGemDropped_ = !!value;
 }
 @synthesize gemDropped;
+- (BOOL) hasIsSuperAttack {
+  return !!hasIsSuperAttack_;
+}
+- (void) setHasIsSuperAttack:(BOOL) value {
+  hasIsSuperAttack_ = !!value;
+}
+- (BOOL) isSuperAttack {
+  return !!isSuperAttack_;
+}
+- (void) setIsSuperAttack:(BOOL) value {
+  isSuperAttack_ = !!value;
+}
+- (BOOL) hasIsCriticalAttack {
+  return !!hasIsCriticalAttack_;
+}
+- (void) setHasIsCriticalAttack:(BOOL) value {
+  hasIsCriticalAttack_ = !!value;
+}
+- (BOOL) isCriticalAttack {
+  return !!isCriticalAttack_;
+}
+- (void) setIsCriticalAttack:(BOOL) value {
+  isCriticalAttack_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.mutableLootUserEquipList = nil;
@@ -67237,6 +67985,8 @@ static BossActionRequestProto* defaultBossActionRequestProtoInstance = nil;
     self.bossId = 0;
     self.expGained = 0;
     self.gemDropped = [UserCityGemProto defaultInstance];
+    self.isSuperAttack = NO;
+    self.isCriticalAttack = NO;
   }
   return self;
 }
@@ -67304,6 +68054,12 @@ static BossActionResponseProto* defaultBossActionResponseProtoInstance = nil;
   if (self.hasGemDropped) {
     [output writeMessage:10 value:self.gemDropped];
   }
+  if (self.hasIsSuperAttack) {
+    [output writeBool:11 value:self.isSuperAttack];
+  }
+  if (self.hasIsCriticalAttack) {
+    [output writeBool:12 value:self.isCriticalAttack];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -67349,6 +68105,12 @@ static BossActionResponseProto* defaultBossActionResponseProtoInstance = nil;
   }
   if (self.hasGemDropped) {
     size += computeMessageSize(10, self.gemDropped);
+  }
+  if (self.hasIsSuperAttack) {
+    size += computeBoolSize(11, self.isSuperAttack);
+  }
+  if (self.hasIsCriticalAttack) {
+    size += computeBoolSize(12, self.isCriticalAttack);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -67474,6 +68236,12 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
   if (other.hasGemDropped) {
     [self mergeGemDropped:other.gemDropped];
   }
+  if (other.hasIsSuperAttack) {
+    [self setIsSuperAttack:other.isSuperAttack];
+  }
+  if (other.hasIsCriticalAttack) {
+    [self setIsCriticalAttack:other.isCriticalAttack];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -67546,6 +68314,14 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setGemDropped:[subBuilder buildPartial]];
+        break;
+      }
+      case 88: {
+        [self setIsSuperAttack:[input readBool]];
+        break;
+      }
+      case 96: {
+        [self setIsCriticalAttack:[input readBool]];
         break;
       }
     }
@@ -67764,6 +68540,38 @@ BOOL BossActionResponseProto_BossActionStatusIsValidValue(BossActionResponseProt
 - (BossActionResponseProto_Builder*) clearGemDropped {
   result.hasGemDropped = NO;
   result.gemDropped = [UserCityGemProto defaultInstance];
+  return self;
+}
+- (BOOL) hasIsSuperAttack {
+  return result.hasIsSuperAttack;
+}
+- (BOOL) isSuperAttack {
+  return result.isSuperAttack;
+}
+- (BossActionResponseProto_Builder*) setIsSuperAttack:(BOOL) value {
+  result.hasIsSuperAttack = YES;
+  result.isSuperAttack = value;
+  return self;
+}
+- (BossActionResponseProto_Builder*) clearIsSuperAttack {
+  result.hasIsSuperAttack = NO;
+  result.isSuperAttack = NO;
+  return self;
+}
+- (BOOL) hasIsCriticalAttack {
+  return result.hasIsCriticalAttack;
+}
+- (BOOL) isCriticalAttack {
+  return result.isCriticalAttack;
+}
+- (BossActionResponseProto_Builder*) setIsCriticalAttack:(BOOL) value {
+  result.hasIsCriticalAttack = YES;
+  result.isCriticalAttack = value;
+  return self;
+}
+- (BossActionResponseProto_Builder*) clearIsCriticalAttack {
+  result.hasIsCriticalAttack = NO;
+  result.isCriticalAttack = NO;
   return self;
 }
 @end

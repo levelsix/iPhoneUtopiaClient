@@ -201,8 +201,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(BossEventMenuController);
 }
 
 - (void) loadForCurrentEvent {
-  GameState *gs = [GameState sharedGameState];
-  BossEventProto *lbe = [[gs getCurrentBossEvent] retain];
+//  GameState *gs = [GameState sharedGameState];
+  BossEventProto *lbe = nil;//[[gs getCurrentBossEvent] retain];
   
   if (!lbe) {
     [self closeClicked:nil];
@@ -226,8 +226,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(BossEventMenuController);
 }
 
 - (void) updateLabels {
-  GameState *gs = [GameState sharedGameState];
-  BossEventProto *lbe = [gs getCurrentBossEvent];
+//  GameState *gs = [GameState sharedGameState];
+  BossEventProto *lbe = nil;//[gs getCurrentBossEvent];
   
   if (!lbe) {
     [self loadForCurrentEvent];

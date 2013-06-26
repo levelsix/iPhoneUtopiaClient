@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
 #import "NibUtils.h"
+#import "cocos2d.h"
 
 @interface ResetStaminaView : UIView
 
@@ -61,7 +62,9 @@
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 
-@property (nonatomic, retain) IBOutlet UIView *chestLabelView;
+@property (nonatomic, retain) IBOutlet UILabel *chestLabel;
+@property (nonatomic, retain) IBOutlet UILabel *hintlabel;
+@property (nonatomic, retain) IBOutlet UIView *redeemButtonView;
 @property (nonatomic, retain) IBOutletCollection(GemView) NSArray *gemViews;
 
 @property (nonatomic, retain) IBOutlet LoadingView *loadingView;
@@ -74,5 +77,27 @@
 - (IBAction)closeClicked:(id)sender;
 
 - (void) receivedRedeemGemsResponse:(RedeemUserCityGemsResponseProto *)proto withUpdatedGems:(NSArray *)gems;
+
+@end
+
+@interface GemTutorialView : UIView {
+  int _curLine;
+  CCSprite *_arrow;
+  NSArray *_curLines;
+}
+
+@property (nonatomic, retain) IBOutlet UILabel *label;
+@property (nonatomic, retain) IBOutlet UIView *speechBubble;
+@property (nonatomic, retain) IBOutlet UIImageView *girlImageView;
+
+@property (nonatomic, retain) NSArray *gemLines;
+@property (nonatomic, retain) NSArray *rankupLines;
+@property (nonatomic, retain) NSArray *bossLines;
+
+- (void) beginGemTutorial;
+- (void) beginBossTutorial;
+- (void) beginRankupTutorial;
+
+- (IBAction) displayNextLine;
 
 @end

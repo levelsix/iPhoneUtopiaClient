@@ -2848,50 +2848,74 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @interface FullBossProto : PBGeneratedMessage {
 @private
   BOOL hasSuperAttackDamageMultiplier_:1;
-  BOOL hasBossId_:1;
-  BOOL hasBaseHealth_:1;
-  BOOL hasMinDamage_:1;
-  BOOL hasMaxDamage_:1;
-  BOOL hasMinutesToKill_:1;
-  BOOL hasBaseExp_:1;
-  BOOL hasCityId_:1;
-  BOOL hasAssetNumWithinCity_:1;
-  BOOL hasRegularAttackEnergyCost_:1;
+  BOOL hasDmgConstantB_:1;
+  BOOL hasDmgConstantA_:1;
+  BOOL hasHpConstantC_:1;
+  BOOL hasHpConstantB_:1;
+  BOOL hasHpConstantA_:1;
+  BOOL hasExpConstantB_:1;
+  BOOL hasExpConstantA_:1;
   BOOL hasSuperAttackEnergyCost_:1;
+  BOOL hasMinutesToKill_:1;
+  BOOL hasRegularAttackEnergyCost_:1;
+  BOOL hasAssetNumWithinCity_:1;
+  BOOL hasCityId_:1;
+  BOOL hasBossId_:1;
+  BOOL hasName_:1;
+  BOOL hasMapIconImageName_:1;
+  BOOL hasUnlockedBossImageName_:1;
   Float32 superAttackDamageMultiplier;
-  int32_t bossId;
-  int32_t baseHealth;
-  int32_t minDamage;
-  int32_t maxDamage;
-  int32_t minutesToKill;
-  int32_t baseExp;
-  int32_t cityId;
-  int32_t assetNumWithinCity;
-  int32_t regularAttackEnergyCost;
+  int32_t dmgConstantB;
+  int32_t dmgConstantA;
+  int32_t hpConstantC;
+  int32_t hpConstantB;
+  int32_t hpConstantA;
+  int32_t expConstantB;
+  int32_t expConstantA;
   int32_t superAttackEnergyCost;
+  int32_t minutesToKill;
+  int32_t regularAttackEnergyCost;
+  int32_t assetNumWithinCity;
+  int32_t cityId;
+  int32_t bossId;
+  NSString* name;
+  NSString* mapIconImageName;
+  NSString* unlockedBossImageName;
 }
 - (BOOL) hasBossId;
-- (BOOL) hasBaseHealth;
-- (BOOL) hasMinDamage;
-- (BOOL) hasMaxDamage;
-- (BOOL) hasMinutesToKill;
-- (BOOL) hasBaseExp;
 - (BOOL) hasCityId;
 - (BOOL) hasAssetNumWithinCity;
 - (BOOL) hasRegularAttackEnergyCost;
+- (BOOL) hasMinutesToKill;
 - (BOOL) hasSuperAttackDamageMultiplier;
 - (BOOL) hasSuperAttackEnergyCost;
+- (BOOL) hasName;
+- (BOOL) hasExpConstantA;
+- (BOOL) hasExpConstantB;
+- (BOOL) hasHpConstantA;
+- (BOOL) hasHpConstantB;
+- (BOOL) hasHpConstantC;
+- (BOOL) hasDmgConstantA;
+- (BOOL) hasDmgConstantB;
+- (BOOL) hasMapIconImageName;
+- (BOOL) hasUnlockedBossImageName;
 @property (readonly) int32_t bossId;
-@property (readonly) int32_t baseHealth;
-@property (readonly) int32_t minDamage;
-@property (readonly) int32_t maxDamage;
-@property (readonly) int32_t minutesToKill;
-@property (readonly) int32_t baseExp;
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t assetNumWithinCity;
 @property (readonly) int32_t regularAttackEnergyCost;
+@property (readonly) int32_t minutesToKill;
 @property (readonly) Float32 superAttackDamageMultiplier;
 @property (readonly) int32_t superAttackEnergyCost;
+@property (readonly, retain) NSString* name;
+@property (readonly) int32_t expConstantA;
+@property (readonly) int32_t expConstantB;
+@property (readonly) int32_t hpConstantA;
+@property (readonly) int32_t hpConstantB;
+@property (readonly) int32_t hpConstantC;
+@property (readonly) int32_t dmgConstantA;
+@property (readonly) int32_t dmgConstantB;
+@property (readonly, retain) NSString* mapIconImageName;
+@property (readonly, retain) NSString* unlockedBossImageName;
 
 + (FullBossProto*) defaultInstance;
 - (FullBossProto*) defaultInstance;
@@ -2932,31 +2956,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullBossProto_Builder*) setBossId:(int32_t) value;
 - (FullBossProto_Builder*) clearBossId;
 
-- (BOOL) hasBaseHealth;
-- (int32_t) baseHealth;
-- (FullBossProto_Builder*) setBaseHealth:(int32_t) value;
-- (FullBossProto_Builder*) clearBaseHealth;
-
-- (BOOL) hasMinDamage;
-- (int32_t) minDamage;
-- (FullBossProto_Builder*) setMinDamage:(int32_t) value;
-- (FullBossProto_Builder*) clearMinDamage;
-
-- (BOOL) hasMaxDamage;
-- (int32_t) maxDamage;
-- (FullBossProto_Builder*) setMaxDamage:(int32_t) value;
-- (FullBossProto_Builder*) clearMaxDamage;
-
-- (BOOL) hasMinutesToKill;
-- (int32_t) minutesToKill;
-- (FullBossProto_Builder*) setMinutesToKill:(int32_t) value;
-- (FullBossProto_Builder*) clearMinutesToKill;
-
-- (BOOL) hasBaseExp;
-- (int32_t) baseExp;
-- (FullBossProto_Builder*) setBaseExp:(int32_t) value;
-- (FullBossProto_Builder*) clearBaseExp;
-
 - (BOOL) hasCityId;
 - (int32_t) cityId;
 - (FullBossProto_Builder*) setCityId:(int32_t) value;
@@ -2972,6 +2971,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullBossProto_Builder*) setRegularAttackEnergyCost:(int32_t) value;
 - (FullBossProto_Builder*) clearRegularAttackEnergyCost;
 
+- (BOOL) hasMinutesToKill;
+- (int32_t) minutesToKill;
+- (FullBossProto_Builder*) setMinutesToKill:(int32_t) value;
+- (FullBossProto_Builder*) clearMinutesToKill;
+
 - (BOOL) hasSuperAttackDamageMultiplier;
 - (Float32) superAttackDamageMultiplier;
 - (FullBossProto_Builder*) setSuperAttackDamageMultiplier:(Float32) value;
@@ -2981,6 +2985,56 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) superAttackEnergyCost;
 - (FullBossProto_Builder*) setSuperAttackEnergyCost:(int32_t) value;
 - (FullBossProto_Builder*) clearSuperAttackEnergyCost;
+
+- (BOOL) hasName;
+- (NSString*) name;
+- (FullBossProto_Builder*) setName:(NSString*) value;
+- (FullBossProto_Builder*) clearName;
+
+- (BOOL) hasExpConstantA;
+- (int32_t) expConstantA;
+- (FullBossProto_Builder*) setExpConstantA:(int32_t) value;
+- (FullBossProto_Builder*) clearExpConstantA;
+
+- (BOOL) hasExpConstantB;
+- (int32_t) expConstantB;
+- (FullBossProto_Builder*) setExpConstantB:(int32_t) value;
+- (FullBossProto_Builder*) clearExpConstantB;
+
+- (BOOL) hasHpConstantA;
+- (int32_t) hpConstantA;
+- (FullBossProto_Builder*) setHpConstantA:(int32_t) value;
+- (FullBossProto_Builder*) clearHpConstantA;
+
+- (BOOL) hasHpConstantB;
+- (int32_t) hpConstantB;
+- (FullBossProto_Builder*) setHpConstantB:(int32_t) value;
+- (FullBossProto_Builder*) clearHpConstantB;
+
+- (BOOL) hasHpConstantC;
+- (int32_t) hpConstantC;
+- (FullBossProto_Builder*) setHpConstantC:(int32_t) value;
+- (FullBossProto_Builder*) clearHpConstantC;
+
+- (BOOL) hasDmgConstantA;
+- (int32_t) dmgConstantA;
+- (FullBossProto_Builder*) setDmgConstantA:(int32_t) value;
+- (FullBossProto_Builder*) clearDmgConstantA;
+
+- (BOOL) hasDmgConstantB;
+- (int32_t) dmgConstantB;
+- (FullBossProto_Builder*) setDmgConstantB:(int32_t) value;
+- (FullBossProto_Builder*) clearDmgConstantB;
+
+- (BOOL) hasMapIconImageName;
+- (NSString*) mapIconImageName;
+- (FullBossProto_Builder*) setMapIconImageName:(NSString*) value;
+- (FullBossProto_Builder*) clearMapIconImageName;
+
+- (BOOL) hasUnlockedBossImageName;
+- (NSString*) unlockedBossImageName;
+- (FullBossProto_Builder*) setUnlockedBossImageName:(NSString*) value;
+- (FullBossProto_Builder*) clearUnlockedBossImageName;
 @end
 
 @interface FullUserBossProto : PBGeneratedMessage {
@@ -5447,6 +5501,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasMinLevel_:1;
   BOOL hasExpGainedBaseOnRankup_:1;
   BOOL hasCoinsGainedBaseOnRankup_:1;
+  BOOL hasBoosterPackId_:1;
   BOOL hasName_:1;
   BOOL hasMapImgName_:1;
   BOOL hasCenter_:1;
@@ -5454,6 +5509,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t minLevel;
   int32_t expGainedBaseOnRankup;
   int32_t coinsGainedBaseOnRankup;
+  int32_t boosterPackId;
   NSString* name;
   NSString* mapImgName;
   CoordinateProto* center;
@@ -5467,6 +5523,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasCoinsGainedBaseOnRankup;
 - (BOOL) hasMapImgName;
 - (BOOL) hasCenter;
+- (BOOL) hasBoosterPackId;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t minLevel;
@@ -5474,6 +5531,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t coinsGainedBaseOnRankup;
 @property (readonly, retain) NSString* mapImgName;
 @property (readonly, retain) CoordinateProto* center;
+@property (readonly) int32_t boosterPackId;
 - (NSArray*) taskIdsList;
 - (int32_t) taskIdsAtIndex:(int32_t) index;
 - (NSArray*) bossIdsList;
@@ -5563,6 +5621,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullCityProto_Builder*) addBossIds:(int32_t) value;
 - (FullCityProto_Builder*) addAllBossIds:(NSArray*) values;
 - (FullCityProto_Builder*) clearBossIdsList;
+
+- (BOOL) hasBoosterPackId;
+- (int32_t) boosterPackId;
+- (FullCityProto_Builder*) setBoosterPackId:(int32_t) value;
+- (FullCityProto_Builder*) clearBoosterPackId;
 @end
 
 @interface FullUserCityExpansionDataProto : PBGeneratedMessage {

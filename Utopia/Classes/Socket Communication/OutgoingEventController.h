@@ -23,7 +23,7 @@
 
 - (BOOL) taskAction:(int)taskId curTimesActed:(int)numTimesActed;
 
-- (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city equips:(NSArray *)equips;
+- (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city equips:(NSArray *)equips isTutorialBattle:(BOOL)isTutorialBattle;
 - (void) buyEquip:(int)equipId;
 //- (int) sellEquip:(int)equipId;
 - (BOOL) wearEquip:(int)userEquipId forPrestigeSlot:(BOOL)forPrestigeSlot;
@@ -149,7 +149,7 @@
 - (void) retrieveThreeCardMonte;
 - (void) playThreeCardMonte:(int)cardID;
 
-- (NSDate *) bossAction:(UserBoss *)ub isSuperAttack:(BOOL)isSuperAttack;
+- (void) bossAction:(UserBoss *)ub isSuperAttack:(BOOL)isSuperAttack;
 
 - (int) claimTower:(int)towerId;
 - (int) beginTowerWar:(int)towerId;

@@ -181,6 +181,14 @@ static BOOL shake_once = NO;
   } else if (assetId != 0) {
     [m moveToAssetId:assetId animated:NO];
     self.assetId = 0;
+  } else {
+    for (FullUserBossProto *b in proto.userBossesList) {
+      UserBoss *ub = [UserBoss userBossWithFullUserBossProto:b];
+      if ([ub isAlive]) {
+        FullBossProto *fbp = [gs bossWithId:ub.bossId];
+        [m moveToAssetId:fbp.assetNumWithinCity animated:NO];
+      }
+    }
   }
   
   [self addChild:m z:1];

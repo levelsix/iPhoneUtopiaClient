@@ -18,7 +18,7 @@
 #import "SoundEngine.h"
 #import "GenericPopupController.h"
 
-#define PRICE_DIGITS 7
+#define PRICE_DIGITS 8
 #define REFRESH_ROWS 20
 
 @implementation MarketplaceViewController
@@ -511,6 +511,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [coinBar updateLabels];
 }
 
+- (void) orderEquips {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *arr = [gs.myEquips mutableCopy];
+  [arr sortUsingComparator:^NSComparisonResult(UserEquip *obj1, UserEquip *obj2) {
+    FullEquipProto *fep1 = [gs equipWithId:obj1.equipId];
+    FullEquipProto *fep2 = [gs equipWithId:obj2.equipId];
+    return [fep1.name caseInsensitiveCompare:fep2.name];
+  }];
+  self.orderedEquips = arr;
+}
+
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   return 1;
@@ -521,8 +532,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   BOOL showsLicenseRow = YES;
   
+  [self orderEquips];
+  
   NSArray *a = state == kEquipBuyingState ? gs.marketplaceEquipPosts : gs.marketplaceEquipPostsFromSender;
-  int extra = state == kEquipSellingState ? [[[GameState sharedGameState] myEquips] count] + showsLicenseRow: 0;
+  int extra = state == kEquipSellingState ? self.orderedEquips.count + showsLicenseRow: 0;
   int rows = a.count+extra+1;
   if (rows > 1) {
     self.leftRope.alpha = 1.f;
@@ -572,7 +585,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   if ([cell isKindOfClass:[ItemPostView class]]) {
     NSArray *a = state == kEquipBuyingState ? gs.marketplaceEquipPosts : gs.marketplaceEquipPostsFromSender;
     if (state == kEquipSellingState && indexPath.row > (a.count+showsLicenseRow)) {
-      [(ItemPostView *)cell showEquipListing:[[gs myEquips] objectAtIndex:indexPath.row-a.count-showsLicenseRow-1]];
+      [(ItemPostView *)cell showEquipListing:[self.orderedEquips objectAtIndex:indexPath.row-a.count-showsLicenseRow-1]];
       return cell;
     }
     FullMarketplacePostProto *p = [a objectAtIndex:indexPath.row-showsLicenseRow-1];
@@ -616,9 +629,8 @@ static float mktLicenseCellHeight = 0.f;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (self.state == kEquipBuyingState) {
-    ItemPostView *cell = (ItemPostView *)[tableView cellForRowAtIndexPath:indexPath];
-    
+  ItemPostView *cell = (ItemPostView *)[tableView cellForRowAtIndexPath:indexPath];
+  if (cell.mktProto) {
     self.selectedCell = cell;
     self.removeView.hidden = YES;
     [self.purchView updateForMarketPost:cell.mktProto];
@@ -962,6 +974,7 @@ static float mktLicenseCellHeight = 0.f;
     self.removeDescriptionLabel = nil;
     self.removePriceLabel = nil;
     self.retractPriceIcon = nil;
+    self.orderedEquips = nil;
     [_swipeGestureRecognizer release];
   }
 }

@@ -433,7 +433,7 @@
 }
 
 - (void) displaySummary {
-  [Analytics tutClosedBattleSummary];
+  [Analytics tutClosedStolenEquip];
   
   [self loadBattleSummary];
   [Globals displayUIView:self.summaryView];

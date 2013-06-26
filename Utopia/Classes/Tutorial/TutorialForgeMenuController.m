@@ -98,6 +98,7 @@
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [self performSelector:@selector(displayArrowOnRedButton:) withObject:tc.beforeFinishForgeText afterDelay:1.f];
   
+  [Analytics tutForgeItemsClicked];
   [Analytics tutGuaranteeClicked];
 }
 
@@ -207,7 +208,7 @@
     
     [(TutorialTopBar *)[TopBar sharedTopBar] beginMyCityPhase];
     
-    [Analytics tutBlacksmithClicked];
+    [Analytics tutClosedForge];
   }
 }
 

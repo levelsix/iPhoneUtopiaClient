@@ -152,6 +152,14 @@
 @property (nonatomic, assign) int numBeginnerSalesAllowed;
 @property (nonatomic, assign) int defaultDaysBattleShieldIsActive;
 
+@property (nonatomic, assign) int maxBossHealthMultiplier;
+
+// Health Constants
+@property (nonatomic, assign) float healthFormulaExponentBase;
+@property (nonatomic, assign) float healthFormulaLinearA;
+@property (nonatomic, assign) float healthFormulaLinearB;
+@property (nonatomic, assign) int healthFormulaLevelCutoff;
+
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
 @property (nonatomic, assign) int forgeMinDiamondCostForGuarantee;
@@ -162,9 +170,10 @@
 @property (nonatomic, assign) float levelEquipBoostExponentBase;
 @property (nonatomic, assign) int costOfPurchasingSlotTwo;
 @property (nonatomic, assign) int costOfPurchasingSlotThree;
+@property (nonatomic, assign) double forgeSpeedupConstantA;
+@property (nonatomic, assign) double forgeSpeedupConstantB;
 
 @property (nonatomic, assign) int averageSizeOfLevelBracket;
-@property (nonatomic, assign) float healthFormulaExponentBase;
 
 // Char mod constants
 @property (nonatomic, assign) int diamondCostToChangeCharacterType;
@@ -381,6 +390,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (int) calculateHealthForLevel:(int)level;
 
 - (BOOL) canRetractMarketplacePostForFree:(FullMarketplacePostProto *)post;
+
+- (int) healthForBoss:(UserBoss *)boss;
 
 // Forging formulas
 - (int) calculateAttackForEquip:(int)equipId level:(int)level enhancePercent:(int)enhancePercent;

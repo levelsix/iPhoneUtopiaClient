@@ -54,7 +54,7 @@
 
 - (int) sendChatMessage:(NSString *)message recipient:(int)recipient;
 - (int) sendVaultMessage:(int)amount requestType: (VaultRequestProto_VaultRequestType) type;
-- (int) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips;
+- (int) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips isTutorialBattle:(BOOL)isTutorialBattle;
 - (int) sendArmoryMessage:(ArmoryRequestProto_ArmoryRequestType)requestType quantity:(int)quantity equipId:(int)equipId;
 - (int) sendStartupMessage:(uint64_t)clientTime;
 - (int) sendReconnectMessage;

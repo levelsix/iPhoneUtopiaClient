@@ -412,11 +412,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     }
   }
   
-  if (![self battleOkayThroughUserDefaults]) {
-    [Globals popupMessage:[NSString stringWithFormat:@"%@ has run away. Try again later.", user.name]];
-    return NO;
-  }
-  
   if ([Globals userHasBeginnerShield:user.createTime hasActiveShield:user.hasActiveShield]) {
     [Globals popupMessage:[NSString stringWithFormat:@"%@ still has an active shield.", user.name]];
     return NO;
@@ -425,6 +420,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   if (_fup != user) {
     [_fup release];
     _fup = [user retain];
+  }
+  
+  if (![self battleOkayThroughUserDefaults]) {
+    [Globals popupMessage:[NSString stringWithFormat:@"%@ has run away. Try again later.", user.name]];
+    return NO;
   }
   
   if (user.isFake) {
@@ -707,7 +707,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _damageDone = [self calculateMyDamageForPercentage:percentage];
     
     if (_rightCurrentHealth - _damageDone <= 0) {
-      [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerWin city:_cityId equips:enemyEquips];
+      [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerWin city:_cityId equips:enemyEquips isTutorialBattle:_isForTutorial];
       
       if (_cityId > 0 && [[GameLayer sharedGameLayer] currentCity] == _cityId) {
         [[[GameLayer sharedGameLayer] missionMap] killEnemy:_fup.userId];
@@ -899,7 +899,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _damageDone = [self calculateEnemyDamageForPercentage:perc];
   
   if (_leftCurrentHealth - _damageDone <= 0) {
-    [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultDefenderWin city:-1 equips:nil];
+    [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultDefenderWin city:-1 equips:nil isTutorialBattle:_isForTutorial];
   }
   
   _bottomMenu.visible = NO;
@@ -1145,7 +1145,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) flee {
-  [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerFlee city:-1 equips:nil];
+  [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerFlee city:-1 equips:nil isTutorialBattle:_isForTutorial];
   [_attackProgressTimer stopAllActions];
   _attackButton.visible = NO;
   _pausedLayer.visible = NO;

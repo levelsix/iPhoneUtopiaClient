@@ -319,7 +319,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     id<TaskElement> te = (id<TaskElement>)_selected;
     FullTaskProto *ftp = te.ftp;
     
-    [self closeMenus];
+    [self closeMenus:_selected];
     
     CGPoint pt = ccp(ftp.spriteLandingCoords.x, ftp.spriteLandingCoords.y);
     CGPoint ccPt = pt;

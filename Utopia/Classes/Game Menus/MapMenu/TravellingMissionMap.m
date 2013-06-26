@@ -15,7 +15,8 @@
 #define SHAKE_DURATION 0.2f
 #define SHAKE_OFFSET 3.f
 
-#define CITY_POPUP_OFFSET 34.f
+#define CITY_POPUP_OFFSET -22.f
+#define CITY_POPUP_OFFSET_FLIPPED 26.f
 
 #define NUM_CITIES 9
 
@@ -36,6 +37,18 @@
 
 - (void) awakeFromNib {
   isLocked = YES;
+  
+  self.numlabel = [[[UILabel alloc] initWithFrame:CGRectMake(7, -0.5, 23, 26)] autorelease];
+  [self addSubview:self.numlabel];
+  self.numlabel.font = [UIFont fontWithName:[Globals font] size:15.f];
+  [Globals adjustFontSizeForSize:15.f withUIView:self.numlabel];
+  self.numlabel.backgroundColor = [UIColor clearColor];
+  self.numlabel.textAlignment = NSTextAlignmentCenter;
+  self.numlabel.textColor = [UIColor colorWithWhite:0.f alpha:0.7f];
+  self.numlabel.shadowColor = [UIColor colorWithRed:206/255.f green:188/255.f blue:32/255.f alpha:1.f];
+  self.numlabel.shadowOffset = CGSizeMake(0, 1);
+  
+  originalRect = self.frame;
 }
 
 - (void) setIsLocked:(BOOL)i {
@@ -45,13 +58,99 @@
   NSString *base = gl.downloadableNibConstants.mapNibName;
   if (!isLocked) {
     [self setImage:[Globals imageNamed:[base stringByAppendingString:@"/opencity.png"]] forState:UIControlStateNormal] ;
+    self.numlabel.text = [NSString stringWithFormat:@"%d", fcp.cityId];
+    self.numlabel.hidden = NO;
   } else {
     [self setImage:[Globals imageNamed:[base stringByAppendingString:@"/lockedcity.png"]] forState:UIControlStateNormal];
+    self.numlabel.hidden = YES;
   }
+  
+  self.frame = originalRect;
+  
+  self.bossButton.hidden = YES;
+  self.timer = nil;
+}
+
+- (void) setTimer:(NSTimer *)t {
+  if (_timer != t) {
+    [_timer invalidate];
+    [_timer release];
+    _timer = [t retain];
+  }
+}
+
+- (void) updateForBossId:(int)bossId {
+  if (!self.bossButton) {
+    UIImage *img = [Globals imageNamed:@"bossbutton.png"];
+    self.bossButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.bossButton setImage:img forState:UIControlStateNormal];
+    
+    [self.superview addSubview:self.bossButton];
+    [self.bossButton addTarget:self action:@selector(bossButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.timeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(4 , 0, 61, 21)] autorelease];
+    [self.bossButton addSubview:self.timeLabel];
+    self.timeLabel.font = [UIFont fontWithName:[Globals font] size:12.f];
+    [Globals adjustFontSizeForSize:12.f withUIView:self.timeLabel];
+    self.timeLabel.backgroundColor = [UIColor clearColor];
+    self.timeLabel.textAlignment = NSTextAlignmentCenter;
+    self.timeLabel.textColor = [UIColor colorWithWhite:1.f alpha:1.f];
+    self.timeLabel.shadowColor = [UIColor colorWithWhite:0.f alpha:0.5f];
+    self.timeLabel.shadowOffset = CGSizeMake(0, 1);
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  FullBossProto *fbp = [gs bossWithId:bossId];
+  UIImage *img = [Globals imageNamed:fbp.mapIconImageName];
+  [self setImage:img forState:UIControlStateNormal];
+  
+  CGRect r = self.frame;
+  r.size = img.size;
+  r.origin.x -= 1;
+  r.origin.y -= 15;
+  self.frame = r;
+  
+  r = self.bossButton.frame;
+  r.size = [self.bossButton imageForState:UIControlStateNormal].size;
+  self.bossButton.frame = r;
+  
+  self.bossButton.center = ccp(self.center.x, CGRectGetMaxY(self.frame));
+  
+  self.bossButton.hidden = NO;
+  self.numlabel.hidden = YES;
+  _bossId = bossId;
+  
+  [self updateLabel];
+  self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabel) userInfo:nil repeats:YES];
+  [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+}
+
+- (void) updateLabel {
+  GameState *gs = [GameState sharedGameState];
+  
+  UserBoss *ub = nil;
+  for (UserBoss *b in gs.myBosses) {
+    if (b.bossId == _bossId) {
+      ub = b;
+    }
+  }
+  
+  self.timeLabel.text = [NSString stringWithFormat:@"%@ »", [ub timeTillEndString]];
+}
+
+- (void) bossButtonClicked {
+  // Simulate self being clicked
+  id target = [[self allTargets] anyObject];
+  SEL selector = NSSelectorFromString([[self actionsForTarget:target forControlEvent:UIControlEventTouchUpInside] lastObject]);
+  [target performSelector:selector withObject:self];
 }
 
 - (void) dealloc {
   self.fcp = nil;
+  self.bossButton = nil;
+  self.numlabel = nil;
+  self.timeLabel = nil;
+  self.timer = nil;
   [super dealloc];
 }
 
@@ -60,10 +159,6 @@
 @implementation CloseUpContinentView
 
 @synthesize cityPopup, cityNameLabel, cityRankLabel, progressLabel, progressBar;
-
-- (void) awakeFromNib {
-  [self addSubview:cityPopup];
-}
 
 - (void) reloadCities {
   GameState *gs = [GameState sharedGameState];
@@ -76,17 +171,39 @@
     cv.isLocked = (city == nil);
   }
   cityPopup.hidden = YES;
+  
+  for (UserBoss *b in gs.myBosses) {
+    if ([b isAlive]) {
+      FullBossProto *fbp = [gs bossWithId:b.bossId];
+      CityView *cv = (CityView *)[self viewWithTag:fbp.cityId];
+      [cv updateForBossId:b.bossId];
+    }
+  }
 }
 
 - (void) updatePopupForCity:(CityView *)cv {
   _fcp = cv.fcp;
   UserCity *uc = [[GameState sharedGameState] myCityWithId:_fcp.cityId];
-  Globals *gl = [Globals sharedGlobals];
+  
+  if (!cityPopup.superview) {
+    [self.superview addSubview:cityPopup];
+  }
   
   cityNameLabel.text = _fcp.name;
   cityRankLabel.text = [NSString stringWithFormat:@"Rank: %d", uc.curRank];
-  progressLabel.text = uc.curRank < gl.maxCityRank ? [NSString stringWithFormat:@"%d/%d", uc.numTasksComplete, _fcp.taskIdsList.count] : @"Max";
-  cityPopup.center = CGPointMake(cv.center.x+CITY_POPUP_OFFSET, cv.frame.origin.y-cityPopup.frame.size.height/2);
+  progressLabel.text = [NSString stringWithFormat:@"%d/%d", uc.numTasksComplete, _fcp.taskIdsList.count];
+  
+  int offset = 0;
+  if (cv.center.x < self.frame.size.width/2) {
+    offset = CITY_POPUP_OFFSET_FLIPPED;
+    self.cityBgdView.transform = CGAffineTransformMakeScale(-1, 1);
+  } else {
+    offset = CITY_POPUP_OFFSET;
+    self.cityBgdView.transform = CGAffineTransformIdentity;
+  }
+  
+  CGPoint pt = CGPointMake(cv.center.x+offset, cv.frame.origin.y-cityPopup.frame.size.height/2);
+  cityPopup.center = [self convertPoint:pt toView:self.superview];
   
   float fullWidth = progressBar.image.size.width;
   CGRect r = progressBar.frame;
@@ -137,7 +254,8 @@
 @synthesize lumoriaView;
 
 - (void) awakeFromNib {
-  [self addSubview:lumoriaView];
+  lumoriaView.frame = self.frame;
+  [self.superview addSubview:lumoriaView];
 }
 
 - (IBAction)continentClicked:(ContinentView *)cv {

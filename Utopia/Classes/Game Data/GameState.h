@@ -191,6 +191,7 @@
 @property (nonatomic, retain) NSMutableDictionary *myCities;
 @property (nonatomic, retain) NSMutableDictionary *myLockBoxEvents;
 @property (nonatomic, retain) NSMutableDictionary *myBoosterPacks;
+@property (nonatomic, retain) NSMutableArray *myBosses;
 
 @property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
 @property (nonatomic, retain) NSMutableDictionary *inProgressIncompleteQuests;
@@ -226,7 +227,7 @@
 
 @property (nonatomic, retain) NSMutableArray *lockBoxEventTimers;
 @property (nonatomic, retain) NSMutableArray *goldSaleTimers;
-@property (nonatomic, retain) NSMutableArray *bossEventTimers;
+@property (nonatomic, retain) NSMutableArray *bossTimers;
 @property (nonatomic, retain) NSMutableArray *tournamentTimers;
 
 @property (nonatomic, retain) NSDictionary *clanTierLevels;
@@ -266,6 +267,7 @@
 - (void) addToMyStructs:(NSArray *)myStructs;
 - (void) addToMyCities:(NSArray *)cities;
 - (void) addToMyLockBoxEvents:(NSArray *)events;
+- (void) addToMyBosses:(NSArray *)bosses;
 - (void) addToAvailableQuests:(NSArray *)quests;
 - (void) addToInProgressCompleteQuests:(NSArray *)quests;
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests;
@@ -337,9 +339,9 @@
 - (void) addToNumLockBoxesForEvent:(int)eventId;
 - (void) updateLockBoxButton;
 
-- (void) resetBossEventTimers;
-- (BossEventProto *) getCurrentBossEvent;
-- (void) updateBossEventButton;
+- (void) resetBossTimers;
+- (UserBoss *) getCurrentBoss;
+- (void) updateBossButton;
 
 - (void) resetTournamentTimers;
 - (LeaderboardEventProto *) getCurrentTournament;

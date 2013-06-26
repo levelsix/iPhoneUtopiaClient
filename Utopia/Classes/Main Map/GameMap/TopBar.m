@@ -221,10 +221,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _lockBoxButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(lockBoxButtonClicked)];
     _lockBoxButton.position = ccp(_questButton.position.x, _questButton.position.y-_questButton.contentSize.height/2-_lockBoxButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
     
-    s = [CCSprite spriteWithFile:@"bossicon.png"];
-    _bossEventButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bossEventButtonClicked)];
-    _bossEventButton.position = _lockBoxButton.position;
-    
     s = [CCSprite spriteWithFile:@"tourneyicon.png"];
     _tournamentButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(tournamentButtonClicked)];
     _tournamentButton.position = _lockBoxButton.position;
@@ -233,10 +229,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _towerButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(towerButtonClicked)];
     _towerButton.position = ccp(s.contentSize.width/2+BOTTOM_BUTTON_OFFSET, 3*s.contentSize.height/2+2*BOTTOM_BUTTON_OFFSET);
     
+    s = [CCSprite spriteWithFile:@"bossicon.png"];
+    _bossButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bossButtonClicked)];
+    _bossButton.position = _towerButton.position;
+    
     s = [CCSprite spriteWithFile:@"collectablesicon.png"];
     _gemsButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(gemsButtonClicked)];
     
-    _bottomButtons = [CCMenu menuWithItems: _mapButton, _attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, _bossEventButton, _tournamentButton, _towerButton, _gemsButton, nil];
+    _bottomButtons = [CCMenu menuWithItems: _mapButton, _attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, _bossButton, _tournamentButton, _towerButton, _gemsButton, nil];
     _bottomButtons.contentSize = CGSizeZero;
     _bottomButtons.position = CGPointZero;
     [self addChild:_bottomButtons z:10];
@@ -253,6 +253,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     CCSprite *onIcon = [CCSprite spriteWithFile:@"shieldon.png"];
     [_shieldOnView addChild:onIcon];
     onIcon.position = ccp(_shieldOnView.contentSize.width/2, _shieldOnView.contentSize.height/2+2);
+    
+    CCSprite *bossTimeBgd = [CCSprite spriteWithFile:@"shieldonbg.png"];
+    [_bossButton addChild:bossTimeBgd z:-1];
+    bossTimeBgd.position = ccp(_bossButton.contentSize.width/2, _bossButton.contentSize.height+5);
+    
+    _bossTimeLabel = [CCLabelTTF labelWithString:@"5:34:22" fontName:[Globals font] fontSize:12.f];
+    [bossTimeBgd addChild:_bossTimeLabel];
+    _bossTimeLabel.position = ccp(bossTimeBgd.contentSize.width/2, bossTimeBgd.contentSize.height/2);
     
     _questNewArrow = [CCSprite spriteWithFile:@"new.png"];
     [self addChild:_questNewArrow];
@@ -283,6 +291,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [_lockBoxBadge addChild:lockBoxLabel];
     lockBoxLabel.position = ccp(_lockBoxBadge.contentSize.width/2, _lockBoxBadge.contentSize.height/2-2);
     
+    _collectibleBadge = [CCSprite spriteWithFile:@"badgeforquests.png"];
+    [_gemsButton addChild:_collectibleBadge];
+    _collectibleBadge.visible = YES;
+    _collectibleBadge.scale = 0.7f;
+    _collectibleBadge.position = ccp(_gemsButton.contentSize.width-4, _gemsButton.contentSize.height-4);
+    
+    CCLabelTTF *collectibleLabel = [CCLabelTTF labelWithString:@"1" fontName:@"AJensonPro-BoldCapt" fontSize:fontSize];
+    [_collectibleBadge addChild:collectibleLabel];
+    collectibleLabel.position = ccp(_collectibleBadge.contentSize.width/2, _collectibleBadge.contentSize.height/2-2);
+    
     _trackingEnstBar = NO;
     _trackingCoinBar = NO;
     
@@ -311,7 +329,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     chatBottomView.hidden = YES;
     
     _lockBoxButton.visible = NO;
-    _bossEventButton.visible = NO;
+    _bossButton.visible = NO;
     _tournamentButton.visible = NO;
     _towerButton.visible = NO;
   }
@@ -356,18 +374,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   }
 }
 
-- (void) bossEventButtonClicked {
+- (void) bossButtonClicked {
   if (_isForBattleLossTutorial) {
     return;
   }
   GameState *gs = [GameState sharedGameState];
-  BossEventProto *lbe = [gs getCurrentBossEvent];
+  UserBoss *b = [gs getCurrentBoss];
+  FullBossProto *fbp = [gs bossWithId:b.bossId];
   
-  if (lbe) {
-    // Assume boss is asset 1
-    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:lbe.cityId asset:1];
-  } else {
-    [Globals popupMessage:@"Woops! The event has ended! Try again next time."];
+  if (b) {
+    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:fbp.bossId asset:fbp.assetNumWithinCity];
   }
 }
 
@@ -439,13 +455,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _bazaarButton.selectedImage.opacity = BUTTON_OPACITY;
   _lockBoxButton.normalImage.opacity = BUTTON_OPACITY;
   _lockBoxButton.selectedImage.opacity = BUTTON_OPACITY;
-  _bossEventButton.normalImage.opacity = BUTTON_OPACITY;
-  _bossEventButton.selectedImage.opacity = BUTTON_OPACITY;
+  _bossButton.normalImage.opacity = BUTTON_OPACITY;
+  _bossButton.selectedImage.opacity = BUTTON_OPACITY;
   _tournamentButton.normalImage.opacity = BUTTON_OPACITY;
   _tournamentButton.selectedImage.opacity = BUTTON_OPACITY;
   _towerButton.normalImage.opacity = BUTTON_OPACITY;
   _towerButton.selectedImage.opacity = BUTTON_OPACITY;
   [_attackButton recursivelyApplyOpacity:BUTTON_OPACITY];
+  [_bossButton recursivelyApplyOpacity:BUTTON_OPACITY];
 }
 
 - (void) resetAllOpacities {
@@ -461,13 +478,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _bazaarButton.selectedImage.opacity = 255;
   _lockBoxButton.normalImage.opacity = 255;
   _lockBoxButton.selectedImage.opacity = 255;
-  _bossEventButton.normalImage.opacity = 255;
-  _bossEventButton.selectedImage.opacity = 255;
+  _bossButton.normalImage.opacity = 255;
+  _bossButton.selectedImage.opacity = 255;
   _tournamentButton.normalImage.opacity = 255;
   _tournamentButton.selectedImage.opacity = 255;
   _towerButton.normalImage.opacity = 255;
   _towerButton.selectedImage.opacity = 255;
   [_attackButton recursivelyApplyOpacity:255];
+  [_bossButton recursivelyApplyOpacity:255];
 }
 
 - (void) goToBazaarForFirstLossTutorial {
@@ -506,14 +524,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 - (void) loadHomeConfiguration {
   _homeButton.visible = NO;
   _bazaarButton.visible = YES;
-  _gemsButton.visible = NO;
+  [self loadLeftSide];
 }
 
 - (void) loadBazaarConfiguration {
   _bazaarButton.visible = NO;
   _homeButton.visible = YES;
   _homeButton.position = _bazaarButton.position;
-  _gemsButton.visible = NO;
+  [self loadLeftSide];
   
   if (_isForBattleLossTutorial) {
     [_arrow removeFromParentAndCleanup:YES];
@@ -528,10 +546,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _bazaarButton.visible = YES;
   _homeButton.position = ccp(_bazaarButton.position.x, _bazaarButton.position.y+_bazaarButton.contentSize.height/2+_homeButton.contentSize.height/2);
   
-  _gemsButton.visible = YES;
+  [self loadLeftSide];
+}
+
+- (void) loadLeftSide {
+  BOOL normal = _homeButton.visible && _bazaarButton.visible;
+  _gemsButton.visible = normal;
   _gemsButton.position = ccp(_towerButton.position.x-_towerButton.contentSize.width/2+_gemsButton.contentSize.width/2, _towerButton.position.y-_towerButton.contentSize.height/2+_gemsButton.contentSize.height/2);
-  if (_towerButton.visible) {
+  _bossButton.position = _towerButton.position;
+  if (_towerButton.visible || _bossButton.visible) {
     _gemsButton.position = ccpAdd(_gemsButton.position, ccp(_towerButton.position.x+_towerButton.contentSize.width/2, 0));
+  }
+  if (_towerButton.visible) {
+    _bossButton.position = ccpAdd(_towerButton.position, ccp(0, _towerButton.contentSize.height+BOTTOM_BUTTON_OFFSET));
   }
 }
 
@@ -588,16 +615,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       [LockBoxMenuController sharedLockBoxMenuController];
       showLockBox = YES;
       [defaults setObject:curDate forKey:LAST_LOCK_BOX_POPUP_TIME_KEY];
-    }
-  }
-  
-  if ([gs getCurrentBossEvent] && gs.level >= MIN_LEVEL_FOR_POPUPS) {
-    NSDate *date = [defaults objectForKey:LAST_BOSS_EVENT_POPUP_TIME_KEY];
-    NSDate *nextShowDate = [date dateByAddingTimeInterval:3600*gl.numHoursBeforeReshowingBossEvent];
-    if (!date || [nextShowDate compare:curDate] == NSOrderedAscending) {
-      [BossEventMenuController sharedBossEventMenuController];
-      showBossEvent = YES;
-      [defaults setObject:curDate forKey:LAST_BOSS_EVENT_POPUP_TIME_KEY];
     }
   }
   
@@ -1092,6 +1109,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
         });
       }];
     }
+    
+    if (_bossButton.visible) {
+      UserBoss *ub = [gs getCurrentBoss];
+      _bossTimeLabel.string = [ub timeTillEndString];
+    }
   }
 }
 
@@ -1262,8 +1284,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _lockBoxBadge.visible = badge;
 }
 
-- (void) shouldDisplayBossEventButton:(BOOL)button {
-  _bossEventButton.visible = button;
+- (void) shouldDisplayBossButton:(BOOL)button {
+  _bossButton.visible = button;
+  
+  [self loadLeftSide];
 } 
 
 - (void) shouldDisplayTournamentButton:(BOOL)button {
@@ -1273,13 +1297,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 - (void) shouldDisplayTowerButton:(BOOL)button {
   _towerButton.visible = button;
   
-  if (_gemsButton.visible) {
-    [self loadNormalConfiguration];
-  }
+  [self loadLeftSide];
 }
 
 - (void) shouldDisplayShieldView:(BOOL)shieldView {
   _shieldOnView.visible = shieldView;
+}
+
+- (void) shouldDisplayGemsBadge:(BOOL)display {
+  _collectibleBadge.visible = display;
 }
 
 - (void) onEnter {

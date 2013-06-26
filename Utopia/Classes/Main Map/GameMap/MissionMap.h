@@ -52,8 +52,8 @@
 @property (nonatomic, retain) IBOutlet ResetStaminaView *resetStaminaView;
 @property (nonatomic, retain) IBOutlet CityGemsView *gemsView;
 @property (nonatomic, retain) IBOutlet BossUnlockedView *bossUnlockedView;
-
-@property (nonatomic, retain) NSDate *potentialBossKillTime;
+@property (nonatomic, retain) IBOutlet CityBossView *bossView;
+@property (nonatomic, retain) IBOutlet GemTutorialView *tutView;
 
 @property (nonatomic, retain) NSMutableArray *userGems;
 
@@ -70,6 +70,8 @@
 
 - (void) killEnemy:(int)userId;
 
-- (void) closeMenus;
+- (void) closeMenus:(SelectableSprite *)selected;
+
+- (IBAction)bossAttackClicked:(UIView *)sender;
 
 @end

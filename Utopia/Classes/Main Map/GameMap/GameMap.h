@@ -90,7 +90,7 @@
 
 - (void) moveToCenterAnimated:(BOOL)animatedr;
 - (void) moveToSprite:(CCSprite *)spr animated:(BOOL)animated;
-- (void) moveToSprite:(CCSprite *)spr animated:(BOOL)animated withOffset:(CGPoint)offset;
+- (float) moveToSprite:(CCSprite *)spr animated:(BOOL)animated withOffset:(CGPoint)offset;
 - (void) moveToEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type animated:(BOOL)animated;
 
 - (CGPoint) randomWalkablePosition;

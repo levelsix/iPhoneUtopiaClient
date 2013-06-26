@@ -27,15 +27,7 @@
 - (BOOL) isPointInArea:(CGPoint)pt {
   CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width, self.contentSize.height), -RECT_LEEWAY, -RECT_LEEWAY);
   
-  if ([self isKindOfClass:[GemDrop class]]) {
-    NSLog(@"%@, %@", NSStringFromCGRect(rect), NSStringFromCGPoint(pt));
-  }
-  
   pt = [self convertToNodeSpace:pt];
-  
-  if ([self isKindOfClass:[GemDrop class]]) {
-    NSLog(@"%@", NSStringFromCGPoint(pt));
-  }
   
   if (CGRectContainsPoint(rect, pt)) {
     return YES;
@@ -56,8 +48,7 @@
   if ([n isKindOfClass:[GameMap class]]) {
     GameMap *map = (GameMap *)self.parent;
     [map pickUpDrop:self];
-#warning change back
-//    _clicked = YES;
+    _clicked = YES;
   }
 }
 

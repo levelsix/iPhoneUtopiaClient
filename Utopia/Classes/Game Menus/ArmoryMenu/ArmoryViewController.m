@@ -444,8 +444,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
       return NSOrderedDescending;
     }
     
-    BOOL inRange1 = gs.level > obj1.minLevel;
-    BOOL inRange2 = gs.level > obj2.minLevel;
+    BOOL inRange1 = gs.level >= obj1.minLevel;
+    BOOL inRange2 = gs.level >= obj2.minLevel;
     if (!inRange1 && !inRange2) {
       if (obj1.minLevel < obj2.minLevel) {
         return NSOrderedAscending;

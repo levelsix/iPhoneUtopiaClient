@@ -208,11 +208,14 @@
       }
     }
     
-    [self runAction:[CCSequence actions:
-                     [MoveToLocation actionWithDuration:diff/WALKING_SPEED location:r],
-                     [CCCallFunc actionWithTarget:self selector:@selector(walk)],
-                     nil
-                     ]];
+    CCAction *a = [CCSequence actions:
+                   [MoveToLocation actionWithDuration:diff/WALKING_SPEED location:r],
+                   [CCCallFunc actionWithTarget:self selector:@selector(walk)],
+                   nil
+                   ];
+    a.tag = 10;
+    [self stopActionByTag:10];
+    [self runAction:a];
   }
 }
 
@@ -489,23 +492,29 @@
 - (id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
   if ((self = [super initWithFile:file location:loc map:map])) {
     self.contentSize = CGSizeMake(120, 100);
+    self.sprite.scale = 1.5f;
     
-    CCSprite *healthBgd = [CCSprite spriteWithFile:@"dragonhpbg.png"];
-    [self addChild:healthBgd z:1];
-    healthBgd.position = ccpAdd(_nameLabel.position, ccp(0, 30));
+    _bossMenu = [CCSprite spriteWithFile:@"smallbossbubble.png"];
+    [self addChild:_bossMenu z:1];
+    _bossMenu.position = ccpAdd(_nameLabel.position, ccp(0, 20));
     
-    _healthBar = [CCProgressTimer progressWithFile:@"dragonhpred.png"];
+    _healthBar = [CCProgressTimer progressWithFile:@"minihealthbar.png"];
     _healthBar.type = kCCProgressTimerTypeHorizontalBarLR;
     _healthBar.percentage = 845.f/1000*100;
-    [healthBgd addChild:_healthBar];
-    _healthBar.position = ccp(healthBgd.contentSize.width/2, healthBgd.contentSize.height/2);
+    [_bossMenu addChild:_healthBar];
+    _healthBar.position = ccp(_bossMenu.contentSize.width/2-0.5, _bossMenu.contentSize.height/2-5.5);
     
-    _healthLabel = [CCLabelTTF labelWithString:@"845/1000" fontName:[Globals font] fontSize:13.f];
-    [healthBgd addChild:_healthLabel];
-    _healthLabel.position = ccpAdd(_healthBar.position, ccp(15,-3));
+    CCSprite *timer =  [CCSprite spriteWithFile:@"clocktimer.png"];
+    [_bossMenu addChild:timer];
+    timer.position = ccp(15, _bossMenu.contentSize.height-15);
     
-    _heartIcon = [CCSprite spriteWithFile:@"dragonheart.png"];
-    [healthBgd addChild:_heartIcon z:1];
+    _timeLabel = [CCLabelTTF labelWithString:@"5:34:22" fontName:[Globals font] fontSize:13.f];
+    [_bossMenu addChild:_timeLabel];
+    _timeLabel.anchorPoint = ccp(0, 0.5);
+    _timeLabel.position = ccpAdd(timer.position, ccp(13,-3));
+    
+    [self updateTime];
+    [self schedule:@selector(updateTime) interval:1];
   }
   return self;
 }
@@ -524,23 +533,19 @@
   [self schedule:@selector(updateBar:)];
 }
 
-#define BAR_SPEED 110
-
-- (void) updateBar:(ccTime)dt {
-  _curHp = _curHp - BAR_SPEED*dt;
-  if (_curHp <= self.ub.curHealth) {
-    _curHp = self.ub.curHealth;
-    
-    [self unschedule:@selector(updateBar:)];
-    [self.callback invoke];
-    self.callback = nil;
+- (void) updateTime {
+  Globals *gl = [Globals sharedGlobals];
+  if ([self.ub isAlive]) {
+    int totalHealth = [gl healthForBoss:self.ub];
+    _healthBar.percentage = (float)self.ub.curHealth/totalHealth*100.f;
+    _timeLabel.string = [self.ub timeTillEndString];
+    _bossMenu.visible = YES;
+  } else {
+    _bossMenu.visible = NO;
   }
-  
-  _healthBar.percentage = (float)_curHp / self.fbp.baseHealth*100.f;
-  _healthLabel.string = [NSString stringWithFormat:@"%d/%d", _curHp, self.fbp.baseHealth];
-  
-  _heartIcon.position = ccpAdd(_healthLabel.position, ccp(-_healthLabel.contentSize.width/2-10, 3));
 }
+
+#define BAR_SPEED 110
 
 - (void) setUb:(UserBoss *)ub {
   if (_ub != ub) {
@@ -549,7 +554,8 @@
   }
   
   _curHp = _ub.curHealth;
-  [self updateBar:0];
+  
+  [self updateTime];
 }
 
 - (void) setName:(NSString *)n {
@@ -557,6 +563,7 @@
     [_name release];
     _name = [n retain];
     _nameLabel.string = _name;
+    _nameLabel.visible = NO;
   }
 }
 

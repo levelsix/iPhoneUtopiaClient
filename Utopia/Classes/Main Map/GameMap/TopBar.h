@@ -64,7 +64,7 @@ typedef enum {
   CCMenuItemSprite *_questButton;
   CCMenuItemSprite *_attackButton;
   CCMenuItemSprite *_lockBoxButton;
-  CCMenuItemSprite *_bossEventButton;
+  CCMenuItemSprite *_bossButton;
   CCMenuItemSprite *_tournamentButton;
   CCMenuItemSprite *_bazaarButton;
   CCMenuItemSprite *_homeButton;
@@ -74,6 +74,7 @@ typedef enum {
   CCMenu *_bottomButtons;
   
   CCSprite *_shieldOnView;
+  CCLabelTTF *_bossTimeLabel;
   
   CCSprite *_questNewArrow;
   CCSprite *_questProgArrow;
@@ -82,6 +83,7 @@ typedef enum {
   int _questNewBadgeNum;
   
   CCSprite *_lockBoxBadge;
+  CCSprite *_collectibleBadge;
   
   CCSprite *_goldSaleBanner;
   
@@ -117,6 +119,8 @@ typedef enum {
 @property (nonatomic, retain) NSTimer *staminaTimer;
 
 @property (nonatomic, assign) BOOL isStarted;
+
+@property (nonatomic, assign) CCMenuItemSprite *gemsButton;
 
 // If it is first day bonus
 @property (nonatomic, retain) StartupResponseProto_DailyBonusInfo *dbi;
@@ -162,10 +166,11 @@ typedef enum {
 - (void) fadeOutMenuOverChatView:(UIView *)view;
 
 - (void) shouldDisplayLockBoxButton:(BOOL)button andBadge:(BOOL)badge;
-- (void) shouldDisplayBossEventButton:(BOOL)button;
+- (void) shouldDisplayBossButton:(BOOL)button;
 - (void) shouldDisplayTournamentButton:(BOOL)button;
 - (void) shouldDisplayTowerButton:(BOOL)button;
 - (void) shouldDisplayShieldView:(BOOL)shieldView;
+- (void) shouldDisplayGemsBadge:(BOOL)display;
 
 + (TopBar *) sharedTopBar;
 + (void) purgeSingleton;
