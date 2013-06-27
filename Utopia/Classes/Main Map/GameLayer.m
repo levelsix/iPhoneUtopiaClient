@@ -341,6 +341,7 @@ static BOOL shake_once = NO;
     
     [_bazaarMap reloadAllies];
     [_bazaarMap reloadQuestGivers];
+    [_bazaarMap reloadLocks];
   }
   
   if (self.isRunning) {

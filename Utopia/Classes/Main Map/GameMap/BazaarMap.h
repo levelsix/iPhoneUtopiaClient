@@ -25,5 +25,6 @@
 - (void) moveToQuestGiverAnimated:(BOOL)animated;
 
 - (void) reloadAllies;
+- (void) reloadLocks;
 
 @end

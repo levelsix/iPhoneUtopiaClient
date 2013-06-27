@@ -261,4 +261,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
   }
 }
 
+- (void) reloadLocks {
+  for (CCNode *n in self.children) {
+    if ([n isKindOfClass:[CritStructBuilding class]]) {
+      CritStructBuilding *csb = (CritStructBuilding *)n;
+      [csb updateLock];
+    }
+  }
+}
+
 @end

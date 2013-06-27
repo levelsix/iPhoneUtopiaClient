@@ -355,17 +355,26 @@
     label.position = ccp(self.contentSize.width/2, 45);
     
     self.tag = cs.type;
-    
-    GameState *gs = [GameState sharedGameState];
-    if (gs.level < cs.minLevel && gs.prestigeLevel == 0) {
-      self.color = ccc3(80, 80, 80);
-       
-      CCSprite *lock = [CCSprite spriteWithFile:@"missionlock.png"];
-      [self addChild:lock z:1];
-      lock.position = ccp(self.contentSize.width/2, self.contentSize.height*2.5/4);
-    }
   }
   return self;
+}
+
+- (void) updateLock {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.level < self.critStruct.minLevel && gs.prestigeLevel == 0) {
+    self.color = ccc3(80, 80, 80);
+    
+    CCNode *lock = [self getChildByTag:5];
+    if (!lock) {
+      lock = [CCSprite spriteWithFile:@"missionlock.png"];
+      [self addChild:lock z:1 tag:5];
+      lock.position = ccp(self.contentSize.width/2, self.contentSize.height*2.5/4);
+    }
+  } else {
+    self.color = ccc3(255, 255, 255);
+    CCNode *lock = [self getChildByTag:5];
+    [lock removeFromParentAndCleanup:YES];
+  }
 }
 
 - (void) initializeRetrieveBubble {

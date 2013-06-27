@@ -543,8 +543,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
     }
   }
   
-  [fup release];
-  fup = nil;
+  [_battleFup release];
+  _battleFup = nil;
 }
 
 - (void) mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {

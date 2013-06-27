@@ -1458,12 +1458,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   for (int i = 0; i < arrSize; i++) {
     UserEquip *ue = ues[i];
-    FullEquipProto *oldFep = ue ? [gs equipWithId:ue.equipId] : nil;
     FullEquipProto *newFep = nil;
+    int type = i;
     int oAtt = [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:0];
     int oDef = [gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:0];
     for (FullEquipProto *fep in gs.staticEquips.allValues) {
-      if (fep.equipType != oldFep.equipType || (fep.equipType == FullEquipProto_EquipTypeArmor && fep.rarity < FullEquipProto_RarityRare) || fep.minLevel > fup.level) {
+      if (fep.equipType != type || (type == FullEquipProto_EquipTypeArmor && fep.rarity < FullEquipProto_RarityRare) || fep.minLevel > fup.level) {
         continue;
       }
       

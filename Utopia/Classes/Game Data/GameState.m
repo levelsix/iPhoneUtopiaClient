@@ -22,6 +22,7 @@
 #import "ClanMenuController.h"
 #import "Downloader.h"
 #import "ArmoryViewController.h"
+#import "GameLayer.h"
 
 #define TagLog(...) //LNLog(__VA_ARGS__)
 
@@ -267,6 +268,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [[TopBar sharedTopBar] setUpStaminaTimer];
   
   [[TopBar sharedTopBar] shouldDisplayShieldView:[self hasBeginnerShield]];
+  
+  GameLayer *glay = [GameLayer sharedGameLayer];
+  if ([glay.currentMap isKindOfClass:[BazaarMap class]]) {
+    [(BazaarMap *)glay.currentMap reloadLocks];
+  }
 }
 
 - (MinimumUserProto *) minUser {

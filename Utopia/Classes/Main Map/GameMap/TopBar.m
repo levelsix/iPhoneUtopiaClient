@@ -550,6 +550,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) loadLeftSide {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.isTutorial) {
+    return;
+  }
+  
   BOOL normal = _homeButton.visible && _bazaarButton.visible;
   _gemsButton.visible = normal;
   _gemsButton.position = ccp(_towerButton.position.x-_towerButton.contentSize.width/2+_gemsButton.contentSize.width/2, _towerButton.position.y-_towerButton.contentSize.height/2+_gemsButton.contentSize.height/2);

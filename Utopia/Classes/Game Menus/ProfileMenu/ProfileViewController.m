@@ -22,6 +22,7 @@
 #import "ClanMenuController.h"
 #import "FAQMenuController.h"
 #import "ChatMenuController.h"
+#import "SocketCommunication.h"
 
 #define EQUIPPING_DURATION 0.5f
 
@@ -871,6 +872,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (IBAction)closeClicked:(id)sender {
   [self.wallTabView endEditing];
+  [[SocketCommunication sharedSocketCommunication] flush];
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [ProfileViewController removeView];
   }];

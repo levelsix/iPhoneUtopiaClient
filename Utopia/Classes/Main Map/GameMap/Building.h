@@ -52,6 +52,7 @@
 @property (nonatomic, retain) CritStruct *critStruct;
 @property (nonatomic, assign) BOOL retrievable;
 
+- (void) updateLock;
 - (id) initWithCritStruct:(CritStruct *)cs location:(CGRect)loc map:(GameMap *)map;
 
 @end
