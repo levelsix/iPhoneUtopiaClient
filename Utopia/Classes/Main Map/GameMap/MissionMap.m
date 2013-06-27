@@ -718,7 +718,7 @@
     CityRankupViewController *vc = [[CityRankupViewController alloc] initWithRank:city.curRank coins:tarp.coinBonusIfCityRankup exp:tarp.expBonusIfCityRankup];
     [Globals displayUIView:vc.view];
     
-    if (_cityId == 1 && city.curRank == 2) {
+    if (_cityId == 1 && city.curRank == 1 && gs.prestigeLevel == 0) {
       [self.tutView beginRankupTutorial];
       [(UIButton *)[vc.mainView viewWithTag:30] addTarget:self.tutView action:@selector(beginBossTutorial) forControlEvents:UIControlEventTouchUpInside];
     }
