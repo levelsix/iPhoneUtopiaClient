@@ -121,7 +121,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   if (gs.level < gl.minLevelConstants.marketplaceMinLevel && gs.prestigeLevel <= 0) {
-    [Globals popupMessage:[NSString stringWithFormat:@"You must be level %d to view the marketplace.", gl.minLevelConstants.marketplaceMinLevel]];
+    [Globals popupMessage:[NSString stringWithFormat:@"You must be level %d to enter the marketplace.", gl.minLevelConstants.marketplaceMinLevel]];
   } else {
     [[MarketplaceViewController sharedMarketplaceViewController] searchForEquipId:equipId level:_level allowAllAbove:YES];
     [self closeClicked:nil]; 

@@ -258,6 +258,14 @@
 
 @end
 
+@implementation VerticalFlipImageView
+
+- (void) awakeFromNib {
+  self.transform = CGAffineTransformMakeScale(1, -1);
+}
+
+@end
+
 @implementation FlipButton
 
 - (void) awakeFromNib {

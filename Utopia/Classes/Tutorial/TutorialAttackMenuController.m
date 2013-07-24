@@ -38,7 +38,7 @@
   
   [self.attackTableView reloadData];
   
-  UIImageView *arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
+  UIImageView *arrow = [[[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]] autorelease];
   [self.mainView addSubview:arrow];
   arrow.center = ccp(390, 85);
   [Globals animateUIArrow:arrow atAngle:-M_PI_2];
@@ -48,7 +48,7 @@
   
   self.topBar.userInteractionEnabled = NO;
   
-  UIView *dark = [[UIView alloc] initWithFrame:self.attackTableView.bounds];
+  UIView *dark = [[[UIView alloc] initWithFrame:self.attackTableView.bounds] autorelease];
   dark.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.7f];
   [self.attackTableView addSubview:dark];
   

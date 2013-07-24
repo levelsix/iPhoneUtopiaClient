@@ -48,12 +48,17 @@
   CGPoint _spriteOffset;
   CGPoint _oldMapPos;
   BOOL _moving;
+  
+//  BOOL _loading;
+  int _curNum;
 }
 
 @property (nonatomic, retain) CCSpriteBatchNode *spritesheet;
 @property (nonatomic, retain) CCSprite *sprite;
 @property (nonatomic, retain) CCAction *walkActionN;
 @property (nonatomic, retain) CCAction *walkActionF;
+
+@property (nonatomic, retain) NSString *prefix;
 
 - (void) walk;
 
@@ -120,6 +125,7 @@ typedef enum {
 @interface BossSprite : AnimatedSprite {
   CCProgressTimer *_healthBar;
   CCLabelTTF *_timeLabel;
+  CCSprite *_lock;
   
   int _curHp;
 }

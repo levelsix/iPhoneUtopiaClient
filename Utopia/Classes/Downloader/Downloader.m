@@ -25,7 +25,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
     _syncQueue = dispatch_queue_create("Sync Downloader", NULL);
     _asyncQueue = dispatch_queue_create("Async Downloader", NULL);
     _cacheDir = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] copy];
-    NSLog(@"%@", _cacheDir);
+    LNLog(@"Cache Dir: %@", _cacheDir);
     
     [[NSBundle mainBundle] loadNibNamed:@"DownloaderSpinner" owner:self options:nil];
   }
@@ -36,7 +36,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   // LNLogs here are NOT thread safe, be careful
   NSString *urlBase = URL_BASE;
   NSURL *url = [[NSURL alloc] initWithString:[urlBase stringByAppendingString:imageName]];
-  NSString *filePath = [[NSString alloc] initWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
+  NSString *filePath = [NSString stringWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
   BOOL success = YES;
   
   if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
@@ -45,10 +45,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
       success = [data writeToFile:filePath atomically:YES];
     }
     [data release];
-    
-    [url release];
-    [filePath autorelease];
   }
+  
+  [url release];
   
   return success ? filePath : nil;
 }
@@ -57,7 +56,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   // Get an image from the URL below
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning async download of %@", imageName);
   dispatch_async(_asyncQueue, ^{
+    NSAutoreleasePool *a = [[NSAutoreleasePool alloc] init];
     [self downloadFile:imageName];
+    [a release];
     dispatch_async(dispatch_get_main_queue(), ^(void) {
       if (completed) {
         completed();
@@ -66,13 +67,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
     });
   });
 }
-
+  
 - (void) syncDownloadFile:(NSString *)fileName {
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning sync download of file %@", fileName);
+//  [self performSelectorOnMainThread:@selector(beginLoading:) withObject:fileName waitUntilDone:YES];
   [self beginLoading:fileName];
   [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01f]];
   dispatch_sync(_syncQueue, ^{
+    NSAutoreleasePool *a = [[NSAutoreleasePool alloc] init];
     [self downloadFile:fileName];
+    [a release];
   });
   [self stopLoading];
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", fileName);
@@ -126,7 +130,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   int numVal = num.intValue;
   
   for (int i = 0; i < numVal; i++) {
-    NSString *filePath = [[NSString alloc] initWithFormat:@"%@/%@.%d",_cacheDir, base, i];
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@.%d",_cacheDir, base, i];
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
       BOOL removed = [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
       dispatch_async(dispatch_get_main_queue(), ^(void) {
@@ -138,11 +142,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 
 - (void) syncDownloadBundle:(NSString *)bundleName {
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning sync download of bundle %@", bundleName);
+  //  [self performSelectorOnMainThread:@selector(beginLoading:) withObject:bundleName waitUntilDone:YES];
   [self beginLoading:bundleName];
-  [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5f]];
+  [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01f]];
   dispatch_sync(_syncQueue, ^{
+    NSAutoreleasePool *a = [[NSAutoreleasePool alloc] init];
     [self downloadBundle:[bundleName stringByAppendingString:@".zip"]];
     [self deletePreviousBundles:bundleName];
+    [a release];
   });
   [self stopLoading];
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of bundle %@ complete", bundleName);
@@ -151,8 +158,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 - (void) asyncDownloadBundle:(NSString *)bundleName {
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning async download of bundle %@", bundleName);
   dispatch_async(_asyncQueue, ^{
+    NSAutoreleasePool *a = [[NSAutoreleasePool alloc] init];
     [self downloadBundle:[bundleName stringByAppendingString:@".zip"]];
     [self deletePreviousBundles:bundleName];
+    [a release];
     dispatch_async(dispatch_get_main_queue(), ^(void) {
       ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of bundle %@ complete", bundleName);
     });

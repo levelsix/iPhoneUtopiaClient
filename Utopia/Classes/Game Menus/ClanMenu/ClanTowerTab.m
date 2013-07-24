@@ -48,7 +48,7 @@
     
     [Globals adjustViewForCentering:self.ownerLabel.superview withLabel:self.ownerLabel];
     
-    BOOL canWageWar = (gs.clan.isGood != t.towerOwner.isGood);
+    BOOL canWageWar = !gs.clan || (gs.clan.isGood != t.towerOwner.isGood);
     self.claimButtonView.hidden = !canWageWar;
     self.sameSideLabel.hidden = canWageWar;
   } else {
@@ -334,7 +334,7 @@
   if (_currentTowerId == 0) {
     NSArray *towers = gs.clanTowers;
     
-    CGPoint pt;
+    CGPoint pt = CGPointZero;
     for (int i = 0; i < towers.count; i++) {
       ClanTowerView *tv = [self getTowerViewForIndex:i];
       ClanTowerProto *ctp = [towers objectAtIndex:i];

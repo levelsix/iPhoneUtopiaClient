@@ -395,7 +395,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
     secs %= 3600;
     // Round mins up
     int mins = (int)((secs+59)/60);
-    secs %= 60;
     NSString *daysString = days ? [NSString stringWithFormat:@" %dd", days] : @"";
     NSString *hrsString = days || hrs ? [NSString stringWithFormat:@" %dh", hrs] : @"";
     NSString *minsString = days || hrs || mins ? [NSString stringWithFormat:@" %dm", mins] : @"";
@@ -521,7 +520,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   NSString *key = [NSString stringWithFormat:PERFORMED_FIRST_LOSS_TUT_KEY, gs.userId];
   BOOL hasPerformedTut = [def boolForKey:key];
   FullUserProto *fup = _battleFup;
-  FullQuestProto *fqp = [gs questForQuestId:gl.questIdForFirstLossTutorial];
+  FullQuestProto *fqp = [gs.inProgressIncompleteQuests objectForKey:[NSNumber numberWithInt:gl.questIdForFirstLossTutorial]];
   
   if (hasPerformedTut || gs.prestigeLevel > 0) {
     [bl beginBattleAgainst:fup inCity:0];

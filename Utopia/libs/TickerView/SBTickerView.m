@@ -178,11 +178,11 @@
   [_tickLayer setFrame:CGRectMake(0., 0., _flipLayer.frame.size.width, floorf(_flipLayer.frame.size.height/2))];
   [_tickLayer setZPosition:1.]; // Above the other ones
   
-  [_tickLayer setFrontLayer:[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeTick
-                                                                  segment:SBGradientOverlayLayerSegmentTop]];
+  [_tickLayer setFrontLayer:[[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeTick
+                                                                  segment:SBGradientOverlayLayerSegmentTop] autorelease]];
   
-  [_tickLayer setBackLayer:[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeTick
-                                                                 segment:SBGradientOverlayLayerSegmentBottom]];
+  [_tickLayer setBackLayer:[[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeTick
+                                                                 segment:SBGradientOverlayLayerSegmentBottom] autorelease]];
   
   
   // Images

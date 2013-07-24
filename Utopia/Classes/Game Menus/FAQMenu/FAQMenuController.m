@@ -47,6 +47,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   
   self.settingsView.frame = self.faqView.frame;
   [self.mainView addSubview:self.settingsView];
+  
+  self.settingsView.hidden = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -328,7 +330,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
 
 - (IBAction)forumButtonClicked:(id)sender {
 #ifdef LEGENDS_OF_CHAOS
-  NSString *forumLink = @"http://forum.bestfunfreegames.com";
+  NSString *forumLink = @"http://legendsofchaos.lefora.com/";
 #else
   NSString *forumLink = @"http://forum.lvl6.com";
 #endif

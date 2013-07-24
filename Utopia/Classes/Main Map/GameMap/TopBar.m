@@ -461,8 +461,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _tournamentButton.selectedImage.opacity = BUTTON_OPACITY;
   _towerButton.normalImage.opacity = BUTTON_OPACITY;
   _towerButton.selectedImage.opacity = BUTTON_OPACITY;
+  _gemsButton.normalImage.opacity = BUTTON_OPACITY;
+  _gemsButton.selectedImage.opacity = BUTTON_OPACITY;
   [_attackButton recursivelyApplyOpacity:BUTTON_OPACITY];
   [_bossButton recursivelyApplyOpacity:BUTTON_OPACITY];
+  [_gemsButton recursivelyApplyOpacity:BUTTON_OPACITY];
+  [_questButton recursivelyApplyOpacity:BUTTON_OPACITY];
+  [_lockBoxButton recursivelyApplyOpacity:BUTTON_OPACITY];
 }
 
 - (void) resetAllOpacities {
@@ -484,20 +489,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _tournamentButton.selectedImage.opacity = 255;
   _towerButton.normalImage.opacity = 255;
   _towerButton.selectedImage.opacity = 255;
+  _gemsButton.normalImage.opacity = 255;
+  _gemsButton.selectedImage.opacity = 255;
   [_attackButton recursivelyApplyOpacity:255];
   [_bossButton recursivelyApplyOpacity:255];
+  [_gemsButton recursivelyApplyOpacity:255];
+  [_questButton recursivelyApplyOpacity:255];
+  [_lockBoxButton recursivelyApplyOpacity:255];
 }
 
 - (void) goToBazaarForFirstLossTutorial {
   [self lowerAllOpacities];
   
-  _bazaarButton.normalImage.opacity = 255;
-  _bazaarButton.selectedImage.opacity = 255;
-  
-  _arrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
-  [self addChild:_arrow];
-  _arrow.position = ccpAdd(_bazaarButton.position, ccp(-_bazaarButton.contentSize.width/2-_arrow.contentSize.width/2, 0));
-  [Globals animateCCArrow:_arrow atAngle:0];
+  if (_bazaarButton.visible) {
+    _bazaarButton.normalImage.opacity = 255;
+    _bazaarButton.selectedImage.opacity = 255;
+    
+    _arrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
+    [self addChild:_arrow];
+    _arrow.position = ccpAdd(_bazaarButton.position, ccp(-_bazaarButton.contentSize.width/2-_arrow.contentSize.width/2, 0));
+    [Globals animateCCArrow:_arrow atAngle:0];
+  }
   
   self.isTouchEnabled = NO;
   self.profilePic.isTouchEnabled = NO;
@@ -519,6 +531,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   _questNewArrow.visible = YES;
   
   _isForBattleLossTutorial = NO;
+}
+
+- (void) disableButtonsForMiniTutorial {
+  [self lowerAllOpacities];
+  self.isTouchEnabled = NO;
+  self.profilePic.isTouchEnabled = NO;
+  self.chatBottomView.userInteractionEnabled = NO;
+  _bottomButtons.isTouchEnabled = NO;
+  self.chatBottomView.alpha = BUTTON_OPACITY/255.f;
+}
+
+- (void) enableButtonsAfterMiniTutorial {
+  [self resetAllOpacities];
+  self.isTouchEnabled = YES;
+  self.profilePic.isTouchEnabled = YES;
+  self.chatBottomView.userInteractionEnabled = YES;
+  _bottomButtons.isTouchEnabled = YES;
+  self.chatBottomView.alpha = 1.f;
 }
 
 - (void) loadHomeConfiguration {
@@ -552,6 +582,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 - (void) loadLeftSide {
   GameState *gs = [GameState sharedGameState];
   if (gs.isTutorial) {
+    _gemsButton.visible = NO;
     return;
   }
   
@@ -985,7 +1016,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   if (gs.connected) {
     if (gs.experience >= gs.expRequiredForNextLevel && gs.level < gl.maxLevelForUser) {
-      [[OutgoingEventController sharedOutgoingEventController] levelUp];
+      BOOL okayToLevel = YES;
+      for (id update in gs.unrespondedUpdates) {
+        if ([update isKindOfClass:[ExperienceUpdate class]]) {
+          okayToLevel = NO;
+        }
+      }
+      
+      if (okayToLevel) {
+        [[OutgoingEventController sharedOutgoingEventController] levelUp];
+      }
     }
     // Check if timers need to be instantiated
     if (!_energyTimer && gs.currentEnergy < gs.maxEnergy) {

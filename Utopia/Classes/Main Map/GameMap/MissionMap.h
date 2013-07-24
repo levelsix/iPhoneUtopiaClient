@@ -45,6 +45,8 @@
   CCMenu *_infoMenu;
   
   int _curPowerAttack;
+  
+  BOOL _allowSelection;
 }
 
 @property (nonatomic, retain) IBOutlet MissionBuildingSummaryMenu *summaryMenu;
@@ -54,6 +56,7 @@
 @property (nonatomic, retain) IBOutlet BossUnlockedView *bossUnlockedView;
 @property (nonatomic, retain) IBOutlet CityBossView *bossView;
 @property (nonatomic, retain) IBOutlet GemTutorialView *tutView;
+@property (nonatomic, retain) IBOutlet BossInfoView *bossInfoView;
 
 @property (nonatomic, retain) NSMutableArray *userGems;
 
@@ -65,6 +68,7 @@
 - (void) receivedBossResponse:(BossActionResponseProto *)barp;
 - (void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk;
 - (void) receivedRedeemGemsResponse:(RedeemUserCityGemsResponseProto *)proto;
+- (void) endGemTutorial;
 
 - (void) displayGemsView;
 

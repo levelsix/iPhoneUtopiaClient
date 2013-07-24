@@ -99,3 +99,30 @@
 }
 
 @end
+
+@implementation BossInfoView
+
+- (void) updateForCity:(int)cityId {
+  GameState *gs = [GameState sharedGameState];
+  FullCityProto *fcp = [gs cityWithId:cityId];
+  UserCity *uc = [gs myCityWithId:cityId];
+  
+  self.tasksLabel.text = [NSString stringWithFormat:@"%d/%d", uc.numTasksComplete, fcp.taskIdsList.count];
+  [Globals displayUIView:self];
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+}
+
+- (IBAction)closeClicked:(id)sender {
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [self removeFromSuperview];
+  }];
+}
+
+- (void) dealloc {
+  self.mainView = nil;
+  self.bgdView = nil;
+  self.tasksLabel = nil;
+  [super dealloc];
+}
+
+@end

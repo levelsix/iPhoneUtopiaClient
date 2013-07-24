@@ -26,6 +26,9 @@
   BOOL _shouldContinueAnimation;
   
   SEL _soundSelector;
+  
+  int _incrementalLoadCounter;
+  BOOL _isDownloading;
 }
 @property (nonatomic, retain) CCAction *walkActionN;
 @property (nonatomic, retain) CCAction *walkActionF;

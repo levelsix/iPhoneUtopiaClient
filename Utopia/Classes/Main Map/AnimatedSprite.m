@@ -72,67 +72,94 @@
 -(id) initWithFile:(NSString *)prefix location:(CGRect)loc map:(GameMap *)map {
   prefix = [[prefix.lastPathComponent stringByReplacingOccurrencesOfString:prefix.pathExtension withString:@""] stringByReplacingOccurrencesOfString:@"." withString:@""];
   if((self = [super initWithFile:nil location:loc map:map])) {
-    NSString *plist = [NSString stringWithFormat:@"%@WalkNF.plist",prefix];
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:plist];
+    self.prefix = prefix;
+    [self schedule:@selector(setUpAnimations)];
     
-    //create the animation for Near
-    NSMutableArray *walkAnimN = [NSMutableArray array];
-    for(int i = 0; true; i++) {
-      NSString *file = [NSString stringWithFormat:@"%@WalkN%02d.png",prefix, i];
-      BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
-      if (exists) {
-        CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
-        [walkAnimN addObject:frame];
-      } else {
-        break;
-      }
-    }
-    
-    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:plist]];
-    NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
-    NSDictionary *targetDict = [metadataDict objectForKey:@"target"];
-    NSString *texturePath = [targetDict objectForKey:@"textureFileName"];
-    NSString *end = [targetDict objectForKey:@"textureFileExtension"];
-    texturePath = [[texturePath stringByDeletingPathExtension] stringByReplacingOccurrencesOfString:@"@2x" withString:@""];
-    texturePath = [texturePath stringByAppendingString:end];
-    
-    self.spritesheet = [CCSpriteBatchNode batchNodeWithFile:texturePath];
-    [self addChild:_spritesheet];
-    
-    CCAnimation *walkAnimationN = [CCAnimation animationWithFrames:walkAnimN delay:ANIMATATION_DELAY];
-    self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationN restoreOriginalFrame:NO]];
-    
-    //create the animation for Far
-    NSMutableArray *walkAnimF = [NSMutableArray array];
-    for(int i = 0; true; i++) {
-      NSString *file = [NSString stringWithFormat:@"%@WalkF%02d.png",prefix, i];
-      BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
-      if (exists) {
-        CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
-        [walkAnimF addObject:frame];
-      } else {
-        break;
-      }
-    }
-    
-    CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
-    self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF restoreOriginalFrame:NO]];
-    
-    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png",prefix]];
-    self.sprite = [CCSprite spriteWithSpriteFrame:frame];
-    [self.spritesheet addChild:_sprite];
-    
-    _oldMapPos = loc.origin;
-    
-    [self walk];
-    
-    CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
-    _spriteOffset = ccp(cp.x, cp.y);
+    self.sprite = [CCSprite node];
     
     // So that it registers touches
     self.contentSize = CGSizeMake(40, 70);
   }
   return self;
+}
+
+BOOL _loading = NO;
+
+- (void) setUpAnimations {
+  if (_loading) {
+    return;
+  }
+  
+  if (_curNum == 1) {
+    [self unschedule:@selector(setUpAnimations)];
+    return;
+  }
+  
+  _loading = YES;
+  
+  CGRect loc = self.location;
+  NSString *prefix = _prefix;
+  
+  NSString *plist = [NSString stringWithFormat:@"%@WalkNF.plist",prefix];
+  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:plist];
+  
+  //create the animation for Near
+  NSMutableArray *walkAnimN = [NSMutableArray array];
+  for(int i = 0; true; i++) {
+    NSString *file = [NSString stringWithFormat:@"%@WalkN%02d.png",prefix, i];
+    BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
+    if (exists) {
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
+      [walkAnimN addObject:frame];
+    } else {
+      break;
+    }
+  }
+  
+  NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:plist]];
+  NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
+  NSDictionary *targetDict = [metadataDict objectForKey:@"target"];
+  NSString *texturePath = [targetDict objectForKey:@"textureFileName"];
+  NSString *end = [targetDict objectForKey:@"textureFileExtension"];
+  texturePath = [[texturePath stringByDeletingPathExtension] stringByReplacingOccurrencesOfString:@"@2x" withString:@""];
+  texturePath = [texturePath stringByAppendingString:end];
+  
+  self.spritesheet = [CCSpriteBatchNode batchNodeWithFile:texturePath];
+  [self addChild:_spritesheet];
+  
+  CCAnimation *walkAnimationN = [CCAnimation animationWithFrames:walkAnimN delay:ANIMATATION_DELAY];
+  self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationN restoreOriginalFrame:NO]];
+  
+  //create the animation for Far
+  NSMutableArray *walkAnimF = [NSMutableArray array];
+  for(int i = 0; true; i++) {
+    NSString *file = [NSString stringWithFormat:@"%@WalkF%02d.png",prefix, i];
+    BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
+    if (exists) {
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
+      [walkAnimF addObject:frame];
+    } else {
+      break;
+    }
+  }
+  
+  CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
+  self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF restoreOriginalFrame:NO]];
+  
+  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png",prefix]];
+  [self.sprite setDisplayFrame:frame];
+  [self.spritesheet addChild:_sprite];
+  
+  _oldMapPos = loc.origin;
+  
+  [self walk];
+  
+  CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
+  _spriteOffset = ccp(cp.x, cp.y);
+  
+  _curNum = 1;
+  
+  _loading = NO;
 }
 
 - (void) setColor:(ccColor3B)color {
@@ -513,6 +540,10 @@
     _timeLabel.anchorPoint = ccp(0, 0.5);
     _timeLabel.position = ccpAdd(timer.position, ccp(13,-3));
     
+    _lock = [CCSprite spriteWithFile:@"bossoverlock.png"];
+    [self addChild:_lock z:1];
+    _lock.position = ccpAdd(_nameLabel.position, ccp(-2, 10));
+    
     [self updateTime];
     [self schedule:@selector(updateTime) interval:1];
   }
@@ -556,6 +587,8 @@
   _curHp = _ub.curHealth;
   
   [self updateTime];
+  
+  _lock.visible = ![ub isAlive];
 }
 
 - (void) setName:(NSString *)n {

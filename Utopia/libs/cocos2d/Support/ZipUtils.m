@@ -224,6 +224,7 @@ int ccInflateCCZFile(const char *path, unsigned char **out)
 	uint32_t len = CFSwapInt32BigToHost( header->len );
 	
 	*out = malloc( len );
+  
 	if(! *out )
 	{
 		CCLOG(@"cocos2d: CCZ: Failed to allocate memory for texture");

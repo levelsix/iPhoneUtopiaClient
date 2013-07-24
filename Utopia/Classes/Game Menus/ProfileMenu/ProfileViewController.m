@@ -95,6 +95,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.fup = nil;
 }
 
+- (ProfileEquipBrowseView *) equipBrowseView {
+  if (!_equipBrowseView) {
+    [[NSBundle mainBundle] loadNibNamed:@"ProfileEquipBrowseView" owner:self options:nil];
+  }
+  return _equipBrowseView;
+}
+
+- (ProfileEquipPopup *) equipPopup {
+  if (!equipPopup) {
+    [[NSBundle mainBundle] loadNibNamed:@"ProfileEquipPopup" owner:self options:nil];
+  }
+  return equipPopup;
+}
+
 - (void) setState:(ProfileState)state {
   switch (state) {
     case kProfileState:
@@ -158,10 +172,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     UserEquip *ue = ev.equip;
     if (profileBar.state == kMyProfile && ue.userId == gs.userId) {
       // The fuep is actually a UserEquip.. see @selector(loadMyProfile)
-      [equipPopup updateForUserEquip:ue];
-      [self.view addSubview:equipPopup];
-      [Globals bounceView:equipPopup.mainView fadeInBgdView:equipPopup.bgdView];
-      equipPopup.frame = self.view.bounds;
+      [self.equipPopup updateForUserEquip:ue];
+      [self.view addSubview:self.equipPopup];
+      [Globals bounceView:self.equipPopup.mainView fadeInBgdView:self.equipPopup.bgdView];
+      self.equipPopup.frame = self.view.bounds;
     } else {
       [EquipMenuController displayViewForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage];
     }
@@ -197,7 +211,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     }
   }];
   
-  return arr;
+  return [arr autorelease];
 }
 
 - (IBAction)goToArmoryClicked:(id)sender {
@@ -911,7 +925,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (IBAction)changeButtonClicked:(id)sender {
-  EquipView *v = [EquipView new];
+  EquipView *v = [[EquipView new] autorelease];
   v.tag = 0;
   [self equipViewSelected:v];
 }

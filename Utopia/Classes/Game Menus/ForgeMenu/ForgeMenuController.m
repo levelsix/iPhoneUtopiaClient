@@ -1017,10 +1017,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 }
 
 - (IBAction)goToMarketplaceClicked:(id)sender {
-  [self closeClicked:nil];
-  [[MarketplaceViewController sharedMarketplaceViewController] searchForEquipId:self.curItem.equipId level:self.curItem.level allowAllAbove:NO];
-  
-  [Analytics blacksmithGoToMarketplaceWithEquipId:self.curItem.equipId level:self.curItem.level];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (gs.level < gl.minLevelConstants.marketplaceMinLevel && gs.prestigeLevel <= 0) {
+    [Globals popupMessage:[NSString stringWithFormat:@"You must be level %d to enter the marketplace.", gl.minLevelConstants.marketplaceMinLevel]];
+  } else {
+    [self closeClicked:nil];
+    [[MarketplaceViewController sharedMarketplaceViewController] searchForEquipId:self.curItem.equipId level:self.curItem.level allowAllAbove:NO];
+    
+    [Analytics blacksmithGoToMarketplaceWithEquipId:self.curItem.equipId level:self.curItem.level];
+  }
 }
 
 - (IBAction)buyOneClicked:(id)sender {

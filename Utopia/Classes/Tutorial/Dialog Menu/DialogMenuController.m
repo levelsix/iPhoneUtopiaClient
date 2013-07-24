@@ -129,7 +129,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
       
       self.waitingForStartup = YES;
       if (tc.startupResponse) {
-        FullEvent *fe = [FullEvent new];
+        FullEvent *fe = [[FullEvent new] autorelease];
         fe.event = tc.startupResponse;
         [[IncomingEventController sharedIncomingEventController] handleStartupResponseProto:fe];
       } else {

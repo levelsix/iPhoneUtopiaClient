@@ -163,7 +163,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
     _inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
     
-    self.privateChats = [[NSMutableArray alloc] init];
+    _privateChats = [[NSMutableArray alloc] init];
     
     _unrespondedUpdates = [[NSMutableArray alloc] init];
     
@@ -502,6 +502,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (quests.count > 0) {
     for (FullQuestProto *fqp in quests) {
       [self.availableQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
+      [[OutgoingEventController sharedOutgoingEventController] acceptQuest:fqp.questId];
     }
     
     if (!self.isTutorial) {

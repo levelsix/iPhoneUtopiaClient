@@ -190,6 +190,7 @@
   for (NSIndexPath *p in s) {
     [self.enhanceTableView deselectRowAtIndexPath:p animated:NO];
   }
+  [s release];
 }
 
 - (void) clearAllViewsAnimated:(BOOL)animated {

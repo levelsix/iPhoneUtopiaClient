@@ -30,6 +30,7 @@
   CCSprite *_arrow;
 }
 
+@property (nonatomic, assign) CCSprite *arrow;
 @property (nonatomic, assign) BOOL isSelected;
 
 - (void) displayArrow;

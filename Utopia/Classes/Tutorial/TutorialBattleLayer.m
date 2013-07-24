@@ -18,10 +18,105 @@
 #define ENEMY_ATTACK 20
 #define ENEMY_DEFENSE 5
 
+@implementation DarkOverlay
+
++ (id) overlayWithScale:(float)scale position:(CGPoint)position {
+  return [[[self alloc] initWithScale:scale position:position] autorelease];
+}
+
+- (id) initWithScale:(float)scale position:(CGPoint)position {
+  UIImage *img = [self makeAHoleWithMask:[Globals imageNamed:@"blackcircle.png"] onPosition:position scale:scale];
+  if ((self = [super initWithTexture:[[[CCTexture2D alloc] initWithImage:img] autorelease]])) {
+  }
+  return self;
+}
+
+- (UIImage *)makeAHoleWithMask:(UIImage *)mask onPosition:(CGPoint)position scale:(float)scale
+{
+  CGSize size = [[CCDirector sharedDirector] winSize];
+  size.width *= 2;
+  size.height *= 2;
+  UIImage *baseImage = [self baseImage:size];
+  UIImage *whiteImage = [self createWhiteImageWithSize:baseImage.size];
+  UIImage *goodmask = [self mergeImage:whiteImage with:mask onPosition:position scale:scale];
+  UIImage *finalmask = [self invertImage:goodmask];
+  UIImage *finalImage = [self maskImage:baseImage withMask:finalmask];
+  return finalImage;
+}
+
+- (UIImage *)baseImage:(CGSize)size {
+  UIGraphicsBeginImageContext(size);
+  CGContextSetRGBFillColor(UIGraphicsGetCurrentContext(), 0, 0, 0, 0.6f);
+  CGContextFillRect (UIGraphicsGetCurrentContext(), CGRectMake (0, 0, size.width, size.height));
+  UIImage *resultImage = [UIGraphicsGetImageFromCurrentImageContext() retain]; // <--
+  UIGraphicsEndImageContext();
+  return [resultImage autorelease]; // <--
+}
+
+- (UIImage *)createWhiteImageWithSize:(CGSize)size
+{
+  UIGraphicsBeginImageContext(size);
+  CGContextSetRGBFillColor(UIGraphicsGetCurrentContext(), 255, 255, 255, 1);
+  CGContextFillRect (UIGraphicsGetCurrentContext(), CGRectMake (0, 0, size.width, size.height));
+  UIImage *resultImage = [UIGraphicsGetImageFromCurrentImageContext() retain]; // <--
+  UIGraphicsEndImageContext();
+  return [resultImage autorelease]; // <--
+}
+- (UIImage *) mergeImage:(UIImage *)backImage with:(UIImage *)frontImage onPosition:(CGPoint)position scale:(float)scale
+{
+  // Must multiply by 2 because whole image has been scaled by 2
+  CGSize finalSize = backImage.size;
+  CGSize impositionSize = frontImage.size;
+  impositionSize.width *= scale*2;
+  impositionSize.height *= scale*2;
+  UIGraphicsBeginImageContext(finalSize);
+  [backImage drawInRect:CGRectMake(0, 0, finalSize.width, finalSize.height)];
+  [frontImage drawInRect:CGRectMake(position.x*2-impositionSize.width/2, position.y*2-impositionSize.height/2, impositionSize.width, impositionSize.height)];
+  UIImage *resultImage = [UIGraphicsGetImageFromCurrentImageContext() retain]; // <--
+  UIGraphicsEndImageContext();
+  return [resultImage autorelease]; // <--
+}
+
+- (UIImage *)invertImage:(UIImage *)originalImage
+{
+  UIGraphicsBeginImageContext(originalImage.size);
+  CGContextSetBlendMode(UIGraphicsGetCurrentContext(), kCGBlendModeCopy);
+  [originalImage drawInRect:CGRectMake(0, 0, originalImage.size.width, originalImage.size.height)];
+  CGContextSetBlendMode(UIGraphicsGetCurrentContext(), kCGBlendModeDifference);
+  CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(),[UIColor whiteColor].CGColor);
+  CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, originalImage.size.width, originalImage.size.height));
+  UIImage *returnImage = [UIGraphicsGetImageFromCurrentImageContext() retain]; // <--
+  UIGraphicsEndImageContext();
+  return [returnImage autorelease]; // <--
+}
+
+- (UIImage*) maskImage:(UIImage *)image withMask:(UIImage *)maskImage
+{
+  CGImageRef maskRef = maskImage.CGImage;
+  
+  CGImageRef mask = CGImageMaskCreate(CGImageGetWidth(maskRef),
+                                      CGImageGetHeight(maskRef),
+                                      CGImageGetBitsPerComponent(maskRef),
+                                      CGImageGetBitsPerPixel(maskRef),
+                                      CGImageGetBytesPerRow(maskRef),
+                                      CGImageGetDataProvider(maskRef), NULL, false);
+  CGImageRef masked = CGImageCreateWithMask([image CGImage], mask);
+  UIImage *img = [UIImage imageWithCGImage:masked];
+  CGImageRelease(mask); // <--
+  CGImageRelease(masked); // <--
+  return img;
+}
+
+@end
+
 @implementation TutorialBattleLayer
 
 - (id) init {
   if ((self = [super init])) {
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"tutorialtext.plist"];
+//    DarkOverlay *d = [[DarkOverlay alloc] initWithScale:1.f position:ccp(self.contentSize.width/2, self.contentSize.height/2)];
+//    d.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+//    [self addChild:d z:1000];
     [self beginBattle];
   }
   return self;
@@ -62,7 +157,7 @@
   
   [_battleCalculator release];
   FullUserProto_Builder *builder = [[[[[[[[FullUserProto builder] setAttack:ENEMY_ATTACK]
-                                       setDefense:ENEMY_DEFENSE] setLevel:1] setName:tc.enemyName] setUserType:tc.enemyType]
+                                         setDefense:ENEMY_DEFENSE] setLevel:1] setName:tc.enemyName] setUserType:tc.enemyType]
                                      setWeaponEquippedUserEquip:[[[[FullUserEquipProto builder] setEquipId:tc.warriorInitWeapon.equipId] setLevel:1] build]]
                                     setArmorEquippedUserEquip:[[[[FullUserEquipProto builder] setEquipId:tc.warriorInitArmor.equipId] setLevel:1] build]];
   _fup = [builder.build retain];
@@ -75,17 +170,17 @@
   _ccArrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
   _ccArrow.visible = NO;
   
-  _tapToAttack = [CCSprite spriteWithFile:@"tapanywheretoengageattack.png"];
+  _tapToAttack = [CCSprite spriteWithSpriteFrameName:@"tapanywheretoengageattack.png"];
   [self addChild:_tapToAttack z:5];
   _tapToAttack.opacity = 0.f;
   _tapToAttack.position = ccp(_tapToAttack.contentSize.width/2, _tapToAttack.contentSize.height/2);
   
-  _waitForMax = [CCSprite spriteWithFile:@"waitformax.png"];
+  _waitForMax = [CCSprite spriteWithSpriteFrameName:@"waitformax.png"];
   [self addChild:_waitForMax z:5];
   _waitForMax.opacity = 0.f;
   _waitForMax.position = ccp(self.contentSize.width/2, _waitForMax.contentSize.height/2);
   
-  _tryAgain = [[CCSprite spriteWithFile:@"tryagain.png"] retain];
+  _tryAgain = [[CCSprite spriteWithSpriteFrameName:@"tryagain.png"] retain];
   _tryAgain.opacity = 0.f;
   
   _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
@@ -126,14 +221,14 @@
     
     _attackProgressTimer.percentage = 68;
     
-    _overLayer = [CCSprite spriteWithFile:@"attackbuttonlight.png"];
+    _overLayer = [DarkOverlay overlayWithScale:0.67f position:ccp(self.contentSize.width/2, self.contentSize.height/2)];
     [self addChild:_overLayer z:5];
     _overLayer.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     _overLayer.visible = NO;
     
-    CCSprite *instr = [CCSprite spriteWithFile:@"tapbegin.png"];
+    CCSprite *instr = [CCSprite spriteWithSpriteFrameName:@"tapbegin.png"];
     [_overLayer addChild:instr];
-    instr.position = ccp(_overLayer.contentSize.width/2, _overLayer.contentSize.height/2);	
+    instr.position = ccp(_overLayer.contentSize.width/2, _overLayer.contentSize.height/2);
     
     [_attackProgressTimer stopAllActions];
     [_attackProgressTimer runAction:[CCSequence actions:[CCProgressFromTo actionWithDuration:ATTACK_BUTTON_ANIMATION/10.f from:100 to:90],
@@ -157,9 +252,11 @@
     [_tapToAttack stopAllActions];
   }
   
+  [_ccArrow stopAllActions];
   CGPoint pos = ccp(_ccArrow.parent.contentSize.width/2,
                     _attackButton.position.y+_attackButton.contentSize.height/2+_ccArrow.contentSize.height/2);
   _ccArrow.position = pos;
+  _ccArrow.scale = 1.f;
   [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
 }
 
@@ -207,12 +304,12 @@
   
   if (_firstAttack) {
     
-    _overLayer = [CCSprite spriteWithFile:@"combowheellight.png"];
+    _overLayer = [DarkOverlay overlayWithScale:1.f position:ccp(110, 160)];
     [self addChild:_overLayer z:5];
     _overLayer.position = ccp(_overLayer.contentSize.width/2, self.contentSize.height/2);
     
-    CCSprite *whenArrow = [CCSprite spriteWithFile:@"arrow1.png"];
-    CCSprite *whenthis = [CCSprite spriteWithFile:@"whenthis.png"];
+    CCSprite *whenArrow = [CCSprite spriteWithSpriteFrameName:@"arrow1.png"];
+    CCSprite *whenthis = [CCSprite spriteWithSpriteFrameName:@"whenthis.png"];
     whenArrow.anchorPoint = ccp(0,0);
     whenthis.anchorPoint = ccp(0,0);
     whenArrow.opacity = 0;
@@ -220,8 +317,8 @@
     [whenthis addChild:whenArrow];
     [_overLayer addChild:whenthis];
     
-    CCSprite *reachesArrow = [CCSprite spriteWithFile:@"arrow2.png"];
-    CCSprite *reachesthis = [CCSprite spriteWithFile:@"reachesthis.png"];
+    CCSprite *reachesArrow = [CCSprite spriteWithSpriteFrameName:@"arrow2.png"];
+    CCSprite *reachesthis = [CCSprite spriteWithSpriteFrameName:@"reachesthis.png"];
     reachesArrow.anchorPoint = ccp(0,0);
     reachesthis.anchorPoint = ccp(0,0);
     reachesArrow.opacity = 0;
@@ -229,7 +326,7 @@
     [reachesthis addChild:reachesArrow];
     [_overLayer addChild:reachesthis];
     
-    CCSprite *tapPerfect = [CCSprite spriteWithFile:@"tapforaperfectattack.png"];
+    CCSprite *tapPerfect = [CCSprite spriteWithSpriteFrameName:@"tapforaperfectattack.png"];
     tapPerfect.anchorPoint = ccp(0,0);
     tapPerfect.opacity = 0;
     [_overLayer addChild:tapPerfect];
@@ -268,7 +365,6 @@
                       ^{
                         [_triangle runAction:[CCRotateBy actionWithDuration:duration*firstStop angle:firstRot-_triangle.rotation]];
                       }],
-                     [CCDelayTime actionWithDuration:duration*firstStop],
                      [CCCallBlock actionWithBlock:
                       ^{
                         // Send in an object with 255 opacity
@@ -282,19 +378,21 @@
     return;
   }
   
-  CCSprite *maxLayer = [CCSprite spriteWithFile:@"combowheelmaxedbg.png"];
-  maxLayer.position = ccp(maxLayer.contentSize.width/2, self.contentSize.height/2);
-  CCSprite *maxArrow = [CCSprite spriteWithFile:@"arrow3.png"];
-  CCSprite *barmaxed = [CCSprite spriteWithFile:@"barismaxed.png"];
-  CCSprite *tapanywhere = [CCSprite spriteWithFile:@"tapanywheretoengageattack.png"];
-  maxLayer.opacity = 0;
-  tapanywhere.opacity = 0;
-  maxArrow.anchorPoint = ccp(0,0);
-  barmaxed.anchorPoint = ccp(0,0);
-  tapanywhere.anchorPoint = ccp(0,0);
-  [barmaxed addChild:maxArrow];
-  [barmaxed addChild:tapanywhere];
-  [maxLayer addChild:barmaxed];
+  if (!_maxLayer) {
+    _maxLayer = [[DarkOverlay overlayWithScale:0.297f position:ccp(110, 76)] retain];
+    _maxLayer.position = ccp(_maxLayer.contentSize.width/2, self.contentSize.height/2);
+    CCSprite *maxArrow = [CCSprite spriteWithSpriteFrameName:@"arrow3.png"];
+    CCSprite *barmaxed = [CCSprite spriteWithSpriteFrameName:@"barismaxed.png"];
+    _tapAnywhere = [CCSprite spriteWithSpriteFrameName:@"tapanywheretoengageattack.png"];
+    maxArrow.anchorPoint = ccp(0,0);
+    barmaxed.anchorPoint = ccp(0,0);
+    _tapAnywhere.anchorPoint = ccp(0,0);
+    [barmaxed addChild:maxArrow];
+    [barmaxed addChild:_tapAnywhere];
+    [_maxLayer addChild:barmaxed];
+  }
+  _maxLayer.opacity = 0;
+  _tapAnywhere.opacity = 0;
   
   float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION+1;
   float secondStop = 5.f/6;
@@ -309,14 +407,14 @@
                    [CCDelayTime actionWithDuration:duration*secondStop+0.05f],
                    [CCCallBlock actionWithBlock:
                     ^{
-                      _overLayer = maxLayer;
+                      _overLayer = _maxLayer;
                       [_overLayer runAction:[CCFadeIn actionWithDuration:0.2f]];
                       [self addChild:_overLayer z:5];
                     }],
                    [CCDelayTime actionWithDuration:0.5f],
                    [CCCallBlock actionWithBlock:
                     ^{
-                      [tapanywhere runAction:[CCFadeIn actionWithDuration:0.2f]];
+                      [_tapAnywhere runAction:[CCFadeIn actionWithDuration:0.2f]];
                       _allowAttackingForFirstAttack = YES;
                     }],
                    nil]];
@@ -329,7 +427,7 @@
     _overLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 100)];
     [self addChild:_overLayer z:5];
     
-    CCSprite *oppAttack = [CCSprite spriteWithFile:@"opponentsattack.png"];
+    CCSprite *oppAttack = [CCSprite spriteWithSpriteFrameName:@"opponentsattack.png"];
     oppAttack.position = ccp(_overLayer.contentSize.width/2, _overLayer.contentSize.height/2);
     [_overLayer addChild:oppAttack];
     
@@ -366,7 +464,7 @@
     [_triangle stopAllActions];
     _comboBarMoving = NO;
     [_overLayer removeFromParentAndCleanup:YES];
-    _overLayer = nil;	
+    _overLayer = nil;
     
     float percentage = (_triangle.rotation-START_TRIANGLE_ROTATION)/(END_TRIANGLE_ROTATION-START_TRIANGLE_ROTATION)*100;
     _damageDone = [self calculateMyDamageForPercentage:percentage];
@@ -506,7 +604,7 @@
   gs.battlesLost = 0;
   gs.flees = 0;
   
-//  [Analytics tutorialBattleComplete];
+  //  [Analytics tutorialBattleComplete];
 }
 
 - (IBAction)profileButtonClicked:(id)sender {
@@ -535,6 +633,8 @@
 }
 
 - (void) dealloc {
+  [[CCSpriteFrameCache sharedSpriteFrameCache] removeUnusedSpriteFrames];
+  [_maxLayer release];
   [_uiArrow release];
   [_ccArrow release];
   [_tryAgain release];

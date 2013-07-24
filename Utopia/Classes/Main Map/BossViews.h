@@ -47,3 +47,14 @@
 - (void) updateForUserBoss:(UserBoss *)boss;
 
 @end
+
+@interface BossInfoView : UIView
+
+@property (nonatomic, retain) IBOutlet UILabel *tasksLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+
+- (void) updateForCity:(int)cityId;
+
+@end

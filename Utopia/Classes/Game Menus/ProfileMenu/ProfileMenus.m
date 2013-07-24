@@ -23,7 +23,7 @@
 #define WALL_POST_FONT [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:15]
 #define WALL_POST_LABEL_WIDTH 242
 
-#define PRICE_DIGITS 7
+#define PRICE_DIGITS 8
 
 @implementation ProfileBar
 
@@ -1448,6 +1448,7 @@ int x = 0;
   self.nibEquipView = nil;
   self.equipTable = nil;
   self.closeButton = nil;
+  self.equipsTableDelegate = nil;
   [super dealloc];
 }
 

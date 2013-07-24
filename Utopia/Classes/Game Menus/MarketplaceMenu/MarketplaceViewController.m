@@ -629,13 +629,16 @@ static float mktLicenseCellHeight = 0.f;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  ItemPostView *cell = (ItemPostView *)[tableView cellForRowAtIndexPath:indexPath];
-  if (cell.mktProto) {
-    self.selectedCell = cell;
-    self.removeView.hidden = YES;
-    [self.purchView updateForMarketPost:cell.mktProto];
-    [self.view addSubview:self.purchView];
-    [Globals bounceView:self.purchView.mainView fadeInBgdView:self.purchView.bgdView];
+  UITableViewCell *c = [tableView cellForRowAtIndexPath:indexPath];
+  if ([c isKindOfClass:[ItemPostView class]]) {
+    ItemPostView *cell = (ItemPostView *)c;
+    if (cell.mktProto) {
+      self.selectedCell = cell;
+      self.removeView.hidden = YES;
+      [self.purchView updateForMarketPost:cell.mktProto];
+      [self.view addSubview:self.purchView];
+      [Globals bounceView:self.purchView.mainView fadeInBgdView:self.purchView.bgdView];
+    }
   }
 }
 

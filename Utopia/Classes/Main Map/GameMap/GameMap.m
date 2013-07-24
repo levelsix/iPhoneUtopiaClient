@@ -160,6 +160,15 @@
     enemyMenu.hidden = YES;
     
     self.scale = DEFAULT_ZOOM;
+    
+//    for (CCNode *n in self.children) {
+//      if ([n isKindOfClass:[CCTMXLayer class]]) {
+//        CCTMXLayer *l = (CCTMXLayer *)n;
+//        if (![l.layerName isEqualToString:@"Walkable"]) {
+//          [n removeFromParentAndCleanup:YES];
+//        }
+//      }
+//    }
   }
   return self;
 }
@@ -793,7 +802,8 @@
 }
 
 - (CGPoint) randomWalkablePosition {
-  while (true) {
+  int i = 0;
+  while (i < 50) {
     int x = arc4random() % (int)self.mapSize.width;
     int y = arc4random() % (int)self.mapSize.height;
     NSNumber *num = [[_walkableData objectAtIndex:x] objectAtIndex:y];
@@ -816,7 +826,9 @@
         return CGPointMake(x, y);
       }
     }
+    i++;
   }
+  return ccp(0,0);
 }
 
 - (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt {

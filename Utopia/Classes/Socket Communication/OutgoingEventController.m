@@ -40,7 +40,7 @@
 SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (uint64_t) getCurrentMilliseconds {
-  return (uint64_t)([[NSDate date] timeIntervalSince1970]*1000);
+  return ((uint64_t)[[NSDate date] timeIntervalSince1970])*1000;
 }
 
 - (void) createUser {
@@ -192,11 +192,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) buyEquip:(int)equipId {
-  GameState *gs = [GameState sharedGameState];
-  FullEquipProto *fep = [gs equipWithId:equipId];
-  
   [Globals popupMessage:@"Equips can no longer be purchased this way!"];
   return;
+  
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:equipId];
   
   if (!fep.isBuyableInArmory) {
     [Globals popupMessage:@"Attempting to buy equip that is not in the armory.."];
@@ -1672,7 +1672,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     NoUpdate *nu = [NoUpdate updateWithTag:tag];
     [gs addUnrespondedUpdate:nu];
   } else {
-    [Globals popupMessage:@"Attempting to complete forge before it is ready."];
+//    [Globals popupMessage:@"Attempting to complete forge before it is ready."];
   }
 }
 

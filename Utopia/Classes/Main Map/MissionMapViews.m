@@ -15,6 +15,7 @@
 #import "OutgoingEventController.h"
 #import "GameLayer.h"
 #import "TopBar.h"
+#import "MissionMap.h"
 
 #define SPEECH_BUBBLE_SCALE 0.7f
 #define SPEECH_BUBBLE_ANIMATION_DURATION 0.2f
@@ -89,8 +90,8 @@
 
 @implementation CityGemsView
 
-- (void) animateGem:(UIImageView *)gem withGemId:(int)gemId andGems:(NSArray *)gems andCityId:(int)cityId {
-  NSMutableArray *mut = gems.mutableCopy;
+- (void) animateGem:(UIImageView *)gem withGemId:(int)gemId andGems:(NSArray *)gems andCityId:(int)cityId isForTutorial:(BOOL)isForTutorial {
+  NSMutableArray *mut = [gems.mutableCopy autorelease];
   for (UserCityGemProto *gem in gems) {
     if (gem.gemId == gemId) {
       [mut removeObject:gem];
@@ -109,7 +110,7 @@
     
     [self updateWithGems:gems];
     
-    if (self.redeemButtonView.hidden) {
+    if (self.redeemButtonView.hidden && !isForTutorial) {
       [self performSelector:@selector(closeClicked:) withObject:nil afterDelay:1.f];
     }
   }];
@@ -330,30 +331,36 @@
 
 - (void) awakeFromNib {
   self.gemLines = [NSArray arrayWithObjects:
-                   @"It looks like you've found a collectible!",
-                   @"Collect 4 more collectibles to get a powerful rare item!",
-                   @"Click here to keep track of and redeem your collectibles!",
-                   @"Each city has their own set of collectibles and chests. Good luck!",
+                   @"It looks like you've found a collectible! Let's pick it up.",
+                   @"Collect 4 more collectibles to unlock a powerful rare item!",
+                   @"Each city has their own set of collectibles and chests.",
+                   @"You can keep track of your progress here. Good luck!",
                    nil];
   
   self.rankupLines = [NSArray arrayWithObjects:
                       @"Congratulations! You've ranked up your city.",
-                      @"As a reward, I'll let you in on an inside secret, but don't tell anyone!",
-                      @"Each time you rank it up, you will receive more reward.",
+                      @"Ranking up your city is the fastest way to earn experience and silver.",
+                      @"Each time you rank the city up, you will receive a greater reward.",
                       nil];
   
   self.bossLines = [NSArray arrayWithObjects:
-                    @"I forgot to mention! Ranking up a city unlocks the boss for some time.",
+                    @"I forgot to mention! Ranking up a city unlocks the boss for a limited time.",
                     @"Defeat him before time runs out to earn powerful weapons, gold, and gems!",
                     nil];
   
   self.alpha = 0.f;
+  
+  _originalLabelRect = self.label.frame;
+  _originalFrame = self.frame;
 }
 
 - (void) beginGemTutorial {
   _curLine = -1;
   _curLines = self.gemLines;
   [self displayNextLine];
+  
+  TopBar *tb = [TopBar sharedTopBar];
+  [tb disableButtonsForMiniTutorial];
 }
 
 - (void) beginBossTutorial {
@@ -371,32 +378,59 @@
 - (IBAction) displayNextLine {
   _curLine++;
   if (_curLines.count > _curLine) {
-    [self displayViewForText:[_curLines objectAtIndex:_curLine]];
-    
-    if (_curLine == 2 && _curLines == self.gemLines) {
-      _arrow = [CCSprite spriteWithFile:@"3darrow.png"];
-      
-      TopBar *tb = [TopBar sharedTopBar];
-      [tb.gemsButton addChild:_arrow];
-      _arrow.position = ccp(40, 40);
-      
-      [Globals animateCCArrow:_arrow atAngle:-M_PI_4*3];
-    } else {
-      [_arrow removeFromParentAndCleanup:YES];
-      _arrow = nil;
-    }
+    BOOL showNextButton = _curLines != self.gemLines || _curLine >= 2;
+    [self displayViewForText:[_curLines objectAtIndex:_curLine] showNextButton:showNextButton];
   } else {
     [self closeView];
+    
+    GameLayer *glay = [GameLayer sharedGameLayer];
+    MissionMap *map = glay.missionMap;
+    [map endGemTutorial];
+    
+    TopBar *tb = [TopBar sharedTopBar];
+    [tb enableButtonsAfterMiniTutorial];
+  }
+  
+  if (_curLine == 3 && _curLines == self.gemLines) {
+    TopBar *tb = [TopBar sharedTopBar];
+    [tb.gemsButton recursivelyApplyOpacity:255];
+    
+    CGPoint pt = [tb.gemsButton.parent convertToWorldSpace:tb.gemsButton.position];
+    self.darkGlow.hidden = NO;
+    self.darkGlow.center = ccp(pt.x-174+self.darkGlow.frame.size.width/2, self.darkGlow.frame.size.height/2);
+    
+    self.nextLabel.text = @"OKAY";
+  } else {
+    self.darkGlow.hidden = YES;
+    
+    self.nextLabel.text = @"NEXT";
+  }
+  
+  if (_curLines != self.gemLines) {
+    self.frame = self.superview.bounds;
+    self.popupGlow.hidden = NO;
+  } else {
+    self.frame = _originalFrame;
+    self.popupGlow.hidden = YES;
   }
 }
 
-- (void) displayViewForText:(NSString *)str {
+- (void) displayViewForText:(NSString *)str showNextButton:(BOOL)showNextButton {
   self.label.text = str;
   
   GameState *gs = [GameState sharedGameState];
   self.girlImageView.highlighted = [Globals userTypeIsBad:gs.type];
   
   [Globals displayUIView:self];
+  self.center = ccp(self.frame.size.width/2, self.frame.size.height/2);
+  
+  if (!showNextButton) {
+    self.nextButtonView.hidden = YES;
+    self.label.center = ccp(self.label.center.x, self.bubbleImage.center.y);
+  } else {
+    self.nextButtonView.hidden = NO;
+    self.label.frame = _originalLabelRect;
+  }
   
   // Alpha will only start at 0 if it is not already there
   CGPoint oldCenter = self.speechBubble.center;
@@ -428,9 +462,13 @@
 - (void) dealloc {
   self.label = nil;
   self.speechBubble = nil;
+  self.nextButtonView = nil;
+  self.bubbleImage = nil;
   self.girlImageView = nil;
   self.gemLines = nil;
   self.bossLines = nil;
+  self.darkGlow = nil;
+  self.popupGlow = nil;
   [super dealloc];
 }
 

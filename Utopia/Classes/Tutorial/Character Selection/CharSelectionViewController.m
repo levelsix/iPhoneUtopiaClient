@@ -76,15 +76,17 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  self.view.alpha = 0.f;
-  _animating = YES;
-  [UIView animateWithDuration:2.f animations:^{
-    self.view.alpha = 1.f;
-  } completion:^(BOOL finished) {
-    _animating = NO;
-  }];
-  
   GameState *gs = [GameState sharedGameState];
+  if (!gs.isTutorial) {
+    self.view.alpha = 0.f;
+    _animating = YES;
+    [UIView animateWithDuration:2.f animations:^{
+      self.view.alpha = 1.f;
+    } completion:^(BOOL finished) {
+      _animating = NO;
+    }];
+  }
+  
   self.cancelView.hidden = gs.isTutorial;
   
   self.backButton.hidden = YES;
@@ -273,8 +275,6 @@
   }
   
   _submitted = YES;
-  
-  [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
   
   [UIView animateWithDuration:1.f animations:^{
     self.view.alpha = 0.f;

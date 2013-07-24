@@ -42,7 +42,7 @@ static NSString *udid = nil;
 
 - (NSString *)getIPAddress
 {
-  NSURL *url = [[NSURL alloc] initWithString:@"http://checkip.dyndns.com/"];
+  NSURL *url = [[[NSURL alloc] initWithString:@"http://checkip.dyndns.com/"] autorelease];
   NSString *contents = [NSString stringWithContentsOfURL:url encoding:NSStringEncodingConversionAllowLossy error:nil];
   NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\d+\\.\\d+\\.\\d+\\.\\d+" options:NSRegularExpressionCaseInsensitive error:nil];
   NSRange rangeOfFirstMatch = [regex rangeOfFirstMatchInString:contents options:0 range:NSMakeRange(0, [contents length])];
@@ -96,6 +96,7 @@ static NSString *udid = nil;
   // Befor going any further...
   if (errorFlag != NULL)
   {
+    free(msgBuffer);
     NSLog(@"Error: %@", errorFlag);
     return errorFlag;
   }

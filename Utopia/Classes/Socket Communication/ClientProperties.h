@@ -39,7 +39,7 @@
 #else
 
 #define HOST_NAME @"robot.lvl6.com"
-#define HOST_PORT 5672
+#define HOST_PORT 5672  
 #define MQ_USERNAME @"lvl6client"
 #define MQ_PASSWORD @"devclient"
 

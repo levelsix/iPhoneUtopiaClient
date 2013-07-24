@@ -150,9 +150,11 @@ static int sessionId;
 	
 	while(![self isCancelled])
 	{
-		localPool = [[NSAutoreleasePool alloc] init];
-		
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    localPool = [[NSAutoreleasePool alloc] init];
+    
+		NSDate *d = [[NSDate alloc] initWithTimeIntervalSinceNow:0.1];
+    [[NSRunLoop currentRunLoop] runUntilDate:d];
+    [d release];
     
     if (_connection) {
       if (amqp_data_available(_connection.internalConnection) || amqp_data_in_buffer(_connection.internalConnection)) {
@@ -164,9 +166,8 @@ static int sessionId;
       }
     }
 		
-		[localPool drain];
+		[localPool release];
 	}
-  
   
   [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:10]];
 }

@@ -53,7 +53,7 @@
 
 @interface NiceFontTextFieldDelegate : NSObject <UITextFieldDelegate>
 
-@property (nonatomic, retain) id<UITextFieldDelegate> otherDelegate;
+@property (nonatomic, assign) id<UITextFieldDelegate> otherDelegate;
 
 @end
 
@@ -73,6 +73,10 @@
 @end
 
 @interface FlipImageView : UIImageView
+
+@end
+
+@interface VerticalFlipImageView : UIImageView
 
 @end
 

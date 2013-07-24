@@ -308,6 +308,8 @@
     }
     
     [[TopBar sharedTopBar] shouldDisplayGemsBadge:hasAllGems];
+    
+    _allowSelection = YES;
   }
   return self;
 }
@@ -340,11 +342,18 @@
   return _tutView;
 }
 
+- (BossInfoView *) bossInfoView {
+  if (!_bossInfoView) {
+    [[NSBundle mainBundle] loadNibNamed:@"BossInfoView" owner:self options:nil];
+  }
+  return _bossInfoView;
+}
+
 - (void) displayGemsView {
   [self.gemsView displayWithGems:self.userGems andCityId:_cityId];
 }
 
-- (void) addGemDrop:(int)gemId fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt secondsToPickup:(int)secondsToPickup {
+- (GemDrop *) addGemDrop:(int)gemId fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt secondsToPickup:(int)secondsToPickup {
   GemDrop *gd = [[GemDrop alloc] initWithGemId:gemId];
   [self addChild:gd z:1004];
   [gd release];
@@ -375,6 +384,8 @@
                   nil],
                  [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],
                  nil]];
+  
+  return gd;
 }
 
 - (void) pickUpGemDrop:(GemDrop *)ss {
@@ -383,7 +394,7 @@
   GameState *gs = [GameState sharedGameState];
   CGPoint world = [ss.parent convertToWorldSpace:ss.position];
   CityGemProto *gem = [gs gemForId:ss.gemId];
-  UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:gem.gemImageName]];
+  UIImageView *img = [[[UIImageView alloc] initWithImage:[Globals imageNamed:gem.gemImageName]] autorelease];
   img.contentMode = UIViewContentModeScaleAspectFit;
   img.center = world;
   
@@ -396,7 +407,23 @@
   
   [self removeChild:ss cleanup:YES];
   
-  [self.gemsView animateGem:img withGemId:gem.gemId andGems:self.userGems andCityId:_cityId];
+  [self.gemsView animateGem:img withGemId:gem.gemId andGems:self.userGems andCityId:_cityId isForTutorial:!_allowSelection];
+  
+  if (!_allowSelection) {
+    [self.tutView displayNextLine];
+    
+    UIImageView *arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
+    [self.gemsView.mainView addSubview:arrow];
+    arrow.center = ccpAdd(self.gemsView.closeButton.center, ccp(-arrow.frame.size.width, 0));
+    arrow.hidden = YES;
+    [Globals animateUIArrow:arrow atAngle:0];
+    [UIView animateWithDuration:0.f delay:1.5f options:UIViewAnimationOptionTransitionNone animations:^{
+      arrow.hidden = NO;
+    } completion:nil];
+    
+    [self.gemsView.closeButton addTarget:self.tutView action:@selector(displayNextLine) forControlEvents:UIControlEventTouchUpInside];
+    [self.gemsView.closeButton addTarget:arrow action:@selector(removeFromSuperview) forControlEvents:UIControlEventTouchUpInside];
+  }
 }
 
 - (void) pickUpDrop:(CCNode *)drop {
@@ -675,8 +702,13 @@
     [self addEquipDrop:tarp.lootUserEquip.equipId fromSprite:_selected toPosition:CGPointZero secondsToPickup:0];
   }
   
+  _receivedTaskActionResponse = YES;
+  
+  if (!_taskProgBar.isAnimating || tarp.cityRankedUp) {
+    [self taskComplete];
+  }
+  
   if (tarp.hasGem) {
-    
     UserCityGemProto *toReplace = nil;
     for (UserCityGemProto *ug in self.userGems) {
       if (ug.gemId == tarp.gem.gemId) {
@@ -691,8 +723,8 @@
     }
     
     if (tarp.isFirstGem) {
-      [self addGemDrop:tarp.gem.gemId fromSprite:_selected toPosition:CGPointZero secondsToPickup:-1];
-      [self.tutView beginGemTutorial];
+      GemDrop *gd = [self addGemDrop:tarp.gem.gemId fromSprite:_selected toPosition:CGPointZero secondsToPickup:-1];
+      [self beginGemTutorial:gd];
     } else {
       [self addGemDrop:tarp.gem.gemId fromSprite:_selected toPosition:CGPointZero secondsToPickup:0];
     }
@@ -705,13 +737,7 @@
     [(BossSprite *)[self assetWithId:fbp.assetNumWithinCity] setUb:[UserBoss userBossWithFullUserBossProto:tarp.boss]];
   }
   
-  _receivedTaskActionResponse = YES;
-  
-  if (!_taskProgBar.isAnimating) {
-    [self taskComplete];
-  } else if (tarp.cityRankedUp) {
-    [self taskComplete];
-    
+  if (tarp.cityRankedUp) {
     UserCity *city = [gs myCityWithId:tarp.cityId];
     
     // This will be released after the view closes
@@ -723,6 +749,43 @@
       [(UIButton *)[vc.mainView viewWithTag:30] addTarget:self.tutView action:@selector(beginBossTutorial) forControlEvents:UIControlEventTouchUpInside];
     }
   }
+}
+
+- (void) beginGemTutorial:(GemDrop *)gd {
+  [self.tutView beginGemTutorial];
+  _allowSelection = NO;
+  
+  for (CCNode *n in self.children) {
+    if ([n isKindOfClass:[SelectableSprite class]]) {
+      SelectableSprite *ss = (SelectableSprite *)n;
+      ss.arrow.visible = NO;
+    }
+  }
+  
+  CCSprite *arrow = [CCSprite spriteWithFile:@"3darrow.png"];
+  [gd addChild:arrow];
+  arrow.position = ccp(gd.contentSize.width/2, gd.contentSize.height+30);
+  arrow.visible = NO;
+  
+  [arrow runAction:[CCSequence actions:
+                    [CCDelayTime actionWithDuration:1.f],
+                    [CCCallBlock actionWithBlock:
+                     ^{
+                       arrow.visible = YES;
+                       arrow.scale = 1.f/gd.scale;
+                       [Globals animateCCArrow:arrow atAngle:-M_PI_2];
+                     }], nil]];
+}
+
+- (void) endGemTutorial {
+  for (CCNode *n in self.children) {
+    if ([n isKindOfClass:[SelectableSprite class]]) {
+      SelectableSprite *ss = (SelectableSprite *)n;
+      ss.arrow.visible = YES;
+    }
+  }
+  
+  _allowSelection = YES;
 }
 
 - (void) taskBarAnimDone {
@@ -757,6 +820,7 @@
       [bs runAction:
        [CCSequence actions:
         [CCFadeOut actionWithDuration:0.3f],
+        [CCDelayTime actionWithDuration:1.5f],
         [CCCallBlock actionWithBlock:
          ^{
            CGRect r = CGRectZero;
@@ -892,7 +956,7 @@
     
     [self shakeScreen];
   }
-
+  
   _receivedTaskActionResponse = YES;
   
   if (!_taskProgBar.isAnimating) {
@@ -969,11 +1033,11 @@
   int x = (arc4random_uniform(4)+4)*(arc4random_uniform(2)?-1:1);
   int y = (arc4random_uniform(2)+2)*(arc4random_uniform(2)?-1:1);
   CCMoveBy *m = [CCMoveBy actionWithDuration:0.01 position:ccp(x,y)];
-  CCRepeat *a = [CCRepeat actionWithAction:[CCSequence actions:m.copy, m.reverse, m.reverse, m.copy, nil] times:10];
+  CCRepeat *a = [CCRepeat actionWithAction:[CCSequence actions:[m.copy autorelease], m.reverse, m.reverse, [m.copy autorelease], nil] times:10];
   a.tag = SHAKE_SCREEN_ACTION_TAG;
   [self runAction:a];
   
-//  AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+  //  AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 
 - (void) dropItems:(BossActionResponseProto *)barp fromSprite:(MapSprite *)sprite {
@@ -1011,7 +1075,7 @@
   
   float y = sprite.position.y+30.f;
   float x = sprite.position.x-allItems.count/2.f*DROP_SPACE;
-  int secondsToPickup = 5;
+  int secondsToPickup = 12;
   for (BossReward *r in allItems) {
     CCCallBlock *c = [CCCallBlock actionWithBlock:^{
       // Must decrement silver/gold on map because it was already added
@@ -1034,8 +1098,8 @@
   if (barp.hasGemDropped) {
     CCCallBlock *c = [CCCallBlock actionWithBlock:^{
       if (barp.isFirstGem) {
-        [self addGemDrop:barp.gemDropped.gemId fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:-1];
-        [self.tutView beginGemTutorial];
+        GemDrop *gd = [self addGemDrop:barp.gemDropped.gemId fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:-1];
+        [self beginGemTutorial:gd];
       } else {
         [self addGemDrop:barp.gemDropped.gemId fromSprite:sprite toPosition:ccp(x,y) secondsToPickup:secondsToPickup];
       }
@@ -1079,6 +1143,10 @@
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
+  if (!_allowSelection && selected) {
+    return;
+  }
+  
   SelectableSprite *oldSelected = _selected;
   if ([_selected conformsToProtocol:@protocol(TaskElement)] && selected == nil) {
     [[TopBar sharedTopBar] fadeOutToolTip:NO];
@@ -1134,7 +1202,9 @@
 
 - (void) closeMenus:(SelectableSprite *)selected {
   if ([selected conformsToProtocol:@protocol(TaskElement)]) {
-    [[TopBar sharedTopBar] fadeOutMenuOverChatView:summaryMenu];
+    if (_allowSelection) {
+      [[TopBar sharedTopBar] fadeOutMenuOverChatView:summaryMenu];
+    }
     [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
       obMenu.alpha = 0.f;
     } completion:^(BOOL finished) {
@@ -1165,7 +1235,7 @@
     BossSprite *bs = (BossSprite *)ss;
     
     if (![bs.ub isAlive]) {
-      [Globals popupMessage:@"Complete all the city tasks to unlock the boss."];
+      [self.bossInfoView updateForCity:_cityId];
       return nil;
     }
   }

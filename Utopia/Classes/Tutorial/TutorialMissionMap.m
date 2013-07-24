@@ -145,6 +145,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     _doBattlePhase = NO;
     _doTaskPhase = NO;
     _canUnclick = YES;
+    _allowSelection = YES;
     
     _ccArrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
     

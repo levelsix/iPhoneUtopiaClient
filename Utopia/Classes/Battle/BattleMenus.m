@@ -90,7 +90,7 @@
   
   self.speechLabel.text = @"Check out the battle analysis to see how you could improve!";
   
-  UIImageView *arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
+  UIImageView *arrow = [[[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]] autorelease];
   [self.mainView addSubview:arrow];
   arrow.tag = 5;
   arrow.center = ccpAdd(self.summaryView.analysisButtonView.center, ccp(0, -25));

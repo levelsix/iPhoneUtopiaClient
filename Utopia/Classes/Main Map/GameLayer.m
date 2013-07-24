@@ -120,7 +120,7 @@ static BOOL shake_once = NO;
     [self begin];
     
     self.isAccelerometerEnabled = YES;
-    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
+    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60.f];
     shake_once = NO;
   }
   return self;
@@ -435,6 +435,7 @@ static BOOL shake_once = NO;
     [_topBar goToBazaarForFirstLossTutorial];
     self.currentMap.isTouchEnabled = NO;
   } else {
+    [_topBar goToBazaarForFirstLossTutorial];
     [_bazaarMap performFirstLossTutorial];
   }
 }

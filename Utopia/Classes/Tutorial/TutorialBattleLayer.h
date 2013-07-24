@@ -8,12 +8,18 @@
 
 #import "BattleLayer.h"
 
+@interface DarkOverlay : CCSprite
+
+@end
+
 @interface TutorialBattleLayer : BattleLayer {
   CCSprite *_ccArrow;
   CCSprite *_tapToAttack;
   CCSprite *_tryAgain;
   CCSprite *_waitForMax;
   CCNode *_overLayer;
+  CCSprite *_maxLayer;
+  CCSprite *_tapAnywhere;
   
   BOOL _firstTurn;
   BOOL _firstAttack;

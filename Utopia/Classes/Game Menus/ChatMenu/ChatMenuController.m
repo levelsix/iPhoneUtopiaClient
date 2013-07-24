@@ -271,7 +271,7 @@
 @implementation PrivateChatView
 
 - (void) awakeFromNib {
-  self.privateChatTable.tableFooterView = [UIView new];
+  self.privateChatTable.tableFooterView = [[UIView new] autorelease];
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -829,7 +829,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
       
       [[OutgoingEventController sharedOutgoingEventController] privateChatPost:_otherUserId content:msg];
       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        ChatMessage *cm = [[ChatMessage alloc] init];
+        ChatMessage *cm = [[ChatMessage new] autorelease];
         cm.date = [NSDate date];
         cm.message = msg;
         cm.sender = gs.minUser;
@@ -920,20 +920,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     NSMutableArray *arr = [NSMutableArray array];
     int chatId = 0;
     for (GroupChatMessageProto *chat in proto.postsList) {
-      [arr addObject:[[ChatMessage alloc] initWithProto:chat]];
+      [arr addObject:[[[ChatMessage alloc] initWithProto:chat] autorelease]];
       
       if (chat.chatId > chatId) {
         chatId = chat.chatId;
       }
     }
-    arr = [[[arr reverseObjectEnumerator] allObjects] mutableCopy];
+    arr = [[[[arr reverseObjectEnumerator] allObjects] mutableCopy] autorelease];
     
     if (arr.count == 0 && _otherUserId == gl.adminChatUser.userId) {
       GroupChatMessageProto_Builder *p = [GroupChatMessageProto builder];
       p.sender = gl.adminChatUser;
       p.content = @"An admin has been notified and will be with you shortly. Thank you for your patience. In the meantime, can you let me know a bit more about your problem so we can better assist you?";
       p.timeOfChat = [[NSDate date] timeIntervalSince1970]*1000;
-      [arr addObject:[[ChatMessage alloc] initWithProto:p.build]];
+      [arr addObject:[[[ChatMessage alloc] initWithProto:p.build] autorelease]];
     }
     
     self.privateChatMsgs = arr;
@@ -968,13 +968,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     cm.date = [NSDate dateWithTimeIntervalSince1970:proto.post.timeOfPost/1000.];
     cm.message = proto.post.content;
     [self addChatMessage:cm];
+    [cm release];
   }
   
   if (_otherUserId == userId || proto.post.poster.userId == gs.userId) {
     [self updateUserDefaultsForUserId:userId chatId:proto.post.privateChatPostId];
   } else {
     TopBar *tb = [TopBar sharedTopBar];
-    [tb addNotificationToDisplayQueue:[[UserNotification alloc] initWithPrivateChatPost:proto.post]];
+    [tb addNotificationToDisplayQueue:[[[UserNotification alloc] initWithPrivateChatPost:proto.post] autorelease]];
   }
   
   PrivateChatPostProto *privChat = nil;

@@ -53,6 +53,9 @@
   float yPos = [self rand]*self.contentSize.height;
   BOOL flipX = [self rand] < 0.5;
   
+  CCTexture2DPixelFormat oldPixelFormat = [CCTexture2D defaultAlphaPixelFormat];
+  [CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGBA4444];
+  
   CCSprite *cloud = [CCSprite spriteWithFile:@"cloud1.png"];
   cloud.scale = scale;
   cloud.position = ccp(xPos, yPos);
@@ -95,6 +98,8 @@
                     [CCDelayTime actionWithDuration:dist/speed],
                     [CCFadeOut actionWithDuration:0.3f]
                      , nil]];
+  
+  [CCTexture2D setDefaultAlphaPixelFormat:oldPixelFormat];
                     
 }
 

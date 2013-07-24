@@ -2021,13 +2021,15 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   [arrow stopAllActions];
   arrow.rotation = CC_RADIANS_TO_DEGREES(-M_PI_2-angle);
   
+  float scaleX = arrow.scaleX;
+  float scaleY = arrow.scaleY;
   CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCSpawn actions:
                                                           [CCMoveTo actionWithDuration:ARROW_ANIMATION_DURATION position:ccpAdd(arrow.position, ccp(-ARROW_ANIMATION_DISTANCE*cosf(angle), -ARROW_ANIMATION_DISTANCE*sinf(angle)))],
-                                                          [CCScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:1.f scaleY:1.f],
+                                                          [CCScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:scaleX scaleY:scaleY],
                                                           nil]];
   CCMoveBy *downAction = [CCEaseSineInOut actionWithAction:[CCSpawn actions:
                                                             [CCMoveTo actionWithDuration:ARROW_ANIMATION_DURATION position:arrow.position],
-                                                            [CCScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:1.f scaleY:0.9f],
+                                                            [CCScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:scaleX scaleY:0.9f*scaleY],
                                                             nil]];
   [arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, downAction, nil]]];
 }

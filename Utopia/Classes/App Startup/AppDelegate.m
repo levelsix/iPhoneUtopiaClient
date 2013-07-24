@@ -124,7 +124,7 @@
   [[MobileAppTracker sharedManager] setDebugMode:NO];
   [[MobileAppTracker sharedManager] setDelegate:self];
   
-  [[MobileAppTracker sharedManager] startTrackerWithMATAdvertiserId:MAT_ADVERTISER_ID MATConversionKey:MAT_APP_KEY withError:nil];
+  [[MobileAppTracker sharedManager]  startTrackerWithMATAdvertiserId:MAT_ADVERTISER_ID MATConversionKey:MAT_APP_KEY];
   
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
   float versionNum = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] floatValue];
@@ -142,11 +142,11 @@
     
     [userDefaults setFloat:versionNum forKey:MAT_VERSION_KEY];
   }
-}
+} 
 
 - (void)mobileAppTracker:(MobileAppTracker *)tracker didSucceedWithData:(NSData *)data {
   LNLog(@"MAT.didSucceed:");
-  LNLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+  LNLog(@"%@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
 }
 
 - (void)mobileAppTracker:(MobileAppTracker *)tracker didFailWithError:(NSError *)error {
@@ -226,7 +226,6 @@
 #else
 	[director setDisplayFPS:NO];
 #endif
-	
 	/*
    // make the OpenGLView a child of the view controller
    [viewController setView:glView];

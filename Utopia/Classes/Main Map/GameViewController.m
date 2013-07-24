@@ -199,15 +199,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [imgView release];
   [v release];
   
-  self.loadingBar = [[ProgressBar alloc] initWithImage:[Globals imageNamed:@"loadingbar.png"]];
+  self.loadingBar = [[[ProgressBar alloc] initWithImage:[Globals imageNamed:@"loadingbar.png"]] autorelease];
   [self.loadingBar awakeFromNib];
   self.loadingBar.center = CGPointMake(imgView.frame.size.width/2, imgView.frame.size.height/2+87);
   [imgView addSubview:self.loadingBar];
   self.loadingBar.percentage = 0.f;
-  [self.loadingBar release];
   [self progressFrom:PART_0_PERCENT to:PART_1_PERCENT];
   
-  self.loadingLabel = [[NiceFontLabel alloc] initWithFrame:CGRectZero];
+  self.loadingLabel = [[[NiceFontLabel alloc] initWithFrame:CGRectZero] autorelease];
   [Globals adjustFontSizeForSize:12.f withUIView:self.loadingLabel];
   [imgView addSubview:self.loadingLabel];
   self.loadingLabel.text = @"Loading...";
@@ -216,7 +215,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   self.loadingLabel.textColor = [UIColor whiteColor];
   self.loadingLabel.shadowColor = [UIColor colorWithWhite:0.f alpha:0.3f];
   self.loadingLabel.shadowOffset = CGSizeMake(0, 1);
-  [self.loadingLabel release];
   
   CGRect f = self.loadingLabel.frame;
   f.origin = self.loadingBar.frame.origin;
@@ -285,6 +283,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   if (gs.isTutorial) {
     CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
     [Globals displayUIView:csvc.view];
+    [csvc.view.superview insertSubview:csvc.view atIndex:1];
   } else {
     [[TopBar sharedTopBar] start];
   }
@@ -302,7 +301,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 //  glView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
   
   // Display link director is causing problems with uiscrollview and table view.
-  //  [CCDirector setDirectorType:kCCDirectorTypeDisplayLink];
+  [CCDirector setDirectorType:kCCDirectorTypeDisplayLink];
   [[CCDirector sharedDirector] setOpenGLView:glView];
   
 	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
@@ -332,6 +331,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
       [[[CCDirector sharedDirector] runningScene] addChild:layer];
     }
   } else {
+    [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
     [self startGame];
     [Analytics tutStart];
   }

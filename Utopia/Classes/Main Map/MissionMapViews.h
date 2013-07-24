@@ -66,13 +66,14 @@
 @property (nonatomic, retain) IBOutlet UILabel *hintlabel;
 @property (nonatomic, retain) IBOutlet UIView *redeemButtonView;
 @property (nonatomic, retain) IBOutletCollection(GemView) NSArray *gemViews;
+@property (nonatomic, retain) IBOutlet UIButton *closeButton;
 
 @property (nonatomic, retain) IBOutlet LoadingView *loadingView;
 @property (nonatomic, retain) IBOutlet CityGemsPrizeView *prizeView;
 
 @property (nonatomic, copy) NSArray *gems;
 
-- (void) animateGem:(UIImageView *)gem withGemId:(int)gemId andGems:(NSArray *)gems andCityId:(int)cityId;
+- (void) animateGem:(UIImageView *)gem withGemId:(int)gemId andGems:(NSArray *)gems andCityId:(int)cityId isForTutorial:(BOOL)isForTutorial;
 - (void) displayWithGems:(NSArray *)gems andCityId:(int)cityId;
 - (IBAction)closeClicked:(id)sender;
 
@@ -82,13 +83,20 @@
 
 @interface GemTutorialView : UIView {
   int _curLine;
-  CCSprite *_arrow;
   NSArray *_curLines;
+  CGRect _originalLabelRect;
+  CGRect _originalFrame;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *label;
 @property (nonatomic, retain) IBOutlet UIView *speechBubble;
 @property (nonatomic, retain) IBOutlet UIImageView *girlImageView;
+@property (nonatomic, retain) IBOutlet UIView *nextButtonView;
+@property (nonatomic, retain) IBOutlet UIImageView *bubbleImage;
+
+@property (nonatomic, retain) IBOutlet UIImageView *darkGlow;
+@property (nonatomic, retain) IBOutlet UIImageView *popupGlow;
+@property (nonatomic, retain) IBOutlet UILabel *nextLabel;
 
 @property (nonatomic, retain) NSArray *gemLines;
 @property (nonatomic, retain) NSArray *rankupLines;

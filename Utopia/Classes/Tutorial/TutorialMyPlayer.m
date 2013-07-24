@@ -12,7 +12,8 @@
 
 @implementation TutorialMyPlayer
 
-- (void) setUpAnimations {
+- (void) incrementalLoad {
+  [self unschedule:@selector(incrementalLoad)];
 //  GameState *gs = [GameState sharedGameState];
 //  NSString *prefix = [Globals animatedSpritePrefix:gs.type];
 //  

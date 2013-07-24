@@ -32,9 +32,8 @@
   self.amtCollectedLabel.text = [NSString stringWithFormat:@"%d / %d", total-collected, total];
   
   [self.overlay removeFromSuperview];
-  self.overlay = [[UIImageView alloc] initWithFrame:self.bgdView.frame];
+  self.overlay = [[[UIImageView alloc] initWithFrame:self.bgdView.frame] autorelease];
   [self addSubview:self.overlay];
-  [self.overlay release];
   
   UIImage *overlayImg = [Globals maskImage:self.bgdView.image withColor:[UIColor colorWithWhite:0.f alpha:0.4f]];
   self.overlay.image = overlayImg;
@@ -401,7 +400,7 @@
       }
     }
     
-    self.starterPackMainView = [[UIView alloc] initWithFrame:self.carousel.frame];
+    self.starterPackMainView = [[[UIView alloc] initWithFrame:self.carousel.frame] autorelease];
     self.starterPackBottomView.hidden = NO;
     
     ArmoryListing *view = nil;

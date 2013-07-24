@@ -136,6 +136,8 @@ typedef enum {
 - (void) resetAllOpacities;
 - (void) goToBazaarForFirstLossTutorial;
 - (void) endBazaarFirstLossTutorial;
+- (void) disableButtonsForMiniTutorial;
+- (void) enableButtonsAfterMiniTutorial;
 
 - (void) addNotificationToDisplayQueue:(UserNotification *)un;
 

@@ -476,12 +476,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToMyCities:proto.userCityInfosList];
     [gs.staticCities removeAllObjects];
     [gs addToStaticCities:proto.allCitiesList];
-    [gs.availableQuests removeAllObjects];
-    [gs addToAvailableQuests:proto.availableQuestsList];
     [gs.inProgressCompleteQuests removeAllObjects];
     [gs addToInProgressCompleteQuests:proto.inProgressCompleteQuestsList];
     [gs.inProgressIncompleteQuests removeAllObjects];
     [gs addToInProgressIncompleteQuests:proto.inProgressIncompleteQuestsList];
+    // Put this after inprogress complete because available quests will be autoaccepted
+    [gs.availableQuests removeAllObjects];
+    [gs addToAvailableQuests:proto.availableQuestsList];
     [gs addToClanTierLevels:proto.clanTierLevelsList];
     [oec loadPlayerCity:gs.userId];
     [oec retrieveAllStaticData];
@@ -1591,9 +1592,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     
     // Reload quest givers for all maps cuz we have new quests
-    [[[GameLayer sharedGameLayer] missionMap] reloadQuestGivers];
-    [[BazaarMap sharedBazaarMap] reloadQuestGivers];
-    [[HomeMap sharedHomeMap] reloadQuestGivers];
+    //[[[GameLayer sharedGameLayer] currentMap] reloadQuestGivers];
+    //[[BazaarMap sharedBazaarMap] reloadQuestGivers];
+    //[[HomeMap sharedHomeMap] reloadQuestGivers];
     [gs removeNonFullUserUpdatesForTag:tag];
     
     if (proto.shouldGiveKiipReward) {
@@ -1640,8 +1641,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [[QuestLogController sharedQuestLogController] loadQuestRedeemScreen:fqp animated:NO];
     
-    GameMap *map = [Globals mapForQuest:fqp];
-    [map reloadQuestGivers];
+    //GameMap *map = [Globals mapForQuest:fqp];
+    //[map reloadQuestGivers];
     
     [Analytics questComplete:proto.questId];
   } else {
@@ -2688,6 +2689,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   UIColor *c = [Globals colorForColorProto:proto.rgb];
   UserNotification *un = [[UserNotification alloc] initWithTitle:proto.title subtitle:proto.subtitle color:c];
   [tb addNotificationToDisplayQueue:un];
+  [un release];
 }
 
 - (void) handleRetrieveLeaderboardRankingsResponseProto:(FullEvent *)fe {

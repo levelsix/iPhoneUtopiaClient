@@ -390,7 +390,7 @@
       [self.stolenEquipView loadForEquip:fuep];
       stolenEquipView.mainView.alpha = 1.f;
       stolenEquipView.bgdView.alpha = 1.f;
-      self.stolenEquipView.titleLabel = [NSString stringWithFormat:@"%@ Created!", fep.name];
+      self.stolenEquipView.titleLabel.text = [NSString stringWithFormat:@"%@ Created!", fep.name];
       self.stolenEquipView.frame = view.bounds;
       [self insertSubview:self.stolenEquipView belowSubview:view];
       [Globals bounceView:stolenEquipView.mainView fadeInBgdView:stolenEquipView.bgdView];

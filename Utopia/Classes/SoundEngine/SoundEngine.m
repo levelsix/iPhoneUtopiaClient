@@ -38,7 +38,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 }
 
 - (void) stopEffect:(int)effect {
+#ifndef DEBUG
   [[SimpleAudioEngine sharedEngine] stopEffect:effect];
+#endif
 }
 
 - (void) playHomeMapMusic {
@@ -89,7 +91,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 - (void) stopBackgroundMusic {
   _lastPlayedMusic = _curMusic;
   _curMusic = kNoMusic;
+#ifndef DEBUG
   [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+#endif
 }
 
 - (void) archerAttack {

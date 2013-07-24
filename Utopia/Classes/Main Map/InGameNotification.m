@@ -23,8 +23,8 @@
     GameState *gs = [GameState sharedGameState];
     for (ClanTowerProto *ctp in gs.clanTowers) {
       if ([self.notification.title rangeOfString:ctp.towerName].length > 0) {
-        [[ClanMenuController sharedClanMenuController] viewTower:ctp.towerId];
         [ClanMenuController displayView];
+        [[ClanMenuController sharedClanMenuController] viewTower:ctp.towerId];
         break;
       }
     }

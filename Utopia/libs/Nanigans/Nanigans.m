@@ -59,7 +59,7 @@ static NSString* NAN_FB_APP_ID = FACEBOOK_APP_ID;
 }
 
 + (void) trackPurchase:(int)cents {
-  [self trackNanigansEvent:[self userId] type:@"purchase" name:@"main" extraParams:@{@"nan_pid":[NSString stringWithFormat:@"%d", cents]}];
+  [self trackNanigansEvent:[self userId] type:@"purchase" name:@"main" extraParams:@{@"value":[NSString stringWithFormat:@"%d", cents]}];
 }
 
 + (void)trackNanigansEvent:(NSString *)uid type:(NSString *)type name:(NSString *)name
