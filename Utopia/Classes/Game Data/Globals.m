@@ -240,6 +240,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.defaultDaysBattleShieldIsActive = constants.defaultDaysBattleShieldIsActive;
   self.maxBossHealthMultiplier = constants.bossConstants.maxHealthMultiplier;
   
+  self.buildLateSpeedupConstant = constants.speedupConstants.buildLateSpeedupConstant;
+  self.expansionLateSpeedupConstant = constants.speedupConstants.expansionLateSpeedupConstant;
+  self.forgeLateSpeedupConstant = constants.speedupConstants.forgeLateSpeedupConstant;
+  self.upgradeLateSpeedupConstant = constants.speedupConstants.upgradeLateSpeedupConstant;
+  
   self.minLevelForPrestige = constants.prestigeConstants.minLevelForPrestige;
   self.maxPrestigeLevel = constants.prestigeConstants.maxPrestigeLevel;
   
@@ -341,6 +346,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.enhancePercentConstantA = constants.enhanceConstants.enhancePercentConstantA;
   self.enhancePercentConstantB = constants.enhanceConstants.enhancePercentConstantB;
   self.enhanceLevelExponentBase = constants.enhanceConstants.enhanceLevelExponentBase;
+  self.enhancingCost = constants.enhanceConstants.enhancingCost;
   
   self.purchaseOptionOneNumBoosterItems = constants.boosterPackConstants.purchaseOptionOneNumBoosterItems;
   self.purchaseOptionTwoNumBoosterItems = constants.boosterPackConstants.purchaseOptionTwoNumBoosterItems;
@@ -1532,6 +1538,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 // Formulas
 
+- (int) calculateDiamondCostForSpeedupWithBaseCost:(int)baseCost speedupMultiplierConstant:(float)speedupMultiplierConstant timeRemaining:(int)timeRemaining totalTime:(int)totalTime {
+  float percentRemaining = timeRemaining/(float)totalTime;
+  float speedupConstant = 1 + speedupMultiplierConstant*(1-percentRemaining);
+  return (int)ceilf(baseCost*percentRemaining*speedupConstant);
+}
+
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue {
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ue.equipId];
   return fep.coinPrice * self.percentReturnedToUserForSellingEquipInArmory;
@@ -1575,19 +1587,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
-- (int) calculateDiamondCostForInstaBuild:(UserStruct *)us {
+- (int) calculateDiamondCostForInstaBuild:(UserStruct *)us timeLeft:(int)timeLeft {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return fsp.instaBuildDiamondCost;
+  int baseCost = fsp.instaUpgradeDiamondCostBase;
+  int mins = fsp.minutesToUpgradeBase;
+  return [self calculateDiamondCostForSpeedupWithBaseCost:baseCost speedupMultiplierConstant:self.buildLateSpeedupConstant timeRemaining:timeLeft totalTime:mins*60];
 }
 
-- (int) calculateDiamondCostForInstaUpgrade:(UserStruct *)us {
+- (int) calculateDiamondCostForInstaUpgrade:(UserStruct *)us timeLeft:(int)timeLeft {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return MAX(1,fsp.instaUpgradeDiamondCostBase * us.level * self.diamondCostForInstantUpgradeMultiplier);
+  int baseCost = MAX(1,fsp.instaUpgradeDiamondCostBase * us.level * self.diamondCostForInstantUpgradeMultiplier);
+  int mins = [self calculateMinutesToUpgrade:us];
+  return [self calculateDiamondCostForSpeedupWithBaseCost:baseCost speedupMultiplierConstant:self.upgradeLateSpeedupConstant timeRemaining:timeLeft totalTime:mins*60];
 }
 
 - (int) calculateMinutesToUpgrade:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return MAX(1, (int)(fsp.minutesToUpgradeBase * us.level * self.minutesToUpgradeForNormStructMultiplier));
+  return MAX(1, (int)(fsp.minutesToUpgradeBase * (us.level+1) * self.minutesToUpgradeForNormStructMultiplier));
 }
 
 - (float) calculateAttackForAttackStat:(int)attackStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet weapon2:(UserEquip *)weapon2 armor2:(UserEquip *)armor2 amulet2:(UserEquip *)amulet2 {
@@ -1643,12 +1659,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateGoldCostToGuaranteeForgingSuccess:(int)equipId level:(int)level {
   float chanceOfSuccess = [self calculateChanceOfSuccess:equipId level:level];
-  int goldCost = [self calculateGoldCostToSpeedUpForging:equipId level:level];
+  int timeLeft = [self calculateMinutesForForge:equipId level:level]*60;
+  int goldCost = [self calculateGoldCostToSpeedUpForging:equipId level:level timeLeft:timeLeft];
   return (int)(goldCost/chanceOfSuccess);
 }
 
-- (int) calculateGoldCostToSpeedUpForging:(int)equipId level:(int)level {
-  return (int)MAX(1, ceil(self.forgeSpeedupConstantA * log([self calculateMinutesForForge:equipId level:level]) + self.forgeSpeedupConstantB));
+- (int) calculateGoldCostToSpeedUpForging:(int)equipId level:(int)level timeLeft:(int)seconds {
+  int mins = [self calculateMinutesForForge:equipId level:level];
+  int base = (int)MAX(1, ceil(self.forgeSpeedupConstantA * log(mins) + self.forgeSpeedupConstantB));
+  return [self calculateDiamondCostForSpeedupWithBaseCost:base speedupMultiplierConstant:self.forgeLateSpeedupConstant timeRemaining:seconds totalTime:mins*60];
 }
 
 - (int) calculateRetailValueForEquip:(int)equipId level:(int)level {
@@ -1666,8 +1685,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return (expansionWaitCompleteHourConstant + expansionWaitCompleteHourIncrementBase*(ue.numCompletedExpansions+1))*60;
 }
 
-- (int) calculateGoldCostToSpeedUpExpansion:(UserExpansion *)ue {
-  return [self calculateNumMinutesForNewExpansion:ue]/expansionWaitCompleteBaseMinutesToOneGold;
+- (int) calculateGoldCostToSpeedUpExpansion:(UserExpansion *)ue timeLeft:(int)seconds {
+  int mins = [self calculateNumMinutesForNewExpansion:ue];
+  int base = ((float)mins)/expansionWaitCompleteBaseMinutesToOneGold;
+  return [self calculateDiamondCostForSpeedupWithBaseCost:base speedupMultiplierConstant:self.expansionLateSpeedupConstant timeRemaining:seconds totalTime:mins*60];
 }
 
 - (int) calculateSilverCostForNewExpansion:(UserExpansion *)ue {
@@ -1686,10 +1707,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return (int)MAX(result, 1.f);
 }
 
-- (int) calculateMinutesToEnhance:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders {
+- (int) calculateSecondsToEnhance:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders {
   if (!enhancingEquip || feeders.count <= 0) {
     return 0;
   }
+  
+  return feeders.count;
   
   int pChange = [self calculateEnhancementPercentageIncrease:enhancingEquip feeders:feeders];
   float percent = [self calculatePercentOfLevel:pChange];
@@ -1701,8 +1724,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateGoldCostToSpeedUpEnhance:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders {
-  int mins = [self calculateMinutesToEnhance:enhancingEquip feeders:feeders];
-  int result = (int)ceilf(((float)mins)/self.forgeBaseMinutesToOneGold);
+  int secs = [self calculateSecondsToEnhance:enhancingEquip feeders:feeders];
+  int result = (int)ceilf(((float)secs/60)/self.forgeBaseMinutesToOneGold);
   
   //  LNLog(@"diamonds=%d", result);
   return result;
@@ -1748,6 +1771,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   //  LNLog(@"percentage=%d", result);
   return result;
+}
+
+- (int) calculateSilverCostForEnhancement:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders {
+  int stats = 0;
+  for (UserEquip *f in feeders) {
+    stats += [self calculateAttackForEquip:f.equipId level:f.level enhancePercent:f.enhancementPercentage];
+    stats += [self calculateDefenseForEquip:f.equipId level:f.level enhancePercent:f.enhancementPercentage];
+  }
+  
+  return (int)ceilf(stats*self.enhancingCost);
 }
 
 - (BOOL) canRetractMarketplacePostForFree:(FullMarketplacePostProto *)post {

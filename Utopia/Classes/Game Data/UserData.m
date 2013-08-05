@@ -388,8 +388,8 @@
 - (id) initWithEnhancement:(EquipEnhancementProto *)ee {
   if ((self = [super init])) {
     Globals *gl = [Globals sharedGlobals];
-    int mins = [gl calculateMinutesToEnhance:(UserEquip *)ee.enhancingEquip feeders:ee.feederEquipsList];
-    self.time = [NSDate dateWithTimeIntervalSince1970:ee.startTime/1000.+mins*60];
+    int secs = [gl calculateSecondsToEnhance:(UserEquip *)ee.enhancingEquip feeders:ee.feederEquipsList];
+    self.time = [NSDate dateWithTimeIntervalSince1970:ee.startTime/1000.+secs];
     self.type = kNotificationEnhance;
     self.forgeEquipId = ee.enhancingEquip.equipId;
   }

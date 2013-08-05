@@ -808,7 +808,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
                                                           target:self
                                                         selector:@selector(loadForgeAttempt)];
     } else {
-      int gold = [gl calculateGoldCostToSpeedUpForging:fa.equipId level:fa.level];
+      int timeLeft = fa.startTime.timeIntervalSinceNow + [gl calculateMinutesForForge:fa.equipId level:fa.level]*60;
+      int gold = [gl calculateGoldCostToSpeedUpForging:fa.equipId level:fa.level timeLeft:timeLeft];
       NSString *desc = [NSString stringWithFormat:@"You are already forging an item. Speed it up for %d gold?", gold];
       [GenericPopupController displayConfirmationWithDescription:desc
                                                            title:nil
@@ -917,7 +918,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     return;
   }
   
-  int gold = [gl calculateGoldCostToSpeedUpForging:fa.equipId level:fa.level];
+  int timeLeft = fa.startTime.timeIntervalSinceNow + [gl calculateMinutesForForge:fa.equipId level:fa.level]*60;
+  int gold = [gl calculateGoldCostToSpeedUpForging:fa.equipId level:fa.level timeLeft:timeLeft];
   NSString *desc = [NSString stringWithFormat:@"Would you like to speed up forging for %d gold?", gold];
   [GenericPopupController displayConfirmationWithDescription:desc
                                                        title:nil
@@ -935,7 +937,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   ForgeAttempt *fa = [gs forgeAttemptForSlot:self.slotNumber];
-  int gold = [gl calculateGoldCostToSpeedUpForging:fa.equipId level:fa.level];
+  int timeLeft = fa.startTime.timeIntervalSinceNow + [gl calculateMinutesForForge:fa.equipId level:fa.level]*60;
+  int gold = [gl calculateGoldCostToSpeedUpForging:fa.equipId level:fa.level timeLeft:timeLeft];
   
   if (fa.isComplete) {
     return;

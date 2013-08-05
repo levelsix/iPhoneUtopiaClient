@@ -380,6 +380,15 @@ message StartupResponseProto {
 		
 		optional BossConstants bossConstants = 110;
 		
+		optional SpeedupConstants speedupConstants = 111;
+		
+		message SpeedupConstants {
+			optional double buildLateSpeedupConstant = 1;
+			optional double expansionLateSpeedupConstant = 2;
+			optional double forgeLateSpeedupConstant = 3;
+			optional double upgradeLateSpeedupConstant = 4;
+		} 
+		
 		message BossConstants {
 			optional int32 maxHealthMultiplier = 1;
 		}
@@ -418,6 +427,7 @@ message StartupResponseProto {
 			optional float enhancePercentConstantB = 11;
 			optional float enhanceLevelExponentBase = 12;
 			optional int32 defaultSecondsToEnhance = 13;
+			optional double enhancingCost = 14;
 		}
 		
 		message LeaderboardEventConstants {
@@ -2523,6 +2533,7 @@ message SubmitEquipEnhancementResponseProto {
 		MAIN_OR_FEEDER_OR_EQUIPS_NONEXISTENT = 3;
 		TRYING_TO_SURPASS_MAX_LEVEL = 4;
 		ALREADY_ENHANCING = 5;
+		NOT_ENOUGH_SILVER = 6;
 	}
 }
 

@@ -392,12 +392,14 @@
 - (void) updateBottomView {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
+  NSArray *arr = [self feederEquips];
   
   self.timer = nil;
+  self.costView.hidden = NO;
+  self.timeLabel.hidden = YES;
   
   if (!gs.equipEnhancement) {
-    NSArray *arr = [self feederEquips];
-    int secs = [gl calculateMinutesToEnhance:self.enhancingView.userEquip feeders:arr]*60;
+    int secs = [gl calculateSecondsToEnhance:self.enhancingView.userEquip feeders:arr];
     
     [self.feederViews enumerateObjectsUsingBlock:^(ForgeEnhanceItemView *obj, NSUInteger idx, BOOL *stop) {
       obj.cancelButton.hidden = NO;
@@ -408,8 +410,7 @@
     
     if (secs > 0) {
       NSString *s = [self convertSecsToString:secs];
-      // Remove the seconds from the string (last 3 characters)
-      self.timeLabel.text = [s substringToIndex:s.length-3];
+      self.timeLabel.text = s;
     } else {
       self.timeLabel.text = @"N/A";
     }
@@ -432,12 +433,16 @@
     
     self.feederContainerView.alpha = 1.f;
     
-    self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
+    self.timer = [NSTimer timerWithTimeInterval:0.1f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
     [self updateLabels];
     
     [self updateEnhancingViewYellowBar];
   }
+  
+  self.costLabel.text = [Globals commafyNumber:[gl calculateSilverCostForEnhancement:self.enhancingView.userEquip feeders:arr]];
+  [Globals adjustViewForCentering:self.costView withLabel:self.costLabel];
+  self.costView.center = self.timeLabel.center;
 }
 
 - (void) updateLabels {
@@ -450,17 +455,21 @@
   Globals *gl = [Globals sharedGlobals];
   NSArray *arr = [self feederEquips];
   UserEquip *ue = self.enhancingView.userEquip;
-  int secs = [gl calculateMinutesToEnhance:self.enhancingView.userEquip feeders:arr]*60;
+  int secs = [gl calculateSecondsToEnhance:self.enhancingView.userEquip feeders:arr];
   
   NSDate *date = [NSDate dateWithTimeIntervalSince1970:gs.equipEnhancement.startTime/1000.+secs];
   NSTimeInterval interval = date.timeIntervalSinceNow;
   if (interval > 0) {
     self.timeLabel.text = [NSString stringWithFormat:@"%@", [self convertSecsToString:interval]];
     self.buttonLabel.text = @"SPEED UP";
+    self.costView.hidden = NO;
+    self.timeLabel.hidden = YES;
   } else {
     self.timeLabel.text = @"Finished!";
     self.timer = nil;
     self.buttonLabel.text = @"COLLECT";
+    self.costView.hidden = YES;
+    self.timeLabel.hidden = NO;
   }
   
   int timePassed = interval > 0 ? secs-interval : secs;
@@ -468,7 +477,10 @@
   
   float base = [gl calculatePercentOfLevel:[gl calculateEnhancementPercentageToNextLevel:ue.enhancementPercentage]];
   float increase = [gl calculatePercentOfLevel:[gl calculateEnhancementPercentageIncrease:ue feeders:arr]];
-  self.enhancingView.topProgressBar.percentage = base+percentageOfTotal*increase;
+  
+  [UIView animateWithDuration:1.f animations:^{
+    self.enhancingView.topProgressBar.percentage = base+percentageOfTotal*increase;
+  }];
   
   float totalPercentIncrease = [gl calculateEnhancementPercentageIncrease:self.enhancingView.userEquip feeders:arr];
   while (1) {
@@ -543,14 +555,20 @@
     } else if (feederIds.count <= 0) {
       [Globals popupMessage:@"You must enhance this item with at least one other item."];
     } else {
-      [[OutgoingEventController sharedOutgoingEventController] submitEquipEnhancement:enhancingId feeders:feederIds];
-      
-      ForgeMenuController *fmc = [ForgeMenuController sharedForgeMenuController];
-      [fmc.loadingView display:fmc.view];
+      int silverCost = [gl calculateSilverCostForEnhancement:self.enhancingView.userEquip feeders:[self feederEquips]];
+      if (gs.silver >= silverCost) {
+        [[OutgoingEventController sharedOutgoingEventController] submitEquipEnhancement:enhancingId feeders:feederIds];
+        [[[ForgeMenuController sharedForgeMenuController] coinBar] updateLabels];
+        
+        ForgeMenuController *fmc = [ForgeMenuController sharedForgeMenuController];
+        [fmc.loadingView display:fmc.view];
+      } else {
+        [[RefillMenuController sharedRefillMenuController] displayBuySilverView:silverCost];
+      }
     }
   } else {
     NSArray *arr = [self feederEquips];
-    int secs = [gl calculateMinutesToEnhance:self.enhancingView.userEquip feeders:arr]*60;
+    int secs = [gl calculateSecondsToEnhance:self.enhancingView.userEquip feeders:arr];
     
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:gs.equipEnhancement.startTime/1000.+secs];
     NSTimeInterval interval = date.timeIntervalSinceNow;

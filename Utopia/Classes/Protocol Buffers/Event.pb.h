@@ -532,6 +532,8 @@
 @class StartupResponseProto_StartupConstants_LockBoxConstants_Builder;
 @class StartupResponseProto_StartupConstants_PrestigeConstants;
 @class StartupResponseProto_StartupConstants_PrestigeConstants_Builder;
+@class StartupResponseProto_StartupConstants_SpeedupConstants;
+@class StartupResponseProto_StartupConstants_SpeedupConstants_Builder;
 @class StartupResponseProto_StartupConstants_ThreeCardMonteConstants;
 @class StartupResponseProto_StartupConstants_ThreeCardMonteConstants_Builder;
 @class StartupResponseProto_TutorialConstants;
@@ -1384,6 +1386,7 @@ typedef enum {
   SubmitEquipEnhancementResponseProto_EnhanceEquipStatusMainOrFeederOrEquipsNonexistent = 3,
   SubmitEquipEnhancementResponseProto_EnhanceEquipStatusTryingToSurpassMaxLevel = 4,
   SubmitEquipEnhancementResponseProto_EnhanceEquipStatusAlreadyEnhancing = 5,
+  SubmitEquipEnhancementResponseProto_EnhanceEquipStatusNotEnoughSilver = 6,
 } SubmitEquipEnhancementResponseProto_EnhanceEquipStatus;
 
 BOOL SubmitEquipEnhancementResponseProto_EnhanceEquipStatusIsValidValue(SubmitEquipEnhancementResponseProto_EnhanceEquipStatus value);
@@ -2847,16 +2850,15 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasBossEventSuperAttack_:1;
+  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
-  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasAverageSizeOfLevelBracket_:1;
-  BOOL hasInitStamina_:1;
+  BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
-  BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasDefaultDaysBattleShieldIsActive_:1;
+  BOOL hasInitStamina_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
   BOOL hasCarpenterImgVerticalPixelOffset_:1;
   BOOL hasMarketplaceImgVerticalPixelOffset_:1;
@@ -2868,10 +2870,10 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   BOOL hasNumHoursBeforeReshowingLockBox_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
-  BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
   BOOL hasQuestIdForFirstLossTutorial_:1;
   BOOL hasFbConnectRewardDiamonds_:1;
   BOOL hasMaxNumTowersClanCanHold_:1;
+  BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
   BOOL hasMaxLengthOfChatString_:1;
   BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
   BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
@@ -2882,7 +2884,9 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   BOOL hasMaxNameLength_:1;
   BOOL hasMinNameLength_:1;
   BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
+  BOOL hasAverageSizeOfLevelBracket_:1;
   BOOL hasAttackBaseCost_:1;
+  BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasStaminaBaseGain_:1;
   BOOL hasEnergyBaseGain_:1;
   BOOL hasDefenseBaseGain_:1;
@@ -2898,8 +2902,6 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   BOOL hasArmoryYlength_:1;
   BOOL hasArmoryXlength_:1;
   BOOL hasMaxLevelForUser_:1;
-  BOOL hasMaxLevelDifferenceForBattle_:1;
-  BOOL hasMinClanMembersToHoldClanTower_:1;
   BOOL hasNumDaysUntilFreeRetract_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
@@ -2915,16 +2917,17 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasStaminaBaseCost_:1;
   BOOL hasEnergyBaseCost_:1;
+  BOOL hasMinClanMembersToHoldClanTower_:1;
   BOOL hasDefenseBaseCost_:1;
-  BOOL hasPrestigeFaqFileName_:1;
   BOOL hasFaqFileName_:1;
-  BOOL hasLeaderboardConstants_:1;
+  BOOL hasPrestigeFaqFileName_:1;
   BOOL hasEnhanceConstants_:1;
   BOOL hasBoosterPackConstants_:1;
   BOOL hasPrestigeConstants_:1;
   BOOL hasAdminChatUserProto_:1;
   BOOL hasHealthConstants_:1;
   BOOL hasBossConstants_:1;
+  BOOL hasSpeedupConstants_:1;
   BOOL hasFormulaConstants_:1;
   BOOL hasBattleConstants_:1;
   BOOL hasKiipRewardConditions_:1;
@@ -2937,20 +2940,20 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   BOOL hasExpansionConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasMinLevelConstants_:1;
+  BOOL hasLeaderboardConstants_:1;
   BOOL useOldBattleFormula_:1;
   Float64 levelEquipBoostExponentBase;
   Float64 percentReturnedToUserForSellingEquipInArmory;
   Float64 bossEventSuperAttack;
+  Float64 cutOfVaultDepositTaken;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingNormStructure;
-  int32_t averageSizeOfLevelBracket;
-  int32_t initStamina;
+  int32_t numBeginnerSalesAllowed;
   int32_t playerWallPostsRetrieveCap;
   int32_t maxCharLengthForWallPost;
-  int32_t numBeginnerSalesAllowed;
   int32_t defaultDaysBattleShieldIsActive;
+  int32_t initStamina;
   int32_t aviaryImgVerticalPixelOffset;
   int32_t carpenterImgVerticalPixelOffset;
   int32_t marketplaceImgVerticalPixelOffset;
@@ -2962,10 +2965,10 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   int32_t numHoursBeforeReshowingLockBox;
   int32_t numHoursBeforeReshowingGoldSale;
   int32_t levelToShowRateUsPopup;
-  int32_t bossEventNumberOfAttacksUntilSuperAttack;
   int32_t questIdForFirstLossTutorial;
   int32_t fbConnectRewardDiamonds;
   int32_t maxNumTowersClanCanHold;
+  int32_t bossEventNumberOfAttacksUntilSuperAttack;
   int32_t maxLengthOfChatString;
   int32_t diamondPriceForGroupChatPurchasePackage;
   int32_t numChatsGivenPerGroupChatPurchasePackage;
@@ -2976,7 +2979,9 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   int32_t maxNameLength;
   int32_t minNameLength;
   int32_t adColonyVideosRequiredToRedeemDiamonds;
+  int32_t averageSizeOfLevelBracket;
   int32_t attackBaseCost;
+  int32_t maxLevelDifferenceForBattle;
   int32_t staminaBaseGain;
   int32_t energyBaseGain;
   int32_t defenseBaseGain;
@@ -2992,8 +2997,6 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   int32_t armoryYlength;
   int32_t armoryXlength;
   int32_t maxLevelForUser;
-  int32_t maxLevelDifferenceForBattle;
-  int32_t minClanMembersToHoldClanTower;
   int32_t numDaysUntilFreeRetract;
   int32_t diamondCostOfShortMarketplaceLicense;
   int32_t diamondCostOfLongMarketplaceLicense;
@@ -3009,16 +3012,17 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   int32_t skillPointsGainedOnLevelup;
   int32_t staminaBaseCost;
   int32_t energyBaseCost;
+  int32_t minClanMembersToHoldClanTower;
   int32_t defenseBaseCost;
-  NSString* prestigeFaqFileName;
   NSString* faqFileName;
-  StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
+  NSString* prestigeFaqFileName;
   StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
   StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
   StartupResponseProto_StartupConstants_PrestigeConstants* prestigeConstants;
   MinimumUserProto* adminChatUserProto;
   StartupResponseProto_StartupConstants_HealthConstants* healthConstants;
   StartupResponseProto_StartupConstants_BossConstants* bossConstants;
+  StartupResponseProto_StartupConstants_SpeedupConstants* speedupConstants;
   StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
   StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
@@ -3031,6 +3035,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   StartupResponseProto_StartupConstants_ExpansionConstants* expansionConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_BazaarMinLevelConstants* minLevelConstants;
+  StartupResponseProto_StartupConstants_LeaderboardEventConstants* leaderboardConstants;
   NSMutableArray* mutableQuestIdsGuaranteedWinList;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
@@ -3131,6 +3136,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 - (BOOL) hasDefaultDaysBattleShieldIsActive;
 - (BOOL) hasHealthConstants;
 - (BOOL) hasBossConstants;
+- (BOOL) hasSpeedupConstants;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -3225,6 +3231,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 @property (readonly) int32_t defaultDaysBattleShieldIsActive;
 @property (readonly, retain) StartupResponseProto_StartupConstants_HealthConstants* healthConstants;
 @property (readonly, retain) StartupResponseProto_StartupConstants_BossConstants* bossConstants;
+@property (readonly, retain) StartupResponseProto_StartupConstants_SpeedupConstants* speedupConstants;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -3251,6 +3258,81 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_SpeedupConstants : PBGeneratedMessage {
+@private
+  BOOL hasBuildLateSpeedupConstant_:1;
+  BOOL hasExpansionLateSpeedupConstant_:1;
+  BOOL hasForgeLateSpeedupConstant_:1;
+  BOOL hasUpgradeLateSpeedupConstant_:1;
+  Float64 buildLateSpeedupConstant;
+  Float64 expansionLateSpeedupConstant;
+  Float64 forgeLateSpeedupConstant;
+  Float64 upgradeLateSpeedupConstant;
+}
+- (BOOL) hasBuildLateSpeedupConstant;
+- (BOOL) hasExpansionLateSpeedupConstant;
+- (BOOL) hasForgeLateSpeedupConstant;
+- (BOOL) hasUpgradeLateSpeedupConstant;
+@property (readonly) Float64 buildLateSpeedupConstant;
+@property (readonly) Float64 expansionLateSpeedupConstant;
+@property (readonly) Float64 forgeLateSpeedupConstant;
+@property (readonly) Float64 upgradeLateSpeedupConstant;
+
++ (StartupResponseProto_StartupConstants_SpeedupConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_SpeedupConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_SpeedupConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_SpeedupConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_SpeedupConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_SpeedupConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_SpeedupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_SpeedupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_SpeedupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_SpeedupConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_SpeedupConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_SpeedupConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_SpeedupConstants*) build;
+- (StartupResponseProto_StartupConstants_SpeedupConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_SpeedupConstants*) other;
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasBuildLateSpeedupConstant;
+- (Float64) buildLateSpeedupConstant;
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) setBuildLateSpeedupConstant:(Float64) value;
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) clearBuildLateSpeedupConstant;
+
+- (BOOL) hasExpansionLateSpeedupConstant;
+- (Float64) expansionLateSpeedupConstant;
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) setExpansionLateSpeedupConstant:(Float64) value;
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) clearExpansionLateSpeedupConstant;
+
+- (BOOL) hasForgeLateSpeedupConstant;
+- (Float64) forgeLateSpeedupConstant;
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) setForgeLateSpeedupConstant:(Float64) value;
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) clearForgeLateSpeedupConstant;
+
+- (BOOL) hasUpgradeLateSpeedupConstant;
+- (Float64) upgradeLateSpeedupConstant;
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) setUpgradeLateSpeedupConstant:(Float64) value;
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) clearUpgradeLateSpeedupConstant;
 @end
 
 @interface StartupResponseProto_StartupConstants_BossConstants : PBGeneratedMessage {
@@ -3519,6 +3601,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 
 @interface StartupResponseProto_StartupConstants_EnhancementConstants : PBGeneratedMessage {
 @private
+  BOOL hasEnhancingCost_:1;
   BOOL hasEnhanceTimeConstantA_:1;
   BOOL hasEnhanceTimeConstantB_:1;
   BOOL hasEnhanceTimeConstantC_:1;
@@ -3532,6 +3615,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
   BOOL hasMaxEnhancementLevel_:1;
   BOOL hasEnhancePercentPerLevel_:1;
   BOOL hasDefaultSecondsToEnhance_:1;
+  Float64 enhancingCost;
   Float32 enhanceTimeConstantA;
   Float32 enhanceTimeConstantB;
   Float32 enhanceTimeConstantC;
@@ -3559,6 +3643,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 - (BOOL) hasEnhancePercentConstantB;
 - (BOOL) hasEnhanceLevelExponentBase;
 - (BOOL) hasDefaultSecondsToEnhance;
+- (BOOL) hasEnhancingCost;
 @property (readonly) int32_t maxEnhancementLevel;
 @property (readonly) int32_t enhancePercentPerLevel;
 @property (readonly) Float32 enhanceTimeConstantA;
@@ -3572,6 +3657,7 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 @property (readonly) Float32 enhancePercentConstantB;
 @property (readonly) Float32 enhanceLevelExponentBase;
 @property (readonly) int32_t defaultSecondsToEnhance;
+@property (readonly) Float64 enhancingCost;
 
 + (StartupResponseProto_StartupConstants_EnhancementConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_EnhancementConstants*) defaultInstance;
@@ -3671,6 +3757,11 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 - (int32_t) defaultSecondsToEnhance;
 - (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setDefaultSecondsToEnhance:(int32_t) value;
 - (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearDefaultSecondsToEnhance;
+
+- (BOOL) hasEnhancingCost;
+- (Float64) enhancingCost;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhancingCost:(Float64) value;
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhancingCost;
 @end
 
 @interface StartupResponseProto_StartupConstants_LeaderboardEventConstants : PBGeneratedMessage {
@@ -5655,6 +5746,13 @@ BOOL RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusIsValidValue(Redeem
 - (StartupResponseProto_StartupConstants_Builder*) setBossConstantsBuilder:(StartupResponseProto_StartupConstants_BossConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeBossConstants:(StartupResponseProto_StartupConstants_BossConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearBossConstants;
+
+- (BOOL) hasSpeedupConstants;
+- (StartupResponseProto_StartupConstants_SpeedupConstants*) speedupConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setSpeedupConstants:(StartupResponseProto_StartupConstants_SpeedupConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setSpeedupConstantsBuilder:(StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeSpeedupConstants:(StartupResponseProto_StartupConstants_SpeedupConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearSpeedupConstants;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {

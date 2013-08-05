@@ -47,6 +47,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 
+@property (nonatomic, retain) IBOutlet UIView *costView;
+@property (nonatomic, retain) IBOutlet UILabel *costLabel;
+
 @property (nonatomic, retain) NSArray *userEquips;
 
 @property (nonatomic, retain) NSTimer *timer;

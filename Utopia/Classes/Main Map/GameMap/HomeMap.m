@@ -870,16 +870,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
 }
 
-- (IBAction)finishNowClicked:(id)sender {MoneyBuilding *mb = (MoneyBuilding *)_selected;
-  UserStructState state = mb.userStruct.state;
+- (IBAction)finishNowClicked:(id)sender {
+  MoneyBuilding *mb = (MoneyBuilding *)_selected;
+  UserStruct *us = mb.userStruct;
+  UserStructState state = us.state;
   Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  FullStructureProto *fsp = [gs structWithId:us.structId];
   int goldCost = 0;
   
   if (state == kUpgrading) {
-    UserStruct *us = _upgrBuilding.userStruct;
-    goldCost = [gl calculateDiamondCostForInstaUpgrade:us];
+    int timeLeft = us.lastUpgradeTime.timeIntervalSinceNow + [gl calculateMinutesToUpgrade:us]*60;
+    goldCost = [gl calculateDiamondCostForInstaUpgrade:us timeLeft:timeLeft];
   } else if (state == kBuilding) {
-    goldCost = [gl calculateDiamondCostForInstaBuild:_constrBuilding.userStruct];
+    int timeLeft = us.purchaseTime.timeIntervalSinceNow + fsp.minutesToBuild*60;
+    goldCost = [gl calculateDiamondCostForInstaBuild:us timeLeft:timeLeft];
   }
   NSString *desc = [NSString stringWithFormat:@"Finish instantly for %d gold?", goldCost];
   [GenericPopupController displayConfirmationWithDescription:desc title:@"Speed Up!" okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(speedUpBuilding)];
@@ -887,13 +892,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (void) speedUpBuilding {
   MoneyBuilding *mb = (MoneyBuilding *)_selected;
-  UserStructState state = mb.userStruct.state;
+  UserStruct *us = mb.userStruct;
+  UserStructState state = us.state;
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
+  FullStructureProto *fsp = [gs structWithId:us.structId];
   
   if (state == kUpgrading) {
-    UserStruct *us = _upgrBuilding.userStruct;
-    int goldCost = [gl calculateDiamondCostForInstaUpgrade:us];
+    int timeLeft = us.lastUpgradeTime.timeIntervalSinceNow + [gl calculateMinutesToUpgrade:us]*60;
+    int goldCost = [gl calculateDiamondCostForInstaUpgrade:us timeLeft:timeLeft];
     if (gs.gold < goldCost) {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
       [Analytics notEnoughGoldForInstaUpgrade:us.structId level:us.level cost:goldCost];
@@ -902,7 +909,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [_upgrBuilding removeUpgradeIcon];
     }
   } else if (state == kBuilding) {
-    int goldCost = [gl calculateDiamondCostForInstaBuild:_constrBuilding.userStruct];
+    int timeLeft = us.purchaseTime.timeIntervalSinceNow + fsp.minutesToBuild*60;
+    int goldCost = [gl calculateDiamondCostForInstaBuild:us timeLeft:timeLeft];
     if (gs.gold < goldCost) {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
     } else {

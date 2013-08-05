@@ -761,6 +761,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     } completion:^(BOOL finished) {
       [ChatMenuController removeView];
     }];
+    
+    _otherUserId = 0;
   }
 }
 
@@ -828,7 +830,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
       }
       
       [[OutgoingEventController sharedOutgoingEventController] privateChatPost:_otherUserId content:msg];
-      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         ChatMessage *cm = [[ChatMessage new] autorelease];
         cm.date = [NSDate date];
         cm.message = msg;

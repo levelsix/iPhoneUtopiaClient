@@ -5698,6 +5698,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t defaultDaysBattleShieldIsActive;
 @property (retain) StartupResponseProto_StartupConstants_HealthConstants* healthConstants;
 @property (retain) StartupResponseProto_StartupConstants_BossConstants* bossConstants;
+@property (retain) StartupResponseProto_StartupConstants_SpeedupConstants* speedupConstants;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -6370,6 +6371,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasBossConstants_ = !!value;
 }
 @synthesize bossConstants;
+- (BOOL) hasSpeedupConstants {
+  return !!hasSpeedupConstants_;
+}
+- (void) setHasSpeedupConstants:(BOOL) value {
+  hasSpeedupConstants_ = !!value;
+}
+@synthesize speedupConstants;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -6397,6 +6405,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.adminChatUserProto = nil;
   self.healthConstants = nil;
   self.bossConstants = nil;
+  self.speedupConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -6495,6 +6504,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.defaultDaysBattleShieldIsActive = 0;
     self.healthConstants = [StartupResponseProto_StartupConstants_HealthConstants defaultInstance];
     self.bossConstants = [StartupResponseProto_StartupConstants_BossConstants defaultInstance];
+    self.speedupConstants = [StartupResponseProto_StartupConstants_SpeedupConstants defaultInstance];
   }
   return self;
 }
@@ -6846,6 +6856,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasBossConstants) {
     [output writeMessage:110 value:self.bossConstants];
   }
+  if (self.hasSpeedupConstants) {
+    [output writeMessage:111 value:self.speedupConstants];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -7167,6 +7180,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasBossConstants) {
     size += computeMessageSize(110, self.bossConstants);
   }
+  if (self.hasSpeedupConstants) {
+    size += computeMessageSize(111, self.speedupConstants);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -7197,6 +7213,297 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_SpeedupConstants ()
+@property Float64 buildLateSpeedupConstant;
+@property Float64 expansionLateSpeedupConstant;
+@property Float64 forgeLateSpeedupConstant;
+@property Float64 upgradeLateSpeedupConstant;
+@end
+
+@implementation StartupResponseProto_StartupConstants_SpeedupConstants
+
+- (BOOL) hasBuildLateSpeedupConstant {
+  return !!hasBuildLateSpeedupConstant_;
+}
+- (void) setHasBuildLateSpeedupConstant:(BOOL) value {
+  hasBuildLateSpeedupConstant_ = !!value;
+}
+@synthesize buildLateSpeedupConstant;
+- (BOOL) hasExpansionLateSpeedupConstant {
+  return !!hasExpansionLateSpeedupConstant_;
+}
+- (void) setHasExpansionLateSpeedupConstant:(BOOL) value {
+  hasExpansionLateSpeedupConstant_ = !!value;
+}
+@synthesize expansionLateSpeedupConstant;
+- (BOOL) hasForgeLateSpeedupConstant {
+  return !!hasForgeLateSpeedupConstant_;
+}
+- (void) setHasForgeLateSpeedupConstant:(BOOL) value {
+  hasForgeLateSpeedupConstant_ = !!value;
+}
+@synthesize forgeLateSpeedupConstant;
+- (BOOL) hasUpgradeLateSpeedupConstant {
+  return !!hasUpgradeLateSpeedupConstant_;
+}
+- (void) setHasUpgradeLateSpeedupConstant:(BOOL) value {
+  hasUpgradeLateSpeedupConstant_ = !!value;
+}
+@synthesize upgradeLateSpeedupConstant;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.buildLateSpeedupConstant = 0;
+    self.expansionLateSpeedupConstant = 0;
+    self.forgeLateSpeedupConstant = 0;
+    self.upgradeLateSpeedupConstant = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_SpeedupConstants* defaultStartupResponseProto_StartupConstants_SpeedupConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_SpeedupConstants class]) {
+    defaultStartupResponseProto_StartupConstants_SpeedupConstantsInstance = [[StartupResponseProto_StartupConstants_SpeedupConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_SpeedupConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_SpeedupConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_SpeedupConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasBuildLateSpeedupConstant) {
+    [output writeDouble:1 value:self.buildLateSpeedupConstant];
+  }
+  if (self.hasExpansionLateSpeedupConstant) {
+    [output writeDouble:2 value:self.expansionLateSpeedupConstant];
+  }
+  if (self.hasForgeLateSpeedupConstant) {
+    [output writeDouble:3 value:self.forgeLateSpeedupConstant];
+  }
+  if (self.hasUpgradeLateSpeedupConstant) {
+    [output writeDouble:4 value:self.upgradeLateSpeedupConstant];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasBuildLateSpeedupConstant) {
+    size += computeDoubleSize(1, self.buildLateSpeedupConstant);
+  }
+  if (self.hasExpansionLateSpeedupConstant) {
+    size += computeDoubleSize(2, self.expansionLateSpeedupConstant);
+  }
+  if (self.hasForgeLateSpeedupConstant) {
+    size += computeDoubleSize(3, self.forgeLateSpeedupConstant);
+  }
+  if (self.hasUpgradeLateSpeedupConstant) {
+    size += computeDoubleSize(4, self.upgradeLateSpeedupConstant);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_SpeedupConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_SpeedupConstants*)[[[StartupResponseProto_StartupConstants_SpeedupConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_SpeedupConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_SpeedupConstants*)[[[StartupResponseProto_StartupConstants_SpeedupConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_SpeedupConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_SpeedupConstants*)[[[StartupResponseProto_StartupConstants_SpeedupConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_SpeedupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_SpeedupConstants*)[[[StartupResponseProto_StartupConstants_SpeedupConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_SpeedupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_SpeedupConstants*)[[[StartupResponseProto_StartupConstants_SpeedupConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_SpeedupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_SpeedupConstants*)[[[StartupResponseProto_StartupConstants_SpeedupConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_SpeedupConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_SpeedupConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_SpeedupConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_SpeedupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_SpeedupConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_SpeedupConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_SpeedupConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_SpeedupConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_SpeedupConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_SpeedupConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_SpeedupConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_SpeedupConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_SpeedupConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_SpeedupConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasBuildLateSpeedupConstant) {
+    [self setBuildLateSpeedupConstant:other.buildLateSpeedupConstant];
+  }
+  if (other.hasExpansionLateSpeedupConstant) {
+    [self setExpansionLateSpeedupConstant:other.expansionLateSpeedupConstant];
+  }
+  if (other.hasForgeLateSpeedupConstant) {
+    [self setForgeLateSpeedupConstant:other.forgeLateSpeedupConstant];
+  }
+  if (other.hasUpgradeLateSpeedupConstant) {
+    [self setUpgradeLateSpeedupConstant:other.upgradeLateSpeedupConstant];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 9: {
+        [self setBuildLateSpeedupConstant:[input readDouble]];
+        break;
+      }
+      case 17: {
+        [self setExpansionLateSpeedupConstant:[input readDouble]];
+        break;
+      }
+      case 25: {
+        [self setForgeLateSpeedupConstant:[input readDouble]];
+        break;
+      }
+      case 33: {
+        [self setUpgradeLateSpeedupConstant:[input readDouble]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasBuildLateSpeedupConstant {
+  return result.hasBuildLateSpeedupConstant;
+}
+- (Float64) buildLateSpeedupConstant {
+  return result.buildLateSpeedupConstant;
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) setBuildLateSpeedupConstant:(Float64) value {
+  result.hasBuildLateSpeedupConstant = YES;
+  result.buildLateSpeedupConstant = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) clearBuildLateSpeedupConstant {
+  result.hasBuildLateSpeedupConstant = NO;
+  result.buildLateSpeedupConstant = 0;
+  return self;
+}
+- (BOOL) hasExpansionLateSpeedupConstant {
+  return result.hasExpansionLateSpeedupConstant;
+}
+- (Float64) expansionLateSpeedupConstant {
+  return result.expansionLateSpeedupConstant;
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) setExpansionLateSpeedupConstant:(Float64) value {
+  result.hasExpansionLateSpeedupConstant = YES;
+  result.expansionLateSpeedupConstant = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) clearExpansionLateSpeedupConstant {
+  result.hasExpansionLateSpeedupConstant = NO;
+  result.expansionLateSpeedupConstant = 0;
+  return self;
+}
+- (BOOL) hasForgeLateSpeedupConstant {
+  return result.hasForgeLateSpeedupConstant;
+}
+- (Float64) forgeLateSpeedupConstant {
+  return result.forgeLateSpeedupConstant;
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) setForgeLateSpeedupConstant:(Float64) value {
+  result.hasForgeLateSpeedupConstant = YES;
+  result.forgeLateSpeedupConstant = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) clearForgeLateSpeedupConstant {
+  result.hasForgeLateSpeedupConstant = NO;
+  result.forgeLateSpeedupConstant = 0;
+  return self;
+}
+- (BOOL) hasUpgradeLateSpeedupConstant {
+  return result.hasUpgradeLateSpeedupConstant;
+}
+- (Float64) upgradeLateSpeedupConstant {
+  return result.upgradeLateSpeedupConstant;
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) setUpgradeLateSpeedupConstant:(Float64) value {
+  result.hasUpgradeLateSpeedupConstant = YES;
+  result.upgradeLateSpeedupConstant = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) clearUpgradeLateSpeedupConstant {
+  result.hasUpgradeLateSpeedupConstant = NO;
+  result.upgradeLateSpeedupConstant = 0;
+  return self;
 }
 @end
 
@@ -8227,6 +8534,7 @@ static StartupResponseProto_StartupConstants_BoosterPackConstants* defaultStartu
 @property Float32 enhancePercentConstantB;
 @property Float32 enhanceLevelExponentBase;
 @property int32_t defaultSecondsToEnhance;
+@property Float64 enhancingCost;
 @end
 
 @implementation StartupResponseProto_StartupConstants_EnhancementConstants
@@ -8322,6 +8630,13 @@ static StartupResponseProto_StartupConstants_BoosterPackConstants* defaultStartu
   hasDefaultSecondsToEnhance_ = !!value;
 }
 @synthesize defaultSecondsToEnhance;
+- (BOOL) hasEnhancingCost {
+  return !!hasEnhancingCost_;
+}
+- (void) setHasEnhancingCost:(BOOL) value {
+  hasEnhancingCost_ = !!value;
+}
+@synthesize enhancingCost;
 - (void) dealloc {
   [super dealloc];
 }
@@ -8340,6 +8655,7 @@ static StartupResponseProto_StartupConstants_BoosterPackConstants* defaultStartu
     self.enhancePercentConstantB = 0;
     self.enhanceLevelExponentBase = 0;
     self.defaultSecondsToEnhance = 0;
+    self.enhancingCost = 0;
   }
   return self;
 }
@@ -8398,6 +8714,9 @@ static StartupResponseProto_StartupConstants_EnhancementConstants* defaultStartu
   if (self.hasDefaultSecondsToEnhance) {
     [output writeInt32:13 value:self.defaultSecondsToEnhance];
   }
+  if (self.hasEnhancingCost) {
+    [output writeDouble:14 value:self.enhancingCost];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -8445,6 +8764,9 @@ static StartupResponseProto_StartupConstants_EnhancementConstants* defaultStartu
   }
   if (self.hasDefaultSecondsToEnhance) {
     size += computeInt32Size(13, self.defaultSecondsToEnhance);
+  }
+  if (self.hasEnhancingCost) {
+    size += computeDoubleSize(14, self.enhancingCost);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -8560,6 +8882,9 @@ static StartupResponseProto_StartupConstants_EnhancementConstants* defaultStartu
   if (other.hasDefaultSecondsToEnhance) {
     [self setDefaultSecondsToEnhance:other.defaultSecondsToEnhance];
   }
+  if (other.hasEnhancingCost) {
+    [self setEnhancingCost:other.enhancingCost];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8631,6 +8956,10 @@ static StartupResponseProto_StartupConstants_EnhancementConstants* defaultStartu
       }
       case 104: {
         [self setDefaultSecondsToEnhance:[input readInt32]];
+        break;
+      }
+      case 113: {
+        [self setEnhancingCost:[input readDouble]];
         break;
       }
     }
@@ -8842,6 +9171,22 @@ static StartupResponseProto_StartupConstants_EnhancementConstants* defaultStartu
 - (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearDefaultSecondsToEnhance {
   result.hasDefaultSecondsToEnhance = NO;
   result.defaultSecondsToEnhance = 0;
+  return self;
+}
+- (BOOL) hasEnhancingCost {
+  return result.hasEnhancingCost;
+}
+- (Float64) enhancingCost {
+  return result.enhancingCost;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) setEnhancingCost:(Float64) value {
+  result.hasEnhancingCost = YES;
+  result.enhancingCost = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_EnhancementConstants_Builder*) clearEnhancingCost {
+  result.hasEnhancingCost = NO;
+  result.enhancingCost = 0;
   return self;
 }
 @end
@@ -14911,6 +15256,9 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasBossConstants) {
     [self mergeBossConstants:other.bossConstants];
   }
+  if (other.hasSpeedupConstants) {
+    [self mergeSpeedupConstants:other.speedupConstants];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -15425,6 +15773,15 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setBossConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 890: {
+        StartupResponseProto_StartupConstants_SpeedupConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_SpeedupConstants builder];
+        if (self.hasSpeedupConstants) {
+          [subBuilder mergeFrom:self.speedupConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSpeedupConstants:[subBuilder buildPartial]];
         break;
       }
     }
@@ -17349,6 +17706,36 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearBossConstants {
   result.hasBossConstants = NO;
   result.bossConstants = [StartupResponseProto_StartupConstants_BossConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasSpeedupConstants {
+  return result.hasSpeedupConstants;
+}
+- (StartupResponseProto_StartupConstants_SpeedupConstants*) speedupConstants {
+  return result.speedupConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setSpeedupConstants:(StartupResponseProto_StartupConstants_SpeedupConstants*) value {
+  result.hasSpeedupConstants = YES;
+  result.speedupConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setSpeedupConstantsBuilder:(StartupResponseProto_StartupConstants_SpeedupConstants_Builder*) builderForValue {
+  return [self setSpeedupConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeSpeedupConstants:(StartupResponseProto_StartupConstants_SpeedupConstants*) value {
+  if (result.hasSpeedupConstants &&
+      result.speedupConstants != [StartupResponseProto_StartupConstants_SpeedupConstants defaultInstance]) {
+    result.speedupConstants =
+      [[[StartupResponseProto_StartupConstants_SpeedupConstants builderWithPrototype:result.speedupConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.speedupConstants = value;
+  }
+  result.hasSpeedupConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearSpeedupConstants {
+  result.hasSpeedupConstants = NO;
+  result.speedupConstants = [StartupResponseProto_StartupConstants_SpeedupConstants defaultInstance];
   return self;
 }
 @end
@@ -70986,6 +71373,7 @@ BOOL SubmitEquipEnhancementResponseProto_EnhanceEquipStatusIsValidValue(SubmitEq
     case SubmitEquipEnhancementResponseProto_EnhanceEquipStatusMainOrFeederOrEquipsNonexistent:
     case SubmitEquipEnhancementResponseProto_EnhanceEquipStatusTryingToSurpassMaxLevel:
     case SubmitEquipEnhancementResponseProto_EnhanceEquipStatusAlreadyEnhancing:
+    case SubmitEquipEnhancementResponseProto_EnhanceEquipStatusNotEnoughSilver:
       return YES;
     default:
       return NO;

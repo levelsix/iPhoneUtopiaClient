@@ -154,6 +154,12 @@
 
 @property (nonatomic, assign) int maxBossHealthMultiplier;
 
+// Speedup Constants
+@property (nonatomic, assign) float buildLateSpeedupConstant;
+@property (nonatomic, assign) float expansionLateSpeedupConstant;
+@property (nonatomic, assign) float forgeLateSpeedupConstant;
+@property (nonatomic, assign) float upgradeLateSpeedupConstant;
+
 // Health Constants
 @property (nonatomic, assign) float healthFormulaExponentBase;
 @property (nonatomic, assign) float healthFormulaLinearA;
@@ -236,6 +242,7 @@
 @property (nonatomic, assign) float enhancePercentConstantA;
 @property (nonatomic, assign) float enhancePercentConstantB;
 @property (nonatomic, assign) float enhanceLevelExponentBase;
+@property (nonatomic, assign) float enhancingCost;
 
 // Booster pack constants
 @property (nonatomic, assign) int purchaseOptionOneNumBoosterItems;
@@ -382,8 +389,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (int) calculateStructSilverSellCost:(UserStruct *)us;
 - (int) calculateStructGoldSellCost:(UserStruct *)us;
 - (int) calculateUpgradeCost:(UserStruct *)us;
-- (int) calculateDiamondCostForInstaBuild:(UserStruct *)us;
-- (int) calculateDiamondCostForInstaUpgrade:(UserStruct *)us;
+- (int) calculateDiamondCostForInstaBuild:(UserStruct *)us timeLeft:(int)timeLeft;
+- (int) calculateDiamondCostForInstaUpgrade:(UserStruct *)us timeLeft:(int)timeLeft;
 - (int) calculateMinutesToUpgrade:(UserStruct *)us;
 - (float) calculateAttackForAttackStat:(int)attackStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet weapon2:(UserEquip *)weapon2 armor2:(UserEquip *)armor2 amulet2:(UserEquip *)amulet2;
 - (float) calculateDefenseForDefenseStat:(int)defenseStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet weapon2:(UserEquip *)weapon2 armor2:(UserEquip *)armor2 amulet2:(UserEquip *)amulet2;
@@ -399,20 +406,21 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (float) calculateChanceOfSuccess:(int)equipId level:(int)level;
 - (int) calculateMinutesForForge:(int)equipId level:(int)level;
 - (int) calculateGoldCostToGuaranteeForgingSuccess:(int)equipId level:(int)level;
-- (int) calculateGoldCostToSpeedUpForging:(int)equipId level:(int)level;
+- (int) calculateGoldCostToSpeedUpForging:(int)equipId level:(int)level timeLeft:(int)seconds;
 - (int) calculateRetailValueForEquip:(int)equipId level:(int)level;
 - (int) calculateNumMinutesForNewExpansion:(UserExpansion *)ue;
-- (int) calculateGoldCostToSpeedUpExpansion:(UserExpansion *)ue;
+- (int) calculateGoldCostToSpeedUpExpansion:(UserExpansion *)ue timeLeft:(int)seconds;
 - (int) calculateSilverCostForNewExpansion:(UserExpansion *)ue;
 
 // Enhancement formulas
-- (int) calculateMinutesToEnhance:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders;
+- (int) calculateSecondsToEnhance:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders;
 - (int) calculateGoldCostToSpeedUpEnhance:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders;
 - (float) calculatePercentOfLevel:(int)percentage;
 - (int) calculateEnhancementLevel:(int)percentage;
 - (int) calculateEnhancementPercentageToNextLevel:(int)percentage;
 - (int) calculateEnhancementPercentageIncrease:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders;
 - (int) calculateEnhancementPercentageIncrease:(UserEquip *)enhancingEquip feeder:(UserEquip *)feeder;
+- (int) calculateSilverCostForEnhancement:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders;
 
 + (void) adjustViewForCentering:(UIView *)view withLabel:(UILabel *)label;
 

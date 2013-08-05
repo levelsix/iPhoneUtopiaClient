@@ -308,7 +308,7 @@
       break;
       
     case kBuilding:
-      time = [[NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:self.userStruct.purchaseTime] timeIntervalSinceNow];
+      time = [[NSDate dateWithTimeInterval:fsp.minutesToUpgradeBase*60 sinceDate:self.userStruct.purchaseTime] timeIntervalSinceNow];
       selector = @selector(buildComplete:);
       break;
       

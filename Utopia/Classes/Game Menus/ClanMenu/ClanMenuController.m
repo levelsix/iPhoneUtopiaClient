@@ -1186,8 +1186,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ClanMenuController);
 - (void) viewTower:(int)towerId {
   // Have to do this to prevent resizing issues when this happens as first use of clan menu
   CGRect r = self.view.frame;
-  r.origin.y = r.size.height;
-  r.origin.x = 0;
   r.size.width = self.view.superview.frame.size.width;
   self.view.frame = r;
   

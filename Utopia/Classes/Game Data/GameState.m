@@ -1069,8 +1069,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self stopEnhancementTimer];
   Globals *gl = [Globals sharedGlobals];
   EquipEnhancementProto *ee = self.equipEnhancement;
-  int mins = [gl calculateMinutesToEnhance:(UserEquip *)ee.enhancingEquip feeders:ee.feederEquipsList];
-  NSDate *end = [NSDate dateWithTimeIntervalSince1970:ee.startTime/1000.+mins*60];
+  int secs = [gl calculateSecondsToEnhance:(UserEquip *)ee.enhancingEquip feeders:ee.feederEquipsList];
+  NSDate *end = [NSDate dateWithTimeIntervalSince1970:ee.startTime/1000.+secs];
   
   if ([end compare:[NSDate date]] == NSOrderedDescending) {
     _enhanceTimer = [[NSTimer timerWithTimeInterval:end.timeIntervalSinceNow target:self selector:@selector(beginEnhancementTimer) userInfo:nil repeats:NO] retain];

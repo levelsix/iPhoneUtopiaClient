@@ -172,7 +172,6 @@
     notUpgradingMiddleView.hidden = NO;
   } else if (us.state == kUpgrading || us.state == kBuilding) {
     [self updateMenu];
-    coinLabel.text = [Globals commafyNumber:us.state == kBuilding ? [gl calculateDiamondCostForInstaBuild:us] : [gl calculateDiamondCostForInstaUpgrade:us]];
     
     self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateMenu) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
@@ -204,17 +203,24 @@
     
     NSDate *startTime = nil;
     int secsToUpgrade = 0;
+    int goldCost = 0;
+    int timeLeft = 0;
     
     if (us.state == kUpgrading) {
       startTime = us.lastUpgradeTime;
       secsToUpgrade = [gl calculateMinutesToUpgrade:us]*60;
+      timeLeft = startTime.timeIntervalSinceNow + secsToUpgrade;
+      goldCost = [gl calculateDiamondCostForInstaUpgrade:us timeLeft:timeLeft];
     } else {
       startTime = us.purchaseTime;
-      secsToUpgrade = fsp.minutesToBuild*60;
+      secsToUpgrade = fsp.minutesToUpgradeBase*60;
+      timeLeft = startTime.timeIntervalSinceNow + secsToUpgrade;
+      goldCost = [gl calculateDiamondCostForInstaBuild:us timeLeft:timeLeft];
     }
-    NSDate *date = [startTime dateByAddingTimeInterval:secsToUpgrade];;
-    timeLeftLabel.text = [Globals convertTimeToString:date.timeIntervalSinceNow withDays:YES];
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:timeLeft];
+    timeLeftLabel.text = [Globals convertTimeToString:timeLeft withDays:YES];
     progressBar.percentage = 1.f - date.timeIntervalSinceNow/secsToUpgrade;
+    coinLabel.text = [Globals commafyNumber:goldCost];
   }
 }
 
@@ -409,7 +415,8 @@
       [[HomeMap sharedHomeMap] refresh];
     }
   } else {
-    int goldCost = [gl calculateGoldCostToSpeedUpExpansion:ue];
+    int timeLeft = ue.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion:ue]*60;
+    int goldCost = [gl calculateGoldCostToSpeedUpExpansion:ue timeLeft:timeLeft];
     NSString *desc = [NSString stringWithFormat:@"Would you like to speed up this expansion for %d gold?", goldCost];
     [GenericPopupController displayConfirmationWithDescription:desc title:@"Speed Up?" okayButton:@"Speed Up" cancelButton:nil target:self selector:@selector(speedUp)];
   }
@@ -420,7 +427,8 @@
   GameState *gs = [GameState sharedGameState];
   UserExpansion *ue = gs.userExpansion;
   
-  int goldCost = [gl calculateGoldCostToSpeedUpExpansion:ue];
+  int timeLeft = ue.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion:ue]*60;
+  int goldCost = [gl calculateGoldCostToSpeedUpExpansion:ue timeLeft:timeLeft];
   if (gs.gold < goldCost) {
     [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
   } else {

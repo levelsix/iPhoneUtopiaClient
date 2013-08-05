@@ -860,12 +860,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   Globals *gl = [Globals sharedGlobals];
+  FullStructureProto *fsp = [gs structWithId:userStruct.structId];
+  
+  int timeLeft = userStruct.purchaseTime.timeIntervalSinceNow + fsp.minutesToBuild*60;
   
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     [Globals popupMessage:@"This is not your building!"];
-  } else if (gs.gold < [gl calculateDiamondCostForInstaBuild:userStruct]) {
+  } else if (gs.gold < [gl calculateDiamondCostForInstaBuild:userStruct timeLeft:timeLeft]) {
     [Globals popupMessage:@"Not enough diamonds to speed up build"];
   } else if (!userStruct.isComplete && !userStruct.lastUpgradeTime) {
     int64_t ms = [self getCurrentMilliseconds];
@@ -888,11 +891,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   Globals *gl = [Globals sharedGlobals];
   
+  int timeLeft = userStruct.lastUpgradeTime.timeIntervalSinceNow + [gl calculateMinutesToUpgrade:userStruct]*60;
+  
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     [Globals popupMessage:@"This is not your building!"];
-  } else if (gs.gold < [gl calculateDiamondCostForInstaUpgrade:userStruct]) {
+  } else if (gs.gold < [gl calculateDiamondCostForInstaUpgrade:userStruct timeLeft:timeLeft]) {
     [Globals popupMessage:@"Not enough diamonds to speed up upgrade"];
   } else if (!userStruct.isComplete && userStruct.lastUpgradeTime) {
     int64_t ms = [self getCurrentMilliseconds];
@@ -902,7 +907,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     userStruct.level++;
     
     // Update game state
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-[gl calculateDiamondCostForInstaUpgrade:userStruct]]];
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-[gl calculateDiamondCostForInstaUpgrade:userStruct timeLeft:timeLeft]]];
     
     [Analytics normStructInstaUpgrade:userStruct.structId level:userStruct.level];
   } else {
@@ -923,7 +928,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (!userStruct.isComplete) {
     NSDate *date;
     if (userStruct.state == kBuilding) {
-      date = [NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:userStruct.purchaseTime];
+      date = [NSDate dateWithTimeInterval:fsp.minutesToUpgradeBase*60 sinceDate:userStruct.purchaseTime];
     } else if (userStruct.state == kUpgrading) {
       date = [NSDate dateWithTimeInterval:[gl calculateMinutesToUpgrade:userStruct]*60 sinceDate:userStruct.lastUpgradeTime];
     } else {
@@ -1682,7 +1687,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   ForgeAttempt *fa = [gs forgeAttemptForBlacksmithId:blacksmithId];
   
-  int goldCost = [gl calculateGoldCostToSpeedUpForging:fa.equipId level:fa.level];
+  int timeLeft = fa.startTime.timeIntervalSinceNow + [gl calculateMinutesForForge:fa.equipId level:fa.level]*60;
+  int goldCost = [gl calculateGoldCostToSpeedUpForging:fa.equipId level:fa.level timeLeft:timeLeft];
   
   if (fa.isComplete) {
     [Globals popupMessage:@"Attempting to complete forge with diamonds when it is already complete."];
@@ -1836,7 +1842,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       }
     }
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
       [gs addChatMessage:gs.minUser message:msg scope:scope isAdmin:(scope == GroupChatScopeGlobal ? gs.isAdmin : NO)];
     });
     //  } else {
@@ -2159,7 +2165,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   UserExpansion *ue = gs.userExpansion;
   
-  int goldCost = speedUp ? [gl calculateGoldCostToSpeedUpExpansion:ue] : 0;
+  int timeLeft = ue.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion:ue]*60;
+  int goldCost = speedUp ? [gl calculateGoldCostToSpeedUpExpansion:ue timeLeft:timeLeft] : 0;
   if (gs.gold < goldCost) {
     [Globals popupMessage:@"Attempting to speedup without enough gold"];
   } else if (!ue.isExpanding) {
@@ -2246,18 +2253,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) submitEquipEnhancement:(int)enhancingId feeders:(NSArray *)feeders {
   GameState *gs = [GameState sharedGameState];
-  NSMutableSet *userEquips = [NSMutableSet set];
+  NSMutableArray *userEquips = [NSMutableArray array];
+  Globals *gl = [Globals sharedGlobals];
+  UserEquip *ue = [gs myEquipWithUserEquipId:enhancingId];
+  int silverCost = 0;
   
   if (gs.equipEnhancement) {
     [Globals popupMessage:@"Attempting to submit enhancement while already enhancing equip."];
   } else if (feeders.count <= 0) {
     [Globals popupMessage:@"Attempting to submit enhancement without any feeder equips."];
   } else {
-    UserEquip *e = [gs myEquipWithUserEquipId:enhancingId];
-    if (e) {
-      [userEquips addObject:e];
+    if (ue) {
       for (NSNumber *n in feeders) {
-        e = [gs myEquipWithUserEquipId:n.intValue];
+        UserEquip *e = [gs myEquipWithUserEquipId:n.intValue];
         if (e) {
           [userEquips addObject:e];
         } else {
@@ -2265,6 +2273,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           return;
         }
       }
+      
+      silverCost = [gl calculateSilverCostForEnhancement:ue feeders:userEquips];
+      if (gs.silver < silverCost) {
+        [Globals popupMessage:@"Attempting to submit equip enhancement without enough silver"];
+        return;
+      }
+      
+      [userEquips addObject:ue];
       
       if (userEquips.count != feeders.count+1) {
         [Globals popupMessage:@"Attempting to enhance with a repeated equip."];
@@ -2275,9 +2291,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       return;
     }
     
-    [[SocketCommunication sharedSocketCommunication] sendSubmitEquipEnhancementMessage:enhancingId feeders:feeders clientTime:[self getCurrentMilliseconds]];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendSubmitEquipEnhancementMessage:enhancingId feeders:feeders clientTime:[self getCurrentMilliseconds]];
+    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-silverCost]];
     
-    [gs.myEquips removeObjectsInArray:userEquips.allObjects];
+    [gs.myEquips removeObjectsInArray:userEquips];
   }
 }
 

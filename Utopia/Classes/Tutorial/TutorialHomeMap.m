@@ -233,7 +233,7 @@
   UserStruct *userStruct = mb.userStruct;
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:userStruct.structId];
   
-  userStruct.lastRetrieved = [NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:userStruct.purchaseTime];
+  userStruct.lastRetrieved = [NSDate dateWithTimeInterval:fsp.minutesToUpgradeBase*60 sinceDate:userStruct.purchaseTime];
   userStruct.isComplete = YES;
   
   mb.isConstructing = NO;

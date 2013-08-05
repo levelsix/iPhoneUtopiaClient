@@ -467,16 +467,6 @@
     }
   }
   
-  if (gs.equipEnhancement) {
-    int mins = [gl calculateMinutesToEnhance:(UserEquip *)gs.equipEnhancement.enhancingEquip feeders:gs.equipEnhancement.feederEquipsList];
-    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:gs.equipEnhancement.startTime/1000. + mins*60];
-    if ([endDate compare:[NSDate date]] == NSOrderedDescending) {
-      FullEquipProto *fep = [gs equipWithId:gs.equipEnhancement.enhancingEquip.equipId];
-      NSString *text = [NSString stringWithFormat:@"The Blacksmith has completed enhancing your %@. Come back to collect it!", fep.name];
-      [self scheduleNotificationWithText:text badge:1 date:endDate];
-    }
-  }
-  
   if (gs.lastGoldmineRetrieval) {
     NSTimeInterval timeInterval = -[gs.lastGoldmineRetrieval timeIntervalSinceNow];
     int timeToStartCollect = 3600.f*gl.numHoursBeforeGoldmineRetrieval;
@@ -507,7 +497,7 @@
     } else if (us.state == kBuilding) {
       FullStructureProto *fsp = [gs structWithId:us.structId];
       NSString *text = [NSString stringWithFormat:@"Your %@ has finished building!", fsp.name];
-      int minutes = fsp.minutesToBuild;
+      int minutes = fsp.minutesToUpgradeBase;
       [self scheduleNotificationWithText:text badge:1 date:[us.purchaseTime dateByAddingTimeInterval:minutes*60.f]];
     }
   }
