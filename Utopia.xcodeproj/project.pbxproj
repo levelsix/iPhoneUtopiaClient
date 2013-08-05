@@ -2994,7 +2994,7 @@
 		CF6BDC91156C323E0056B45B /* miss.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4215672BFA00871798 /* miss.png */; };
 		CF6BDC92156C323E0056B45B /* miss@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4315672BFA00871798 /* miss@2x.png */; };
 		CF6BDC9B156DCDC70056B45B /* DescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC9A156DCDC70056B45B /* DescriptionCell.xib */; };
-		CF6EB9D417AC82F900137A2D /* CityGemsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFFD85991767D52700D4928F /* CityGemsView.xib */; };
+		CF6EB9DB17B016E100137A2D /* CityGemsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFFD85991767D52700D4928F /* CityGemsView.xib */; };
 		CF6F37F316E075A5008CFD52 /* towericon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6F37F116E075A5008CFD52 /* towericon.png */; };
 		CF6F37F416E075A5008CFD52 /* towericon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6F37F216E075A5008CFD52 /* towericon@2x.png */; };
 		CF6F381516E07DA3008CFD52 /* MonteCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8DFB59162503D60061AE03 /* MonteCardView.xib */; };
@@ -13350,7 +13350,7 @@
 				CFD0372B1795F6D600719C6B /* ProfileEquipBrowseView.xib in Resources */,
 				CFD0372E1795F71E00719C6B /* ProfileEquipPopup.xib in Resources */,
 				CF82CD321799D16500466E54 /* MainWindow.xib in Resources */,
-				CF6EB9D417AC82F900137A2D /* CityGemsView.xib in Resources */,
+				CF6EB9DB17B016E100137A2D /* CityGemsView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

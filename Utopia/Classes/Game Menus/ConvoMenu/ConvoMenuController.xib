@@ -690,14 +690,14 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="close1.png">{30, 30}</string>
-			<string key="dialogueempty.png">{125, 175}</string>
-			<string key="dianext.png">{85, 32}</string>
-			<string key="diaprevious.png">{85, 32}</string>
-			<string key="nameplate.png">{105, 25}</string>
-			<string key="popupglow.png">{480, 320}</string>
-			<string key="questarrow.png">{12, 19}</string>
-			<string key="speechbubble.png">{379, 95}</string>
+			<string key="close1.png">{16, 16}</string>
+			<string key="dialogueempty.png">{16, 16}</string>
+			<string key="dianext.png">{16, 16}</string>
+			<string key="diaprevious.png">{16, 16}</string>
+			<string key="nameplate.png">{16, 16}</string>
+			<string key="popupglow.png">{16, 16}</string>
+			<string key="questarrow.png">{16, 16}</string>
+			<string key="speechbubble.png">{16, 16}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

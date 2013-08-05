@@ -597,13 +597,13 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="close1.png">{30, 30}</string>
-			<string key="notificationbg.png">{299, 159}</string>
-			<string key="popupglow.png">{480, 320}</string>
-			<string key="rubyspeech.png">{125, 134}</string>
-			<string key="speechbubble.png">{379, 95}</string>
-			<string key="visitboss.png">{146, 33}</string>
-			<string key="visitbossbg.png">{153, 40}</string>
+			<string key="close1.png">{16, 16}</string>
+			<string key="notificationbg.png">{16, 16}</string>
+			<string key="popupglow.png">{16, 16}</string>
+			<string key="rubyspeech.png">{16, 16}</string>
+			<string key="speechbubble.png">{16, 16}</string>
+			<string key="visitboss.png">{16, 16}</string>
+			<string key="visitbossbg.png">{16, 16}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
