@@ -1298,7 +1298,6 @@
 		CF689BF015C3A0A500F2E50E /* hedgefence@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF689BD315C3A0A500F2E50E /* hedgefence@2x.png */; };
 		CF689BF115C3A0A500F2E50E /* Home.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF689BD415C3A0A500F2E50E /* Home.tmx */; };
 		CF689BF215C3A0A500F2E50E /* Home@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF689BD515C3A0A500F2E50E /* Home@2x.tmx */; };
-		CF689BF315C3A0A500F2E50E /* KirinVillage.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF689BD615C3A0A500F2E50E /* KirinVillage.tmx */; };
 		CF689BF415C3A0A500F2E50E /* metatiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CF689BD715C3A0A500F2E50E /* metatiles.png */; };
 		CF689BF515C3A0A500F2E50E /* metatiles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF689BD815C3A0A500F2E50E /* metatiles@2x.png */; };
 		CF689BF615C3A0A500F2E50E /* rivertiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CF689BD915C3A0A500F2E50E /* rivertiles.png */; };
@@ -1314,7 +1313,6 @@
 		CF689C0615C3A69400F2E50E /* ForgeCheck.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF689C0115C3A69400F2E50E /* ForgeCheck.m4a */; };
 		CF689C0715C3A69400F2E50E /* ForgeEnter.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF689C0215C3A69400F2E50E /* ForgeEnter.m4a */; };
 		CF689C0815C3A69400F2E50E /* ForgeFail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF689C0315C3A69400F2E50E /* ForgeFail.m4a */; };
-		CF689C0A15C3AA4E00F2E50E /* KirinVillage@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF689C0915C3AA4E00F2E50E /* KirinVillage@2x.tmx */; };
 		CF689C1915C3B89400F2E50E /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C0E15C3B89400F2E50E /* NSObject+SBJSON.m */; };
 		CF689C1A15C3B89400F2E50E /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1015C3B89400F2E50E /* NSString+SBJSON.m */; };
 		CF689C1B15C3B89400F2E50E /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1215C3B89400F2E50E /* SBJSON.m */; };
@@ -2428,7 +2426,6 @@
 		CF69FADB174212ED001C96D0 /* hedgefence@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF689BD315C3A0A500F2E50E /* hedgefence@2x.png */; };
 		CF69FADC174212ED001C96D0 /* Home.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF689BD415C3A0A500F2E50E /* Home.tmx */; };
 		CF69FADD174212ED001C96D0 /* Home@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF689BD515C3A0A500F2E50E /* Home@2x.tmx */; };
-		CF69FADE174212ED001C96D0 /* KirinVillage.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF689BD615C3A0A500F2E50E /* KirinVillage.tmx */; };
 		CF69FADF174212ED001C96D0 /* metatiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CF689BD715C3A0A500F2E50E /* metatiles.png */; };
 		CF69FAE0174212ED001C96D0 /* metatiles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF689BD815C3A0A500F2E50E /* metatiles@2x.png */; };
 		CF69FAE1174212ED001C96D0 /* rivertiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CF689BD915C3A0A500F2E50E /* rivertiles.png */; };
@@ -2444,7 +2441,6 @@
 		CF69FAEB174212ED001C96D0 /* ForgeCheck.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF689C0115C3A69400F2E50E /* ForgeCheck.m4a */; };
 		CF69FAEC174212ED001C96D0 /* ForgeEnter.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF689C0215C3A69400F2E50E /* ForgeEnter.m4a */; };
 		CF69FAED174212ED001C96D0 /* ForgeFail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF689C0315C3A69400F2E50E /* ForgeFail.m4a */; };
-		CF69FAEE174212ED001C96D0 /* KirinVillage@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF689C0915C3AA4E00F2E50E /* KirinVillage@2x.tmx */; };
 		CF69FAEF174212ED001C96D0 /* badgeforquests.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10775515C8E3A400409312 /* badgeforquests.png */; };
 		CF69FAF0174212ED001C96D0 /* badgeforquests@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10775615C8E3A400409312 /* badgeforquests@2x.png */; };
 		CF69FAF1174212ED001C96D0 /* VillaMontalvo@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF10775915C9060D00409312 /* VillaMontalvo@2x.tmx */; };
@@ -3482,6 +3478,62 @@
 		CFD09C0216016ABD005D94D1 /* makeleader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD09BF816016ABD005D94D1 /* makeleader@2x.png */; };
 		CFD09C041602B2D2005D94D1 /* BrowseClanCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD09C031602B2D2005D94D1 /* BrowseClanCell.xib */; };
 		CFD09C061602E7DF005D94D1 /* ClanMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD09C051602E7DE005D94D1 /* ClanMemberCell.xib */; };
+		CFD29A8017B0942B000B0994 /* KirinVillage2.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7E17B0942B000B0994 /* KirinVillage2.tmx */; };
+		CFD29A8117B0942B000B0994 /* KirinVillage2.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7E17B0942B000B0994 /* KirinVillage2.tmx */; };
+		CFD29A8217B0942B000B0994 /* KirinVillage2@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7F17B0942B000B0994 /* KirinVillage2@2x.tmx */; };
+		CFD29A8317B0942B000B0994 /* KirinVillage2@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7F17B0942B000B0994 /* KirinVillage2@2x.tmx */; };
+		CFD29A8C17B16F8A000B0994 /* worldmapbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC551770FBFE0026E85F /* worldmapbg@2x.png */; };
+		CFD29A8D17B16F8B000B0994 /* worldmapbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC551770FBFE0026E85F /* worldmapbg@2x.png */; };
+		CFD29A8E17B16F8F000B0994 /* worldmapbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC541770FBFE0026E85F /* worldmapbg.png */; };
+		CFD29A8F17B16F90000B0994 /* worldmapbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC541770FBFE0026E85F /* worldmapbg.png */; };
+		CFD29A9017B16F93000B0994 /* path.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BD1538ACC500E0C1AD /* path.png */; };
+		CFD29A9117B16F94000B0994 /* path.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BD1538ACC500E0C1AD /* path.png */; };
+		CFD29A9217B16F97000B0994 /* path@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BE1538ACC500E0C1AD /* path@2x.png */; };
+		CFD29A9317B16F98000B0994 /* path@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BE1538ACC500E0C1AD /* path@2x.png */; };
+		CFD29A9417B17587000B0994 /* bossbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC521770FBFE0026E85F /* bossbutton.png */; };
+		CFD29A9517B17587000B0994 /* bossbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC531770FBFE0026E85F /* bossbutton@2x.png */; };
+		CFD29A9617B17587000B0994 /* mapenergybar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773915C8CC5500409312 /* mapenergybar.png */; };
+		CFD29A9717B17587000B0994 /* mapenergybar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773A15C8CC5500409312 /* mapenergybar@2x.png */; };
+		CFD29A9817B17587000B0994 /* mapstaminabar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773115C8CA7C00409312 /* mapstaminabar.png */; };
+		CFD29A9917B17587000B0994 /* mapstaminabar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773215C8CA7C00409312 /* mapstaminabar@2x.png */; };
+		CFD29A9A17B17587000B0994 /* mapstaminabarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773315C8CA7C00409312 /* mapstaminabarbg.png */; };
+		CFD29A9B17B17587000B0994 /* mapstaminabarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773415C8CA7C00409312 /* mapstaminabarbg@2x.png */; };
+		CFD29A9C17B17587000B0994 /* mapborderbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4E1567639A00871798 /* mapborderbg@2x.png */; };
+		CFD29A9D17B17587000B0994 /* mapborderbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4F1567639A00871798 /* mapborderbg.png */; };
+		CFD29A9E17B17587000B0994 /* citygobutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689D1538ACC500E0C1AD /* citygobutton.png */; };
+		CFD29A9F17B17587000B0994 /* citygobutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689E1538ACC500E0C1AD /* citygobutton@2x.png */; };
+		CFD29AA017B17587000B0994 /* cityprogressbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689F1538ACC500E0C1AD /* cityprogressbar.png */; };
+		CFD29AA117B17587000B0994 /* cityprogressbarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A01538ACC500E0C1AD /* cityprogressbarbg.png */; };
+		CFD29AA217B17587000B0994 /* cityprogressbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A11538ACC500E0C1AD /* cityprogressbarbg@2x.png */; };
+		CFD29AA317B17587000B0994 /* cityprogressyellowbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A21538ACC500E0C1AD /* cityprogressyellowbar@2x.png */; };
+		CFD29AA417B17587000B0994 /* lockedcity.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AB1538ACC500E0C1AD /* lockedcity.png */; };
+		CFD29AA517B17587000B0994 /* lockedcity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AC1538ACC500E0C1AD /* lockedcity@2x.png */; };
+		CFD29AA617B17587000B0994 /* opencity.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BB1538ACC500E0C1AD /* opencity.png */; };
+		CFD29AA717B17587000B0994 /* opencity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BC1538ACC500E0C1AD /* opencity@2x.png */; };
+		CFD29AA817B17587000B0994 /* visitcitybubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C31538ACC500E0C1AD /* visitcitybubble.png */; };
+		CFD29AA917B17587000B0994 /* visitcitybubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C41538ACC500E0C1AD /* visitcitybubble@2x.png */; };
+		CFD29AAA17B17588000B0994 /* bossbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC521770FBFE0026E85F /* bossbutton.png */; };
+		CFD29AAB17B17588000B0994 /* bossbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC531770FBFE0026E85F /* bossbutton@2x.png */; };
+		CFD29AAC17B17588000B0994 /* mapenergybar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773915C8CC5500409312 /* mapenergybar.png */; };
+		CFD29AAD17B17588000B0994 /* mapenergybar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773A15C8CC5500409312 /* mapenergybar@2x.png */; };
+		CFD29AAE17B17588000B0994 /* mapstaminabar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773115C8CA7C00409312 /* mapstaminabar.png */; };
+		CFD29AAF17B17588000B0994 /* mapstaminabar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773215C8CA7C00409312 /* mapstaminabar@2x.png */; };
+		CFD29AB017B17588000B0994 /* mapstaminabarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773315C8CA7C00409312 /* mapstaminabarbg.png */; };
+		CFD29AB117B17588000B0994 /* mapstaminabarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773415C8CA7C00409312 /* mapstaminabarbg@2x.png */; };
+		CFD29AB217B17588000B0994 /* mapborderbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4E1567639A00871798 /* mapborderbg@2x.png */; };
+		CFD29AB317B17588000B0994 /* mapborderbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4F1567639A00871798 /* mapborderbg.png */; };
+		CFD29AB417B17588000B0994 /* citygobutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689D1538ACC500E0C1AD /* citygobutton.png */; };
+		CFD29AB517B17588000B0994 /* citygobutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689E1538ACC500E0C1AD /* citygobutton@2x.png */; };
+		CFD29AB617B17588000B0994 /* cityprogressbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689F1538ACC500E0C1AD /* cityprogressbar.png */; };
+		CFD29AB717B17588000B0994 /* cityprogressbarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A01538ACC500E0C1AD /* cityprogressbarbg.png */; };
+		CFD29AB817B17588000B0994 /* cityprogressbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A11538ACC500E0C1AD /* cityprogressbarbg@2x.png */; };
+		CFD29AB917B17588000B0994 /* cityprogressyellowbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A21538ACC500E0C1AD /* cityprogressyellowbar@2x.png */; };
+		CFD29ABA17B17588000B0994 /* lockedcity.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AB1538ACC500E0C1AD /* lockedcity.png */; };
+		CFD29ABB17B17588000B0994 /* lockedcity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AC1538ACC500E0C1AD /* lockedcity@2x.png */; };
+		CFD29ABC17B17588000B0994 /* opencity.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BB1538ACC500E0C1AD /* opencity.png */; };
+		CFD29ABD17B17588000B0994 /* opencity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BC1538ACC500E0C1AD /* opencity@2x.png */; };
+		CFD29ABE17B17588000B0994 /* visitcitybubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C31538ACC500E0C1AD /* visitcitybubble.png */; };
+		CFD29ABF17B17588000B0994 /* visitcitybubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C41538ACC500E0C1AD /* visitcitybubble@2x.png */; };
 		CFD29FC0164C9F22003CFE11 /* ClanTowerTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD29FBF164C9F22003CFE11 /* ClanTowerTabView.xib */; };
 		CFD29FC2164CA2FA003CFE11 /* ClanTowerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD29FC1164CA2FA003CFE11 /* ClanTowerView.xib */; };
 		CFD44C8C175C206F006E2198 /* TutorialForgeMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3B0223174CAE6A00A3A4F2 /* TutorialForgeMenuController.m */; };
@@ -5314,7 +5366,6 @@
 		CF689BD315C3A0A500F2E50E /* hedgefence@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hedgefence@2x.png"; sourceTree = "<group>"; };
 		CF689BD415C3A0A500F2E50E /* Home.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Home.tmx; sourceTree = "<group>"; };
 		CF689BD515C3A0A500F2E50E /* Home@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Home@2x.tmx"; sourceTree = "<group>"; };
-		CF689BD615C3A0A500F2E50E /* KirinVillage.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = KirinVillage.tmx; sourceTree = "<group>"; };
 		CF689BD715C3A0A500F2E50E /* metatiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = metatiles.png; sourceTree = "<group>"; };
 		CF689BD815C3A0A500F2E50E /* metatiles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "metatiles@2x.png"; sourceTree = "<group>"; };
 		CF689BD915C3A0A500F2E50E /* rivertiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rivertiles.png; sourceTree = "<group>"; };
@@ -5330,7 +5381,6 @@
 		CF689C0115C3A69400F2E50E /* ForgeCheck.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = ForgeCheck.m4a; sourceTree = "<group>"; };
 		CF689C0215C3A69400F2E50E /* ForgeEnter.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = ForgeEnter.m4a; sourceTree = "<group>"; };
 		CF689C0315C3A69400F2E50E /* ForgeFail.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = ForgeFail.m4a; sourceTree = "<group>"; };
-		CF689C0915C3AA4E00F2E50E /* KirinVillage@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "KirinVillage@2x.tmx"; sourceTree = "<group>"; };
 		CF689C0C15C3B89400F2E50E /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CF689C0D15C3B89400F2E50E /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		CF689C0E15C3B89400F2E50E /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -5931,6 +5981,8 @@
 		CFD09BF816016ABD005D94D1 /* makeleader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "makeleader@2x.png"; sourceTree = "<group>"; };
 		CFD09C031602B2D2005D94D1 /* BrowseClanCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowseClanCell.xib; sourceTree = "<group>"; };
 		CFD09C051602E7DE005D94D1 /* ClanMemberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanMemberCell.xib; sourceTree = "<group>"; };
+		CFD29A7E17B0942B000B0994 /* KirinVillage2.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = KirinVillage2.tmx; sourceTree = "<group>"; };
+		CFD29A7F17B0942B000B0994 /* KirinVillage2@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "KirinVillage2@2x.tmx"; sourceTree = "<group>"; };
 		CFD29FBF164C9F22003CFE11 /* ClanTowerTabView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanTowerTabView.xib; sourceTree = "<group>"; };
 		CFD29FC1164CA2FA003CFE11 /* ClanTowerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanTowerView.xib; sourceTree = "<group>"; };
 		CFD44C91175D4282006E2198 /* protectionshield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = protectionshield.png; sourceTree = "<group>"; };
@@ -8291,8 +8343,8 @@
 				CF689BD315C3A0A500F2E50E /* hedgefence@2x.png */,
 				CF689BD415C3A0A500F2E50E /* Home.tmx */,
 				CF689BD515C3A0A500F2E50E /* Home@2x.tmx */,
-				CF689BD615C3A0A500F2E50E /* KirinVillage.tmx */,
-				CF689C0915C3AA4E00F2E50E /* KirinVillage@2x.tmx */,
+				CFD29A7E17B0942B000B0994 /* KirinVillage2.tmx */,
+				CFD29A7F17B0942B000B0994 /* KirinVillage2@2x.tmx */,
 				CF689BD715C3A0A500F2E50E /* metatiles.png */,
 				CF689BD815C3A0A500F2E50E /* metatiles@2x.png */,
 				CF689BD915C3A0A500F2E50E /* rivertiles.png */,
@@ -11050,7 +11102,6 @@
 				CF689BF015C3A0A500F2E50E /* hedgefence@2x.png in Resources */,
 				CF689BF115C3A0A500F2E50E /* Home.tmx in Resources */,
 				CF689BF215C3A0A500F2E50E /* Home@2x.tmx in Resources */,
-				CF689BF315C3A0A500F2E50E /* KirinVillage.tmx in Resources */,
 				CF689BF415C3A0A500F2E50E /* metatiles.png in Resources */,
 				CF689BF515C3A0A500F2E50E /* metatiles@2x.png in Resources */,
 				CF689BF615C3A0A500F2E50E /* rivertiles.png in Resources */,
@@ -11066,7 +11117,6 @@
 				CF689C0615C3A69400F2E50E /* ForgeCheck.m4a in Resources */,
 				CF689C0715C3A69400F2E50E /* ForgeEnter.m4a in Resources */,
 				CF689C0815C3A69400F2E50E /* ForgeFail.m4a in Resources */,
-				CF689C0A15C3AA4E00F2E50E /* KirinVillage@2x.tmx in Resources */,
 				CF10775715C8E3A400409312 /* badgeforquests.png in Resources */,
 				CF10775815C8E3A400409312 /* badgeforquests@2x.png in Resources */,
 				CF10775B15C9060D00409312 /* VillaMontalvo@2x.tmx in Resources */,
@@ -11783,6 +11833,34 @@
 				CFD037271794917800719C6B /* blackcircle@2x.png in Resources */,
 				CFD0372A1795F6D600719C6B /* ProfileEquipBrowseView.xib in Resources */,
 				CFD0372D1795F71E00719C6B /* ProfileEquipPopup.xib in Resources */,
+				CFD29A8017B0942B000B0994 /* KirinVillage2.tmx in Resources */,
+				CFD29A8217B0942B000B0994 /* KirinVillage2@2x.tmx in Resources */,
+				CFD29A8C17B16F8A000B0994 /* worldmapbg@2x.png in Resources */,
+				CFD29A8E17B16F8F000B0994 /* worldmapbg.png in Resources */,
+				CFD29A9017B16F93000B0994 /* path.png in Resources */,
+				CFD29A9217B16F97000B0994 /* path@2x.png in Resources */,
+				CFD29A9417B17587000B0994 /* bossbutton.png in Resources */,
+				CFD29A9517B17587000B0994 /* bossbutton@2x.png in Resources */,
+				CFD29A9617B17587000B0994 /* mapenergybar.png in Resources */,
+				CFD29A9717B17587000B0994 /* mapenergybar@2x.png in Resources */,
+				CFD29A9817B17587000B0994 /* mapstaminabar.png in Resources */,
+				CFD29A9917B17587000B0994 /* mapstaminabar@2x.png in Resources */,
+				CFD29A9A17B17587000B0994 /* mapstaminabarbg.png in Resources */,
+				CFD29A9B17B17587000B0994 /* mapstaminabarbg@2x.png in Resources */,
+				CFD29A9C17B17587000B0994 /* mapborderbg@2x.png in Resources */,
+				CFD29A9D17B17587000B0994 /* mapborderbg.png in Resources */,
+				CFD29A9E17B17587000B0994 /* citygobutton.png in Resources */,
+				CFD29A9F17B17587000B0994 /* citygobutton@2x.png in Resources */,
+				CFD29AA017B17587000B0994 /* cityprogressbar.png in Resources */,
+				CFD29AA117B17587000B0994 /* cityprogressbarbg.png in Resources */,
+				CFD29AA217B17587000B0994 /* cityprogressbarbg@2x.png in Resources */,
+				CFD29AA317B17587000B0994 /* cityprogressyellowbar@2x.png in Resources */,
+				CFD29AA417B17587000B0994 /* lockedcity.png in Resources */,
+				CFD29AA517B17587000B0994 /* lockedcity@2x.png in Resources */,
+				CFD29AA617B17587000B0994 /* opencity.png in Resources */,
+				CFD29AA717B17587000B0994 /* opencity@2x.png in Resources */,
+				CFD29AA817B17587000B0994 /* visitcitybubble.png in Resources */,
+				CFD29AA917B17587000B0994 /* visitcitybubble@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12617,7 +12695,6 @@
 				CF69FADB174212ED001C96D0 /* hedgefence@2x.png in Resources */,
 				CF69FADC174212ED001C96D0 /* Home.tmx in Resources */,
 				CF69FADD174212ED001C96D0 /* Home@2x.tmx in Resources */,
-				CF69FADE174212ED001C96D0 /* KirinVillage.tmx in Resources */,
 				CF69FADF174212ED001C96D0 /* metatiles.png in Resources */,
 				CF69FAE0174212ED001C96D0 /* metatiles@2x.png in Resources */,
 				CF69FAE1174212ED001C96D0 /* rivertiles.png in Resources */,
@@ -12633,7 +12710,6 @@
 				CF69FAEB174212ED001C96D0 /* ForgeCheck.m4a in Resources */,
 				CF69FAEC174212ED001C96D0 /* ForgeEnter.m4a in Resources */,
 				CF69FAED174212ED001C96D0 /* ForgeFail.m4a in Resources */,
-				CF69FAEE174212ED001C96D0 /* KirinVillage@2x.tmx in Resources */,
 				CF69FAEF174212ED001C96D0 /* badgeforquests.png in Resources */,
 				CF69FAF0174212ED001C96D0 /* badgeforquests@2x.png in Resources */,
 				CF69FAF1174212ED001C96D0 /* VillaMontalvo@2x.tmx in Resources */,
@@ -13351,6 +13427,34 @@
 				CFD0372E1795F71E00719C6B /* ProfileEquipPopup.xib in Resources */,
 				CF82CD321799D16500466E54 /* MainWindow.xib in Resources */,
 				CF6EB9DB17B016E100137A2D /* CityGemsView.xib in Resources */,
+				CFD29A8117B0942B000B0994 /* KirinVillage2.tmx in Resources */,
+				CFD29A8317B0942B000B0994 /* KirinVillage2@2x.tmx in Resources */,
+				CFD29A8D17B16F8B000B0994 /* worldmapbg@2x.png in Resources */,
+				CFD29A8F17B16F90000B0994 /* worldmapbg.png in Resources */,
+				CFD29A9117B16F94000B0994 /* path.png in Resources */,
+				CFD29A9317B16F98000B0994 /* path@2x.png in Resources */,
+				CFD29AAA17B17588000B0994 /* bossbutton.png in Resources */,
+				CFD29AAB17B17588000B0994 /* bossbutton@2x.png in Resources */,
+				CFD29AAC17B17588000B0994 /* mapenergybar.png in Resources */,
+				CFD29AAD17B17588000B0994 /* mapenergybar@2x.png in Resources */,
+				CFD29AAE17B17588000B0994 /* mapstaminabar.png in Resources */,
+				CFD29AAF17B17588000B0994 /* mapstaminabar@2x.png in Resources */,
+				CFD29AB017B17588000B0994 /* mapstaminabarbg.png in Resources */,
+				CFD29AB117B17588000B0994 /* mapstaminabarbg@2x.png in Resources */,
+				CFD29AB217B17588000B0994 /* mapborderbg@2x.png in Resources */,
+				CFD29AB317B17588000B0994 /* mapborderbg.png in Resources */,
+				CFD29AB417B17588000B0994 /* citygobutton.png in Resources */,
+				CFD29AB517B17588000B0994 /* citygobutton@2x.png in Resources */,
+				CFD29AB617B17588000B0994 /* cityprogressbar.png in Resources */,
+				CFD29AB717B17588000B0994 /* cityprogressbarbg.png in Resources */,
+				CFD29AB817B17588000B0994 /* cityprogressbarbg@2x.png in Resources */,
+				CFD29AB917B17588000B0994 /* cityprogressyellowbar@2x.png in Resources */,
+				CFD29ABA17B17588000B0994 /* lockedcity.png in Resources */,
+				CFD29ABB17B17588000B0994 /* lockedcity@2x.png in Resources */,
+				CFD29ABC17B17588000B0994 /* opencity.png in Resources */,
+				CFD29ABD17B17588000B0994 /* opencity@2x.png in Resources */,
+				CFD29ABE17B17588000B0994 /* visitcitybubble.png in Resources */,
+				CFD29ABF17B17588000B0994 /* visitcitybubble@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

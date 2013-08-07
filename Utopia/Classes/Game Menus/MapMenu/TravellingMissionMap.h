@@ -51,6 +51,7 @@
 @interface TravellingMissionMap : UIView
 
 @property (nonatomic, retain) IBOutlet CloseUpContinentView *lumoriaView;
+@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 
 - (IBAction) continentClicked:(ContinentView *)cv;
 

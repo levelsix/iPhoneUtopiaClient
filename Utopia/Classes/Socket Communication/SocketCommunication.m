@@ -339,6 +339,7 @@ static NSString *udid = nil;
   
   LNLog(@"Sent over udid: %@", udid);
   LNLog(@"Mac Address: %@", mac);
+  LNLog(@"Advertiser ID: %@", advertiserId);
   return [self sendData:req withMessageType:EventProtocolRequestCStartupEvent];
 }
 

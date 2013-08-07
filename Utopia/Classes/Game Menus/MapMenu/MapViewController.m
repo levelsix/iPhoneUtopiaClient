@@ -31,10 +31,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
 #pragma mark - View lifecycle
 
-- (id) init {
-  Globals *gl = [Globals sharedGlobals];
-  return [self initWithNibName:@"MapViewController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.mapNibName]];
-}
+//- (id) init {
+//  Globals *gl = [Globals sharedGlobals];
+//  return [self initWithNibName:@"MapViewController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.mapNibName]];
+//}
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewDidAppear:animated];

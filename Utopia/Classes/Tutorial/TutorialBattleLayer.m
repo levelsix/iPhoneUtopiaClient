@@ -34,8 +34,8 @@
 - (UIImage *)makeAHoleWithMask:(UIImage *)mask onPosition:(CGPoint)position scale:(float)scale
 {
   CGSize size = [[CCDirector sharedDirector] winSize];
-  size.width *= 2;
-  size.height *= 2;
+  size.width *= CC_CONTENT_SCALE_FACTOR();
+  size.height *= CC_CONTENT_SCALE_FACTOR();
   UIImage *baseImage = [self baseImage:size];
   UIImage *whiteImage = [self createWhiteImageWithSize:baseImage.size];
   UIImage *goodmask = [self mergeImage:whiteImage with:mask onPosition:position scale:scale];
@@ -67,11 +67,11 @@
   // Must multiply by 2 because whole image has been scaled by 2
   CGSize finalSize = backImage.size;
   CGSize impositionSize = frontImage.size;
-  impositionSize.width *= scale*2;
-  impositionSize.height *= scale*2;
+  impositionSize.width *= scale*CC_CONTENT_SCALE_FACTOR();
+  impositionSize.height *= scale*CC_CONTENT_SCALE_FACTOR();
   UIGraphicsBeginImageContext(finalSize);
   [backImage drawInRect:CGRectMake(0, 0, finalSize.width, finalSize.height)];
-  [frontImage drawInRect:CGRectMake(position.x*2-impositionSize.width/2, position.y*2-impositionSize.height/2, impositionSize.width, impositionSize.height)];
+  [frontImage drawInRect:CGRectMake(position.x*CC_CONTENT_SCALE_FACTOR()-impositionSize.width/2, position.y*CC_CONTENT_SCALE_FACTOR()-impositionSize.height/2, impositionSize.width, impositionSize.height)];
   UIImage *resultImage = [UIGraphicsGetImageFromCurrentImageContext() retain]; // <--
   UIGraphicsEndImageContext();
   return [resultImage autorelease]; // <--

@@ -400,7 +400,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [Globals popupMessage:@"Attempted to access city 0"];
     return nil;
   }
-  return [self getStaticDataFrom:_staticCities withId:cityId];
+#warning fix
+  return [self.staticCities objectForKey:[NSNumber numberWithInt:cityId]];//[self getStaticDataFrom:_staticCities withId:cityId];
 }
 
 - (FullTaskProto *) taskWithId:(int)taskId {

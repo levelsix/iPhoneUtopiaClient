@@ -18,7 +18,7 @@
 #define CITY_POPUP_OFFSET -22.f
 #define CITY_POPUP_OFFSET_FLIPPED 26.f
 
-#define NUM_CITIES 9
+#define NUM_CITIES 22
 
 @implementation ContinentView
 
@@ -256,8 +256,10 @@
 @synthesize lumoriaView;
 
 - (void) awakeFromNib {
-  lumoriaView.frame = self.frame;
-  [self.superview addSubview:lumoriaView];
+//  lumoriaView.frame = self.frame;
+  [self.scrollView addSubview:lumoriaView];
+  self.scrollView.contentSize = lumoriaView.frame.size;
+//  [self.superview addSubview:self.lumoriaView];
 }
 
 - (IBAction)continentClicked:(ContinentView *)cv {
@@ -284,6 +286,7 @@
 
 - (void) dealloc {
   self.lumoriaView = nil;
+  self.scrollView = nil;
   [super dealloc];
 }
 
