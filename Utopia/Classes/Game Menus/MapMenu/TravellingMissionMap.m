@@ -188,7 +188,7 @@
   UserCity *uc = [[GameState sharedGameState] myCityWithId:_fcp.cityId];
   
   if (!cityPopup.superview) {
-    [self.superview addSubview:cityPopup];
+    [self.superview.superview addSubview:cityPopup];
   }
   
   cityNameLabel.text = _fcp.name;
@@ -205,7 +205,7 @@
   }
   
   CGPoint pt = CGPointMake(cv.center.x+offset, cv.frame.origin.y-cityPopup.frame.size.height/2);
-  cityPopup.center = [self convertPoint:pt toView:self.superview];
+  cityPopup.center = [self convertPoint:pt toView:cityPopup.superview];
   
   float fullWidth = progressBar.image.size.width;
   CGRect r = progressBar.frame;
@@ -238,6 +238,11 @@
       _fcp = nil;
     }
   }
+}
+
+- (void) scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+  self.cityPopup.hidden = YES;
+  _fcp = nil;
 }
 
 - (void) dealloc {

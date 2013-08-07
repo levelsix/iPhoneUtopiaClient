@@ -1283,7 +1283,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   MapViewController *mvc = [MapViewController isInitialized] ? [MapViewController sharedMapViewController] : nil;
   
   if (!city) {
-    [Globals popupMessage:@"You are not high enough level to access this city!"];
+    [Globals popupMessage:@"Your level is not high enough for this city! Keep ranking up cities to level up."];
     return;
   }
   if ([[GameLayer sharedGameLayer] currentCity] == city.cityId) {

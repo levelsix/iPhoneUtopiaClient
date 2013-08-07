@@ -33,7 +33,7 @@
 
 @end
 
-@interface CloseUpContinentView : UIView {
+@interface CloseUpContinentView : UIView <UIScrollViewDelegate> {
   FullCityProto *_fcp;
 }
 

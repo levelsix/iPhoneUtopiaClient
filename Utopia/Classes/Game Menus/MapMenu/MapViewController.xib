@@ -224,10 +224,9 @@
 							<object class="IBUIScrollView" id="311650147">
 								<reference key="NSNextResponder" ref="839807034"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrame">{{10, 47}, {460, 266}}</string>
+								<string key="NSFrame">{{10, 46}, {460, 266}}</string>
 								<reference key="NSSuperview" ref="839807034"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="359638158"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -614,7 +613,6 @@
 						<string key="NSFrame">{{882, 204}, {33, 42}}</string>
 						<reference key="NSSuperview" ref="596374325"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="359638158"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -1375,6 +1373,14 @@
 					</object>
 					<int key="connectionID">249</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="311650147"/>
+						<reference key="destination" ref="596374325"/>
+					</object>
+					<int key="connectionID">252</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -1753,7 +1759,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">251</int>
+			<int key="maxID">252</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1787,6 +1793,20 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">CloseUpContinentView</string>
 					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="cityClicked:">CityView</string>
+						<string key="goClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="cityClicked:">
+							<string key="name">cityClicked:</string>
+							<string key="candidateClassName">CityView</string>
+						</object>
+						<object class="IBActionInfo" key="goClicked:">
+							<string key="name">goClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="cityBgdView">UIView</string>
 						<string key="cityNameLabel">UILabel</string>
@@ -1917,17 +1937,20 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">TravellingMissionMap</string>
 					<string key="superclassName">UIView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">continentClicked:</string>
-						<string key="NS.object.0">ContinentView</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">continentClicked:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="continentClicked:">ContinentView</string>
+						<string key="globeClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="continentClicked:">
 							<string key="name">continentClicked:</string>
 							<string key="candidateClassName">ContinentView</string>
 						</object>
-					</object>
+						<object class="IBActionInfo" key="globeClicked:">
+							<string key="name">globeClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="lumoriaView">CloseUpContinentView</string>
 						<string key="scrollView">UIScrollView</string>
