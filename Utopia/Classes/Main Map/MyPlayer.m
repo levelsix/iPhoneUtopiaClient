@@ -173,9 +173,9 @@
   GameState *gs = [GameState sharedGameState];
   
   // Alliance Warrior, Legion Mage, Both archers
-//  if (gs.type == UserTypeGoodWarrior || gs.type == UserTypeGoodArcher || gs.type == UserTypeBadArcher) {
-    type = AnimationTypeGenericAction;
-//  }
+  //  if (gs.type == UserTypeGoodWarrior || gs.type == UserTypeGoodArcher || gs.type == UserTypeBadArcher) {
+  type = AnimationTypeGenericAction;
+  //  }
   
   NSString *dir = nil;
   NSString *plistDir = nil;
@@ -189,7 +189,7 @@
     dir = @"F";
     plistDir = @"NF";
   } else if (angle >= 60) {
-    self.sprite.flipX = NO; 
+    self.sprite.flipX = NO;
     dir = @"U";
     plistDir = @"UD";
   } else if (angle >= 15) {
@@ -257,7 +257,7 @@
     }
   }
   
-  [self repeatCurrentAttackAnimation]; 
+  [self repeatCurrentAttackAnimation];
   
   CGRect r = self.location;
   r.origin = point;
@@ -317,7 +317,7 @@
       self.sprite.flipX = NO;
       newAction = self.walkActionF;
     } else if (angle >= 60) {
-      self.sprite.flipX = NO; 
+      self.sprite.flipX = NO;
       newAction = self.walkActionU;
     } else if (angle >= 15) {
       self.sprite.flipX = YES;
@@ -334,6 +334,10 @@
     } else if (angle >= -165) {
       self.sprite.flipX = NO;
       newAction = self.walkActionN;
+    }
+    
+    if (!newAction) {
+      return;
     }
     
     if (self.currentAction != newAction) {
@@ -364,6 +368,10 @@
     }
     CGRect startingPosition = startingLocation;
     
+    if (!self.walkActionU) {
+      return;
+    }
+    
     [self setLocation:startingPosition];
     [self.sprite stopAllActions];
     [self stopAllActions];
@@ -376,7 +384,7 @@
       [self.sprite setDisplayFrame:frame];
     }], nil]];
   }
-
+  
 }
 
 - (void) dealloc {

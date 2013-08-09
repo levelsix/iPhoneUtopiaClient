@@ -3482,58 +3482,6 @@
 		CFD29A8117B0942B000B0994 /* KirinVillage2.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7E17B0942B000B0994 /* KirinVillage2.tmx */; };
 		CFD29A8217B0942B000B0994 /* KirinVillage2@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7F17B0942B000B0994 /* KirinVillage2@2x.tmx */; };
 		CFD29A8317B0942B000B0994 /* KirinVillage2@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7F17B0942B000B0994 /* KirinVillage2@2x.tmx */; };
-		CFD29A8C17B16F8A000B0994 /* worldmapbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC551770FBFE0026E85F /* worldmapbg@2x.png */; };
-		CFD29A8D17B16F8B000B0994 /* worldmapbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC551770FBFE0026E85F /* worldmapbg@2x.png */; };
-		CFD29A8E17B16F8F000B0994 /* worldmapbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC541770FBFE0026E85F /* worldmapbg.png */; };
-		CFD29A8F17B16F90000B0994 /* worldmapbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC541770FBFE0026E85F /* worldmapbg.png */; };
-		CFD29A9017B16F93000B0994 /* path.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BD1538ACC500E0C1AD /* path.png */; };
-		CFD29A9117B16F94000B0994 /* path.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BD1538ACC500E0C1AD /* path.png */; };
-		CFD29A9217B16F97000B0994 /* path@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BE1538ACC500E0C1AD /* path@2x.png */; };
-		CFD29A9317B16F98000B0994 /* path@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BE1538ACC500E0C1AD /* path@2x.png */; };
-		CFD29A9417B17587000B0994 /* bossbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC521770FBFE0026E85F /* bossbutton.png */; };
-		CFD29A9517B17587000B0994 /* bossbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC531770FBFE0026E85F /* bossbutton@2x.png */; };
-		CFD29A9617B17587000B0994 /* mapenergybar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773915C8CC5500409312 /* mapenergybar.png */; };
-		CFD29A9717B17587000B0994 /* mapenergybar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773A15C8CC5500409312 /* mapenergybar@2x.png */; };
-		CFD29A9817B17587000B0994 /* mapstaminabar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773115C8CA7C00409312 /* mapstaminabar.png */; };
-		CFD29A9917B17587000B0994 /* mapstaminabar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773215C8CA7C00409312 /* mapstaminabar@2x.png */; };
-		CFD29A9A17B17587000B0994 /* mapstaminabarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773315C8CA7C00409312 /* mapstaminabarbg.png */; };
-		CFD29A9B17B17587000B0994 /* mapstaminabarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773415C8CA7C00409312 /* mapstaminabarbg@2x.png */; };
-		CFD29A9C17B17587000B0994 /* mapborderbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4E1567639A00871798 /* mapborderbg@2x.png */; };
-		CFD29A9D17B17587000B0994 /* mapborderbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4F1567639A00871798 /* mapborderbg.png */; };
-		CFD29A9E17B17587000B0994 /* citygobutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689D1538ACC500E0C1AD /* citygobutton.png */; };
-		CFD29A9F17B17587000B0994 /* citygobutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689E1538ACC500E0C1AD /* citygobutton@2x.png */; };
-		CFD29AA017B17587000B0994 /* cityprogressbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689F1538ACC500E0C1AD /* cityprogressbar.png */; };
-		CFD29AA117B17587000B0994 /* cityprogressbarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A01538ACC500E0C1AD /* cityprogressbarbg.png */; };
-		CFD29AA217B17587000B0994 /* cityprogressbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A11538ACC500E0C1AD /* cityprogressbarbg@2x.png */; };
-		CFD29AA317B17587000B0994 /* cityprogressyellowbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A21538ACC500E0C1AD /* cityprogressyellowbar@2x.png */; };
-		CFD29AA417B17587000B0994 /* lockedcity.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AB1538ACC500E0C1AD /* lockedcity.png */; };
-		CFD29AA517B17587000B0994 /* lockedcity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AC1538ACC500E0C1AD /* lockedcity@2x.png */; };
-		CFD29AA617B17587000B0994 /* opencity.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BB1538ACC500E0C1AD /* opencity.png */; };
-		CFD29AA717B17587000B0994 /* opencity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BC1538ACC500E0C1AD /* opencity@2x.png */; };
-		CFD29AA817B17587000B0994 /* visitcitybubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C31538ACC500E0C1AD /* visitcitybubble.png */; };
-		CFD29AA917B17587000B0994 /* visitcitybubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C41538ACC500E0C1AD /* visitcitybubble@2x.png */; };
-		CFD29AAA17B17588000B0994 /* bossbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC521770FBFE0026E85F /* bossbutton.png */; };
-		CFD29AAB17B17588000B0994 /* bossbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC531770FBFE0026E85F /* bossbutton@2x.png */; };
-		CFD29AAC17B17588000B0994 /* mapenergybar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773915C8CC5500409312 /* mapenergybar.png */; };
-		CFD29AAD17B17588000B0994 /* mapenergybar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773A15C8CC5500409312 /* mapenergybar@2x.png */; };
-		CFD29AAE17B17588000B0994 /* mapstaminabar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773115C8CA7C00409312 /* mapstaminabar.png */; };
-		CFD29AAF17B17588000B0994 /* mapstaminabar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773215C8CA7C00409312 /* mapstaminabar@2x.png */; };
-		CFD29AB017B17588000B0994 /* mapstaminabarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773315C8CA7C00409312 /* mapstaminabarbg.png */; };
-		CFD29AB117B17588000B0994 /* mapstaminabarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773415C8CA7C00409312 /* mapstaminabarbg@2x.png */; };
-		CFD29AB217B17588000B0994 /* mapborderbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4E1567639A00871798 /* mapborderbg@2x.png */; };
-		CFD29AB317B17588000B0994 /* mapborderbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4F1567639A00871798 /* mapborderbg.png */; };
-		CFD29AB417B17588000B0994 /* citygobutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689D1538ACC500E0C1AD /* citygobutton.png */; };
-		CFD29AB517B17588000B0994 /* citygobutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689E1538ACC500E0C1AD /* citygobutton@2x.png */; };
-		CFD29AB617B17588000B0994 /* cityprogressbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689F1538ACC500E0C1AD /* cityprogressbar.png */; };
-		CFD29AB717B17588000B0994 /* cityprogressbarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A01538ACC500E0C1AD /* cityprogressbarbg.png */; };
-		CFD29AB817B17588000B0994 /* cityprogressbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A11538ACC500E0C1AD /* cityprogressbarbg@2x.png */; };
-		CFD29AB917B17588000B0994 /* cityprogressyellowbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A21538ACC500E0C1AD /* cityprogressyellowbar@2x.png */; };
-		CFD29ABA17B17588000B0994 /* lockedcity.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AB1538ACC500E0C1AD /* lockedcity.png */; };
-		CFD29ABB17B17588000B0994 /* lockedcity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AC1538ACC500E0C1AD /* lockedcity@2x.png */; };
-		CFD29ABC17B17588000B0994 /* opencity.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BB1538ACC500E0C1AD /* opencity.png */; };
-		CFD29ABD17B17588000B0994 /* opencity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BC1538ACC500E0C1AD /* opencity@2x.png */; };
-		CFD29ABE17B17588000B0994 /* visitcitybubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C31538ACC500E0C1AD /* visitcitybubble.png */; };
-		CFD29ABF17B17588000B0994 /* visitcitybubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C41538ACC500E0C1AD /* visitcitybubble@2x.png */; };
 		CFD29FC0164C9F22003CFE11 /* ClanTowerTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD29FBF164C9F22003CFE11 /* ClanTowerTabView.xib */; };
 		CFD29FC2164CA2FA003CFE11 /* ClanTowerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD29FC1164CA2FA003CFE11 /* ClanTowerView.xib */; };
 		CFD44C8C175C206F006E2198 /* TutorialForgeMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3B0223174CAE6A00A3A4F2 /* TutorialForgeMenuController.m */; };
@@ -11835,32 +11783,6 @@
 				CFD0372D1795F71E00719C6B /* ProfileEquipPopup.xib in Resources */,
 				CFD29A8017B0942B000B0994 /* KirinVillage2.tmx in Resources */,
 				CFD29A8217B0942B000B0994 /* KirinVillage2@2x.tmx in Resources */,
-				CFD29A8C17B16F8A000B0994 /* worldmapbg@2x.png in Resources */,
-				CFD29A8E17B16F8F000B0994 /* worldmapbg.png in Resources */,
-				CFD29A9017B16F93000B0994 /* path.png in Resources */,
-				CFD29A9217B16F97000B0994 /* path@2x.png in Resources */,
-				CFD29A9417B17587000B0994 /* bossbutton.png in Resources */,
-				CFD29A9517B17587000B0994 /* bossbutton@2x.png in Resources */,
-				CFD29A9617B17587000B0994 /* mapenergybar.png in Resources */,
-				CFD29A9717B17587000B0994 /* mapenergybar@2x.png in Resources */,
-				CFD29A9817B17587000B0994 /* mapstaminabar.png in Resources */,
-				CFD29A9917B17587000B0994 /* mapstaminabar@2x.png in Resources */,
-				CFD29A9A17B17587000B0994 /* mapstaminabarbg.png in Resources */,
-				CFD29A9B17B17587000B0994 /* mapstaminabarbg@2x.png in Resources */,
-				CFD29A9C17B17587000B0994 /* mapborderbg@2x.png in Resources */,
-				CFD29A9D17B17587000B0994 /* mapborderbg.png in Resources */,
-				CFD29A9E17B17587000B0994 /* citygobutton.png in Resources */,
-				CFD29A9F17B17587000B0994 /* citygobutton@2x.png in Resources */,
-				CFD29AA017B17587000B0994 /* cityprogressbar.png in Resources */,
-				CFD29AA117B17587000B0994 /* cityprogressbarbg.png in Resources */,
-				CFD29AA217B17587000B0994 /* cityprogressbarbg@2x.png in Resources */,
-				CFD29AA317B17587000B0994 /* cityprogressyellowbar@2x.png in Resources */,
-				CFD29AA417B17587000B0994 /* lockedcity.png in Resources */,
-				CFD29AA517B17587000B0994 /* lockedcity@2x.png in Resources */,
-				CFD29AA617B17587000B0994 /* opencity.png in Resources */,
-				CFD29AA717B17587000B0994 /* opencity@2x.png in Resources */,
-				CFD29AA817B17587000B0994 /* visitcitybubble.png in Resources */,
-				CFD29AA917B17587000B0994 /* visitcitybubble@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13429,32 +13351,6 @@
 				CF6EB9DB17B016E100137A2D /* CityGemsView.xib in Resources */,
 				CFD29A8117B0942B000B0994 /* KirinVillage2.tmx in Resources */,
 				CFD29A8317B0942B000B0994 /* KirinVillage2@2x.tmx in Resources */,
-				CFD29A8D17B16F8B000B0994 /* worldmapbg@2x.png in Resources */,
-				CFD29A8F17B16F90000B0994 /* worldmapbg.png in Resources */,
-				CFD29A9117B16F94000B0994 /* path.png in Resources */,
-				CFD29A9317B16F98000B0994 /* path@2x.png in Resources */,
-				CFD29AAA17B17588000B0994 /* bossbutton.png in Resources */,
-				CFD29AAB17B17588000B0994 /* bossbutton@2x.png in Resources */,
-				CFD29AAC17B17588000B0994 /* mapenergybar.png in Resources */,
-				CFD29AAD17B17588000B0994 /* mapenergybar@2x.png in Resources */,
-				CFD29AAE17B17588000B0994 /* mapstaminabar.png in Resources */,
-				CFD29AAF17B17588000B0994 /* mapstaminabar@2x.png in Resources */,
-				CFD29AB017B17588000B0994 /* mapstaminabarbg.png in Resources */,
-				CFD29AB117B17588000B0994 /* mapstaminabarbg@2x.png in Resources */,
-				CFD29AB217B17588000B0994 /* mapborderbg@2x.png in Resources */,
-				CFD29AB317B17588000B0994 /* mapborderbg.png in Resources */,
-				CFD29AB417B17588000B0994 /* citygobutton.png in Resources */,
-				CFD29AB517B17588000B0994 /* citygobutton@2x.png in Resources */,
-				CFD29AB617B17588000B0994 /* cityprogressbar.png in Resources */,
-				CFD29AB717B17588000B0994 /* cityprogressbarbg.png in Resources */,
-				CFD29AB817B17588000B0994 /* cityprogressbarbg@2x.png in Resources */,
-				CFD29AB917B17588000B0994 /* cityprogressyellowbar@2x.png in Resources */,
-				CFD29ABA17B17588000B0994 /* lockedcity.png in Resources */,
-				CFD29ABB17B17588000B0994 /* lockedcity@2x.png in Resources */,
-				CFD29ABC17B17588000B0994 /* opencity.png in Resources */,
-				CFD29ABD17B17588000B0994 /* opencity@2x.png in Resources */,
-				CFD29ABE17B17588000B0994 /* visitcitybubble.png in Resources */,
-				CFD29ABF17B17588000B0994 /* visitcitybubble@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

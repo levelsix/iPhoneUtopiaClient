@@ -1154,6 +1154,11 @@
     [[TopBar sharedTopBar] fadeOutToolTip:NO];
   }
   [super setSelected:selected];
+  
+  if (oldSelected) {
+    [self closeMenus:oldSelected];
+  }
+  
   if (_selected) {
     if ([_selected conformsToProtocol:@protocol(TaskElement)]) {
       
@@ -1174,9 +1179,9 @@
       BossSprite *bs = (BossSprite *)_selected;
       [self.bossView updateForUserBoss:bs.ub];
     }
-  } else {
-    [self closeMenus:oldSelected];
   }
+  
+  
 }
 
 - (void) doMenuAnimations {
@@ -1224,7 +1229,9 @@
     // If currently, nothing is selected, put the boss menu back up
     if (!_selected) {
       BossSprite *bs = (BossSprite *)selected;
-      [bs.bossMenu runAction:[RecursiveFadeTo actionWithDuration:SUMMARY_MENU_ANIMATION_DURATION opacity:255]];
+      if ([bs.ub isAlive]) {
+        [bs.bossMenu runAction:[RecursiveFadeTo actionWithDuration:SUMMARY_MENU_ANIMATION_DURATION opacity:255]];
+      }
     }
   }
 }

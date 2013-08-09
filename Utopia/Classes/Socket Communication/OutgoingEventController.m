@@ -1322,7 +1322,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   } else {
-    [Globals popupMessage:@"Trying to visit city above your level."];
+    [Globals popupMessage:@"Your level is not high enough for this city! Keep ranking up cities to level up."]; 
   }
 }
 
