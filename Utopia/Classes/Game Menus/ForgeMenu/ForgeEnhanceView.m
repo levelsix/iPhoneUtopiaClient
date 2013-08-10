@@ -461,7 +461,7 @@
   NSTimeInterval interval = date.timeIntervalSinceNow;
   if (interval > 0) {
     self.timeLabel.text = [NSString stringWithFormat:@"%@", [self convertSecsToString:interval]];
-    self.buttonLabel.text = @"SPEED UP";
+    self.buttonLabel.text = @"WAITING...";
     self.costView.hidden = NO;
     self.timeLabel.hidden = YES;
   } else {
@@ -576,6 +576,8 @@
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:gs.equipEnhancement.startTime/1000.+secs];
     NSTimeInterval interval = date.timeIntervalSinceNow;
     if (interval >= 0.f) {
+      return;
+      
       int cost = [gl calculateGoldCostToSpeedUpEnhance:self.enhancingView.userEquip feeders:arr];
       
       NSString *desc = [NSString stringWithFormat:@"Would you like to speed up your enhancement for %d gold?", cost];
