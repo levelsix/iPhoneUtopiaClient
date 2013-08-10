@@ -450,7 +450,7 @@
     int badge = 1;//shouldSendStaminaNotification && [staminaRefilled compare:energyRefilled] == NSOrderedAscending ? 2 : 1;
     [self scheduleNotificationWithText:text badge:badge date:energyRefilled];
   }
-  
+   
   if (shouldSendStaminaNotification) {
     // Energy refilled
     NSString *text = [NSString stringWithFormat:@"Your stamina has fully recharged! Come back to show the %@ who's superior!", [Globals factionForUserType:(gs.type+3)%6]];
@@ -500,6 +500,15 @@
       int minutes = fsp.minutesToUpgradeBase;
       [self scheduleNotificationWithText:text badge:1 date:[us.purchaseTime dateByAddingTimeInterval:minutes*60.f]];
     }
+  }
+  
+  LockBoxEventProto *lbe = [gs getCurrentLockBoxEvent];
+  NSDate *curDate = [NSDate date];
+  UserLockBoxEventProto *ulbe = [gs.myLockBoxEvents objectForKey:[NSNumber numberWithInt:lbe.lockBoxEventId]];
+  NSDate *nextPickDate = [NSDate dateWithTimeIntervalSince1970:ulbe.lastPickTime/1000.0 + 60*gl.numMinutesToRepickLockBox];
+  if ([curDate compare:nextPickDate] == NSOrderedAscending) {
+    NSString *text = @"Come, open your worthy lockbox and get the mighty legendary!";
+    [self scheduleNotificationWithText:text badge:1 date:nextPickDate];
   }
   
   int curBadgeCount = 1;//shouldSendEnergyNotification + shouldSendStaminaNotification + 1;

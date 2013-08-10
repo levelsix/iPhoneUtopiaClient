@@ -482,15 +482,18 @@
     self.enhancingView.topProgressBar.percentage = base+percentageOfTotal*increase;
   }];
   
-  float totalPercentIncrease = [gl calculateEnhancementPercentageIncrease:self.enhancingView.userEquip feeders:arr];
-  while (1) {
-    float percentOfSubSection = [gl calculateEnhancementPercentageIncrease:self.enhancingView.userEquip feeders:arr]/totalPercentIncrease;
-    if (percentOfSubSection > percentageOfTotal) {
-      arr = [arr subarrayWithRange:NSMakeRange(0, arr.count-1)];
-    } else {
-      break;
-    }
+  if (timePassed >= 0 && timePassed < arr.count) {
+    arr = [arr subarrayWithRange:NSMakeRange(0, timePassed)];
   }
+//  float totalPercentIncrease = [gl calculateEnhancementPercentageIncrease:self.enhancingView.userEquip feeders:arr];
+//  while (1) {
+//    float percentOfSubSection = [gl calculateEnhancementPercentageIncrease:self.enhancingView.userEquip feeders:arr]/totalPercentIncrease;
+//    if (percentOfSubSection > percentageOfTotal) {
+//      arr = [arr subarrayWithRange:NSMakeRange(0, arr.count-1)];
+//    } else {
+//      break;
+//    }
+//  }
   int i = 0;
   for (; i < arr.count; i++) {
     ForgeEnhanceItemView *fiv = [self.feederViews objectAtIndex:i];

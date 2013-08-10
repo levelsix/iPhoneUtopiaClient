@@ -3478,10 +3478,6 @@
 		CFD09C0216016ABD005D94D1 /* makeleader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD09BF816016ABD005D94D1 /* makeleader@2x.png */; };
 		CFD09C041602B2D2005D94D1 /* BrowseClanCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD09C031602B2D2005D94D1 /* BrowseClanCell.xib */; };
 		CFD09C061602E7DF005D94D1 /* ClanMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD09C051602E7DE005D94D1 /* ClanMemberCell.xib */; };
-		CFD29A8017B0942B000B0994 /* KirinVillage2.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7E17B0942B000B0994 /* KirinVillage2.tmx */; };
-		CFD29A8117B0942B000B0994 /* KirinVillage2.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7E17B0942B000B0994 /* KirinVillage2.tmx */; };
-		CFD29A8217B0942B000B0994 /* KirinVillage2@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7F17B0942B000B0994 /* KirinVillage2@2x.tmx */; };
-		CFD29A8317B0942B000B0994 /* KirinVillage2@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7F17B0942B000B0994 /* KirinVillage2@2x.tmx */; };
 		CFD29FC0164C9F22003CFE11 /* ClanTowerTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD29FBF164C9F22003CFE11 /* ClanTowerTabView.xib */; };
 		CFD29FC2164CA2FA003CFE11 /* ClanTowerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD29FC1164CA2FA003CFE11 /* ClanTowerView.xib */; };
 		CFD44C8C175C206F006E2198 /* TutorialForgeMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3B0223174CAE6A00A3A4F2 /* TutorialForgeMenuController.m */; };
@@ -11781,8 +11777,6 @@
 				CFD037271794917800719C6B /* blackcircle@2x.png in Resources */,
 				CFD0372A1795F6D600719C6B /* ProfileEquipBrowseView.xib in Resources */,
 				CFD0372D1795F71E00719C6B /* ProfileEquipPopup.xib in Resources */,
-				CFD29A8017B0942B000B0994 /* KirinVillage2.tmx in Resources */,
-				CFD29A8217B0942B000B0994 /* KirinVillage2@2x.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13349,8 +13343,6 @@
 				CFD0372E1795F71E00719C6B /* ProfileEquipPopup.xib in Resources */,
 				CF82CD321799D16500466E54 /* MainWindow.xib in Resources */,
 				CF6EB9DB17B016E100137A2D /* CityGemsView.xib in Resources */,
-				CFD29A8117B0942B000B0994 /* KirinVillage2.tmx in Resources */,
-				CFD29A8317B0942B000B0994 /* KirinVillage2@2x.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
