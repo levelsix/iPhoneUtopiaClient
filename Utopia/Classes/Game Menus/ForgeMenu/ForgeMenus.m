@@ -205,7 +205,7 @@
 
 - (NSString *)description {
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:equipId];
-  return [NSString stringWithFormat:@"{%p: equip=%@, level=%d, quantity=%d}", self, fep.name, level, quantity];
+  return [NSString stringWithFormat:@"{%p: equip=%@, level=%d, quantity=%d, isForging=%d}", self, fep.name, level, quantity, self.isForging];
 }
 
 @end

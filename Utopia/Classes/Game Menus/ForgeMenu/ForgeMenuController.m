@@ -989,7 +989,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   
   for (; index < self.forgeItems.count; index++) {
     ForgeItem *f = [self.forgeItems objectAtIndex:index];
-    if (fi.isForging) {
+    NSLog(@"%@", f);
+    if (f.isForging) {
       fi = f;
       break;
     }

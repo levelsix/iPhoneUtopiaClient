@@ -16,9 +16,9 @@
 
 #else
 
-//#define USE_PROD
+#define USE_PROD
 
-#define UDID [OpenUDID value]
+#define UDID @"7a6b2491cda5243b4c30fbe99b77a6232b75e1c1"//[OpenUDID value]
 //#define FORCE_TUTORIAL
 
 #endif
