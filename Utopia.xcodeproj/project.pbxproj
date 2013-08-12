@@ -3619,6 +3619,10 @@
 		CFECCDE31550971000171271 /* markbuy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDF1550971000171271 /* markbuy@2x.png */; };
 		CFECCDE41550971000171271 /* marketplacepopupbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDE01550971000171271 /* marketplacepopupbg.png */; };
 		CFECCDE51550971000171271 /* marketplacepopupbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDE11550971000171271 /* marketplacepopupbg@2x.png */; };
+		CFEE00D917B96BDB00F3BB19 /* KirinVillage.3.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7E17B0942B000B0994 /* KirinVillage.3.tmx */; };
+		CFEE00DA17B96BDB00F3BB19 /* KirinVillage.3@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7F17B0942B000B0994 /* KirinVillage.3@2x.tmx */; };
+		CFEE00DB17B96BDC00F3BB19 /* KirinVillage.3.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7E17B0942B000B0994 /* KirinVillage.3.tmx */; };
+		CFEE00DC17B96BDC00F3BB19 /* KirinVillage.3@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD29A7F17B0942B000B0994 /* KirinVillage.3@2x.tmx */; };
 		CFEE90C716D5D5600054E063 /* newarmoryactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEE90C116D5D5600054E063 /* newarmoryactive.png */; };
 		CFEE90C816D5D5600054E063 /* newarmoryactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEE90C216D5D5600054E063 /* newarmoryactive@2x.png */; };
 		CFEE90C916D5D5600054E063 /* newarmorynav.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEE90C316D5D5600054E063 /* newarmorynav.png */; };
@@ -5925,8 +5929,8 @@
 		CFD09BF816016ABD005D94D1 /* makeleader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "makeleader@2x.png"; sourceTree = "<group>"; };
 		CFD09C031602B2D2005D94D1 /* BrowseClanCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowseClanCell.xib; sourceTree = "<group>"; };
 		CFD09C051602E7DE005D94D1 /* ClanMemberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanMemberCell.xib; sourceTree = "<group>"; };
-		CFD29A7E17B0942B000B0994 /* KirinVillage2.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = KirinVillage2.tmx; sourceTree = "<group>"; };
-		CFD29A7F17B0942B000B0994 /* KirinVillage2@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "KirinVillage2@2x.tmx"; sourceTree = "<group>"; };
+		CFD29A7E17B0942B000B0994 /* KirinVillage.3.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = KirinVillage.3.tmx; sourceTree = "<group>"; };
+		CFD29A7F17B0942B000B0994 /* KirinVillage.3@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "KirinVillage.3@2x.tmx"; sourceTree = "<group>"; };
 		CFD29FBF164C9F22003CFE11 /* ClanTowerTabView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanTowerTabView.xib; sourceTree = "<group>"; };
 		CFD29FC1164CA2FA003CFE11 /* ClanTowerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanTowerView.xib; sourceTree = "<group>"; };
 		CFD44C91175D4282006E2198 /* protectionshield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = protectionshield.png; sourceTree = "<group>"; };
@@ -8287,8 +8291,8 @@
 				CF689BD315C3A0A500F2E50E /* hedgefence@2x.png */,
 				CF689BD415C3A0A500F2E50E /* Home.tmx */,
 				CF689BD515C3A0A500F2E50E /* Home@2x.tmx */,
-				CFD29A7E17B0942B000B0994 /* KirinVillage2.tmx */,
-				CFD29A7F17B0942B000B0994 /* KirinVillage2@2x.tmx */,
+				CFD29A7E17B0942B000B0994 /* KirinVillage.3.tmx */,
+				CFD29A7F17B0942B000B0994 /* KirinVillage.3@2x.tmx */,
 				CF689BD715C3A0A500F2E50E /* metatiles.png */,
 				CF689BD815C3A0A500F2E50E /* metatiles@2x.png */,
 				CF689BD915C3A0A500F2E50E /* rivertiles.png */,
@@ -11777,6 +11781,8 @@
 				CFD037271794917800719C6B /* blackcircle@2x.png in Resources */,
 				CFD0372A1795F6D600719C6B /* ProfileEquipBrowseView.xib in Resources */,
 				CFD0372D1795F71E00719C6B /* ProfileEquipPopup.xib in Resources */,
+				CFEE00D917B96BDB00F3BB19 /* KirinVillage.3.tmx in Resources */,
+				CFEE00DA17B96BDB00F3BB19 /* KirinVillage.3@2x.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13343,6 +13349,8 @@
 				CFD0372E1795F71E00719C6B /* ProfileEquipPopup.xib in Resources */,
 				CF82CD321799D16500466E54 /* MainWindow.xib in Resources */,
 				CF6EB9DB17B016E100137A2D /* CityGemsView.xib in Resources */,
+				CFEE00DB17B96BDC00F3BB19 /* KirinVillage.3.tmx in Resources */,
+				CFEE00DC17B96BDC00F3BB19 /* KirinVillage.3@2x.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

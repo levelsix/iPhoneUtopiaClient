@@ -408,8 +408,10 @@
                    [CCCallBlock actionWithBlock:
                     ^{
                       _overLayer = _maxLayer;
-                      [_overLayer runAction:[CCFadeIn actionWithDuration:0.2f]];
-                      [self addChild:_overLayer z:5];
+                      if (!_overLayer.parent) {
+                        [_overLayer runAction:[CCFadeIn actionWithDuration:0.2f]];
+                        [self addChild:_overLayer z:5]; 
+                      }
                     }],
                    [CCDelayTime actionWithDuration:0.5f],
                    [CCCallBlock actionWithBlock:

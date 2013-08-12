@@ -28,7 +28,7 @@
 SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 
 - (id) init {
-  if ((self = [super initWithTMXFile:@"KirinVillage2.tmx"])) {
+  if ((self = [super initWithTMXFile:@"KirinVillage.3.tmx"])) {
     GameState *gs = [GameState sharedGameState];
     
     _cityId = 1;
