@@ -168,7 +168,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (ExpansionView *)expansionView {
   if (!expansionView) {
     Globals *gl = [Globals sharedGlobals];
-    [[Globals bundleNamed:gl.downloadableNibConstants.expansionNibName] loadNibNamed:@"ExpansionView" owner:self options:nil];
+    if (IS_IPAD) [[NSBundle mainBundle] loadNibNamed:@"ExpansionView" owner:self options:nil];
+    else [[Globals bundleNamed:gl.downloadableNibConstants.expansionNibName] loadNibNamed:@"ExpansionView" owner:self options:nil];
   }
   return expansionView;
 }

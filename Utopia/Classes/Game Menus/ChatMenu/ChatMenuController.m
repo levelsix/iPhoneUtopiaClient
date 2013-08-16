@@ -504,13 +504,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
   [self updateNumChatsLabel];
   
   self.chatPopup.hidden = YES;
-  
   self.mainView.center = CGPointMake(self.mainView.center.x, self.mainView.superview.frame.size.height+self.mainView.frame.size.height/2);
   self.bgdView.alpha = 0.f;
-  [UIView animateWithDuration:0.2f animations:^{
-    self.mainView.center = CGPointMake(self.mainView.center.x, self.mainView.frame.size.height/2);
-    self.bgdView.alpha = 1.f;
-  }];
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+    //if device is ipad
+    [UIView animateWithDuration:0.2f animations:^{
+      self.mainView.center = CGPointMake(self.mainView.center.x, self.mainView.superview.frame.size.height/2);
+      self.bgdView.alpha = 1.f;
+    }];
+  }
+  else {
+    [UIView animateWithDuration:0.2f animations:^{
+      self.mainView.center = CGPointMake(self.mainView.center.x, self.mainView.frame.size.height/2);
+      self.bgdView.alpha = 1.f;
+    }];
+  }
 }
 
 - (void) setState:(ChatState)state {

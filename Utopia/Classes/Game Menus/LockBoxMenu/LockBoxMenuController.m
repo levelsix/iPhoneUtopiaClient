@@ -27,7 +27,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
 
 - (id) init {
   Globals *gl = [Globals sharedGlobals];
-  return [self initWithNibName:@"LockBoxMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.lockBoxNibName]];
+  if (IS_IPAD) {
+    return [self initWithNibName:@"LockBoxMenuController" bundle:nil];
+  }
+  else {
+    return [self initWithNibName:@"LockBoxMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.lockBoxNibName]];
+  }
 }
 
 - (void) viewDidLoad
@@ -36,6 +41,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   // Do any additional setup after loading the view from its nib.
   
   itemViews = [[NSArray arrayWithObjects:itemView1, itemView2, itemView3, itemView4, itemView5, nil] retain];
+  
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -66,6 +72,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LockBoxMenuController);
   if (!lockBoxInfoView) {
     Globals *gl = [Globals sharedGlobals];
     NSBundle *bundle = [Globals bundleNamed:gl.downloadableNibConstants.lockBoxNibName];
+    if (IS_IPAD) bundle = [NSBundle mainBundle];
     [bundle loadNibNamed:@"LockBoxInfoView" owner:self options:nil];
   }
   return lockBoxInfoView;

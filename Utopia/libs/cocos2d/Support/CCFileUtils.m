@@ -102,13 +102,13 @@ NSString *ccRemoveHDSuffixFromFile( NSString *path )
 {
 #if CC_IS_RETINA_DISPLAY_SUPPORTED
 
-	if( CC_CONTENT_SCALE_FACTOR() == 2 )
+	if( CC_CONTENT_SCALE_FACTOR() == 2 || IS_IPAD)
 	{
 		
 		NSString *pathWithoutExtension = [path stringByDeletingPathExtension];
 		NSString *name = [pathWithoutExtension lastPathComponent];
-		
-		// check if path already has the suffix.
+		    
+    // check if path already has the suffix.
 		if( [name rangeOfString:CC_RETINA_DISPLAY_FILENAME_SUFFIX].location != NSNotFound ) {
 		
 			CCLOG(@"cocos2d: WARNING Filename(%@) already has the suffix %@. Using it.", name, CC_RETINA_DISPLAY_FILENAME_SUFFIX);			
@@ -137,7 +137,6 @@ NSString *ccRemoveHDSuffixFromFile( NSString *path )
 	}
 	
 #endif // CC_IS_RETINA_DISPLAY_SUPPORTED
-	
 	return path;
 }
 

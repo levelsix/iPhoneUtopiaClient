@@ -151,7 +151,7 @@
   [Globals imageNamed:bpp.backgroundImage withView:self.bgdView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   [Globals imageNamed:bpp.chestImage withView:self.chestIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   [Globals imageNamed:bpp.middleImage withView:self.middleImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  
+    
   self.levelsLabel.text = [NSString stringWithFormat:@"%d-%d", bpp.minLevel, bpp.maxLevel];
   
   int total = 0, collected = 0;
@@ -247,8 +247,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   // Add rope to the very top
   UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]];
-  UIView *leftRope = [[UIView alloc] initWithFrame:CGRectMake(15, -150, 3, 150)];
+  UIView *leftRope = [[UIView alloc] initWithFrame:CGRectMake(15 , -150, 3, 150)];
   UIView *rightRope = [[UIView alloc] initWithFrame:CGRectMake(463, -150, 3, 150)];
+  if (IS_IPAD) {
+    leftRope.frame = CGRectMake((12*DEVICE_SCALE)-1, -150*DEVICE_SCALE, 3*DEVICE_SCALE, 150*DEVICE_SCALE);
+    rightRope.frame = CGRectMake(465*DEVICE_SCALE, -150*DEVICE_SCALE, 3*DEVICE_SCALE, 150*DEVICE_SCALE);
+  }
   leftRope.backgroundColor = c;
   rightRope.backgroundColor = c;
   [self.armoryTableView addSubview:leftRope];

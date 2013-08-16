@@ -33,14 +33,15 @@
 #import "TournamentMenuController.h"
 #import "ArmoryViewController.h"
 #import "MissionMap.h"
+#import "ClientProperties.h"
 
 #define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
 #define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
 
 #define FADE_ANIMATION_DURATION 0.2f
 
-#define ENERGY_BAR_POSITION ccp(53,15)
-#define STAMINA_BAR_POSITION ccp(149,15)
+#define ENERGY_BAR_POSITION ccp(53*DEVICE_SCALE,15*DEVICE_SCALE)
+#define STAMINA_BAR_POSITION ccp(149*DEVICE_SCALE,15*DEVICE_SCALE)
 
 #define BOTTOM_BUTTON_OFFSET 2
 
@@ -109,63 +110,68 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [self addChild:_coinBar z:2 tag:COIN_BAR_TAG];
     
     NSString *fontName = [Globals font];
-    _silverLabel = [CCLabelTTF labelWithString:@"0" fontName:fontName fontSize:12];
+    _silverLabel = [CCLabelTTF labelWithString:@"0" fontName:fontName fontSize:12*DEVICE_SCALE];
     [_coinBar addChild:_silverLabel];
     _silverLabel.color = ccc3(212,210,199);
     _silverLabel.position = ccp(55, 16);
     
-    _goldLabel = [CCLabelTTF labelWithString:@"0" fontName:fontName fontSize:12];
+    _goldLabel = [CCLabelTTF labelWithString:@"0" fontName:fontName fontSize:12*DEVICE_SCALE];
     [_coinBar addChild:_goldLabel];
     _goldLabel.color = ccc3(212,210,199);
     _goldLabel.position = ccp(127, 16);
     
+    if (IS_IPAD) {
+      _silverLabel.position = ccp(55*DEVICE_SCALE, 14*DEVICE_SCALE);
+      _goldLabel.position = ccp(127*DEVICE_SCALE, 14*DEVICE_SCALE);
+    }
+    
     _goldButton = [CCSprite spriteWithFile:@"plus.png"];
     [_coinBar addChild:_goldButton z:-1];
-    CGPoint finalgoldButtonPos = ccp(155, _goldButton.contentSize.height/2+2);
-    _goldButton.position = ccp(100, _goldButton.contentSize.height/2);
+    CGPoint finalgoldButtonPos = ccp(155*DEVICE_SCALE, _goldButton.contentSize.height/2+2);
+    if (IS_IPAD) finalgoldButtonPos = ccp(155*DEVICE_SCALE, (_goldButton.contentSize.height/2-12) * DEVICE_SCALE);
+    _goldButton.position = ccp(100*DEVICE_SCALE, _goldButton.contentSize.height/2*DEVICE_SCALE);
     [_goldButton runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1], [CCEaseExponentialOut actionWithAction:[CCMoveTo actionWithDuration:1.5 position:finalgoldButtonPos]], nil]];
     
     // Adjust the labels
     [Globals adjustFontSizeForSize:12 CCLabelTTFs:_silverLabel, _goldLabel, nil];
     
-    
     GameState *gs = [GameState sharedGameState];
     self.profilePic = [ProfilePicture profileWithType:gs.type];
     [self addChild:_profilePic z:2];
-    _profilePic.position = ccp(50, self.contentSize.height-50);
+    _profilePic.position = ccp(50*DEVICE_SCALE, self.contentSize.height-50*DEVICE_SCALE);
     
     _bigToolTip = [ToolTip spriteWithFile:@"quantleftwithtimer.png"];
     [_enstBgd addChild:_bigToolTip z:2];
     
     int fontSize = 12;
-    _bigCurValLabel = [CCLabelTTF labelWithString:@"0" fontName:[Globals font] fontSize:fontSize];
-    _bigCurValLabel.position = ccp(_bigToolTip.contentSize.width/2, 47);
+    _bigCurValLabel = [CCLabelTTF labelWithString:@"0" fontName:[Globals font] fontSize:fontSize*DEVICE_SCALE];
+    _bigCurValLabel.position = ccp(_bigToolTip.contentSize.width/2*DEVICE_SCALE, 47*DEVICE_SCALE);
     [_bigToolTip addChild:_bigCurValLabel];
-    [Globals adjustFontSizeForCCLabelTTF:_bigCurValLabel size:fontSize];
+    [Globals adjustFontSizeForCCLabelTTF:_bigCurValLabel size:fontSize*DEVICE_SCALE];
     
     fontSize = 8;
-    _bigTimerLabel = [CCLabelTTF labelWithString:@"+1 in 2:31" fontName:[Globals font] fontSize:fontSize];
-    _bigTimerLabel.position = ccp(_bigToolTip.contentSize.width/2, 34);
+    _bigTimerLabel = [CCLabelTTF labelWithString:@"+1 in 2:31" fontName:[Globals font] fontSize:fontSize*DEVICE_SCALE];
+    _bigTimerLabel.position = ccp(_bigToolTip.contentSize.width/2*DEVICE_SCALE, 34*DEVICE_SCALE);
     _bigTimerLabel.color = ccc3(120, 120, 120);
     [_bigToolTip addChild:_bigTimerLabel];
-    [Globals adjustFontSizeForCCLabelTTF:_bigTimerLabel size:fontSize];
+    [Globals adjustFontSizeForCCLabelTTF:_bigTimerLabel size:fontSize*DEVICE_SCALE];
     
     CCSprite *fillButtonSprite = [ToolTip spriteWithFile:@"fillbutton.png"];
     CCMenuItemSprite *fillButton = [CCMenuItemSprite itemFromNormalSprite:fillButtonSprite selectedSprite:nil target:self selector:@selector(fillClicked)];
     
     CCMenu *menu = [CCMenu menuWithItems:fillButton,nil];
     [_bigToolTip addChild:menu];
-    menu.position = ccp(_bigToolTip.contentSize.width/2, 15.f);
+    menu.position = ccp(_bigToolTip.contentSize.width/2*DEVICE_SCALE, 15.f*DEVICE_SCALE);
     
     CCSprite *coin = [CCSprite spriteWithFile:@"goldcoin.png"];
     coin.scale = 0.4;
-    coin.position = ccp(9, fillButton.contentSize.height/2+1);
+    coin.position = ccp(9*DEVICE_SCALE, (fillButton.contentSize.height/2+1)*DEVICE_SCALE);
     [fillButton addChild:coin];
     
     fontSize = 8;
-    _bigGoldCostLabel = [CCLabelTTF labelWithString:@"12" fontName:[Globals font] fontSize:fontSize];
+    _bigGoldCostLabel = [CCLabelTTF labelWithString:@"12" fontName:[Globals font] fontSize:fontSize*DEVICE_SCALE];
     _bigGoldCostLabel.anchorPoint = ccp(0, 0.5);
-    _bigGoldCostLabel.position = ccp(16, fillButton.contentSize.height/2+1);
+    _bigGoldCostLabel.position = ccp(16*DEVICE_SCALE, fillButton.contentSize.height/2+1*DEVICE_SCALE);
     [fillButton addChild:_bigGoldCostLabel];
     _bigGoldCostLabelShadow = [CCLabelTTF labelWithString:@"12" fontName:[Globals font] fontSize:fontSize];
     _bigGoldCostLabelShadow.color = ccc3(0, 0, 0);
@@ -188,9 +194,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _littleToolTip = [ToolTip spriteWithFile:@"quantleftclick.png"];
     [_enstBgd addChild:_littleToolTip z:2];
     
-    fontSize = 12;
+    fontSize = 12*DEVICE_SCALE;
     _littleCurValLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:fontSize];
-    _littleCurValLabel.position = ccp(_bigToolTip.contentSize.width/2, 10);
+    _littleCurValLabel.position = ccp(_bigToolTip.contentSize.width/2*DEVICE_SCALE, 10*DEVICE_SCALE);
     [_littleToolTip addChild:_littleCurValLabel];
     [Globals adjustFontSizeForCCLabelTTF:_littleCurValLabel size:fontSize];
     
@@ -277,7 +283,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _questNewBadge.visible = NO;
     _questNewBadge.position = ccp(4, _questButton.contentSize.height-4);
     
-    fontSize = 12.f;
+    fontSize = 12.f*DEVICE_SCALE;
     _questNewLabel = [CCLabelTTF labelWithString:@"1" fontName:@"AJensonPro-BoldCapt" fontSize:fontSize];
     [_questNewBadge addChild:_questNewLabel];
     _questNewLabel.position = ccp(_questNewBadge.contentSize.width/2, _questNewBadge.contentSize.height/2-2);
@@ -602,8 +608,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  _enstBgd.position = ccp(self.contentSize.width-283.f, self.contentSize.height+_enstBgd.contentSize.height/2);
-  _coinBar.position = ccp(self.contentSize.width-107.f, self.contentSize.height+_coinBar.contentSize.height/2);
+  _enstBgd.position = ccp(self.contentSize.width-283.f*DEVICE_SCALE, self.contentSize.height+_enstBgd.contentSize.height/2);
+  _coinBar.position = ccp(self.contentSize.width-107.f*DEVICE_SCALE, self.contentSize.height+_coinBar.contentSize.height/2);
   
   // At this point, the bars are still above the screen so subtract 3/2 * width
   _enstBarRect = CGRectMake(_enstBgd.position.x-_enstBgd.contentSize.width/2, _enstBgd.position.y-3*_enstBgd.contentSize.height/2, _enstBgd.contentSize.width, _enstBgd.contentSize.height);

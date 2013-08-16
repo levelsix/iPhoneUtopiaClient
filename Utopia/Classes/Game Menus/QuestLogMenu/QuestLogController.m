@@ -26,8 +26,8 @@
 
 #define QUEST_LOG_TRANSITION_DURATION 0.4f
 
-#define REWARD_CELL_HEIGHT_WITHOUT_CLAIM_BUTTON 86
-#define REWARD_CELL_HEIGHT_WITH_CLAIM_BUTTON 119
+#define REWARD_CELL_HEIGHT_WITHOUT_CLAIM_BUTTON 86*DEVICE_SCALE
+#define REWARD_CELL_HEIGHT_WITH_CLAIM_BUTTON 119*DEVICE_SCALE
 
 @implementation QuestCell
 
@@ -428,14 +428,28 @@ static float originalLabelX = 0.f;
       return 0;
     }
   }
-  return 19.f;
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    //if device is ipad
+    return 38.f;
+  }
+  else {
+    return 19.f;
+  }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
   if (section != 1) {
     UIImageView *headerView = [[[UIImageView alloc] initWithImage:[Globals imageNamed:@"questheadertop.png"]] autorelease];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 1, 400, headerView.frame.size.height)];
-    label.font = [UIFont fontWithName:@"Trajan Pro" size:12];
+    UILabel *label;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+      //if device is ipad
+      label = [[UILabel alloc] initWithFrame:CGRectMake(10, 1, 800, headerView.frame.size.height*2)];
+      label.font = [UIFont fontWithName:@"Trajan Pro" size:24];
+    }
+    else {
+      label = [[UILabel alloc] initWithFrame:CGRectMake(10, 1, 400, headerView.frame.size.height)];
+      label.font = [UIFont fontWithName:@"Trajan Pro" size:12];
+    }
     label.backgroundColor = [UIColor clearColor];
     [headerView addSubview:label];
     [label release];
@@ -630,13 +644,27 @@ static float originalLabelX = 0.f;
   if (section == 1 && _questRedeem) {
     return 0.f;
   }
-  return 18.f;
+  if (IS_IPAD) {
+    //if device is ipad
+    return 36.f;
+  }
+  else {
+    return 18.f;
+  }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
   UIImageView *headerView = [[[UIImageView alloc] initWithImage:[Globals imageNamed:@"questheadertop.png"]] autorelease];
-  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 2, 400, headerView.frame.size.height)];
-  label.font = [UIFont fontWithName:@"Trajan Pro" size:12];
+  UILabel *label;
+  if (IS_IPAD) {
+    //if device is ipad
+    label = [[UILabel alloc] initWithFrame:CGRectMake(10, 2, 800, headerView.frame.size.height*2)];
+    label.font = [UIFont fontWithName:@"Trajan Pro" size:24];
+  }
+  else {
+    label = [[UILabel alloc] initWithFrame:CGRectMake(10, 2, 400, headerView.frame.size.height)];
+    label.font = [UIFont fontWithName:@"Trajan Pro" size:12];
+  }
   label.backgroundColor = [UIColor clearColor];
   label.textColor = [Globals creamColor];
   [headerView addSubview:label];

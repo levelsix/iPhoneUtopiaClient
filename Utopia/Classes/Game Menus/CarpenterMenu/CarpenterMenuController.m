@@ -21,7 +21,7 @@
 
 #define ROW_HEIGHT 215
 
-#define TICKER_SEPERATION 1
+#define TICKER_SEPERATION 1 
 #define TICKER_MIDDLE_SEPARATION 5
 
 @implementation CarpenterTicker
@@ -31,7 +31,9 @@
 - (void) awakeFromNib {
   _tickerImage = [[Globals imageNamed:@"timetickerbg.png"] retain];
   self.string = @"02:00";
-  _font = [[UIFont fontWithName:@"Archer" size:11] retain];
+  _font = [[UIFont fontWithName:@"Archer" size:11*DEVICE_SCALE] retain];
+
+  self.string = @"02:00";
 }
 
 - (void) setString:(NSString *)s {
@@ -52,7 +54,7 @@
   CGSize shadowOffset = CGSizeMake(0, 1);
   
   CGContextSetShadow(context, CGSizeMake(0, 0), 0.f);
-  CGRect curRect = CGRectMake(0, self.frame.size.height/2-_tickerImage.size.height/2, _tickerImage.size.width, _tickerImage.size.height);
+  CGRect curRect = CGRectMake(0, self.frame.size.height/2-_tickerImage.size.height/2, _tickerImage.size.width*DEVICE_SCALE, _tickerImage.size.height*DEVICE_SCALE);
   [_tickerImage drawInRect:curRect];
   NSRange curRange = NSMakeRange(0, 1);
   NSString *curChar = [self.string substringWithRange:curRange];
@@ -60,7 +62,7 @@
   [curChar drawInRect:curRect withFont:_font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
   
   CGContextSetShadow(context, CGSizeMake(0, 0), 0.f);
-  curRect.origin.x += _tickerImage.size.width+TICKER_SEPERATION;
+  curRect.origin.x += (_tickerImage.size.width+TICKER_SEPERATION)*DEVICE_SCALE;
   [_tickerImage drawInRect:curRect];
   curRange.location++;
   curChar = [self.string substringWithRange:curRange];
@@ -69,7 +71,7 @@
   
   CGContextSetShadow(context, CGSizeMake(0, 0), 0.f);
   CGRect midRect = curRect;
-  midRect.origin.x += _tickerImage.size.width;
+  midRect.origin.x += _tickerImage.size.width*DEVICE_SCALE;
   midRect.size.width = TICKER_MIDDLE_SEPARATION;
   curRange.location++;
   curChar = [self.string substringWithRange:curRange];
@@ -77,7 +79,7 @@
   [curChar drawInRect:midRect withFont:_font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
   
   CGContextSetShadow(context, CGSizeMake(0, 0), 0.f);
-  curRect.origin.x += _tickerImage.size.width+TICKER_MIDDLE_SEPARATION;
+  curRect.origin.x += (_tickerImage.size.width+TICKER_MIDDLE_SEPARATION)*DEVICE_SCALE;
   [_tickerImage drawInRect:curRect];
   curRange.location++;
   curChar = [self.string substringWithRange:curRange];
@@ -85,7 +87,7 @@
   [curChar drawInRect:curRect withFont:_font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
   
   CGContextSetShadow(context, CGSizeMake(0, 0), 0.f);
-  curRect.origin.x += _tickerImage.size.width+TICKER_SEPERATION;
+  curRect.origin.x += (_tickerImage.size.width+TICKER_SEPERATION)*DEVICE_SCALE;
   [_tickerImage drawInRect:curRect];
   curRange.location++;
   curChar = [self.string substringWithRange:curRange];

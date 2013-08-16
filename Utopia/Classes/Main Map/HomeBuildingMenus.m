@@ -292,7 +292,7 @@
 - (void) awakeFromNib {
   self.expandNowView.center = expandingView.center;
   [self.mainView addSubview:self.expandNowView];
-  
+  self.mainView.backgroundColor = [UIColor clearColor];
   self.cantExpandView.center = expandingView.center;
   [self.mainView addSubview:cantExpandView];
 }

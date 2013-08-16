@@ -35,7 +35,7 @@
 #elif defined(FOUR_BUTTONS)
 #define START_ANGLE -14.f
 #define TOTAL_ANGLE -87.f
-#define BUTTON_DISTANCE 60.f
+#define BUTTON_DISTANCE 60.f*DEVICE_SCALE
 #endif
 
 #define PULSATE_DURATION 1.587f
@@ -62,15 +62,16 @@
     _levelCircle.position = ccp(21.5, 25.5);
     [self addChild:_levelCircle];
     
-    _levelLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:12];
+    _levelLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:12*DEVICE_SCALE];
     _levelLabel.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2);
+    if (IS_IPAD) _levelLabel.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2-2);
     _levelLabel.string = [NSString stringWithFormat:@"%d", [[GameState sharedGameState] level]];
     [_levelCircle addChild:_levelLabel];
     [Globals adjustFontSizeForCCLabelTTF:_levelLabel size:12];
     
     _notificationAlert = [CCSprite spriteWithFile:@"notificationoverlevel.png"];
     [_levelCircle addChild:_notificationAlert];
-    _notificationAlert.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2);
+    _notificationAlert.position = ccp(_levelCircle.contentSize.width/2+1, _levelCircle.contentSize.height/2);
     _notificationAlert.visible = NO;
     
     self.level = 1;
@@ -222,7 +223,7 @@
     
     self.expLabelTop = [CCLabelFX labelWithString:@"" 
                                   fontName:[Globals font]
-                                  fontSize:12.f 
+                                  fontSize:12.f*DEVICE_SCALE
                               shadowOffset:CGSizeMake(0, -1) 
                                 shadowBlur:1.f 
                                shadowColor:ccc4(0, 0, 0, 100) 
@@ -230,17 +231,18 @@
     
     [self addChild:expLabelTop];
     expLabelTop.position = ccp(self.contentSize.width/2, self.contentSize.height/2+3);
+    if (IS_IPAD) expLabelTop.position = ccp(self.contentSize.width/2, self.contentSize.height/2+7);
     expLabelTop.visible = NO;
     
     self.expLabelBot = [CCLabelFX labelWithString:@"" 
                                          fontName:[Globals font]
-                                         fontSize:12.f 
+                                         fontSize:12.f*DEVICE_SCALE
                                      shadowOffset:CGSizeMake(0, -1) 
                                        shadowBlur:1.f 
                                       shadowColor:ccc4(0, 0, 0, 100) 
                                         fillColor:ccc4(236, 230, 195, 255)];
     [self addChild:expLabelBot];
-    expLabelBot.position = ccp(self.contentSize.width/2, self.contentSize.height/2-9);
+    expLabelBot.position = ccp(self.contentSize.width/2, self.contentSize.height/2-18);
     expLabelBot.visible = NO;
     
     self.isTouchEnabled = YES;

@@ -162,7 +162,9 @@
   self.fup = user;
   self.nameLabel.text = [Globals fullNameWithName:user.name clanTag:user.clan.tag];
   self.typeLabel.text = [NSString stringWithFormat:@"Level %d %@ %@", user.level, [Globals factionForUserType:user.userType], [Globals classForUserType:user.userType]];
-  [userIcon setImage:[Globals squareImageForUser:user.userType] forState:UIControlStateNormal];
+  
+  [userIcon setBackgroundImage:[Globals squareImageForUser:user.userType] forState:UIControlStateNormal];
+
 }
 
 - (IBAction)attackClicked:(id)sender {

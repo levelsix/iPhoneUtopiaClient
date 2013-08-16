@@ -14,7 +14,7 @@
 #import "OutgoingEventController.h"
 #import "SoundEngine.h"
 
-#define BUTTON_FONT_SIZE 14
+#define BUTTON_FONT_SIZE 14*DEVICE_SCALE
 
 #define VIEW_JUMP_UPON_TEXT_FIELD 60
 #define TICK_DURATION 0.2
@@ -29,7 +29,7 @@
   if ((self = [super initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)])) {
     self.backgroundColor = [UIColor clearColor];
     self.bgImage = image;
-    self.font = [UIFont fontWithName:[Globals font] size:[Globals fontSize]];
+    self.font = [UIFont fontWithName:[Globals font] size:[Globals fontSize]*DEVICE_SCALE];
   }
   return self;
 }
@@ -49,7 +49,7 @@
   CGContextSetAllowsAntialiasing(context, true);
   CGContextSetRGBFillColor(context, 65/255.f, 65/255.f, 65/255.f, 1.0);
   NSString *str = [NSString stringWithFormat:@"%d", num];
-  [str drawInRect:CGRectMake(0, 4, self.bounds.size.width, self.bounds.size.height-4) withFont:font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
+  [str drawInRect:CGRectMake(0, 4*DEVICE_SCALE, self.bounds.size.width, self.bounds.size.height-4) withFont:font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
 }
 
 - (void) setNum:(int)n {
@@ -151,7 +151,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   for (int i = 0; i < 9; i++) {
     CGRect r = CGRectZero;
     r.size = img.size;
-    r.origin.x = i*img.size.width + 2*i + 10*(i/3);
+    r.size = CGSizeMake(r.size.width*DEVICE_SCALE, r.size.height*DEVICE_SCALE);
+    r.origin.x = (i*img.size.width + 2*i + 10*(i/3))*DEVICE_SCALE;
     
     SBTickerView *tv = [[SBTickerView alloc] initWithFrame:r];
     

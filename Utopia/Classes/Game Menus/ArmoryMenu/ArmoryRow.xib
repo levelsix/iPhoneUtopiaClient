@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">11E53</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
+		<int key="IBDocument.SystemTarget">1552</int>
+		<string key="IBDocument.SystemVersion">11E2520</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1138.47</string>
 		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1929</string>
+			<string key="NS.object.0">2083</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -47,6 +47,7 @@
 								<int key="NSvFlags">266</int>
 								<string key="NSFrame">{{7, 71}, {467, 73}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="948308588"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -62,6 +63,7 @@
 								<int key="NSvFlags">267</int>
 								<string key="NSFrame">{{464, -3}, {2, 113}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
+								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:196</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="914412045">
 									<int key="NSColorSpace">1</int>
@@ -76,6 +78,7 @@
 								<int key="NSvFlags">270</int>
 								<string key="NSFrame">{{15, -3}, {2, 113}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="966636280"/>
 								<string key="NSReuseIdentifierKey">_NS:196</string>
 								<reference key="IBUIBackgroundColor" ref="914412045"/>
@@ -87,10 +90,10 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{25, -5}, {431, 125}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="14730919"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
-								<int key="IBUIContentMode">6</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
@@ -121,6 +124,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{342, 88}, {98, 18}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="356404496"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -161,6 +165,7 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{52, 16}, {34, 18}}</string>
 										<reference key="NSSuperview" ref="356404496"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="94899464"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -177,6 +182,7 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{-7, 15}, {54, 19}}</string>
 										<reference key="NSSuperview" ref="356404496"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="567880343"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
@@ -216,6 +222,7 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{52, 14}, {35, 19}}</string>
 										<reference key="NSSuperview" ref="356404496"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="653727842"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
@@ -247,6 +254,7 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{-16, 0}, {129, 18}}</string>
 										<reference key="NSSuperview" ref="356404496"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="724408438"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
@@ -283,6 +291,7 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{-16, 40}, {129, 18}}</string>
 										<reference key="NSSuperview" ref="356404496"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="379854661"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
@@ -312,6 +321,7 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{0, 58}, {96, 23}}</string>
 										<reference key="NSSuperview" ref="356404496"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="681040441"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -328,6 +338,7 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{5, 60}, {87, 19}}</string>
 										<reference key="NSSuperview" ref="356404496"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="930756695"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
@@ -365,6 +376,7 @@
 								</array>
 								<string key="NSFrame">{{343, 29}, {96, 81}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="377109982"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="988684419">
@@ -379,6 +391,7 @@
 								<int key="NSvFlags">256</int>
 								<string key="NSFrame">{{34, -11}, {109, 127}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="355381483"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -391,6 +404,7 @@
 								<int key="NSvFlags">256</int>
 								<string key="NSFrame">{{157, 20}, {171, 94}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="250773079"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -401,6 +415,7 @@
 						</array>
 						<string key="NSFrameSize">{480, 128}</string>
 						<reference key="NSSuperview" ref="459214078"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="748257982"/>
 						<string key="NSReuseIdentifierKey">_NS:395</string>
 						<reference key="IBUIBackgroundColor" ref="988684419"/>
@@ -413,6 +428,7 @@
 				</array>
 				<string key="NSFrameSize">{480, 129}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="1435153"/>
 				<string key="NSReuseIdentifierKey">_NS:384</string>
 				<bool key="IBUIAutoresizesSubviews">NO</bool>
@@ -656,7 +672,798 @@
 			<nil key="sourceID"/>
 			<int key="maxID">90</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">ArmoryCardDisplayView</string>
+					<string key="superclassName">UIView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">showNextEquip</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">showNextEquip</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">showNextEquip</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="armoryListing">ArmoryListing</string>
+						<string key="bgdView">UIImageView</string>
+						<string key="buttonView">UIView</string>
+						<string key="cardBackImageView">UIImageView</string>
+						<string key="cardView">UIView</string>
+						<string key="spinnerView">UIImageView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="armoryListing">
+							<string key="name">armoryListing</string>
+							<string key="candidateClassName">ArmoryListing</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bgdView">
+							<string key="name">bgdView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="buttonView">
+							<string key="name">buttonView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="cardBackImageView">
+							<string key="name">cardBackImageView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="cardView">
+							<string key="name">cardView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="spinnerView">
+							<string key="name">spinnerView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ArmoryCardDisplayView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ArmoryCarouselView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="amtLabel1">UILabel</string>
+						<string key="amtLabel2">UILabel</string>
+						<string key="amtLabel3">UILabel</string>
+						<string key="armoryListing">ArmoryListing</string>
+						<string key="carousel">iCarousel</string>
+						<string key="noSaleView1">UIView</string>
+						<string key="noSaleView2">UIView</string>
+						<string key="normalCoinIcon1">UIImageView</string>
+						<string key="normalCoinIcon2">UIImageView</string>
+						<string key="normalLabel1">UILabel</string>
+						<string key="normalLabel2">UILabel</string>
+						<string key="numEquipsLabel1">UILabel</string>
+						<string key="numEquipsLabel2">UILabel</string>
+						<string key="quantityLabel">UILabel</string>
+						<string key="retailCoinIcon1">UIImageView</string>
+						<string key="retailCoinIcon2">UIImageView</string>
+						<string key="retailLabel1">UILabel</string>
+						<string key="retailLabel2">UILabel</string>
+						<string key="saleCoinIcon1">UIImageView</string>
+						<string key="saleCoinIcon2">UIImageView</string>
+						<string key="saleLabel1">UILabel</string>
+						<string key="saleLabel2">UILabel</string>
+						<string key="saleView1">UIView</string>
+						<string key="saleView2">UIView</string>
+						<string key="shelfImageView">UIImageView</string>
+						<string key="starterGoldLabel">UILabel</string>
+						<string key="starterPackBottomView">UIView</string>
+						<string key="starterRetailLabel">UILabel</string>
+						<string key="starterSaleLabel">UILabel</string>
+						<string key="starterSaveLabel">UILabel</string>
+						<string key="tagView1">UIImageView</string>
+						<string key="tagView2">UIImageView</string>
+						<string key="tagView3">UIImageView</string>
+						<string key="timeLeftLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="amtLabel1">
+							<string key="name">amtLabel1</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="amtLabel2">
+							<string key="name">amtLabel2</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="amtLabel3">
+							<string key="name">amtLabel3</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="armoryListing">
+							<string key="name">armoryListing</string>
+							<string key="candidateClassName">ArmoryListing</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="carousel">
+							<string key="name">carousel</string>
+							<string key="candidateClassName">iCarousel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="noSaleView1">
+							<string key="name">noSaleView1</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="noSaleView2">
+							<string key="name">noSaleView2</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="normalCoinIcon1">
+							<string key="name">normalCoinIcon1</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="normalCoinIcon2">
+							<string key="name">normalCoinIcon2</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="normalLabel1">
+							<string key="name">normalLabel1</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="normalLabel2">
+							<string key="name">normalLabel2</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="numEquipsLabel1">
+							<string key="name">numEquipsLabel1</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="numEquipsLabel2">
+							<string key="name">numEquipsLabel2</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="quantityLabel">
+							<string key="name">quantityLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="retailCoinIcon1">
+							<string key="name">retailCoinIcon1</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="retailCoinIcon2">
+							<string key="name">retailCoinIcon2</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="retailLabel1">
+							<string key="name">retailLabel1</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="retailLabel2">
+							<string key="name">retailLabel2</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="saleCoinIcon1">
+							<string key="name">saleCoinIcon1</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="saleCoinIcon2">
+							<string key="name">saleCoinIcon2</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="saleLabel1">
+							<string key="name">saleLabel1</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="saleLabel2">
+							<string key="name">saleLabel2</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="saleView1">
+							<string key="name">saleView1</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="saleView2">
+							<string key="name">saleView2</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="shelfImageView">
+							<string key="name">shelfImageView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="starterGoldLabel">
+							<string key="name">starterGoldLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="starterPackBottomView">
+							<string key="name">starterPackBottomView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="starterRetailLabel">
+							<string key="name">starterRetailLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="starterSaleLabel">
+							<string key="name">starterSaleLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="starterSaveLabel">
+							<string key="name">starterSaveLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tagView1">
+							<string key="name">tagView1</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tagView2">
+							<string key="name">tagView2</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tagView3">
+							<string key="name">tagView3</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeLeftLabel">
+							<string key="name">timeLeftLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ArmoryCarouselView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ArmoryFeedCell</string>
+					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="chestLabel">UILabel</string>
+						<string key="equipBgdButton">UIImageView</string>
+						<string key="equipIcon">EquipButton</string>
+						<string key="equipLabel">UILabel</string>
+						<string key="leftMiddleLabel">UILabel</string>
+						<string key="nameLabel">UILabel</string>
+						<string key="rightMiddleLabel">UILabel</string>
+						<string key="timeLabel">UILabel</string>
+						<string key="typeIcon">UIButton</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="chestLabel">
+							<string key="name">chestLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="equipBgdButton">
+							<string key="name">equipBgdButton</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="equipIcon">
+							<string key="name">equipIcon</string>
+							<string key="candidateClassName">EquipButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="equipLabel">
+							<string key="name">equipLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="leftMiddleLabel">
+							<string key="name">leftMiddleLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="nameLabel">
+							<string key="name">nameLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="rightMiddleLabel">
+							<string key="name">rightMiddleLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeLabel">
+							<string key="name">timeLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="typeIcon">
+							<string key="name">typeIcon</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ArmoryFeedCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ArmoryFeedLineView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="chestLabel">UILabel</string>
+						<string key="equipLabel">UILabel</string>
+						<string key="leftMiddleLabel">UILabel</string>
+						<string key="nameLabel">UILabel</string>
+						<string key="rightMiddleLabel">UILabel</string>
+						<string key="timeLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="chestLabel">
+							<string key="name">chestLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="equipLabel">
+							<string key="name">equipLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="leftMiddleLabel">
+							<string key="name">leftMiddleLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="nameLabel">
+							<string key="name">nameLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="rightMiddleLabel">
+							<string key="name">rightMiddleLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeLabel">
+							<string key="name">timeLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ArmoryFeedLineView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ArmoryFeedView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="bgdLineView">ArmoryFeedLineView</string>
+						<string key="closedClearView">UIView</string>
+						<string key="curLineView">ArmoryFeedLineView</string>
+						<string key="feedCell">ArmoryFeedCell</string>
+						<string key="feedTable">UITableView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="bgdLineView">
+							<string key="name">bgdLineView</string>
+							<string key="candidateClassName">ArmoryFeedLineView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="closedClearView">
+							<string key="name">closedClearView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="curLineView">
+							<string key="name">curLineView</string>
+							<string key="candidateClassName">ArmoryFeedLineView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="feedCell">
+							<string key="name">feedCell</string>
+							<string key="candidateClassName">ArmoryFeedCell</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="feedTable">
+							<string key="name">feedTable</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ArmoryFeedView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ArmoryListing</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="amtCollectedLabel">UILabel</string>
+						<string key="amtCollectedView">UIView</string>
+						<string key="attackLabel">UILabel</string>
+						<string key="bgdView">UIImageView</string>
+						<string key="defenseLabel">UILabel</string>
+						<string key="dotIcon">UIImageView</string>
+						<string key="equipIcon">UIImageView</string>
+						<string key="titleLabel">UILabel</string>
+						<string key="typeLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="amtCollectedLabel">
+							<string key="name">amtCollectedLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="amtCollectedView">
+							<string key="name">amtCollectedView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="attackLabel">
+							<string key="name">attackLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bgdView">
+							<string key="name">bgdView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="defenseLabel">
+							<string key="name">defenseLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="dotIcon">
+							<string key="name">dotIcon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="equipIcon">
+							<string key="name">equipIcon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="titleLabel">
+							<string key="name">titleLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="typeLabel">
+							<string key="name">typeLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ArmoryListing.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ArmoryRow</string>
+					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="bgdView">UIButton</string>
+						<string key="chestIcon">UIImageView</string>
+						<string key="equipsLeftLabel">UILabel</string>
+						<string key="labelsView">UIView</string>
+						<string key="levelsLabel">UILabel</string>
+						<string key="middleImageView">UIImageView</string>
+						<string key="timeLeftLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="bgdView">
+							<string key="name">bgdView</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="chestIcon">
+							<string key="name">chestIcon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="equipsLeftLabel">
+							<string key="name">equipsLeftLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="labelsView">
+							<string key="name">labelsView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="levelsLabel">
+							<string key="name">levelsLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="middleImageView">
+							<string key="name">middleImageView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeLeftLabel">
+							<string key="name">timeLeftLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ArmoryRow.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ArmoryTopBar</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="button1">UIImageView</string>
+						<string key="button2">UIImageView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="button1">
+							<string key="name">button1</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button2">
+							<string key="name">button2</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ArmoryTopBar.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ArmoryTutorialView</string>
+					<string key="superclassName">UIView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">closeClicked:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">closeClicked:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">closeClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="buttonLabel">UILabel</string>
+						<string key="buttonView">UIView</string>
+						<string key="closeButton">UIButton</string>
+						<string key="girlImageView">UIImageView</string>
+						<string key="speechBubble">UIView</string>
+						<string key="speechLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="buttonLabel">
+							<string key="name">buttonLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="buttonView">
+							<string key="name">buttonView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="closeButton">
+							<string key="name">closeButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="girlImageView">
+							<string key="name">girlImageView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="speechBubble">
+							<string key="name">speechBubble</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="speechLabel">
+							<string key="name">speechLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ArmoryTutorialView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ArmoryViewController</string>
+					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="backClicked:">id</string>
+						<string key="closeClicked:">id</string>
+						<string key="infoClicked:">id</string>
+						<string key="purchaseClicked:">UIView</string>
+						<string key="resetClicked:">id</string>
+						<string key="showMeSaleClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="backClicked:">
+							<string key="name">backClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="closeClicked:">
+							<string key="name">closeClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="infoClicked:">
+							<string key="name">infoClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="purchaseClicked:">
+							<string key="name">purchaseClicked:</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBActionInfo" key="resetClicked:">
+							<string key="name">resetClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showMeSaleClicked:">
+							<string key="name">showMeSaleClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="armoryRow">ArmoryRow</string>
+						<string key="armoryTableView">UITableView</string>
+						<string key="backView">UIView</string>
+						<string key="cardDisplayView">ArmoryCardDisplayView</string>
+						<string key="carouselView">ArmoryCarouselView</string>
+						<string key="coinBar">CoinBar</string>
+						<string key="feedView">ArmoryFeedView</string>
+						<string key="infoImageView">UIImageView</string>
+						<string key="infoLabel">UILabel</string>
+						<string key="infoScrollView">UIScrollView</string>
+						<string key="loadingView">LoadingView</string>
+						<string key="spinner">UIActivityIndicatorView</string>
+						<string key="tableContainerView">UIView</string>
+						<string key="topBar">ArmoryTopBar</string>
+						<string key="tutorialView">ArmoryTutorialView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="armoryRow">
+							<string key="name">armoryRow</string>
+							<string key="candidateClassName">ArmoryRow</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="armoryTableView">
+							<string key="name">armoryTableView</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="backView">
+							<string key="name">backView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="cardDisplayView">
+							<string key="name">cardDisplayView</string>
+							<string key="candidateClassName">ArmoryCardDisplayView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="carouselView">
+							<string key="name">carouselView</string>
+							<string key="candidateClassName">ArmoryCarouselView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="coinBar">
+							<string key="name">coinBar</string>
+							<string key="candidateClassName">CoinBar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="feedView">
+							<string key="name">feedView</string>
+							<string key="candidateClassName">ArmoryFeedView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="infoImageView">
+							<string key="name">infoImageView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="infoLabel">
+							<string key="name">infoLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="infoScrollView">
+							<string key="name">infoScrollView</string>
+							<string key="candidateClassName">UIScrollView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="loadingView">
+							<string key="name">loadingView</string>
+							<string key="candidateClassName">LoadingView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="spinner">
+							<string key="name">spinner</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tableContainerView">
+							<string key="name">tableContainerView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="topBar">
+							<string key="name">topBar</string>
+							<string key="candidateClassName">ArmoryTopBar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tutorialView">
+							<string key="name">tutorialView</string>
+							<string key="candidateClassName">ArmoryTutorialView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ArmoryViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">CoinBar</string>
+					<string key="superclassName">UIView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">barClicked:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">barClicked:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">barClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="goldLabel">UILabel</string>
+						<string key="silverLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="goldLabel">
+							<string key="name">goldLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="silverLabel">
+							<string key="name">silverLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CoinBar.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">EquipButton</string>
+					<string key="superclassName">UIImageView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/EquipButton.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">LoadingView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="actIndView">UIActivityIndicatorView</string>
+						<string key="darkView">UIView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="actIndView">
+							<string key="name">actIndView</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="darkView">
+							<string key="name">darkView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/LoadingView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NiceFontLabel</string>
+					<string key="superclassName">UILabel</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NiceFontLabel.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NiceFontLabel3</string>
+					<string key="superclassName">UILabel</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NiceFontLabel3.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NiceFontLabel7</string>
+					<string key="superclassName">UILabel</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NiceFontLabel7.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">RopeView</string>
+					<string key="superclassName">UIView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/RopeView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">iCarousel</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="dataSource">id</string>
+						<string key="delegate">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="dataSource">
+							<string key="name">dataSource</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="delegate">
+							<string key="name">delegate</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/iCarousel.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
@@ -666,6 +1473,6 @@
 			<string key="lvlbg.png">{34, 18}</string>
 			<string key="woodenshelf.png">{467, 73}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1929</string>
+		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
 </archive>

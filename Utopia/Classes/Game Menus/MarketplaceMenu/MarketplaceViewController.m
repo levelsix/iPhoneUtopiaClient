@@ -55,9 +55,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   t.delegate = self;
   t.dataSource = self;
   t.backgroundColor = [UIColor clearColor];
-  t.frame = CGRectMake(self.mainView.frame.size.width/2-240.f, topBar.frame.origin.y, 480.f, self.mainView.frame.size.height-topBar.frame.origin.y);
+  t.frame = CGRectMake(self.mainView.frame.size.width/2-240.f*DEVICE_SCALE, topBar.frame.origin.y*DEVICE_SCALE, 480.f*DEVICE_SCALE, (self.mainView.frame.size.height-topBar.frame.origin.y)*DEVICE_SCALE);
   t.showsVerticalScrollIndicator = NO;
-  t.rowHeight = 55;
+  t.rowHeight = 55*DEVICE_SCALE;
   t.delaysContentTouches = NO;
   self.postsTableView = t;
   [t release];
@@ -68,13 +68,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [super addPullToRefreshHeader:self.postsTableView];
   
   [self.postsTableView addSubview:self.ropeView];
-  self.ropeView.center = CGPointMake(self.postsTableView.frame.size.width/2, self.ropeView.center.y);
+  self.ropeView.center = CGPointMake(self.postsTableView.frame.size.width/2*DEVICE_SCALE , self.ropeView.center.y*DEVICE_SCALE);
   
   [self.postsTableView addSubview:self.removeView];
   
   UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]];
-  leftRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(self.postsTableView.frame.size.width/2-225.f, 30, 3, 40)];
-  rightRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(self.postsTableView.frame.size.width/2+223.f, 30, 3, 40)];
+  leftRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake((self.postsTableView.frame.size.width/2-225.f)*DEVICE_SCALE, 30*DEVICE_SCALE, 3*DEVICE_SCALE, 40*DEVICE_SCALE)];
+  rightRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake((self.postsTableView.frame.size.width/2+223.f)*DEVICE_SCALE, 30*DEVICE_SCALE, 3*DEVICE_SCALE, 40*DEVICE_SCALE)];
   leftRopeFirstRow.backgroundColor = c;
   rightRopeFirstRow.backgroundColor = c;
   [self.postsTableView insertSubview:leftRopeFirstRow belowSubview:self.ropeView];
@@ -98,7 +98,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.redeemView.frame = self.view.bounds;
   self.purchView.frame = self.view.bounds;
   
-  self.postsTableView.frame = CGRectMake(self.mainView.frame.size.width/2-240.f, topBar.frame.origin.y, 480.f, self.mainView.frame.size.height-topBar.frame.origin.y);
+  self.postsTableView.frame = CGRectMake(self.mainView.frame.size.width/2-240.f*DEVICE_SCALE, topBar.frame.origin.y, 480.f*DEVICE_SCALE, (self.mainView.frame.size.height-topBar.frame.origin.y)*DEVICE_SCALE);
   self.ropeView.center = CGPointMake(self.postsTableView.frame.size.width/2, self.ropeView.center.y);
   
   [self.loadingView stop];

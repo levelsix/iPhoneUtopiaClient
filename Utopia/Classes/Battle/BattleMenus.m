@@ -449,7 +449,7 @@
   
   [leftNameLabel setTitle:gs.name forState:UIControlStateNormal];
   leftLevelLabel.text = [NSString stringWithFormat:@"Lvl %d", gs.level];
-  [leftPlayerIcon setImage:[Globals circleImageForUser:gs.type] forState:UIControlStateNormal];
+  [leftPlayerIcon setBackgroundImage:[Globals circleImageForUser:gs.type] forState:UIControlStateNormal];
   leftAttackLabel.text = [Globals commafyNumber:[gl calculateAttackForAttackStat:gs.attack weapon:[gs myEquipWithUserEquipId:gs.weaponEquipped] armor:[gs myEquipWithUserEquipId:gs.armorEquipped] amulet:[gs myEquipWithUserEquipId:gs.amuletEquipped] weapon2:[gs myEquipWithUserEquipId:gs.weaponEquipped2] armor2:[gs myEquipWithUserEquipId:gs.armorEquipped2] amulet2:[gs myEquipWithUserEquipId:gs.amuletEquipped2]]];
   leftDefenseLabel.text = [Globals commafyNumber:[gl calculateDefenseForDefenseStat:gs.attack weapon:[gs myEquipWithUserEquipId:gs.weaponEquipped] armor:[gs myEquipWithUserEquipId:gs.armorEquipped] amulet:[gs myEquipWithUserEquipId:gs.amuletEquipped] weapon2:[gs myEquipWithUserEquipId:gs.weaponEquipped2] armor2:[gs myEquipWithUserEquipId:gs.armorEquipped2] amulet2:[gs myEquipWithUserEquipId:gs.amuletEquipped2]]];
   [Globals imageNamed:[myPrefix stringByAppendingString:@"bg.png"] withView:leftBgdImage maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -457,7 +457,7 @@
   
   [rightNameLabel setTitle:fup.name forState:UIControlStateNormal];
   rightLevelLabel.text = [NSString stringWithFormat:@"Lvl %d", fup.level];
-  [rightPlayerIcon setImage:[Globals circleImageForUser:fup.userType] forState:UIControlStateNormal];
+  [rightPlayerIcon setBackgroundImage:[Globals circleImageForUser:fup.userType] forState:UIControlStateNormal];
   rightAttackLabel.text = [Globals commafyNumber:[gl calculateAttackForAttackStat:fup.attack weapon:(UserEquip *)fup.weaponEquippedUserEquip armor:(UserEquip *)fup.armorEquippedUserEquip amulet:(UserEquip *)fup.amuletEquippedUserEquip weapon2:(UserEquip *)fup.weaponTwoEquippedUserEquip armor2:(UserEquip *)fup.armorTwoEquippedUserEquip amulet2:(UserEquip *)fup.amuletTwoEquippedUserEquip]];
   rightDefenseLabel.text = [Globals commafyNumber:[gl calculateDefenseForDefenseStat:fup.attack weapon:(UserEquip *)fup.weaponEquippedUserEquip armor:(UserEquip *)fup.armorEquippedUserEquip amulet:(UserEquip *)fup.amuletEquippedUserEquip weapon2:(UserEquip *)fup.weaponTwoEquippedUserEquip armor2:(UserEquip *)fup.armorTwoEquippedUserEquip amulet2:(UserEquip *)fup.amuletTwoEquippedUserEquip]];
   [Globals imageNamed:[enemyPrefix stringByAppendingString:@"bg.png"] withView:rightBgdImage maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];

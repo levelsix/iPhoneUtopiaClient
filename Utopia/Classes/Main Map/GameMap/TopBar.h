@@ -107,6 +107,7 @@ typedef enum {
   
   CCSprite *_arrow;
   BOOL _isForBattleLossTutorial;
+  
 }
 
 @property (nonatomic, retain) IBOutlet InGameNotification *inGameNotification;

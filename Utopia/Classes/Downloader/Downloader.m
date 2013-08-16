@@ -141,6 +141,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 }
 
 - (void) syncDownloadBundle:(NSString *)bundleName {
+  if (IS_IPAD) {
+    return;
+  }
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning sync download of bundle %@", bundleName);
   //  [self performSelectorOnMainThread:@selector(beginLoading:) withObject:bundleName waitUntilDone:YES];
   [self beginLoading:bundleName];
@@ -156,6 +159,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 }
 
 - (void) asyncDownloadBundle:(NSString *)bundleName {
+  if (IS_IPAD) {
+    return;
+  }
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning async download of bundle %@", bundleName);
   dispatch_async(_asyncQueue, ^{
     NSAutoreleasePool *a = [[NSAutoreleasePool alloc] init];

@@ -366,10 +366,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) asyncDownloadBundles {
+  if (IS_IPAD) return;
   Globals *gl = [Globals sharedGlobals];
   StartupResponseProto_StartupConstants_DownloadableNibConstants *n = gl.downloadableNibConstants;
   NSArray *bundleNames = [NSArray arrayWithObjects:n.goldShoppeNibName, n.filtersNibName, n.mapNibName, n.threeCardMonteNibName, n.expansionNibName, n.lockBoxNibName, nil];
   Downloader *dl = [Downloader sharedDownloader];
+  
   
   int i = BUNDLE_SCHEDULE_INTERVAL;
   for (NSString *name in bundleNames) {
@@ -802,6 +804,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   UIView *sv = [[GameViewController sharedGameViewController] view];
   view.center = CGPointMake(sv.frame.size.width/2, sv.frame.size.height/2);
   [sv addSubview:view];
+  
+  
 }
 
 + (NSString *) pathToFile:(NSString *)fileName {
@@ -832,6 +836,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (NSString *) pathToBundle:(NSString *)bundleName {
   NSString *cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
   NSString *fullPath = [cachesDirectory stringByAppendingPathComponent:bundleName];
+  
+  if (IS_IPAD) {
+    fullPath = [fullPath stringByAppendingString:@".iPad"];
+  }
+  
   return fullPath;
 }
 
@@ -865,9 +874,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   // prevents overloading the autorelease pool
   NSString *resName = [CCFileUtils getDoubleResolutionImage:path validate:NO];
+  
   UIImage *image = nil;
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
-  
   // Added for Utopia project
   if (!fullpath) {
     // Image not in NSBundle: look in documents
@@ -887,11 +896,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   image = [UIImage imageWithContentsOfFile:fullpath];
-  
+  image = [image initWithCGImage:[image CGImage] scale:2.0 orientation:UIImageOrientationUp];
   if (image) {
     [gl.imageCache setObject:image forKey:path];
   }
-  
   return image;
 }
 
@@ -923,12 +931,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     if ([view isKindOfClass:[UIImageView class]]) {
       [(UIImageView *)view setImage:cachedImage];
     } else if ([view isKindOfClass:[UIButton class]]) {
-      [(UIButton *)view setImage:cachedImage forState:UIControlStateNormal];
+      [(UIButton *)view setBackgroundImage:cachedImage forState:UIControlStateNormal];
       
       // For Armory View Controller
       CGRect r = view.frame;
-      r.origin.y = CGRectGetMaxY(r)-cachedImage.size.height;
+      r.origin.y = (CGRectGetMaxY(r)-cachedImage.size.height*DEVICE_SCALE);
       r.size = cachedImage.size;
+      if (IS_IPAD) r.size = CGSizeMake(r.size.width*DEVICE_SCALE, r.size.height*DEVICE_SCALE);
       view.frame = r;
     }
     
@@ -964,7 +973,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
         } else if ([view isKindOfClass:[UIButton class]]) {
           [(UIButton *)view setImage:nil forState:UIControlStateNormal];
         }
-      }
+      }                                       
       
       [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
       
@@ -979,7 +988,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
           NSString *documentsPath = [paths objectAtIndex:0];
           NSString *fullpath = [documentsPath stringByAppendingPathComponent:resName];
           UIImage *img = [UIImage imageWithContentsOfFile:fullpath];
-          
+          img = [UIImage imageWithCGImage:img.CGImage scale:2.0 orientation:UIImageOrientationUp];
+
           if (img) {
             [gl.imageCache setObject:img forKey:imageName];
           }
@@ -990,12 +1000,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
           if ([view isKindOfClass:[UIImageView class]]) {
             [(UIImageView *)view setImage:img];
           } else if ([view isKindOfClass:[UIButton class]]) {
-            [(UIButton *)view setImage:img forState:UIControlStateNormal];
+            [(UIButton *)view setBackgroundImage:img forState:UIControlStateNormal];
             
             // For Armory View Controller
             CGRect r = view.frame;
-            r.origin.y = CGRectGetMaxY(r)-img.size.height;
+            r.origin.y = (CGRectGetMaxY(r)-img.size.height*DEVICE_SCALE);
             r.size = img.size;
+            if (IS_IPAD) r.size = CGSizeMake(r.size.width*DEVICE_SCALE, r.size.height*DEVICE_SCALE);
             view.frame = r;
           }
           [view release];
@@ -1011,6 +1022,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   UIImage* image = [UIImage imageWithContentsOfFile:fullpath];
+  //image = [UIImage imageWithCGImage:image.CGImage scale:2.0 orientation:UIImageOrientationUp];
   UIView *loader = [view viewWithTag:150];
   if (loader) {
     [loader removeFromSuperview];
@@ -1026,12 +1038,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     if ([view isKindOfClass:[UIImageView class]]) {
       [(UIImageView *)view setImage:image];
     } else if ([view isKindOfClass:[UIButton class]]) {
-      [(UIButton *)view setImage:image forState:UIControlStateNormal];
+      [(UIButton *)view setBackgroundImage:image forState:UIControlStateNormal];
       
       // For Armory View Controller
       CGRect r = view.frame;
-      r.origin.y = CGRectGetMaxY(r)-image.size.height;
+      r.origin.y = (CGRectGetMaxY(r)-image.size.height*DEVICE_SCALE);
       r.size = image.size;
+      if (IS_IPAD) r.size = CGSizeMake(r.size.width*DEVICE_SCALE, r.size.height*DEVICE_SCALE);
       view.frame = r;
     }
     view.hidden = NO;

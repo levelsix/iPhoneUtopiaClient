@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">11E53</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
+		<int key="IBDocument.SystemTarget">1552</int>
+		<string key="IBDocument.SystemVersion">11E2520</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1138.47</string>
 		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1929</string>
+			<string key="NS.object.0">2083</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -1521,7 +1521,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="417430498">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUITableView" id="336980803">
@@ -1529,7 +1529,6 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrameSize">{379, 115}</string>
 						<reference key="NSSuperview" ref="417430498"/>
-						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="784314614"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -1551,8 +1550,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{379, 115}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="336980803"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="784314614"/>
@@ -2849,35 +2846,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">MarketPurchaseView</string>
 					<string key="superclassName">UIView</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="buyClicked:">id</string>
-						<string key="closeClicked:">id</string>
-						<string key="profileButtonClicked:">id</string>
-						<string key="tooLowLevelClicked:">id</string>
-						<string key="wrongClassClicked:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="buyClicked:">
-							<string key="name">buyClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="closeClicked:">
-							<string key="name">closeClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="profileButtonClicked:">
-							<string key="name">profileButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="tooLowLevelClicked:">
-							<string key="name">tooLowLevelClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="wrongClassClicked:">
-							<string key="name">wrongClassClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="armoryPriceIcon">UIImageView</string>
 						<string key="armoryPriceLabel">UILabel</string>
@@ -2886,6 +2854,7 @@
 						<string key="classLabel">UILabel</string>
 						<string key="crossOutView">UIView</string>
 						<string key="defenseLabel">UILabel</string>
+						<string key="descriptionLabel">UILabel</string>
 						<string key="enhanceIcon">EnhancementLevelIcon</string>
 						<string key="equipIcon">EquipButton</string>
 						<string key="levelIcon">EquipLevelIcon</string>
@@ -2928,6 +2897,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="defenseLabel">
 							<string key="name">defenseLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="descriptionLabel">
+							<string key="name">descriptionLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="enhanceIcon">
@@ -2995,17 +2968,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">MarketplaceBottomBar</string>
 					<string key="superclassName">UIView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">openCloseButtonClicked:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">openCloseButtonClicked:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">openCloseButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="amuletAttackLabel">UILabel</string>
 						<string key="amuletDefenseLabel">UILabel</string>
@@ -3068,25 +3030,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">MarketplaceFilterView</string>
 					<string key="superclassName">UIView</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="closeSortOrder:">id</string>
-						<string key="openSortOrder:">id</string>
-						<string key="restoreDefaults:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="closeSortOrder:">
-							<string key="name">closeSortOrder:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openSortOrder:">
-							<string key="name">openSortOrder:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="restoreDefaults:">
-							<string key="name">restoreDefaults:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="equipLevelBar">SliderBar</string>
 						<string key="filterBar">FilterBar</string>
@@ -3134,17 +3077,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">MarketplaceLiveSearchView</string>
 					<string key="superclassName">UIView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">clearClicked:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">clearClicked:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">clearClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="searchCell">MarketplaceSearchCell</string>
 						<string key="searchEquips">NSArray</string>
@@ -3220,70 +3152,20 @@
 					<string key="superclassName">PullRefreshTableViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="backClicked:">id</string>
-						<string key="cancelRemoveClicked:">id</string>
-						<string key="closeFilterPage:">id</string>
-						<string key="doneClicked:">id</string>
-						<string key="listAnItemClicked:">id</string>
-						<string key="listButtonClicked:">id</string>
 						<string key="longLicenseClicked:">id</string>
-						<string key="minusButtonClicked:">id</string>
-						<string key="removeItemClicked:">id</string>
-						<string key="searchBarClicked:">id</string>
 						<string key="shortLicenseClicked:">id</string>
-						<string key="submitClicked:">id</string>
-						<string key="submitCloseClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="backClicked:">
 							<string key="name">backClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="cancelRemoveClicked:">
-							<string key="name">cancelRemoveClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="closeFilterPage:">
-							<string key="name">closeFilterPage:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="doneClicked:">
-							<string key="name">doneClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="listAnItemClicked:">
-							<string key="name">listAnItemClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="listButtonClicked:">
-							<string key="name">listButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="longLicenseClicked:">
 							<string key="name">longLicenseClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="minusButtonClicked:">
-							<string key="name">minusButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="removeItemClicked:">
-							<string key="name">removeItemClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="searchBarClicked:">
-							<string key="name">searchBarClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="shortLicenseClicked:">
 							<string key="name">shortLicenseClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="submitClicked:">
-							<string key="name">submitClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="submitCloseClicked:">
-							<string key="name">submitCloseClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -3573,17 +3455,20 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">SwitchButton</string>
 					<string key="superclassName">UIView</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">handle</string>
-						<string key="NS.object.0">UIImageView</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">handle</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="delegate">id</string>
+						<string key="handle">UIImageView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="delegate">
+							<string key="name">delegate</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="handle">
 							<string key="name">handle</string>
 							<string key="candidateClassName">UIImageView</string>
 						</object>
-					</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/SwitchButton.h</string>
@@ -3599,7 +3484,7 @@
 			<string key="amu.png">{27, 27}</string>
 			<string key="amuactive.png">{27, 27}</string>
 			<string key="armor.png">{27, 27}</string>
-			<string key="armoractive.png">{27, 27}</string>
+			<string key="armoractive.png">{73, 33}</string>
 			<string key="betweenlevels.png">{22, 22}</string>
 			<string key="check.png">{13, 11}</string>
 			<string key="checkitemsquare.png">{13, 13}</string>
@@ -3620,6 +3505,6 @@
 			<string key="weap.png">{27, 27}</string>
 			<string key="weapactive.png">{27, 27}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1929</string>
+		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
 </archive>

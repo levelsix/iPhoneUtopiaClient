@@ -25,6 +25,9 @@
 
 - (id) init {
   Globals *gl = [Globals sharedGlobals];
+  if (IS_IPAD) {
+    return [self initWithNibName:@"DailyBonusMenuController" bundle:nil];
+  }
   return [self initWithNibName:@"DailyBonusMenuController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.dailyBonusNibName]];
 }
 

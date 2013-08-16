@@ -48,7 +48,8 @@ typedef enum {
 #endif
   Globals *gl = [Globals sharedGlobals];
   NSString *base = gl.downloadableNibConstants.threeCardMonteNibName;
-  cardBackImageView.image = [Globals imageNamed:[base stringByAppendingString:cardBack]];
+  if (IS_IPAD) cardBackImageView.image = [UIImage imageNamed:@"aoccardback@2x.png"];
+  else cardBackImageView.image = [Globals imageNamed:[base stringByAppendingString:cardBack]];
 }
 
 - (void) flipFaceUp:(BOOL)animated {
@@ -76,13 +77,16 @@ typedef enum {
   NSString *base = gl.downloadableNibConstants.threeCardMonteNibName;
   if (type == BAD) {
     bottomLabelText = @"Good";
-    cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfrontgood.png"]];
+    if (IS_IPAD) cardFrontImageView.image = [UIImage imageNamed:@"cardfrontgood@2x.png"];
+    else cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfrontgood.png"]];
   } else if (type == MEDIUM) {
     bottomLabelText = @"Better";
-    cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfrontbetter.png"]];
+    if (IS_IPAD) cardFrontImageView.image = [UIImage imageNamed:@"cardfrontbetter@2x.png"];
+    else cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfrontbetter.png"]];
   } else if (type == GOOD) {
     bottomLabelText = @"Best";
-    cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfrontbest.png"]];
+    if (IS_IPAD) cardFrontImageView.image = [UIImage imageNamed:@"cardfrontbest@2x.png"];
+    else cardFrontImageView.image = [Globals imageNamed:[base stringByAppendingString:@"/cardfrontbest.png"]];
   }
   
   UIView *contentView = nil;
@@ -200,7 +204,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
 
 - (id) init {
   Globals *gl = [Globals sharedGlobals];
+  if (IS_IPAD) {
+    return [self initWithNibName:@"ThreeCardMonteViewController" bundle:nil];
+  }
   return [self initWithNibName:@"ThreeCardMonteViewController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.threeCardMonteNibName]];
+
 }
 
 - (void)viewDidLoad
@@ -217,8 +225,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
   [self.mainView addSubview:playView];
   
   winningGlow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"popupglow.png"]];
-  [self.cardContainerView addSubview:winningGlow];
   winningGlow.frame = CGRectMake(-cardContainerView.frame.origin.x, -cardContainerView.frame.origin.y, winningGlow.frame.size.width, winningGlow.frame.size.height);
+  if (IS_IPAD)   {
+    winningGlow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"popupglow@2x.png"]];
+    winningGlow.frame = CGRectMake(-cardContainerView.frame.origin.x, -cardContainerView.frame.origin.y , self.view.frame.size.width, self.view.frame.size.height);
+  }
+  [self.cardContainerView addSubview:winningGlow];
   winningGlow.userInteractionEnabled = NO;
 }
 
@@ -257,6 +269,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ThreeCardMonteViewController)
   Globals *gl = [Globals sharedGlobals];
   NSString *bundleName = gl.downloadableNibConstants.threeCardMonteNibName;
   NSBundle *bundle = [Globals bundleNamed:bundleName];
+  if (IS_IPAD) bundle = [NSBundle mainBundle];
   if (!badCardView) {
     [bundle loadNibNamed:@"MonteCardView" owner:self options:nil];
     self.badCardView = self.monteCardView;

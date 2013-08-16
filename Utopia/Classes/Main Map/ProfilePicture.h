@@ -46,6 +46,7 @@
   BOOL _menuOut;
   NSMutableArray *_menuItems;
   ExperienceCircle *_expCircle;
+  
 }
 
 @property (nonatomic, retain) CCLabelTTF *expLabelTop;

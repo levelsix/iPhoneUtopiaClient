@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">11E53</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
+		<int key="IBDocument.SystemTarget">1552</int>
+		<string key="IBDocument.SystemVersion">11E2520</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1138.47</string>
 		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1929</string>
+			<string key="NS.object.0">2083</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -974,10 +974,15 @@
 					<string key="className">ForgeMenuController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="checkResultsClicked:">id</string>
 						<string key="closeClicked:">id</string>
 						<string key="forgeButtonClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="checkResultsClicked:">
+							<string key="name">checkResultsClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="closeClicked:">
 							<string key="name">closeClicked:</string>
 							<string key="candidateClassName">id</string>
@@ -1000,6 +1005,10 @@
 						<string key="buyOneCoinIcon">UIImageView</string>
 						<string key="buyOneLabel">UILabel</string>
 						<string key="buyOneView">UIView</string>
+						<string key="buySlotCostLabel">UILabel</string>
+						<string key="buySlotDescLabel">UILabel</string>
+						<string key="buySlotSpinnerImage">UIImageView</string>
+						<string key="buySlotView">UIView</string>
 						<string key="chanceOfSuccessLabel">UILabel</string>
 						<string key="coinBar">CoinBar</string>
 						<string key="collectButton">UIButton</string>
@@ -1009,6 +1018,7 @@
 						<string key="forgeButton">UIButton</string>
 						<string key="forgeTableView">UITableView</string>
 						<string key="forgeTimeLabel">UILabel</string>
+						<string key="forgingRightView">UIView</string>
 						<string key="forgingView">UIView</string>
 						<string key="frontOldAttackLabel">UILabel</string>
 						<string key="frontOldDefenseLabel">UILabel</string>
@@ -1085,6 +1095,22 @@
 							<string key="name">buyOneView</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="buySlotCostLabel">
+							<string key="name">buySlotCostLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="buySlotDescLabel">
+							<string key="name">buySlotDescLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="buySlotSpinnerImage">
+							<string key="name">buySlotSpinnerImage</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="buySlotView">
+							<string key="name">buySlotView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="chanceOfSuccessLabel">
 							<string key="name">chanceOfSuccessLabel</string>
 							<string key="candidateClassName">UILabel</string>
@@ -1120,6 +1146,10 @@
 						<object class="IBToOneOutletInfo" key="forgeTimeLabel">
 							<string key="name">forgeTimeLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="forgingRightView">
+							<string key="name">forgingRightView</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="forgingView">
 							<string key="name">forgingView</string>
@@ -1389,6 +1419,6 @@
 			<string key="orangeenhancebar.png">{110, 10}</string>
 			<string key="yellowenhancebar.png">{110, 10}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1929</string>
+		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
 </archive>

@@ -286,7 +286,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   
   [UIView animateWithDuration:0.4f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
     self.topBar.center = CGPointMake(self.topBar.center.x, self.topBar.frame.size.height/2);
-    self.mainView.center = CGPointMake(self.mainView.center.x, CGRectGetMaxY(self.view.frame)-self.mainView.frame.size.height/2);
+    if (IS_IPAD)  self.mainView.center = CGPointMake(self.mainView.center.x, CGRectGetMaxY(self.view.frame)-self.mainView.frame.size.height/2- 100);
+    else  self.mainView.center = CGPointMake(self.mainView.center.x, CGRectGetMaxY(self.view.frame)-self.mainView.frame.size.height/2);
     self.bgdView.alpha = 1.f;
   } completion:nil];
   

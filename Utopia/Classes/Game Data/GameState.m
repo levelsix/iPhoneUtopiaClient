@@ -265,6 +265,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   [[TopBar sharedTopBar] setUpEnergyTimer];
+  
   [[TopBar sharedTopBar] setUpStaminaTimer];
   
   [[TopBar sharedTopBar] shouldDisplayShieldView:[self hasBeginnerShield]];

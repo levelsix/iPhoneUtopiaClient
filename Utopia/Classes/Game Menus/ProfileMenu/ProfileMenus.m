@@ -18,10 +18,10 @@
 #define SHAKE_DURATION 0.2f
 #define SHAKE_OFFSET 3.f
 
-#define WALL_POST_LABEL_MIN_Y 28.75
-#define WALL_POST_CELL_OFFSET 5
+#define WALL_POST_LABEL_MIN_Y 28.75*DEVICE_SCALE
+#define WALL_POST_CELL_OFFSET 5*DEVICE_SCALE
 #define WALL_POST_FONT [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:15]
-#define WALL_POST_LABEL_WIDTH 242
+#define WALL_POST_LABEL_WIDTH 242*DEVICE_SCALE
 
 #define PRICE_DIGITS 8
 
@@ -950,7 +950,7 @@ static float origLabelCenterY = 0;
 }
 
 - (void) updateForWallPost:(PlayerWallPostProto *)wallPost {
-  [playerIcon setImage:[Globals squareImageForUser:wallPost.poster.userType] forState:UIControlStateNormal];
+  [playerIcon setBackgroundImage:[Globals squareImageForUser:wallPost.poster.userType] forState:UIControlStateNormal];
   [nameLabel setTitle:[Globals fullNameWithName:wallPost.poster.name clanTag:wallPost.poster.clan.tag] forState:UIControlStateNormal];
   timeLabel.text = [Globals stringForTimeSinceNow:[NSDate dateWithTimeIntervalSince1970:wallPost.timeOfPost/1000.0] shortened:NO];
   postLabel.text = wallPost.content;

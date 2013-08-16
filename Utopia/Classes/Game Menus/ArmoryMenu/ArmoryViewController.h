@@ -97,6 +97,8 @@
 - (IBAction)resetClicked:(id)sender;
 - (IBAction)infoClicked:(id)sender;
 - (IBAction)showMeSaleClicked:(id)sender;
+- (IBAction)backClicked:(id)sender;
+- (IBAction)closeClicked:(id)sender;
 
 - (void) receivedPurchaseBoosterPackResponse:(PurchaseBoosterPackResponseProto *)proto;
 - (void) resetBoosterPackResponse:(ResetBoosterPackResponseProto *)proto;

@@ -45,7 +45,8 @@
   self.notification = n;
   
   NSString *name = [Globals fullNameWithName:notification.otherPlayer.name clanTag:notification.otherPlayer.clan.tag];
-  [userIcon setImage:[Globals squareImageForUser:notification.otherPlayer.userType] forState:UIControlStateNormal];
+  
+  [userIcon setBackgroundImage:[Globals squareImageForUser:notification.otherPlayer.userType] forState:UIControlStateNormal];
   
   timeLabel.text = [Globals stringForTimeSinceNow:n.time shortened:NO];
   
@@ -70,7 +71,7 @@
       buttonLabel.text = @"Revenge";
     }
     
-    [button setImage:[Globals imageNamed:@"revenge.png"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[Globals imageNamed:@"revenge.png"] forState:UIControlStateNormal];
   } else if (notification.type == kNotificationMarketplace) {
     FullEquipProto *fep = [gs equipWithId:notification.marketPost.postedEquip.equipId];
     titleLabel.text = [NSString stringWithFormat:@"%@ bought your %@.", name, fep.name ];
@@ -95,8 +96,8 @@
     subtitleLabel.text = @"Visit to check if it succeeded.";
     
     titleLabel.textColor = [Globals orangeColor];
-    [button setImage:[Globals imageNamed:@"checkstatus.png"] forState:UIControlStateNormal];
-    [userIcon setImage:[Globals imageNamed:@"blacksmithicon.png"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[Globals imageNamed:@"checkstatus.png"] forState:UIControlStateNormal];
+    [userIcon setBackgroundImage:[Globals imageNamed:@"blacksmithicon.png"] forState:UIControlStateNormal];
     
     buttonLabel.text = @"Visit";
   } else if (notification.type == kNotificationEnhance) {
@@ -105,8 +106,8 @@
     subtitleLabel.text = @"Visit to collect it.";
     
     titleLabel.textColor = [Globals orangeColor];
-    [button setImage:[Globals imageNamed:@"checkstatus.png"] forState:UIControlStateNormal];
-    [userIcon setImage:[Globals imageNamed:@"blacksmithicon.png"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[Globals imageNamed:@"checkstatus.png"] forState:UIControlStateNormal];
+    [userIcon setBackgroundImage:[Globals imageNamed:@"blacksmithicon.png"] forState:UIControlStateNormal];
     
     buttonLabel.text = @"Visit";
   } else if (notification.type == kNotificationGoldmine) {
@@ -120,8 +121,8 @@
       titleLabel.textColor = [Globals redColor];
     }
     
-    [button setImage:[Globals imageNamed:@"afcollect.png"] forState:UIControlStateNormal];
-    [userIcon setImage:[Globals imageNamed:@"goldmineicon.png"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[Globals imageNamed:@"afcollect.png"] forState:UIControlStateNormal];
+    [userIcon setBackgroundImage:[Globals imageNamed:@"goldmineicon.png"] forState:UIControlStateNormal];
     
     buttonLabel.text = @"Visit";
   } else if (notification.type == kNotificationWallPost) {

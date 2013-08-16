@@ -264,7 +264,7 @@
   self.user = u;
   [self.nameLabel setTitle:[Globals fullNameWithName:user.minUserProto.name clanTag:user.minUserProto.clan.tag] forState:UIControlStateNormal];
   self.typeLabel.text = [NSString stringWithFormat:@"Level %d %@ %@", user.level, [Globals factionForUserType:user.minUserProto.userType], [Globals classForUserType:user.minUserProto.userType]];
-  [userIcon setImage:[Globals squareImageForUser:user.minUserProto.userType] forState:UIControlStateNormal];
+  [userIcon setBackgroundImage:[Globals squareImageForUser:user.minUserProto.userType] forState:UIControlStateNormal];
   self.rankLabel.text = [Globals commafyNumber:user.leaderboardRank];
   
   if ([Globals userTypeIsGood:u.minUserProto.userType]) {
