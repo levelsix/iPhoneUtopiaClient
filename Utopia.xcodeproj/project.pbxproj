@@ -1711,97 +1711,31 @@
 		062E35F417AC2B0900B853CB /* tutorialtext@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFD037141790CC4900719C6B /* tutorialtext@2x.pvr.ccz */; };
 		062E35F517AC2B0900B853CB /* blackcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD037231794917100719C6B /* blackcircle.png */; };
 		062E35F617AC2B0900B853CB /* blackcircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD037241794917300719C6B /* blackcircle@2x.png */; };
-		062E366417AC2B2B00B853CB /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E360617AC2B2A00B853CB /* MainWindow.xib */; };
-		062E366517AC2B2B00B853CB /* BattleSummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E360717AC2B2A00B853CB /* BattleSummaryView.xib */; };
-		062E366617AC2B2B00B853CB /* ActivityFeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E360817AC2B2A00B853CB /* ActivityFeedCell.xib */; };
-		062E366717AC2B2B00B853CB /* ActivityFeedController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E360917AC2B2A00B853CB /* ActivityFeedController.xib */; };
-		062E366817AC2B2B00B853CB /* ArmoryListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E360A17AC2B2A00B853CB /* ArmoryListing.xib */; };
-		062E366B17AC2B2B00B853CB /* BuildUpgradePopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E360D17AC2B2A00B853CB /* BuildUpgradePopupController.xib */; };
-		062E366C17AC2B2B00B853CB /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E360E17AC2B2A00B853CB /* CarpenterListing.xib */; };
-		062E366D17AC2B2B00B853CB /* CarpenterMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E360F17AC2B2A00B853CB /* CarpenterMenuController.xib */; };
-		062E366E17AC2B2B00B853CB /* CarpenterRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361017AC2B2A00B853CB /* CarpenterRow.xib */; };
-		062E366F17AC2B2B00B853CB /* CityRankupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361117AC2B2A00B853CB /* CityRankupViewController.xib */; };
-		062E367017AC2B2B00B853CB /* GoldPackageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361217AC2B2A00B853CB /* GoldPackageView.xib */; };
-		062E367117AC2B2B00B853CB /* GoldShoppeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361317AC2B2A00B853CB /* GoldShoppeViewController.xib */; };
-		062E367217AC2B2B00B853CB /* GenericPopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361417AC2B2A00B853CB /* GenericPopupController.xib */; };
-		062E367317AC2B2B00B853CB /* LevelUpItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361517AC2B2A00B853CB /* LevelUpItemView.xib */; };
-		062E367417AC2B2B00B853CB /* LevelUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361617AC2B2A00B853CB /* LevelUpViewController.xib */; };
-		062E367517AC2B2B00B853CB /* PinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361717AC2B2A00B853CB /* PinView.xib */; };
-		062E367617AC2B2B00B853CB /* ItemPostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361817AC2B2A00B853CB /* ItemPostView.xib */; };
-		062E367717AC2B2B00B853CB /* LicenseRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361917AC2B2A00B853CB /* LicenseRow.xib */; };
-		062E367817AC2B2B00B853CB /* MarketplaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361A17AC2B2A00B853CB /* MarketplaceViewController.xib */; };
-		062E367917AC2B2B00B853CB /* EquipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361B17AC2B2A00B853CB /* EquipView.xib */; };
-		062E367A17AC2B2B00B853CB /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361C17AC2B2A00B853CB /* ProfileViewController.xib */; };
-		062E367B17AC2B2B00B853CB /* QuestLogController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361D17AC2B2A00B853CB /* QuestLogController.xib */; };
-		062E367C17AC2B2B00B853CB /* VaultMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361E17AC2B2A00B853CB /* VaultMenuController.xib */; };
-		062E367D17AC2B2B00B853CB /* EnemyPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E361F17AC2B2A00B853CB /* EnemyPopupView.xib */; };
-		062E367E17AC2B2B00B853CB /* MissionBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362017AC2B2A00B853CB /* MissionBuildingMenu.xib */; };
-		062E367F17AC2B2B00B853CB /* CharSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362117AC2B2A00B853CB /* CharSelectionViewController.xib */; };
-		062E368017AC2B2B00B853CB /* DialogMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362217AC2B2A00B853CB /* DialogMenuController.xib */; };
-		062E368117AC2B2B00B853CB /* FAQMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362317AC2B2A00B853CB /* FAQMenuController.xib */; };
-		062E368217AC2B2B00B853CB /* QuestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362417AC2B2A00B853CB /* QuestCell.xib */; };
-		062E368317AC2B2B00B853CB /* JobCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362517AC2B2A00B853CB /* JobCell.xib */; };
-		062E368417AC2B2B00B853CB /* ConvoMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362617AC2B2A00B853CB /* ConvoMenuController.xib */; };
-		062E368517AC2B2B00B853CB /* WallPostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362717AC2B2A00B853CB /* WallPostCell.xib */; };
-		062E368617AC2B2B00B853CB /* EquipMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362817AC2B2A00B853CB /* EquipMenuController.xib */; };
-		062E368717AC2B2B00B853CB /* RewardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362917AC2B2A00B853CB /* RewardCell.xib */; };
-		062E368817AC2B2B00B853CB /* DescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362A17AC2B2A00B853CB /* DescriptionCell.xib */; };
-		062E368917AC2B2B00B853CB /* UpgradeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362B17AC2B2A00B853CB /* UpgradeBuildingMenu.xib */; };
-		062E368A17AC2B2B00B853CB /* HomeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362C17AC2B2A00B853CB /* HomeBuildingMenu.xib */; };
-		062E368B17AC2B2B00B853CB /* EquipDeltaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362D17AC2B2A00B853CB /* EquipDeltaView.xib */; };
-		062E368C17AC2B2B00B853CB /* RefillMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362E17AC2B2A00B853CB /* RefillMenuController.xib */; };
-		062E368D17AC2B2B00B853CB /* StolenEquipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E362F17AC2B2A00B853CB /* StolenEquipView.xib */; };
-		062E368E17AC2B2B00B853CB /* ForgeMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363017AC2B2A00B853CB /* ForgeMenuController.xib */; };
-		062E368F17AC2B2B00B853CB /* ForgeItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363117AC2B2A00B853CB /* ForgeItemView.xib */; };
-		062E369017AC2B2B00B853CB /* RequiredEquipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363217AC2B2A00B853CB /* RequiredEquipView.xib */; };
-		062E369117AC2B2B00B853CB /* AttackMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363317AC2B2A00B853CB /* AttackMenuController.xib */; };
-		062E369217AC2B2B00B853CB /* AttackListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363417AC2B2A00B853CB /* AttackListCell.xib */; };
-		062E369317AC2B2B00B853CB /* InGameNotification.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363517AC2B2A00B853CB /* InGameNotification.xib */; };
-		062E369417AC2B2B00B853CB /* LeaderboardController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363617AC2B2A00B853CB /* LeaderboardController.xib */; };
-		062E369517AC2B2B00B853CB /* WelcomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363717AC2B2A00B853CB /* WelcomeView.xib */; };
-		062E369617AC2B2B00B853CB /* LeaderboardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363817AC2B2A00B853CB /* LeaderboardCell.xib */; };
-		062E369717AC2B2B00B853CB /* ChatMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363917AC2B2A00B853CB /* ChatMenuController.xib */; };
-		062E369817AC2B2B00B853CB /* ChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363A17AC2B2A00B853CB /* ChatCell.xib */; };
-		062E369917AC2B2B00B853CB /* ChatBottomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363B17AC2B2A00B853CB /* ChatBottomView.xib */; };
-		062E369A17AC2B2B00B853CB /* ClanMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363C17AC2B2A00B853CB /* ClanMenuController.xib */; };
-		062E369B17AC2B2B00B853CB /* BrowseClanCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363D17AC2B2A00B853CB /* BrowseClanCell.xib */; };
-		062E369C17AC2B2B00B853CB /* ClanMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363E17AC2B2A00B853CB /* ClanMemberCell.xib */; };
-		062E369D17AC2B2B00B853CB /* BrowseSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E363F17AC2B2B00B853CB /* BrowseSearchCell.xib */; };
-		062E369E17AC2B2B00B853CB /* ClanBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364017AC2B2B00B853CB /* ClanBoardCell.xib */; };
-		062E369F17AC2B2B00B853CB /* GoldMineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364117AC2B2B00B853CB /* GoldMineView.xib */; };
-		062E36A017AC2B2B00B853CB /* MarketplaceFilterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364217AC2B2B00B853CB /* MarketplaceFilterView.xib */; };
-		062E36A117AC2B2B00B853CB /* MarketplaceSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364317AC2B2B00B853CB /* MarketplaceSearchCell.xib */; };
-		062E36A217AC2B2B00B853CB /* ExpansionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364417AC2B2B00B853CB /* ExpansionView.xib */; };
-		062E36A317AC2B2B00B853CB /* DownloaderSpinner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364517AC2B2B00B853CB /* DownloaderSpinner.xib */; };
-		062E36A417AC2B2B00B853CB /* TravelingLoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364617AC2B2B00B853CB /* TravelingLoadingView.xib */; };
-		062E36A517AC2B2B00B853CB /* LockBoxInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364717AC2B2B00B853CB /* LockBoxInfoView.xib */; };
-		062E36A617AC2B2B00B853CB /* ClanTowerTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364817AC2B2B00B853CB /* ClanTowerTabView.xib */; };
-		062E36A717AC2B2B00B853CB /* ClanTowerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364917AC2B2B00B853CB /* ClanTowerView.xib */; };
-		062E36A817AC2B2B00B853CB /* ResetStaminaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364A17AC2B2B00B853CB /* ResetStaminaView.xib */; };
-		062E36A917AC2B2B00B853CB /* TournamentMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364B17AC2B2B00B853CB /* TournamentMenuController.xib */; };
-		062E36AA17AC2B2B00B853CB /* TournamentPrizeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364C17AC2B2B00B853CB /* TournamentPrizeView.xib */; };
-		062E36AB17AC2B2B00B853CB /* TournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364D17AC2B2B00B853CB /* TournamentCell.xib */; };
-		062E36AC17AC2B2B00B853CB /* ClanTowerScoresCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364E17AC2B2B00B853CB /* ClanTowerScoresCell.xib */; };
-		062E36AD17AC2B2B00B853CB /* ClanTowerTickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E364F17AC2B2B00B853CB /* ClanTowerTickerCell.xib */; };
-		062E36B017AC2B2B00B853CB /* BattleTutorialView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E365217AC2B2B00B853CB /* BattleTutorialView.xib */; };
-		062E36B117AC2B2B00B853CB /* ArmoryTutorialView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E365317AC2B2B00B853CB /* ArmoryTutorialView.xib */; };
-		062E36B217AC2B2B00B853CB /* DailyBonusMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E365417AC2B2B00B853CB /* DailyBonusMenuController.xib */; };
-		062E36B317AC2B2B00B853CB /* ArmoryFeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E365517AC2B2B00B853CB /* ArmoryFeedCell.xib */; };
-		062E36B417AC2B2B00B853CB /* ArmoryItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E365617AC2B2B00B853CB /* ArmoryItemView.xib */; };
-		062E36B517AC2B2B00B853CB /* EquipBrowseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E365717AC2B2B00B853CB /* EquipBrowseCell.xib */; };
-		062E36B617AC2B2B00B853CB /* BattleSummaryEquipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E365817AC2B2B00B853CB /* BattleSummaryEquipView.xib */; };
-		062E36B717AC2B2B00B853CB /* PrivateChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E365917AC2B2B00B853CB /* PrivateChatCell.xib */; };
-		062E36B817AC2B2B00B853CB /* MentorChatView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E365A17AC2B2B00B853CB /* MentorChatView.xib */; };
-		062E36B917AC2B2B00B853CB /* CityGemsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E365B17AC2B2B00B853CB /* CityGemsView.xib */; };
-		062E36BA17AC2B2B00B853CB /* CityBossView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E365C17AC2B2B00B853CB /* CityBossView.xib */; };
-		062E36BB17AC2B2B00B853CB /* BossUnlockedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E365D17AC2B2B00B853CB /* BossUnlockedView.xib */; };
-		062E36BC17AC2B2B00B853CB /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E365E17AC2B2B00B853CB /* MapViewController.xib */; };
-		062E36BD17AC2B2B00B853CB /* BossEventMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E365F17AC2B2B00B853CB /* BossEventMenuController.xib */; };
-		062E36BE17AC2B2B00B853CB /* GemTutorialView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E366017AC2B2B00B853CB /* GemTutorialView.xib */; };
-		062E36BF17AC2B2B00B853CB /* BossInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E366117AC2B2B00B853CB /* BossInfoView.xib */; };
-		062E36C017AC2B2B00B853CB /* ProfileEquipBrowseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E366217AC2B2B00B853CB /* ProfileEquipBrowseView.xib */; };
-		062E36C117AC2B2B00B853CB /* ProfileEquipPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 062E366317AC2B2B00B853CB /* ProfileEquipPopup.xib */; };
-		0637FB3717BC242C00D6DCDA /* LockBoxMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0637FB3617BC242600D6DCDA /* LockBoxMenuController.xib */; };
+		0666ABBF17C2981300DEFAC5 /* remainingpurchasesbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF69FD681744786D001C96D0 /* remainingpurchasesbg.png */; };
+		0666ABC217C2981D00DEFAC5 /* mycoinsbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268461538ACC500E0C1AD /* mycoinsbg@2x.png */; };
+		0666ABC317C2984700DEFAC5 /* barbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268401538ACC500E0C1AD /* barbg@2x.png */; };
+		0666ABC417C2984F00DEFAC5 /* activegold@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12683E1538ACC500E0C1AD /* activegold@2x.png */; };
+		0666ABC517C2985900DEFAC5 /* goldshoppebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268421538ACC500E0C1AD /* goldshoppebg@2x.png */; };
+		0666ABC617C2986200DEFAC5 /* goldshoppelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268441538ACC500E0C1AD /* goldshoppelogo@2x.png */; };
+		0666ABC717C2987B00DEFAC5 /* packagesbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12684A1538ACC500E0C1AD /* packagesbg@2x.png */; };
+		0666ABC817C298EA00DEFAC5 /* alertexclamation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF69FD671744786D001C96D0 /* alertexclamation@2x.png */; };
+		0666ABC917C298F300DEFAC5 /* remainingpurchasesbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF69FD691744786D001C96D0 /* remainingpurchasesbg@2x.png */; };
+		0666ABCA17C29A4400DEFAC5 /* packagepaperbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268481538ACC500E0C1AD /* packagepaperbg@2x.png */; };
+		0666ABCB17C29A5200DEFAC5 /* packagetag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12684C1538ACC500E0C1AD /* packagetag@2x.png */; };
+		0666ABCC17C29A7700DEFAC5 /* crossedout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8DFB61162647570061AE03 /* crossedout@2x.png */; };
+		0666ABCD17C29A8400DEFAC5 /* percentoff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8DFB63162647570061AE03 /* percentoff@2x.png */; };
+		0666ABCE17C2CD0400DEFAC5 /* lockedcity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AC1538ACC500E0C1AD /* lockedcity@2x.png */; };
+		0666ABCF17C2CD1A00DEFAC5 /* worldmapbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEFDC551770FBFE0026E85F /* worldmapbg@2x.png */; };
+		0666ABD017C2CDA000DEFAC5 /* path@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BE1538ACC500E0C1AD /* path@2x.png */; };
+		0666ABD117C2CDAF00DEFAC5 /* citygobutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689E1538ACC500E0C1AD /* citygobutton@2x.png */; };
+		0666ABD217C2CDBC00DEFAC5 /* visitcitybubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C41538ACC500E0C1AD /* visitcitybubble@2x.png */; };
+		0666ABD317C2CDC500DEFAC5 /* cityprogressbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A11538ACC500E0C1AD /* cityprogressbarbg@2x.png */; };
+		0666ABD417C2CE1500DEFAC5 /* mapstaminabar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773215C8CA7C00409312 /* mapstaminabar@2x.png */; };
+		0666ABD517C2CE2000DEFAC5 /* mapenergybar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773A15C8CC5500409312 /* mapenergybar@2x.png */; };
+		0666ABD617C2CE2E00DEFAC5 /* mapborderbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4E1567639A00871798 /* mapborderbg@2x.png */; };
+		0666ABD717C2CE3A00DEFAC5 /* mapstaminabarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773415C8CA7C00409312 /* mapstaminabarbg@2x.png */; };
+		0666ABD817C2CE4300DEFAC5 /* opencity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BC1538ACC500E0C1AD /* opencity@2x.png */; };
+		0666ABD917C2CEB500DEFAC5 /* cityprogressyellowbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A21538ACC500E0C1AD /* cityprogressyellowbar@2x.png */; };
 		066F5F3417AC9674002FF339 /* alarcher.png in Resources */ = {isa = PBXBuildFile; fileRef = 066F5F0417AC9674002FF339 /* alarcher.png */; };
 		066F5F3517AC9674002FF339 /* alarcher.png in Resources */ = {isa = PBXBuildFile; fileRef = 066F5F0417AC9674002FF339 /* alarcher.png */; };
 		066F5F3617AC9674002FF339 /* alarcher.png in Resources */ = {isa = PBXBuildFile; fileRef = 066F5F0417AC9674002FF339 /* alarcher.png */; };
@@ -1968,10 +1902,6 @@
 		06830F8A17BC807A003E7AAF /* eventstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2B4CA6162A411600758BC8 /* eventstar@2x.png */; };
 		06830F8B17BC8085003E7AAF /* lockboxitembg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2B4CAC162A411600758BC8 /* lockboxitembg@2x.png */; };
 		06830F8C17BC8093003E7AAF /* miniitembg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2B4CAE162A411600758BC8 /* miniitembg@2x.png */; };
-		06830F8E17BD5476003E7AAF /* ArmoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06830F8D17BD5475003E7AAF /* ArmoryViewController.xib */; };
-		06830F9017BD8F68003E7AAF /* ArmoryRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06830F8F17BD8F67003E7AAF /* ArmoryRow.xib */; };
-		0684423B17BC2E4B004690CD /* ThreeCardMonteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0684423A17BC2E4B004690CD /* ThreeCardMonteViewController.xib */; };
-		0684423D17BC3166004690CD /* MonteCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0684423C17BC3166004690CD /* MonteCardView.xib */; };
 		0684423E17BC3899004690CD /* todayyouearnedquotebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF26A88316FC8A140020D508 /* todayyouearnedquotebubble@2x.png */; };
 		0684423F17BC3981004690CD /* playthreecardbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4A04F16290FF600A452A7 /* playthreecardbutton@2x.png */; };
 		0684424017BC3990004690CD /* montebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4A03F16290FF600A452A7 /* montebg@2x.png */; };
@@ -1992,6 +1922,101 @@
 		0684424F17BC3A59004690CD /* checkdb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF6FAD516F1800E0088EEDA /* checkdb@2x.png */; };
 		0684425017BC3A60004690CD /* mysterybox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF6FAD916F1800E0088EEDA /* mysterybox@2x.png */; };
 		0684425117BC3A69004690CD /* dailybonusbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF6FAD716F1800E0088EEDA /* dailybonusbg@2x.png */; };
+		06ECEC7B17C5643400E80726 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEBF717C5643400E80726 /* MainWindow.xib */; };
+		06ECEC7C17C5643400E80726 /* BattleSummaryEquipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEBF917C5643400E80726 /* BattleSummaryEquipView.xib */; };
+		06ECEC7D17C5643400E80726 /* BattleSummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEBFA17C5643400E80726 /* BattleSummaryView.xib */; };
+		06ECEC7E17C5643400E80726 /* BattleTutorialView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEBFB17C5643400E80726 /* BattleTutorialView.xib */; };
+		06ECEC7F17C5643400E80726 /* StolenEquipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEBFC17C5643400E80726 /* StolenEquipView.xib */; };
+		06ECEC8017C5643400E80726 /* DownloaderSpinner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEBFE17C5643400E80726 /* DownloaderSpinner.xib */; };
+		06ECEC8117C5643400E80726 /* ActivityFeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC0117C5643400E80726 /* ActivityFeedCell.xib */; };
+		06ECEC8217C5643400E80726 /* ActivityFeedController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC0217C5643400E80726 /* ActivityFeedController.xib */; };
+		06ECEC8317C5643400E80726 /* ArmoryFeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC0417C5643400E80726 /* ArmoryFeedCell.xib */; };
+		06ECEC8417C5643400E80726 /* ArmoryItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC0517C5643400E80726 /* ArmoryItemView.xib */; };
+		06ECEC8517C5643400E80726 /* ArmoryListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC0617C5643400E80726 /* ArmoryListing.xib */; };
+		06ECEC8617C5643400E80726 /* ArmoryRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC0717C5643400E80726 /* ArmoryRow.xib */; };
+		06ECEC8717C5643400E80726 /* ArmoryTutorialView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC0817C5643400E80726 /* ArmoryTutorialView.xib */; };
+		06ECEC8817C5643400E80726 /* ArmoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC0917C5643400E80726 /* ArmoryViewController.xib */; };
+		06ECEC8917C5643400E80726 /* AttackListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC0B17C5643400E80726 /* AttackListCell.xib */; };
+		06ECEC8A17C5643400E80726 /* AttackMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC0C17C5643400E80726 /* AttackMenuController.xib */; };
+		06ECEC8B17C5643400E80726 /* BossEventMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC0E17C5643400E80726 /* BossEventMenuController.xib */; };
+		06ECEC8C17C5643400E80726 /* BuildUpgradePopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC1017C5643400E80726 /* BuildUpgradePopupController.xib */; };
+		06ECEC8D17C5643400E80726 /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC1217C5643400E80726 /* CarpenterListing.xib */; };
+		06ECEC8E17C5643400E80726 /* CarpenterMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC1317C5643400E80726 /* CarpenterMenuController.xib */; };
+		06ECEC8F17C5643400E80726 /* CarpenterRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC1417C5643400E80726 /* CarpenterRow.xib */; };
+		06ECEC9017C5643400E80726 /* ChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC1617C5643400E80726 /* ChatCell.xib */; };
+		06ECEC9117C5643400E80726 /* ChatMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC1717C5643400E80726 /* ChatMenuController.xib */; };
+		06ECEC9217C5643400E80726 /* MentorChatView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC1817C5643400E80726 /* MentorChatView.xib */; };
+		06ECEC9317C5643400E80726 /* PrivateChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC1917C5643400E80726 /* PrivateChatCell.xib */; };
+		06ECEC9417C5643400E80726 /* CityRankupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC1B17C5643400E80726 /* CityRankupViewController.xib */; };
+		06ECEC9517C5643400E80726 /* BrowseClanCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC1D17C5643400E80726 /* BrowseClanCell.xib */; };
+		06ECEC9617C5643400E80726 /* BrowseSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC1E17C5643400E80726 /* BrowseSearchCell.xib */; };
+		06ECEC9717C5643400E80726 /* ClanBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC1F17C5643400E80726 /* ClanBoardCell.xib */; };
+		06ECEC9817C5643400E80726 /* ClanMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC2017C5643400E80726 /* ClanMemberCell.xib */; };
+		06ECEC9917C5643400E80726 /* ClanMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC2117C5643400E80726 /* ClanMenuController.xib */; };
+		06ECEC9A17C5643400E80726 /* ClanTowerScoresCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC2217C5643400E80726 /* ClanTowerScoresCell.xib */; };
+		06ECEC9B17C5643400E80726 /* ClanTowerTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC2317C5643400E80726 /* ClanTowerTabView.xib */; };
+		06ECEC9C17C5643400E80726 /* ClanTowerTickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC2417C5643400E80726 /* ClanTowerTickerCell.xib */; };
+		06ECEC9D17C5643400E80726 /* ClanTowerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC2517C5643400E80726 /* ClanTowerView.xib */; };
+		06ECEC9E17C5643400E80726 /* ConvoMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC2717C5643400E80726 /* ConvoMenuController.xib */; };
+		06ECEC9F17C5643400E80726 /* DailyBonusMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC2917C5643400E80726 /* DailyBonusMenuController.xib */; };
+		06ECECA017C5643400E80726 /* GoldPackageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC2B17C5643400E80726 /* GoldPackageView.xib */; };
+		06ECECA117C5643400E80726 /* GoldShoppeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC2C17C5643400E80726 /* GoldShoppeViewController.xib */; };
+		06ECECA217C5643400E80726 /* EquipMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC2E17C5643400E80726 /* EquipMenuController.xib */; };
+		06ECECA317C5643400E80726 /* ExpansionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC3017C5643400E80726 /* ExpansionView.xib */; };
+		06ECECA417C5643400E80726 /* FAQMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC3217C5643400E80726 /* FAQMenuController.xib */; };
+		06ECECA517C5643400E80726 /* ForgeItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC3417C5643400E80726 /* ForgeItemView.xib */; };
+		06ECECA617C5643400E80726 /* ForgeMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC3517C5643400E80726 /* ForgeMenuController.xib */; };
+		06ECECA717C5643400E80726 /* GenericPopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC3717C5643400E80726 /* GenericPopupController.xib */; };
+		06ECECA817C5643400E80726 /* GoldMineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC3917C5643400E80726 /* GoldMineView.xib */; };
+		06ECECA917C5643400E80726 /* LeaderboardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC3B17C5643400E80726 /* LeaderboardCell.xib */; };
+		06ECECAA17C5643400E80726 /* LeaderboardController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC3C17C5643400E80726 /* LeaderboardController.xib */; };
+		06ECECAB17C5643400E80726 /* LevelUpItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC3E17C5643400E80726 /* LevelUpItemView.xib */; };
+		06ECECAC17C5643400E80726 /* LevelUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC3F17C5643400E80726 /* LevelUpViewController.xib */; };
+		06ECECAD17C5643400E80726 /* LockBoxInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC4117C5643400E80726 /* LockBoxInfoView.xib */; };
+		06ECECAE17C5643400E80726 /* LockBoxMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC4217C5643400E80726 /* LockBoxMenuController.xib */; };
+		06ECECAF17C5643400E80726 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC4417C5643400E80726 /* MapViewController.xib */; };
+		06ECECB017C5643400E80726 /* PinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC4517C5643400E80726 /* PinView.xib */; };
+		06ECECB117C5643400E80726 /* ItemPostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC4717C5643400E80726 /* ItemPostView.xib */; };
+		06ECECB217C5643400E80726 /* LicenseRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC4817C5643400E80726 /* LicenseRow.xib */; };
+		06ECECB317C5643400E80726 /* MarketplaceFilterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC4917C5643400E80726 /* MarketplaceFilterView.xib */; };
+		06ECECB417C5643400E80726 /* MarketplaceSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC4A17C5643400E80726 /* MarketplaceSearchCell.xib */; };
+		06ECECB517C5643400E80726 /* MarketplaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC4B17C5643400E80726 /* MarketplaceViewController.xib */; };
+		06ECECB617C5643400E80726 /* EquipBrowseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC4D17C5643400E80726 /* EquipBrowseCell.xib */; };
+		06ECECB717C5643400E80726 /* EquipDeltaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC4E17C5643400E80726 /* EquipDeltaView.xib */; };
+		06ECECB817C5643400E80726 /* EquipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC4F17C5643400E80726 /* EquipView.xib */; };
+		06ECECB917C5643400E80726 /* ProfileEquipBrowseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC5017C5643400E80726 /* ProfileEquipBrowseView.xib */; };
+		06ECECBA17C5643400E80726 /* ProfileEquipPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC5117C5643400E80726 /* ProfileEquipPopup.xib */; };
+		06ECECBB17C5643400E80726 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC5217C5643400E80726 /* ProfileViewController.xib */; };
+		06ECECBC17C5643400E80726 /* WallPostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC5317C5643400E80726 /* WallPostCell.xib */; };
+		06ECECBD17C5643400E80726 /* DescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC5517C5643400E80726 /* DescriptionCell.xib */; };
+		06ECECBE17C5643400E80726 /* JobCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC5617C5643400E80726 /* JobCell.xib */; };
+		06ECECBF17C5643400E80726 /* QuestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC5717C5643400E80726 /* QuestCell.xib */; };
+		06ECECC017C5643400E80726 /* QuestLogController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC5817C5643400E80726 /* QuestLogController.xib */; };
+		06ECECC117C5643400E80726 /* RewardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC5917C5643400E80726 /* RewardCell.xib */; };
+		06ECECC217C5643400E80726 /* RefillMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC5B17C5643400E80726 /* RefillMenuController.xib */; };
+		06ECECC317C5643400E80726 /* RequiredEquipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC5C17C5643400E80726 /* RequiredEquipView.xib */; };
+		06ECECC417C5643400E80726 /* MonteCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC5E17C5643400E80726 /* MonteCardView.xib */; };
+		06ECECC517C5643400E80726 /* ThreeCardMonteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC5F17C5643400E80726 /* ThreeCardMonteViewController.xib */; };
+		06ECECC617C5643400E80726 /* TournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC6117C5643400E80726 /* TournamentCell.xib */; };
+		06ECECC717C5643400E80726 /* TournamentMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC6217C5643400E80726 /* TournamentMenuController.xib */; };
+		06ECECC817C5643400E80726 /* TournamentPrizeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC6317C5643400E80726 /* TournamentPrizeView.xib */; };
+		06ECECC917C5643400E80726 /* VaultMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC6517C5643400E80726 /* VaultMenuController.xib */; };
+		06ECECCA17C5643400E80726 /* BossInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC6717C5643400E80726 /* BossInfoView.xib */; };
+		06ECECCB17C5643400E80726 /* BossUnlockedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC6817C5643400E80726 /* BossUnlockedView.xib */; };
+		06ECECCC17C5643400E80726 /* ChatBottomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC6917C5643400E80726 /* ChatBottomView.xib */; };
+		06ECECCD17C5643400E80726 /* CityBossView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC6A17C5643400E80726 /* CityBossView.xib */; };
+		06ECECCE17C5643400E80726 /* CityGemsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC6B17C5643400E80726 /* CityGemsView.xib */; };
+		06ECECCF17C5643400E80726 /* EnemyPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC6D17C5643400E80726 /* EnemyPopupView.xib */; };
+		06ECECD017C5643400E80726 /* MissionBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC6E17C5643400E80726 /* MissionBuildingMenu.xib */; };
+		06ECECD117C5643400E80726 /* GemTutorialView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC6F17C5643400E80726 /* GemTutorialView.xib */; };
+		06ECECD217C5643400E80726 /* HomeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC7017C5643400E80726 /* HomeBuildingMenu.xib */; };
+		06ECECD317C5643400E80726 /* InGameNotification.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC7117C5643400E80726 /* InGameNotification.xib */; };
+		06ECECD417C5643400E80726 /* ResetStaminaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC7217C5643400E80726 /* ResetStaminaView.xib */; };
+		06ECECD517C5643400E80726 /* TravelingLoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC7317C5643400E80726 /* TravelingLoadingView.xib */; };
+		06ECECD617C5643400E80726 /* UpgradeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC7417C5643400E80726 /* UpgradeBuildingMenu.xib */; };
+		06ECECD717C5643400E80726 /* WelcomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC7517C5643400E80726 /* WelcomeView.xib */; };
+		06ECECD817C5643400E80726 /* CharSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC7817C5643400E80726 /* CharSelectionViewController.xib */; };
+		06ECECD917C5643400E80726 /* DialogMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06ECEC7A17C5643400E80726 /* DialogMenuController.xib */; };
 		4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4509ABAF1577EE1900EC9B44 /* Twitter.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */; };
 		452F92FA15AD109C005C156C /* LoggingContextFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 452F92F915AD109C005C156C /* LoggingContextFilter.m */; };
@@ -5650,97 +5675,6 @@
 /* Begin PBXFileReference section */
 		062E35FC17AC2B0900B853CB /* Utopia-iPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Utopia-iPad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		062E360517AC2B0A00B853CB /* Utopia_HD-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Utopia_HD-Info.plist"; path = "/Users/AdmiralDanny/iPhoneUtopiaClient/Utopia_HD-Info.plist"; sourceTree = "<absolute>"; };
-		062E360617AC2B2A00B853CB /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = "Resources-iPad/Utopia/Classes/App Startup/MainWindow.xib"; sourceTree = "<group>"; };
-		062E360717AC2B2A00B853CB /* BattleSummaryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BattleSummaryView.xib; path = "Resources-iPad/Utopia/Classes/Battle/BattleSummaryView.xib"; sourceTree = "<group>"; };
-		062E360817AC2B2A00B853CB /* ActivityFeedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ActivityFeedCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ActivityFeedMenu/ActivityFeedCell.xib"; sourceTree = "<group>"; };
-		062E360917AC2B2A00B853CB /* ActivityFeedController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ActivityFeedController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ActivityFeedMenu/ActivityFeedController.xib"; sourceTree = "<group>"; };
-		062E360A17AC2B2A00B853CB /* ArmoryListing.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ArmoryListing.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ArmoryMenu/ArmoryListing.xib"; sourceTree = "<group>"; };
-		062E360D17AC2B2A00B853CB /* BuildUpgradePopupController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BuildUpgradePopupController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/BuildUpgradePopup/BuildUpgradePopupController.xib"; sourceTree = "<group>"; };
-		062E360E17AC2B2A00B853CB /* CarpenterListing.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CarpenterListing.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/CarpenterMenu/CarpenterListing.xib"; sourceTree = "<group>"; };
-		062E360F17AC2B2A00B853CB /* CarpenterMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CarpenterMenuController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/CarpenterMenu/CarpenterMenuController.xib"; sourceTree = "<group>"; };
-		062E361017AC2B2A00B853CB /* CarpenterRow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CarpenterRow.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/CarpenterMenu/CarpenterRow.xib"; sourceTree = "<group>"; };
-		062E361117AC2B2A00B853CB /* CityRankupViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CityRankupViewController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/CityRankupMenu/CityRankupViewController.xib"; sourceTree = "<group>"; };
-		062E361217AC2B2A00B853CB /* GoldPackageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GoldPackageView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/DiamondMenu/GoldPackageView.xib"; sourceTree = "<group>"; };
-		062E361317AC2B2A00B853CB /* GoldShoppeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GoldShoppeViewController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/DiamondMenu/GoldShoppeViewController.xib"; sourceTree = "<group>"; };
-		062E361417AC2B2A00B853CB /* GenericPopupController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GenericPopupController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/Generic Popup/GenericPopupController.xib"; sourceTree = "<group>"; };
-		062E361517AC2B2A00B853CB /* LevelUpItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LevelUpItemView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/LevelUpMenu/LevelUpItemView.xib"; sourceTree = "<group>"; };
-		062E361617AC2B2A00B853CB /* LevelUpViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LevelUpViewController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/LevelUpMenu/LevelUpViewController.xib"; sourceTree = "<group>"; };
-		062E361717AC2B2A00B853CB /* PinView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PinView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/MapMenu/PinView.xib"; sourceTree = "<group>"; };
-		062E361817AC2B2A00B853CB /* ItemPostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ItemPostView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/MarketplaceMenu/ItemPostView.xib"; sourceTree = "<group>"; };
-		062E361917AC2B2A00B853CB /* LicenseRow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LicenseRow.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/MarketplaceMenu/LicenseRow.xib"; sourceTree = "<group>"; };
-		062E361A17AC2B2A00B853CB /* MarketplaceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MarketplaceViewController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/MarketplaceMenu/MarketplaceViewController.xib"; sourceTree = "<group>"; };
-		062E361B17AC2B2A00B853CB /* EquipView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = EquipView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ProfileMenu/EquipView.xib"; sourceTree = "<group>"; };
-		062E361C17AC2B2A00B853CB /* ProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ProfileViewController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ProfileMenu/ProfileViewController.xib"; sourceTree = "<group>"; };
-		062E361D17AC2B2A00B853CB /* QuestLogController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = QuestLogController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/QuestLogMenu/QuestLogController.xib"; sourceTree = "<group>"; };
-		062E361E17AC2B2A00B853CB /* VaultMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = VaultMenuController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/VaultMenu/VaultMenuController.xib"; sourceTree = "<group>"; };
-		062E361F17AC2B2A00B853CB /* EnemyPopupView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = EnemyPopupView.xib; path = "Resources-iPad/Utopia/Classes/Main Map/GameMap/EnemyPopupView.xib"; sourceTree = "<group>"; };
-		062E362017AC2B2A00B853CB /* MissionBuildingMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MissionBuildingMenu.xib; path = "Resources-iPad/Utopia/Classes/Main Map/GameMap/MissionBuildingMenu.xib"; sourceTree = "<group>"; };
-		062E362117AC2B2A00B853CB /* CharSelectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CharSelectionViewController.xib; path = "Resources-iPad/Utopia/Classes/Tutorial/Character Selection/CharSelectionViewController.xib"; sourceTree = "<group>"; };
-		062E362217AC2B2A00B853CB /* DialogMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = DialogMenuController.xib; path = "Resources-iPad/Utopia/Classes/Tutorial/Dialog Menu/DialogMenuController.xib"; sourceTree = "<group>"; };
-		062E362317AC2B2A00B853CB /* FAQMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FAQMenuController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/FAQMenu/FAQMenuController.xib"; sourceTree = "<group>"; };
-		062E362417AC2B2A00B853CB /* QuestCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = QuestCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/QuestLogMenu/QuestCell.xib"; sourceTree = "<group>"; };
-		062E362517AC2B2A00B853CB /* JobCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JobCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/QuestLogMenu/JobCell.xib"; sourceTree = "<group>"; };
-		062E362617AC2B2A00B853CB /* ConvoMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ConvoMenuController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ConvoMenu/ConvoMenuController.xib"; sourceTree = "<group>"; };
-		062E362717AC2B2A00B853CB /* WallPostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WallPostCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ProfileMenu/WallPostCell.xib"; sourceTree = "<group>"; };
-		062E362817AC2B2A00B853CB /* EquipMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = EquipMenuController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/EquipMenu/EquipMenuController.xib"; sourceTree = "<group>"; };
-		062E362917AC2B2A00B853CB /* RewardCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = RewardCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/QuestLogMenu/RewardCell.xib"; sourceTree = "<group>"; };
-		062E362A17AC2B2A00B853CB /* DescriptionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = DescriptionCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/QuestLogMenu/DescriptionCell.xib"; sourceTree = "<group>"; };
-		062E362B17AC2B2A00B853CB /* UpgradeBuildingMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = UpgradeBuildingMenu.xib; path = "Resources-iPad/Utopia/Classes/Main Map/UpgradeBuildingMenu.xib"; sourceTree = "<group>"; };
-		062E362C17AC2B2A00B853CB /* HomeBuildingMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = HomeBuildingMenu.xib; path = "Resources-iPad/Utopia/Classes/Main Map/HomeBuildingMenu.xib"; sourceTree = "<group>"; };
-		062E362D17AC2B2A00B853CB /* EquipDeltaView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = EquipDeltaView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ProfileMenu/EquipDeltaView.xib"; sourceTree = "<group>"; };
-		062E362E17AC2B2A00B853CB /* RefillMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = RefillMenuController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/RefillMenu/RefillMenuController.xib"; sourceTree = "<group>"; };
-		062E362F17AC2B2A00B853CB /* StolenEquipView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = StolenEquipView.xib; path = "Resources-iPad/Utopia/Classes/Battle/StolenEquipView.xib"; sourceTree = "<group>"; };
-		062E363017AC2B2A00B853CB /* ForgeMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ForgeMenuController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ForgeMenu/ForgeMenuController.xib"; sourceTree = "<group>"; };
-		062E363117AC2B2A00B853CB /* ForgeItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ForgeItemView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ForgeMenu/ForgeItemView.xib"; sourceTree = "<group>"; };
-		062E363217AC2B2A00B853CB /* RequiredEquipView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = RequiredEquipView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/RefillMenu/RequiredEquipView.xib"; sourceTree = "<group>"; };
-		062E363317AC2B2A00B853CB /* AttackMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AttackMenuController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/AttackMenu/AttackMenuController.xib"; sourceTree = "<group>"; };
-		062E363417AC2B2A00B853CB /* AttackListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AttackListCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/AttackMenu/AttackListCell.xib"; sourceTree = "<group>"; };
-		062E363517AC2B2A00B853CB /* InGameNotification.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = InGameNotification.xib; path = "Resources-iPad/Utopia/Classes/Main Map/InGameNotification.xib"; sourceTree = "<group>"; };
-		062E363617AC2B2A00B853CB /* LeaderboardController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LeaderboardController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/LeaderboardMenu/LeaderboardController.xib"; sourceTree = "<group>"; };
-		062E363717AC2B2A00B853CB /* WelcomeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WelcomeView.xib; path = "Resources-iPad/Utopia/Classes/Main Map/WelcomeView.xib"; sourceTree = "<group>"; };
-		062E363817AC2B2A00B853CB /* LeaderboardCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LeaderboardCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/LeaderboardMenu/LeaderboardCell.xib"; sourceTree = "<group>"; };
-		062E363917AC2B2A00B853CB /* ChatMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ChatMenuController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ChatMenu/ChatMenuController.xib"; sourceTree = "<group>"; };
-		062E363A17AC2B2A00B853CB /* ChatCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ChatCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ChatMenu/ChatCell.xib"; sourceTree = "<group>"; };
-		062E363B17AC2B2A00B853CB /* ChatBottomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ChatBottomView.xib; path = "Resources-iPad/Utopia/Classes/Main Map/ChatBottomView.xib"; sourceTree = "<group>"; };
-		062E363C17AC2B2A00B853CB /* ClanMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ClanMenuController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ClanMenu/ClanMenuController.xib"; sourceTree = "<group>"; };
-		062E363D17AC2B2A00B853CB /* BrowseClanCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BrowseClanCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ClanMenu/BrowseClanCell.xib"; sourceTree = "<group>"; };
-		062E363E17AC2B2A00B853CB /* ClanMemberCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ClanMemberCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ClanMenu/ClanMemberCell.xib"; sourceTree = "<group>"; };
-		062E363F17AC2B2B00B853CB /* BrowseSearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BrowseSearchCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ClanMenu/BrowseSearchCell.xib"; sourceTree = "<group>"; };
-		062E364017AC2B2B00B853CB /* ClanBoardCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ClanBoardCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ClanMenu/ClanBoardCell.xib"; sourceTree = "<group>"; };
-		062E364117AC2B2B00B853CB /* GoldMineView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GoldMineView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/GoldMineMenu/GoldMineView.xib"; sourceTree = "<group>"; };
-		062E364217AC2B2B00B853CB /* MarketplaceFilterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MarketplaceFilterView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/MarketplaceMenu/MarketplaceFilterView.xib"; sourceTree = "<group>"; };
-		062E364317AC2B2B00B853CB /* MarketplaceSearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MarketplaceSearchCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/MarketplaceMenu/MarketplaceSearchCell.xib"; sourceTree = "<group>"; };
-		062E364417AC2B2B00B853CB /* ExpansionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ExpansionView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ExpansionMenu/ExpansionView.xib"; sourceTree = "<group>"; };
-		062E364517AC2B2B00B853CB /* DownloaderSpinner.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = DownloaderSpinner.xib; path = "Resources-iPad/Utopia/Classes/Downloader/DownloaderSpinner.xib"; sourceTree = "<group>"; };
-		062E364617AC2B2B00B853CB /* TravelingLoadingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = TravelingLoadingView.xib; path = "Resources-iPad/Utopia/Classes/Main Map/TravelingLoadingView.xib"; sourceTree = "<group>"; };
-		062E364717AC2B2B00B853CB /* LockBoxInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LockBoxInfoView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/LockBoxMenu/LockBoxInfoView.xib"; sourceTree = "<group>"; };
-		062E364817AC2B2B00B853CB /* ClanTowerTabView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ClanTowerTabView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ClanMenu/ClanTowerTabView.xib"; sourceTree = "<group>"; };
-		062E364917AC2B2B00B853CB /* ClanTowerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ClanTowerView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ClanMenu/ClanTowerView.xib"; sourceTree = "<group>"; };
-		062E364A17AC2B2B00B853CB /* ResetStaminaView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ResetStaminaView.xib; path = "Resources-iPad/Utopia/Classes/Main Map/ResetStaminaView.xib"; sourceTree = "<group>"; };
-		062E364B17AC2B2B00B853CB /* TournamentMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = TournamentMenuController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/TournamentMenu/TournamentMenuController.xib"; sourceTree = "<group>"; };
-		062E364C17AC2B2B00B853CB /* TournamentPrizeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = TournamentPrizeView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/TournamentMenu/TournamentPrizeView.xib"; sourceTree = "<group>"; };
-		062E364D17AC2B2B00B853CB /* TournamentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = TournamentCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/TournamentMenu/TournamentCell.xib"; sourceTree = "<group>"; };
-		062E364E17AC2B2B00B853CB /* ClanTowerScoresCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ClanTowerScoresCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ClanMenu/ClanTowerScoresCell.xib"; sourceTree = "<group>"; };
-		062E364F17AC2B2B00B853CB /* ClanTowerTickerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ClanTowerTickerCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ClanMenu/ClanTowerTickerCell.xib"; sourceTree = "<group>"; };
-		062E365217AC2B2B00B853CB /* BattleTutorialView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BattleTutorialView.xib; path = "Resources-iPad/Utopia/Classes/Battle/BattleTutorialView.xib"; sourceTree = "<group>"; };
-		062E365317AC2B2B00B853CB /* ArmoryTutorialView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ArmoryTutorialView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ArmoryMenu/ArmoryTutorialView.xib"; sourceTree = "<group>"; };
-		062E365417AC2B2B00B853CB /* DailyBonusMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = DailyBonusMenuController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/DailyBonusMenu/DailyBonusMenuController.xib"; sourceTree = "<group>"; };
-		062E365517AC2B2B00B853CB /* ArmoryFeedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ArmoryFeedCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ArmoryMenu/ArmoryFeedCell.xib"; sourceTree = "<group>"; };
-		062E365617AC2B2B00B853CB /* ArmoryItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ArmoryItemView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ArmoryMenu/ArmoryItemView.xib"; sourceTree = "<group>"; };
-		062E365717AC2B2B00B853CB /* EquipBrowseCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = EquipBrowseCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ProfileMenu/EquipBrowseCell.xib"; sourceTree = "<group>"; };
-		062E365817AC2B2B00B853CB /* BattleSummaryEquipView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BattleSummaryEquipView.xib; path = "Resources-iPad/Utopia/Classes/Battle/BattleSummaryEquipView.xib"; sourceTree = "<group>"; };
-		062E365917AC2B2B00B853CB /* PrivateChatCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PrivateChatCell.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ChatMenu/PrivateChatCell.xib"; sourceTree = "<group>"; };
-		062E365A17AC2B2B00B853CB /* MentorChatView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MentorChatView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ChatMenu/MentorChatView.xib"; sourceTree = "<group>"; };
-		062E365B17AC2B2B00B853CB /* CityGemsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CityGemsView.xib; path = "Resources-iPad/Utopia/Classes/Main Map/CityGemsView.xib"; sourceTree = "<group>"; };
-		062E365C17AC2B2B00B853CB /* CityBossView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CityBossView.xib; path = "Resources-iPad/Utopia/Classes/Main Map/CityBossView.xib"; sourceTree = "<group>"; };
-		062E365D17AC2B2B00B853CB /* BossUnlockedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BossUnlockedView.xib; path = "Resources-iPad/Utopia/Classes/Main Map/BossUnlockedView.xib"; sourceTree = "<group>"; };
-		062E365E17AC2B2B00B853CB /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MapViewController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/MapMenu/MapViewController.xib"; sourceTree = "<group>"; };
-		062E365F17AC2B2B00B853CB /* BossEventMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BossEventMenuController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/BossEventMenu/BossEventMenuController.xib"; sourceTree = "<group>"; };
-		062E366017AC2B2B00B853CB /* GemTutorialView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GemTutorialView.xib; path = "Resources-iPad/Utopia/Classes/Main Map/GemTutorialView.xib"; sourceTree = "<group>"; };
-		062E366117AC2B2B00B853CB /* BossInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BossInfoView.xib; path = "Resources-iPad/Utopia/Classes/Main Map/BossInfoView.xib"; sourceTree = "<group>"; };
-		062E366217AC2B2B00B853CB /* ProfileEquipBrowseView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ProfileEquipBrowseView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ProfileMenu/ProfileEquipBrowseView.xib"; sourceTree = "<group>"; };
-		062E366317AC2B2B00B853CB /* ProfileEquipPopup.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ProfileEquipPopup.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ProfileMenu/ProfileEquipPopup.xib"; sourceTree = "<group>"; };
-		0637FB3617BC242600D6DCDA /* LockBoxMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LockBoxMenuController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/LockBoxMenu/LockBoxMenuController.xib"; sourceTree = "<group>"; };
 		066F5F0417AC9674002FF339 /* alarcher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alarcher.png; sourceTree = "<group>"; };
 		066F5F0517AC9674002FF339 /* alarcher@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alarcher@2x.png"; sourceTree = "<group>"; };
 		066F5F0617AC9674002FF339 /* baarcher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baarcher.png; sourceTree = "<group>"; };
@@ -5790,10 +5724,101 @@
 		066F5F3217AC9674002FF339 /* warrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warrior.png; sourceTree = "<group>"; };
 		066F5F3317AC9674002FF339 /* warrior@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warrior@2x.png"; sourceTree = "<group>"; };
 		06830F7C17BC51DA003E7AAF /* aoccardback@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aoccardback@2x.png"; sourceTree = "<group>"; };
-		06830F8D17BD5475003E7AAF /* ArmoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryViewController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ArmoryMenu/ArmoryViewController.xib"; sourceTree = "<group>"; };
-		06830F8F17BD8F67003E7AAF /* ArmoryRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryRow.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ArmoryMenu/ArmoryRow.xib"; sourceTree = "<group>"; };
-		0684423A17BC2E4B004690CD /* ThreeCardMonteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ThreeCardMonteViewController.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ThreeCardMonteMenu/ThreeCardMonteViewController.xib"; sourceTree = "<group>"; };
-		0684423C17BC3166004690CD /* MonteCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MonteCardView.xib; path = "Resources-iPad/Utopia/Classes/Game Menus/ThreeCardMonteMenu/MonteCardView.xib"; sourceTree = "<group>"; };
+		06ECEBF717C5643400E80726 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		06ECEBF917C5643400E80726 /* BattleSummaryEquipView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleSummaryEquipView.xib; sourceTree = "<group>"; };
+		06ECEBFA17C5643400E80726 /* BattleSummaryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleSummaryView.xib; sourceTree = "<group>"; };
+		06ECEBFB17C5643400E80726 /* BattleTutorialView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleTutorialView.xib; sourceTree = "<group>"; };
+		06ECEBFC17C5643400E80726 /* StolenEquipView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StolenEquipView.xib; sourceTree = "<group>"; };
+		06ECEBFE17C5643400E80726 /* DownloaderSpinner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownloaderSpinner.xib; sourceTree = "<group>"; };
+		06ECEC0117C5643400E80726 /* ActivityFeedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityFeedCell.xib; sourceTree = "<group>"; };
+		06ECEC0217C5643400E80726 /* ActivityFeedController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityFeedController.xib; sourceTree = "<group>"; };
+		06ECEC0417C5643400E80726 /* ArmoryFeedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArmoryFeedCell.xib; sourceTree = "<group>"; };
+		06ECEC0517C5643400E80726 /* ArmoryItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArmoryItemView.xib; sourceTree = "<group>"; };
+		06ECEC0617C5643400E80726 /* ArmoryListing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArmoryListing.xib; sourceTree = "<group>"; };
+		06ECEC0717C5643400E80726 /* ArmoryRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArmoryRow.xib; sourceTree = "<group>"; };
+		06ECEC0817C5643400E80726 /* ArmoryTutorialView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArmoryTutorialView.xib; sourceTree = "<group>"; };
+		06ECEC0917C5643400E80726 /* ArmoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArmoryViewController.xib; sourceTree = "<group>"; };
+		06ECEC0B17C5643400E80726 /* AttackListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttackListCell.xib; sourceTree = "<group>"; };
+		06ECEC0C17C5643400E80726 /* AttackMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttackMenuController.xib; sourceTree = "<group>"; };
+		06ECEC0E17C5643400E80726 /* BossEventMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BossEventMenuController.xib; sourceTree = "<group>"; };
+		06ECEC1017C5643400E80726 /* BuildUpgradePopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BuildUpgradePopupController.xib; sourceTree = "<group>"; };
+		06ECEC1217C5643400E80726 /* CarpenterListing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarpenterListing.xib; sourceTree = "<group>"; };
+		06ECEC1317C5643400E80726 /* CarpenterMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarpenterMenuController.xib; sourceTree = "<group>"; };
+		06ECEC1417C5643400E80726 /* CarpenterRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarpenterRow.xib; sourceTree = "<group>"; };
+		06ECEC1617C5643400E80726 /* ChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatCell.xib; sourceTree = "<group>"; };
+		06ECEC1717C5643400E80726 /* ChatMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatMenuController.xib; sourceTree = "<group>"; };
+		06ECEC1817C5643400E80726 /* MentorChatView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MentorChatView.xib; sourceTree = "<group>"; };
+		06ECEC1917C5643400E80726 /* PrivateChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivateChatCell.xib; sourceTree = "<group>"; };
+		06ECEC1B17C5643400E80726 /* CityRankupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CityRankupViewController.xib; sourceTree = "<group>"; };
+		06ECEC1D17C5643400E80726 /* BrowseClanCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowseClanCell.xib; sourceTree = "<group>"; };
+		06ECEC1E17C5643400E80726 /* BrowseSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowseSearchCell.xib; sourceTree = "<group>"; };
+		06ECEC1F17C5643400E80726 /* ClanBoardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanBoardCell.xib; sourceTree = "<group>"; };
+		06ECEC2017C5643400E80726 /* ClanMemberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanMemberCell.xib; sourceTree = "<group>"; };
+		06ECEC2117C5643400E80726 /* ClanMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanMenuController.xib; sourceTree = "<group>"; };
+		06ECEC2217C5643400E80726 /* ClanTowerScoresCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanTowerScoresCell.xib; sourceTree = "<group>"; };
+		06ECEC2317C5643400E80726 /* ClanTowerTabView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanTowerTabView.xib; sourceTree = "<group>"; };
+		06ECEC2417C5643400E80726 /* ClanTowerTickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanTowerTickerCell.xib; sourceTree = "<group>"; };
+		06ECEC2517C5643400E80726 /* ClanTowerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanTowerView.xib; sourceTree = "<group>"; };
+		06ECEC2717C5643400E80726 /* ConvoMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConvoMenuController.xib; sourceTree = "<group>"; };
+		06ECEC2917C5643400E80726 /* DailyBonusMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DailyBonusMenuController.xib; sourceTree = "<group>"; };
+		06ECEC2B17C5643400E80726 /* GoldPackageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoldPackageView.xib; sourceTree = "<group>"; };
+		06ECEC2C17C5643400E80726 /* GoldShoppeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoldShoppeViewController.xib; sourceTree = "<group>"; };
+		06ECEC2E17C5643400E80726 /* EquipMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EquipMenuController.xib; sourceTree = "<group>"; };
+		06ECEC3017C5643400E80726 /* ExpansionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpansionView.xib; sourceTree = "<group>"; };
+		06ECEC3217C5643400E80726 /* FAQMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FAQMenuController.xib; sourceTree = "<group>"; };
+		06ECEC3417C5643400E80726 /* ForgeItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForgeItemView.xib; sourceTree = "<group>"; };
+		06ECEC3517C5643400E80726 /* ForgeMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForgeMenuController.xib; sourceTree = "<group>"; };
+		06ECEC3717C5643400E80726 /* GenericPopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GenericPopupController.xib; sourceTree = "<group>"; };
+		06ECEC3917C5643400E80726 /* GoldMineView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoldMineView.xib; sourceTree = "<group>"; };
+		06ECEC3B17C5643400E80726 /* LeaderboardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeaderboardCell.xib; sourceTree = "<group>"; };
+		06ECEC3C17C5643400E80726 /* LeaderboardController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeaderboardController.xib; sourceTree = "<group>"; };
+		06ECEC3E17C5643400E80726 /* LevelUpItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LevelUpItemView.xib; sourceTree = "<group>"; };
+		06ECEC3F17C5643400E80726 /* LevelUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LevelUpViewController.xib; sourceTree = "<group>"; };
+		06ECEC4117C5643400E80726 /* LockBoxInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LockBoxInfoView.xib; sourceTree = "<group>"; };
+		06ECEC4217C5643400E80726 /* LockBoxMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LockBoxMenuController.xib; sourceTree = "<group>"; };
+		06ECEC4417C5643400E80726 /* MapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
+		06ECEC4517C5643400E80726 /* PinView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PinView.xib; sourceTree = "<group>"; };
+		06ECEC4717C5643400E80726 /* ItemPostView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemPostView.xib; sourceTree = "<group>"; };
+		06ECEC4817C5643400E80726 /* LicenseRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LicenseRow.xib; sourceTree = "<group>"; };
+		06ECEC4917C5643400E80726 /* MarketplaceFilterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarketplaceFilterView.xib; sourceTree = "<group>"; };
+		06ECEC4A17C5643400E80726 /* MarketplaceSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarketplaceSearchCell.xib; sourceTree = "<group>"; };
+		06ECEC4B17C5643400E80726 /* MarketplaceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarketplaceViewController.xib; sourceTree = "<group>"; };
+		06ECEC4D17C5643400E80726 /* EquipBrowseCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EquipBrowseCell.xib; sourceTree = "<group>"; };
+		06ECEC4E17C5643400E80726 /* EquipDeltaView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EquipDeltaView.xib; sourceTree = "<group>"; };
+		06ECEC4F17C5643400E80726 /* EquipView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EquipView.xib; sourceTree = "<group>"; };
+		06ECEC5017C5643400E80726 /* ProfileEquipBrowseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileEquipBrowseView.xib; sourceTree = "<group>"; };
+		06ECEC5117C5643400E80726 /* ProfileEquipPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileEquipPopup.xib; sourceTree = "<group>"; };
+		06ECEC5217C5643400E80726 /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
+		06ECEC5317C5643400E80726 /* WallPostCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WallPostCell.xib; sourceTree = "<group>"; };
+		06ECEC5517C5643400E80726 /* DescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DescriptionCell.xib; sourceTree = "<group>"; };
+		06ECEC5617C5643400E80726 /* JobCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JobCell.xib; sourceTree = "<group>"; };
+		06ECEC5717C5643400E80726 /* QuestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestCell.xib; sourceTree = "<group>"; };
+		06ECEC5817C5643400E80726 /* QuestLogController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestLogController.xib; sourceTree = "<group>"; };
+		06ECEC5917C5643400E80726 /* RewardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RewardCell.xib; sourceTree = "<group>"; };
+		06ECEC5B17C5643400E80726 /* RefillMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefillMenuController.xib; sourceTree = "<group>"; };
+		06ECEC5C17C5643400E80726 /* RequiredEquipView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequiredEquipView.xib; sourceTree = "<group>"; };
+		06ECEC5E17C5643400E80726 /* MonteCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MonteCardView.xib; sourceTree = "<group>"; };
+		06ECEC5F17C5643400E80726 /* ThreeCardMonteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThreeCardMonteViewController.xib; sourceTree = "<group>"; };
+		06ECEC6117C5643400E80726 /* TournamentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TournamentCell.xib; sourceTree = "<group>"; };
+		06ECEC6217C5643400E80726 /* TournamentMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TournamentMenuController.xib; sourceTree = "<group>"; };
+		06ECEC6317C5643400E80726 /* TournamentPrizeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TournamentPrizeView.xib; sourceTree = "<group>"; };
+		06ECEC6517C5643400E80726 /* VaultMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VaultMenuController.xib; sourceTree = "<group>"; };
+		06ECEC6717C5643400E80726 /* BossInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BossInfoView.xib; sourceTree = "<group>"; };
+		06ECEC6817C5643400E80726 /* BossUnlockedView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BossUnlockedView.xib; sourceTree = "<group>"; };
+		06ECEC6917C5643400E80726 /* ChatBottomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatBottomView.xib; sourceTree = "<group>"; };
+		06ECEC6A17C5643400E80726 /* CityBossView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CityBossView.xib; sourceTree = "<group>"; };
+		06ECEC6B17C5643400E80726 /* CityGemsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CityGemsView.xib; sourceTree = "<group>"; };
+		06ECEC6D17C5643400E80726 /* EnemyPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnemyPopupView.xib; sourceTree = "<group>"; };
+		06ECEC6E17C5643400E80726 /* MissionBuildingMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MissionBuildingMenu.xib; sourceTree = "<group>"; };
+		06ECEC6F17C5643400E80726 /* GemTutorialView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GemTutorialView.xib; sourceTree = "<group>"; };
+		06ECEC7017C5643400E80726 /* HomeBuildingMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeBuildingMenu.xib; sourceTree = "<group>"; };
+		06ECEC7117C5643400E80726 /* InGameNotification.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InGameNotification.xib; sourceTree = "<group>"; };
+		06ECEC7217C5643400E80726 /* ResetStaminaView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResetStaminaView.xib; sourceTree = "<group>"; };
+		06ECEC7317C5643400E80726 /* TravelingLoadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TravelingLoadingView.xib; sourceTree = "<group>"; };
+		06ECEC7417C5643400E80726 /* UpgradeBuildingMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradeBuildingMenu.xib; sourceTree = "<group>"; };
+		06ECEC7517C5643400E80726 /* WelcomeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WelcomeView.xib; sourceTree = "<group>"; };
+		06ECEC7817C5643400E80726 /* CharSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CharSelectionViewController.xib; sourceTree = "<group>"; };
+		06ECEC7A17C5643400E80726 /* DialogMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DialogMenuController.xib; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		4509ABB11578243300EC9B44 /* TwitterSponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterSponsoredOffer.h; sourceTree = "<group>"; };
 		4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterSponsoredOffer.m; sourceTree = "<group>"; };
@@ -8340,111 +8365,431 @@
 			isa = PBXGroup;
 			children = (
 				062E360517AC2B0A00B853CB /* Utopia_HD-Info.plist */,
-				062E360417AC2B0900B853CB /* Resources-iPad */,
+				06ECEBF317C5643400E80726 /* Resources-iPad */,
 			);
 			name = "Utopia-HD";
 			sourceTree = "<group>";
 		};
-		062E360417AC2B0900B853CB /* Resources-iPad */ = {
+		06ECEBF317C5643400E80726 /* Resources-iPad */ = {
 			isa = PBXGroup;
 			children = (
-				062E360817AC2B2A00B853CB /* ActivityFeedCell.xib */,
-				062E360917AC2B2A00B853CB /* ActivityFeedController.xib */,
-				062E365517AC2B2B00B853CB /* ArmoryFeedCell.xib */,
-				062E365617AC2B2B00B853CB /* ArmoryItemView.xib */,
-				062E360A17AC2B2A00B853CB /* ArmoryListing.xib */,
-				06830F8F17BD8F67003E7AAF /* ArmoryRow.xib */,
-				062E365317AC2B2B00B853CB /* ArmoryTutorialView.xib */,
-				06830F8D17BD5475003E7AAF /* ArmoryViewController.xib */,
-				062E363417AC2B2A00B853CB /* AttackListCell.xib */,
-				062E363317AC2B2A00B853CB /* AttackMenuController.xib */,
-				062E365817AC2B2B00B853CB /* BattleSummaryEquipView.xib */,
-				062E360717AC2B2A00B853CB /* BattleSummaryView.xib */,
-				062E365217AC2B2B00B853CB /* BattleTutorialView.xib */,
-				062E365F17AC2B2B00B853CB /* BossEventMenuController.xib */,
-				062E366117AC2B2B00B853CB /* BossInfoView.xib */,
-				062E365D17AC2B2B00B853CB /* BossUnlockedView.xib */,
-				062E363D17AC2B2A00B853CB /* BrowseClanCell.xib */,
-				062E363F17AC2B2B00B853CB /* BrowseSearchCell.xib */,
-				062E360D17AC2B2A00B853CB /* BuildUpgradePopupController.xib */,
-				062E360E17AC2B2A00B853CB /* CarpenterListing.xib */,
-				062E360F17AC2B2A00B853CB /* CarpenterMenuController.xib */,
-				062E361017AC2B2A00B853CB /* CarpenterRow.xib */,
-				062E362117AC2B2A00B853CB /* CharSelectionViewController.xib */,
-				062E363B17AC2B2A00B853CB /* ChatBottomView.xib */,
-				062E363A17AC2B2A00B853CB /* ChatCell.xib */,
-				062E363917AC2B2A00B853CB /* ChatMenuController.xib */,
-				062E365C17AC2B2B00B853CB /* CityBossView.xib */,
-				062E365B17AC2B2B00B853CB /* CityGemsView.xib */,
-				062E361117AC2B2A00B853CB /* CityRankupViewController.xib */,
-				062E364017AC2B2B00B853CB /* ClanBoardCell.xib */,
-				062E363E17AC2B2A00B853CB /* ClanMemberCell.xib */,
-				062E363C17AC2B2A00B853CB /* ClanMenuController.xib */,
-				062E364E17AC2B2B00B853CB /* ClanTowerScoresCell.xib */,
-				062E364817AC2B2B00B853CB /* ClanTowerTabView.xib */,
-				062E364F17AC2B2B00B853CB /* ClanTowerTickerCell.xib */,
-				062E364917AC2B2B00B853CB /* ClanTowerView.xib */,
-				062E362617AC2B2A00B853CB /* ConvoMenuController.xib */,
-				062E365417AC2B2B00B853CB /* DailyBonusMenuController.xib */,
-				062E362A17AC2B2A00B853CB /* DescriptionCell.xib */,
-				062E362217AC2B2A00B853CB /* DialogMenuController.xib */,
-				062E364517AC2B2B00B853CB /* DownloaderSpinner.xib */,
-				062E361F17AC2B2A00B853CB /* EnemyPopupView.xib */,
-				062E365717AC2B2B00B853CB /* EquipBrowseCell.xib */,
-				062E362D17AC2B2A00B853CB /* EquipDeltaView.xib */,
-				062E362817AC2B2A00B853CB /* EquipMenuController.xib */,
-				062E361B17AC2B2A00B853CB /* EquipView.xib */,
-				062E364417AC2B2B00B853CB /* ExpansionView.xib */,
-				062E362317AC2B2A00B853CB /* FAQMenuController.xib */,
-				062E363117AC2B2A00B853CB /* ForgeItemView.xib */,
-				062E363017AC2B2A00B853CB /* ForgeMenuController.xib */,
-				062E366017AC2B2B00B853CB /* GemTutorialView.xib */,
-				062E361417AC2B2A00B853CB /* GenericPopupController.xib */,
-				062E364117AC2B2B00B853CB /* GoldMineView.xib */,
-				062E361217AC2B2A00B853CB /* GoldPackageView.xib */,
-				062E361317AC2B2A00B853CB /* GoldShoppeViewController.xib */,
-				062E362C17AC2B2A00B853CB /* HomeBuildingMenu.xib */,
-				062E363517AC2B2A00B853CB /* InGameNotification.xib */,
-				062E361817AC2B2A00B853CB /* ItemPostView.xib */,
-				062E362517AC2B2A00B853CB /* JobCell.xib */,
-				062E363817AC2B2A00B853CB /* LeaderboardCell.xib */,
-				062E363617AC2B2A00B853CB /* LeaderboardController.xib */,
-				062E361517AC2B2A00B853CB /* LevelUpItemView.xib */,
-				062E361617AC2B2A00B853CB /* LevelUpViewController.xib */,
-				062E361917AC2B2A00B853CB /* LicenseRow.xib */,
-				062E364717AC2B2B00B853CB /* LockBoxInfoView.xib */,
-				0637FB3617BC242600D6DCDA /* LockBoxMenuController.xib */,
-				062E360617AC2B2A00B853CB /* MainWindow.xib */,
-				062E365E17AC2B2B00B853CB /* MapViewController.xib */,
-				062E364217AC2B2B00B853CB /* MarketplaceFilterView.xib */,
-				062E364317AC2B2B00B853CB /* MarketplaceSearchCell.xib */,
-				062E361A17AC2B2A00B853CB /* MarketplaceViewController.xib */,
-				062E365A17AC2B2B00B853CB /* MentorChatView.xib */,
-				062E362017AC2B2A00B853CB /* MissionBuildingMenu.xib */,
-				0684423C17BC3166004690CD /* MonteCardView.xib */,
-				062E361717AC2B2A00B853CB /* PinView.xib */,
-				062E365917AC2B2B00B853CB /* PrivateChatCell.xib */,
-				062E366217AC2B2B00B853CB /* ProfileEquipBrowseView.xib */,
-				062E366317AC2B2B00B853CB /* ProfileEquipPopup.xib */,
-				062E361C17AC2B2A00B853CB /* ProfileViewController.xib */,
-				062E362417AC2B2A00B853CB /* QuestCell.xib */,
-				062E361D17AC2B2A00B853CB /* QuestLogController.xib */,
-				062E362E17AC2B2A00B853CB /* RefillMenuController.xib */,
-				062E363217AC2B2A00B853CB /* RequiredEquipView.xib */,
-				062E364A17AC2B2B00B853CB /* ResetStaminaView.xib */,
-				062E362917AC2B2A00B853CB /* RewardCell.xib */,
-				062E362F17AC2B2A00B853CB /* StolenEquipView.xib */,
-				0684423A17BC2E4B004690CD /* ThreeCardMonteViewController.xib */,
-				062E364D17AC2B2B00B853CB /* TournamentCell.xib */,
-				062E364B17AC2B2B00B853CB /* TournamentMenuController.xib */,
-				062E364C17AC2B2B00B853CB /* TournamentPrizeView.xib */,
-				062E364617AC2B2B00B853CB /* TravelingLoadingView.xib */,
-				062E362B17AC2B2A00B853CB /* UpgradeBuildingMenu.xib */,
-				062E361E17AC2B2A00B853CB /* VaultMenuController.xib */,
-				062E362717AC2B2A00B853CB /* WallPostCell.xib */,
-				062E363717AC2B2A00B853CB /* WelcomeView.xib */,
+				06ECEBF417C5643400E80726 /* Utopia */,
 			);
-			name = "Resources-iPad";
+			path = "Resources-iPad";
+			sourceTree = "<group>";
+		};
+		06ECEBF417C5643400E80726 /* Utopia */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEBF517C5643400E80726 /* Classes */,
+			);
+			path = Utopia;
+			sourceTree = "<group>";
+		};
+		06ECEBF517C5643400E80726 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEBF617C5643400E80726 /* App Startup */,
+				06ECEBF817C5643400E80726 /* Battle */,
+				06ECEBFD17C5643400E80726 /* Downloader */,
+				06ECEBFF17C5643400E80726 /* Game Menus */,
+				06ECEC6617C5643400E80726 /* Main Map */,
+				06ECEC7617C5643400E80726 /* Tutorial */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		06ECEBF617C5643400E80726 /* App Startup */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEBF717C5643400E80726 /* MainWindow.xib */,
+			);
+			path = "App Startup";
+			sourceTree = "<group>";
+		};
+		06ECEBF817C5643400E80726 /* Battle */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEBF917C5643400E80726 /* BattleSummaryEquipView.xib */,
+				06ECEBFA17C5643400E80726 /* BattleSummaryView.xib */,
+				06ECEBFB17C5643400E80726 /* BattleTutorialView.xib */,
+				06ECEBFC17C5643400E80726 /* StolenEquipView.xib */,
+			);
+			path = Battle;
+			sourceTree = "<group>";
+		};
+		06ECEBFD17C5643400E80726 /* Downloader */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEBFE17C5643400E80726 /* DownloaderSpinner.xib */,
+			);
+			path = Downloader;
+			sourceTree = "<group>";
+		};
+		06ECEBFF17C5643400E80726 /* Game Menus */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC0017C5643400E80726 /* ActivityFeedMenu */,
+				06ECEC0317C5643400E80726 /* ArmoryMenu */,
+				06ECEC0A17C5643400E80726 /* AttackMenu */,
+				06ECEC0D17C5643400E80726 /* BossEventMenu */,
+				06ECEC0F17C5643400E80726 /* BuildUpgradePopup */,
+				06ECEC1117C5643400E80726 /* CarpenterMenu */,
+				06ECEC1517C5643400E80726 /* ChatMenu */,
+				06ECEC1A17C5643400E80726 /* CityRankupMenu */,
+				06ECEC1C17C5643400E80726 /* ClanMenu */,
+				06ECEC2617C5643400E80726 /* ConvoMenu */,
+				06ECEC2817C5643400E80726 /* DailyBonusMenu */,
+				06ECEC2A17C5643400E80726 /* DiamondMenu */,
+				06ECEC2D17C5643400E80726 /* EquipMenu */,
+				06ECEC2F17C5643400E80726 /* ExpansionMenu */,
+				06ECEC3117C5643400E80726 /* FAQMenu */,
+				06ECEC3317C5643400E80726 /* ForgeMenu */,
+				06ECEC3617C5643400E80726 /* Generic Popup */,
+				06ECEC3817C5643400E80726 /* GoldMineMenu */,
+				06ECEC3A17C5643400E80726 /* LeaderboardMenu */,
+				06ECEC3D17C5643400E80726 /* LevelUpMenu */,
+				06ECEC4017C5643400E80726 /* LockBoxMenu */,
+				06ECEC4317C5643400E80726 /* MapMenu */,
+				06ECEC4617C5643400E80726 /* MarketplaceMenu */,
+				06ECEC4C17C5643400E80726 /* ProfileMenu */,
+				06ECEC5417C5643400E80726 /* QuestLogMenu */,
+				06ECEC5A17C5643400E80726 /* RefillMenu */,
+				06ECEC5D17C5643400E80726 /* ThreeCardMonteMenu */,
+				06ECEC6017C5643400E80726 /* TournamentMenu */,
+				06ECEC6417C5643400E80726 /* VaultMenu */,
+			);
+			path = "Game Menus";
+			sourceTree = "<group>";
+		};
+		06ECEC0017C5643400E80726 /* ActivityFeedMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC0117C5643400E80726 /* ActivityFeedCell.xib */,
+				06ECEC0217C5643400E80726 /* ActivityFeedController.xib */,
+			);
+			path = ActivityFeedMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC0317C5643400E80726 /* ArmoryMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC0417C5643400E80726 /* ArmoryFeedCell.xib */,
+				06ECEC0517C5643400E80726 /* ArmoryItemView.xib */,
+				06ECEC0617C5643400E80726 /* ArmoryListing.xib */,
+				06ECEC0717C5643400E80726 /* ArmoryRow.xib */,
+				06ECEC0817C5643400E80726 /* ArmoryTutorialView.xib */,
+				06ECEC0917C5643400E80726 /* ArmoryViewController.xib */,
+			);
+			path = ArmoryMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC0A17C5643400E80726 /* AttackMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC0B17C5643400E80726 /* AttackListCell.xib */,
+				06ECEC0C17C5643400E80726 /* AttackMenuController.xib */,
+			);
+			path = AttackMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC0D17C5643400E80726 /* BossEventMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC0E17C5643400E80726 /* BossEventMenuController.xib */,
+			);
+			path = BossEventMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC0F17C5643400E80726 /* BuildUpgradePopup */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC1017C5643400E80726 /* BuildUpgradePopupController.xib */,
+			);
+			path = BuildUpgradePopup;
+			sourceTree = "<group>";
+		};
+		06ECEC1117C5643400E80726 /* CarpenterMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC1217C5643400E80726 /* CarpenterListing.xib */,
+				06ECEC1317C5643400E80726 /* CarpenterMenuController.xib */,
+				06ECEC1417C5643400E80726 /* CarpenterRow.xib */,
+			);
+			path = CarpenterMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC1517C5643400E80726 /* ChatMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC1617C5643400E80726 /* ChatCell.xib */,
+				06ECEC1717C5643400E80726 /* ChatMenuController.xib */,
+				06ECEC1817C5643400E80726 /* MentorChatView.xib */,
+				06ECEC1917C5643400E80726 /* PrivateChatCell.xib */,
+			);
+			path = ChatMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC1A17C5643400E80726 /* CityRankupMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC1B17C5643400E80726 /* CityRankupViewController.xib */,
+			);
+			path = CityRankupMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC1C17C5643400E80726 /* ClanMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC1D17C5643400E80726 /* BrowseClanCell.xib */,
+				06ECEC1E17C5643400E80726 /* BrowseSearchCell.xib */,
+				06ECEC1F17C5643400E80726 /* ClanBoardCell.xib */,
+				06ECEC2017C5643400E80726 /* ClanMemberCell.xib */,
+				06ECEC2117C5643400E80726 /* ClanMenuController.xib */,
+				06ECEC2217C5643400E80726 /* ClanTowerScoresCell.xib */,
+				06ECEC2317C5643400E80726 /* ClanTowerTabView.xib */,
+				06ECEC2417C5643400E80726 /* ClanTowerTickerCell.xib */,
+				06ECEC2517C5643400E80726 /* ClanTowerView.xib */,
+			);
+			path = ClanMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC2617C5643400E80726 /* ConvoMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC2717C5643400E80726 /* ConvoMenuController.xib */,
+			);
+			path = ConvoMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC2817C5643400E80726 /* DailyBonusMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC2917C5643400E80726 /* DailyBonusMenuController.xib */,
+			);
+			path = DailyBonusMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC2A17C5643400E80726 /* DiamondMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC2B17C5643400E80726 /* GoldPackageView.xib */,
+				06ECEC2C17C5643400E80726 /* GoldShoppeViewController.xib */,
+			);
+			path = DiamondMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC2D17C5643400E80726 /* EquipMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC2E17C5643400E80726 /* EquipMenuController.xib */,
+			);
+			path = EquipMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC2F17C5643400E80726 /* ExpansionMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC3017C5643400E80726 /* ExpansionView.xib */,
+			);
+			path = ExpansionMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC3117C5643400E80726 /* FAQMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC3217C5643400E80726 /* FAQMenuController.xib */,
+			);
+			path = FAQMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC3317C5643400E80726 /* ForgeMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC3417C5643400E80726 /* ForgeItemView.xib */,
+				06ECEC3517C5643400E80726 /* ForgeMenuController.xib */,
+			);
+			path = ForgeMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC3617C5643400E80726 /* Generic Popup */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC3717C5643400E80726 /* GenericPopupController.xib */,
+			);
+			path = "Generic Popup";
+			sourceTree = "<group>";
+		};
+		06ECEC3817C5643400E80726 /* GoldMineMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC3917C5643400E80726 /* GoldMineView.xib */,
+			);
+			path = GoldMineMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC3A17C5643400E80726 /* LeaderboardMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC3B17C5643400E80726 /* LeaderboardCell.xib */,
+				06ECEC3C17C5643400E80726 /* LeaderboardController.xib */,
+			);
+			path = LeaderboardMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC3D17C5643400E80726 /* LevelUpMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC3E17C5643400E80726 /* LevelUpItemView.xib */,
+				06ECEC3F17C5643400E80726 /* LevelUpViewController.xib */,
+			);
+			path = LevelUpMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC4017C5643400E80726 /* LockBoxMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC4117C5643400E80726 /* LockBoxInfoView.xib */,
+				06ECEC4217C5643400E80726 /* LockBoxMenuController.xib */,
+			);
+			path = LockBoxMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC4317C5643400E80726 /* MapMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC4417C5643400E80726 /* MapViewController.xib */,
+				06ECEC4517C5643400E80726 /* PinView.xib */,
+			);
+			path = MapMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC4617C5643400E80726 /* MarketplaceMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC4717C5643400E80726 /* ItemPostView.xib */,
+				06ECEC4817C5643400E80726 /* LicenseRow.xib */,
+				06ECEC4917C5643400E80726 /* MarketplaceFilterView.xib */,
+				06ECEC4A17C5643400E80726 /* MarketplaceSearchCell.xib */,
+				06ECEC4B17C5643400E80726 /* MarketplaceViewController.xib */,
+			);
+			path = MarketplaceMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC4C17C5643400E80726 /* ProfileMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC4D17C5643400E80726 /* EquipBrowseCell.xib */,
+				06ECEC4E17C5643400E80726 /* EquipDeltaView.xib */,
+				06ECEC4F17C5643400E80726 /* EquipView.xib */,
+				06ECEC5017C5643400E80726 /* ProfileEquipBrowseView.xib */,
+				06ECEC5117C5643400E80726 /* ProfileEquipPopup.xib */,
+				06ECEC5217C5643400E80726 /* ProfileViewController.xib */,
+				06ECEC5317C5643400E80726 /* WallPostCell.xib */,
+			);
+			path = ProfileMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC5417C5643400E80726 /* QuestLogMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC5517C5643400E80726 /* DescriptionCell.xib */,
+				06ECEC5617C5643400E80726 /* JobCell.xib */,
+				06ECEC5717C5643400E80726 /* QuestCell.xib */,
+				06ECEC5817C5643400E80726 /* QuestLogController.xib */,
+				06ECEC5917C5643400E80726 /* RewardCell.xib */,
+			);
+			path = QuestLogMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC5A17C5643400E80726 /* RefillMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC5B17C5643400E80726 /* RefillMenuController.xib */,
+				06ECEC5C17C5643400E80726 /* RequiredEquipView.xib */,
+			);
+			path = RefillMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC5D17C5643400E80726 /* ThreeCardMonteMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC5E17C5643400E80726 /* MonteCardView.xib */,
+				06ECEC5F17C5643400E80726 /* ThreeCardMonteViewController.xib */,
+			);
+			path = ThreeCardMonteMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC6017C5643400E80726 /* TournamentMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC6117C5643400E80726 /* TournamentCell.xib */,
+				06ECEC6217C5643400E80726 /* TournamentMenuController.xib */,
+				06ECEC6317C5643400E80726 /* TournamentPrizeView.xib */,
+			);
+			path = TournamentMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC6417C5643400E80726 /* VaultMenu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC6517C5643400E80726 /* VaultMenuController.xib */,
+			);
+			path = VaultMenu;
+			sourceTree = "<group>";
+		};
+		06ECEC6617C5643400E80726 /* Main Map */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC6717C5643400E80726 /* BossInfoView.xib */,
+				06ECEC6817C5643400E80726 /* BossUnlockedView.xib */,
+				06ECEC6917C5643400E80726 /* ChatBottomView.xib */,
+				06ECEC6A17C5643400E80726 /* CityBossView.xib */,
+				06ECEC6B17C5643400E80726 /* CityGemsView.xib */,
+				06ECEC6C17C5643400E80726 /* GameMap */,
+				06ECEC6F17C5643400E80726 /* GemTutorialView.xib */,
+				06ECEC7017C5643400E80726 /* HomeBuildingMenu.xib */,
+				06ECEC7117C5643400E80726 /* InGameNotification.xib */,
+				06ECEC7217C5643400E80726 /* ResetStaminaView.xib */,
+				06ECEC7317C5643400E80726 /* TravelingLoadingView.xib */,
+				06ECEC7417C5643400E80726 /* UpgradeBuildingMenu.xib */,
+				06ECEC7517C5643400E80726 /* WelcomeView.xib */,
+			);
+			path = "Main Map";
+			sourceTree = "<group>";
+		};
+		06ECEC6C17C5643400E80726 /* GameMap */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC6D17C5643400E80726 /* EnemyPopupView.xib */,
+				06ECEC6E17C5643400E80726 /* MissionBuildingMenu.xib */,
+			);
+			path = GameMap;
+			sourceTree = "<group>";
+		};
+		06ECEC7617C5643400E80726 /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC7717C5643400E80726 /* Character Selection */,
+				06ECEC7917C5643400E80726 /* Dialog Menu */,
+			);
+			path = Tutorial;
+			sourceTree = "<group>";
+		};
+		06ECEC7717C5643400E80726 /* Character Selection */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC7817C5643400E80726 /* CharSelectionViewController.xib */,
+			);
+			path = "Character Selection";
+			sourceTree = "<group>";
+		};
+		06ECEC7917C5643400E80726 /* Dialog Menu */ = {
+			isa = PBXGroup;
+			children = (
+				06ECEC7A17C5643400E80726 /* DialogMenuController.xib */,
+			);
+			path = "Dialog Menu";
 			sourceTree = "<group>";
 		};
 		455FC6C2157EE683008DB9E4 /* UtopiaTests */ = {
@@ -13797,96 +14142,6 @@
 				062E35F417AC2B0900B853CB /* tutorialtext@2x.pvr.ccz in Resources */,
 				062E35F517AC2B0900B853CB /* blackcircle.png in Resources */,
 				062E35F617AC2B0900B853CB /* blackcircle@2x.png in Resources */,
-				062E366417AC2B2B00B853CB /* MainWindow.xib in Resources */,
-				062E366517AC2B2B00B853CB /* BattleSummaryView.xib in Resources */,
-				062E366617AC2B2B00B853CB /* ActivityFeedCell.xib in Resources */,
-				062E366717AC2B2B00B853CB /* ActivityFeedController.xib in Resources */,
-				062E366817AC2B2B00B853CB /* ArmoryListing.xib in Resources */,
-				062E366B17AC2B2B00B853CB /* BuildUpgradePopupController.xib in Resources */,
-				062E366C17AC2B2B00B853CB /* CarpenterListing.xib in Resources */,
-				062E366D17AC2B2B00B853CB /* CarpenterMenuController.xib in Resources */,
-				062E366E17AC2B2B00B853CB /* CarpenterRow.xib in Resources */,
-				062E366F17AC2B2B00B853CB /* CityRankupViewController.xib in Resources */,
-				062E367017AC2B2B00B853CB /* GoldPackageView.xib in Resources */,
-				062E367117AC2B2B00B853CB /* GoldShoppeViewController.xib in Resources */,
-				062E367217AC2B2B00B853CB /* GenericPopupController.xib in Resources */,
-				062E367317AC2B2B00B853CB /* LevelUpItemView.xib in Resources */,
-				062E367417AC2B2B00B853CB /* LevelUpViewController.xib in Resources */,
-				062E367517AC2B2B00B853CB /* PinView.xib in Resources */,
-				062E367617AC2B2B00B853CB /* ItemPostView.xib in Resources */,
-				062E367717AC2B2B00B853CB /* LicenseRow.xib in Resources */,
-				062E367817AC2B2B00B853CB /* MarketplaceViewController.xib in Resources */,
-				062E367917AC2B2B00B853CB /* EquipView.xib in Resources */,
-				062E367A17AC2B2B00B853CB /* ProfileViewController.xib in Resources */,
-				062E367B17AC2B2B00B853CB /* QuestLogController.xib in Resources */,
-				062E367C17AC2B2B00B853CB /* VaultMenuController.xib in Resources */,
-				062E367D17AC2B2B00B853CB /* EnemyPopupView.xib in Resources */,
-				062E367E17AC2B2B00B853CB /* MissionBuildingMenu.xib in Resources */,
-				062E367F17AC2B2B00B853CB /* CharSelectionViewController.xib in Resources */,
-				062E368017AC2B2B00B853CB /* DialogMenuController.xib in Resources */,
-				062E368117AC2B2B00B853CB /* FAQMenuController.xib in Resources */,
-				062E368217AC2B2B00B853CB /* QuestCell.xib in Resources */,
-				062E368317AC2B2B00B853CB /* JobCell.xib in Resources */,
-				062E368417AC2B2B00B853CB /* ConvoMenuController.xib in Resources */,
-				062E368517AC2B2B00B853CB /* WallPostCell.xib in Resources */,
-				062E368617AC2B2B00B853CB /* EquipMenuController.xib in Resources */,
-				062E368717AC2B2B00B853CB /* RewardCell.xib in Resources */,
-				062E368817AC2B2B00B853CB /* DescriptionCell.xib in Resources */,
-				062E368917AC2B2B00B853CB /* UpgradeBuildingMenu.xib in Resources */,
-				062E368A17AC2B2B00B853CB /* HomeBuildingMenu.xib in Resources */,
-				062E368B17AC2B2B00B853CB /* EquipDeltaView.xib in Resources */,
-				062E368C17AC2B2B00B853CB /* RefillMenuController.xib in Resources */,
-				062E368D17AC2B2B00B853CB /* StolenEquipView.xib in Resources */,
-				062E368E17AC2B2B00B853CB /* ForgeMenuController.xib in Resources */,
-				062E368F17AC2B2B00B853CB /* ForgeItemView.xib in Resources */,
-				062E369017AC2B2B00B853CB /* RequiredEquipView.xib in Resources */,
-				062E369117AC2B2B00B853CB /* AttackMenuController.xib in Resources */,
-				062E369217AC2B2B00B853CB /* AttackListCell.xib in Resources */,
-				062E369317AC2B2B00B853CB /* InGameNotification.xib in Resources */,
-				062E369417AC2B2B00B853CB /* LeaderboardController.xib in Resources */,
-				062E369517AC2B2B00B853CB /* WelcomeView.xib in Resources */,
-				062E369617AC2B2B00B853CB /* LeaderboardCell.xib in Resources */,
-				062E369717AC2B2B00B853CB /* ChatMenuController.xib in Resources */,
-				062E369817AC2B2B00B853CB /* ChatCell.xib in Resources */,
-				062E369917AC2B2B00B853CB /* ChatBottomView.xib in Resources */,
-				062E369A17AC2B2B00B853CB /* ClanMenuController.xib in Resources */,
-				062E369B17AC2B2B00B853CB /* BrowseClanCell.xib in Resources */,
-				062E369C17AC2B2B00B853CB /* ClanMemberCell.xib in Resources */,
-				062E369D17AC2B2B00B853CB /* BrowseSearchCell.xib in Resources */,
-				062E369E17AC2B2B00B853CB /* ClanBoardCell.xib in Resources */,
-				062E369F17AC2B2B00B853CB /* GoldMineView.xib in Resources */,
-				062E36A017AC2B2B00B853CB /* MarketplaceFilterView.xib in Resources */,
-				062E36A117AC2B2B00B853CB /* MarketplaceSearchCell.xib in Resources */,
-				062E36A217AC2B2B00B853CB /* ExpansionView.xib in Resources */,
-				062E36A317AC2B2B00B853CB /* DownloaderSpinner.xib in Resources */,
-				062E36A417AC2B2B00B853CB /* TravelingLoadingView.xib in Resources */,
-				062E36A517AC2B2B00B853CB /* LockBoxInfoView.xib in Resources */,
-				062E36A617AC2B2B00B853CB /* ClanTowerTabView.xib in Resources */,
-				062E36A717AC2B2B00B853CB /* ClanTowerView.xib in Resources */,
-				062E36A817AC2B2B00B853CB /* ResetStaminaView.xib in Resources */,
-				062E36A917AC2B2B00B853CB /* TournamentMenuController.xib in Resources */,
-				062E36AA17AC2B2B00B853CB /* TournamentPrizeView.xib in Resources */,
-				062E36AB17AC2B2B00B853CB /* TournamentCell.xib in Resources */,
-				062E36AC17AC2B2B00B853CB /* ClanTowerScoresCell.xib in Resources */,
-				062E36AD17AC2B2B00B853CB /* ClanTowerTickerCell.xib in Resources */,
-				062E36B017AC2B2B00B853CB /* BattleTutorialView.xib in Resources */,
-				062E36B117AC2B2B00B853CB /* ArmoryTutorialView.xib in Resources */,
-				062E36B217AC2B2B00B853CB /* DailyBonusMenuController.xib in Resources */,
-				062E36B317AC2B2B00B853CB /* ArmoryFeedCell.xib in Resources */,
-				062E36B417AC2B2B00B853CB /* ArmoryItemView.xib in Resources */,
-				062E36B517AC2B2B00B853CB /* EquipBrowseCell.xib in Resources */,
-				062E36B617AC2B2B00B853CB /* BattleSummaryEquipView.xib in Resources */,
-				062E36B717AC2B2B00B853CB /* PrivateChatCell.xib in Resources */,
-				062E36B817AC2B2B00B853CB /* MentorChatView.xib in Resources */,
-				062E36B917AC2B2B00B853CB /* CityGemsView.xib in Resources */,
-				062E36BA17AC2B2B00B853CB /* CityBossView.xib in Resources */,
-				062E36BB17AC2B2B00B853CB /* BossUnlockedView.xib in Resources */,
-				062E36BC17AC2B2B00B853CB /* MapViewController.xib in Resources */,
-				062E36BD17AC2B2B00B853CB /* BossEventMenuController.xib in Resources */,
-				062E36BE17AC2B2B00B853CB /* GemTutorialView.xib in Resources */,
-				062E36BF17AC2B2B00B853CB /* BossInfoView.xib in Resources */,
-				062E36C017AC2B2B00B853CB /* ProfileEquipBrowseView.xib in Resources */,
-				062E36C117AC2B2B00B853CB /* ProfileEquipPopup.xib in Resources */,
 				066F5F3617AC9674002FF339 /* alarcher.png in Resources */,
 				066F5F3917AC9674002FF339 /* alarcher@2x.png in Resources */,
 				066F5F3C17AC9674002FF339 /* baarcher.png in Resources */,
@@ -13935,9 +14190,6 @@
 				066F5FBD17AC9674002FF339 /* skel@2x.png in Resources */,
 				066F5FC017AC9674002FF339 /* warrior.png in Resources */,
 				066F5FC317AC9674002FF339 /* warrior@2x.png in Resources */,
-				0637FB3717BC242C00D6DCDA /* LockBoxMenuController.xib in Resources */,
-				0684423B17BC2E4B004690CD /* ThreeCardMonteViewController.xib in Resources */,
-				0684423D17BC3166004690CD /* MonteCardView.xib in Resources */,
 				0684423E17BC3899004690CD /* todayyouearnedquotebubble@2x.png in Resources */,
 				0684423F17BC3981004690CD /* playthreecardbutton@2x.png in Resources */,
 				0684424017BC3990004690CD /* montebg@2x.png in Resources */,
@@ -13980,8 +14232,126 @@
 				06830F8A17BC807A003E7AAF /* eventstar@2x.png in Resources */,
 				06830F8B17BC8085003E7AAF /* lockboxitembg@2x.png in Resources */,
 				06830F8C17BC8093003E7AAF /* miniitembg@2x.png in Resources */,
-				06830F8E17BD5476003E7AAF /* ArmoryViewController.xib in Resources */,
-				06830F9017BD8F68003E7AAF /* ArmoryRow.xib in Resources */,
+				0666ABBF17C2981300DEFAC5 /* remainingpurchasesbg.png in Resources */,
+				0666ABC217C2981D00DEFAC5 /* mycoinsbg@2x.png in Resources */,
+				0666ABC317C2984700DEFAC5 /* barbg@2x.png in Resources */,
+				0666ABC417C2984F00DEFAC5 /* activegold@2x.png in Resources */,
+				0666ABC517C2985900DEFAC5 /* goldshoppebg@2x.png in Resources */,
+				0666ABC617C2986200DEFAC5 /* goldshoppelogo@2x.png in Resources */,
+				0666ABC717C2987B00DEFAC5 /* packagesbg@2x.png in Resources */,
+				0666ABC817C298EA00DEFAC5 /* alertexclamation@2x.png in Resources */,
+				0666ABC917C298F300DEFAC5 /* remainingpurchasesbg@2x.png in Resources */,
+				0666ABCA17C29A4400DEFAC5 /* packagepaperbg@2x.png in Resources */,
+				0666ABCB17C29A5200DEFAC5 /* packagetag@2x.png in Resources */,
+				0666ABCC17C29A7700DEFAC5 /* crossedout@2x.png in Resources */,
+				0666ABCD17C29A8400DEFAC5 /* percentoff@2x.png in Resources */,
+				0666ABCE17C2CD0400DEFAC5 /* lockedcity@2x.png in Resources */,
+				0666ABCF17C2CD1A00DEFAC5 /* worldmapbg@2x.png in Resources */,
+				0666ABD017C2CDA000DEFAC5 /* path@2x.png in Resources */,
+				0666ABD117C2CDAF00DEFAC5 /* citygobutton@2x.png in Resources */,
+				0666ABD217C2CDBC00DEFAC5 /* visitcitybubble@2x.png in Resources */,
+				0666ABD317C2CDC500DEFAC5 /* cityprogressbarbg@2x.png in Resources */,
+				0666ABD417C2CE1500DEFAC5 /* mapstaminabar@2x.png in Resources */,
+				0666ABD517C2CE2000DEFAC5 /* mapenergybar@2x.png in Resources */,
+				0666ABD617C2CE2E00DEFAC5 /* mapborderbg@2x.png in Resources */,
+				0666ABD717C2CE3A00DEFAC5 /* mapstaminabarbg@2x.png in Resources */,
+				0666ABD817C2CE4300DEFAC5 /* opencity@2x.png in Resources */,
+				0666ABD917C2CEB500DEFAC5 /* cityprogressyellowbar@2x.png in Resources */,
+				06ECEC7B17C5643400E80726 /* MainWindow.xib in Resources */,
+				06ECEC7C17C5643400E80726 /* BattleSummaryEquipView.xib in Resources */,
+				06ECEC7D17C5643400E80726 /* BattleSummaryView.xib in Resources */,
+				06ECEC7E17C5643400E80726 /* BattleTutorialView.xib in Resources */,
+				06ECEC7F17C5643400E80726 /* StolenEquipView.xib in Resources */,
+				06ECEC8017C5643400E80726 /* DownloaderSpinner.xib in Resources */,
+				06ECEC8117C5643400E80726 /* ActivityFeedCell.xib in Resources */,
+				06ECEC8217C5643400E80726 /* ActivityFeedController.xib in Resources */,
+				06ECEC8317C5643400E80726 /* ArmoryFeedCell.xib in Resources */,
+				06ECEC8417C5643400E80726 /* ArmoryItemView.xib in Resources */,
+				06ECEC8517C5643400E80726 /* ArmoryListing.xib in Resources */,
+				06ECEC8617C5643400E80726 /* ArmoryRow.xib in Resources */,
+				06ECEC8717C5643400E80726 /* ArmoryTutorialView.xib in Resources */,
+				06ECEC8817C5643400E80726 /* ArmoryViewController.xib in Resources */,
+				06ECEC8917C5643400E80726 /* AttackListCell.xib in Resources */,
+				06ECEC8A17C5643400E80726 /* AttackMenuController.xib in Resources */,
+				06ECEC8B17C5643400E80726 /* BossEventMenuController.xib in Resources */,
+				06ECEC8C17C5643400E80726 /* BuildUpgradePopupController.xib in Resources */,
+				06ECEC8D17C5643400E80726 /* CarpenterListing.xib in Resources */,
+				06ECEC8E17C5643400E80726 /* CarpenterMenuController.xib in Resources */,
+				06ECEC8F17C5643400E80726 /* CarpenterRow.xib in Resources */,
+				06ECEC9017C5643400E80726 /* ChatCell.xib in Resources */,
+				06ECEC9117C5643400E80726 /* ChatMenuController.xib in Resources */,
+				06ECEC9217C5643400E80726 /* MentorChatView.xib in Resources */,
+				06ECEC9317C5643400E80726 /* PrivateChatCell.xib in Resources */,
+				06ECEC9417C5643400E80726 /* CityRankupViewController.xib in Resources */,
+				06ECEC9517C5643400E80726 /* BrowseClanCell.xib in Resources */,
+				06ECEC9617C5643400E80726 /* BrowseSearchCell.xib in Resources */,
+				06ECEC9717C5643400E80726 /* ClanBoardCell.xib in Resources */,
+				06ECEC9817C5643400E80726 /* ClanMemberCell.xib in Resources */,
+				06ECEC9917C5643400E80726 /* ClanMenuController.xib in Resources */,
+				06ECEC9A17C5643400E80726 /* ClanTowerScoresCell.xib in Resources */,
+				06ECEC9B17C5643400E80726 /* ClanTowerTabView.xib in Resources */,
+				06ECEC9C17C5643400E80726 /* ClanTowerTickerCell.xib in Resources */,
+				06ECEC9D17C5643400E80726 /* ClanTowerView.xib in Resources */,
+				06ECEC9E17C5643400E80726 /* ConvoMenuController.xib in Resources */,
+				06ECEC9F17C5643400E80726 /* DailyBonusMenuController.xib in Resources */,
+				06ECECA017C5643400E80726 /* GoldPackageView.xib in Resources */,
+				06ECECA117C5643400E80726 /* GoldShoppeViewController.xib in Resources */,
+				06ECECA217C5643400E80726 /* EquipMenuController.xib in Resources */,
+				06ECECA317C5643400E80726 /* ExpansionView.xib in Resources */,
+				06ECECA417C5643400E80726 /* FAQMenuController.xib in Resources */,
+				06ECECA517C5643400E80726 /* ForgeItemView.xib in Resources */,
+				06ECECA617C5643400E80726 /* ForgeMenuController.xib in Resources */,
+				06ECECA717C5643400E80726 /* GenericPopupController.xib in Resources */,
+				06ECECA817C5643400E80726 /* GoldMineView.xib in Resources */,
+				06ECECA917C5643400E80726 /* LeaderboardCell.xib in Resources */,
+				06ECECAA17C5643400E80726 /* LeaderboardController.xib in Resources */,
+				06ECECAB17C5643400E80726 /* LevelUpItemView.xib in Resources */,
+				06ECECAC17C5643400E80726 /* LevelUpViewController.xib in Resources */,
+				06ECECAD17C5643400E80726 /* LockBoxInfoView.xib in Resources */,
+				06ECECAE17C5643400E80726 /* LockBoxMenuController.xib in Resources */,
+				06ECECAF17C5643400E80726 /* MapViewController.xib in Resources */,
+				06ECECB017C5643400E80726 /* PinView.xib in Resources */,
+				06ECECB117C5643400E80726 /* ItemPostView.xib in Resources */,
+				06ECECB217C5643400E80726 /* LicenseRow.xib in Resources */,
+				06ECECB317C5643400E80726 /* MarketplaceFilterView.xib in Resources */,
+				06ECECB417C5643400E80726 /* MarketplaceSearchCell.xib in Resources */,
+				06ECECB517C5643400E80726 /* MarketplaceViewController.xib in Resources */,
+				06ECECB617C5643400E80726 /* EquipBrowseCell.xib in Resources */,
+				06ECECB717C5643400E80726 /* EquipDeltaView.xib in Resources */,
+				06ECECB817C5643400E80726 /* EquipView.xib in Resources */,
+				06ECECB917C5643400E80726 /* ProfileEquipBrowseView.xib in Resources */,
+				06ECECBA17C5643400E80726 /* ProfileEquipPopup.xib in Resources */,
+				06ECECBB17C5643400E80726 /* ProfileViewController.xib in Resources */,
+				06ECECBC17C5643400E80726 /* WallPostCell.xib in Resources */,
+				06ECECBD17C5643400E80726 /* DescriptionCell.xib in Resources */,
+				06ECECBE17C5643400E80726 /* JobCell.xib in Resources */,
+				06ECECBF17C5643400E80726 /* QuestCell.xib in Resources */,
+				06ECECC017C5643400E80726 /* QuestLogController.xib in Resources */,
+				06ECECC117C5643400E80726 /* RewardCell.xib in Resources */,
+				06ECECC217C5643400E80726 /* RefillMenuController.xib in Resources */,
+				06ECECC317C5643400E80726 /* RequiredEquipView.xib in Resources */,
+				06ECECC417C5643400E80726 /* MonteCardView.xib in Resources */,
+				06ECECC517C5643400E80726 /* ThreeCardMonteViewController.xib in Resources */,
+				06ECECC617C5643400E80726 /* TournamentCell.xib in Resources */,
+				06ECECC717C5643400E80726 /* TournamentMenuController.xib in Resources */,
+				06ECECC817C5643400E80726 /* TournamentPrizeView.xib in Resources */,
+				06ECECC917C5643400E80726 /* VaultMenuController.xib in Resources */,
+				06ECECCA17C5643400E80726 /* BossInfoView.xib in Resources */,
+				06ECECCB17C5643400E80726 /* BossUnlockedView.xib in Resources */,
+				06ECECCC17C5643400E80726 /* ChatBottomView.xib in Resources */,
+				06ECECCD17C5643400E80726 /* CityBossView.xib in Resources */,
+				06ECECCE17C5643400E80726 /* CityGemsView.xib in Resources */,
+				06ECECCF17C5643400E80726 /* EnemyPopupView.xib in Resources */,
+				06ECECD017C5643400E80726 /* MissionBuildingMenu.xib in Resources */,
+				06ECECD117C5643400E80726 /* GemTutorialView.xib in Resources */,
+				06ECECD217C5643400E80726 /* HomeBuildingMenu.xib in Resources */,
+				06ECECD317C5643400E80726 /* InGameNotification.xib in Resources */,
+				06ECECD417C5643400E80726 /* ResetStaminaView.xib in Resources */,
+				06ECECD517C5643400E80726 /* TravelingLoadingView.xib in Resources */,
+				06ECECD617C5643400E80726 /* UpgradeBuildingMenu.xib in Resources */,
+				06ECECD717C5643400E80726 /* WelcomeView.xib in Resources */,
+				06ECECD817C5643400E80726 /* CharSelectionViewController.xib in Resources */,
+				06ECECD917C5643400E80726 /* DialogMenuController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

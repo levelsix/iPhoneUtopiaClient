@@ -38,10 +38,10 @@
 - (void) awakeFromNib {
   isLocked = YES;
   
-  self.numlabel = [[[UILabel alloc] initWithFrame:CGRectMake(7, -0.5, 23, 26)] autorelease];
+  self.numlabel = [[[UILabel alloc] initWithFrame:CGRectMake(7*DEVICE_SCALE, -0.5*DEVICE_SCALE, 23*DEVICE_SCALE, 26*DEVICE_SCALE)] autorelease];
   [self addSubview:self.numlabel];
-  self.numlabel.font = [UIFont fontWithName:[Globals font] size:15.f];
-  [Globals adjustFontSizeForSize:15.f withUIView:self.numlabel];
+  self.numlabel.font = [UIFont fontWithName:[Globals font] size:15.f*DEVICE_SCALE];
+  [Globals adjustFontSizeForSize:15.f*DEVICE_SCALE withUIView:self.numlabel];
   self.numlabel.backgroundColor = [UIColor clearColor];
   self.numlabel.textAlignment = NSTextAlignmentCenter;
   self.numlabel.textColor = [UIColor colorWithWhite:0.f alpha:0.7f];
@@ -57,11 +57,14 @@
   Globals *gl = [Globals sharedGlobals];
   NSString *base = gl.downloadableNibConstants.mapNibName;
   if (!isLocked) {
-    [self setImage:[Globals imageNamed:[base stringByAppendingString:@"/opencity.png"]] forState:UIControlStateNormal] ;
+    if (IS_IPAD) [self setImage:[UIImage imageNamed:@"opencity@2x.png"] forState:UIControlStateNormal] ;
+    else  [self setImage:[Globals imageNamed:[base stringByAppendingString:@"/opencity.png"]] forState:UIControlStateNormal] ;
+
     self.numlabel.text = [NSString stringWithFormat:@"%d", fcp.cityId];
     self.numlabel.hidden = NO;
   } else {
-    [self setImage:[Globals imageNamed:[base stringByAppendingString:@"/lockedcity.png"]] forState:UIControlStateNormal];
+    if (IS_IPAD) [self setImage:[UIImage imageNamed:@"lockedcity@2x.png"] forState:UIControlStateNormal] ;
+    else  [self setImage:[Globals imageNamed:[base stringByAppendingString:@"/lockedcity.png"]] forState:UIControlStateNormal] ;
     self.numlabel.hidden = YES;
   }
   

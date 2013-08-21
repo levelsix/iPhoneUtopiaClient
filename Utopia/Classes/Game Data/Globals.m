@@ -1059,6 +1059,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   view.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] winSize].height - pt.y)-height, width, height);
 }
 
+
+- (void)doubleTheSize:(CCNode *)node {
+  node.scaleX = node.scaleX*2;
+  node.scaleY = node.scaleY*2;
+}
+
 + (BOOL)userTypeIsGood:(UserType)type {
   return type < 3;
 }

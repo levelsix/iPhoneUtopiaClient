@@ -453,7 +453,7 @@
         yellow = [CCSprite spriteWithFile:@"expandingright.png"];
       }
       yellow.anchorPoint = ccp(0,0);
-      yellow.position = ccp(18, 25);
+      yellow.position = ccp(18*DEVICE_SCALE, 25*DEVICE_SCALE);
       [self addChild:yellow];
     }
   }

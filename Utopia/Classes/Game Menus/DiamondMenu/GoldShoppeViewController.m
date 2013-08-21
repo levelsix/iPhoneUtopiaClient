@@ -90,11 +90,11 @@
 
 - (void) updateForPurchaseData:(id<InAppPurchaseData>)product
 {
-  if (!product.primaryTitle) {
-    self.hidden = YES;
-  } else {
-    self.hidden = NO;
-  }
+//  if (!product.primaryTitle) {
+//    self.hidden = YES;
+//  } else {
+//    self.hidden = NO;
+//  }
   
   // Set Free offer title
   self.pkgNameLabel.text = product.primaryTitle;
@@ -306,7 +306,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 
 - (id) init {
   Globals *gl = [Globals sharedGlobals];
-  return [self initWithNibName:@"GoldShoppeViewController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.goldShoppeNibName]];
+  if (IS_IPAD) return [self initWithNibName:@"GoldShoppeViewController" bundle:nil];
+  else return [self initWithNibName:@"GoldShoppeViewController" bundle:[Globals bundleNamed:gl.downloadableNibConstants.goldShoppeNibName]];
 }
 
 - (void) setTimer:(NSTimer *)t {
@@ -329,7 +330,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
-  self.pkgTableView.rowHeight = 62;
+  self.pkgTableView.rowHeight = 62*DEVICE_SCALE;
   
   self.state = kPackagesState;
   
@@ -370,13 +371,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
     
     self.saleView.hidden = NO;
     
-    self.curGoldView.center = ccp(72, 262);
+    self.curGoldView.center = ccp(72*DEVICE_SCALE, 262*DEVICE_SCALE);
   } else {
     self.timer = nil;
     
     self.saleView.hidden = YES;
     
-    self.curGoldView.center = ccp(72, 230);
+    self.curGoldView.center = ccp(72*DEVICE_SCALE, 230*DEVICE_SCALE);
   }
 }
 
@@ -481,6 +482,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   if (cell == nil) {
     Globals *gl = [Globals sharedGlobals];
     NSBundle *bundle = [Globals bundleNamed:gl.downloadableNibConstants.goldShoppeNibName];
+    if (IS_IPAD) bundle = [NSBundle mainBundle];
     [bundle loadNibNamed:@"GoldPackageView" owner:self options:nil];
     cell = self.itemView;
   }
@@ -502,7 +504,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   }
   
   cell.productData = cellData;
-  
   [cell updateForPurchaseData:cellData];
   return cell;
 }

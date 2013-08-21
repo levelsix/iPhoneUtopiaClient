@@ -83,6 +83,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (id) init {
   if ((self = [super init])) {
+    
+    Globals *g = [Globals sharedGlobals];
+    
     _enstBgd = [CCSprite spriteWithFile:@"enstbg.png"];
     [self addChild:_enstBgd z:2 tag:ENST_BAR_TAG];
     _enstBgd.visible = YES;
@@ -96,7 +99,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _staminaBar = [[MaskedBar maskedBarWithFile:staminaBar andMask:topBarMask] retain];
     _energyBar.percentage = 0;
     _staminaBar.percentage = 0;
-    
+        
     // Just add the sprites so it doesnt complain when we try to remove to update
     // Must set them to invisible or they end up showing up for a split second in the wrong position
     CCSprite *e = [_energyBar updateSprite];
@@ -109,13 +112,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _coinBar = [CCSprite spriteWithFile:@"coinbar.png"];
     [self addChild:_coinBar z:2 tag:COIN_BAR_TAG];
     
+    int deviceFont = 12;
+    if (IS_RETINA_IPAD) deviceFont = 6;
+    
     NSString *fontName = [Globals font];
-    _silverLabel = [CCLabelTTF labelWithString:@"0" fontName:fontName fontSize:12*DEVICE_SCALE];
+    _silverLabel = [CCLabelTTF labelWithString:@"0" fontName:fontName fontSize:deviceFont*DEVICE_SCALE];
     [_coinBar addChild:_silverLabel];
     _silverLabel.color = ccc3(212,210,199);
     _silverLabel.position = ccp(55, 16);
     
-    _goldLabel = [CCLabelTTF labelWithString:@"0" fontName:fontName fontSize:12*DEVICE_SCALE];
+    _goldLabel = [CCLabelTTF labelWithString:@"0" fontName:fontName fontSize:deviceFont*DEVICE_SCALE];
     [_coinBar addChild:_goldLabel];
     _goldLabel.color = ccc3(212,210,199);
     _goldLabel.position = ccp(127, 16);
@@ -129,6 +135,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [_coinBar addChild:_goldButton z:-1];
     CGPoint finalgoldButtonPos = ccp(155*DEVICE_SCALE, _goldButton.contentSize.height/2+2);
     if (IS_IPAD) finalgoldButtonPos = ccp(155*DEVICE_SCALE, (_goldButton.contentSize.height/2-12) * DEVICE_SCALE);
+    if (IS_RETINA_IPAD) finalgoldButtonPos = ccp(155, _goldButton.contentSize.height/2);
     _goldButton.position = ccp(100*DEVICE_SCALE, _goldButton.contentSize.height/2*DEVICE_SCALE);
     [_goldButton runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1], [CCEaseExponentialOut actionWithAction:[CCMoveTo actionWithDuration:1.5 position:finalgoldButtonPos]], nil]];
     
@@ -203,45 +210,74 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _bigToolTip.visible = NO;
     _littleToolTip.visible = NO;
     
+    if (IS_RETINA_IPAD) {
+      [g doubleTheSize:_coinBar];
+      [g doubleTheSize:_enstBgd];
+      [g doubleTheSize:_profilePic];
+      _silverLabel.position = ccp(55, 14);
+      _goldLabel.position = ccp(127, 14);
+      _profilePic.position = ccp(125, self.contentSize.height-50*DEVICE_SCALE);
+    }
+    
     s = [CCSprite spriteWithFile:@"map.png"];
     _mapButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(mapClicked)];
     _mapButton.position = ccp(self.contentSize.width-s.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
     
+    if (IS_RETINA_IPAD)  {
+      [g doubleTheSize:_mapButton];
+      _mapButton.position = ccp(self.contentSize.width-s.contentSize.width, s.contentSize.height);
+
+    }
     s = [CCSprite spriteWithFile:@"bazaarbutton.png"];
     _bazaarButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bazaarClicked)];
     _bazaarButton.position = ccp(_mapButton.position.x, _mapButton.position.y+_mapButton.contentSize.height/2+_bazaarButton.contentSize.height/2);
+    if (IS_RETINA_IPAD) {
+      [g doubleTheSize:_bazaarButton];
+      _bazaarButton.position = ccp(_mapButton.position.x, _mapButton.position.y +_mapButton.contentSize.height*2+BOTTOM_BUTTON_OFFSET);
+    }
     
     s = [CCSprite spriteWithFile:@"mycity.png"];
     _homeButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(homeClicked)];
+    if (IS_RETINA_IPAD) [g doubleTheSize:_homeButton];
     _homeButton.position = ccp(_bazaarButton.position.x, _bazaarButton.position.y+_bazaarButton.contentSize.height/2+_homeButton.contentSize.height/2);
     
     s = [CCSprite spriteWithFile:@"attack.png"];
     _attackButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(attackClicked)];
     _attackButton.position = ccp(_mapButton.position.x-_mapButton.contentSize.width/2-_attackButton.contentSize.width/2, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    if (IS_RETINA_IPAD) {
+      [g doubleTheSize:_attackButton];
+      _attackButton.position = ccp(_mapButton.position.x-_mapButton.contentSize.width*2, s.contentSize.height);
+    }
     
     s = [CCSprite spriteWithFile:@"quests.png"];
     _questButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(questButtonClicked)];
     _questButton.position = ccp(_mapButton.position.x, self.contentSize.height-_coinBar.contentSize.height-_questButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
+    if (IS_RETINA_IPAD)  {
+      [g doubleTheSize:_questButton];
+      _questButton.position = ccp(_mapButton.position.x, self.contentSize.height- _coinBar.contentSize.height-_questButton.contentSize.height*2);
+    }
     
     s = [CCSprite spriteWithFile:@"tblockbox.png"];
     _lockBoxButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(lockBoxButtonClicked)];
+    if (IS_RETINA_IPAD) [g doubleTheSize:_lockBoxButton];
     _lockBoxButton.position = ccp(_questButton.position.x, _questButton.position.y-_questButton.contentSize.height/2-_lockBoxButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
     
     s = [CCSprite spriteWithFile:@"tourneyicon.png"];
     _tournamentButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(tournamentButtonClicked)];
+    if (IS_RETINA_IPAD) [g doubleTheSize:_tournamentButton];
     _tournamentButton.position = _lockBoxButton.position;
     
     s = [CCSprite spriteWithFile:@"towericon.png"];
     _towerButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(towerButtonClicked)];
+    if (IS_RETINA_IPAD) [g doubleTheSize:_towerButton];
     _towerButton.position = ccp(s.contentSize.width/2+BOTTOM_BUTTON_OFFSET, 3*s.contentSize.height/2+2*BOTTOM_BUTTON_OFFSET);
     
     s = [CCSprite spriteWithFile:@"bossicon.png"];
     _bossButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bossButtonClicked)];
+    if (IS_RETINA_IPAD) [g doubleTheSize:_bossButton];
     _bossButton.position = _towerButton.position;
     
     s = [CCSprite spriteWithFile:@"collectablesicon.png"];
-    _gemsButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(gemsButtonClicked)];
-    
     _bottomButtons = [CCMenu menuWithItems: _mapButton, _attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, _bossButton, _tournamentButton, _towerButton, _gemsButton, nil];
     _bottomButtons.contentSize = CGSizeZero;
     _bottomButtons.position = CGPointZero;
@@ -330,6 +366,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     r.origin.x = BOTTOM_BUTTON_OFFSET;
     r.origin.y = chatBottomView.superview.frame.size.height-r.size.height-BOTTOM_BUTTON_OFFSET;
     r.size.width = _attackButton.position.x-_attackButton.contentSize.width/2-2*BOTTOM_BUTTON_OFFSET;
+    if (IS_RETINA_IPAD) r.size.width = _attackButton.position.x-_attackButton.contentSize.width;
     chatBottomView.frame = r;
     
     chatBottomView.hidden = YES;
@@ -610,6 +647,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   _enstBgd.position = ccp(self.contentSize.width-283.f*DEVICE_SCALE, self.contentSize.height+_enstBgd.contentSize.height/2);
   _coinBar.position = ccp(self.contentSize.width-107.f*DEVICE_SCALE, self.contentSize.height+_coinBar.contentSize.height/2);
+  
+  if (IS_RETINA_IPAD) {
+    _enstBgd.position = ccp((self.contentSize.width-283.f*DEVICE_SCALE), self.contentSize.height);
+    _coinBar.position = ccp((self.contentSize.width-107.f*DEVICE_SCALE), self.contentSize.height);
+  }
   
   // At this point, the bars are still above the screen so subtract 3/2 * width
   _enstBarRect = CGRectMake(_enstBgd.position.x-_enstBgd.contentSize.width/2, _enstBgd.position.y-3*_enstBgd.contentSize.height/2, _enstBgd.contentSize.width, _enstBgd.contentSize.height);
@@ -995,6 +1037,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _curEnergyBar = [_energyBar updateSprite];
     [_enstBgd addChild:_curEnergyBar z:1 tag:1];
     _curEnergyBar.position = ENERGY_BAR_POSITION;
+    if (IS_RETINA_IPAD) _curEnergyBar.position = ccp(_curEnergyBar.position.x/DEVICE_SCALE, _curEnergyBar.position.y/DEVICE_SCALE);
   }
 }
 
@@ -1006,6 +1049,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _curStaminaBar = [_staminaBar updateSprite];
     [_enstBgd addChild:_curStaminaBar z:1 tag:2];
     _curStaminaBar.position = STAMINA_BAR_POSITION;
+    if (IS_RETINA_IPAD) _curStaminaBar.position = ccp(_curStaminaBar.position.x/DEVICE_SCALE, _curStaminaBar.position.y/DEVICE_SCALE);
   }
 }
 

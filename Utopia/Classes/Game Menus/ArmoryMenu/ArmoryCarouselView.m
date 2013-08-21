@@ -236,13 +236,6 @@
   self.numEquipsLabel2.text = [NSString stringWithFormat:@"%d EQUIP%@", gl.purchaseOptionTwoNumBoosterItems, gl.purchaseOptionTwoNumBoosterItems != 1 ? @"S" : @""];
   
   [Globals imageNamed:@"shelfpackbg.png" withView:self.shelfImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  
-  
-  if (IS_IPAD) {
-    self.numEquipsLabel1.center = CGPointMake(self.numEquipsLabel1.center.x, self.numEquipsLabel1.center.y+103);
-    self.numEquipsLabel2.center = CGPointMake(self.numEquipsLabel1.center.x, self.numEquipsLabel2.center.y+103);
-    
-  }
 }
 
 - (void) updateBottomLabels {

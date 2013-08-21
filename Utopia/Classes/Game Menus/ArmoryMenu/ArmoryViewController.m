@@ -260,7 +260,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [leftRope release];
   [rightRope release];
   
-  self.carouselView.frame = self.infoScrollView.frame;
+  if (!IS_IPAD) self.carouselView.frame = self.infoScrollView.frame;
+  else self.carouselView.frame = CGRectMake(self.carouselView.frame.origin.x, self.carouselView.frame.origin.y+150, self.carouselView.frame.size.width, self.carouselView.frame.size.height);
   [self.view addSubview:self.carouselView];
   
   Globals *gl = [Globals sharedGlobals];

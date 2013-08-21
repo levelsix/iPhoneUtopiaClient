@@ -193,7 +193,7 @@
   self.nameLabel.textColor = c;
   
   UIImage *img = [Globals imageNamed:t.towerImageName];
-  [self.bgdButton setImage:img forState:UIControlStateNormal];
+  [self.bgdButton setBackgroundImage:img forState:UIControlStateNormal];
   
   if (t.hasTowerAttacker) {
     self.ownerWarLabel.text = t.towerOwner.name;

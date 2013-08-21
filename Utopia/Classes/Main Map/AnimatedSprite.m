@@ -32,7 +32,7 @@
 
 - (id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
   if ((self = [super initWithFile:file location:loc map:map])) {
-    _nameLabel = [[CCLabelTTF alloc] initWithString:@"" fontName:[Globals font] fontSize:[Globals fontSize]];
+    _nameLabel = [[CCLabelTTF alloc] initWithString:@"" fontName:[Globals font] fontSize:[Globals fontSize]*DEVICE_SCALE];
     [self addChild:_nameLabel z:1];
     _nameLabel.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
     _nameLabel.color = ccc3(255,200,0);
@@ -173,6 +173,8 @@ BOOL _loading = NO;
   self.sprite.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), _spriteOffset);
   
   self.nameLabel.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
+  if (IS_IPAD) self.nameLabel.position = ccp(self.contentSize.width/2, (self.contentSize.height+3)*DEVICE_SCALE - 20);
+  if (IS_RETINA_IPAD) self.nameLabel.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
 }
 
 - (void) setOpacity:(GLubyte)opacity {

@@ -418,7 +418,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 
 - (InAppPurchasePackageProto *) packageForProductId:(NSString *)pid;
 + (NSArray *) getUserEquipArrayFromFullUserProto:(FullUserProto *)fup;
-
+- (void)doubleTheSize:(CCNode *)node;
 @end
 
 @interface CCNode (RecursiveOpacity)

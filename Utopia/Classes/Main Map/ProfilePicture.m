@@ -49,6 +49,7 @@
   return [[[self alloc] initCircle] autorelease];
 }
 
+
 - (id) initCircle {
   if ((self = [super initWithFile:@"expring.png"])) {
     _expBar = [CCProgressTimer progressWithFile:@"expringover.png"];
@@ -62,9 +63,13 @@
     _levelCircle.position = ccp(21.5, 25.5);
     [self addChild:_levelCircle];
     
-    _levelLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:12*DEVICE_SCALE];
+    
+    int deviceFont = 12;
+    if (IS_RETINA_IPAD) deviceFont = 6;
+    _levelLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:deviceFont*DEVICE_SCALE];
     _levelLabel.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2);
-    if (IS_IPAD) _levelLabel.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2-2);
+    if (IS_RETINA_IPAD)  _levelLabel.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2);
+    else if (IS_IPAD)  _levelLabel.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2-2);
     _levelLabel.string = [NSString stringWithFormat:@"%d", [[GameState sharedGameState] level]];
     [_levelCircle addChild:_levelLabel];
     [Globals adjustFontSizeForCCLabelTTF:_levelLabel size:12];
@@ -216,14 +221,25 @@
     button4.tag = 4;
     [_menuItems addObject:button4];
     
+    if (IS_RETINA_IPAD) {
+      Globals *g = [Globals sharedGlobals];
+      [g doubleTheSize:button1];
+      [g doubleTheSize:button2];
+      [g doubleTheSize:button3];
+      [g doubleTheSize:button4];
+    }
+    
     CCMenu *menu = [CCMenu menuWithItems:button1, button2, button3, button4, nil];
     menu.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
     [self addChild:menu z:-1];
     
+    int deviceFont = 12;
+    if (IS_RETINA_IPAD) deviceFont = 6;
+    
     self.expLabelTop = [CCLabelFX labelWithString:@"" 
                                   fontName:[Globals font]
-                                  fontSize:12.f*DEVICE_SCALE
+                                  fontSize:deviceFont*DEVICE_SCALE
                               shadowOffset:CGSizeMake(0, -1) 
                                 shadowBlur:1.f 
                                shadowColor:ccc4(0, 0, 0, 100) 
@@ -236,7 +252,7 @@
     
     self.expLabelBot = [CCLabelFX labelWithString:@"" 
                                          fontName:[Globals font]
-                                         fontSize:12.f*DEVICE_SCALE
+                                         fontSize:deviceFont*DEVICE_SCALE
                                      shadowOffset:CGSizeMake(0, -1) 
                                        shadowBlur:1.f 
                                       shadowColor:ccc4(0, 0, 0, 100) 
@@ -244,6 +260,12 @@
     [self addChild:expLabelBot];
     expLabelBot.position = ccp(self.contentSize.width/2, self.contentSize.height/2-18);
     expLabelBot.visible = NO;
+    
+    if (IS_RETINA_IPAD) {
+      expLabelTop.position = ccp(self.contentSize.width/2, self.contentSize.height/2+3);
+      expLabelBot.position = ccp(self.contentSize.width/2, self.contentSize.height/2-9);
+
+    }
     
     self.isTouchEnabled = YES;
   }
@@ -314,6 +336,8 @@
   // Move out right to bottom 
   float step = TOTAL_ANGLE/([_menuItems count]-1);
   float dist = self.contentSize.height/2 + BUTTON_DISTANCE;
+  
+  if (IS_RETINA_IPAD) dist = (self.contentSize.height + BUTTON_DISTANCE/2);
   
   // Save the duration of the last action
   float dur = 0;

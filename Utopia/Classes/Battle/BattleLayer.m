@@ -32,7 +32,7 @@
 #import "GameViewController.h"
 
 #define FAKE_PLAYER_RAND 6
-#define NAME_LABEL_FONT_SIZE 11.f
+#define NAME_LABEL_FONT_SIZE 11.f*DEVICE_SCALE
 
 #define TRANSITION_DURATION 1.5f
 
@@ -102,8 +102,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     
     CCSprite *sprite = [CCSprite spriteWithFile:[self getAvailableBackground]];
     sprite.anchorPoint = ccp(0,0);
+  
     [scene addChild:sprite];
     sprite.scaleX = scene.contentSize.width/sprite.contentSize.width;
+    sprite.scaleY = scene.contentSize.height/sprite.contentSize.height;
     
     [CCTexture2D setDefaultAlphaPixelFormat:oldPixelFormat];
     
@@ -241,21 +243,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _bottomMenu.position = ccp(self.contentSize.width/2, 0);
     [self addChild:_bottomMenu];
     
-    int yOffset = 5.f;
-    _leftMaxHealthLabel = [CCLabelTTF labelWithString:@" / 100" fontName:@"DINCond-Black" fontSize:10];
+    int yOffset = 5.f*DEVICE_SCALE;
+    _leftMaxHealthLabel = [CCLabelTTF labelWithString:@" / 100" fontName:@"DINCond-Black" fontSize:10*DEVICE_SCALE  ];
     _leftMaxHealthLabel.anchorPoint = ccp(0,0);
     _leftMaxHealthLabel.position = ccp(leftHealthBarBg.contentSize.width/2, yOffset);
     [leftHealthBarBg addChild:_leftMaxHealthLabel];
-    _leftCurHealthLabel = [CCLabelTTF labelWithString:@"100" fontName:@"DINCond-Black" fontSize:14];
+    _leftCurHealthLabel = [CCLabelTTF labelWithString:@"100" fontName:@"DINCond-Black" fontSize:14*DEVICE_SCALE];
     _leftCurHealthLabel.anchorPoint = ccp(1,0);
     _leftCurHealthLabel.position = ccp(leftHealthBarBg.contentSize.width/2, yOffset);
     [leftHealthBarBg addChild:_leftCurHealthLabel];
     
-    _rightMaxHealthLabel = [CCLabelTTF labelWithString:@" / 100" fontName:@"DINCond-Black" fontSize:10];
+    _rightMaxHealthLabel = [CCLabelTTF labelWithString:@" / 100" fontName:@"DINCond-Black" fontSize:10*DEVICE_SCALE];
     _rightMaxHealthLabel.anchorPoint = ccp(0,0);
     _rightMaxHealthLabel.position = ccp(rightHealthBarBg.contentSize.width/2, yOffset);
     [rightHealthBarBg addChild:_rightMaxHealthLabel];
-    _rightCurHealthLabel = [CCLabelTTF labelWithString:@"100" fontName:@"DINCond-Black" fontSize:14];
+    _rightCurHealthLabel = [CCLabelTTF labelWithString:@"100" fontName:@"DINCond-Black" fontSize:14*DEVICE_SCALE];
     _rightCurHealthLabel.anchorPoint = ccp(1,0);
     _rightCurHealthLabel.position = ccp(rightHealthBarBg.contentSize.width/2, yOffset);
     [rightHealthBarBg addChild:_rightCurHealthLabel];
@@ -274,7 +276,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [_pausedLayer addChild:menu];
     menu.position = ccp(_pausedLayer.contentSize.width/2, _pausedLayer.contentSize.height/2-15);
     
-    CCLabelTTF *resumeLabel = [CCLabelTTF labelWithString:@"Resume" fontName:@"Requiem Text-HTF-SmallCaps" fontSize:15];
+    CCLabelTTF *resumeLabel = [CCLabelTTF labelWithString:@"Resume" fontName:@"Requiem Text-HTF-SmallCaps" fontSize:15*DEVICE_SCALE];
     resumeLabel.color = ccc3(255, 200, 0);
     [button addChild:resumeLabel];
     resumeLabel.position = ccp(button.contentSize.width/2, button.contentSize.height/2);
@@ -293,7 +295,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [_fleeLayer addChild:menu];
     menu.position = ccp(_fleeLayer.contentSize.width/2, _fleeLayer.contentSize.height/2-15);
     
-    resumeLabel = [CCLabelTTF labelWithString:@"Done" fontName:@"Requiem Text-HTF-SmallCaps" fontSize:15];
+    resumeLabel = [CCLabelTTF labelWithString:@"Done" fontName:@"Requiem Text-HTF-SmallCaps" fontSize:15*DEVICE_SCALE];
     resumeLabel.color = ccc3(255, 200, 0);
     [_fleeButton addChild:resumeLabel];
     resumeLabel.position = ccp(_fleeButton.contentSize.width/2, _fleeButton.contentSize.height/2);
@@ -312,7 +314,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [_winLayer addChild:menu];
     menu.position = ccp(_winLayer.contentSize.width/2, _winLayer.contentSize.height/2-15);
     
-    CCLabelTTF *doneLabel = [CCLabelTTF labelWithString:@"Done" fontName:@"Requiem Text-HTF-SmallCaps" fontSize:15];
+    CCLabelTTF *doneLabel = [CCLabelTTF labelWithString:@"Done" fontName:@"Requiem Text-HTF-SmallCaps" fontSize:15*DEVICE_SCALE];
     doneLabel.color = ccc3(255, 200, 0);
     [_winButton addChild:doneLabel];
     doneLabel.position = ccp(_winButton.contentSize.width/2, _winButton.contentSize.height/2);
@@ -331,7 +333,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [_loseLayer addChild:menu];
     menu.position = ccp(_loseLayer.contentSize.width/2, _loseLayer.contentSize.height/2-15);
     
-    doneLabel = [CCLabelTTF labelWithString:@"Done" fontName:@"Requiem Text-HTF-SmallCaps" fontSize:15];
+    doneLabel = [CCLabelTTF labelWithString:@"Done" fontName:@"Requiem Text-HTF-SmallCaps" fontSize:15*DEVICE_SCALE];
     doneLabel.color = ccc3(255, 200, 0);
     [_loseButton addChild:doneLabel];
     doneLabel.position = ccp(_loseButton.contentSize.width/2, _loseButton.contentSize.height/2);
