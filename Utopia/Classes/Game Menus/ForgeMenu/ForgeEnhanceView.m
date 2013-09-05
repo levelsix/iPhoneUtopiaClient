@@ -286,7 +286,13 @@
       }
     } else {
       [tableView deselectRowAtIndexPath:indexPath animated:NO];
-      [Globals popupMessage:@"You already have enough points to reach the next enhancement level."];
+      if (increaseB >= gl.enhancePercentPerLevel) {
+        [Globals popupMessage:@"You already have enough points to reach the next enhancement level."];
+      } else {
+        UserEquip *item = self.enhancingView.userEquip;
+        FullEquipProto *fep = [gs equipWithId:item.equipId];
+        [Globals popupMessage:[NSString stringWithFormat:@"This item is too weak to improve your %@.", fep.name]];
+      }
     }
   }
   

@@ -362,7 +362,7 @@
   NSMutableArray *specials = [NSMutableArray array];
   if (!bpp.isStarterPack) {
     for (BoosterItemProto *bip in bpp.boosterItemsList) {
-      if (bip.isSpecial) {
+      if (1){//bip.isSpecial) {
         [specials addObject:bip];
       }
     }

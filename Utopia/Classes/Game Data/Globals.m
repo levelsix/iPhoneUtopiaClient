@@ -1770,7 +1770,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int result = (int)((((float)feederStats)/mainStats)/(self.enhancePercentConstantA*powf(self.enhancePercentConstantB, [self calculateEnhancementLevel:enhancingEquip.enhancementPercentage]+1))*self.enhancePercentPerLevel);
   
   //  LNLog(@"percentage=%d", result);
-  return result;
+  return MAX(result, 1);
 }
 
 - (int) calculateSilverCostForEnhancement:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders {
